@@ -1,6 +1,6 @@
 {
   "name": "stytch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is the Stytch api.  You can find out more about Stytch at  [stytch.com](https://stytch.com).",
   "main": "./lib/index.js",
   "repository": {
