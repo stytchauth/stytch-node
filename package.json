@@ -1,0 +1,49 @@
+{
+  "name": "stytchlib",
+  "version": "1.0.0",
+  "description": "This is the Stytch api.  You can find out more about Stytch at  [stytch.com](https://stytch.com).",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/username/repository.git"
+  },
+  "scripts": {
+    "lint": "eslint lib",
+    "test": "mocha --recursive"
+  },
+  "author": "APIMATIC SDK Generator",
+  "bugs": {
+    "email": "hello@stytch.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "mocha": "^5.2.0",
+    "chai": "^3.5.0"
+  },
+  "dependencies": {
+    "moment": "^2.17.1",
+    "request": "^2.55.0"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "env": {
+      "commonjs": true,
+      "node": true,
+      "mocha": true
+    },
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "no-underscore-dangle": 0,
+      "strict": 0,
+      "prefer-rest-params": 0
+    }
+  }
+}
