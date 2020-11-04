@@ -11,7 +11,7 @@
     "lint": "eslint lib",
     "test": "mocha --recursive"
   },
-  "author": "APIMATIC SDK Generator",
+  "author": "Stytch",
   "bugs": {
     "email": "hello@stytch.com"
   },
@@ -45,5 +45,10 @@
       "strict": 0,
       "prefer-rest-params": 0
     }
+  },
+  "homepage": "https://github.com/stytchauth/stytch-node#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
