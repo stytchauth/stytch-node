@@ -3,6 +3,55 @@
 This is the Stytch api.  You can find out more about Stytch at 
 [stytch.com](https://stytch.com).
 
+## Quickstart
+First install stytch.
+```
+npm install stytch
+```
+
+Example usage.
+
+```javascript
+const stytch = require('stytch');
+
+// Configuration parameters and credentials
+stytch.Configuration.basicAuthUserName = "PROJECT_ID"; 
+stytch.Configuration.basicAuthPassword = "SECRET"; 
+var users = stytch.UsersController;
+var email = "something@stytch.com";
+var body = new stytch.UserCreate({"email":email});
+
+users.createUser(body, function(error, response, context) {
+
+	console.log(response);
+});
+
+var magiclinks= stytch.MagicLinksController;
+
+var body = new stytch.MagicLinkSendByEmail({
+	"email": email,
+	"magic_link_url": "stytch.com",
+	"expiration_minutes": 5,
+	"attributes": {
+		"ip_address": "10.0.0.0"
+	}
+});
+
+magiclinks.createSendEmailMagicLink(body, function(error, response, context) {
+	console.log(response);
+});
+
+var token = 'grab token from url';
+var body = new stytch.MagicLinkAuthenticate({
+	"attributes": {
+		"ip_address": "10.0.0.0"
+	}
+});
+
+magiclinks.postUserMagicLinkAuthenticate(token, body, function(error, response, context) {
+	console.log(response)
+});
+```
 
 ## How to Build
 
