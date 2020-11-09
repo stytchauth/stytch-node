@@ -78,7 +78,7 @@ npm install
 
 This will install all dependencies in the `node_modules` folder.
 
-Once dependencies are resolved, you will need to move the folder `StytchLib ` in to your `node_modules` folder.
+Once dependencies are resolved, you will need to move the folder `Stytch` in to your `node_modules` folder.
 
 ## How to Use
 
