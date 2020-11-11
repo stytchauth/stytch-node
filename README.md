@@ -18,14 +18,14 @@ const stytch = require('stytch');
 stytch.Configuration.projectID = "PROJECT_ID"; 
 stytch.Configuration.secret = "SECRET"; 
 var email = "something@stytch.com";
-var userCreateBody = new stytch.UserCreate({"email" : email});
+var createUserBody = new stytch.UserCreate({"email": email});
 
-stytch.Users.createUser(userCreateBody, function(error, response, context) {
+stytch.Users.createUser(createUserBody, function(error, response, context) {
 
 	console.log(response);
 });
 
-var magicLinkSendBody = new stytch.MagicLinkSendByEmail({
+var sendMagicLinkBody = new stytch.MagicLinkSendByEmail({
 	"email": email,
 	"magic_link_url": "https://stytch.com",
 	"expiration_minutes": 5,
@@ -34,18 +34,18 @@ var magicLinkSendBody = new stytch.MagicLinkSendByEmail({
 	}
 });
 
-stytch.MagicLinks.createSendEmailMagicLink(magicLinkSendBody, function(error, response, context) {
+stytch.MagicLinks.sendEmailMagicLink(sendMagicLinkBody, function(error, response, context) {
 	console.log(response);
 });
 
 var token = 'grab token from url';
-var magicLinkAuthBody = new stytch.MagicLinkAuthenticate({
+var authenticateMagicLinkBody = new stytch.MagicLinkAuthenticate({
 	"attributes": {
 		"ip_address": "10.0.0.0"
 	}
 });
 
-stytch.MagicLinks.postUserMagicLinkAuthenticate(token, magicLinkAuthBody, function(error, response, context) {
+stytch.MagicLinks.authenticateMagicLink(token, authenticateMagicLinkBody, function(error, response, context) {
 	console.log(response)
 });
 
