@@ -12,7 +12,7 @@ const testerlib = require("../../lib");
 const testConfiguration = require("../TestBootstrap");
 const baseController = require("../../lib/Controllers/BaseController");
 
-const controller = testerlib.UsersController;
+const controller = testerlib.Users;
 const UserCreateResponse = testerlib.UserCreateResponse;
 const UserCreate = testerlib.UserCreate;
 const UserGetResponse = testerlib.UserGetResponse;
@@ -20,7 +20,7 @@ const UserUpdateResponse = testerlib.UserUpdateResponse;
 const UserUpdate = testerlib.UserUpdate;
 const UserDeleteResponse = testerlib.UserDeleteResponse;
 
-describe("UsersController Tests", function tests() {
+describe("Users Tests", function tests() {
     this.timeout(testConfiguration.TEST_TIMEOUT);
 
     /**
