@@ -11,12 +11,12 @@ const APIHelper = require("../../lib/APIHelper");
 const testerlib = require("../../lib");
 const testConfiguration = require("../TestBootstrap");
 
-const controller = testerlib.EmailsController;
+const controller = testerlib.Emails;
 const UserEmailDeleteResponse = testerlib.UserEmailDeleteResponse;
 const SendVerificationResponse = testerlib.SendVerificationResponse;
 const VerifyEmailResponse = testerlib.VerifyEmailResponse;
 
-describe("EmailsController Tests", function tests() {
+describe("Emails Tests", function tests() {
     this.timeout(testConfiguration.TEST_TIMEOUT);
 
     /**

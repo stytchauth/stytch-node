@@ -15,42 +15,40 @@ Example usage.
 const stytch = require('stytch');
 
 // Configuration parameters and credentials
-stytch.Configuration.basicAuthUserName = "PROJECT_ID"; 
-stytch.Configuration.basicAuthPassword = "SECRET"; 
-var users = stytch.UsersController;
+stytch.Configuration.projectID = "PROJECT_ID"; 
+stytch.Configuration.secret = "SECRET"; 
 var email = "something@stytch.com";
-var body = new stytch.UserCreate({"email":email});
+var createUserBody = new stytch.UserCreate({"email": email});
 
-users.createUser(body, function(error, response, context) {
+stytch.Users.createUser(createUserBody, function(error, response, context) {
 
 	console.log(response);
 });
 
-var magiclinks= stytch.MagicLinksController;
-
-var body = new stytch.MagicLinkSendByEmail({
+var sendMagicLinkBody = new stytch.MagicLinkSendByEmail({
 	"email": email,
-	"magic_link_url": "stytch.com",
+	"magic_link_url": "https://stytch.com",
 	"expiration_minutes": 5,
 	"attributes": {
 		"ip_address": "10.0.0.0"
 	}
 });
 
-magiclinks.createSendEmailMagicLink(body, function(error, response, context) {
+stytch.MagicLinks.sendEmailMagicLink(sendMagicLinkBody, function(error, response, context) {
 	console.log(response);
 });
 
 var token = 'grab token from url';
-var body = new stytch.MagicLinkAuthenticate({
+var authenticateMagicLinkBody = new stytch.MagicLinkAuthenticate({
 	"attributes": {
 		"ip_address": "10.0.0.0"
 	}
 });
 
-magiclinks.postUserMagicLinkAuthenticate(token, body, function(error, response, context) {
+stytch.MagicLinks.authenticateMagicLink(token, authenticateMagicLinkBody, function(error, response, context) {
 	console.log(response)
 });
+
 ```
 
 ## How to Build
