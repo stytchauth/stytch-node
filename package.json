@@ -1,7 +1,7 @@
 {
   "name": "stytch",
   "version": "1.0.1",
-  "description": "This is the Stytch api.  You can find out more about Stytch at  [stytch.com](https://stytch.com).",
+  "description": "A node wrapper for the Stytch API",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
