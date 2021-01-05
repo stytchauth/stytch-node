@@ -1,2 +1,3 @@
-# .gitignore 
-node_modules 
+wwwroot/*.js
+node_modules
+typings

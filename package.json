@@ -1,54 +1,5 @@
 {
-  "name": "stytch",
-  "version": "1.0.1",
-  "description": "A wrapper for the Stytch API",
-  "main": "./lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/stytchauth/stytch-node.git"
-  },
-  "scripts": {
-    "lint": "eslint lib",
-    "test": "mocha --recursive"
-  },
-  "author": "Stytch",
-  "bugs": {
-    "email": "hello@stytch.com"
-  },
-  "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.18.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
-    "mocha": "^5.2.0"
-  },
-  "dependencies": {
-    "moment": "^2.17.1",
-    "request": "^2.55.0"
-  },
-  "eslintConfig": {
-    "extends": "airbnb",
-    "env": {
-      "commonjs": true,
-      "node": true,
-      "mocha": true
-    },
-    "rules": {
-      "indent": [
-        "error",
-        4
-      ],
-      "no-underscore-dangle": 0,
-      "strict": 0,
-      "prefer-rest-params": 0
-    }
-  },
-  "homepage": "https://github.com/stytchauth/stytch-node#readme",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
+    "@types/jest": "^26.0.19"
   }
 }

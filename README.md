@@ -11,44 +11,39 @@ Install stytch
 npm install stytch
 ```
 
-Example usage
+Example `login_or_create` usage
 
 ```javascript
-const stytch = require('stytch');
+import Stytch from 'stytch';
 
-// Configuration parameters and credentials
-stytch.Configuration.projectID = "PROJECT_ID"; 
-stytch.Configuration.secret = "SECRET"; 
-var email = "something@stytch.com";
-var createUserBody = new stytch.UserCreate({"email": email});
+const stytch = new Stytch("PROJECT_ID", "SECRET", "ENVIRONMENT");
 
-stytch.Users.createUser(createUserBody, function(error, response, context) {
 
-	console.log(response);
-});
+const loginOrCreateWithMagicLink = async () => {
+  const params: Stytch.MagicLinkLoginOrCreate = {
+    email: 'example@stytch.com',
+  };
 
-var sendMagicLinkBody = new stytch.MagicLinkSendByEmail({
-	"email": email,
-	"magic_link_url": "https://stytch.com",
-	"expiration_minutes": 5,
-	"attributes": {
-		"ip_address": "10.0.0.0"
-	}
-});
+  const response: Stytch.LoginOrCreateResponse = await stytch.loginOrCreateWithMagicLink(params);
 
-stytch.MagicLinks.sendEmailMagicLink(sendMagicLinkBody, function(error, response, context) {
-	console.log(response);
-});
-
-var token = 'grab token from url';
-var authenticateMagicLinkBody = new stytch.MagicLinkAuthenticate({
-	"attributes": {
-		"ip_address": "10.0.0.0"
-	}
-});
+  console.log(response);
+};
 
 stytch.MagicLinks.authenticateMagicLink(token, authenticateMagicLinkBody, function(error, response, context) {
 	console.log(response)
 });
 
+const AuthenticateMagicLink = async () => {
+  const params: Stytch.MagicLinkAuthenticate = {
+    token: 'token from url',
+  };
+
+  const response: Stytch.MagicLinkAuthenticateResponse = await stytch.authenticateMagicLink(params);
+
+  console.log(response);
+};
+
+
+loginOrCreateWithMagicLink();
+authenticateMagicLink();
 ```
