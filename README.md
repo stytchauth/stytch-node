@@ -33,10 +33,6 @@ const loginOrCreateWithMagicLink = async () => {
   console.log(response);
 };
 
-stytch.MagicLinks.authenticateMagicLink(token, authenticateMagicLinkBody, function(error, response, context) {
-	console.log(response)
-});
-
 const AuthenticateMagicLink = async () => {
   const params: Stytch.MagicLinkAuthenticate = {
     token: 'token from url',
