@@ -16,7 +16,11 @@ Example `login_or_create` usage
 ```javascript
 import Stytch from 'stytch';
 
-const stytch = new Stytch("PROJECT_ID", "SECRET", "ENVIRONMENT");
+const stytch = new Stytch({
+    projectId: "PROJECT_ID",
+    secret: "SECRET", 
+    environment: "ENVIRONMENT"
+});
 
 
 const loginOrCreateWithMagicLink = async () => {
