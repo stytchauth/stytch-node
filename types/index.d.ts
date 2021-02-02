@@ -41,8 +41,8 @@ declare module 'stytch' {
 
     interface InvitedUser {
         user_id: string;
-        name: name;
-        emails: email[];
+        name: Name;
+        emails: Email[];
         status: string;
         invited_at: string;
     }
@@ -84,6 +84,9 @@ declare module 'stytch' {
 
     interface GetInvitedUsersResponse extends BaseResponse {
         users: InvitedUser[];
+        has_more: boolean;
+        starting_after_id: string;
+        total: bigint;
     }
 
     interface DeleteUserEmailResponse extends BaseResponse {
@@ -210,8 +213,12 @@ declare module 'stytch' {
         ): void;
 
         getInvitedUsers(
+            starting_after_id: string,
+            limit: bigint
         ): Promise<GetInvitedUsersResponse>;
         getInvitedUsers(
+            starting_after_id: string,
+            limit: bigint,
             cb: Callback<GetInvitedUsersResponse>,
         ): void;
 
