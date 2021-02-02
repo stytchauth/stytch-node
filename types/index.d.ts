@@ -3,7 +3,7 @@ declare module 'stytch' {
 
     // fundamental types
     interface Config {
-        projectID: string;
+        project_id: string;
         secret: string;
         env: string;
     }
