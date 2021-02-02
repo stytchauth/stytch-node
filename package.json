@@ -1,55 +1,54 @@
 {
-    "name": "stytch",
-    "version": "1.0.1",
-    "description": "A wrapper for the Stytch API",
-    "main": "./lib/index.js",
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/stytchauth/stytch-node.git"
+  "name": "stytch",
+  "version": "1.0.1",
+  "description": "A wrapper for the Stytch API",
+  "main": "lib/stytch.js",
+  "types": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stytchauth/stytch-node.git"
+  },
+  "scripts": {
+    "lint": "eslint lib",
+    "test": "mocha --recursive"
+  },
+  "author": "Stytch",
+  "bugs": {
+    "url": "git://github.com/stytchauth/stytch-node/ossies"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "axios": "^0.21.1",
+    "chai": "^3.5.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "moment": "^2.17.1",
+    "ramda": "^0.27.1",
+    "request": "^2.55.0",
+    "tsc": "^1.20150623.0"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "env": {
+      "commonjs": true,
+      "node": true,
+      "mocha": true
     },
-    "scripts": {
-      "lint": "eslint lib",
-      "test": "mocha --recursive"
-    },
-    "author": "Stytch",
-    "bugs": {
-      "email": "hello@stytch.com"
-    },
-    "license": "MIT",
-    "devDependencies": {
-      "chai": "^3.5.0",
-      "eslint": "^3.18.0",
-      "eslint-config-airbnb": "^14.1.0",
-      "eslint-plugin-import": "^2.2.0",
-      "eslint-plugin-jsx-a11y": "^4.0.0",
-      "eslint-plugin-react": "^6.10.3",
-      "mocha": "^5.2.0"
-    },
-    "dependencies": {
-      "moment": "^2.17.1",
-      "request": "^2.55.0"
-    },
-    "eslintConfig": {
-      "extends": "airbnb",
-      "env": {
-        "commonjs": true,
-        "node": true,
-        "mocha": true
-      },
-      "rules": {
-        "indent": [
-          "error",
-          4
-        ],
-        "no-underscore-dangle": 0,
-        "strict": 0,
-        "prefer-rest-params": 0
-      }
-    },
-    "homepage": "https://github.com/stytchauth/stytch-node#readme",
-    "directories": {
-      "lib": "lib",
-      "test": "test"
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "no-underscore-dangle": 0,
+      "strict": 0,
+      "prefer-rest-params": 0
     }
   }
-  
+}
