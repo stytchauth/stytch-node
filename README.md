@@ -17,20 +17,20 @@ Example `login_or_create` usage
 import Stytch from 'stytch';
 
 const stytchClient = new Stytch({
-    project_id: "PROJECT_ID",
-    secret: "SECRET", 
-    env: Stytch.env.test
+  project_id: "PROJECT_ID",
+  secret: "SECRET", 
+  env: Stytch.env.test
 });
 
 
 const loginOrCreateWithMagicLink = async () => {
-  const params = Stytch.loginOrCreateRequest = {
+  const params: Stytch.loginOrCreateRequest = {
     email: 'sandbox@stytch.com',
     login_magic_link_url: 'https://www.stytch.com/login',
     signup_magic_link_url: 'https://www.stytch.com/signup',
   };
 
-  const response = Stytch.loginOrCreateResponse = await stytchClient.loginOrCreate(params);
+  const response: Stytch.loginOrCreateResponse = await stytchClient.loginOrCreate(params);
 
   console.log(response);
 };

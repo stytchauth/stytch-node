@@ -22,266 +22,266 @@ declare module 'stytch' {
     }
 
     // shared types
-    interface attributes {
+    interface Attributes {
         ip_address?: string;
         user_agent?: string;
     }
 
-    interface name {
+    interface Name {
         first_name?: string;
         middle_name?: string;
         last_name?: string;
     }
 
-    interface email {
+    interface Email {
         email_id: string;
         email: string;
         verified: boolean;
     }
 
-    interface invitedUser {
+    interface InvitedUser {
         user_id: string;
         name: name;
-        emails: Array<email>;
+        emails: email[];
         status: string;
         invited_at: string;
     }
 
     // USERS
-    interface createUserRequest {
+    interface CreateUserRequest {
         email: string;
-        name?: name;
-        attributes?: attributes;
+        name?: Name;
+        attributes?: Attributes;
     }
 
-    interface createUserResponse extends BaseResponse {
+    interface CreateUserResponse extends BaseResponse {
         user_id: string;
         email_id: string;
         status: string;
     }
 
-    interface getUserResponse extends BaseResponse {
+    interface GetUserResponse extends BaseResponse {
         user_id: string;
-        name: name;
-        emails: Array<email>;
+        name: Name;
+        emails: Email[];
         status: string;
     }
 
-    interface updateUserRequest {
-        name?: name;
-        emails?: Array<string>;
-        attributes?: attributes;
+    interface UpdateUserRequest {
+        name?: Name;
+        emails?: string[];
+        attributes?: Attributes;
     }
 
-    interface updateUserResponse extends BaseResponse {
+    interface UpdateUserResponse extends BaseResponse {
         user_id: string;
-        emails: Array<email>;
+        emails: Email[];
     }
 
-    interface deleteUserResponse extends BaseResponse {
+    interface DeleteUserResponse extends BaseResponse {
         user_id: string;
     }
 
-    interface getInvitedUsersResponse extends BaseResponse {
-        users: Array<invitedUser>;
+    interface GetInvitedUsersResponse extends BaseResponse {
+        users: InvitedUser[];
     }
 
-    interface deleteUserEmailResponse extends BaseResponse {
+    interface DeleteUserEmailResponse extends BaseResponse {
         user_id: string;
-        email_id: string;
+        email: string;
     }
 
     // MAGIC LINKS
-    interface sendMagicLinkRequest {
+    interface SendMagicLinkRequest {
         user_id: string;
         method_id: string;
         magic_link_url: string;
         expiration_minutes: bigint;
-        attributes?: attributes;
+        attributes?: Attributes;
     }
 
-    interface sendMagicLinkResponse extends BaseResponse {
+    interface SendMagicLinkResponse extends BaseResponse {
         user_id: string;
     }
 
-    interface sendMagicLinkByEmailRequest {
+    interface SendMagicLinkByEmailRequest {
         email: string;
         magic_link_url: string;
         expiration_minutes: bigint;
-        attributes?: attributes;
+        attributes?: Attributes;
     }
 
-    interface sendMagicLinkByEmailResponse extends BaseResponse {
+    interface SendMagicLinkByEmailResponse extends BaseResponse {
         user_id: string;
     }
 
-    interface loginOrCreateRequest {
+    interface LoginOrCreateRequest {
         email: string;
         login_magic_link_url: string;
         signup_magic_link_url: string;
         login_expiration_minutes?: bigint;
         signup_expiration_minutes?: bigint;
-        attributes?: attributes;
+        attributes?: Attributes;
     }
 
-    interface loginOrCreateResponse extends BaseResponse {
+    interface LoginOrCreateResponse extends BaseResponse {
         user_id: string;
     }
 
-    interface loginOrInviteRequest {
+    interface LoginOrInviteRequest {
         email: string;
         login_magic_link_url: string;
         invite_magic_link_url: string;
         login_expiration_minutes?: bigint;
         invite_expiration_minutes?: bigint;
-        attributes?: attributes;
+        attributes?: Attributes;
     }
 
-    interface loginOrInviteResponse extends BaseResponse {
+    interface LoginOrInviteResponse extends BaseResponse {
         user_id: string;
         email_id: string;
         user_created: boolean;
     }
 
-    interface inviteByEmailRequest {
+    interface InviteByEmailRequest {
         email: string;
         magic_link_url: string;
         expiration_minutes?: bigint;
-        attributes?: attributes;
+        attributes?: Attributes;
     }
 
-    interface inviteByEmailResponse extends BaseResponse {
+    interface InviteByEmailResponse extends BaseResponse {
         user_id: string;
         email_id: string;
     }
 
-    interface authenticateMagicLinkRequest {
+    interface AuthenticateMagicLinkRequest {
         options: {
             ip_match_required: boolean;
             user_agent_match_required: boolean;
         };
     }
 
-    interface authenticateMagicLinkResponse extends BaseResponse {
+    interface AuthenticateMagicLinkResponse extends BaseResponse {
         user_id: string;
         email_id: string;
     }
 
-    interface revokePendingInviteRequest {
+    interface RevokePendingInviteRequest {
         email: string;
     }
 
-    interface revokePendingInviteResponse extends BaseResponse {}
+    interface RevokePendingInviteResponse extends BaseResponse {}
 
     class Client {
         constructor(config: Config);
 
         // USERS
         createUser(
-            request: createUserRequest
-        ): Promise<createUserResponse>;
+            request: CreateUserRequest
+        ): Promise<CreateUserResponse>;
         createUser(
-            request: createUserRequest,
-            cb: Callback<createUserResponse>,
+            request: CreateUserRequest,
+            cb: Callback<CreateUserResponse>,
         ): void;
 
         getUser(
             user_id: string
-        ): Promise<getUserResponse>;
+        ): Promise<GetUserResponse>;
         getUser(
             user_id: string,
-            cb: Callback<getUserResponse>,
+            cb: Callback<GetUserResponse>,
         ): void;
 
         updateUser(
-            request: updateUserRequest
-        ): Promise<updateUserResponse>;
+            request: UpdateUserRequest
+        ): Promise<UpdateUserResponse>;
         updateUser(
-            request: updateUserRequest,
-            cb: Callback<updateUserResponse>,
+            request: UpdateUserRequest,
+            cb: Callback<UpdateUserResponse>,
         ): void;
 
         deleteUser(
             user_id: string
-        ): Promise<deleteUserResponse>;
+        ): Promise<DeleteUserResponse>;
         deleteUser(
             user_id: string,
-            cb: Callback<deleteUserResponse>,
+            cb: Callback<DeleteUserResponse>,
         ): void;
 
         getInvitedUsers(
-        ): Promise<getInvitedUsersResponse>;
+        ): Promise<GetInvitedUsersResponse>;
         getInvitedUsers(
-            cb: Callback<getInvitedUsersResponse>,
+            cb: Callback<GetInvitedUsersResponse>,
         ): void;
 
         deleteUserEmail(
             user_id: string,
-            email_id: string
-        ): Promise<deleteUserEmailResponse>;
+            email: string
+        ): Promise<DeleteUserEmailResponse>;
         deleteUserEmail(
             user_id: string,
-            email_id: string,
-            cb: Callback<deleteUserEmailResponse>,
+            emaildeleteUserEmail: string,
+            cb: Callback<DeleteUserEmailResponse>,
         ): void;
 
         // MAGIC LINKS
         sendMagicLink(
-            request: sendMagicLinkRequest
-        ): Promise<sendMagicLinkResponse>;
+            request: SendMagicLinkRequest
+        ): Promise<SendMagicLinkResponse>;
         sendMagicLink(
-            request: sendMagicLinkRequest,
-            cb: Callback<sendMagicLinkResponse>,
+            request: SendMagicLinkRequest,
+            cb: Callback<SendMagicLinkResponse>,
         ): void;
 
         sendMagicLinkByEmail(
-            request: sendMagicLinkByEmailRequest
-        ): Promise<sendMagicLinkByEmailResponse>;
+            request: SendMagicLinkByEmailRequest
+        ): Promise<SendMagicLinkByEmailResponse>;
         sendMagicLinkByEmail(
-            request: sendMagicLinkByEmailRequest,
-            cb: Callback<sendMagicLinkByEmailResponse>,
+            request: SendMagicLinkByEmailRequest,
+            cb: Callback<SendMagicLinkByEmailResponse>,
         ): void;
 
         loginOrCreate(
-            request: loginOrCreateRequest
-        ): Promise<loginOrCreateResponse>;
+            request: LoginOrCreateRequest
+        ): Promise<LoginOrCreateResponse>;
         loginOrCreate(
-            request: loginOrCreateRequest,
-            cb: Callback<loginOrCreateResponse>,
+            request: LoginOrCreateRequest,
+            cb: Callback<LoginOrCreateResponse>,
         ): void;
 
         loginOrInvite(
-            request: loginOrInviteRequest
-        ): Promise<loginOrInviteResponse>;
+            request: LoginOrInviteRequest
+        ): Promise<LoginOrInviteResponse>;
         loginOrInvite(
-            request: loginOrInviteRequest,
-            cb: Callback<loginOrInviteResponse>,
+            request: LoginOrInviteRequest,
+            cb: Callback<LoginOrInviteResponse>,
         ): void;
 
         inviteByEmail(
-            request: inviteByEmailRequest
-        ): Promise<inviteByEmailResponse>;
+            request: InviteByEmailRequest
+        ): Promise<InviteByEmailResponse>;
         inviteByEmail(
-            request: inviteByEmailRequest,
-            cb: Callback<inviteByEmailResponse>,
+            request: InviteByEmailRequest,
+            cb: Callback<InviteByEmailResponse>,
         ): void;
 
         authenticateMagicLink(
             token: string,
-            request: authenticateMagicLinkRequest,
-        ): Promise<authenticateMagicLinkResponse>;
+            request: AuthenticateMagicLinkRequest,
+        ): Promise<AuthenticateMagicLinkResponse>;
         authenticateMagicLink(
             token: string,
-            request: authenticateMagicLinkRequest,
-            cb: Callback<authenticateMagicLinkResponse>,
+            request: AuthenticateMagicLinkRequest,
+            cb: Callback<AuthenticateMagicLinkResponse>,
         ): void;
 
         revokePendingInvite(
-            request: revokePendingInviteRequest
-        ): Promise<revokePendingInviteResponse>;
+            request: RevokePendingInviteRequest
+        ): Promise<RevokePendingInviteResponse>;
         revokePendingInvite(
-            request: revokePendingInviteRequest,
-            cb: Callback<revokePendingInviteResponse>,
+            request: RevokePendingInviteRequest,
+            cb: Callback<RevokePendingInviteResponse>,
         ): void;
     }
 }
