@@ -14,7 +14,7 @@
   },
   "author": "Stytch",
   "bugs": {
-    "url": "git://github.com/stytchauth/stytch-node/ossies"
+    "url": "git://github.com/stytchauth/stytch-node/issues"
   },
   "license": "MIT",
   "devDependencies": {
