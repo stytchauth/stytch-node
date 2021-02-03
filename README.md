@@ -16,10 +16,10 @@ Example `login_or_create` usage
 ```javascript
 import Stytch from 'stytch';
 
-const stytchClient = new Stytch({
+const stytchClient = new Stytch.Client({
   project_id: "PROJECT_ID",
   secret: "SECRET", 
-  env: Stytch.env.test
+  env: Stytch.envs.test
 });
 
 
