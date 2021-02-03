@@ -35,14 +35,8 @@ const loginOrCreateWithMagicLink = async () => {
   console.log(response);
 };
 
-const authenticateMagicLink = async () => {
-  const params = Stytch.authenticateMagicLinkRequest = {
-    options: {
-      ip_match_required: true
-      },
-    };
-
-  const response = Stytch.authenticateMagicLinkResponse = await cl.authenticateMagicLink('token from url', params);
+const authenticateMagicLink = async (token) => {
+  const response = Stytch.authenticateMagicLinkResponse = await stytchClient.authenticateMagicLink(token);
 
   console.log(response);
 };

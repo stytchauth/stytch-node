@@ -159,9 +159,9 @@ declare module 'stytch' {
     }
 
     interface AuthenticateMagicLinkRequest {
-        options: {
-            ip_match_required: boolean;
-            user_agent_match_required: boolean;
+        options?: {
+            ip_match_required?: boolean;
+            user_agent_match_required?: boolean;
         };
     }
 
@@ -228,7 +228,7 @@ declare module 'stytch' {
         ): Promise<DeleteUserEmailResponse>;
         deleteUserEmail(
             user_id: string,
-            emaildeleteUserEmail: string,
+            email: string,
             cb: Callback<DeleteUserEmailResponse>,
         ): void;
 
@@ -275,8 +275,12 @@ declare module 'stytch' {
 
         authenticateMagicLink(
             token: string,
-            request: AuthenticateMagicLinkRequest,
+            request?: AuthenticateMagicLinkRequest,
         ): Promise<AuthenticateMagicLinkResponse>;
+        authenticateMagicLink(
+            token: string,
+            cb: Callback<AuthenticateMagicLinkResponse>,
+        ): void;
         authenticateMagicLink(
             token: string,
             request: AuthenticateMagicLinkRequest,
