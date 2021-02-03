@@ -163,6 +163,7 @@ declare module 'stytch' {
             ip_match_required?: boolean;
             user_agent_match_required?: boolean;
         };
+        attributes?: Attributes;
     }
 
     interface AuthenticateMagicLinkResponse extends BaseResponse {
