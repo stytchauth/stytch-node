@@ -1,7 +1,6 @@
 declare module 'stytch' {
     type Callback<T extends Object> = (err: Error, response: T) => void;
 
-    // fundamental types
     interface Config {
         project_id: string;
         secret: string;
