@@ -2,7 +2,8 @@
   "name": "stytch",
   "version": "1.0.1",
   "description": "A wrapper for the Stytch API",
-  "main": "./lib/index.js",
+  "main": "lib/stytch.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/stytchauth/stytch-node.git"
@@ -13,10 +14,11 @@
   },
   "author": "Stytch",
   "bugs": {
-    "email": "hello@stytch.com"
+    "url": "git://github.com/stytchauth/stytch-node/issues"
   },
   "license": "MIT",
   "devDependencies": {
+    "axios": "^0.21.1",
     "chai": "^3.5.0",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^14.1.0",
@@ -27,7 +29,8 @@
   },
   "dependencies": {
     "moment": "^2.17.1",
-    "request": "^2.55.0"
+    "request": "^2.55.0",
+    "tsc": "^1.20150623.0"
   },
   "eslintConfig": {
     "extends": "airbnb",
@@ -45,10 +48,5 @@
       "strict": 0,
       "prefer-rest-params": 0
     }
-  },
-  "homepage": "https://github.com/stytchauth/stytch-node#readme",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
   }
 }
