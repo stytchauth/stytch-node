@@ -43,5 +43,5 @@ const authenticateMagicLink = async (token) => {
 
 
 loginOrCreateWithMagicLink().then().catch(err => console.log(err));
-authenticateMagicLink().then().catch(err => console.log(err));
+authenticateMagicLink('token from email').then().catch(err => console.log(err));
 ```
