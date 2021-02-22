@@ -81,6 +81,11 @@ declare module 'stytch' {
         user_id: string;
     }
 
+    interface GetInvitedUsersRequest {
+        starting_after_id?: string;
+        limit?: bigint;
+    }
+
     interface GetInvitedUsersResponse extends BaseResponse {
         users: InvitedUser[];
         has_more: boolean;
@@ -197,9 +202,11 @@ declare module 'stytch' {
         ): void;
 
         updateUser(
+            user_id: string,
             request: UpdateUserRequest
         ): Promise<UpdateUserResponse>;
         updateUser(
+            user_id: string,
             request: UpdateUserRequest,
             cb: Callback<UpdateUserResponse>,
         ): void;
@@ -213,12 +220,13 @@ declare module 'stytch' {
         ): void;
 
         getInvitedUsers(
-            starting_after_id: string,
-            limit: bigint
+            request?: GetInvitedUsersRequest,
         ): Promise<GetInvitedUsersResponse>;
         getInvitedUsers(
-            starting_after_id: string,
-            limit: bigint,
+            request: GetInvitedUsersRequest,
+            cb: Callback<GetInvitedUsersResponse>,
+        ): void;
+        getInvitedUsers(
             cb: Callback<GetInvitedUsersResponse>,
         ): void;
 
