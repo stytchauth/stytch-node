@@ -130,21 +130,6 @@ declare module 'stytch' {
         user_id: string;
     }
 
-    interface LoginOrInviteRequest {
-        email: string;
-        login_magic_link_url: string;
-        invite_magic_link_url: string;
-        login_expiration_minutes?: bigint;
-        invite_expiration_minutes?: bigint;
-        attributes?: Attributes;
-    }
-
-    interface LoginOrInviteResponse extends BaseResponse {
-        user_id: string;
-        email_id: string;
-        user_created: boolean;
-    }
-
     interface InviteByEmailRequest {
         email: string;
         magic_link_url: string;
@@ -255,14 +240,6 @@ declare module 'stytch' {
         loginOrCreate(
             request: LoginOrCreateRequest,
             cb: Callback<LoginOrCreateResponse>,
-        ): void;
-
-        loginOrInvite(
-            request: LoginOrInviteRequest
-        ): Promise<LoginOrInviteResponse>;
-        loginOrInvite(
-            request: LoginOrInviteRequest,
-            cb: Callback<LoginOrInviteResponse>,
         ): void;
 
         inviteByEmail(
