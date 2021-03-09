@@ -128,6 +128,7 @@ declare module 'stytch' {
         signup_magic_link_url: string;
         login_expiration_minutes?: bigint;
         signup_expiration_minutes?: bigint;
+        create_user_as_pending?: boolean;
         attributes?: Attributes;
     }
 
