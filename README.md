@@ -1,7 +1,7 @@
 # stytch-node
 
 The Stytch Node library provides support for the Stytch API for server-side Javscript applications. You can find out more about the Stytch API at 
-[docs.stytch.com](https://docs.stytch.com).
+[stytch.com/docs](https://stytch.com/docs).
 
 If you're looking for frontend support for our Javascript SDK, check out [stytch-js](https://www.npmjs.com/package/@stytch/stytch-js).
 
