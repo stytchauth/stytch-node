@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "axios": "^0.21.1",
     "chai": "^3.5.0",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^14.1.0",
@@ -28,6 +27,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "moment": "^2.17.1",
     "request": "^2.55.0",
     "tsc": "^1.20150623.0"
