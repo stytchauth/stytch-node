@@ -159,6 +159,7 @@ declare module 'stytch' {
     interface AuthenticateMagicLinkResponse extends BaseResponse {
         user_id: string;
         email_id: string;
+        method_id: string;
     }
 
     interface RevokePendingInviteRequest {
