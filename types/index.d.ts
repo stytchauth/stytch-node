@@ -103,7 +103,7 @@ declare module 'stytch' {
         user_id: string;
         method_id: string;
         magic_link_url: string;
-        expiration_minutes: bigint;
+        expiration_minutes?: bigint;
         attributes?: Attributes;
     }
 
@@ -114,7 +114,7 @@ declare module 'stytch' {
     interface SendMagicLinkByEmailRequest {
         email: string;
         magic_link_url: string;
-        expiration_minutes: bigint;
+        expiration_minutes?: bigint;
         attributes?: Attributes;
     }
 
