@@ -140,6 +140,7 @@ declare module 'stytch' {
         email: string;
         magic_link_url: string;
         expiration_minutes?: bigint;
+        name?: Name;
         attributes?: Attributes;
     }
 
