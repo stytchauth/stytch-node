@@ -120,6 +120,7 @@ declare module 'stytch' {
 
     interface SendMagicLinkByEmailResponse extends BaseResponse {
         user_id: string;
+        email_id: string;
     }
 
     interface LoginOrCreateRequest {
