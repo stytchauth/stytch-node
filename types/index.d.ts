@@ -8,7 +8,7 @@ declare module 'stytch' {
     }
 
     export class StytchError extends Error {
-        status_code: string;
+        status_code: bigint;
         request_id?: string;
         error_message?: string;
         error_type?: string;
