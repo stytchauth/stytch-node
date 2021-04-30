@@ -36,7 +36,7 @@ const loginOrCreateWithMagicLink = async () => {
 };
 
 const authenticateMagicLink = async (token) => {
-  const response = Stytch.authenticateMagicLinkResponse = await stytchClient.authenticateMagicLink(token);
+  const response: Stytch.authenticateMagicLinkResponse = await stytchClient.authenticateMagicLink(token);
 
   console.log(response);
 };
