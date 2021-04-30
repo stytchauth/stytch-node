@@ -38,10 +38,17 @@ declare module 'stytch' {
         verified: boolean;
     }
 
+    interface PhoneNumber {
+        phone_id: string;
+        phone_number: string;
+        verified: boolean;
+    }
+
     interface PendingUser {
         user_id: string;
         name: Name;
         emails: Email[];
+        phone_numbers: PhoneNumber[];
         status: string;
         invited_at: string;
     }
@@ -49,6 +56,7 @@ declare module 'stytch' {
     // USERS
     interface CreateUserRequest {
         email: string;
+        phone_number: string;
         name?: Name;
         attributes?: Attributes;
     }
@@ -56,6 +64,7 @@ declare module 'stytch' {
     interface CreateUserResponse extends BaseResponse {
         user_id: string;
         email_id: string;
+        phone_id: string;
         status: string;
     }
 
@@ -63,18 +72,21 @@ declare module 'stytch' {
         user_id: string;
         name: Name;
         emails: Email[];
+        phone_numbers: PhoneNumber[];
         status: string;
     }
 
     interface UpdateUserRequest {
         name?: Name;
         emails?: string[];
+        phone_numbers?: string[];
         attributes?: Attributes;
     }
 
     interface UpdateUserResponse extends BaseResponse {
         user_id: string;
         emails: Email[];
+        phone_numbers: PhoneNumber[];
     }
 
     interface DeleteUserResponse extends BaseResponse {
@@ -96,6 +108,10 @@ declare module 'stytch' {
     interface DeleteUserEmailResponse extends BaseResponse {
         user_id: string;
         email: string;
+    }
+
+    interface DeleteUserPhoneNumberResponse extends BaseResponse {
+        user_id: string;
     }
 
     // MAGIC LINKS
@@ -135,6 +151,8 @@ declare module 'stytch' {
 
     interface LoginOrCreateResponse extends BaseResponse {
         user_id: string;
+        email_id: string;
+        user_created: boolean;
     }
 
     interface InviteByEmailRequest {
@@ -168,6 +186,46 @@ declare module 'stytch' {
     }
 
     interface RevokePendingInviteResponse extends BaseResponse {}
+
+    // OTP
+    interface SendOTPBySMSRequest {
+        phone_number: string;
+        expiration_minutes?: bigint;
+        attributes?: Attributes;
+    }
+
+    interface SendOTPBySMSResponse extends BaseResponse {
+        user_id: string;
+        phone_id: string;
+    }
+
+    interface LoginOrCreateUserBySMSRequest {
+        phone_number: string;
+        expiration_minutes?: bigint;
+        attributes?: Attributes;
+        create_user_as_pending?: boolean;
+    }
+
+    interface LoginOrCreateUserBySMSResponse extends BaseResponse {
+        user_id: string;
+        phone_id: string;
+        user_created: boolean;
+    }
+
+    interface AuthenticateOTPRequest {
+        method_id: string;
+        code: string;
+        attributes?: Attributes;
+        options?: {
+            ip_match_required?: boolean;
+            user_agent_match_required?: boolean;
+        };
+    }
+
+    interface AuthenticateOTPResponse extends BaseResponse {
+        user_id: string;
+        method_id: string;
+    }
 
     class Client {
         constructor(config: Config);
@@ -228,6 +286,14 @@ declare module 'stytch' {
             cb: Callback<DeleteUserEmailResponse>,
         ): void;
 
+        deleteUserPhoneNumber(
+            phone_number: string
+        ): Promise<DeleteUserPhoneNumberResponse>;
+        deleteUserPhoneNumber(
+            phone_number: string,
+            cb: Callback<DeleteUserPhoneNumberResponse>
+        ): void;
+
         // MAGIC LINKS
         sendMagicLink(
             request: SendMagicLinkRequest
@@ -281,6 +347,31 @@ declare module 'stytch' {
         revokePendingInvite(
             request: RevokePendingInviteRequest,
             cb: Callback<RevokePendingInviteResponse>,
+        ): void;
+
+        // OTP
+        sendOTPBySMS(
+            request: SendOTPBySMSRequest
+        ): Promise<SendOTPBySMSResponse>;
+        sendOTPBySMS(
+            request: SendOTPBySMSRequest,
+            cb: Callback<SendOTPBySMSResponse>
+        ): void;
+
+        loginOrCreateUserBySMS(
+            request: LoginOrCreateUserBySMSRequest
+        ): Promise<LoginOrCreateUserBySMSResponse>;
+        loginOrCreateUserBySMS(
+            request: LoginOrCreateUserBySMSRequest,
+            cb: Callback<LoginOrCreateUserBySMSResponse>
+        ): void;
+
+        authenticateOTP(
+            request: AuthenticateOTPRequest
+        ): Promise<AuthenticateOTPResponse>;
+        authenticateOTP(
+            request: AuthenticateOTPRequest,
+            cb: Callback<AuthenticateOTPResponse>
         ): void;
     }
 }
