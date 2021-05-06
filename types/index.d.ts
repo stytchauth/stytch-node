@@ -107,7 +107,6 @@ declare module 'stytch' {
 
     interface DeleteUserEmailResponse extends BaseResponse {
         user_id: string;
-        email: string;
     }
 
     interface DeleteUserPhoneNumberResponse extends BaseResponse {
@@ -277,20 +276,18 @@ declare module 'stytch' {
         ): void;
 
         deleteUserEmail(
-            user_id: string,
-            email: string
+            email_id: string
         ): Promise<DeleteUserEmailResponse>;
         deleteUserEmail(
-            user_id: string,
-            email: string,
+            email_id: string,
             cb: Callback<DeleteUserEmailResponse>,
         ): void;
 
         deleteUserPhoneNumber(
-            phone_number: string
+            phone_id: string
         ): Promise<DeleteUserPhoneNumberResponse>;
         deleteUserPhoneNumber(
-            phone_number: string,
+            phone_id: string,
             cb: Callback<DeleteUserPhoneNumberResponse>
         ): void;
 
