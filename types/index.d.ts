@@ -55,7 +55,7 @@ declare module 'stytch' {
 
     // USERS
     interface CreateUserRequest {
-        email: string;
+        email?: string;
         phone_number?: string;
         name?: Name;
         attributes?: Attributes;
