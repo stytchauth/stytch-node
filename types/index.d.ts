@@ -115,20 +115,6 @@ declare module 'stytch' {
     }
 
     // MAGIC LINKS
-    interface SendMagicLinkRequest {
-        user_id: string;
-        method_id: string;
-        login_magic_link_url: string;
-        signup_magic_link_url: string;
-        login_expiration_minutes?: bigint;
-        signup_expiration_minutes?: bigint;
-        attributes?: Attributes;
-    }
-
-    interface SendMagicLinkResponse extends BaseResponse {
-        user_id: string;
-    }
-
     interface SendMagicLinkByEmailRequest {
         email: string;
         login_magic_link_url: string;
@@ -294,15 +280,6 @@ declare module 'stytch' {
         deleteUserPhoneNumber(
             phone_id: string,
             cb: Callback<DeleteUserPhoneNumberResponse>
-        ): void;
-
-        // MAGIC LINKS
-        sendMagicLink(
-            request: SendMagicLinkRequest
-        ): Promise<SendMagicLinkResponse>;
-        sendMagicLink(
-            request: SendMagicLinkRequest,
-            cb: Callback<SendMagicLinkResponse>,
         ): void;
 
         sendMagicLinkByEmail(
