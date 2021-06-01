@@ -58,6 +58,7 @@ declare module 'stytch' {
         email?: string;
         phone_number?: string;
         name?: Name;
+        create_user_as_pending?: boolean;
         attributes?: Attributes;
     }
 
@@ -114,22 +115,12 @@ declare module 'stytch' {
     }
 
     // MAGIC LINKS
-    interface SendMagicLinkRequest {
-        user_id: string;
-        method_id: string;
-        magic_link_url: string;
-        expiration_minutes?: bigint;
-        attributes?: Attributes;
-    }
-
-    interface SendMagicLinkResponse extends BaseResponse {
-        user_id: string;
-    }
-
     interface SendMagicLinkByEmailRequest {
         email: string;
-        magic_link_url: string;
-        expiration_minutes?: bigint;
+        login_magic_link_url: string;
+        signup_magic_link_url: string;
+        login_expiration_minutes?: bigint;
+        signup_expiration_minutes?: bigint;
         attributes?: Attributes;
     }
 
@@ -156,8 +147,8 @@ declare module 'stytch' {
 
     interface InviteByEmailRequest {
         email: string;
-        magic_link_url: string;
-        expiration_minutes?: bigint;
+        invite_magic_link_url: string;
+        invite_expiration_minutes?: bigint;
         name?: Name;
         attributes?: Attributes;
     }
@@ -289,15 +280,6 @@ declare module 'stytch' {
         deleteUserPhoneNumber(
             phone_id: string,
             cb: Callback<DeleteUserPhoneNumberResponse>
-        ): void;
-
-        // MAGIC LINKS
-        sendMagicLink(
-            request: SendMagicLinkRequest
-        ): Promise<SendMagicLinkResponse>;
-        sendMagicLink(
-            request: SendMagicLinkRequest,
-            cb: Callback<SendMagicLinkResponse>,
         ): void;
 
         sendMagicLinkByEmail(
