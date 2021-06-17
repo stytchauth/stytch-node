@@ -115,7 +115,7 @@ declare module 'stytch' {
     }
 
     // MAGIC LINKS
-    interface SendMagicLinkByEmailRequest {
+    interface MagicLinksEmailSendRequest {
         email: string;
         login_magic_link_url: string;
         signup_magic_link_url: string;
@@ -124,12 +124,12 @@ declare module 'stytch' {
         attributes?: Attributes;
     }
 
-    interface SendMagicLinkByEmailResponse extends BaseResponse {
+    interface MagicLinksEmailSendResponse extends BaseResponse {
         user_id: string;
         email_id: string;
     }
 
-    interface LoginOrCreateRequest {
+    interface MagicLinksEmailLoginOrCreateRequest {
         email: string;
         login_magic_link_url: string;
         signup_magic_link_url: string;
@@ -139,13 +139,13 @@ declare module 'stytch' {
         attributes?: Attributes;
     }
 
-    interface LoginOrCreateResponse extends BaseResponse {
+    interface MagicLinksEmailLoginOrCreateResponse extends BaseResponse {
         user_id: string;
         email_id: string;
         user_created: boolean;
     }
 
-    interface InviteByEmailRequest {
+    interface MagicLinksEmailInviteRequest {
         email: string;
         invite_magic_link_url: string;
         invite_expiration_minutes?: bigint;
@@ -153,12 +153,13 @@ declare module 'stytch' {
         attributes?: Attributes;
     }
 
-    interface InviteByEmailResponse extends BaseResponse {
+    interface MagicLinksEmailInviteResponse extends BaseResponse {
         user_id: string;
         email_id: string;
     }
 
-    interface AuthenticateMagicLinkRequest {
+    interface MagicLinksAuthenticateRequest {
+        token: string;
         options?: {
             ip_match_required?: boolean;
             user_agent_match_required?: boolean;
@@ -166,43 +167,43 @@ declare module 'stytch' {
         attributes?: Attributes;
     }
 
-    interface AuthenticateMagicLinkResponse extends BaseResponse {
+    interface MagicLinksAuthenticateResponse extends BaseResponse {
         user_id: string;
         method_id: string;
     }
 
-    interface RevokePendingInviteRequest {
+    interface MagicLinksEmailRevokeInviteRequest {
         email: string;
     }
 
-    interface RevokePendingInviteResponse extends BaseResponse {}
+    interface MagicLinksEmailRevokeInviteResponse extends BaseResponse {}
 
     // OTP
-    interface SendOTPBySMSRequest {
+    interface OTPsSMSSendRequest {
         phone_number: string;
         expiration_minutes?: bigint;
         attributes?: Attributes;
     }
 
-    interface SendOTPBySMSResponse extends BaseResponse {
+    interface OTPsSMSSendResponse extends BaseResponse {
         user_id: string;
         phone_id: string;
     }
 
-    interface LoginOrCreateUserBySMSRequest {
+    interface OTPsSMSLoginOrCreateRequest {
         phone_number: string;
         expiration_minutes?: bigint;
         attributes?: Attributes;
         create_user_as_pending?: boolean;
     }
 
-    interface LoginOrCreateUserBySMSResponse extends BaseResponse {
+    interface OTPsSMSLoginOrCreateResponse extends BaseResponse {
         user_id: string;
         phone_id: string;
         user_created: boolean;
     }
 
-    interface AuthenticateOTPRequest {
+    interface OTPsAuthenticateRequest {
         method_id: string;
         code: string;
         attributes?: Attributes;
@@ -212,7 +213,7 @@ declare module 'stytch' {
         };
     }
 
-    interface AuthenticateOTPResponse extends BaseResponse {
+    interface OTPsAuthenticateResponse extends BaseResponse {
         user_id: string;
         method_id: string;
     }
@@ -282,75 +283,69 @@ declare module 'stytch' {
             cb: Callback<DeleteUserPhoneNumberResponse>
         ): void;
 
-        sendMagicLinkByEmail(
-            request: SendMagicLinkByEmailRequest
-        ): Promise<SendMagicLinkByEmailResponse>;
-        sendMagicLinkByEmail(
-            request: SendMagicLinkByEmailRequest,
-            cb: Callback<SendMagicLinkByEmailResponse>,
+        magicLinksEmailSend(
+            request: MagicLinksEmailSendRequest
+        ): Promise<MagicLinksEmailSendResponse>;
+        magicLinksEmailSend(
+            request: MagicLinksEmailSendRequest,
+            cb: Callback<MagicLinksEmailSendResponse>,
         ): void;
 
-        loginOrCreate(
-            request: LoginOrCreateRequest
-        ): Promise<LoginOrCreateResponse>;
-        loginOrCreate(
-            request: LoginOrCreateRequest,
-            cb: Callback<LoginOrCreateResponse>,
+        magicLinksEmailLoginOrCreate(
+            request: MagicLinksEmailLoginOrCreateRequest
+        ): Promise<MagicLinksEmailLoginOrCreateResponse>;
+        magicLinksEmailLoginOrCreate(
+            request: MagicLinksEmailLoginOrCreateRequest,
+            cb: Callback<MagicLinksEmailLoginOrCreateResponse>,
         ): void;
 
-        inviteByEmail(
-            request: InviteByEmailRequest
-        ): Promise<InviteByEmailResponse>;
-        inviteByEmail(
-            request: InviteByEmailRequest,
-            cb: Callback<InviteByEmailResponse>,
+        magicLinksEmailInvite(
+            request: MagicLinksEmailInviteRequest
+        ): Promise<MagicLinksEmailInviteResponse>;
+        magicLinksEmailInvite(
+            request: MagicLinksEmailInviteRequest,
+            cb: Callback<MagicLinksEmailInviteResponse>,
         ): void;
 
-        authenticateMagicLink(
-            token: string,
-            request?: AuthenticateMagicLinkRequest,
-        ): Promise<AuthenticateMagicLinkResponse>;
-        authenticateMagicLink(
-            token: string,
-            cb: Callback<AuthenticateMagicLinkResponse>,
-        ): void;
-        authenticateMagicLink(
-            token: string,
-            request: AuthenticateMagicLinkRequest,
-            cb: Callback<AuthenticateMagicLinkResponse>,
+        magicLinksAuthenticate(
+          request: MagicLinksAuthenticateRequest
+        ): Promise<MagicLinksAuthenticateResponse>;
+        magicLinksAuthenticate(
+          request: MagicLinksAuthenticateRequest,
+          cb: Callback<MagicLinksAuthenticateResponse>,
         ): void;
 
-        revokePendingInvite(
-            request: RevokePendingInviteRequest
-        ): Promise<RevokePendingInviteResponse>;
-        revokePendingInvite(
-            request: RevokePendingInviteRequest,
-            cb: Callback<RevokePendingInviteResponse>,
+        magicLinksEmailRevokeInvite(
+            request: MagicLinksEmailRevokeInviteRequest
+        ): Promise<MagicLinksEmailRevokeInviteResponse>;
+        magicLinksEmailRevokeInvite(
+            request: MagicLinksEmailRevokeInviteRequest,
+            cb: Callback<MagicLinksEmailRevokeInviteResponse>,
         ): void;
 
         // OTP
-        sendOTPBySMS(
-            request: SendOTPBySMSRequest
-        ): Promise<SendOTPBySMSResponse>;
-        sendOTPBySMS(
-            request: SendOTPBySMSRequest,
-            cb: Callback<SendOTPBySMSResponse>
+        OTPsSMSSend(
+            request: OTPsSMSSendRequest
+        ): Promise<OTPsSMSSendResponse>;
+        OTPsSMSSend(
+            request: OTPsSMSSendRequest,
+            cb: Callback<OTPsSMSSendResponse>
         ): void;
 
-        loginOrCreateUserBySMS(
-            request: LoginOrCreateUserBySMSRequest
-        ): Promise<LoginOrCreateUserBySMSResponse>;
-        loginOrCreateUserBySMS(
-            request: LoginOrCreateUserBySMSRequest,
-            cb: Callback<LoginOrCreateUserBySMSResponse>
+        OTPsSMSLoginOrCreate(
+            request: OTPsSMSLoginOrCreateRequest
+        ): Promise<OTPsSMSLoginOrCreateResponse>;
+        OTPsSMSLoginOrCreate(
+            request: OTPsSMSLoginOrCreateRequest,
+            cb: Callback<OTPsSMSLoginOrCreateResponse>
         ): void;
 
-        authenticateOTP(
-            request: AuthenticateOTPRequest
-        ): Promise<AuthenticateOTPResponse>;
-        authenticateOTP(
-            request: AuthenticateOTPRequest,
-            cb: Callback<AuthenticateOTPResponse>
+        OTPsAuthenticate(
+            request: OTPsAuthenticateRequest
+        ): Promise<OTPsAuthenticateResponse>;
+        OTPsAuthenticate(
+            request: OTPsAuthenticateRequest,
+            cb: Callback<OTPsAuthenticateResponse>
         ): void;
     }
 }

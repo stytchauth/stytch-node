@@ -23,25 +23,29 @@ const stytchClient = new Stytch.Client({
 });
 
 
-const loginOrCreateWithMagicLink = async () => {
-  const params: Stytch.loginOrCreateRequest = {
+const magicLinksEmailLoginOrCreate = async () => {
+  const params: Stytch.magicLinksEmailLoginOrCreateRequest = {
     email: 'sandbox@stytch.com',
     login_magic_link_url: 'https://www.stytch.com/login',
     signup_magic_link_url: 'https://www.stytch.com/signup',
   };
 
-  const response: Stytch.loginOrCreateResponse = await stytchClient.loginOrCreate(params);
+  const response: Stytch.magicLinksEmailLoginOrCreateResponse = await stytchClient.magicLinksEmailLoginOrCreate(params);
 
   console.log(response);
 };
 
-const authenticateMagicLink = async (token) => {
-  const response: Stytch.authenticateMagicLinkResponse = await stytchClient.authenticateMagicLink(token);
+const magicLinksAuthenticate = async (token) => {
+  const params: Stytch.magicLinksEmailLoginOrCreateRequest = {
+    token: token,
+  };
+
+  const response: Stytch.magicLinksAuthenticateResponse = await stytchClient.magicLinksAuthenticate(params);
 
   console.log(response);
 };
 
 
-loginOrCreateWithMagicLink().then().catch(err => console.log(err));
-authenticateMagicLink('token from email').then().catch(err => console.log(err));
+magicLinksEmailLoginOrCreate().then().catch(err => console.log(err));
+magicLinksAuthenticate('token from email').then().catch(err => console.log(err));
 ```
