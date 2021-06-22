@@ -2,13 +2,14 @@
   "name": "stytch",
   "version": "2.0.1",
   "description": "A wrapper for the Stytch API",
-  "main": "lib/stytch.js",
+  "main": "dist/stytch.js",
   "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/stytchauth/stytch-node.git"
   },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint lib",
     "test": "mocha --recursive"
   },
