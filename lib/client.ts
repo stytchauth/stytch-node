@@ -1,5 +1,6 @@
 import axios from "axios";
 import { version } from "../package.json";
+import * as envs from "./envs";
 import Users from "./users";
 import MagicLinks from "./magic_links";
 
@@ -12,13 +13,6 @@ interface Config {
   secret: string;
   env: "test" | "live";
   timeout?: number;
-}
-
-function baseURL(env: "test" | "live"): string {
-  return {
-    test: "https://test.stytch.com/v1/",
-    live: "https://api.stytch.com/v1/",
-  }[env];
 }
 
 export default class Client {
@@ -55,7 +49,7 @@ export default class Client {
     }
 
     this.client = axios.create({
-      baseURL: baseURL(config.env),
+      baseURL: envs[config.env],
       timeout: config.timeout || DEFAULT_TIMEOUT,
       headers: {
         "Content-Type": "application/json",

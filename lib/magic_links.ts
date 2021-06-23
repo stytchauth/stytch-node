@@ -1,5 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Name } from "./shared";
+import StytchError from "./stytch_error";
 
 interface SendByEmailRequest {
   email: string;
@@ -118,10 +119,23 @@ export default class MagicLinks {
 
   authenticate(
     token: string,
-    request: AuthenticateRequest
+    request?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
-    return this.client.post(this.endpoint(`${token}/authenticate`), {
-      body: request,
-    });
+    return this.client
+      .post(this.endpoint(`${token}/authenticate`), {
+        body: request,
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        if (err.response) {
+          throw new StytchError(err.response.data);
+        } else if (err.request) {
+          // No response received for the request.
+          throw new Error(err.request);
+        } else {
+          // The request couldn't be sent for some reason.
+          throw new Error(err.message);
+        }
+      });
   }
 }
