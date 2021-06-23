@@ -14,7 +14,8 @@
     "preserveConstEnums": true,
     "outDir": "dist",
     "alwaysStrict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true
   },
   "include": ["lib/**/*"]
 }

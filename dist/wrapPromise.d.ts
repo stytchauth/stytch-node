@@ -1,2 +1,1 @@
-export = wrapPromise;
-declare function wrapPromise(promise: any, cb: any): any;
+declare const wrapPromise: <T, U>(promise: Promise<T>, cb: (err: U | null, args: T | undefined) => void) => Promise<void | T>;

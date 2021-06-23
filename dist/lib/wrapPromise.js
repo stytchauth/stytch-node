@@ -1,7 +1,6 @@
-'use strict';
-
-// (Promise, Callback, Options?) => Promise | void
-const wrapPromise = function (promise, cb) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function wrapPromise(promise, cb) {
     if (cb) {
         return promise.then(function (args) {
             setImmediate(function () {
@@ -14,6 +13,5 @@ const wrapPromise = function (promise, cb) {
         });
     }
     return promise;
-};
-
-module.exports = wrapPromise;
+}
+exports.default = wrapPromise;

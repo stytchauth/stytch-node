@@ -1,5 +1,4 @@
-'use strict';
-// (Promise, Callback, Options?) => Promise | void
+"use strict";
 const wrapPromise = function (promise, cb) {
     if (cb) {
         return promise.then(function (args) {
@@ -8,7 +7,7 @@ const wrapPromise = function (promise, cb) {
             });
         }).catch(function (err) {
             setImmediate(function () {
-                cb(err);
+                cb(err, undefined);
             });
         });
     }

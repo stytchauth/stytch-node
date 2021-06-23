@@ -1,4 +1,5 @@
-'use strict';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // StytchError wraps API errors to implement the Error class.
 class StytchError extends Error {
     constructor(body) {
@@ -9,4 +10,4 @@ class StytchError extends Error {
         }
     }
 }
-module.exports = StytchError;
+exports.default = StytchError;
