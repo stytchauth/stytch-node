@@ -21,7 +21,7 @@ function baseURL(env: "test" | "live"): string {
   }[env];
 }
 
-export class Client {
+export default class Client {
   users: Users;
   magicLinks: MagicLinks;
 
@@ -71,5 +71,3 @@ export class Client {
     this.magicLinks = new MagicLinks(this.client);
   }
 }
-
-module.exports = Client;

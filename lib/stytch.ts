@@ -1,7 +1,4 @@
-import * as env from "./env";
-import { Client } from "./client";
+import * as envs from "./envs";
+import Client from "./client";
 
-export default {
-  env: env,
-  Client: Client,
-};
+export default { envs, Client };
