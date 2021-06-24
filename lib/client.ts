@@ -3,6 +3,7 @@ import { version } from "../package.json";
 import * as envs from "./envs";
 import Users from "./users";
 import MagicLinks from "./magic_links";
+import OTPs from "./otps";
 
 import type { AxiosInstance } from "axios";
 
@@ -18,15 +19,14 @@ interface Config {
 export default class Client {
   users: Users;
   magicLinks: MagicLinks;
+  otps: OTPs;
 
   private client: AxiosInstance;
 
   constructor(config: Config) {
     if (typeof config != "object") {
       throw new Error(
-        "Unexpected config type. " +
-          "Refer to https://github.com/stytchauth/stytch-node " +
-          "for how to use the Node client library."
+        "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library."
       );
     }
 
@@ -63,5 +63,6 @@ export default class Client {
 
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
+    this.otps = new OTPs(this.client);
   }
 }
