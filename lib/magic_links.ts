@@ -1,6 +1,7 @@
+import { request } from "./shared";
+
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Name } from "./shared";
-import StytchError from "./stytch_error";
 
 interface SendByEmailRequest {
   email: string;
@@ -46,6 +47,7 @@ interface InviteByEmailResponse extends BaseResponse {
 }
 
 interface AuthenticateRequest {
+  token: string;
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -79,26 +81,40 @@ class Email {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(request: SendByEmailRequest): Promise<SendByEmailResponse> {
-    return this.client.post(this.endpoint("send"), { body: request });
-  }
-
-  loginOrCreate(
-    request: LoginOrCreateByEmailRequest
-  ): Promise<LoginOrCreateByEmailResponse> {
-    return this.client.post(this.endpoint("login_or_create"), {
-      body: request,
+  send(data: SendByEmailRequest): Promise<SendByEmailResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data,
     });
   }
 
-  invite(request: InviteByEmailRequest): Promise<InviteByEmailResponse> {
-    return this.client.post(this.endpoint("invite"), { body: request });
+  loginOrCreate(
+    data: LoginOrCreateByEmailRequest
+  ): Promise<LoginOrCreateByEmailResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data,
+    });
+  }
+
+  invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("invite"),
+      data,
+    });
   }
 
   revokePendingInvite(
-    request: RevokePendingInviteByEmailRequest
+    data: RevokePendingInviteByEmailRequest
   ): Promise<RevokePendingInviteByEmailResponse> {
-    return this.client.post(this.endpoint("revoke_invite"), { body: request });
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("revoke_invite"),
+      data,
+    });
   }
 }
 
@@ -117,25 +133,11 @@ export default class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(
-    token: string,
-    request?: AuthenticateRequest
-  ): Promise<AuthenticateResponse> {
-    return this.client
-      .post(this.endpoint(`${token}/authenticate`), {
-        body: request,
-      })
-      .then((res) => res.data)
-      .catch((err) => {
-        if (err.response) {
-          throw new StytchError(err.response.data);
-        } else if (err.request) {
-          // No response received for the request.
-          throw new Error(err.request);
-        } else {
-          // The request couldn't be sent for some reason.
-          throw new Error(err.message);
-        }
-      });
+  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("authenticate"),
+      data,
+    });
   }
 }
