@@ -1,3 +1,4 @@
+import type { AxiosInstance, AxiosRequestConfig } from "axios";
 export interface Attributes {
     ip_address?: string;
     user_agent?: string;
@@ -21,3 +22,4 @@ export interface BaseResponse {
     status_code: bigint;
     request_id: string;
 }
+export declare function request<T>(client: AxiosInstance, config: AxiosRequestConfig): Promise<T>;

@@ -38,6 +38,7 @@ interface InviteByEmailResponse extends BaseResponse {
     email_id: string;
 }
 interface AuthenticateRequest {
+    token: string;
     options?: {
         ip_match_required?: boolean;
         user_agent_match_required?: boolean;
@@ -59,10 +60,10 @@ declare class Email {
     private client;
     constructor(client: AxiosInstance, parent_path: string);
     private endpoint;
-    send(request: SendByEmailRequest): Promise<SendByEmailResponse>;
-    loginOrCreate(request: LoginOrCreateByEmailRequest): Promise<LoginOrCreateByEmailResponse>;
-    invite(request: InviteByEmailRequest): Promise<InviteByEmailResponse>;
-    revokePendingInvite(request: RevokePendingInviteByEmailRequest): Promise<RevokePendingInviteByEmailResponse>;
+    send(data: SendByEmailRequest): Promise<SendByEmailResponse>;
+    loginOrCreate(data: LoginOrCreateByEmailRequest): Promise<LoginOrCreateByEmailResponse>;
+    invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse>;
+    revokePendingInvite(data: RevokePendingInviteByEmailRequest): Promise<RevokePendingInviteByEmailResponse>;
 }
 export default class MagicLinks {
     base_path: string;
@@ -70,6 +71,6 @@ export default class MagicLinks {
     private client;
     constructor(client: AxiosInstance);
     private endpoint;
-    authenticate(token: string, request: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
 }
 export {};
