@@ -1,9 +1,4 @@
-import stytch from "../lib";
-
-test("available environments and base URLs", () => {
-  expect(stytch.envs.test).toEqual("https://test.stytch.com/v1/");
-  expect(stytch.envs.live).toEqual("https://api.stytch.com/v1/");
-});
+import stytch = require("../lib");
 
 test("configuring a basic client", () => {
   new stytch.Client({

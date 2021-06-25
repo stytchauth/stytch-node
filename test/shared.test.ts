@@ -6,3 +6,6 @@ describe("request", () => {
   test.todo("no response");
   test.todo("unsent request");
 });
+
+// TODO: remove after writing tests
+export {}
