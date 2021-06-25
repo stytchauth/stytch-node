@@ -7,6 +7,10 @@
   "exports": {
     "require": "./dist/index.js"
   },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/stytchauth/stytch-node.git"
