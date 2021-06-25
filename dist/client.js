@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.Client = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -66,4 +66,4 @@ class Client {
 
 }
 
-exports.default = Client;
+exports.Client = Client;

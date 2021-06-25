@@ -7,7 +7,7 @@ interface Config {
     env: "test" | "live";
     timeout?: number;
 }
-export default class Client {
+export declare class Client {
     users: Users;
     magicLinks: MagicLinks;
     otps: OTPs;

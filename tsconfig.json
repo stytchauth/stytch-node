@@ -3,6 +3,9 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",
+    "lib": [
+      "es2015"
+    ],
     "allowJs": true,
     "strict": true,
     "declaration": true,
@@ -15,7 +18,8 @@
     "outDir": "dist",
     "alwaysStrict": true,
     "strictNullChecks": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": ["lib/**/*"]
 }

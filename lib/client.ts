@@ -16,7 +16,7 @@ interface Config {
   timeout?: number;
 }
 
-export default class Client {
+export class Client {
   users: Users;
   magicLinks: MagicLinks;
   otps: OTPs;
