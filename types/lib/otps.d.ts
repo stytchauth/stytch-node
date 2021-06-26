@@ -39,8 +39,8 @@ declare class SMS {
     private client;
     constructor(client: AxiosInstance, base_path: string);
     private endpoint;
-    send(request: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
-    loginOrCreate(request: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
+    send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
+    loginOrCreate(data: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
 }
 export default class OTPs {
     base_path: string;
@@ -48,6 +48,6 @@ export default class OTPs {
     private client;
     constructor(client: AxiosInstance);
     private endpoint;
-    authenticate(request: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
 }
 export {};

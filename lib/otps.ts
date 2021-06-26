@@ -1,3 +1,5 @@
+import { request } from "./shared";
+
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse } from "./shared";
 
@@ -55,15 +57,21 @@ class SMS {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(request: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse> {
-    return this.client.post(this.endpoint("send_by_sms"), { body: request });
+  send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data,
+    });
   }
 
   loginOrCreate(
-    request: LoginOrCreateUserBySMSRequest
+    data: LoginOrCreateUserBySMSRequest
   ): Promise<LoginOrCreateUserBySMSResponse> {
-    return this.client.post(this.endpoint("login_or_create"), {
-      body: request,
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data,
     });
   }
 }
@@ -83,7 +91,11 @@ export default class OTPs {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(request: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return this.client.post(this.endpoint("authenticate"), { body: request });
+  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("authenticate"),
+      data,
+    });
   }
 }

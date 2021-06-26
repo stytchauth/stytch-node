@@ -63,7 +63,7 @@ declare class Email {
     send(data: SendByEmailRequest): Promise<SendByEmailResponse>;
     loginOrCreate(data: LoginOrCreateByEmailRequest): Promise<LoginOrCreateByEmailResponse>;
     invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse>;
-    revokePendingInvite(data: RevokePendingInviteByEmailRequest): Promise<RevokePendingInviteByEmailResponse>;
+    revokeInvite(data: RevokePendingInviteByEmailRequest): Promise<RevokePendingInviteByEmailResponse>;
 }
 export default class MagicLinks {
     base_path: string;

@@ -46,7 +46,7 @@ class Email {
     });
   }
 
-  revokePendingInvite(data) {
+  revokeInvite(data) {
     return (0, _shared.request)(this.client, {
       method: "POST",
       url: this.endpoint("revoke_invite"),

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _shared = require("./shared");
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class SMS {
@@ -19,15 +21,19 @@ class SMS {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(request) {
-    return this.client.post(this.endpoint("send_by_sms"), {
-      body: request
+  send(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data
     });
   }
 
-  loginOrCreate(request) {
-    return this.client.post(this.endpoint("login_or_create"), {
-      body: request
+  loginOrCreate(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data
     });
   }
 
@@ -45,9 +51,11 @@ class OTPs {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(request) {
-    return this.client.post(this.endpoint("authenticate"), {
-      body: request
+  authenticate(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("authenticate"),
+      data
     });
   }
 

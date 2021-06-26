@@ -107,7 +107,7 @@ class Email {
     });
   }
 
-  revokePendingInvite(
+  revokeInvite(
     data: RevokePendingInviteByEmailRequest
   ): Promise<RevokePendingInviteByEmailResponse> {
     return request(this.client, {
