@@ -18,9 +18,7 @@ const magicLinks = new MagicLinks(axios.create({ adapter }));
 describe("magicLinks.authenticate", () => {
   test("success", () => {
     return expect(
-      magicLinks.authenticate({
-        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
-      })
+      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
     ).resolves.toMatchObject({
       method: "post",
       path: "magic_links/authenticate",

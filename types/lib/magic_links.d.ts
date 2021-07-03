@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Name } from "./shared";
-interface SendByEmailRequest {
+export interface SendByEmailRequest {
     email: string;
     login_magic_link_url: string;
     signup_magic_link_url: string;
@@ -8,11 +8,11 @@ interface SendByEmailRequest {
     signup_expiration_minutes?: bigint;
     attributes?: Attributes;
 }
-interface SendByEmailResponse extends BaseResponse {
+export interface SendByEmailResponse extends BaseResponse {
     user_id: string;
     email_id: string;
 }
-interface LoginOrCreateByEmailRequest {
+export interface LoginOrCreateByEmailRequest {
     email: string;
     login_magic_link_url: string;
     signup_magic_link_url: string;
@@ -21,38 +21,37 @@ interface LoginOrCreateByEmailRequest {
     create_user_as_pending?: boolean;
     attributes?: Attributes;
 }
-interface LoginOrCreateByEmailResponse extends BaseResponse {
+export interface LoginOrCreateByEmailResponse extends BaseResponse {
     user_id: string;
     email_id: string;
     user_created: boolean;
 }
-interface InviteByEmailRequest {
+export interface InviteByEmailRequest {
     email: string;
     invite_magic_link_url: string;
     invite_expiration_minutes?: bigint;
     name?: Name;
     attributes?: Attributes;
 }
-interface InviteByEmailResponse extends BaseResponse {
+export interface InviteByEmailResponse extends BaseResponse {
     user_id: string;
     email_id: string;
 }
-interface AuthenticateRequest {
-    token: string;
+export interface AuthenticateRequest {
     options?: {
         ip_match_required?: boolean;
         user_agent_match_required?: boolean;
     };
     attributes?: Attributes;
 }
-interface AuthenticateResponse extends BaseResponse {
+export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     method_id: string;
 }
-interface RevokePendingInviteByEmailRequest {
+export interface RevokePendingInviteByEmailRequest {
     email: string;
 }
-interface RevokePendingInviteByEmailResponse extends BaseResponse {
+export interface RevokePendingInviteByEmailResponse extends BaseResponse {
 }
 declare class Email {
     base_path: string;
@@ -71,6 +70,6 @@ export default class MagicLinks {
     private client;
     constructor(client: AxiosInstance);
     private endpoint;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
 }
 export {};

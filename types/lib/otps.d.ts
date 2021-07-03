@@ -1,26 +1,26 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse } from "./shared";
-interface SendOTPBySMSRequest {
+export interface SendOTPBySMSRequest {
     phone_number: string;
     expiration_minutes?: bigint;
     attributes?: Attributes;
 }
-interface SendOTPBySMSResponse extends BaseResponse {
+export interface SendOTPBySMSResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
 }
-interface LoginOrCreateUserBySMSRequest {
+export interface LoginOrCreateUserBySMSRequest {
     phone_number: string;
     expiration_minutes?: bigint;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
 }
-interface LoginOrCreateUserBySMSResponse extends BaseResponse {
+export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
     user_created: boolean;
 }
-interface AuthenticateRequest {
+export interface AuthenticateRequest {
     method_id: string;
     code: string;
     attributes?: Attributes;
@@ -29,7 +29,7 @@ interface AuthenticateRequest {
         user_agent_match_required?: boolean;
     };
 }
-interface AuthenticateResponse extends BaseResponse {
+export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     method_id: string;
 }

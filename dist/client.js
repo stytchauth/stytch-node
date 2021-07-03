@@ -26,6 +26,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
 class Client {
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.get instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.update instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.delete instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.deleteEmail instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.deletePhoneNumber instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.getPending instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.send instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.loginOrCreate instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.invite instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.revokeInvite instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.authenticate instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.sms.send instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.sms.loginOrCreate instead. */
+
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.authenticate instead. */
   constructor(config) {
     if (typeof config != "object") {
       throw new Error("Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.");
@@ -61,7 +90,23 @@ class Client {
     });
     this.users = new _users.default(this.client);
     this.magicLinks = new _magic_links.default(this.client);
-    this.otps = new _otps.default(this.client);
+    this.otps = new _otps.default(this.client); // TODO(v3): Remove these deprecated methods.
+
+    this.createUser = this.users.create;
+    this.getUser = this.users.get;
+    this.updateUser = this.users.update;
+    this.deleteUser = this.users.delete;
+    this.deleteUserEmail = this.users.deleteEmail;
+    this.deleteUserPhoneNumber = this.users.deletePhoneNumber;
+    this.getPendingUsers = this.users.getPending;
+    this.sendMagicLinkByEmail = this.magicLinks.email.send;
+    this.loginOrCreate = this.magicLinks.email.loginOrCreate;
+    this.inviteByEmail = this.magicLinks.email.invite;
+    this.revokePendingInvite = this.magicLinks.email.revokeInvite;
+    this.authenticateMagicLink = this.magicLinks.authenticate;
+    this.sendOTPBySMS = this.otps.sms.send;
+    this.loginOrCreateUserBySMS = this.otps.sms.loginOrCreate;
+    this.authenticateOTP = this.otps.authenticate;
   }
 
 }

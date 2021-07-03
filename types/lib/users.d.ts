@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Email, Name, PhoneNumber } from "./shared";
 declare type UserID = string;
-interface PendingUser {
+export interface PendingUser {
     user_id: UserID;
     name: Name;
     emails: Email[];
@@ -9,54 +9,54 @@ interface PendingUser {
     status: string;
     invited_at: string;
 }
-interface CreateRequest {
+export interface CreateRequest {
     email?: string;
     phone_number?: string;
     name?: Name;
     create_user_as_pending?: boolean;
     attributes?: Attributes;
 }
-interface CreateResponse extends BaseResponse {
+export interface CreateResponse extends BaseResponse {
     user_id: UserID;
     email_id: string;
     phone_id: string;
     status: string;
 }
-interface GetResponse extends BaseResponse {
+export interface GetResponse extends BaseResponse {
     user_id: UserID;
     name: Name;
     emails: Email[];
     phone_numbers: PhoneNumber[];
     status: string;
 }
-interface UpdateRequest {
+export interface UpdateRequest {
     name?: Name;
     emails?: string[];
     phone_numbers?: string[];
     attributes?: Attributes;
 }
-interface UpdateResponse extends BaseResponse {
+export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
     emails: Email[];
     phone_numbers: PhoneNumber[];
 }
-interface DeleteResponse extends BaseResponse {
+export interface DeleteResponse extends BaseResponse {
     user_id: UserID;
 }
-interface GetPendingRequest {
+export interface GetPendingRequest {
     starting_after_id?: string;
     limit?: bigint;
 }
-interface GetPendingResponse extends BaseResponse {
+export interface GetPendingResponse extends BaseResponse {
     users: PendingUser[];
     has_more: boolean;
     starting_after_id: string;
     total: bigint;
 }
-interface DeleteEmailResponse extends BaseResponse {
+export interface DeleteEmailResponse extends BaseResponse {
     user_id: UserID;
 }
-interface DeletePhoneNumberResponse extends BaseResponse {
+export interface DeletePhoneNumberResponse extends BaseResponse {
     user_id: UserID;
 }
 export default class Users {

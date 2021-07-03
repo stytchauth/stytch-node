@@ -3,7 +3,7 @@ import { request } from "./shared";
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Name } from "./shared";
 
-interface SendByEmailRequest {
+export interface SendByEmailRequest {
   email: string;
   login_magic_link_url: string;
   signup_magic_link_url: string;
@@ -12,12 +12,12 @@ interface SendByEmailRequest {
   attributes?: Attributes;
 }
 
-interface SendByEmailResponse extends BaseResponse {
+export interface SendByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-interface LoginOrCreateByEmailRequest {
+export interface LoginOrCreateByEmailRequest {
   email: string;
   login_magic_link_url: string;
   signup_magic_link_url: string;
@@ -27,13 +27,13 @@ interface LoginOrCreateByEmailRequest {
   attributes?: Attributes;
 }
 
-interface LoginOrCreateByEmailResponse extends BaseResponse {
+export interface LoginOrCreateByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
 }
 
-interface InviteByEmailRequest {
+export interface InviteByEmailRequest {
   email: string;
   invite_magic_link_url: string;
   invite_expiration_minutes?: bigint;
@@ -41,13 +41,12 @@ interface InviteByEmailRequest {
   attributes?: Attributes;
 }
 
-interface InviteByEmailResponse extends BaseResponse {
+export interface InviteByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-interface AuthenticateRequest {
-  token: string;
+export interface AuthenticateRequest {
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -55,16 +54,16 @@ interface AuthenticateRequest {
   attributes?: Attributes;
 }
 
-interface AuthenticateResponse extends BaseResponse {
+export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
   method_id: string;
 }
 
-interface RevokePendingInviteByEmailRequest {
+export interface RevokePendingInviteByEmailRequest {
   email: string;
 }
 
-interface RevokePendingInviteByEmailResponse extends BaseResponse {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface RevokePendingInviteByEmailResponse extends BaseResponse {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 class Email {
   base_path: string;
@@ -133,11 +132,14 @@ export default class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    token: string,
+    data?: AuthenticateRequest
+  ): Promise<AuthenticateResponse> {
     return request(this.client, {
       method: "POST",
       url: this.endpoint("authenticate"),
-      data,
+      data: { token, ...data },
     });
   }
 }

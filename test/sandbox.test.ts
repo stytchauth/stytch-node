@@ -29,9 +29,7 @@ describeIf(
     describe("magicLinks.authenticate", () => {
       test("success", () => {
         return client.magicLinks
-          .authenticate({
-            token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
-          })
+          .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
@@ -42,9 +40,7 @@ describeIf(
 
       test("magic link not authorized", () => {
         return client.magicLinks
-          .authenticate({
-            token: "3pzjQpgksDlGKWEwUq2Up--hCHC_0oamfLHyfspKDFU=",
-          })
+          .authenticate("3pzjQpgksDlGKWEwUq2Up--hCHC_0oamfLHyfspKDFU=")
           .catch((err) => {
             expect(err.status_code).toEqual(401);
             expect(err.error_type).toEqual("unable_to_auth_magic_link");
@@ -59,9 +55,7 @@ describeIf(
 
       test("magic link not found", () => {
         return client.magicLinks
-          .authenticate({
-            token: "CprTtwhnRNiMBiUS2jSLcWYrfuO2POeBNdo5HhW6qTM=",
-          })
+          .authenticate("CprTtwhnRNiMBiUS2jSLcWYrfuO2POeBNdo5HhW6qTM=")
           .catch((err) => {
             expect(err.status_code).toEqual(404);
             expect(err.error_type).toEqual("magic_link_not_found");

@@ -21,6 +21,37 @@ export class Client {
   magicLinks: MagicLinks;
   otps: OTPs;
 
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
+  createUser;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.get instead. */
+  getUser;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.update instead. */
+  updateUser;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.delete instead. */
+  deleteUser;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.deleteEmail instead. */
+  deleteUserEmail;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.deletePhoneNumber instead. */
+  deleteUserPhoneNumber;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.getPending instead. */
+  getPendingUsers;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.send instead. */
+  sendMagicLinkByEmail;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.loginOrCreate instead. */
+  loginOrCreate;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.invite instead. */
+  inviteByEmail;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.email.revokeInvite instead. */
+  revokePendingInvite;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.authenticate instead. */
+  authenticateMagicLink;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.sms.send instead. */
+  sendOTPBySMS;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.sms.loginOrCreate instead. */
+  loginOrCreateUserBySMS;
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use magicLinks.otps.authenticate instead. */
+  authenticateOTP;
+
   private client: AxiosInstance;
 
   constructor(config: Config) {
@@ -64,5 +95,22 @@ export class Client {
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
     this.otps = new OTPs(this.client);
+
+    // TODO(v3): Remove these deprecated methods.
+    this.createUser = this.users.create;
+    this.getUser = this.users.get;
+    this.updateUser = this.users.update;
+    this.deleteUser = this.users.delete;
+    this.deleteUserEmail = this.users.deleteEmail;
+    this.deleteUserPhoneNumber = this.users.deletePhoneNumber;
+    this.getPendingUsers = this.users.getPending;
+    this.sendMagicLinkByEmail = this.magicLinks.email.send;
+    this.loginOrCreate = this.magicLinks.email.loginOrCreate;
+    this.inviteByEmail = this.magicLinks.email.invite;
+    this.revokePendingInvite = this.magicLinks.email.revokeInvite;
+    this.authenticateMagicLink = this.magicLinks.authenticate;
+    this.sendOTPBySMS = this.otps.sms.send;
+    this.loginOrCreateUserBySMS = this.otps.sms.loginOrCreate;
+    this.authenticateOTP = this.otps.authenticate;
   }
 }
