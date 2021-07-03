@@ -1,4 +1,4 @@
-import StytchError from "./stytch_error";
+import { StytchError } from "./stytch_error";
 
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 

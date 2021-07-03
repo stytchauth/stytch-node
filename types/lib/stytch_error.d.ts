@@ -1,4 +1,4 @@
-export default class StytchError extends Error {
+export declare class StytchError extends Error {
     status_code: number;
     request_id: string;
     error_type: string;

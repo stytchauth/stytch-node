@@ -1,5 +1,5 @@
 import axios from "axios";
-import OTPs from "../lib/otps";
+import { OTPs } from "../lib/otps";
 
 import type { AxiosRequestConfig } from "axios";
 

@@ -117,7 +117,7 @@ class Email {
   }
 }
 
-export default class MagicLinks {
+export class MagicLinks {
   base_path = "magic_links";
   email: Email;
 

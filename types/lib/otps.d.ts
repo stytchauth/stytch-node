@@ -42,7 +42,7 @@ declare class SMS {
     send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
     loginOrCreate(data: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
 }
-export default class OTPs {
+export declare class OTPs {
     base_path: string;
     sms: SMS;
     private client;

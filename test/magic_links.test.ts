@@ -1,5 +1,5 @@
 import axios from "axios";
-import MagicLinks from "../lib/magic_links";
+import { MagicLinks } from "../lib/magic_links";
 
 import type { AxiosRequestConfig } from "axios";
 

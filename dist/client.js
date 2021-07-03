@@ -11,11 +11,11 @@ var _package = require("../package.json");
 
 var envs = _interopRequireWildcard(require("./envs"));
 
-var _users = _interopRequireDefault(require("./users"));
+var _users = require("./users");
 
-var _magic_links = _interopRequireDefault(require("./magic_links"));
+var _magic_links = require("./magic_links");
 
-var _otps = _interopRequireDefault(require("./otps"));
+var _otps = require("./otps");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -28,7 +28,7 @@ const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 class Client {
   /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
 
-  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.get instead. */
+  /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
 
   /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.update instead. */
 
@@ -88,9 +88,9 @@ class Client {
         password: config.secret
       }
     });
-    this.users = new _users.default(this.client);
-    this.magicLinks = new _magic_links.default(this.client);
-    this.otps = new _otps.default(this.client); // TODO(v3): Remove these deprecated methods.
+    this.users = new _users.Users(this.client);
+    this.magicLinks = new _magic_links.MagicLinks(this.client);
+    this.otps = new _otps.OTPs(this.client); // TODO(v3): Remove these deprecated methods.
 
     this.createUser = this.users.create;
     this.getUser = this.users.get;

@@ -64,7 +64,7 @@ declare class Email {
     invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse>;
     revokeInvite(data: RevokePendingInviteByEmailRequest): Promise<RevokePendingInviteByEmailResponse>;
 }
-export default class MagicLinks {
+export declare class MagicLinks {
     base_path: string;
     email: Email;
     private client;

@@ -1,6 +1,6 @@
-import Users from "./users";
-import MagicLinks from "./magic_links";
-import OTPs from "./otps";
+import { Users } from "./users";
+import { MagicLinks } from "./magic_links";
+import { OTPs } from "./otps";
 interface Config {
     project_id: string;
     secret: string;
@@ -13,7 +13,7 @@ export declare class Client {
     otps: OTPs;
     /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
     createUser: (request: import("./users").CreateRequest) => Promise<import("./users").CreateResponse>;
-    /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.get instead. */
+    /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.create instead. */
     getUser: (userID: string) => Promise<import("./users").GetResponse>;
     /** @deprecated since version 2.1. Will be deleted in version 3.0.  Use users.update instead. */
     updateUser: (userID: string, request: import("./users").UpdateRequest) => Promise<import("./users").UpdateResponse>;

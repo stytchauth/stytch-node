@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.StytchError = void 0;
 
 class StytchError extends Error {
   constructor(data) {
@@ -17,4 +17,4 @@ class StytchError extends Error {
 
 }
 
-exports.default = StytchError;
+exports.StytchError = StytchError;

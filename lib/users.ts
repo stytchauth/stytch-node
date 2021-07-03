@@ -7,7 +7,7 @@ import type {
   PhoneNumber,
 } from "./shared";
 
-type UserID = string;
+export type UserID = string;
 
 export interface PendingUser {
   user_id: UserID;
@@ -78,7 +78,7 @@ export interface DeletePhoneNumberResponse extends BaseResponse {
   user_id: UserID;
 }
 
-export default class Users {
+export class Users {
   base_path = "users";
   private client: AxiosInstance;
 

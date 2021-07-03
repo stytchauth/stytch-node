@@ -14,7 +14,9 @@ npm install stytch
 Example `login_or_create` usage for a Magic Link sent by email:
 
 ```javascript
-const stytch = require("stytch");
+import * as stytch from "stytch";
+// Or as a CommonJS module:
+// const stytch = require("stytch");
 
 console.log(stytch);
 
@@ -34,9 +36,7 @@ client.magicLinks.email
   .catch((err) => console.error(err));
 
 client.magicLinks
-  .authenticate({
-    token: "TOKEN FROM EMAIL",
-  })
+  .authenticate("TOKEN FROM EMAIL")
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```

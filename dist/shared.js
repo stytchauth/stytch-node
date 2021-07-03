@@ -5,14 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.request = request;
 
-var _stytch_error = _interopRequireDefault(require("./stytch_error"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _stytch_error = require("./stytch_error");
 
 function request(client, config) {
   return client.request(config).then(res => res.data).catch(err => {
     if (err.response) {
-      throw new _stytch_error.default(err.response.data);
+      throw new _stytch_error.StytchError(err.response.data);
     } else if (err.request) {
       // No response received for the request.
       throw new Error(err.request);

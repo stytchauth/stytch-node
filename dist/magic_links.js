@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.MagicLinks = void 0;
 
 var _shared = require("./shared");
 
@@ -81,4 +81,4 @@ class MagicLinks {
 
 }
 
-exports.default = MagicLinks;
+exports.MagicLinks = MagicLinks;

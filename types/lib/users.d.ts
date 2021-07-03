@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Email, Name, PhoneNumber } from "./shared";
-declare type UserID = string;
+export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
     name: Name;
@@ -59,7 +59,7 @@ export interface DeleteEmailResponse extends BaseResponse {
 export interface DeletePhoneNumberResponse extends BaseResponse {
     user_id: UserID;
 }
-export default class Users {
+export declare class Users {
     base_path: string;
     private client;
     constructor(client: AxiosInstance);
@@ -72,4 +72,3 @@ export default class Users {
     deleteEmail(emailID: string): Promise<DeleteEmailResponse>;
     deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
 }
-export {};

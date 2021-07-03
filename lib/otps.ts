@@ -76,7 +76,7 @@ class SMS {
   }
 }
 
-export default class OTPs {
+export class OTPs {
   base_path = "otps";
   sms: SMS;
 

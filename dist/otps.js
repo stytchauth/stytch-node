@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.OTPs = void 0;
 
 var _shared = require("./shared");
 
@@ -61,4 +61,4 @@ class OTPs {
 
 }
 
-exports.default = OTPs;
+exports.OTPs = OTPs;
