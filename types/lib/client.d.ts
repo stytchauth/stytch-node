@@ -4,7 +4,7 @@ import { OTPs } from "./otps";
 interface Config {
     project_id: string;
     secret: string;
-    env: "test" | "live";
+    env: string;
     timeout?: number;
 }
 export declare class Client {

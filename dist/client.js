@@ -72,12 +72,11 @@ class Client {
       throw new Error('Missing "env" in config');
     }
 
-    if (config.env != "test" && config.env != "live") {
-      throw new Error(`Expected env to be "test" or "live", got "${config.env}"`);
+    if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
     }
 
     this.client = _axios.default.create({
-      baseURL: envs[config.env],
+      baseURL: config.env,
       timeout: config.timeout || DEFAULT_TIMEOUT,
       headers: {
         "Content-Type": "application/json",

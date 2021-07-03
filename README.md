@@ -23,7 +23,7 @@ console.log(stytch);
 const client = new stytch.Client({
   project_id: "PROJECT_ID",
   secret: "SECRET",
-  env: "test",
+  env: stytch.envs.test,
 });
 
 client.magicLinks.email

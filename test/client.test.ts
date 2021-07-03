@@ -1,12 +1,4 @@
-import stytch = require("../lib");
-
-test("configuring a basic client", () => {
-  new stytch.Client({
-    project_id: "project-test-00000000-0000-4000-8000-000000000000",
-    secret: "secret-test-11111111-1111-4111-8111-111111111111",
-    env: "test",
-  });
-});
+import * as stytch from "../lib";
 
 describe("config errors", () => {
   test("config is not an object", () => {
@@ -40,19 +32,9 @@ describe("config errors", () => {
       new stytch.Client({
         project_id: "project-test-00000000-0000-4000-8000-000000000000",
         secret: "secret-test-11111111-1111-4111-8111-111111111111",
-        env: "" as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        env: "",
       });
     }).toThrow(/Missing "env" in config/);
-  });
-
-  test("unknown environment", () => {
-    expect(() => {
-      new stytch.Client({
-        project_id: "project-test-00000000-0000-4000-8000-000000000000",
-        secret: "secret-test-11111111-1111-4111-8111-111111111111",
-        env: "development" as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      });
-    }).toThrow(/Expected env to be "test" or "live", got "development"/);
   });
 });
 
