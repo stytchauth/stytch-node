@@ -28,9 +28,10 @@ jobs:
       - run: npm install
       - run: npm test
         env:
-          PROJECT_ID: ${{ secrets.ProjectID }}
-          SECRET: ${{ secrets.Secret }}
+          RUN_INTEGRATION_TESTS: 1
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          SECRET: ${{ secrets.SECRET }}
       - run: npm run test-packages
         env:
-          PROJECT_ID: ${{ secrets.ProjectID }}
-          SECRET: ${{ secrets.Secret }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          SECRET: ${{ secrets.SECRET }}
