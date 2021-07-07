@@ -39,8 +39,8 @@ describe("config errors", () => {
 });
 
 describe("backward compatibility", () => {
-  // TODO(v3): Remove these deprecated methods.
-  test("v2.0 top-level methods", () => {
+  // TODO(v4): Remove these deprecated methods.
+  test("v2.0 top-level client methods", () => {
     const client = new stytch.Client({
       project_id: "project-test-00000000-0000-4000-8000-000000000000",
       secret: "secret-test-11111111-1111-4111-8111-111111111111",
