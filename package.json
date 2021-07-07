@@ -1,16 +1,26 @@
 {
   "name": "stytch",
-  "version": "2.0.1",
+  "version": "3.0.0-beta.1",
   "description": "A wrapper for the Stytch API",
-  "main": "lib/stytch.js",
-  "types": "./index.d.ts",
+  "types": "./types/lib/index.d.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./module.mjs"
+  },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/stytchauth/stytch-node.git"
   },
   "scripts": {
+    "build": "babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
     "lint": "eslint lib",
-    "test": "mocha --recursive"
+    "test": "jest",
+    "test-packages": "./test-packages/test.sh"
   },
   "author": "Stytch",
   "bugs": {
@@ -18,20 +28,23 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.18.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
-    "mocha": "^5.2.0",
-    "sinon": "^11.1.1"
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "eslint": "^7.29.0",
+    "jest": "^27.0.5",
+    "prettier": "2.3.1",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.4"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "moment": "^2.17.1",
-    "request": "^2.55.0",
-    "tsc": "^1.20150623.0"
+    "request": "^2.55.0"
   },
   "eslintConfig": {
     "extends": "airbnb",

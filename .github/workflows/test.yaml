@@ -1,0 +1,49 @@
+name: Test
+on:
+  push:
+    branches: ['main']
+  pull_request:
+
+jobs:
+  unit-test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm test
+
+  integration-test:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+    environment: integration_tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm test
+        env:
+          RUN_INTEGRATION_TESTS: 1
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          SECRET: ${{ secrets.SECRET }}
+      - run: npm run test-packages
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          SECRET: ${{ secrets.SECRET }}
+
+  build:
+    name: Check Packaged Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm run build
+      - run: git diff --exit-code

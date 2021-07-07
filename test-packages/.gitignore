@@ -1,0 +1,2 @@
+# Exclude lockfiles for packaging tests to reduce file churn
+/*/package-lock.json
