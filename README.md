@@ -1,17 +1,20 @@
 # stytch-node
 
-The Stytch Node library provides support for the Stytch API for server-side Javscript applications. You can find out more about the Stytch API at
+The Stytch Node library provides support for the Stytch API for server-side Javscript
+applications. You can find out more about the Stytch API at
 [stytch.com/docs](https://stytch.com/docs).
 
-If you're looking for frontend support for our Javascript SDK, check out [stytch-js](https://www.npmjs.com/package/@stytch/stytch-js).
+If you're looking for frontend support for our Javascript SDK, check out
+[stytch-js](https://www.npmjs.com/package/@stytch/stytch-js).
 
 ## Quickstart
+
 Install stytch
 ```
 npm install stytch
 ```
 
-Example `login_or_create` usage for a Magic Link sent by email:
+Run `login_or_create` to send a magic link by email:
 
 ```javascript
 import * as stytch from "stytch";
