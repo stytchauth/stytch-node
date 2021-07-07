@@ -38,3 +38,9 @@ client.magicLinks
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
+
+## Usage Examples
+
+The [API reference](https://stytch.com/docs/api/introduction) shows example usage for every
+endpoint, and we maintain a set of [example apps](https://stytch.com/docs/example-apps) to start
+development from.
