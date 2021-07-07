@@ -23,7 +23,7 @@ export class Client {
 
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
   createUser;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.get instead. */
   getUser;
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.update instead. */
   updateUser;
