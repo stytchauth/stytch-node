@@ -18,8 +18,6 @@ import * as stytch from "stytch";
 // Or as a CommonJS module:
 // const stytch = require("stytch");
 
-console.log(stytch);
-
 const client = new stytch.Client({
   project_id: "PROJECT_ID",
   secret: "SECRET",
