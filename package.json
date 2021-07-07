@@ -2,10 +2,11 @@
   "name": "stytch",
   "version": "3.0.0-beta1",
   "description": "A wrapper for the Stytch API",
-  "type": "commonjs",
   "types": "./types/lib/index.d.ts",
+  "main": "./dist/index.js",
   "exports": {
-    "require": "./dist/index.js"
+    "require": "./dist/index.js",
+    "import": "./module.mjs"
   },
   "files": [
     "dist/**/*",
