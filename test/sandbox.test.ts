@@ -20,10 +20,14 @@ describeIf(
   "sandbox tests",
   Boolean(process.env["RUN_INTEGRATION_TESTS"]),
   () => {
-    const client = new stytch.Client({
-      project_id: env("PROJECT_ID"),
-      secret: env("SECRET"),
-      env: "test",
+    let client: stytch.Client;
+
+    beforeEach(() => {
+      client = new stytch.Client({
+        project_id: env("PROJECT_ID"),
+        secret: env("SECRET"),
+        env: stytch.envs.test,
+      });
     });
 
     describe("magicLinks.authenticate", () => {
