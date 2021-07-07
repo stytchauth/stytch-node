@@ -19,7 +19,8 @@
   "scripts": {
     "build": "babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
     "lint": "eslint lib",
-    "test": "jest"
+    "test": "jest",
+    "test-packages": "./test-packages/test.sh"
   },
   "author": "Stytch",
   "bugs": {
