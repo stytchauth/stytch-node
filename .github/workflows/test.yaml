@@ -35,3 +35,15 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           SECRET: ${{ secrets.SECRET }}
+
+  build:
+    name: Check Packaged Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm run build
+      - run: git diff --exit-code
