@@ -30,7 +30,7 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.ProjectID }}
           SECRET: ${{ secrets.Secret }}
-      - run: npm test-packages
+      - run: npm run test-packages
         env:
           PROJECT_ID: ${{ secrets.ProjectID }}
           SECRET: ${{ secrets.Secret }}
