@@ -45,8 +45,8 @@ export interface GetResponse extends BaseResponse {
 
 export interface UpdateRequest {
   name?: Name;
-  emails?: string[];
-  phone_numbers?: string[];
+  emails?: { email: string }[];
+  phone_numbers?: { phone_number: string }[];
   attributes?: Attributes;
 }
 
