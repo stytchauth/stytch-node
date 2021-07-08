@@ -17,7 +17,7 @@
     "url": "git://github.com/stytchauth/stytch-node.git"
   },
   "scripts": {
-    "build": "babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
+    "build": "rm -rf dist types && babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
     "lint": "eslint lib",
     "test": "jest",
     "test-packages": "./test-packages/test.sh"
