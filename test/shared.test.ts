@@ -4,7 +4,7 @@ import { request } from "../lib/shared";
 import type { AxiosRequestConfig } from "axios";
 
 describe("request", () => {
-  test("successful response", () => {
+  test("successful response returns data", () => {
     expect.assertions(2);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,7 +18,7 @@ describe("request", () => {
     ).resolves.toEqual({ key: "value" });
   });
 
-  test("error response", () => {
+  test("error response throws inspectable error", () => {
     expect.assertions(2);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,5 +48,35 @@ describe("request", () => {
         });
       }
     );
+  });
+
+  test("no response rethrows original error", () => {
+    expect.assertions(3);
+
+    const client = axios.create();
+    return request(client, { url: "nowhere" }).catch((err) => {
+      expect(err.toString()).toEqual(
+        "Error: connect ECONNREFUSED 127.0.0.1:80"
+      );
+      expect(err.message).toEqual("connect ECONNREFUSED 127.0.0.1:80");
+      expect(err.request).toMatchObject({
+        url: "nowhere",
+      });
+    });
+  });
+
+  test("unsendable request rethrows original error", () => {
+    expect.assertions(3);
+
+    const client = axios.create();
+    return request(client, { url: "" }).catch((err) => {
+      expect(err.toString()).toEqual(
+        "Error: Cannot read property 'replace' of null"
+      );
+      expect(err.message).toEqual("Cannot read property 'replace' of null");
+      expect(err.request).toMatchObject({
+        url: "",
+      });
+    });
   });
 });

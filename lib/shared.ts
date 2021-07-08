@@ -1,4 +1,4 @@
-import { StytchError } from "./stytch_error";
+import { StytchError, RequestError } from "./errors";
 
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 
@@ -39,13 +39,14 @@ export function request<T>(
     .then((res) => res.data)
     .catch((err) => {
       if (err.response) {
+        // Received a structured error from the API
         throw new StytchError(err.response.data);
       } else if (err.request) {
         // No response received for the request.
-        throw new Error(err.request);
+        throw new RequestError(err.message, err.config);
       } else {
         // The request couldn't be sent for some reason.
-        throw new Error(err.message);
+        throw new RequestError(err.message, config);
       }
     });
 }

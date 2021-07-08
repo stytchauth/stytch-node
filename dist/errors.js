@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StytchError = void 0;
+exports.RequestError = exports.StytchError = void 0;
 
 class StytchError extends Error {
   constructor(data) {
@@ -18,3 +18,13 @@ class StytchError extends Error {
 }
 
 exports.StytchError = StytchError;
+
+class RequestError extends Error {
+  constructor(message, request) {
+    super(message);
+    this.request = request;
+  }
+
+}
+
+exports.RequestError = RequestError;

@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from "axios";
 export declare class StytchError extends Error {
     status_code: number;
     request_id: string;
@@ -11,4 +12,8 @@ export declare class StytchError extends Error {
         error_message: string;
         error_url: string;
     });
+}
+export declare class RequestError extends Error {
+    request: AxiosRequestConfig;
+    constructor(message: string, request: AxiosRequestConfig);
 }
