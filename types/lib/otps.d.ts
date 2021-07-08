@@ -20,6 +20,26 @@ export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
     phone_id: string;
     user_created: boolean;
 }
+export interface OTPWhatsAppSendRequest {
+    phone_number: string;
+    expiration_minutes?: bigint;
+    attributes?: Attributes;
+}
+export interface OTPWhatsAppSendResponse extends BaseResponse {
+    user_id: string;
+    phone_id: string;
+}
+export interface OTPWhatsAppLoginOrCreateRequest {
+    phone_number: string;
+    expiration_minutes?: bigint;
+    attributes?: Attributes;
+    create_user_as_pending?: boolean;
+}
+export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
+    user_id: string;
+    phone_id: string;
+    user_created: boolean;
+}
 export interface AuthenticateRequest {
     method_id: string;
     code: string;
@@ -42,9 +62,19 @@ declare class SMS {
     send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
     loginOrCreate(data: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
 }
+declare class WhatsApp {
+    base_path: string;
+    delivery: string;
+    private client;
+    constructor(client: AxiosInstance, base_path: string);
+    private endpoint;
+    send(data: OTPWhatsAppSendRequest): Promise<OTPWhatsAppSendResponse>;
+    loginOrCreate(data: OTPWhatsAppLoginOrCreateRequest): Promise<OTPWhatsAppLoginOrCreateResponse>;
+}
 export declare class OTPs {
     base_path: string;
     sms: SMS;
+    whatsapp: WhatsApp;
     private client;
     constructor(client: AxiosInstance);
     private endpoint;

@@ -26,35 +26,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
 class Client {
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.get instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.update instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.delete instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deleteEmail instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deletePhoneNumber instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.getPending instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.send instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.loginOrCreate instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.invite instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.revokeInvite instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.authenticate instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.sms.send instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.sms.loginOrCreate instead. */
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.authenticate instead. */
   constructor(config) {
     if (typeof config != "object") {
       throw new Error("Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.");
@@ -89,23 +60,97 @@ class Client {
     });
     this.users = new _users.Users(this.client);
     this.magicLinks = new _magic_links.MagicLinks(this.client);
-    this.otps = new _otps.OTPs(this.client); // TODO(v4): Remove these deprecated methods.
+    this.otps = new _otps.OTPs(this.client);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
 
-    this.createUser = this.users.create;
-    this.getUser = this.users.get;
-    this.updateUser = this.users.update;
-    this.deleteUser = this.users.delete;
-    this.deleteUserEmail = this.users.deleteEmail;
-    this.deleteUserPhoneNumber = this.users.deletePhoneNumber;
-    this.getPendingUsers = this.users.getPending;
-    this.sendMagicLinkByEmail = this.magicLinks.email.send;
-    this.loginOrCreate = this.magicLinks.email.loginOrCreate;
-    this.inviteByEmail = this.magicLinks.email.invite;
-    this.revokePendingInvite = this.magicLinks.email.revokeInvite;
-    this.authenticateMagicLink = this.magicLinks.authenticate;
-    this.sendOTPBySMS = this.otps.sms.send;
-    this.loginOrCreateUserBySMS = this.otps.sms.loginOrCreate;
-    this.authenticateOTP = this.otps.authenticate;
+
+  createUser(request) {
+    return this.users.create(request);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.get instead. */
+
+
+  getUser(userID) {
+    return this.users.get(userID);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.update instead. */
+
+
+  updateUser(userID, request) {
+    return this.users.update(userID, request);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.delete instead. */
+
+
+  deleteUser(userID) {
+    return this.users.delete(userID);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deleteEmail instead. */
+
+
+  deleteUserEmail(emailID) {
+    return this.users.deleteEmail(emailID);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deletePhoneNumber instead. */
+
+
+  deleteUserPhoneNumber(phoneID) {
+    return this.users.deletePhoneNumber(phoneID);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.getPending instead. */
+
+
+  getPendingUsers(request) {
+    return this.users.getPending(request);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.send instead. */
+
+
+  sendMagicLinkByEmail(data) {
+    return this.magicLinks.email.send(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.loginOrCreate instead. */
+
+
+  loginOrCreate(data) {
+    return this.magicLinks.email.loginOrCreate(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.invite instead. */
+
+
+  inviteByEmail(data) {
+    return this.magicLinks.email.invite(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.revokeInvite instead. */
+
+
+  revokePendingInvite(data) {
+    return this.magicLinks.email.revokeInvite(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.authenticate instead. */
+
+
+  authenticateMagicLink(token, data) {
+    return this.magicLinks.authenticate(token, data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.sms.send instead. */
+
+
+  sendOTPBySMS(data) {
+    return this.otps.sms.send(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.sms.loginOrCreate instead. */
+
+
+  loginOrCreateUserBySMS(data) {
+    return this.otps.sms.loginOrCreate(data);
+  }
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.authenticate instead. */
+
+
+  authenticateOTP(data) {
+    return this.otps.authenticate(data);
   }
 
 }
