@@ -31,8 +31,12 @@ export interface GetResponse extends BaseResponse {
 }
 export interface UpdateRequest {
     name?: Name;
-    emails?: string[];
-    phone_numbers?: string[];
+    emails?: {
+        email: string;
+    }[];
+    phone_numbers?: {
+        phone_number: string;
+    }[];
     attributes?: Attributes;
 }
 export interface UpdateResponse extends BaseResponse {
@@ -64,11 +68,11 @@ export declare class Users {
     private client;
     constructor(client: AxiosInstance);
     private endpoint;
-    create(request: CreateRequest): Promise<CreateResponse>;
+    create(data: CreateRequest): Promise<CreateResponse>;
     get(userID: UserID): Promise<GetResponse>;
-    update(userID: UserID, request: UpdateRequest): Promise<UpdateResponse>;
+    update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse>;
     delete(userID: UserID): Promise<DeleteResponse>;
-    getPending(request?: GetPendingRequest): Promise<GetPendingResponse>;
+    getPending(params?: GetPendingRequest): Promise<GetPendingResponse>;
     deleteEmail(emailID: string): Promise<DeleteEmailResponse>;
     deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
 }
