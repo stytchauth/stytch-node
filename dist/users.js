@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Users = void 0;
 
+var _shared = require("./shared");
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class Users {
@@ -18,39 +20,56 @@ class Users {
     return `${this.base_path}/${path}`;
   }
 
-  create(request) {
-    return this.client.post("users", {
-      body: request
+  create(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.base_path,
+      data
     });
   }
 
   get(userID) {
-    return this.client.get(this.endpoint(userID));
+    return (0, _shared.request)(this.client, {
+      method: "GET",
+      url: this.endpoint(userID)
+    });
   }
 
-  update(userID, request) {
-    return this.client.put(this.endpoint(userID), {
-      body: request
+  update(userID, data) {
+    return (0, _shared.request)(this.client, {
+      method: "PUT",
+      url: this.endpoint(userID),
+      data
     });
   }
 
   delete(userID) {
-    return this.client.delete(this.endpoint(userID));
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(userID)
+    });
   }
 
-  getPending(request) {
-    const params = request || {};
-    return this.client.get(this.endpoint("pending"), {
+  getPending(params) {
+    return (0, _shared.request)(this.client, {
+      method: "GET",
+      url: this.endpoint("pending"),
       params
     });
   }
 
   deleteEmail(emailID) {
-    return this.delete(this.endpoint(`emails/${emailID}`));
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`emails/${emailID}`)
+    });
   }
 
   deletePhoneNumber(phoneID) {
-    return this.delete(this.endpoint(`phone_numbers/${phoneID}`));
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`phone_numbers/${phoneID}`)
+    });
   }
 
 }

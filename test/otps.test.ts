@@ -52,12 +52,12 @@ describe("otps.sms.send", () => {
 describe("otps.sms.loginOrCreate", () => {
   test("success", () => {
     return expect(
-      otps.sms.send({
+      otps.sms.loginOrCreate({
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
       method: "post",
-      path: "otps/sms/send",
+      path: "otps/sms/login_or_create",
       data: {
         phone_number: "+12025550162",
       },
@@ -84,12 +84,12 @@ describe("otps.whatsapp.send", () => {
 describe("otps.whatsapp.loginOrCreate", () => {
   test("success", () => {
     return expect(
-      otps.whatsapp.send({
+      otps.whatsapp.loginOrCreate({
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
       method: "post",
-      path: "otps/whatsapp/send",
+      path: "otps/whatsapp/login_or_create",
       data: {
         phone_number: "+12025550162",
       },
