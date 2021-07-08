@@ -39,12 +39,43 @@ class SMS {
 
 }
 
+class WhatsApp {
+  constructor(client, base_path) {
+    _defineProperty(this, "delivery", "whatsapp");
+
+    this.client = client;
+    this.base_path = base_path;
+  }
+
+  endpoint(path) {
+    return `${this.base_path}/${this.delivery}/${path}`;
+  }
+
+  send(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data
+    });
+  }
+
+  loginOrCreate(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data
+    });
+  }
+
+}
+
 class OTPs {
   constructor(client) {
     _defineProperty(this, "base_path", "otps");
 
     this.client = client;
     this.sms = new SMS(client, this.base_path);
+    this.whatsapp = new WhatsApp(client, this.base_path);
   }
 
   endpoint(path) {
