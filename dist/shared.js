@@ -5,18 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.request = request;
 
-var _stytch_error = require("./stytch_error");
+var _errors = require("./errors");
 
 function request(client, config) {
   return client.request(config).then(res => res.data).catch(err => {
     if (err.response) {
-      throw new _stytch_error.StytchError(err.response.data);
+      // Received a structured error from the API
+      throw new _errors.StytchError(err.response.data);
     } else if (err.request) {
       // No response received for the request.
-      throw new Error(err.request);
+      throw new _errors.RequestError(err.message, err.config);
     } else {
       // The request couldn't be sent for some reason.
-      throw new Error(err.message);
+      throw new _errors.RequestError(err.message, config);
     }
   });
 }
