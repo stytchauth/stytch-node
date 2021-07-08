@@ -1,3 +1,5 @@
+import { request } from "./shared";
+
 import type { AxiosInstance } from "axios";
 import type {
   Attributes,
@@ -90,32 +92,55 @@ export class Users {
     return `${this.base_path}/${path}`;
   }
 
-  create(request: CreateRequest): Promise<CreateResponse> {
-    return this.client.post("users", { body: request });
+  create(data: CreateRequest): Promise<CreateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.base_path,
+      data,
+    });
   }
 
   get(userID: UserID): Promise<GetResponse> {
-    return this.client.get(this.endpoint(userID));
+    return request(this.client, {
+      method: "GET",
+      url: this.endpoint(userID),
+    });
   }
 
-  update(userID: UserID, request: UpdateRequest): Promise<UpdateResponse> {
-    return this.client.put(this.endpoint(userID), { body: request });
+  update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse> {
+    return request(this.client, {
+      method: "PUT",
+      url: this.endpoint(userID),
+      data,
+    });
   }
 
   delete(userID: UserID): Promise<DeleteResponse> {
-    return this.client.delete(this.endpoint(userID));
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(userID),
+    });
   }
 
-  getPending(request?: GetPendingRequest): Promise<GetPendingResponse> {
-    const params: GetPendingRequest = request || {};
-    return this.client.get(this.endpoint("pending"), { params });
+  getPending(params?: GetPendingRequest): Promise<GetPendingResponse> {
+    return request(this.client, {
+      method: "GET",
+      url: this.endpoint("pending"),
+      params,
+    });
   }
 
   deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
-    return this.delete(this.endpoint(`emails/${emailID}`));
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`emails/${emailID}`),
+    });
   }
 
   deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
-    return this.delete(this.endpoint(`phone_numbers/${phoneID}`));
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`phone_numbers/${phoneID}`),
+    });
   }
 }
