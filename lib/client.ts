@@ -6,6 +6,9 @@ import { MagicLinks } from "./magic_links";
 import { OTPs } from "./otps";
 
 import type { AxiosInstance } from "axios";
+import type * as users from "./users";
+import type * as magicLinks from "./magic_links";
+import type * as otps from "./otps";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -20,37 +23,6 @@ export class Client {
   users: Users;
   magicLinks: MagicLinks;
   otps: OTPs;
-
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
-  createUser;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.get instead. */
-  getUser;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.update instead. */
-  updateUser;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.delete instead. */
-  deleteUser;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deleteEmail instead. */
-  deleteUserEmail;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deletePhoneNumber instead. */
-  deleteUserPhoneNumber;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.getPending instead. */
-  getPendingUsers;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.send instead. */
-  sendMagicLinkByEmail;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.loginOrCreate instead. */
-  loginOrCreate;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.invite instead. */
-  inviteByEmail;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.revokeInvite instead. */
-  revokePendingInvite;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.authenticate instead. */
-  authenticateMagicLink;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.sms.send instead. */
-  sendOTPBySMS;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.sms.loginOrCreate instead. */
-  loginOrCreateUserBySMS;
-  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.otps.authenticate instead. */
-  authenticateOTP;
 
   private client: AxiosInstance;
 
@@ -93,22 +65,104 @@ export class Client {
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
     this.otps = new OTPs(this.client);
+  }
 
-    // TODO(v4): Remove these deprecated methods.
-    this.createUser = this.users.create;
-    this.getUser = this.users.get;
-    this.updateUser = this.users.update;
-    this.deleteUser = this.users.delete;
-    this.deleteUserEmail = this.users.deleteEmail;
-    this.deleteUserPhoneNumber = this.users.deletePhoneNumber;
-    this.getPendingUsers = this.users.getPending;
-    this.sendMagicLinkByEmail = this.magicLinks.email.send;
-    this.loginOrCreate = this.magicLinks.email.loginOrCreate;
-    this.inviteByEmail = this.magicLinks.email.invite;
-    this.revokePendingInvite = this.magicLinks.email.revokeInvite;
-    this.authenticateMagicLink = this.magicLinks.authenticate;
-    this.sendOTPBySMS = this.otps.sms.send;
-    this.loginOrCreateUserBySMS = this.otps.sms.loginOrCreate;
-    this.authenticateOTP = this.otps.authenticate;
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
+  createUser(request: users.CreateRequest): Promise<users.CreateResponse> {
+    return this.users.create(request);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.get instead. */
+  getUser(userID: users.UserID): Promise<users.GetResponse> {
+    return this.users.get(userID);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.update instead. */
+  updateUser(
+    userID: users.UserID,
+    request: users.UpdateRequest
+  ): Promise<users.UpdateResponse> {
+    return this.users.update(userID, request);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.delete instead. */
+  deleteUser(userID: users.UserID): Promise<users.DeleteResponse> {
+    return this.users.delete(userID);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deleteEmail instead. */
+  deleteUserEmail(emailID: string): Promise<users.DeleteEmailResponse> {
+    return this.users.deleteEmail(emailID);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.deletePhoneNumber instead. */
+  deleteUserPhoneNumber(
+    phoneID: string
+  ): Promise<users.DeletePhoneNumberResponse> {
+    return this.users.deletePhoneNumber(phoneID);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.getPending instead. */
+  getPendingUsers(
+    request?: users.GetPendingRequest
+  ): Promise<users.GetPendingResponse> {
+    return this.users.getPending(request);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.send instead. */
+  sendMagicLinkByEmail(
+    data: magicLinks.SendByEmailRequest
+  ): Promise<magicLinks.SendByEmailResponse> {
+    return this.magicLinks.email.send(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.loginOrCreate instead. */
+  loginOrCreate(
+    data: magicLinks.LoginOrCreateByEmailRequest
+  ): Promise<magicLinks.LoginOrCreateByEmailResponse> {
+    return this.magicLinks.email.loginOrCreate(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.invite instead. */
+  inviteByEmail(
+    data: magicLinks.InviteByEmailRequest
+  ): Promise<magicLinks.InviteByEmailResponse> {
+    return this.magicLinks.email.invite(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.email.revokeInvite instead. */
+  revokePendingInvite(
+    data: magicLinks.RevokePendingInviteByEmailRequest
+  ): Promise<magicLinks.RevokePendingInviteByEmailResponse> {
+    return this.magicLinks.email.revokeInvite(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use magicLinks.authenticate instead. */
+  authenticateMagicLink(
+    token: string,
+    data?: magicLinks.AuthenticateRequest
+  ): Promise<magicLinks.AuthenticateResponse> {
+    return this.magicLinks.authenticate(token, data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.sms.send instead. */
+  sendOTPBySMS(
+    data: otps.SendOTPBySMSRequest
+  ): Promise<otps.SendOTPBySMSResponse> {
+    return this.otps.sms.send(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.sms.loginOrCreate instead. */
+  loginOrCreateUserBySMS(
+    data: otps.LoginOrCreateUserBySMSRequest
+  ): Promise<otps.LoginOrCreateUserBySMSResponse> {
+    return this.otps.sms.loginOrCreate(data);
+  }
+
+  /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.authenticate instead. */
+  authenticateOTP(
+    data: otps.AuthenticateRequest
+  ): Promise<otps.AuthenticateResponse> {
+    return this.otps.authenticate(data);
   }
 }
