@@ -64,3 +64,35 @@ describe("otps.sms.loginOrCreate", () => {
     });
   });
 });
+
+describe("otps.whatsapp.send", () => {
+  test("success", () => {
+    return expect(
+      otps.whatsapp.send({
+        phone_number: "+12025550162",
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "otps/whatsapp/send",
+      data: {
+        phone_number: "+12025550162",
+      },
+    });
+  });
+});
+
+describe("otps.whatsapp.loginOrCreate", () => {
+  test("success", () => {
+    return expect(
+      otps.whatsapp.send({
+        phone_number: "+12025550162",
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "otps/whatsapp/send",
+      data: {
+        phone_number: "+12025550162",
+      },
+    });
+  });
+});
