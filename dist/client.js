@@ -25,6 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
+/** The entrypoint for the Stytch API. */
 class Client {
   constructor(config) {
     if (typeof config != "object") {

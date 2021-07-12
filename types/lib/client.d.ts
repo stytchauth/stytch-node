@@ -10,6 +10,7 @@ interface Config {
     env: string;
     timeout?: number;
 }
+/** The entrypoint for the Stytch API. */
 export declare class Client {
     users: Users;
     magicLinks: MagicLinks;
