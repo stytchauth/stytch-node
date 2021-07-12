@@ -1,6 +1,6 @@
 # Development
 
-Thanks for contributing to Stytch's Node library! If you run into trouble, find us in [Slack](slack).
+Thanks for contributing to Stytch's Node library! If you run into trouble, find us in [Slack].
 
 ## Setup
 
@@ -40,6 +40,6 @@ Export the following environment variables and then run `npm test`:
 
 Please file issues and open pull requests in this repo. We'll have description templates for those soon, but for now, say whatever you think is important!
 
-When you're ready for someone to look at your issue or PR, assign `@stytchauth/node`. If we don't acknowledge it within one business day, please escalate it by tagging `@stytchauth/engineering` in a comment or letting us know in [Slack](slack).
+When you're ready for someone to look at your issue or PR, assign `@stytchauth/node`. If we don't acknowledge it within one business day, please escalate it by tagging `@stytchauth/engineering` in a comment or letting us know in [Slack].
 
-[slack]: https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg
+[Slack]: https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg
