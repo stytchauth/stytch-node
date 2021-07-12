@@ -19,7 +19,6 @@ interface Config {
   timeout?: number;
 }
 
-/** The entrypoint for the Stytch API. */
 export class Client {
   users: Users;
   magicLinks: MagicLinks;
