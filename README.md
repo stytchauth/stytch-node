@@ -34,8 +34,8 @@ Send a magic link by email:
 client.magicLinks.email
   .loginOrCreate({
     email: "sandbox@stytch.com",
-    login_magic_link_url: "https://www.stytch.com/login",
-    signup_magic_link_url: "https://www.stytch.com/signup",
+    login_magic_link_url: "https://example.com/authenticate",
+    signup_magic_link_url: "https://example.com/authenticate",
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
