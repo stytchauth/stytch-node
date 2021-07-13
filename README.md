@@ -18,9 +18,9 @@ You can find your API credentials in the [Stytch Dashboard](https://stytch.com/d
 
 Create an API client:
 ```javascript
-import * as stytch from "stytch";
-// Or as a CommonJS module:
-// const stytch = require("stytch");
+const stytch = require("stytch");
+// Or as an ES6 module:
+// import * as stytch from "stytch";
 
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
