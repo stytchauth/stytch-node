@@ -10,7 +10,8 @@
   },
   "files": [
     "dist/**/*",
-    "types/**/*"
+    "types/**/*",
+    "module.mjs"
   ],
   "repository": {
     "type": "git",
