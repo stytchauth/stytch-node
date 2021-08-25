@@ -18,12 +18,17 @@ const magicLinks = new MagicLinks(axios.create({ adapter }));
 describe("magicLinks.authenticate", () => {
   test("success", () => {
     return expect(
-      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=", {
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session_duration: "3600s",
+      })
     ).resolves.toMatchObject({
       method: "post",
       path: "magic_links/authenticate",
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session_duration: "3600s",
       },
     });
   });

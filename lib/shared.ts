@@ -25,6 +25,15 @@ export interface PhoneNumber {
   verified: boolean;
 }
 
+export interface Session {
+  session_id: string;
+  user_id: string;
+  started_at: string;
+  last_accessed_at: string;
+  expires_at: string;
+  attributes: Attributes;
+}
+
 export interface BaseResponse {
   status_code: bigint;
   request_id: string;

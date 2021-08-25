@@ -4,6 +4,7 @@ import * as envs from "./envs";
 import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OTPs } from "./otps";
+import { Sessions } from "./sessions";
 
 import type { AxiosInstance } from "axios";
 import type * as users from "./users";
@@ -23,6 +24,7 @@ export class Client {
   users: Users;
   magicLinks: MagicLinks;
   otps: OTPs;
+  sessions: Sessions;
 
   private client: AxiosInstance;
 
@@ -65,6 +67,7 @@ export class Client {
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
     this.otps = new OTPs(this.client);
+    this.sessions = new Sessions(this.client);
   }
 
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
