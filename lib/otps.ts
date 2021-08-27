@@ -148,7 +148,7 @@ export class OTPs {
   constructor(client: AxiosInstance) {
     this.client = client;
     this.sms = new SMS(client, this.base_path);
-    this.whatsapp = new WhatsApp(client, this.base_path)
+    this.whatsapp = new WhatsApp(client, this.base_path);
   }
 
   private endpoint(path: string): string {

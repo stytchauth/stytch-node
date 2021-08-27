@@ -1,9 +1,7 @@
 import { request, Session } from "./shared";
 
 import type { AxiosInstance } from "axios";
-import type {
-  BaseResponse,
-} from "./shared";
+import type { BaseResponse } from "./shared";
 
 export interface GetRequest {
   user_id: string;
@@ -28,7 +26,7 @@ export interface RevokeRequest {
   session_token?: string;
 }
 
-export type RevokeResponse = BaseResponse
+export type RevokeResponse = BaseResponse;
 
 export class Sessions {
   base_path = "sessions";

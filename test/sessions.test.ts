@@ -20,13 +20,13 @@ describe("sessions.get", () => {
   test("success", () => {
     return expect(
       sessions.get({
-        user_id: "user-test-22222222-2222-4222-8222-222222222222"
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
       })
     ).resolves.toMatchObject({
       method: "get",
       path: "sessions",
       params: {
-        user_id: "user-test-22222222-2222-4222-8222-222222222222"
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
       },
     });
   });

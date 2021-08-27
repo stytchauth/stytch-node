@@ -1,4 +1,4 @@
-import {request, Session} from "./shared";
+import { request, Session } from "./shared";
 
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Name } from "./shared";
