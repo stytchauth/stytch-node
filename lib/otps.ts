@@ -66,8 +66,8 @@ export interface AuthenticateRequest {
 export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
   method_id: string;
-  session_token: string;
-  session: Session;
+  session_token?: string;
+  session?: Session;
 }
 
 class SMS {

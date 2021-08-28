@@ -16,7 +16,7 @@ const adapter = (config: AxiosRequestConfig): Promise<any> => {
 const otps = new OTPs(axios.create({ adapter }));
 
 describe("otps.authenticate", () => {
-  test("success", () => {
+  test("session", () => {
     return expect(
       otps.authenticate({
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -32,6 +32,21 @@ describe("otps.authenticate", () => {
         code: "123456",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+      },
+    });
+  });
+  test("no session", () => {
+    return expect(
+      otps.authenticate({
+        method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        code: "123456",
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "otps/authenticate",
+      data: {
+        method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        code: "123456",
       },
     });
   });

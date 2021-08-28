@@ -16,7 +16,7 @@ const adapter = (config: AxiosRequestConfig): Promise<any> => {
 const magicLinks = new MagicLinks(axios.create({ adapter }));
 
 describe("magicLinks.authenticate", () => {
-  test("success", () => {
+  test("session", () => {
     return expect(
       magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=", {
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -29,6 +29,17 @@ describe("magicLinks.authenticate", () => {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+      },
+    });
+  });
+  test("no session", () => {
+    return expect(
+      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "magic_links/authenticate",
+      data: {
+        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
       },
     });
   });
