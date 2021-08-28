@@ -13,7 +13,7 @@ export interface GetResponse extends BaseResponse {
 
 export interface AuthenticateRequest {
   session_token: string;
-  session_duration?: string;
+  session_duration_minutes?: number;
 }
 
 export interface AuthenticateResponse extends BaseResponse {

@@ -20,7 +20,7 @@ describe("magicLinks.authenticate", () => {
     return expect(
       magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=", {
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
       method: "post",
@@ -28,7 +28,7 @@ describe("magicLinks.authenticate", () => {
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       },
     });
   });

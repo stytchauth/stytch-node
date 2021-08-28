@@ -37,14 +37,14 @@ describe("sessions.authenticate", () => {
     return expect(
       sessions.authenticate({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
       method: "post",
       path: "sessions/authenticate",
       data: {
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       },
     });
   });

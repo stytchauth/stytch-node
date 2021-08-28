@@ -22,7 +22,7 @@ describe("otps.authenticate", () => {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         code: "123456",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
       method: "post",
@@ -31,7 +31,7 @@ describe("otps.authenticate", () => {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         code: "123456",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration: "3600s",
+        session_duration_minutes: 60,
       },
     });
   });
