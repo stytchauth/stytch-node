@@ -26,7 +26,7 @@ describeIf(
       client = new stytch.Client({
         project_id: env("PROJECT_ID"),
         secret: env("SECRET"),
-        env: stytch.envs.test,
+        env: process.env["STYTCH_API_URL"] || stytch.envs.test,
       });
     });
 
