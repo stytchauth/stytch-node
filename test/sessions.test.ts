@@ -3,17 +3,49 @@ import { Sessions } from "../lib/sessions";
 
 import type { AxiosRequestConfig } from "axios";
 
+type Response = {
+  status: number;
+  data: Record<string, unknown>;
+};
+
+type Request = {
+  method: string;
+  path: string;
+  params: Record<string, unknown>;
+  data?: Record<string, unknown>;
+};
+
+function mockRequest(
+  handler: (config: Request) => Response
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (config: AxiosRequestConfig) => Promise<any> {
+  return (config: AxiosRequestConfig) => {
+    const request = {
+      method: config.method?.toString() || "",
+      path: config.url?.toString() || "",
+      params: config.params,
+      data: config.data && JSON.parse(config.data),
+    };
+    const response = handler(request);
+    return Promise.resolve({
+      ...response,
+      config,
+    });
+  };
+}
+
 describe("sessions.get", () => {
   test("success", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const adapter = (config: AxiosRequestConfig): Promise<any> => {
-      expect(config.method).toEqual("get");
-      expect(config.url).toEqual("sessions");
-      expect(config.params).toEqual({
-        user_id: "user-test-22222222-2222-4222-8222-222222222222",
+    const adapter = mockRequest((req) => {
+      expect(req).toEqual({
+        method: "get",
+        path: "sessions",
+        params: {
+          user_id: "user-test-22222222-2222-4222-8222-222222222222",
+        },
       });
-      expect(config.data).toBeUndefined();
-      const responseData = {
+
+      const data = {
         request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
         sessions: [
           {
@@ -27,20 +59,16 @@ describe("sessions.get", () => {
         ],
         status_code: 200,
       };
-      return Promise.resolve({
-        data: responseData,
-        status: 200,
-        statusText: "OK",
-        headers: {},
-        config: config,
-      });
-    };
+      return { status: 200, data };
+    });
     const sessions = new Sessions(axios.create({ adapter }));
+
     return expect(
       sessions.get({
         user_id: "user-test-22222222-2222-4222-8222-222222222222",
       })
     ).resolves.toMatchObject({
+      status_code: 200,
       sessions: [
         expect.objectContaining({
           started_at: new Date("2021-08-28T00:41:58.935673Z"),
@@ -53,16 +81,17 @@ describe("sessions.get", () => {
 
 describe("sessions.authenticate", () => {
   test("success", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const adapter = (config: AxiosRequestConfig): Promise<any> => {
-      expect(config.method).toEqual("post");
-      expect(config.url).toEqual("sessions/authenticate");
-      expect(config.params).toBeUndefined();
-      expect(config.data && JSON.parse(config.data)).toEqual({
-        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session_duration_minutes: 60,
+    const adapter = mockRequest((req) => {
+      expect(req).toEqual({
+        method: "post",
+        path: "sessions/authenticate",
+        data: {
+          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+          session_duration_minutes: 60,
+        },
       });
-      const responseData = {
+
+      const data = {
         request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session: {
@@ -75,15 +104,10 @@ describe("sessions.authenticate", () => {
         },
         status_code: 200,
       };
-      return Promise.resolve({
-        data: responseData,
-        status: 200,
-        statusText: "OK",
-        headers: {},
-        config: config,
-      });
-    };
+      return { status: 200, data };
+    });
     const sessions = new Sessions(axios.create({ adapter }));
+
     return expect(
       sessions.authenticate({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -100,17 +124,17 @@ describe("sessions.authenticate", () => {
 });
 
 describe("sessions.revoke", () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const adapter = (config: AxiosRequestConfig): Promise<any> => {
-    return Promise.resolve({
+  const adapter = mockRequest((req) => {
+    expect(req).toEqual({
+      method: "post",
+      path: "sessions/revoke",
       data: {
-        method: config.method,
-        path: config.url,
-        data: config.data && JSON.parse(config.data),
-        params: config.params,
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
     });
-  };
+
+    return { status: 200, data: {} };
+  });
   const sessions = new Sessions(axios.create({ adapter }));
 
   test("success", () => {
@@ -118,12 +142,6 @@ describe("sessions.revoke", () => {
       sessions.revoke({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
-    ).resolves.toMatchObject({
-      method: "post",
-      path: "sessions/revoke",
-      data: {
-        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-      },
-    });
+    ).resolves.toEqual({});
   });
 });
