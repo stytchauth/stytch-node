@@ -25,6 +25,10 @@ class Sessions {
       method: "GET",
       url: this.base_path,
       params
+    }).then(res => {
+      return { ...res,
+        sessions: res.sessions.map(parseSession)
+      };
     });
   }
 
@@ -33,6 +37,10 @@ class Sessions {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
+    }).then(res => {
+      return { ...res,
+        session: parseSession(res.session)
+      };
     });
   }
 
@@ -47,3 +55,14 @@ class Sessions {
 }
 
 exports.Sessions = Sessions;
+
+function parseSession(session) {
+  const started_at = new Date(session.started_at);
+  const last_accessed_at = new Date(session.last_accessed_at);
+  const expires_at = new Date(session.expires_at);
+  return { ...session,
+    started_at,
+    expires_at,
+    last_accessed_at
+  };
+}
