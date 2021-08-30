@@ -147,5 +147,33 @@ describeIf(
           });
       });
     });
+
+    describe("sessions.authenticate", () => {
+      test("success", () => {
+        return expect(
+          client.sessions.authenticate({
+            session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+          })
+        ).resolves.toMatchObject({
+          status_code: 200,
+          session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+          session: {
+            started_at: new Date("2021-08-28T00:41:58.935673Z"),
+            user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+          },
+        });
+      });
+
+      test("error: not found", () => {
+        return expect(
+          client.sessions.authenticate({
+            session_token: "59cnLELtq5cFVS6uYK9f-pAWzBkhqZl8AvLhbhOvKNWw",
+          })
+        ).rejects.toMatchObject({
+          status_code: 404,
+          error_type: "session_not_found",
+        });
+      });
+    });
   }
 );
