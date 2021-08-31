@@ -2,16 +2,14 @@ import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
-import { Experiments } from "./experiments";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
 import type * as otps from "./otps";
-export interface Config {
+interface Config {
     project_id: string;
     secret: string;
     env: string;
     timeout?: number;
-    experiments?: Partial<Experiments>;
 }
 export declare class Client {
     users: Users;
@@ -19,7 +17,6 @@ export declare class Client {
     otps: OTPs;
     sessions: Sessions;
     private client;
-    private experiments;
     constructor(config: Config);
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
     createUser(request: users.CreateRequest): Promise<users.CreateResponse>;
@@ -52,3 +49,4 @@ export declare class Client {
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.authenticate instead. */
     authenticateOTP(data: otps.AuthenticateRequest): Promise<otps.AuthenticateResponse>;
 }
+export {};

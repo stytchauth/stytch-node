@@ -1,9 +1,7 @@
 import { request, Attributes, Session } from "./shared";
-import { experimentRequired } from "./experiments";
 
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
-import type { Experiments } from "./experiments";
 
 export interface GetRequest {
   user_id: string;
@@ -51,23 +49,16 @@ interface AuthenticateResponseRaw extends BaseResponse {
 export class Sessions {
   base_path = "sessions";
   private client: AxiosInstance;
-  private experiments: Experiments;
 
-  constructor(client: AxiosInstance, experiments: Experiments) {
+  constructor(client: AxiosInstance) {
     this.client = client;
-    this.experiments = experiments;
   }
 
   private endpoint(path: string): string {
     return `${this.base_path}/${path}`;
   }
 
-  private enabled(): Promise<void> {
-    return experimentRequired(this.experiments, "sessions");
-  }
-
-  async get(params: GetRequest): Promise<GetResponse> {
-    await this.enabled();
+  get(params: GetRequest): Promise<GetResponse> {
     return request<GetResponseRaw>(this.client, {
       method: "GET",
       url: this.base_path,
@@ -80,8 +71,7 @@ export class Sessions {
     });
   }
 
-  async authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    await this.enabled();
+  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
     return request<AuthenticateResponseRaw>(this.client, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -94,8 +84,7 @@ export class Sessions {
     });
   }
 
-  async revoke(data: RevokeRequest): Promise<RevokeResponse> {
-    await this.enabled();
+  revoke(data: RevokeRequest): Promise<RevokeResponse> {
     return request(this.client, {
       method: "POST",
       url: this.endpoint("revoke"),

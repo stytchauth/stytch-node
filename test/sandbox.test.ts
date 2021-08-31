@@ -27,7 +27,6 @@ describeIf(
         project_id: env("PROJECT_ID"),
         secret: env("SECRET"),
         env: process.env["STYTCH_API_URL"] || stytch.envs.test,
-        experiments: { sessions: true },
       });
     });
 

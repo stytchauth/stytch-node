@@ -5,7 +5,6 @@ import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
-import { Experiments, defaults as experimentDefaults } from "./experiments";
 
 import type { AxiosInstance } from "axios";
 import type * as users from "./users";
@@ -14,12 +13,11 @@ import type * as otps from "./otps";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
-export interface Config {
+interface Config {
   project_id: string;
   secret: string;
   env: string;
   timeout?: number;
-  experiments?: Partial<Experiments>;
 }
 
 export class Client {
@@ -29,7 +27,6 @@ export class Client {
   sessions: Sessions;
 
   private client: AxiosInstance;
-  private experiments: Experiments;
 
   constructor(config: Config) {
     if (typeof config != "object") {
@@ -66,13 +63,11 @@ export class Client {
         password: config.secret,
       },
     });
-    this.experiments = { ...experimentDefaults, ...config.experiments };
 
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
     this.otps = new OTPs(this.client);
-
-    this.sessions = new Sessions(this.client, this.experiments);
+    this.sessions = new Sessions(this.client);
   }
 
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */

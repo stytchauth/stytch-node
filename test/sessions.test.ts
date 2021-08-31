@@ -34,156 +34,114 @@ function mockRequest(
   };
 }
 
-describe("experiment disabled", () => {
-  const expectedMessage =
-    'This feature is experimental. Please enable the "sessions" experiment to use it.';
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const adapter = jest.fn();
-  const sessions = new Sessions(axios.create({ adapter }), { sessions: false });
-
-  beforeEach(() => {
-    adapter.mockClear();
-  });
-
-  test("sessions.get", () => {
-    expect(
-      sessions.get({
-        user_id: "user-test-22222222-2222-4222-8222-222222222222",
-      })
-    ).rejects.toThrow(expectedMessage);
-    expect(adapter).not.toHaveBeenCalled();
-  });
-  test("sessions.authenticate", () => {
-    expect(
-      sessions.authenticate({
-        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-      })
-    ).rejects.toThrow(expectedMessage);
-    expect(adapter).not.toHaveBeenCalled();
-  });
-  test("sessions.revoke", () => {
-    expect(
-      sessions.revoke({
-        session_id: "session-test-22222222-2222-4222-8222-222222222222",
-      })
-    ).rejects.toThrow(expectedMessage);
-    expect(adapter).not.toHaveBeenCalled();
-  });
-});
-
-describe("experiment enabled", () => {
-  const experiments = { sessions: true };
-
-  describe("sessions.get", () => {
-    test("success", () => {
-      const adapter = mockRequest((req) => {
-        expect(req).toEqual({
-          method: "get",
-          path: "sessions",
-          params: {
-            user_id: "user-test-22222222-2222-4222-8222-222222222222",
-          },
-        });
-
-        const data = {
-          request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
-          sessions: [
-            {
-              attributes: null,
-              expires_at: "2021-08-30T18:16:53.370383Z",
-              last_accessed_at: "2021-08-30T17:16:53.370383Z",
-              session_id: "session-test-33333333-3333-4333-8333-333333333333",
-              started_at: "2021-08-28T00:41:58.935673870Z",
-              user_id: "user-test-22222222-2222-4222-8222-222222222222",
-            },
-          ],
-          status_code: 200,
-        };
-        return { status: 200, data };
-      });
-      const sessions = new Sessions(axios.create({ adapter }), experiments);
-
-      return expect(
-        sessions.get({
+describe("sessions.get", () => {
+  test("success", () => {
+    const adapter = mockRequest((req) => {
+      expect(req).toEqual({
+        method: "get",
+        path: "sessions",
+        params: {
           user_id: "user-test-22222222-2222-4222-8222-222222222222",
-        })
-      ).resolves.toMatchObject({
-        status_code: 200,
-        sessions: [
-          expect.objectContaining({
-            started_at: new Date("2021-08-28T00:41:58.935673Z"),
-            user_id: "user-test-22222222-2222-4222-8222-222222222222",
-          }),
-        ],
+        },
       });
-    });
-  });
 
-  describe("sessions.authenticate", () => {
-    test("success", () => {
-      const adapter = mockRequest((req) => {
-        expect(req).toEqual({
-          method: "post",
-          path: "sessions/authenticate",
-          data: {
-            session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-            session_duration_minutes: 60,
-          },
-        });
-
-        const data = {
-          request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
-          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-          session: {
+      const data = {
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        sessions: [
+          {
             attributes: null,
             expires_at: "2021-08-30T18:16:53.370383Z",
             last_accessed_at: "2021-08-30T17:16:53.370383Z",
-            session_id: "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
+            session_id: "session-test-33333333-3333-4333-8333-333333333333",
             started_at: "2021-08-28T00:41:58.935673870Z",
-            user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+            user_id: "user-test-22222222-2222-4222-8222-222222222222",
           },
-          status_code: 200,
-        };
-        return { status: 200, data };
-      });
-      const sessions = new Sessions(axios.create({ adapter }), experiments);
+        ],
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+    const sessions = new Sessions(axios.create({ adapter }));
 
-      return expect(
-        sessions.authenticate({
-          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-          session_duration_minutes: 60,
-        })
-      ).resolves.toMatchObject({
-        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        session: {
+    return expect(
+      sessions.get({
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
+      })
+    ).resolves.toMatchObject({
+      status_code: 200,
+      sessions: [
+        expect.objectContaining({
           started_at: new Date("2021-08-28T00:41:58.935673Z"),
-          user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        },
-      });
+          user_id: "user-test-22222222-2222-4222-8222-222222222222",
+        }),
+      ],
     });
   });
+});
 
-  describe("sessions.revoke", () => {
+describe("sessions.authenticate", () => {
+  test("success", () => {
     const adapter = mockRequest((req) => {
       expect(req).toEqual({
         method: "post",
-        path: "sessions/revoke",
+        path: "sessions/authenticate",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+          session_duration_minutes: 60,
         },
       });
 
-      return { status: 200, data: {} };
+      const data = {
+        request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session: {
+          attributes: null,
+          expires_at: "2021-08-30T18:16:53.370383Z",
+          last_accessed_at: "2021-08-30T17:16:53.370383Z",
+          session_id: "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
+          started_at: "2021-08-28T00:41:58.935673870Z",
+          user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        },
+        status_code: 200,
+      };
+      return { status: 200, data };
     });
-    const sessions = new Sessions(axios.create({ adapter }), experiments);
+    const sessions = new Sessions(axios.create({ adapter }));
 
-    test("success", () => {
-      return expect(
-        sessions.revoke({
-          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        })
-      ).resolves.toEqual({});
+    return expect(
+      sessions.authenticate({
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session_duration_minutes: 60,
+      })
+    ).resolves.toMatchObject({
+      session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      session: {
+        started_at: new Date("2021-08-28T00:41:58.935673Z"),
+        user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+      },
     });
+  });
+});
+
+describe("sessions.revoke", () => {
+  const adapter = mockRequest((req) => {
+    expect(req).toEqual({
+      method: "post",
+      path: "sessions/revoke",
+      data: {
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      },
+    });
+
+    return { status: 200, data: {} };
+  });
+  const sessions = new Sessions(axios.create({ adapter }));
+
+  test("success", () => {
+    return expect(
+      sessions.revoke({
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      })
+    ).resolves.toEqual({});
   });
 });

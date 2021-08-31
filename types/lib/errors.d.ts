@@ -17,6 +17,3 @@ export declare class RequestError extends Error {
     request: AxiosRequestConfig;
     constructor(message: string, request: AxiosRequestConfig);
 }
-export declare class ExperimentError extends Error {
-    constructor(experiment: string);
-}
