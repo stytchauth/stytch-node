@@ -25,9 +25,16 @@ export class StytchError extends Error {
 
 export class RequestError extends Error {
   request: AxiosRequestConfig;
-
   constructor(message: string, request: AxiosRequestConfig) {
     super(message);
     this.request = request;
+  }
+}
+
+export class ExperimentError extends Error {
+  constructor(experiment: string) {
+    super(
+      `This feature is experimental. Please enable the "${experiment}" experiment to use it.`
+    );
   }
 }
