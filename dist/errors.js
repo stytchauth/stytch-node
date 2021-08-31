@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RequestError = exports.StytchError = void 0;
+exports.ExperimentError = exports.RequestError = exports.StytchError = void 0;
 
 class StytchError extends Error {
   constructor(data) {
@@ -28,3 +28,12 @@ class RequestError extends Error {
 }
 
 exports.RequestError = RequestError;
+
+class ExperimentError extends Error {
+  constructor(experiment) {
+    super(`This feature is experimental. Please enable the "${experiment}" experiment to use it.`);
+  }
+
+}
+
+exports.ExperimentError = ExperimentError;

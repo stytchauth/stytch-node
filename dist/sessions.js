@@ -7,20 +7,28 @@ exports.Sessions = void 0;
 
 var _shared = require("./shared");
 
+var _experiments = require("./experiments");
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class Sessions {
-  constructor(client) {
+  constructor(client, experiments) {
     _defineProperty(this, "base_path", "sessions");
 
     this.client = client;
+    this.experiments = experiments;
   }
 
   endpoint(path) {
     return `${this.base_path}/${path}`;
   }
 
-  get(params) {
+  enabled() {
+    return (0, _experiments.experimentRequired)(this.experiments, "sessions");
+  }
+
+  async get(params) {
+    await this.enabled();
     return (0, _shared.request)(this.client, {
       method: "GET",
       url: this.base_path,
@@ -32,7 +40,8 @@ class Sessions {
     });
   }
 
-  authenticate(data) {
+  async authenticate(data) {
+    await this.enabled();
     return (0, _shared.request)(this.client, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -44,7 +53,8 @@ class Sessions {
     });
   }
 
-  revoke(data) {
+  async revoke(data) {
+    await this.enabled();
     return (0, _shared.request)(this.client, {
       method: "POST",
       url: this.endpoint("revoke"),

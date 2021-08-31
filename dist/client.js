@@ -19,6 +19,8 @@ var _otps = require("./otps");
 
 var _sessions = require("./sessions");
 
+var _experiments = require("./experiments");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -60,10 +62,13 @@ class Client {
         password: config.secret
       }
     });
+    this.experiments = { ..._experiments.defaults,
+      ...config.experiments
+    };
     this.users = new _users.Users(this.client);
     this.magicLinks = new _magic_links.MagicLinks(this.client);
     this.otps = new _otps.OTPs(this.client);
-    this.sessions = new _sessions.Sessions(this.client);
+    this.sessions = new _sessions.Sessions(this.client, this.experiments);
   }
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
 

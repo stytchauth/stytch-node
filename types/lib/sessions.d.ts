@@ -1,6 +1,7 @@
 import { Session } from "./shared";
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
+import type { Experiments } from "./experiments";
 export interface GetRequest {
     user_id: string;
 }
@@ -23,8 +24,10 @@ export declare type RevokeResponse = BaseResponse;
 export declare class Sessions {
     base_path: string;
     private client;
-    constructor(client: AxiosInstance);
+    private experiments;
+    constructor(client: AxiosInstance, experiments: Experiments);
     private endpoint;
+    private enabled;
     get(params: GetRequest): Promise<GetResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
