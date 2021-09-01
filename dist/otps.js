@@ -9,6 +9,36 @@ var _shared = require("./shared");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+class Email {
+  constructor(client, base_path) {
+    _defineProperty(this, "delivery", "email");
+
+    this.client = client;
+    this.base_path = base_path;
+  }
+
+  endpoint(path) {
+    return `${this.base_path}/${this.delivery}/${path}`;
+  }
+
+  send(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data
+    });
+  }
+
+  loginOrCreate(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data
+    });
+  }
+
+}
+
 class SMS {
   constructor(client, base_path) {
     _defineProperty(this, "delivery", "sms");
@@ -74,6 +104,7 @@ class OTPs {
     _defineProperty(this, "base_path", "otps");
 
     this.client = client;
+    this.email = new Email(client, this.base_path);
     this.sms = new SMS(client, this.base_path);
     this.whatsapp = new WhatsApp(client, this.base_path);
   }

@@ -1,5 +1,25 @@
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Session } from "./shared";
+export interface OTPEmailSendRequest {
+    email: string;
+    expiration_minutes?: bigint;
+    attributes?: Attributes;
+}
+export interface OTPEmailSendResponse extends BaseResponse {
+    user_id: string;
+    email_id: string;
+}
+export interface OTPEmailLoginOrCreateRequest {
+    email: string;
+    expiration_minutes?: bigint;
+    attributes?: Attributes;
+    create_user_as_pending?: boolean;
+}
+export interface OTPEmailLoginOrCreateResponse extends BaseResponse {
+    user_id: string;
+    email_id: string;
+    user_created: boolean;
+}
 export interface SendOTPBySMSRequest {
     phone_number: string;
     expiration_minutes?: bigint;
@@ -57,6 +77,15 @@ export interface AuthenticateResponse extends BaseResponse {
     session_token?: string;
     session?: Session;
 }
+declare class Email {
+    base_path: string;
+    delivery: string;
+    private client;
+    constructor(client: AxiosInstance, base_path: string);
+    private endpoint;
+    send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse>;
+    loginOrCreate(data: OTPEmailLoginOrCreateRequest): Promise<OTPEmailLoginOrCreateResponse>;
+}
 declare class SMS {
     base_path: string;
     delivery: string;
@@ -77,6 +106,7 @@ declare class WhatsApp {
 }
 export declare class OTPs {
     base_path: string;
+    email: Email;
     sms: SMS;
     whatsapp: WhatsApp;
     private client;

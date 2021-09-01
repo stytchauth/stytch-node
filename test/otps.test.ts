@@ -52,6 +52,38 @@ describe("otps.authenticate", () => {
   });
 });
 
+describe("otps.email.send", () => {
+  test("success", () => {
+    return expect(
+      otps.email.send({
+        email: "sandbox@stytch.com",
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "otps/email/send",
+      data: {
+        email: "sandbox@stytch.com",
+      },
+    });
+  });
+});
+
+describe("otps.email.loginOrCreate", () => {
+  test("success", () => {
+    return expect(
+      otps.email.loginOrCreate({
+        email: "sandbox@stytch.com",
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "otps/email/login_or_create",
+      data: {
+        email: "sandbox@stytch.com",
+      },
+    });
+  });
+});
+
 describe("otps.sms.send", () => {
   test("success", () => {
     return expect(
