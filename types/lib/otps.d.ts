@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse } from "./shared";
+import type { Attributes, BaseResponse, Session } from "./shared";
 export interface SendOTPBySMSRequest {
     phone_number: string;
     expiration_minutes?: bigint;
@@ -48,10 +48,14 @@ export interface AuthenticateRequest {
         ip_match_required?: boolean;
         user_agent_match_required?: boolean;
     };
+    session_token?: string;
+    session_duration_minutes?: number;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     method_id: string;
+    session_token?: string;
+    session?: Session;
 }
 declare class SMS {
     base_path: string;
