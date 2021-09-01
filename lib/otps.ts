@@ -3,6 +3,30 @@ import { request } from "./shared";
 import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Session } from "./shared";
 
+export interface OTPEmailSendRequest {
+  email: string;
+  expiration_minutes?: bigint;
+  attributes?: Attributes;
+}
+
+export interface OTPEmailSendResponse extends BaseResponse {
+  user_id: string;
+  email_id: string;
+}
+
+export interface OTPEmailLoginOrCreateRequest {
+  email: string;
+  expiration_minutes?: bigint;
+  attributes?: Attributes;
+  create_user_as_pending?: boolean;
+}
+
+export interface OTPEmailLoginOrCreateResponse extends BaseResponse {
+  user_id: string;
+  email_id: string;
+  user_created: boolean;
+}
+
 export interface SendOTPBySMSRequest {
   phone_number: string;
   expiration_minutes?: bigint;
@@ -68,6 +92,40 @@ export interface AuthenticateResponse extends BaseResponse {
   method_id: string;
   session_token?: string;
   session?: Session;
+}
+
+class Email {
+  base_path: string;
+  delivery = "email";
+
+  private client: AxiosInstance;
+
+  constructor(client: AxiosInstance, base_path: string) {
+    this.client = client;
+    this.base_path = base_path;
+  }
+
+  private endpoint(path: string): string {
+    return `${this.base_path}/${this.delivery}/${path}`;
+  }
+
+  send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("send"),
+      data,
+    });
+  }
+
+  loginOrCreate(
+    data: OTPEmailLoginOrCreateRequest
+  ): Promise<OTPEmailLoginOrCreateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("login_or_create"),
+      data,
+    });
+  }
 }
 
 class SMS {
@@ -140,6 +198,7 @@ class WhatsApp {
 
 export class OTPs {
   base_path = "otps";
+  email: Email;
   sms: SMS;
   whatsapp: WhatsApp;
 
@@ -147,6 +206,7 @@ export class OTPs {
 
   constructor(client: AxiosInstance) {
     this.client = client;
+    this.email = new Email(client, this.base_path);
     this.sms = new SMS(client, this.base_path);
     this.whatsapp = new WhatsApp(client, this.base_path);
   }
