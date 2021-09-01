@@ -1,6 +1,7 @@
 import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OTPs } from "./otps";
+import { Sessions } from "./sessions";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
 import type * as otps from "./otps";
@@ -14,6 +15,7 @@ export declare class Client {
     users: Users;
     magicLinks: MagicLinks;
     otps: OTPs;
+    sessions: Sessions;
     private client;
     constructor(config: Config);
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
