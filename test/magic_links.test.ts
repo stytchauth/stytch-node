@@ -64,7 +64,7 @@ describe("magicLinks.authenticate", () => {
 });
 
 describe("magicLinks.email.send", () => {
-  test("success", () => {
+  test("success: minimal", () => {
     return expect(
       magicLinks.email.send({
         email: "sandbox@stytch.com",
@@ -78,6 +78,35 @@ describe("magicLinks.email.send", () => {
         email: "sandbox@stytch.com",
         login_magic_link_url: "http://localhost:8000/login",
         signup_magic_link_url: "http://localhost:8000/signup",
+      },
+    });
+  });
+  test("success: everything", () => {
+    return expect(
+      magicLinks.email.send({
+        email: "sandbox@stytch.com",
+        login_magic_link_url: "http://localhost:8000/login",
+        signup_magic_link_url: "http://localhost:8000/signup",
+        login_expiration_minutes: 10,
+        signup_expiration_minutes: 10,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "magic_links/email/send",
+      data: {
+        email: "sandbox@stytch.com",
+        login_magic_link_url: "http://localhost:8000/login",
+        signup_magic_link_url: "http://localhost:8000/signup",
+        login_expiration_minutes: 10,
+        signup_expiration_minutes: 10,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
       },
     });
   });

@@ -64,19 +64,4 @@ describe("request", () => {
       });
     });
   });
-
-  test("unsendable request rethrows original error", () => {
-    expect.assertions(3);
-
-    const client = axios.create();
-    return request(client, { url: "" }).catch((err) => {
-      expect(err.toString()).toEqual(
-        "Error: Cannot read property 'replace' of null"
-      );
-      expect(err.message).toEqual("Cannot read property 'replace' of null");
-      expect(err.request).toMatchObject({
-        url: "",
-      });
-    });
-  });
 });
