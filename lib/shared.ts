@@ -35,7 +35,7 @@ export interface Session {
 }
 
 export interface BaseResponse {
-  status_code: bigint;
+  status_code: number;
   request_id: string;
 }
 
