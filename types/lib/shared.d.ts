@@ -27,7 +27,7 @@ export interface Session {
     attributes: Attributes;
 }
 export interface BaseResponse {
-    status_code: bigint;
+    status_code: number;
     request_id: string;
 }
 export declare function request<T>(client: AxiosInstance, config: AxiosRequestConfig): Promise<T>;

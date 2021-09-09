@@ -49,13 +49,13 @@ export interface DeleteResponse extends BaseResponse {
 }
 export interface GetPendingRequest {
     starting_after_id?: string;
-    limit?: bigint;
+    limit?: number;
 }
 export interface GetPendingResponse extends BaseResponse {
     users: PendingUser[];
     has_more: boolean;
     starting_after_id: string;
-    total: bigint;
+    total: number;
 }
 export interface DeleteEmailResponse extends BaseResponse {
     user_id: UserID;
