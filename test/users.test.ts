@@ -93,14 +93,14 @@ describe("users.getPending", () => {
     return expect(
       users.getPending({
         starting_after_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        limit: BigInt(10),
+        limit: 10,
       })
     ).resolves.toMatchObject({
       method: "get",
       path: "users/pending",
       params: {
         starting_after_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        limit: BigInt(10),
+        limit: 10,
       },
     });
   });

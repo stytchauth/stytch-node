@@ -2,7 +2,7 @@ import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Session } from "./shared";
 export interface OTPEmailSendRequest {
     email: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
 }
 export interface OTPEmailSendResponse extends BaseResponse {
@@ -11,7 +11,7 @@ export interface OTPEmailSendResponse extends BaseResponse {
 }
 export interface OTPEmailLoginOrCreateRequest {
     email: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
 }
@@ -22,7 +22,7 @@ export interface OTPEmailLoginOrCreateResponse extends BaseResponse {
 }
 export interface SendOTPBySMSRequest {
     phone_number: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
 }
 export interface SendOTPBySMSResponse extends BaseResponse {
@@ -31,7 +31,7 @@ export interface SendOTPBySMSResponse extends BaseResponse {
 }
 export interface LoginOrCreateUserBySMSRequest {
     phone_number: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
 }
@@ -42,7 +42,7 @@ export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
 }
 export interface OTPWhatsAppSendRequest {
     phone_number: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
 }
 export interface OTPWhatsAppSendResponse extends BaseResponse {
@@ -51,7 +51,7 @@ export interface OTPWhatsAppSendResponse extends BaseResponse {
 }
 export interface OTPWhatsAppLoginOrCreateRequest {
     phone_number: string;
-    expiration_minutes?: bigint;
+    expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
 }
