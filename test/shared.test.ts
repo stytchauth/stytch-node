@@ -64,4 +64,25 @@ describe("request", () => {
       });
     });
   });
+
+  test("unsendable request rethrows original error", () => {
+    // Using assertions instead of .rejects so we can check both .toString() and unpacked values
+    // in the same matcher.
+    expect.assertions(3);
+
+    const client = axios.create();
+    // BigInts don't serialize, which is weird, but that's useful to us here!
+    return request(client, {
+      url: "bigint",
+      data: { bigint: BigInt(10) },
+    }).catch((err) => {
+      expect(err.toString()).toEqual(
+        "Error: Do not know how to serialize a BigInt"
+      );
+      expect(err.message).toEqual("Do not know how to serialize a BigInt");
+      expect(err.request).toMatchObject({
+        url: "bigint",
+      });
+    });
+  });
 });
