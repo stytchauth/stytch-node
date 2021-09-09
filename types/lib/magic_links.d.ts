@@ -38,6 +38,15 @@ export interface InviteByEmailResponse extends BaseResponse {
     user_id: string;
     email_id: string;
 }
+export interface CreateRequest {
+    user_id: string;
+    expiration_minutes?: number;
+    attributes?: Attributes;
+}
+export interface CreateResponse extends BaseResponse {
+    token: string;
+    user_id: string;
+}
 export interface AuthenticateRequest {
     options?: {
         ip_match_required?: boolean;
@@ -75,6 +84,7 @@ export declare class MagicLinks {
     private client;
     constructor(client: AxiosInstance);
     private endpoint;
+    create(data: CreateRequest): Promise<CreateResponse>;
     authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
 }
 export {};

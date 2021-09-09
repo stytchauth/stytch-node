@@ -46,6 +46,17 @@ export interface InviteByEmailResponse extends BaseResponse {
   email_id: string;
 }
 
+export interface CreateRequest {
+  user_id: string;
+  expiration_minutes?: number;
+  attributes?: Attributes;
+}
+
+export interface CreateResponse extends BaseResponse {
+  token: string;
+  user_id: string;
+}
+
 export interface AuthenticateRequest {
   options?: {
     ip_match_required?: boolean;
@@ -134,6 +145,16 @@ export class MagicLinks {
 
   private endpoint(path: string): string {
     return `${this.base_path}/${path}`;
+  }
+
+  create(
+    data: CreateRequest
+  ): Promise<CreateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.base_path,
+      data: data,
+    });
   }
 
   authenticate(
