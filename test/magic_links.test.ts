@@ -15,6 +15,24 @@ const adapter = (config: AxiosRequestConfig): Promise<any> => {
 };
 const magicLinks = new MagicLinks(axios.create({ adapter }));
 
+describe("magicLinks.create", () => {
+  test("success", () => {
+    return expect(
+      magicLinks.create({
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
+        expiration_minutes: 75,
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "magic_links",
+      data: {
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
+        expiration_minutes: 75,
+      },
+    });
+  });
+});
+
 describe("magicLinks.authenticate", () => {
   test("session", () => {
     return expect(

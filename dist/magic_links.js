@@ -68,6 +68,14 @@ class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
+  create(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.base_path,
+      data: data
+    });
+  }
+
   authenticate(token, data) {
     return (0, _shared.request)(this.client, {
       method: "POST",
