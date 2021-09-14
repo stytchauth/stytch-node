@@ -1,11 +1,12 @@
-import type * as magicLinks from "./magic_links";
+import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
-import type * as otps from "./otps";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
+
 import type * as users from "./users";
-import { Users } from "./users";
+import type * as magicLinks from "./magic_links";
+import type * as otps from "./otps";
 interface Config {
     project_id: string;
     secret: string;

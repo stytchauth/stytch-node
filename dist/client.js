@@ -11,6 +11,8 @@ var _package = require("../package.json");
 
 var envs = _interopRequireWildcard(require("./envs"));
 
+var _users = require("./users");
+
 var _magic_links = require("./magic_links");
 
 var _oauth = require("./oauth");
@@ -18,8 +20,6 @@ var _oauth = require("./oauth");
 var _otps = require("./otps");
 
 var _sessions = require("./sessions");
-
-var _users = require("./users");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
