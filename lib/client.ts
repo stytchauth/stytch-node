@@ -1,16 +1,16 @@
-import type { AxiosInstance } from "axios";
 import axios from "axios";
 import { version } from "../package.json";
 import * as envs from "./envs";
-import type * as magicLinks from "./magic_links";
+import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
-import type * as otps from "./otps";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
-import type * as users from "./users";
-import { Users } from "./users";
 
+import type { AxiosInstance } from "axios";
+import type * as users from "./users";
+import type * as magicLinks from "./magic_links";
+import type * as otps from "./otps";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
