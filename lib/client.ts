@@ -6,7 +6,6 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
-
 import type { AxiosInstance } from "axios";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
