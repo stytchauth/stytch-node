@@ -18,25 +18,25 @@ const oauth = new OAuth(axios.create({ adapter }));
 describe("oauth.authenticate", () => {
   test("session", () => {
     return expect(
-      oauth.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+      oauth.authenticate("fake-token")
     ).resolves.toMatchObject({
       method: "post",
       path: "oauth/authenticate",
       data: {
-        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        token: "fake-token",
       },
     });
   });
   test("no session", () => {
     return expect(
-      oauth.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",{
+      oauth.authenticate("fake-token",{
         session_management_type: "idp"
       })
     ).resolves.toMatchObject({
       method: "post",
       path: "oauth/authenticate",
       data: {
-        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        token: "fake-token",
         session_management_type: "idp",
       },
     });
