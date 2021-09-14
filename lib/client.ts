@@ -1,15 +1,16 @@
+import type { AxiosInstance } from "axios";
 import axios from "axios";
 import { version } from "../package.json";
 import * as envs from "./envs";
-import { Users } from "./users";
+import type * as magicLinks from "./magic_links";
 import { MagicLinks } from "./magic_links";
+import { OAuth } from "./oauth";
+import type * as otps from "./otps";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
-
-import type { AxiosInstance } from "axios";
 import type * as users from "./users";
-import type * as magicLinks from "./magic_links";
-import type * as otps from "./otps";
+import { Users } from "./users";
+
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -24,6 +25,7 @@ export class Client {
   users: Users;
   magicLinks: MagicLinks;
   otps: OTPs;
+  oauth: OAuth;
   sessions: Sessions;
 
   private client: AxiosInstance;
@@ -66,6 +68,7 @@ export class Client {
 
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
+    this.oauth = new OAuth(this.client);
     this.otps = new OTPs(this.client);
     this.sessions = new Sessions(this.client);
   }
