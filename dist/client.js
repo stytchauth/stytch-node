@@ -15,6 +15,8 @@ var _users = require("./users");
 
 var _magic_links = require("./magic_links");
 
+var _oauth = require("./oauth");
+
 var _otps = require("./otps");
 
 var _sessions = require("./sessions");
@@ -62,6 +64,7 @@ class Client {
     });
     this.users = new _users.Users(this.client);
     this.magicLinks = new _magic_links.MagicLinks(this.client);
+    this.oauth = new _oauth.OAuth(this.client);
     this.otps = new _otps.OTPs(this.client);
     this.sessions = new _sessions.Sessions(this.client);
   }
