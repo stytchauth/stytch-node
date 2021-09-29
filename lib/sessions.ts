@@ -1,4 +1,4 @@
-import { request, Attributes, Session } from "./shared";
+import { request, Attributes, Session, AuthenticationFactor } from "./shared";
 
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
@@ -35,6 +35,7 @@ type SessionRaw = {
   last_accessed_at: string;
   expires_at: string;
   attributes: Attributes;
+  authentication_factors: AuthenticationFactor[];
 };
 
 interface GetResponseRaw extends BaseResponse {

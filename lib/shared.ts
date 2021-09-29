@@ -25,6 +25,30 @@ export interface PhoneNumber {
   verified: boolean;
 }
 
+export interface EmailFactor {
+  email_id: string;
+  email_address: string;
+}
+
+export interface PhoneNumberFactor {
+  phone_id: string;
+  phone_number: string;
+}
+
+export interface GoogleOAuthFactor {
+  id: string;
+  email_id: string;
+  provider_subject: string;
+}
+
+export interface AuthenticationFactor {
+  type: string;
+  delivery_method: string;
+  email_factor: EmailFactor;
+  phone_number_factor: PhoneNumberFactor;
+  google_oauth_factor: GoogleOAuthFactor;
+}
+
 export interface Session {
   session_id: string;
   user_id: string;
@@ -32,6 +56,7 @@ export interface Session {
   last_accessed_at: Date;
   expires_at: Date;
   attributes: Attributes;
+  authentication_factors: AuthenticationFactor[];
 }
 
 export interface BaseResponse {
