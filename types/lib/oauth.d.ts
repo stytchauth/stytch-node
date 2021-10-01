@@ -2,6 +2,8 @@ import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
 export interface AuthenticateRequest {
     session_management_type?: "stytch" | "idp" | "none";
+    session_token?: string;
+    session_duration_minutes?: number;
 }
 export interface OAuthSession {
     idp?: {

@@ -26,28 +26,34 @@ export interface PhoneNumber {
 }
 
 export interface EmailFactor {
-  email_id: string;
-  email_address: string;
+  delivery_method: "email" | "embedded",
+  type: string,
+  email_factor: {
+    email_id: string,
+    email_address: string,
+  },
 }
 
 export interface PhoneNumberFactor {
-  phone_id: string;
-  phone_number: string;
+  delivery_method: "sms" | "whatsapp",
+  type: string,
+  phone_number_factor: {
+    phone_id: string,
+    phone_number: string,
+  },
 }
 
 export interface GoogleOAuthFactor {
-  id: string;
-  email_id: string;
-  provider_subject: string;
+  delivery_method: "oauth_google",
+  type: string,
+  google_oauth_factor: {
+    id: string,
+    email_id: string,
+    provider_subject: string,
+  },
 }
 
-export interface AuthenticationFactor {
-  type: string;
-  delivery_method: string;
-  email_factor: EmailFactor;
-  phone_number_factor: PhoneNumberFactor;
-  google_oauth_factor: GoogleOAuthFactor;
-}
+export type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor;
 
 export interface Session {
   session_id: string;
