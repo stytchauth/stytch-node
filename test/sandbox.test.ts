@@ -49,7 +49,7 @@ describeIf(
             expect(err.status_code).toEqual(401);
             expect(err.error_type).toEqual("unable_to_auth_magic_link");
             expect(err.error_message).toEqual(
-              "Magic link could not be authenticated"
+              "Magic link could not be authenticated."
             );
             expect(err.error_url).toEqual(
               "https://stytch.com/docs/api/errors/401"
@@ -63,7 +63,7 @@ describeIf(
           .catch((err) => {
             expect(err.status_code).toEqual(404);
             expect(err.error_type).toEqual("magic_link_not_found");
-            expect(err.error_message).toEqual("Magic Link could not be found");
+            expect(err.error_message).toEqual("Magic Link could not be found.");
             expect(err.error_url).toEqual(
               "https://stytch.com/docs/api/errors/404"
             );
