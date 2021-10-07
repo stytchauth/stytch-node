@@ -3,7 +3,7 @@ import type { BaseResponse } from "./shared";
 import { request } from "./shared";
 
 export interface AuthenticateRequest {
-  session_management_type?: "stytch" | "idp" | "none",
+  session_management_type?: "stytch" | "idp" | "none";
   session_token?: string;
   session_duration_minutes?: number;
 }
@@ -12,7 +12,7 @@ export interface OAuthSession {
   idp?: {
     access_token?: string;
     refresh_token?: string;
-  }
+  };
 }
 
 export interface AuthenticateResponse extends BaseResponse {
