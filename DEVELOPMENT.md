@@ -5,6 +5,7 @@ Thanks for contributing to Stytch's Node library! If you run into trouble, find 
 ## Setup
 
 1. Install a supported stable release of [Node](https://nodejs.org/).
+    - You may find the currently supported Node version in this repo's `.nvmrc` file.
 2. Clone this repo.
 3. Run `npm install`.
 
