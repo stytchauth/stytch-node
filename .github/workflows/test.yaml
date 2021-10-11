@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm install
+      - run: npm ci
       - run: npm test
 
   integration-test:
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm install
+      - run: npm ci
       - run: npm test
         env:
           RUN_INTEGRATION_TESTS: 1
@@ -44,6 +44,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: git diff --exit-code

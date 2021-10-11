@@ -147,9 +147,7 @@ export class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  create(
-    data: CreateRequest
-  ): Promise<CreateResponse> {
+  create(data: CreateRequest): Promise<CreateResponse> {
     return request(this.client, {
       method: "POST",
       url: this.base_path,
