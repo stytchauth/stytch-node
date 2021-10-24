@@ -1,6 +1,16 @@
 import * as stytch from "../lib";
 
-describe("config errors", () => {
+describe("config validation", () => {
+  test("does not throw when everything is valid", () => {
+    expect(() => {
+      new stytch.Client({
+        project_id: "project-test-00000000-0000-4000-8000-000000000000",
+        secret: "secret-test-11111111-1111-4111-8111-111111111111",
+        env: stytch.envs.test,
+      });
+    }).not.toThrow();
+  });
+
   test("config is not an object", () => {
     expect(() => {
       new stytch.Client(0 as any); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -35,6 +45,16 @@ describe("config errors", () => {
         env: "",
       });
     }).toThrow(/Missing "env" in config/);
+  });
+
+  test("Invalid HTTPS url for environment", () => {
+    expect(() => {
+      new stytch.Client({
+        project_id: "project-test-00000000-0000-4000-8000-000000000000",
+        secret: "secret-test-11111111-1111-4111-8111-111111111111",
+        env: "some bad env",
+      });
+    }).toThrow(/Expected env to start with https:\/\/ but got some bad env. Try passing in stytch.envs.test or stytch.envs.live instead./);
   });
 });
 

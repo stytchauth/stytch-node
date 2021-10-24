@@ -7,6 +7,8 @@ exports.Client = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _url = require("url");
+
 var _package = require("../package.json");
 
 var envs = _interopRequireWildcard(require("./envs"));
@@ -47,9 +49,7 @@ class Client {
       throw new Error('Missing "env" in config');
     }
 
-    if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
-    }
-
+    Client.validateStytchEnvironment(config.env);
     this.client = _axios.default.create({
       baseURL: config.env,
       timeout: config.timeout || DEFAULT_TIMEOUT,
@@ -157,6 +157,20 @@ class Client {
 
   authenticateOTP(data) {
     return this.otps.authenticate(data);
+  }
+
+  static validateStytchEnvironment(env) {
+    if (env === envs.test || env === envs.live) {
+      return;
+    }
+
+    try {
+      new _url.URL(env);
+    } catch (err) {
+      throw new Error(`Expected env to start with https:// but got ${env}. Try passing in stytch.envs.test or stytch.envs.live instead.`);
+    }
+
+    console.warn(`[STYTCH]: Connecting to non-default Stytch API instance: ${env}`);
   }
 
 }

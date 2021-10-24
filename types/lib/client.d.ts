@@ -50,5 +50,6 @@ export declare class Client {
     loginOrCreateUserBySMS(data: otps.LoginOrCreateUserBySMSRequest): Promise<otps.LoginOrCreateUserBySMSResponse>;
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use otps.authenticate instead. */
     authenticateOTP(data: otps.AuthenticateRequest): Promise<otps.AuthenticateResponse>;
+    private static validateStytchEnvironment;
 }
 export {};

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { URL } from "url";
 import { version } from "../package.json";
 import * as envs from "./envs";
 import { Users } from "./users";
@@ -48,9 +49,7 @@ export class Client {
       throw new Error('Missing "env" in config');
     }
 
-    if (config.env != envs.test && config.env != envs.live) {
-      // TODO: warn about non-production configuration
-    }
+    Client.validateStytchEnvironment(config.env);
 
     this.client = axios.create({
       baseURL: config.env,
@@ -169,5 +168,17 @@ export class Client {
     data: otps.AuthenticateRequest
   ): Promise<otps.AuthenticateResponse> {
     return this.otps.authenticate(data);
+  }
+
+  private static validateStytchEnvironment(env: string): void {
+    if (env === envs.test || env === envs.live) {
+      return;
+    }
+    try {
+      new URL(env);
+    } catch(err) {
+      throw new Error(`Expected env to start with https:// but got ${env}. Try passing in stytch.envs.test or stytch.envs.live instead.`);
+    }
+    console.warn(`[STYTCH]: Connecting to non-default Stytch API instance: ${env}`);
   }
 }
