@@ -54,7 +54,7 @@ describe("config validation", () => {
         secret: "secret-test-11111111-1111-4111-8111-111111111111",
         env: "some bad env",
       });
-    }).toThrow(/Expected env to start with https:\/\/ but got some bad env. Try passing in stytch.envs.test or stytch.envs.live instead./);
+    }).toThrow(/Expected the Stytch client's env to start with https:\/\/ but received "${env}". Try passing in stytch.envs.test or stytch.envs.live instead./);
   });
 });
 

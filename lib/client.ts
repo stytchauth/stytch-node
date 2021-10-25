@@ -178,7 +178,7 @@ export class Client {
       new URL(env);
     } catch (err) {
       throw new Error(
-        `Expected env to start with https:// but got ${env}. Try passing in stytch.envs.test or stytch.envs.live instead.`
+        `Expected the Stytch client's env to start with https:// but received "${env}". Try passing in stytch.envs.test or stytch.envs.live instead.`
       );
     }
     console.warn(
