@@ -23,7 +23,7 @@ This client library supports all of Stytch's live products:
   - [x] [SMS passcodes](https://stytch.com/docs/api/send-otp-by-sms)
   - [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
   - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
-  - [x] [Session Management](https://stytch.com/docs/api/session-get)
+  - [x] [Session Management (Beta)](https://stytch.com/docs/api/session-get)
   - [ ] [WebAuthn (Coming soon)](https://stytch.com/docs/api/webauthn-overview)
 
 ### Example usage
