@@ -28,6 +28,7 @@ export interface PhoneNumber {
 export interface EmailFactor {
   delivery_method: "email" | "embedded";
   type: string;
+  last_authenticated_at: Date;
   email_factor: {
     email_id: string;
     email_address: string;
@@ -37,6 +38,7 @@ export interface EmailFactor {
 export interface PhoneNumberFactor {
   delivery_method: "sms" | "whatsapp";
   type: string;
+  last_authenticated_at: Date;
   phone_number_factor: {
     phone_id: string;
     phone_number: string;
@@ -46,6 +48,7 @@ export interface PhoneNumberFactor {
 export interface GoogleOAuthFactor {
   delivery_method: "oauth_google";
   type: string;
+  last_authenticated_at: string;
   google_oauth_factor: {
     id: string;
     email_id: string;
