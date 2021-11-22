@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse, Email, Name, PhoneNumber } from "./shared";
+import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration } from "./shared";
 export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
@@ -43,6 +43,7 @@ export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
     emails: Email[];
     phone_numbers: PhoneNumber[];
+    webauthn_registrations: WebAuthnRegistration[];
 }
 export interface DeleteResponse extends BaseResponse {
     user_id: UserID;
@@ -63,6 +64,9 @@ export interface DeleteEmailResponse extends BaseResponse {
 export interface DeletePhoneNumberResponse extends BaseResponse {
     user_id: UserID;
 }
+export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
+    user_id: UserID;
+}
 export declare class Users {
     base_path: string;
     private client;
@@ -75,4 +79,5 @@ export declare class Users {
     getPending(params?: GetPendingRequest): Promise<GetPendingResponse>;
     deleteEmail(emailID: string): Promise<DeleteEmailResponse>;
     deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
+    deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse>;
 }

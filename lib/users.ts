@@ -7,6 +7,7 @@ import type {
   Email,
   Name,
   PhoneNumber,
+  WebAuthnRegistration,
 } from "./shared";
 
 export type UserID = string;
@@ -54,6 +55,7 @@ export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
   emails: Email[];
   phone_numbers: PhoneNumber[];
+  webauthn_registrations: WebAuthnRegistration[]
 }
 
 export interface DeleteResponse extends BaseResponse {
@@ -77,6 +79,10 @@ export interface DeleteEmailResponse extends BaseResponse {
 }
 
 export interface DeletePhoneNumberResponse extends BaseResponse {
+  user_id: UserID;
+}
+
+export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
   user_id: UserID;
 }
 
@@ -141,6 +147,13 @@ export class Users {
     return request(this.client, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
+    });
+  }
+
+  deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse> {
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
     });
   }
 }
