@@ -55,7 +55,7 @@ export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
   emails: Email[];
   phone_numbers: PhoneNumber[];
-  webauthn_registrations: WebAuthnRegistration[]
+  webauthn_registrations: WebAuthnRegistration[];
 }
 
 export interface DeleteResponse extends BaseResponse {
@@ -150,7 +150,9 @@ export class Users {
     });
   }
 
-  deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse> {
+  deleteWebAuthnRegistration(
+    webAuthnRegistrationID: string
+  ): Promise<DeleteWebAuthnRegistrationResponse> {
     return request(this.client, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),

@@ -1,12 +1,8 @@
-import {request, Session} from "./shared";
+import { request, Session } from "./shared";
 
 import type { AxiosInstance } from "axios";
-import type {
-  BaseResponse,
-} from "./shared";
-import {
-  UserID
-} from "./users";
+import type { BaseResponse } from "./shared";
+import { UserID } from "./users";
 
 export interface RegisterStartRequest {
   user_id: UserID;
@@ -81,7 +77,9 @@ export class WebAuthn {
     });
   }
 
-  authenticateStart(data: AuthenticateStartRequest): Promise<AuthenticateStartResponse> {
+  authenticateStart(
+    data: AuthenticateStartRequest
+  ): Promise<AuthenticateStartResponse> {
     return request(this.client, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
