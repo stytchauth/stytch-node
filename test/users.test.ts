@@ -137,3 +137,16 @@ describe("users.deletePhoneNumber", () => {
     });
   });
 });
+
+describe("users.deleteWebAuthnRegistration", () => {
+  test("success", () => {
+    return expect(
+      users.deleteWebAuthnRegistration(
+        "webauthn-registration-test-33333333-3333-4333-8333-333333333333"
+      )
+    ).resolves.toMatchObject({
+      method: "delete",
+      path: "users/webauthn_registrations/webauthn-registration-test-33333333-3333-4333-8333-333333333333",
+    });
+  });
+});

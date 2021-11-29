@@ -72,6 +72,13 @@ class Users {
     });
   }
 
+  deleteWebAuthnRegistration(webAuthnRegistrationID) {
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`)
+    });
+  }
+
 }
 
 exports.Users = Users;

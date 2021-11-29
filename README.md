@@ -24,7 +24,7 @@ This client library supports all of Stytch's live products:
   - [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
   - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
   - [x] [Session Management (Beta)](https://stytch.com/docs/api/sessions-overview)
-  - [ ] [WebAuthn (Coming soon)](https://stytch.com/docs/api/webauthn-overview)
+  - [x] [WebAuthn (Beta)](https://stytch.com/docs/api/webauthn-overview)
 
 ### Example usage
 Create an API client:

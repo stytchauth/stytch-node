@@ -25,6 +25,13 @@ export interface PhoneNumber {
   verified: boolean;
 }
 
+export interface WebAuthnRegistration {
+  webauthn_registration_id: string;
+  domain: string;
+  user_agent: string;
+  verified: boolean;
+}
+
 export interface EmailFactor {
   delivery_method: "email" | "embedded";
   type: string;
@@ -56,10 +63,22 @@ export interface GoogleOAuthFactor {
   };
 }
 
+export interface WebAuthnFactor {
+  delivery_method: "webauthn_registration";
+  type: string;
+  last_authenticated_at: Date;
+  webauthn_factor: {
+    webauthn_registration_id: string;
+    domain: string;
+    user_agent: string;
+  };
+}
+
 export type AuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
-  | GoogleOAuthFactor;
+  | GoogleOAuthFactor
+  | WebAuthnFactor;
 
 export interface Session {
   session_id: string;

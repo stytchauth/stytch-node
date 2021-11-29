@@ -3,6 +3,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
+import { WebAuthn } from "./webauthn";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
 import type * as otps from "./otps";
@@ -18,6 +19,7 @@ export declare class Client {
     otps: OTPs;
     oauth: OAuth;
     sessions: Sessions;
+    webauthn: WebAuthn;
     private client;
     constructor(config: Config);
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
