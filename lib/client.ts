@@ -6,6 +6,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
+import { WebAuthn } from "./webauthn";
 import type { AxiosInstance } from "axios";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
@@ -26,6 +27,7 @@ export class Client {
   otps: OTPs;
   oauth: OAuth;
   sessions: Sessions;
+  webauthn: WebAuthn;
 
   private client: AxiosInstance;
 
@@ -70,6 +72,7 @@ export class Client {
     this.oauth = new OAuth(this.client);
     this.otps = new OTPs(this.client);
     this.sessions = new Sessions(this.client);
+    this.webauthn = new WebAuthn(this.client);
   }
 
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
