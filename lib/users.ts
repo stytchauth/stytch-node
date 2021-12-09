@@ -41,6 +41,7 @@ export interface GetResponse extends BaseResponse {
   name: Name;
   emails: Email[];
   phone_numbers: PhoneNumber[];
+  webauthn_registrations: WebAuthnRegistration[];
   status: string;
 }
 
@@ -55,7 +56,6 @@ export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
   emails: Email[];
   phone_numbers: PhoneNumber[];
-  webauthn_registrations: WebAuthnRegistration[];
 }
 
 export interface DeleteResponse extends BaseResponse {
