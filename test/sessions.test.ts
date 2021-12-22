@@ -1,38 +1,6 @@
 import axios from "axios";
 import { Sessions } from "../lib/sessions";
-
-import type { AxiosRequestConfig } from "axios";
-
-type Response = {
-  status: number;
-  data: Record<string, unknown>;
-};
-
-type Request = {
-  method: string;
-  path: string;
-  params: Record<string, unknown>;
-  data?: Record<string, unknown>;
-};
-
-function mockRequest(
-  handler: (config: Request) => Response
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): (config: AxiosRequestConfig) => Promise<any> {
-  return (config: AxiosRequestConfig) => {
-    const request = {
-      method: config.method?.toString() || "",
-      path: config.url?.toString() || "",
-      params: config.params,
-      data: config.data && JSON.parse(config.data),
-    };
-    const response = handler(request);
-    return Promise.resolve({
-      ...response,
-      config,
-    });
-  };
-}
+import { mockRequest } from "./helpers";
 
 describe("sessions.get", () => {
   test("success", () => {
