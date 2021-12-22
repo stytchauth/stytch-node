@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Users } from "../lib/users";
+import { Users, UserSearchIterator, UserSearchOperator } from "../lib/users";
 
 import type { AxiosRequestConfig } from "axios";
 
@@ -40,6 +40,90 @@ describe("users.get", () => {
       method: "get",
       path: "users/user-test-22222222-2222-4222-8222-222222222222",
     });
+  });
+});
+
+describe("users.search", () => {
+  test("success", () => {
+    return expect(
+      users.search({
+        limit: 200,
+        query: {
+          operator: UserSearchOperator.OR,
+          operands: [
+            { filter: "status", status: "active" },
+            { filter: "phone_number_fuzzy", phone_number_fuzzy: "1234" }
+          ]
+        }
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "users/search",
+      data: {
+        limit: 200,
+        query: {
+          operator: UserSearchOperator.OR,
+          operands: [
+            { filter: "status", status: "active" },
+            { filter: "phone_number_fuzzy", phone_number_fuzzy: "1234" }
+          ]
+        }
+      }
+    });
+  });
+});
+
+describe("User Search iteration", () => {
+  test("success", async () => {
+    const clientMock = { search: jest.fn() };
+    const iter = new UserSearchIterator(clientMock as unknown as Users, {});
+    /* Before First Call */
+    expect(iter.hasNext()).toEqual(true);
+
+    /* First Call */
+    clientMock.search.mockResolvedValueOnce({
+      results: [1],
+      results_metadata: { next_cursor: "cursor-1" }
+    });
+    expect(await iter.next()).toEqual([1]);
+    expect(iter.hasNext()).toEqual(true);
+    expect(clientMock.search).toHaveBeenCalledWith({});
+
+    /* Second Call */
+    clientMock.search.mockResolvedValueOnce({
+      results: [2],
+      results_metadata: { next_cursor: "cursor-2" }
+    });
+    expect(await iter.next()).toEqual([2]);
+    expect(iter.hasNext()).toEqual(true);
+    expect(clientMock.search).toHaveBeenCalledWith({cursor: "cursor-1"});
+
+    /* Final Call */
+    clientMock.search.mockResolvedValueOnce({
+      results: [3],
+      results_metadata: { next_cursor: null }
+    });
+    expect(await iter.next()).toEqual([3]);
+    expect(iter.hasNext()).toEqual(false);
+    expect(clientMock.search).toHaveBeenCalledWith({cursor: "cursor-2"});
+  });
+
+  test("success- async for loop syntax", async () => {
+    const clientMock = { search: jest.fn() };
+    const iter = new UserSearchIterator(clientMock as unknown as Users, {});
+
+    clientMock.search
+      .mockResolvedValueOnce({ results: [1], results_metadata: { next_cursor: "cursor-1" } })
+      .mockResolvedValueOnce({ results: [2], results_metadata: { next_cursor: "cursor-2" } })
+      .mockResolvedValueOnce({ results: [3], results_metadata: { next_cursor: null } });
+
+    let allUsers: unknown[] = [];
+
+    for await(const users of iter) {
+      allUsers = allUsers.concat(users)
+    }
+
+    expect(allUsers).toEqual([1, 2, 3])
   });
 });
 

@@ -3,11 +3,63 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Users = void 0;
+exports.Users = exports.UserSearchIterator = exports.UserSearchOperator = void 0;
 
 var _shared = require("./shared");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+let UserSearchOperator;
+exports.UserSearchOperator = UserSearchOperator;
+
+(function (UserSearchOperator) {
+  UserSearchOperator["OR"] = "OR";
+  UserSearchOperator["AND"] = "AND";
+})(UserSearchOperator || (exports.UserSearchOperator = UserSearchOperator = {}));
+
+var mode;
+
+(function (mode) {
+  mode[mode["pending"] = 0] = "pending";
+  mode[mode["inProgress"] = 1] = "inProgress";
+  mode[mode["complete"] = 2] = "complete";
+})(mode || (mode = {}));
+
+class UserSearchIterator {
+  constructor(client, data) {
+    this.client = client;
+    this.data = data;
+    this.mode = mode.pending;
+  }
+
+  async next() {
+    const res = await this.client.search(this.data);
+    this.data = { ...this.data,
+      cursor: res.results_metadata.next_cursor
+    };
+
+    if (!this.data.cursor) {
+      this.mode = mode.complete;
+    } else {
+      this.mode = mode.inProgress;
+    }
+
+    return res.results;
+  }
+
+  hasNext() {
+    return this.mode !== mode.complete;
+  }
+
+  async *[Symbol.asyncIterator]() {
+    while (this.hasNext()) {
+      yield this.next();
+    }
+  }
+
+}
+
+exports.UserSearchIterator = UserSearchIterator;
 
 class Users {
   constructor(client) {
@@ -32,7 +84,25 @@ class Users {
     return (0, _shared.request)(this.client, {
       method: "GET",
       url: this.endpoint(userID)
+    }).then(res => ({ ...res,
+      ...parseUser(res)
+    }));
+  }
+
+  search(data) {
+    return (0, _shared.request)(this.client, {
+      method: "POST",
+      url: this.endpoint("search"),
+      data
+    }).then(res => {
+      return { ...res,
+        results: res.results.map(parseUser)
+      };
     });
+  }
+
+  searchAll(data) {
+    return new UserSearchIterator(this, data);
   }
 
   update(userID, data) {
@@ -82,3 +152,10 @@ class Users {
 }
 
 exports.Users = Users;
+
+function parseUser(user) {
+  console.log(user);
+  return { ...user,
+    created_at: new Date(user.created_at)
+  };
+}
