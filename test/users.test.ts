@@ -55,8 +55,8 @@ describe("users.search", () => {
           query: {
             operator: UserSearchOperator.OR,
             operands: [
-              { filter: "status", status: "active" },
-              { filter: "phone_number_fuzzy", phone_number_fuzzy: "1234" }
+              { filter_name: "status", filter_value: "active" },
+              { filter_name: "phone_number_fuzzy", filter_value: "1234" }
             ]
           }
         }
@@ -91,8 +91,8 @@ describe("users.search", () => {
         query: {
           operator: UserSearchOperator.OR,
           operands: [
-            { filter: "status", status: "active" },
-            { filter: "phone_number_fuzzy", phone_number_fuzzy: "1234" }
+            { filter_name: "status", filter_value: "active" },
+            { filter_name: "phone_number_fuzzy", filter_value: "1234" }
           ]
         }
       })
