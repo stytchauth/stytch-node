@@ -39,54 +39,59 @@ export declare enum UserSearchOperator {
     AND = "AND"
 }
 export declare type UserSearchOperand = {
-    filter: "created_at_greater_than";
-    created_at_greater_than: string;
+    filter_name: "created_at_greater_than";
+    filter_value: string;
 } | {
-    filter: "created_at_less_than";
-    created_at_less_than: string;
+    filter_name: "created_at_less_than";
+    filter_value: string;
 } | {
-    filter: "created_at_between";
-    created_at_greater_than: string;
-    created_at_less_than: string;
+    filter_name: "created_at_between";
+    filter_value: {
+        greater_than: string;
+        less_than: string;
+    };
 } | {
-    filter: "status";
-    status: "active" | "pending";
+    filter_name: "status";
+    filter_value: "active" | "pending";
 } | {
-    filter: "oauth_provider";
-    oauth_providers: string[];
+    filter_name: "oauth_provider";
+    filter_value: string[];
 } | {
-    filter: "user_id";
-    user_ids: string[];
+    filter_name: "user_id";
+    filter_value: string[];
 } | {
-    filter: "full_name_fuzzy";
-    full_name_fuzzy: string;
+    filter_name: "full_name_fuzzy";
+    filter_value: string;
 } | {
-    filter: "phone_number";
-    phone_numbers: string[];
+    filter_name: "phone_number";
+    filter_value: string[];
 } | {
-    filter: "phone_id";
-    phone_ids: string[];
+    filter_name: "phone_id";
+    filter_value: string[];
 } | {
-    filter: "phone_verified";
-    phone_verified: boolean;
+    filter_name: "phone_verified";
+    filter_value: boolean;
 } | {
-    filter: "phone_number_fuzzy";
-    phone_number_fuzzy: string;
+    filter_name: "phone_number_fuzzy";
+    filter_value: string;
 } | {
-    filter: "email_address";
-    email_addresses: string[];
+    filter_name: "email_address";
+    filter_value: string[];
 } | {
-    filter: "email_id";
-    email_ids: string[];
+    filter_name: "email_id";
+    filter_value: string[];
 } | {
-    filter: "email_verified";
-    email_verified: boolean;
+    filter_name: "email_verified";
+    filter_value: boolean;
 } | {
-    filter: "email_address_fuzzy";
-    email_address_fuzzy: string;
+    filter_name: "email_address_fuzzy";
+    filter_value: string;
 } | {
-    filter: "webauthn_registration_verified";
-    webauthn_registration_verified: boolean;
+    filter_name: "webauthn_registration_verified";
+    filter_value: boolean;
+} | {
+    filter_name: "webauthn_registration_id";
+    filter_value: string[];
 };
 export interface SearchRequest {
     limit?: number;

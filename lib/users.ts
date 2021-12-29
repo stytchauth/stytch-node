@@ -7,7 +7,7 @@ import type {
   Email,
   Name,
   PhoneNumber,
-  WebAuthnRegistration
+  WebAuthnRegistration,
 } from "./shared";
 
 export type UserID = string;
@@ -58,80 +58,80 @@ export enum UserSearchOperator {
 
 export type UserSearchOperand =
   | {
-  filter_name: "created_at_greater_than";
-  // Timestamp in RFC 3339 Format
-  filter_value: string;
-}
+      filter_name: "created_at_greater_than";
+      // Timestamp in RFC 3339 Format
+      filter_value: string;
+    }
   | {
-  filter_name: "created_at_less_than";
-  // Timestamp in RFC 3339 Format
-  filter_value: string;
-}
+      filter_name: "created_at_less_than";
+      // Timestamp in RFC 3339 Format
+      filter_value: string;
+    }
   | {
-  filter_name: "created_at_between";
-  filter_value: {
-    // Timestamp in RFC 3339 Format
-    greater_than: string;
-    // Timestamp in RFC 3339 Format
-    less_than: string;
-  }
-}
+      filter_name: "created_at_between";
+      filter_value: {
+        // Timestamp in RFC 3339 Format
+        greater_than: string;
+        // Timestamp in RFC 3339 Format
+        less_than: string;
+      };
+    }
   | {
-  filter_name: "status";
-  filter_value: "active" | "pending";
-}
+      filter_name: "status";
+      filter_value: "active" | "pending";
+    }
   | {
-  filter_name: "oauth_provider";
-  filter_value: string[];
-}
+      filter_name: "oauth_provider";
+      filter_value: string[];
+    }
   | {
-  filter_name: "user_id";
-  filter_value: string[];
-}
+      filter_name: "user_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "full_name_fuzzy";
-  filter_value: string;
-}
+      filter_name: "full_name_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "phone_number";
-  filter_value: string[];
-}
+      filter_name: "phone_number";
+      filter_value: string[];
+    }
   | {
-  filter_name: "phone_id";
-  filter_value: string[];
-}
+      filter_name: "phone_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "phone_verified";
-  filter_value: boolean;
-}
+      filter_name: "phone_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "phone_number_fuzzy";
-  filter_value: string;
-}
+      filter_name: "phone_number_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "email_address";
-  filter_value: string[];
-}
+      filter_name: "email_address";
+      filter_value: string[];
+    }
   | {
-  filter_name: "email_id";
-  filter_value: string[];
-}
+      filter_name: "email_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "email_verified";
-  filter_value: boolean;
-}
+      filter_name: "email_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "email_address_fuzzy";
-  filter_value: string;
-}
+      filter_name: "email_address_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "webauthn_registration_verified";
-  filter_value: boolean;
-}
+      filter_name: "webauthn_registration_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "webauthn_registration_id";
-  filter_value: string[];
-};
+      filter_name: "webauthn_registration_id";
+      filter_value: string[];
+    };
 
 export interface SearchRequest {
   limit?: number;
@@ -216,7 +216,7 @@ export class UserSearchIterator {
     const res = await this.client.search(this.data);
     this.data = {
       ...this.data,
-      cursor: res.results_metadata.next_cursor
+      cursor: res.results_metadata.next_cursor,
     };
     if (!this.data.cursor) {
       this.mode = mode.complete;
@@ -230,7 +230,7 @@ export class UserSearchIterator {
     return this.mode !== mode.complete;
   }
 
-  async* [Symbol.asyncIterator](): AsyncIterator<User[]> {
+  async *[Symbol.asyncIterator](): AsyncIterator<User[]> {
     while (this.hasNext()) {
       yield this.next();
     }
@@ -253,17 +253,17 @@ export class Users {
     return request(this.client, {
       method: "POST",
       url: this.base_path,
-      data
+      data,
     });
   }
 
   get(userID: UserID): Promise<GetResponse> {
     return request<BaseResponse & UserRaw>(this.client, {
       method: "GET",
-      url: this.endpoint(userID)
+      url: this.endpoint(userID),
     }).then((res) => ({
       ...res,
-      ...parseUser(res)
+      ...parseUser(res),
     }));
   }
 
@@ -271,11 +271,11 @@ export class Users {
     return request<SearchResponseRaw>(this.client, {
       method: "POST",
       url: this.endpoint("search"),
-      data
+      data,
     }).then((res) => {
       return {
         ...res,
-        results: res.results.map(parseUser)
+        results: res.results.map(parseUser),
       };
     });
   }
@@ -288,14 +288,14 @@ export class Users {
     return request(this.client, {
       method: "PUT",
       url: this.endpoint(userID),
-      data
+      data,
     });
   }
 
   delete(userID: UserID): Promise<DeleteResponse> {
     return request(this.client, {
       method: "DELETE",
-      url: this.endpoint(userID)
+      url: this.endpoint(userID),
     });
   }
 
@@ -303,21 +303,21 @@ export class Users {
     return request(this.client, {
       method: "GET",
       url: this.endpoint("pending"),
-      params
+      params,
     });
   }
 
   deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
     return request(this.client, {
       method: "DELETE",
-      url: this.endpoint(`emails/${emailID}`)
+      url: this.endpoint(`emails/${emailID}`),
     });
   }
 
   deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
     return request(this.client, {
       method: "DELETE",
-      url: this.endpoint(`phone_numbers/${phoneID}`)
+      url: this.endpoint(`phone_numbers/${phoneID}`),
     });
   }
 
@@ -326,7 +326,7 @@ export class Users {
   ): Promise<DeleteWebAuthnRegistrationResponse> {
     return request(this.client, {
       method: "DELETE",
-      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`)
+      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
     });
   }
 }
@@ -335,6 +335,6 @@ function parseUser(user: UserRaw): User {
   console.log(user);
   return {
     ...user,
-    created_at: new Date(user.created_at)
+    created_at: new Date(user.created_at),
   };
 }
