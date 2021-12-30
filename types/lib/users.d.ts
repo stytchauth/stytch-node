@@ -25,13 +25,13 @@ export interface CreateResponse extends BaseResponse {
 }
 interface User {
     user_id: UserID;
+    created_at: Date;
+    status: string;
     name: Name;
     emails: Email[];
     phone_numbers: PhoneNumber[];
-    webauthn_registrations: WebAuthnRegistration[];
     providers: OAuthProvider[];
-    status: string;
-    created_at: Date;
+    webauthn_registrations: WebAuthnRegistration[];
 }
 export declare type GetResponse = BaseResponse & User;
 export declare enum UserSearchOperator {

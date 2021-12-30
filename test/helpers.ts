@@ -21,12 +21,12 @@ export function mockRequest(
       method: config.method?.toString() || "",
       path: config.url?.toString() || "",
       params: config.params,
-      data: config.data && JSON.parse(config.data),
+      data: config.data && JSON.parse(config.data)
     };
     const response = handler(request);
     return Promise.resolve({
       ...response,
-      config,
+      config
     });
   };
 }

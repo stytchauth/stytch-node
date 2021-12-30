@@ -9,6 +9,12 @@ Object.defineProperty(exports, "Client", {
     return _client.Client;
   }
 });
+Object.defineProperty(exports, "UserSearchOperator", {
+  enumerable: true,
+  get: function () {
+    return _users.UserSearchOperator;
+  }
+});
 exports.envs = void 0;
 
 var _client = require("./client");
@@ -16,6 +22,8 @@ var _client = require("./client");
 var _envs = _interopRequireWildcard(require("./envs"));
 
 exports.envs = _envs;
+
+var _users = require("./users");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
