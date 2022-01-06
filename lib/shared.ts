@@ -32,6 +32,11 @@ export interface WebAuthnRegistration {
   verified: boolean;
 }
 
+export interface OAuthProvider {
+  provider_subject: string;
+  provider_type: string;
+}
+
 export interface EmailFactor {
   delivery_method: "email" | "embedded";
   type: string;

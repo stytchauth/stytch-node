@@ -25,6 +25,7 @@ This client library supports all of Stytch's live products:
   - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
   - [x] [Session Management (Beta)](https://stytch.com/docs/api/sessions-overview)
   - [x] [WebAuthn (Beta)](https://stytch.com/docs/api/webauthn-overview)
+  - [x] [User Management (Beta)](https://stytch.com/docs/api/users)
 
 ### Example usage
 Create an API client:
