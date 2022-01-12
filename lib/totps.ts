@@ -67,35 +67,35 @@ export class TOTPs {
     return `${this.base_path}/${path}`;
   }
 
-    create(data: CreateRequest): Promise<CreateResponse> {
-        return request(this.client, {
-            method: "POST",
-            url: this.base_path,
-            data,
-        });
-    }
+  create(data: CreateRequest): Promise<CreateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.base_path,
+      data,
+    });
+  }
 
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-        return request(this.client, {
-            method: "POST",
-            url: this.endpoint("authenticate"),
-            data,
-        });
-    }
+  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("authenticate"),
+      data,
+    });
+  }
 
-    recoveryCodes(data: RecoveryCodesRequest): Promise<RecoveryCodesResponse> {
-        return request(this.client, {
-            method: "POST",
-            url: this.endpoint("recovery_codes"),
-            data,
-        });
-    }
+  recoveryCodes(data: RecoveryCodesRequest): Promise<RecoveryCodesResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("recovery_codes"),
+      data,
+    });
+  }
 
-    recover(data: RecoverRequest): Promise<RecoverResponse> {
-        return request(this.client, {
-            method: "POST",
-            url: this.endpoint("recover"),
-            data,
-        });
-    }
+  recover(data: RecoverRequest): Promise<RecoverResponse> {
+    return request(this.client, {
+      method: "POST",
+      url: this.endpoint("recover"),
+      data,
+    });
+  }
 }

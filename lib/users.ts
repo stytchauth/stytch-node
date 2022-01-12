@@ -138,11 +138,11 @@ export type UserSearchOperand =
   | {
       filter_name: "totp_id";
       filter_value: string[];
-  }
+    }
   | {
       filter_name: "totp_status";
       filter_value: string[];
-  };
+    };
 
 export interface SearchRequest {
   limit?: number;
@@ -345,9 +345,7 @@ export class Users {
     });
   }
 
-  deleteTOTP(
-      totpID: string
-  ): Promise<DeleteTOTPResponse> {
+  deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
     return request(this.client, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
