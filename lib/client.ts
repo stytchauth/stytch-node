@@ -6,6 +6,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
+import { TOTPs } from "./totps";
 import { WebAuthn } from "./webauthn";
 import type { AxiosInstance } from "axios";
 import type * as users from "./users";
@@ -27,6 +28,7 @@ export class Client {
   otps: OTPs;
   oauth: OAuth;
   sessions: Sessions;
+  totps: TOTPs;
   webauthn: WebAuthn;
 
   private client: AxiosInstance;
@@ -72,6 +74,7 @@ export class Client {
     this.oauth = new OAuth(this.client);
     this.otps = new OTPs(this.client);
     this.sessions = new Sessions(this.client);
+    this.totps = new TOTPs(this.client);
     this.webauthn = new WebAuthn(this.client);
   }
 
