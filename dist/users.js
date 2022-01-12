@@ -149,6 +149,13 @@ class Users {
     });
   }
 
+  deleteTOTP(totpID) {
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`totps/${totpID}`)
+    });
+  }
+
 }
 
 exports.Users = Users;

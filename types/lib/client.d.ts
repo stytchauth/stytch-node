@@ -3,6 +3,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
+import { TOTPs } from "./totps";
 import { WebAuthn } from "./webauthn";
 import type * as users from "./users";
 import type * as magicLinks from "./magic_links";
@@ -19,6 +20,7 @@ export declare class Client {
     otps: OTPs;
     oauth: OAuth;
     sessions: Sessions;
+    totps: TOTPs;
     webauthn: WebAuthn;
     private client;
     constructor(config: Config);

@@ -21,6 +21,8 @@ var _otps = require("./otps");
 
 var _sessions = require("./sessions");
 
+var _totps = require("./totps");
+
 var _webauthn = require("./webauthn");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -69,6 +71,7 @@ class Client {
     this.oauth = new _oauth.OAuth(this.client);
     this.otps = new _otps.OTPs(this.client);
     this.sessions = new _sessions.Sessions(this.client);
+    this.totps = new _totps.TOTPs(this.client);
     this.webauthn = new _webauthn.WebAuthn(this.client);
   }
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
