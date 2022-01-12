@@ -18,7 +18,7 @@ const client = new stytch.Client({
 client.magicLinks.email
   .loginOrCreate({
     email: "sandbox@stytch.com",
-    // Configure these URLs at https://stytch.com/dashboard/magic-link-urls
+    // Configure these URLs at https://stytch.com/dashboard/redirect-urls
     login_magic_link_url: "http://localhost:8000/login",
     signup_magic_link_url: "http://localhost:8000/signup",
   })
