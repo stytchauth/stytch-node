@@ -278,3 +278,16 @@ describe("users.deleteWebAuthnRegistration", () => {
     });
   });
 });
+
+describe("users.deleteTOTP", () => {
+  test("success", () => {
+    return expect(
+        users.deleteTOTP(
+            "totp-test-33333333-3333-4333-8333-333333333333"
+        )
+    ).resolves.toMatchObject({
+      method: "delete",
+      path: "users/totps/totp-test-33333333-3333-4333-8333-333333333333"
+    });
+  });
+});

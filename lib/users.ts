@@ -8,6 +8,7 @@ import type {
   Name,
   PhoneNumber,
   WebAuthnRegistration,
+  TOTP,
 } from "./shared";
 
 export type UserID = string;
@@ -19,6 +20,7 @@ export interface PendingUser {
   phone_numbers: PhoneNumber[];
   status: string;
   invited_at: string;
+  totps: TOTP[];
 }
 
 export interface CreateRequest {
@@ -45,6 +47,7 @@ interface User {
   phone_numbers: PhoneNumber[];
   providers: OAuthProvider[];
   webauthn_registrations: WebAuthnRegistration[];
+  totps: TOTP[];
 }
 
 type UserRaw = Omit<User, "created_at"> & { created_at: string };
@@ -131,6 +134,14 @@ export type UserSearchOperand =
   | {
       filter_name: "webauthn_registration_id";
       filter_value: string[];
+    }
+  | {
+      filter_name: "totp_id";
+      filter_value: string[];
+    }
+  | {
+      filter_name: "totp_status";
+      filter_value: string[];
     };
 
 export interface SearchRequest {
@@ -196,6 +207,10 @@ export interface DeletePhoneNumberResponse extends BaseResponse {
 }
 
 export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
+  user_id: UserID;
+}
+
+export interface DeleteTOTPResponse extends BaseResponse {
   user_id: UserID;
 }
 
@@ -327,6 +342,13 @@ export class Users {
     return request(this.client, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
+    });
+  }
+
+  deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`totps/${totpID}`),
     });
   }
 }

@@ -32,6 +32,11 @@ export interface WebAuthnRegistration {
   verified: boolean;
 }
 
+export interface TOTP {
+  totp_id: string;
+  status: string;
+}
+
 export interface OAuthProvider {
   provider_subject: string;
   provider_type: string;
@@ -79,11 +84,21 @@ export interface WebAuthnFactor {
   };
 }
 
+export interface AuthenticatorAppFactor {
+  delivery_method: "authenticator_app";
+  type: string;
+  last_authenticated_at: Date;
+  authenticator_app_factor: {
+    totp_id: string;
+  };
+}
+
 export type AuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
   | GoogleOAuthFactor
-  | WebAuthnFactor;
+  | WebAuthnFactor
+  | AuthenticatorAppFactor;
 
 export interface Session {
   session_id: string;
