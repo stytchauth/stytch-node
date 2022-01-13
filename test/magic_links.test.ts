@@ -122,6 +122,37 @@ describe("magicLinks.email.loginOrCreate", () => {
       },
     });
   });
+  test("success: everything", () => {
+    return expect(
+      magicLinks.email.loginOrCreate({
+        email: "sandbox@stytch.com",
+        login_magic_link_url: "http://localhost:8000/login",
+        signup_magic_link_url: "http://localhost:8000/signup",
+        login_expiration_minutes: 10,
+        signup_expiration_minutes: 10,
+        create_user_as_pending: true,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "magic_links/email/login_or_create",
+      data: {
+        email: "sandbox@stytch.com",
+        login_magic_link_url: "http://localhost:8000/login",
+        signup_magic_link_url: "http://localhost:8000/signup",
+        login_expiration_minutes: 10,
+        signup_expiration_minutes: 10,
+        create_user_as_pending: true,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
+      },
+    });
+  });
 });
 
 describe("magicLinks.email.invite", () => {
@@ -135,6 +166,31 @@ describe("magicLinks.email.invite", () => {
       path: "magic_links/email/invite",
       data: {
         email: "sandbox@stytch.com",
+      },
+    });
+  });
+  test("success: everything", () => {
+    return expect(
+      magicLinks.email.invite({
+        email: "sandbox@stytch.com",
+        invite_magic_link_url: "http://localhost:8000/invite",
+        invite_expiration_minutes: 10,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
+      })
+    ).resolves.toMatchObject({
+      method: "post",
+      path: "magic_links/email/invite",
+      data: {
+        email: "sandbox@stytch.com",
+        invite_magic_link_url: "http://localhost:8000/invite",
+        invite_expiration_minutes: 10,
+        attributes: {
+          user_agent: "Toaster/3.0",
+          ip_address: "203.0.113.1",
+        },
       },
     });
   });
