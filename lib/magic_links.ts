@@ -5,8 +5,8 @@ import type { Attributes, BaseResponse, Name } from "./shared";
 
 export interface SendByEmailRequest {
   email: string;
-  login_magic_link_url: string;
-  signup_magic_link_url: string;
+  login_magic_link_url?: string;
+  signup_magic_link_url?: string;
   login_expiration_minutes?: number;
   signup_expiration_minutes?: number;
   attributes?: Attributes;
@@ -19,8 +19,8 @@ export interface SendByEmailResponse extends BaseResponse {
 
 export interface LoginOrCreateByEmailRequest {
   email: string;
-  login_magic_link_url: string;
-  signup_magic_link_url: string;
+  login_magic_link_url?: string;
+  signup_magic_link_url?: string;
   login_expiration_minutes?: number;
   signup_expiration_minutes?: number;
   create_user_as_pending?: boolean;
@@ -35,7 +35,7 @@ export interface LoginOrCreateByEmailResponse extends BaseResponse {
 
 export interface InviteByEmailRequest {
   email: string;
-  invite_magic_link_url: string;
+  invite_magic_link_url?: string;
   invite_expiration_minutes?: number;
   name?: Name;
   attributes?: Attributes;
