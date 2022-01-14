@@ -26,7 +26,7 @@ export interface WebAuthnRegistration {
 }
 export interface TOTP {
     totp_id: string;
-    status: string;
+    verified: boolean;
 }
 export interface OAuthProvider {
     provider_subject: string;
