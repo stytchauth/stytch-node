@@ -2,7 +2,7 @@ import type { AxiosInstance } from "axios";
 import type { BaseResponse, Session } from "./shared";
 export interface TOTP {
     totp_id: string;
-    status: string;
+    verified: boolean;
     recovery_codes: string[];
 }
 export interface CreateRequest {

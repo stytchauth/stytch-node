@@ -140,8 +140,8 @@ export type UserSearchOperand =
       filter_value: string[];
     }
   | {
-      filter_name: "totp_status";
-      filter_value: string[];
+      filter_name: "totp_verified";
+      filter_value: boolean;
     };
 
 export interface SearchRequest {
