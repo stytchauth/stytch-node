@@ -260,7 +260,7 @@ describe("totps.recovery_codes", () => {
 });
 
 describe("totp.recover", () => {
-  test("success", () => {
+  test("only required fields", () => {
     const adapter = mockRequest((req) => {
       expect(req).toEqual({
         method: "post",
@@ -290,6 +290,53 @@ describe("totp.recover", () => {
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
       user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
       totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
+      status_code: 200,
+    });
+  });
+  test("session token & duration", () => {
+    const adapter = mockRequest((req) => {
+      expect(req).toEqual({
+        method: "post",
+        path: "totps/recover",
+        data: {
+          user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+          recovery_code: "1111-1111-1111",
+          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+          session_duration_minutes: 60,
+        },
+      });
+
+      const data = {
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session: {
+          started_at: new Date("2021-08-28T00:41:58.935673Z"),
+          user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        },
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+    const totp = new TOTPs(axios.create({ adapter }));
+
+    return expect(
+        totp.recover({
+          user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+          recovery_code: "1111-1111-1111",
+          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+          session_duration_minutes: 60,
+        })
+    ).resolves.toMatchObject({
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+      totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
+      session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      session: {
+        started_at: new Date("2021-08-28T00:41:58.935673Z"),
+        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+      },
       status_code: 200,
     });
   });
