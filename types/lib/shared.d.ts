@@ -78,7 +78,15 @@ export interface AuthenticatorAppFactor {
         totp_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
+export interface RecoveryCodeFactor {
+    delivery_method: "recovery_code";
+    type: string;
+    last_authenticated_at: Date;
+    recovery_code: {
+        totp_recovery_code_id: string;
+    };
+}
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
 export interface Session {
     session_id: string;
     user_id: string;
