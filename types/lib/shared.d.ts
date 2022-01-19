@@ -82,11 +82,11 @@ export interface RecoveryCodeFactor {
     delivery_method: "recovery_code";
     type: string;
     last_authenticated_at: Date;
-    recovery_code: {
+    recovery_code_factor: {
         totp_recovery_code_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
 export interface Session {
     session_id: string;
     user_id: string;
