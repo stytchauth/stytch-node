@@ -108,6 +108,14 @@ export interface AuthenticatorAppFactor {
         totp_id: string;
     };
 }
+export interface RecoveryCodeFactor {
+    delivery_method: "recovery_code";
+    type: string;
+    last_authenticated_at: Date;
+    recovery_code_factor: {
+        totp_recovery_code_id: string;
+    };
+}
 export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
 export interface Session {
     session_id: string;

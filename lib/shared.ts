@@ -126,6 +126,15 @@ export interface AuthenticatorAppFactor {
   };
 }
 
+export interface RecoveryCodeFactor {
+  delivery_method: "recovery_code";
+  type: string;
+  last_authenticated_at: Date;
+  recovery_code_factor: {
+    totp_recovery_code_id: string;
+  };
+}
+
 export type AuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
