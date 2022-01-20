@@ -47,11 +47,15 @@ export interface RecoveryCodesResponse extends BaseResponse {
 export interface RecoverRequest {
   user_id: string;
   recovery_code: string;
+  session_token?: string;
+  session_duration_minutes?: number;
 }
 
 export interface RecoverResponse extends BaseResponse {
   user_id: string;
   totp_id: string;
+  session_token?: string;
+  session?: Session;
 }
 
 export class TOTPs {
