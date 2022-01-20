@@ -60,6 +60,36 @@ export interface GoogleOAuthFactor {
         provider_subject: string;
     };
 }
+export interface MicrosoftOAuthFactor {
+    delivery_method: "oauth_microsoft";
+    type: string;
+    last_authenticated_at: string;
+    google_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
+export interface AppleOAuthFactor {
+    delivery_method: "oauth_apple";
+    type: string;
+    last_authenticated_at: string;
+    google_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
+export interface GithubOAuthFactor {
+    delivery_method: "oauth_github";
+    type: string;
+    last_authenticated_at: string;
+    google_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
 export interface WebAuthnFactor {
     delivery_method: "webauthn_registration";
     type: string;
@@ -86,7 +116,7 @@ export interface RecoveryCodeFactor {
         totp_recovery_code_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
 export interface Session {
     session_id: string;
     user_id: string;
