@@ -35,7 +35,7 @@ export interface OAuthProvider {
 export interface EmailFactor {
     delivery_method: "email" | "embedded";
     type: string;
-    last_authenticated_at: Date;
+    last_authenticated_at: string;
     email_factor: {
         email_id: string;
         email_address: string;
@@ -44,7 +44,7 @@ export interface EmailFactor {
 export interface PhoneNumberFactor {
     delivery_method: "sms" | "whatsapp";
     type: string;
-    last_authenticated_at: Date;
+    last_authenticated_at: string;
     phone_number_factor: {
         phone_id: string;
         phone_number: string;
@@ -64,7 +64,7 @@ export interface MicrosoftOAuthFactor {
     delivery_method: "oauth_microsoft";
     type: string;
     last_authenticated_at: string;
-    google_oauth_factor: {
+    microsoft_oauth_factor: {
         id: string;
         email_id: string;
         provider_subject: string;
@@ -74,7 +74,7 @@ export interface AppleOAuthFactor {
     delivery_method: "oauth_apple";
     type: string;
     last_authenticated_at: string;
-    google_oauth_factor: {
+    apple_oauth_factor: {
         id: string;
         email_id: string;
         provider_subject: string;
@@ -84,7 +84,7 @@ export interface GithubOAuthFactor {
     delivery_method: "oauth_github";
     type: string;
     last_authenticated_at: string;
-    google_oauth_factor: {
+    github_oauth_factor: {
         id: string;
         email_id: string;
         provider_subject: string;
@@ -93,7 +93,7 @@ export interface GithubOAuthFactor {
 export interface WebAuthnFactor {
     delivery_method: "webauthn_registration";
     type: string;
-    last_authenticated_at: Date;
+    last_authenticated_at: string;
     webauthn_factor: {
         webauthn_registration_id: string;
         domain: string;
@@ -103,7 +103,7 @@ export interface WebAuthnFactor {
 export interface AuthenticatorAppFactor {
     delivery_method: "authenticator_app";
     type: string;
-    last_authenticated_at: Date;
+    last_authenticated_at: string;
     authenticator_app_factor: {
         totp_id: string;
     };
@@ -111,12 +111,12 @@ export interface AuthenticatorAppFactor {
 export interface RecoveryCodeFactor {
     delivery_method: "recovery_code";
     type: string;
-    last_authenticated_at: Date;
+    last_authenticated_at: string;
     recovery_code_factor: {
         totp_recovery_code_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
 export interface Session {
     session_id: string;
     user_id: string;
