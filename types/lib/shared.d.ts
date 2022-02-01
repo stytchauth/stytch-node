@@ -90,6 +90,16 @@ export interface GithubOAuthFactor {
         provider_subject: string;
     };
 }
+export interface FacebookOAuthFactor {
+    delivery_method: "oauth_facebook";
+    type: string;
+    last_authenticated_at: string;
+    facebook_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
 export interface WebAuthnFactor {
     delivery_method: "webauthn_registration";
     type: string;
@@ -116,7 +126,7 @@ export interface RecoveryCodeFactor {
         totp_recovery_code_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | FacebookOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
 export interface Session {
     session_id: string;
     user_id: string;

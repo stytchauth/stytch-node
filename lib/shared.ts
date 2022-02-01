@@ -106,6 +106,17 @@ export interface GithubOAuthFactor {
   };
 }
 
+export interface FacebookOAuthFactor {
+  delivery_method: "oauth_facebook";
+  type: string;
+  last_authenticated_at: string;
+  facebook_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
 export interface WebAuthnFactor {
   delivery_method: "webauthn_registration";
   type: string;
@@ -142,6 +153,7 @@ export type AuthenticationFactor =
   | MicrosoftOAuthFactor
   | AppleOAuthFactor
   | GithubOAuthFactor
+  | FacebookOAuthFactor
   | WebAuthnFactor
   | AuthenticatorAppFactor
   | RecoveryCodeFactor;
