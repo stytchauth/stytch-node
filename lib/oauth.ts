@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type { BaseResponse } from "./shared";
+import type { BaseResponse, Session } from "./shared";
 import { request } from "./shared";
 
 export interface AuthenticateRequest {
@@ -12,6 +12,10 @@ export interface OAuthSession {
   idp?: {
     access_token?: string;
     refresh_token?: string;
+  };
+  stytch_session?: {
+    session: Session;
+    session_token: string;
   };
 }
 
