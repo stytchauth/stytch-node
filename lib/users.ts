@@ -354,7 +354,6 @@ export class Users {
 }
 
 function parseUser(user: UserRaw): User {
-  console.log(user);
   return {
     ...user,
     created_at: new Date(user.created_at),

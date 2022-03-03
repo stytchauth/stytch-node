@@ -161,7 +161,6 @@ class Users {
 exports.Users = Users;
 
 function parseUser(user) {
-  console.log(user);
   return { ...user,
     created_at: new Date(user.created_at)
   };
