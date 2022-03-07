@@ -9,6 +9,7 @@ import type {
   PhoneNumber,
   WebAuthnRegistration,
   TOTP,
+  CryptoWallet,
 } from "./shared";
 
 export type UserID = string;
@@ -18,6 +19,7 @@ export interface PendingUser {
   name: Name;
   emails: Email[];
   phone_numbers: PhoneNumber[];
+  crypto_wallet: CryptoWallet[];
   status: string;
   invited_at: string;
   totps: TOTP[];
@@ -48,6 +50,7 @@ interface User {
   providers: OAuthProvider[];
   webauthn_registrations: WebAuthnRegistration[];
   totps: TOTP[];
+  crypto_wallets: CryptoWallet[];
 }
 
 type UserRaw = Omit<User, "created_at"> & { created_at: string };
@@ -136,6 +139,18 @@ export type UserSearchOperand =
       filter_value: string[];
     }
   | {
+      filter_name: "crypto_wallet_id";
+      filter_value: string[];
+    }
+  | {
+      filter_name: "crypto_wallet_address";
+      filter_value: string[];
+    }
+  | {
+      filter_name: "crypto_wallet_verified";
+      filter_value: boolean;
+    }
+  | {
       filter_name: "totp_id";
       filter_value: string[];
     }
@@ -173,6 +188,7 @@ export interface UpdateRequest {
   name?: Name;
   emails?: { email: string }[];
   phone_numbers?: { phone_number: string }[];
+  crypto_wallets?: { crypto_wallet_address: string, crypto_wallet_type: string }[];
   attributes?: Attributes;
 }
 
@@ -180,6 +196,7 @@ export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
   emails: Email[];
   phone_numbers: PhoneNumber[];
+  crypto_wallets: CryptoWallet[];
 }
 
 export interface DeleteResponse extends BaseResponse {
@@ -211,6 +228,10 @@ export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
 }
 
 export interface DeleteTOTPResponse extends BaseResponse {
+  user_id: UserID;
+}
+
+export interface DeleteCryptoWalletResponse extends BaseResponse {
   user_id: UserID;
 }
 
@@ -349,6 +370,15 @@ export class Users {
     return request(this.client, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
+    });
+  }
+
+  deleteCryptoWallet(
+    cryptoWalletID: string
+  ): Promise<DeleteCryptoWalletResponse> {
+    return request(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
     });
   }
 }

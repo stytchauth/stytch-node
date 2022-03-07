@@ -37,6 +37,13 @@ export interface TOTP {
   verified: boolean;
 }
 
+export interface CryptoWallet {
+  crypto_wallet_id: string;
+  crypto_wallet_address: string;
+  crypto_wallet_type: string;
+  verified: boolean;
+}
+
 export interface OAuthProvider {
   provider_subject: string;
   provider_type: string;
@@ -146,6 +153,17 @@ export interface RecoveryCodeFactor {
   };
 }
 
+export interface CryptoWalletFactor {
+  delivery_method: "crypto_wallet";
+  type: string;
+  last_authenticated_at: string;
+  crypto_wallet_factor: {
+    crypto_wallet_id: string;
+    crypto_wallet_address: string;
+    crypto_wallet_type: string;
+  };
+}
+
 export type AuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
@@ -156,7 +174,8 @@ export type AuthenticationFactor =
   | FacebookOAuthFactor
   | WebAuthnFactor
   | AuthenticatorAppFactor
-  | RecoveryCodeFactor;
+  | RecoveryCodeFactor
+  | CryptoWalletFactor;
 
 export interface Session {
   session_id: string;
