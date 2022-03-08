@@ -4,7 +4,7 @@ import type { BaseResponse } from "./shared";
 import { UserID } from "./users";
 export interface AuthenticateStartRequest {
     crypto_wallet_address: string;
-    crypto_wallet_id: string;
+    crypto_wallet_type: string;
     user_id?: UserID;
 }
 export interface AuthenticateStartResponse extends BaseResponse {
@@ -14,7 +14,7 @@ export interface AuthenticateStartResponse extends BaseResponse {
 }
 export interface AuthenticateRequest {
     crypto_wallet_address: string;
-    crypto_wallet_id: string;
+    crypto_wallet_type: string;
     signature: string;
     session_token?: string;
     session_duration_minutes?: number;

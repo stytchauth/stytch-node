@@ -1,3 +1,4 @@
+import { CryptoWallets } from "./crypto_wallets";
 import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -22,6 +23,7 @@ export declare class Client {
     sessions: Sessions;
     totps: TOTPs;
     webauthn: WebAuthn;
+    cryptoWallets: CryptoWallets;
     private client;
     constructor(config: Config);
     /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
