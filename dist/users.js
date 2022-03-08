@@ -156,6 +156,13 @@ class Users {
     });
   }
 
+  deleteCryptoWallet(cryptoWalletID) {
+    return (0, _shared.request)(this.client, {
+      method: "DELETE",
+      url: this.endpoint(`crypto_wallets/${cryptoWalletID}`)
+    });
+  }
+
 }
 
 exports.Users = Users;

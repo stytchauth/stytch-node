@@ -1,6 +1,7 @@
 import axios from "axios";
 import { version } from "../package.json";
 import * as envs from "./envs";
+import { CryptoWallets } from "./crypto_wallets";
 import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -30,6 +31,7 @@ export class Client {
   sessions: Sessions;
   totps: TOTPs;
   webauthn: WebAuthn;
+  cryptoWallets: CryptoWallets;
 
   private client: AxiosInstance;
 
@@ -76,6 +78,7 @@ export class Client {
     this.sessions = new Sessions(this.client);
     this.totps = new TOTPs(this.client);
     this.webauthn = new WebAuthn(this.client);
+    this.cryptoWallets = new CryptoWallets(this.client);
   }
 
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */

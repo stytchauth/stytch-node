@@ -1,12 +1,13 @@
 import { OAuthProvider } from "./shared";
 import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration, TOTP } from "./shared";
+import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration, TOTP, CryptoWallet } from "./shared";
 export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
     name: Name;
     emails: Email[];
     phone_numbers: PhoneNumber[];
+    crypto_wallet: CryptoWallet[];
     status: string;
     invited_at: string;
     totps: TOTP[];
@@ -34,6 +35,7 @@ interface User {
     providers: OAuthProvider[];
     webauthn_registrations: WebAuthnRegistration[];
     totps: TOTP[];
+    crypto_wallets: CryptoWallet[];
 }
 export declare type GetResponse = BaseResponse & User;
 export declare enum UserSearchOperator {
@@ -95,6 +97,15 @@ export declare type UserSearchOperand = {
     filter_name: "webauthn_registration_id";
     filter_value: string[];
 } | {
+    filter_name: "crypto_wallet_id";
+    filter_value: string[];
+} | {
+    filter_name: "crypto_wallet_address";
+    filter_value: string[];
+} | {
+    filter_name: "crypto_wallet_verified";
+    filter_value: boolean;
+} | {
     filter_name: "totp_id";
     filter_value: string[];
 } | {
@@ -124,12 +135,17 @@ export interface UpdateRequest {
     phone_numbers?: {
         phone_number: string;
     }[];
+    crypto_wallets?: {
+        crypto_wallet_address: string;
+        crypto_wallet_type: string;
+    }[];
     attributes?: Attributes;
 }
 export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
     emails: Email[];
     phone_numbers: PhoneNumber[];
+    crypto_wallets: CryptoWallet[];
 }
 export interface DeleteResponse extends BaseResponse {
     user_id: UserID;
@@ -154,6 +170,9 @@ export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
     user_id: UserID;
 }
 export interface DeleteTOTPResponse extends BaseResponse {
+    user_id: UserID;
+}
+export interface DeleteCryptoWalletResponse extends BaseResponse {
     user_id: UserID;
 }
 export declare class UserSearchIterator {
@@ -181,5 +200,6 @@ export declare class Users {
     deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
     deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse>;
     deleteTOTP(totpID: string): Promise<DeleteTOTPResponse>;
+    deleteCryptoWallet(cryptoWalletID: string): Promise<DeleteCryptoWalletResponse>;
 }
 export {};

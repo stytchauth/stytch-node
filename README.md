@@ -27,6 +27,7 @@ This client library supports all of Stytch's live products:
   - [x] [WebAuthn (Beta)](https://stytch.com/docs/api/webauthn-overview)
   - [x] [User Management (Beta)](https://stytch.com/docs/api/users)
   - [x] [Time-based one-time passcodes (TOTPs) (Beta)](https://stytch.com/docs/api/totps-overview)
+  - [x] [Crypto wallets (Beta)](https://stytch.com/docs/api/crypto-wallet-overview)
 
 ### Example usage
 Create an API client:

@@ -28,6 +28,12 @@ export interface TOTP {
     totp_id: string;
     verified: boolean;
 }
+export interface CryptoWallet {
+    crypto_wallet_id: string;
+    crypto_wallet_address: string;
+    crypto_wallet_type: string;
+    verified: boolean;
+}
 export interface OAuthProvider {
     provider_subject: string;
     provider_type: string;
@@ -126,7 +132,17 @@ export interface RecoveryCodeFactor {
         totp_recovery_code_id: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | FacebookOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor;
+export interface CryptoWalletFactor {
+    delivery_method: "crypto_wallet";
+    type: string;
+    last_authenticated_at: string;
+    crypto_wallet_factor: {
+        crypto_wallet_id: string;
+        crypto_wallet_address: string;
+        crypto_wallet_type: string;
+    };
+}
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | FacebookOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor;
 export interface Session {
     session_id: string;
     user_id: string;

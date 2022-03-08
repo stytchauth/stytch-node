@@ -11,6 +11,8 @@ var _package = require("../package.json");
 
 var envs = _interopRequireWildcard(require("./envs"));
 
+var _crypto_wallets = require("./crypto_wallets");
+
 var _users = require("./users");
 
 var _magic_links = require("./magic_links");
@@ -73,6 +75,7 @@ class Client {
     this.sessions = new _sessions.Sessions(this.client);
     this.totps = new _totps.TOTPs(this.client);
     this.webauthn = new _webauthn.WebAuthn(this.client);
+    this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.client);
   }
   /** @deprecated since version 3.0. Will be deleted in version 4.0.  Use users.create instead. */
 
