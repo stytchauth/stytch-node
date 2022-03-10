@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _exportNames = {
+  Client: true,
+  envs: true,
+  UserSearchOperator: true
+};
 Object.defineProperty(exports, "Client", {
   enumerable: true,
   get: function () {
@@ -24,6 +29,20 @@ var _envs = _interopRequireWildcard(require("./envs"));
 exports.envs = _envs;
 
 var _users = require("./users");
+
+var _errors = require("./errors");
+
+Object.keys(_errors).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _errors[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _errors[key];
+    }
+  });
+});
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
