@@ -7,7 +7,7 @@ exports.request = request;
 
 var _errors = require("./errors");
 
-var _nodeFetch = _interopRequireDefault(require("node-fetch"));
+var _isomorphicUnfetch = _interopRequireDefault(require("isomorphic-unfetch"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,7 +21,7 @@ async function request(fetchConfig, requestConfig) {
   let response;
 
   try {
-    response = await (0, _nodeFetch.default)(url.toString(), {
+    response = await (0, _isomorphicUnfetch.default)(url.toString(), {
       headers: fetchConfig.headers,
       method: requestConfig.method,
       body: JSON.stringify(requestConfig.data)

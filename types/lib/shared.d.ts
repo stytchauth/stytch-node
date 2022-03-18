@@ -1,5 +1,4 @@
 /// <reference types="node" />
-import { Headers } from "node-fetch";
 import * as http from "http";
 export interface Attributes {
     ip_address?: string;
@@ -170,7 +169,7 @@ export interface BaseResponse {
 }
 export interface fetchConfig {
     baseURL: string;
-    headers: Headers;
+    headers: Record<string, string>;
     timeout: number;
     agent?: http.Agent;
 }

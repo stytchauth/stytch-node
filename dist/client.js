@@ -29,8 +29,6 @@ var _totps = require("./totps");
 
 var _webauthn = require("./webauthn");
 
-var _nodeFetch = require("node-fetch");
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -58,11 +56,11 @@ class Client {
     if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
     }
 
-    const headers = new _nodeFetch.Headers({
+    const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${_package.version}`,
       "Authorization": 'Basic ' + Buffer.from(config.project_id + ':' + config.secret).toString('base64')
-    });
+    };
     this.fetchConfig = {
       baseURL: config.env,
       headers,

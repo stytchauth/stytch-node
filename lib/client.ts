@@ -10,7 +10,6 @@ import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { WebAuthn } from "./webauthn";
-import { Headers } from "node-fetch";
 import { fetchConfig } from "./shared";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
@@ -57,12 +56,12 @@ export class Client {
       // TODO: warn about non-production configuration
     }
 
-    const headers = new Headers({
+    const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${version}`,
       "Authorization": 'Basic ' +
         Buffer.from(config.project_id + ':' + config.secret).toString('base64')
-    })
+    }
 
     this.fetchConfig = {
       baseURL: config.env,

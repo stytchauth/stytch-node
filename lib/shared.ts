@@ -1,6 +1,6 @@
 import { StytchError, RequestError, StytchErrorJSON } from "./errors";
 
-import fetch, { Headers, Response } from "node-fetch";
+import fetch from "isomorphic-unfetch";
 import * as http from "http";
 
 // import type { AxiosInstance, AxiosRequestConfig } from "axios";
@@ -209,7 +209,7 @@ export interface BaseResponse {
 
 export interface fetchConfig {
   baseURL: string;
-  headers: Headers;
+  headers: Record<string, string>;
   timeout: number;
   agent?: http.Agent;
 }
@@ -223,12 +223,12 @@ export type requestConfig = {
 
 export async function request<T>(
   fetchConfig: fetchConfig,
-  requestConfig: requestConfig
+  requestConfig: requestConfig,
 ): Promise<T> {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(
-      ([key, value]) => url.searchParams.append(key, String(value))
+      ([key, value]) => url.searchParams.append(key, String(value)),
     );
   }
 
@@ -237,7 +237,7 @@ export async function request<T>(
     response = await fetch(url.toString(), {
       headers: fetchConfig.headers,
       method: requestConfig.method,
-      body: JSON.stringify(requestConfig.data)
+      body: JSON.stringify(requestConfig.data),
     });
   } catch (e) {
     const err = e as Error;
@@ -251,7 +251,7 @@ export async function request<T>(
     const err = e as Error;
     throw new RequestError(
       `Unable to parse JSON response from server: ${err.message}`,
-      requestConfig
+      requestConfig,
     );
   }
 
