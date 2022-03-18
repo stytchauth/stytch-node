@@ -234,7 +234,7 @@ export async function request<T>(
 
   let response: Response;
   try {
-    response = await fetch(url.toString(), {
+    response = await fetch.bind(globalThis)(url.toString(), {
       headers: fetchConfig.headers,
       method: requestConfig.method,
       body: JSON.stringify(requestConfig.data),

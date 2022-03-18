@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "jose": "^4.6.0",
+    "isomorphic-base64": "^1.0.2",
     "isomorphic-unfetch": "^3.1.0"
   },
   "eslintConfig": {
