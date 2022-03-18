@@ -1,6 +1,5 @@
-import { request } from "./shared";
+import { fetchConfig, request } from "./shared";
 
-import type { AxiosInstance } from "axios";
 import type { Attributes, BaseResponse, Session } from "./shared";
 
 export interface OTPEmailSendRequest {
@@ -100,10 +99,10 @@ class Email {
   base_path: string;
   delivery = "email";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance, base_path: string) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig, base_path: string) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -112,7 +111,7 @@ class Email {
   }
 
   send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data,
@@ -122,7 +121,7 @@ class Email {
   loginOrCreate(
     data: OTPEmailLoginOrCreateRequest
   ): Promise<OTPEmailLoginOrCreateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data,
@@ -134,10 +133,10 @@ class SMS {
   base_path: string;
   delivery = "sms";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance, base_path: string) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig, base_path: string) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -146,7 +145,7 @@ class SMS {
   }
 
   send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data,
@@ -156,7 +155,7 @@ class SMS {
   loginOrCreate(
     data: LoginOrCreateUserBySMSRequest
   ): Promise<LoginOrCreateUserBySMSResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data,
@@ -168,10 +167,10 @@ class WhatsApp {
   base_path: string;
   delivery = "whatsapp";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance, base_path: string) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig, base_path: string) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -180,7 +179,7 @@ class WhatsApp {
   }
 
   send(data: OTPWhatsAppSendRequest): Promise<OTPWhatsAppSendResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data,
@@ -190,7 +189,7 @@ class WhatsApp {
   loginOrCreate(
     data: OTPWhatsAppLoginOrCreateRequest
   ): Promise<OTPWhatsAppLoginOrCreateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data,
@@ -204,13 +203,13 @@ export class OTPs {
   sms: SMS;
   whatsapp: WhatsApp;
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
-    this.email = new Email(client, this.base_path);
-    this.sms = new SMS(client, this.base_path);
-    this.whatsapp = new WhatsApp(client, this.base_path);
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
+    this.email = new Email(fetchConfig, this.base_path);
+    this.sms = new SMS(fetchConfig, this.base_path);
+    this.whatsapp = new WhatsApp(fetchConfig, this.base_path);
   }
 
   private endpoint(path: string): string {
@@ -218,7 +217,7 @@ export class OTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,

@@ -11,10 +11,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // eslint-disable-line @typescript-eslint/no-empty-interface
 class Email {
-  constructor(client, parent_path) {
+  constructor(fetchConfig, parent_path) {
     _defineProperty(this, "delivery", "email");
 
-    this.client = client;
+    this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
   }
 
@@ -23,7 +23,7 @@ class Email {
   }
 
   send(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data
@@ -31,7 +31,7 @@ class Email {
   }
 
   loginOrCreate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data
@@ -39,7 +39,7 @@ class Email {
   }
 
   invite(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("invite"),
       data
@@ -47,7 +47,7 @@ class Email {
   }
 
   revokeInvite(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke_invite"),
       data
@@ -57,11 +57,11 @@ class Email {
 }
 
 class MagicLinks {
-  constructor(client) {
+  constructor(fetchConfig) {
     _defineProperty(this, "base_path", "magic_links");
 
-    this.client = client;
-    this.email = new Email(client, this.base_path);
+    this.fetchConfig = fetchConfig;
+    this.email = new Email(fetchConfig, this.base_path);
   }
 
   endpoint(path) {
@@ -69,7 +69,7 @@ class MagicLinks {
   }
 
   create(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data: data
@@ -77,7 +77,7 @@ class MagicLinks {
   }
 
   authenticate(token, data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: {

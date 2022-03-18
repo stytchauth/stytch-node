@@ -1,5 +1,4 @@
-import { Session } from "./shared";
-import type { AxiosInstance } from "axios";
+import { Session, fetchConfig } from "./shared";
 import type { BaseResponse } from "./shared";
 import { UserID } from "./users";
 export interface AuthenticateStartRequest {
@@ -28,8 +27,8 @@ export interface AuthenticateResponse extends BaseResponse {
 }
 export declare class CryptoWallets {
     base_path: string;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     authenticateStart(data: AuthenticateStartRequest): Promise<AuthenticateStartResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;

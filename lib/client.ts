@@ -1,7 +1,6 @@
+import { version } from "../package.json";
 import { URL } from "url";
 import * as jose from "jose";
-import axios from "axios";
-import { version } from "../package.json";
 import * as envs from "./envs";
 import { CryptoWallets } from "./crypto_wallets";
 import { Users } from "./users";
@@ -11,7 +10,8 @@ import { OTPs } from "./otps";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { WebAuthn } from "./webauthn";
-import type { AxiosInstance } from "axios";
+import { Headers } from "node-fetch";
+import { fetchConfig } from "./shared";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -32,7 +32,7 @@ export class Client {
   webauthn: WebAuthn;
   cryptoWallets: CryptoWallets;
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
   constructor(config: Config) {
     if (typeof config != "object") {
@@ -57,18 +57,18 @@ export class Client {
       // TODO: warn about non-production configuration
     }
 
-    this.client = axios.create({
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      "User-Agent": `Stytch Node v${version}`,
+      "Authorization": 'Basic ' +
+        Buffer.from(config.project_id + ':' + config.secret).toString('base64')
+    })
+
+    this.fetchConfig = {
       baseURL: config.env,
+      headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": `Stytch Node v${version}`,
-      },
-      auth: {
-        username: config.project_id,
-        password: config.secret,
-      },
-    });
+    }
 
     // Get a baseURL that ends with a slash to make building route URLs easier.
     let baseURL = config.env;
@@ -85,13 +85,13 @@ export class Client {
       ),
     };
 
-    this.users = new Users(this.client);
-    this.magicLinks = new MagicLinks(this.client);
-    this.oauth = new OAuth(this.client);
-    this.otps = new OTPs(this.client);
-    this.sessions = new Sessions(this.client, jwtConfig);
-    this.totps = new TOTPs(this.client);
-    this.webauthn = new WebAuthn(this.client);
-    this.cryptoWallets = new CryptoWallets(this.client);
+    this.users = new Users(this.fetchConfig);
+    this.magicLinks = new MagicLinks(this.fetchConfig);
+    this.oauth = new OAuth(this.fetchConfig);
+    this.otps = new OTPs(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, jwtConfig);
+    this.totps = new TOTPs(this.fetchConfig);
+    this.webauthn = new WebAuthn(this.fetchConfig);
+    this.cryptoWallets = new CryptoWallets(this.fetchConfig);
   }
 }

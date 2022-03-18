@@ -7,17 +7,42 @@ exports.request = request;
 
 var _errors = require("./errors");
 
-function request(client, config) {
-  return client.request(config).then(res => res.data).catch(err => {
-    if (err.response) {
-      // Received a structured error from the API
-      throw new _errors.StytchError(err.response.data);
-    } else if (err.request) {
-      // No response received for the request.
-      throw new _errors.RequestError(err.message, err.config);
-    } else {
-      // The request couldn't be sent for some reason.
-      throw new _errors.RequestError(err.message, config);
-    }
-  });
+var _nodeFetch = _interopRequireDefault(require("node-fetch"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+async function request(fetchConfig, requestConfig) {
+  const url = new URL(requestConfig.url, fetchConfig.baseURL);
+
+  if (requestConfig.params) {
+    Object.entries(requestConfig.params).forEach(([key, value]) => url.searchParams.append(key, String(value)));
+  }
+
+  let response;
+
+  try {
+    response = await (0, _nodeFetch.default)(url.toString(), {
+      headers: fetchConfig.headers,
+      method: requestConfig.method,
+      body: JSON.stringify(requestConfig.data)
+    });
+  } catch (e) {
+    const err = e;
+    throw new _errors.RequestError(err.message, requestConfig);
+  }
+
+  let responseJSON;
+
+  try {
+    responseJSON = await response.json();
+  } catch (e) {
+    const err = e;
+    throw new _errors.RequestError(`Unable to parse JSON response from server: ${err.message}`, requestConfig);
+  }
+
+  if (response.status >= 400) {
+    throw new _errors.StytchError(responseJSON);
+  }
+
+  return responseJSON;
 }

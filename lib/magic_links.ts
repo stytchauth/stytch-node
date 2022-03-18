@@ -1,7 +1,6 @@
 import { request, Session } from "./shared";
 
-import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse, Name } from "./shared";
+import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
 
 export interface SendByEmailRequest {
   email: string;
@@ -86,10 +85,10 @@ class Email {
   base_path: string;
   delivery = "email";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance, parent_path: string) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig, parent_path: string) {
+    this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
   }
 
@@ -98,7 +97,7 @@ class Email {
   }
 
   send(data: SendByEmailRequest): Promise<SendByEmailResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data,
@@ -108,7 +107,7 @@ class Email {
   loginOrCreate(
     data: LoginOrCreateByEmailRequest
   ): Promise<LoginOrCreateByEmailResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data,
@@ -116,7 +115,7 @@ class Email {
   }
 
   invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("invite"),
       data,
@@ -126,7 +125,7 @@ class Email {
   revokeInvite(
     data: RevokePendingInviteByEmailRequest
   ): Promise<RevokePendingInviteByEmailResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke_invite"),
       data,
@@ -138,11 +137,11 @@ export class MagicLinks {
   base_path = "magic_links";
   email: Email;
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
-    this.email = new Email(client, this.base_path);
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
+    this.email = new Email(fetchConfig, this.base_path);
   }
 
   private endpoint(path: string): string {
@@ -150,7 +149,7 @@ export class MagicLinks {
   }
 
   create(data: CreateRequest): Promise<CreateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data: data,
@@ -161,7 +160,7 @@ export class MagicLinks {
     token: string,
     data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: { token, ...data },

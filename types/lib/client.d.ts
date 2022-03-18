@@ -21,7 +21,7 @@ export declare class Client {
     totps: TOTPs;
     webauthn: WebAuthn;
     cryptoWallets: CryptoWallets;
-    private client;
+    private fetchConfig;
     constructor(config: Config);
 }
 export {};

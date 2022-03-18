@@ -1,4 +1,6 @@
-import type { AxiosInstance, AxiosRequestConfig } from "axios";
+/// <reference types="node" />
+import { Headers } from "node-fetch";
+import * as http from "http";
 export interface Attributes {
     ip_address?: string;
     user_agent?: string;
@@ -166,4 +168,16 @@ export interface BaseResponse {
     status_code: number;
     request_id: string;
 }
-export declare function request<T>(client: AxiosInstance, config: AxiosRequestConfig): Promise<T>;
+export interface fetchConfig {
+    baseURL: string;
+    headers: Headers;
+    timeout: number;
+    agent?: http.Agent;
+}
+export declare type requestConfig = {
+    url: string;
+    method: "GET" | "DELETE" | "POST" | "PUT";
+    params?: Record<string, string | number>;
+    data?: any;
+};
+export declare function request<T>(fetchConfig: fetchConfig, requestConfig: requestConfig): Promise<T>;

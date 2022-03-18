@@ -1,5 +1,4 @@
-import type { AxiosInstance } from "axios";
-import type { BaseResponse, Session } from "./shared";
+import type { BaseResponse, Session, fetchConfig } from "./shared";
 export interface AuthenticateRequest {
     session_token?: string;
     session_jwt?: string;
@@ -23,8 +22,8 @@ export interface ProvidersValues {
 }
 export declare class OAuth {
     base_path: string;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
 }

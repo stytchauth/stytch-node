@@ -20,10 +20,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const sessionClaim = "https://stytch.com/session";
 
 class Sessions {
-  constructor(client, jwtConfig) {
+  constructor(fetchConfig, jwtConfig) {
     _defineProperty(this, "base_path", "sessions");
 
-    this.client = client;
+    this.fetchConfig = fetchConfig;
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
@@ -37,10 +37,11 @@ class Sessions {
   }
 
   get(params) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
-      params
+      params: { ...params
+      }
     }).then(res => {
       return { ...res,
         sessions: res.sessions.map(parseSession)
@@ -49,14 +50,14 @@ class Sessions {
   }
 
   jwks(project_id) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(`jwks/${project_id}`)
     });
   }
 
   authenticate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
@@ -158,7 +159,7 @@ class Sessions {
   }
 
   revoke(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke"),
       data

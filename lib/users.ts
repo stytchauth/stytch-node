@@ -1,6 +1,5 @@
 import { OAuthProvider, request } from "./shared";
 
-import type { AxiosInstance } from "axios";
 import type {
   Attributes,
   BaseResponse,
@@ -10,6 +9,7 @@ import type {
   WebAuthnRegistration,
   TOTP,
   CryptoWallet,
+  fetchConfig,
 } from "./shared";
 
 export type UserID = string;
@@ -278,10 +278,10 @@ export class UserSearchIterator {
 
 export class Users {
   base_path = "users";
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   private endpoint(path: string): string {
@@ -289,7 +289,7 @@ export class Users {
   }
 
   create(data: CreateRequest): Promise<CreateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data,
@@ -297,7 +297,7 @@ export class Users {
   }
 
   get(userID: UserID): Promise<GetResponse> {
-    return request<BaseResponse & UserRaw>(this.client, {
+    return request<BaseResponse & UserRaw>(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(userID),
     }).then((res) => ({
@@ -307,7 +307,7 @@ export class Users {
   }
 
   search(data: SearchRequest): Promise<SearchResponse> {
-    return request<SearchResponseRaw>(this.client, {
+    return request<SearchResponseRaw>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("search"),
       data,
@@ -324,7 +324,7 @@ export class Users {
   }
 
   update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
       data,
@@ -332,45 +332,45 @@ export class Users {
   }
 
   delete(userID: UserID): Promise<DeleteResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(userID),
     });
   }
 
   getPending(params?: GetPendingRequest): Promise<GetPendingResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint("pending"),
-      params,
+      params: { ...params },
     });
   }
 
   deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`),
     });
   }
 
   deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
     });
   }
 
   deleteWebAuthnRegistration(
-    webAuthnRegistrationID: string
+    webAuthnRegistrationID: string,
   ): Promise<DeleteWebAuthnRegistrationResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
     });
   }
 
   deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
     });
@@ -379,7 +379,7 @@ export class Users {
   deleteCryptoWallet(
     cryptoWalletID: string
   ): Promise<DeleteCryptoWalletResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
     });

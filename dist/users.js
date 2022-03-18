@@ -62,10 +62,10 @@ class UserSearchIterator {
 exports.UserSearchIterator = UserSearchIterator;
 
 class Users {
-  constructor(client) {
+  constructor(fetchConfig) {
     _defineProperty(this, "base_path", "users");
 
-    this.client = client;
+    this.fetchConfig = fetchConfig;
   }
 
   endpoint(path) {
@@ -73,7 +73,7 @@ class Users {
   }
 
   create(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data
@@ -81,7 +81,7 @@ class Users {
   }
 
   get(userID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(userID)
     }).then(res => ({ ...res,
@@ -90,7 +90,7 @@ class Users {
   }
 
   search(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("search"),
       data
@@ -106,7 +106,7 @@ class Users {
   }
 
   update(userID, data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
       data
@@ -114,50 +114,51 @@ class Users {
   }
 
   delete(userID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(userID)
     });
   }
 
   getPending(params) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.endpoint("pending"),
-      params
+      params: { ...params
+      }
     });
   }
 
   deleteEmail(emailID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`)
     });
   }
 
   deletePhoneNumber(phoneID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`)
     });
   }
 
   deleteWebAuthnRegistration(webAuthnRegistrationID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`)
     });
   }
 
   deleteTOTP(totpID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`)
     });
   }
 
   deleteCryptoWallet(cryptoWalletID) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`)
     });

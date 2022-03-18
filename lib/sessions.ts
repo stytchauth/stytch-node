@@ -1,8 +1,7 @@
 import * as jose from "jose";
-import { request, Attributes, Session, AuthenticationFactor } from "./shared";
+import { request, Attributes, Session, AuthenticationFactor, fetchConfig } from "./shared";
 import { ClientError } from "./errors";
 
-import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
 
 export interface GetRequest {
@@ -88,13 +87,13 @@ type SessionClaim = {
 
 export class Sessions {
   base_path = "sessions";
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
 
-  constructor(client: AxiosInstance, jwtConfig: JwtConfig) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
+    this.fetchConfig = fetchConfig;
 
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
@@ -109,10 +108,10 @@ export class Sessions {
   }
 
   get(params: GetRequest): Promise<GetResponse> {
-    return request<GetResponseRaw>(this.client, {
+    return request<GetResponseRaw>(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
-      params,
+      params: { ...params },
     }).then((res): GetResponse => {
       return {
         ...res,
@@ -122,14 +121,14 @@ export class Sessions {
   }
 
   jwks(project_id: string): Promise<JwksResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(`jwks/${project_id}`),
     });
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<AuthenticateResponseRaw>(this.client, {
+    return request<AuthenticateResponseRaw>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
@@ -242,7 +241,7 @@ export class Sessions {
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke"),
       data,

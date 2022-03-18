@@ -1,5 +1,4 @@
-import type { AxiosInstance } from "axios";
-import type { BaseResponse, Session } from "./shared";
+import type { BaseResponse, Session, fetchConfig } from "./shared";
 import { request } from "./shared";
 
 export interface AuthenticateRequest {
@@ -29,10 +28,10 @@ export interface ProvidersValues {
 export class OAuth {
   base_path = "oauth";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   private endpoint(path: string): string {
@@ -41,9 +40,9 @@ export class OAuth {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest
+    data?: AuthenticateRequest,
   ): Promise<AuthenticateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: { token, ...data },

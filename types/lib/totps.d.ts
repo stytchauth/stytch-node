@@ -1,5 +1,4 @@
-import type { AxiosInstance } from "axios";
-import type { BaseResponse, Session } from "./shared";
+import type { BaseResponse, Session, fetchConfig } from "./shared";
 export interface TOTP {
     totp_id: string;
     verified: boolean;
@@ -52,8 +51,8 @@ export interface RecoverResponse extends BaseResponse {
 }
 export declare class TOTPs {
     base_path: string;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     create(data: CreateRequest): Promise<CreateResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
