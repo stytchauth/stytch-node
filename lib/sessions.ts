@@ -1,6 +1,7 @@
 import * as jose from "jose";
 import { URL } from "url";
 import { request, Attributes, Session, AuthenticationFactor } from "./shared";
+import { ClientError } from "./errors";
 
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
@@ -108,48 +109,96 @@ export class Sessions {
     });
   }
 
-  authenticate_jwt(
+  /** Parse a JWT and verify the signature, preferring local verification over remote.
+   *
+   * If maxTokenAge is set, remote verification will be forced if the JWT was issued at (based on
+   * the "iat" claim) more than maxTokenAge seconds ago.
+   */
+  async authenticate_jwt(
     jwt: string,
-    maxTokenAge?: number // seconds
+    options?: {
+      maxTokenAge?: number; // seconds
+    }
   ): Promise<AuthenticateResponse> {
-    return this.authenticate_jwt_local(jwt, maxTokenAge).catch((err) => {
-      if (err.code === "ERR_JWT_EXPIRED" && err.claim === "iat") {
-        // Token was too old to be considered valid. Check with the Stytch API.
+    try {
+      const session = await this.authenticate_jwt_local(jwt, options);
+      return {
+        session,
+        session_jwt: jwt,
+        session_token: "",
+
+        // Pretend that this was a successful API request.
+        request_id: "",
+        status_code: 200,
+      };
+    } catch (err) {
+      if (err instanceof ClientError && err.code === "jwt_too_old") {
+        // Token was too old (stale) to verify locally. Check with the Stytch API.
         return this.authenticate({ session_jwt: jwt });
       }
+
       throw err;
-    });
+    }
   }
 
-  authenticate_jwt_local(
+  /** Parse a JWT and verify the signature locally (without making an /authenticate call).
+   *
+   * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
+   * claim) more than maxTokenAge seconds ago.
+   */
+  async authenticate_jwt_local(
     jwt: string,
-    maxTokenAge?: number
-  ): Promise<AuthenticateResponse> {
-    return jose
-      .jwtVerify(jwt, this.jwks, { ...this.jwtOptions, maxTokenAge })
-      .then(({ payload }: jose.JWTVerifyResult) => {
-        // Re-pack the JWT contents as session data. Since we're actually changing the types of
-        // values stored on the session object, we have to disable type-checking for a bit.
-        //
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const session = payload[sessionClaim] as any;
+    options?: {
+      maxTokenAge?: number;
+    }
+  ): Promise<Session> {
+    // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity". We
+    // want zero to mean "every token is stale" and force remote verification.
+    const maxTokenAge = options?.maxTokenAge;
+    const now = Date.now() / 1000; // Unix epoch seconds
 
-        // The subject claim is the user ID.
-        session.user_id = payload.sub;
+    let payload;
+    try {
+      const token = await jose.jwtVerify(jwt, this.jwks, this.jwtOptions);
+      payload = token.payload;
+    } catch (err) {
+      throw new ClientError("jwt_invalid", "Could not verify JWT", err);
+    }
 
-        // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
-        // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
-        // other two timestamps are RFC3339-formatted strings.
-        session.expires_at = new Date((payload.exp || 0) * 1000);
-        session.started_at = new Date(session.started_at);
-        session.last_accessed_at = new Date(session.last_accessed_at);
+    if (maxTokenAge != null) {
+      const iat = payload.iat;
+      if (!iat) {
+        throw new ClientError("jwt_invalid", "JWT was missing iat claim");
+      }
+      if (now - iat > maxTokenAge) {
+        throw new ClientError(
+          "jwt_too_old",
+          `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`
+        );
+      }
+    }
 
-        // The JWT has a slightly different name for the session ID.
-        session.session_id = session.id;
-        delete session.id;
+    // Re-pack the JWT contents as session data. Since we're actually changing the types of
+    // values stored on the session object, we have to disable type-checking for a bit.
+    //
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const session = payload[sessionClaim] as any;
 
-        return session as AuthenticateResponse;
-      });
+    // The subject claim is the user ID.
+    session.user_id = payload.sub;
+
+    // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
+    // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
+    // other two timestamps are RFC3339-formatted strings.
+    session.expires_at = new Date((payload.exp || 0) * 1000);
+    session.started_at = new Date(session.started_at);
+    session.last_accessed_at = new Date(session.last_accessed_at);
+
+    // The JWT has a slightly different name for the session ID.
+    session.session_id = session.id;
+    delete session.id;
+
+    return session as Session;
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {
