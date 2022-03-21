@@ -12,18 +12,21 @@ export interface GetResponse extends BaseResponse {
 }
 
 export interface AuthenticateRequest {
-  session_token: string;
   session_duration_minutes?: number;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface AuthenticateResponse extends BaseResponse {
   session: Session;
   session_token: string;
+  session_jwt: string;
 }
 
 export interface RevokeRequest {
   session_id?: string;
   session_token?: string;
+  session_jwt?: string;
 }
 
 export type RevokeResponse = BaseResponse;
@@ -45,6 +48,7 @@ interface GetResponseRaw extends BaseResponse {
 interface AuthenticateResponseRaw extends BaseResponse {
   session: SessionRaw;
   session_token: string;
+  session_jwt: string;
 }
 
 export class Sessions {

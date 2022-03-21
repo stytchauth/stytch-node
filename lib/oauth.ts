@@ -5,6 +5,7 @@ import { request } from "./shared";
 export interface AuthenticateRequest {
   session_management_type?: "stytch" | "idp" | "none";
   session_token?: string;
+  session_jwt?: string;
   session_duration_minutes?: number;
 }
 
@@ -16,6 +17,7 @@ export interface OAuthSession {
   stytch_session?: {
     session: Session;
     session_token: string;
+    session_jwt: string;
   };
 }
 

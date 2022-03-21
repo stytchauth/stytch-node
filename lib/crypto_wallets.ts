@@ -21,12 +21,14 @@ export interface AuthenticateRequest {
   crypto_wallet_type: string;
   signature: string;
   session_token?: string;
+  session_jwt?: string;
   session_duration_minutes?: number;
 }
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: UserID;
   session_token?: string;
+  session_jwt?: string;
   session?: Session;
 }
 
