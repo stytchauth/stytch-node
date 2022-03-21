@@ -1,3 +1,5 @@
+import * as jose from "jose";
+import { URL } from "url";
 import { request, Attributes, Session, AuthenticationFactor } from "./shared";
 
 import type { AxiosInstance } from "axios";
@@ -51,12 +53,29 @@ interface AuthenticateResponseRaw extends BaseResponse {
   session_jwt: string;
 }
 
+interface JWTConfig {
+  projectID: string;
+  jwksURL: URL;
+}
+
+const sessionClaim = "https://stytch.com/session";
+
 export class Sessions {
   base_path = "sessions";
   private client: AxiosInstance;
 
-  constructor(client: AxiosInstance) {
+  private jwks: jose.JWTVerifyGetKey;
+  private jwtOptions: jose.JWTVerifyOptions;
+
+  constructor(client: AxiosInstance, jwtConfig: JWTConfig) {
     this.client = client;
+
+    this.jwks = jose.createRemoteJWKSet(jwtConfig.jwksURL);
+    this.jwtOptions = {
+      audience: jwtConfig.projectID,
+      issuer: `stytch.com/${jwtConfig.projectID}`,
+      typ: "JWT",
+    };
   }
 
   private endpoint(path: string): string {
@@ -87,6 +106,50 @@ export class Sessions {
         session: parseSession(res.session),
       };
     });
+  }
+
+  authenticate_jwt(
+    jwt: string,
+    maxTokenAge?: number // seconds
+  ): Promise<AuthenticateResponse> {
+    return this.authenticate_jwt_local(jwt, maxTokenAge).catch((err) => {
+      if (err.code === "ERR_JWT_EXPIRED" && err.claim === "iat") {
+        // Token was too old to be considered valid. Check with the Stytch API.
+        return this.authenticate({ session_jwt: jwt });
+      }
+      throw err;
+    });
+  }
+
+  authenticate_jwt_local(
+    jwt: string,
+    maxTokenAge?: number
+  ): Promise<AuthenticateResponse> {
+    return jose
+      .jwtVerify(jwt, this.jwks, { ...this.jwtOptions, maxTokenAge })
+      .then(({ payload }: jose.JWTVerifyResult) => {
+        // Re-pack the JWT contents as session data. Since we're actually changing the types of
+        // values stored on the session object, we have to disable type-checking for a bit.
+        //
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const session = payload[sessionClaim] as any;
+
+        // The subject claim is the user ID.
+        session.user_id = payload.sub;
+
+        // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
+        // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
+        // other two timestamps are RFC3339-formatted strings.
+        session.expires_at = new Date((payload.exp || 0) * 1000);
+        session.started_at = new Date(session.started_at);
+        session.last_accessed_at = new Date(session.last_accessed_at);
+
+        // The JWT has a slightly different name for the session ID.
+        session.session_id = session.id;
+        delete session.id;
+
+        return session as AuthenticateResponse;
+      });
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {

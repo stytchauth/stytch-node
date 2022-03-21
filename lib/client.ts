@@ -1,3 +1,4 @@
+import { URL } from "url";
 import axios from "axios";
 import { version } from "../package.json";
 import * as envs from "./envs";
@@ -71,11 +72,24 @@ export class Client {
       },
     });
 
+    // Get a baseURL that ends with a slash to make building route URLs easier.
+    let baseURL = config.env;
+    if (!baseURL.endsWith("/")) {
+      baseURL += "/";
+    }
+
+    const jwtConfig = {
+      // Only allow JWTs that were meant for this project.
+      projectID: config.project_id,
+      // Fetch the signature verification keys for this project as needed.
+      jwksURL: new URL(`sessions/jwks/${config.project_id}`, baseURL),
+    };
+
     this.users = new Users(this.client);
     this.magicLinks = new MagicLinks(this.client);
     this.oauth = new OAuth(this.client);
     this.otps = new OTPs(this.client);
-    this.sessions = new Sessions(this.client);
+    this.sessions = new Sessions(this.client, jwtConfig);
     this.totps = new TOTPs(this.client);
     this.webauthn = new WebAuthn(this.client);
     this.cryptoWallets = new CryptoWallets(this.client);

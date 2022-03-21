@@ -1,6 +1,14 @@
+import { URL } from "url";
 import axios from "axios";
 import { Sessions } from "../lib/sessions";
 import { mockRequest } from "./helpers";
+
+function jwtConfig(projectID: string) {
+  return {
+    projectID,
+    jwksURL: new URL(`sessions/jwks/${projectID}`, "http://localhost:8000/v1/"),
+  };
+}
 
 describe("sessions.get", () => {
   test("success", () => {
@@ -29,7 +37,10 @@ describe("sessions.get", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(axios.create({ adapter }));
+    const sessions = new Sessions(
+      axios.create({ adapter }),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+    );
 
     return expect(
       sessions.get({
@@ -74,7 +85,10 @@ describe("sessions.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(axios.create({ adapter }));
+    const sessions = new Sessions(
+      axios.create({ adapter }),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+    );
 
     return expect(
       sessions.authenticate({
@@ -103,7 +117,10 @@ describe("sessions.revoke", () => {
 
     return { status: 200, data: {} };
   });
-  const sessions = new Sessions(axios.create({ adapter }));
+  const sessions = new Sessions(
+    axios.create({ adapter }),
+    jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+  );
 
   test("success", () => {
     return expect(
