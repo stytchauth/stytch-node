@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Client = void 0;
 
+var _url = require("url");
+
 var _axios = _interopRequireDefault(require("axios"));
 
 var _package = require("../package.json");
@@ -67,12 +69,25 @@ class Client {
         username: config.project_id,
         password: config.secret
       }
-    });
+    }); // Get a baseURL that ends with a slash to make building route URLs easier.
+
+    let baseURL = config.env;
+
+    if (!baseURL.endsWith("/")) {
+      baseURL += "/";
+    }
+
+    const jwtConfig = {
+      // Only allow JWTs that were meant for this project.
+      projectID: config.project_id,
+      // Fetch the signature verification keys for this project as needed.
+      jwksURL: new _url.URL(`sessions/jwks/${config.project_id}`, baseURL)
+    };
     this.users = new _users.Users(this.client);
     this.magicLinks = new _magic_links.MagicLinks(this.client);
     this.oauth = new _oauth.OAuth(this.client);
     this.otps = new _otps.OTPs(this.client);
-    this.sessions = new _sessions.Sessions(this.client);
+    this.sessions = new _sessions.Sessions(this.client, jwtConfig);
     this.totps = new _totps.TOTPs(this.client);
     this.webauthn = new _webauthn.WebAuthn(this.client);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.client);

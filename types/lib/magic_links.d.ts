@@ -54,12 +54,14 @@ export interface AuthenticateRequest {
     };
     attributes?: Attributes;
     session_token?: string;
+    session_jwt?: string;
     session_duration_minutes?: number;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     method_id: string;
     session_token?: string;
+    session_jwt?: string;
     session?: Session;
 }
 export interface RevokePendingInviteByEmailRequest {
