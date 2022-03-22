@@ -40,11 +40,11 @@ export declare class Sessions {
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
-     * If maxTokenAge is set, remote verification will be forced if the JWT was issued at (based on
-     * the "iat" claim) more than maxTokenAge seconds ago.
+     * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
+     * (based on the "iat" claim) more than that many seconds ago.
      */
     authenticate_jwt(jwt: string, options?: {
-        maxTokenAge?: number;
+        max_token_age_seconds?: number;
     }): Promise<AuthenticateResponse>;
     /** Parse a JWT and verify the signature locally (without making an /authenticate call).
      *
@@ -52,7 +52,7 @@ export declare class Sessions {
      * claim) more than maxTokenAge seconds ago.
      */
     authenticate_jwt_local(jwt: string, options?: {
-        maxTokenAge?: number;
+        max_token_age_seconds?: number;
     }): Promise<Session>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
 }

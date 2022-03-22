@@ -43,7 +43,7 @@ describe("manual tests", () => {
       it("long nonzero age -> local only", async () => {
         const plain = await client.sessions.authenticate({ session_token });
         const actual = await client.sessions.authenticate_jwt(jwt, {
-          maxTokenAge: 3600, // one hour
+          max_token_age_seconds: 3600, // one hour
         });
         const expected = {
           ...plain,
@@ -60,14 +60,14 @@ describe("manual tests", () => {
 
       it("short nonzero age -> remote fallback", async () => {
         const actual = await client.sessions.authenticate_jwt(jwt, {
-          maxTokenAge: 1, // one second
+          max_token_age_seconds: 1,
         });
         await expect(actual.request_id).not.toEqual("");
       });
 
       it("zero age -> remote fallback", async () => {
         const actual = await client.sessions.authenticate_jwt(jwt, {
-          maxTokenAge: 0,
+          max_token_age_seconds: 0,
         });
         await expect(actual.request_id).not.toEqual("");
       });

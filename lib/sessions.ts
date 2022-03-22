@@ -111,17 +111,19 @@ export class Sessions {
 
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
-   * If maxTokenAge is set, remote verification will be forced if the JWT was issued at (based on
-   * the "iat" claim) more than maxTokenAge seconds ago.
+   * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
+   * (based on the "iat" claim) more than that many seconds ago.
    */
   async authenticate_jwt(
     jwt: string,
     options?: {
-      maxTokenAge?: number; // seconds
+      max_token_age_seconds?: number;
     }
   ): Promise<AuthenticateResponse> {
     try {
-      const session = await this.authenticate_jwt_local(jwt, options);
+      const session = await this.authenticate_jwt_local(jwt, {
+        max_token_age_seconds: options?.max_token_age_seconds,
+      });
       return {
         session,
         session_jwt: jwt,
@@ -149,12 +151,12 @@ export class Sessions {
   async authenticate_jwt_local(
     jwt: string,
     options?: {
-      maxTokenAge?: number;
+      max_token_age_seconds?: number;
     }
   ): Promise<Session> {
     // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity". We
     // want zero to mean "every token is stale" and force remote verification.
-    const maxTokenAge = options?.maxTokenAge;
+    const maxTokenAge = options?.max_token_age_seconds;
     const now = Date.now() / 1000; // Unix epoch seconds
 
     let payload;
