@@ -25,7 +25,7 @@ export interface RevokeRequest {
     session_jwt?: string;
 }
 export declare type RevokeResponse = BaseResponse;
-interface JWTConfig {
+interface JwtConfig {
     projectID: string;
     jwksURL: URL;
 }
@@ -34,7 +34,7 @@ export declare class Sessions {
     private client;
     private jwks;
     private jwtOptions;
-    constructor(client: AxiosInstance, jwtConfig: JWTConfig);
+    constructor(client: AxiosInstance, jwtConfig: JwtConfig);
     private endpoint;
     get(params: GetRequest): Promise<GetResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
@@ -46,7 +46,7 @@ export declare class Sessions {
      * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
      * authenticate method instead.
      */
-    authenticate_jwt(jwt: string, options?: {
+    authenticateJwt(jwt: string, options?: {
         max_token_age_seconds?: number;
     }): Promise<AuthenticateResponse>;
     /** Parse a JWT and verify the signature locally (without making an /authenticate call).
@@ -54,7 +54,7 @@ export declare class Sessions {
      * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
      * claim) more than maxTokenAge seconds ago.
      */
-    authenticate_jwt_local(jwt: string, options?: {
+    authenticateJwtLocal(jwt: string, options?: {
         max_token_age_seconds?: number;
     }): Promise<Session>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;

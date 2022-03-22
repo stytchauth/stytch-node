@@ -54,7 +54,7 @@ interface AuthenticateResponseRaw extends BaseResponse {
   session_jwt: string;
 }
 
-interface JWTConfig {
+interface JwtConfig {
   projectID: string;
   jwksURL: URL;
 }
@@ -68,7 +68,7 @@ export class Sessions {
   private jwks: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
 
-  constructor(client: AxiosInstance, jwtConfig: JWTConfig) {
+  constructor(client: AxiosInstance, jwtConfig: JwtConfig) {
     this.client = client;
 
     this.jwks = jose.createRemoteJWKSet(jwtConfig.jwksURL);
@@ -117,14 +117,14 @@ export class Sessions {
    * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
    * authenticate method instead.
    */
-  async authenticate_jwt(
+  async authenticateJwt(
     jwt: string,
     options?: {
       max_token_age_seconds?: number;
     }
   ): Promise<AuthenticateResponse> {
     try {
-      const session = await this.authenticate_jwt_local(jwt, {
+      const session = await this.authenticateJwtLocal(jwt, {
         max_token_age_seconds: options?.max_token_age_seconds,
       });
       return {
@@ -151,7 +151,7 @@ export class Sessions {
    * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
    * claim) more than maxTokenAge seconds ago.
    */
-  async authenticate_jwt_local(
+  async authenticateJwtLocal(
     jwt: string,
     options?: {
       max_token_age_seconds?: number;

@@ -69,9 +69,9 @@ class Sessions {
    */
 
 
-  async authenticate_jwt(jwt, options) {
+  async authenticateJwt(jwt, options) {
     try {
-      const session = await this.authenticate_jwt_local(jwt, {
+      const session = await this.authenticateJwtLocal(jwt, {
         max_token_age_seconds: options === null || options === void 0 ? void 0 : options.max_token_age_seconds
       });
       return {
@@ -100,7 +100,7 @@ class Sessions {
    */
 
 
-  async authenticate_jwt_local(jwt, options) {
+  async authenticateJwtLocal(jwt, options) {
     // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity". We
     // want zero to mean "every token is stale" and force remote verification.
     const maxTokenAge = options === null || options === void 0 ? void 0 : options.max_token_age_seconds;

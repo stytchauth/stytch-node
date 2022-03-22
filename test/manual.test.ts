@@ -42,7 +42,7 @@ describe("manual tests", () => {
     () => {
       it("long nonzero age -> local only", async () => {
         const plain = await client.sessions.authenticate({ session_token });
-        const actual = await client.sessions.authenticate_jwt(jwt, {
+        const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 3600, // one hour
         });
         const expected = {
@@ -59,26 +59,26 @@ describe("manual tests", () => {
       });
 
       it("short nonzero age -> remote fallback", async () => {
-        const actual = await client.sessions.authenticate_jwt(jwt, {
+        const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 1,
         });
         await expect(actual.request_id).not.toEqual("");
       });
 
       it("zero age -> remote fallback", async () => {
-        const actual = await client.sessions.authenticate_jwt(jwt, {
+        const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 0,
         });
         await expect(actual.request_id).not.toEqual("");
       });
 
       it("empty opts -> local only", async () => {
-        const actual = await client.sessions.authenticate_jwt(jwt, {});
+        const actual = await client.sessions.authenticateJwt(jwt, {});
         await expect(actual.request_id).toEqual("");
       });
 
       it("no opts -> local only", async () => {
-        const actual = await client.sessions.authenticate_jwt(jwt);
+        const actual = await client.sessions.authenticateJwt(jwt);
         await expect(actual.request_id).toEqual("");
       });
     }
