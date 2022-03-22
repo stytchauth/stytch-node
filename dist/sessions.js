@@ -63,6 +63,9 @@ class Sessions {
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
    * (based on the "iat" claim) more than that many seconds ago.
+   *
+   * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
+   * authenticate method instead.
    */
 
 
