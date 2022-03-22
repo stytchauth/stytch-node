@@ -71,16 +71,10 @@ class Sessions {
 
   async authenticateJwt(jwt, options) {
     try {
-      const session = await this.authenticateJwtLocal(jwt, {
-        max_token_age_seconds: options === null || options === void 0 ? void 0 : options.max_token_age_seconds
-      });
+      const session = await this.authenticateJwtLocal(jwt, options);
       return {
         session,
-        session_jwt: jwt,
-        session_token: "",
-        // Pretend that this was a successful API request.
-        request_id: "",
-        status_code: 200
+        session_jwt: jwt
       };
     } catch (err) {
       if (err instanceof _errors.ClientError && err.code === "jwt_too_old") {

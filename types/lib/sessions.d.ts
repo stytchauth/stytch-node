@@ -48,7 +48,10 @@ export declare class Sessions {
      */
     authenticateJwt(jwt: string, options?: {
         max_token_age_seconds?: number;
-    }): Promise<AuthenticateResponse>;
+    }): Promise<{
+        session: Session;
+        session_jwt: string;
+    }>;
     /** Parse a JWT and verify the signature locally (without making an /authenticate call).
      *
      * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"

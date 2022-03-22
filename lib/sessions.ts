@@ -122,19 +122,12 @@ export class Sessions {
     options?: {
       max_token_age_seconds?: number;
     }
-  ): Promise<AuthenticateResponse> {
+  ): Promise<{ session: Session; session_jwt: string }> {
     try {
-      const session = await this.authenticateJwtLocal(jwt, {
-        max_token_age_seconds: options?.max_token_age_seconds,
-      });
+      const session = await this.authenticateJwtLocal(jwt, options);
       return {
         session,
         session_jwt: jwt,
-        session_token: "",
-
-        // Pretend that this was a successful API request.
-        request_id: "",
-        status_code: 200,
       };
     } catch (err) {
       if (err instanceof ClientError && err.code === "jwt_too_old") {
