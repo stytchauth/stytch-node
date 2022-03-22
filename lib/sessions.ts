@@ -143,6 +143,9 @@ export class Sessions {
    *
    * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
    * claim) more than maxTokenAge seconds ago.
+   *
+   * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
+   * even if they are otherwise valid.
    */
   async authenticateJwtLocal(
     jwt: string,
