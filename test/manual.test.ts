@@ -45,41 +45,36 @@ describe("manual tests", () => {
         const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 3600, // one hour
         });
-        const expected = {
-          ...plain,
-          request_id: "",
-          session_token: "",
-        };
 
         // These won't actually be equal, so this is expected to fail. These are the expected differences:
         // 1. last_authenticated_at timestamps (~1s)
         // 2. last_accessed_at timestamps (~time since original session_token was printed)
-        // 3. session_jwt (should be a new one, but contain similar data)
-        return expect(actual).toEqual(expected);
+        await expect(actual.session_jwt).toEqual(jwt);
+        await expect(actual.session).toEqual(plain.session);
       });
 
       it("short nonzero age -> remote fallback", async () => {
         const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 1,
         });
-        await expect(actual.request_id).not.toEqual("");
+        await expect(actual.session_jwt).not.toEqual(jwt);
       });
 
       it("zero age -> remote fallback", async () => {
         const actual = await client.sessions.authenticateJwt(jwt, {
           max_token_age_seconds: 0,
         });
-        await expect(actual.request_id).not.toEqual("");
+        await expect(actual.session_jwt).not.toEqual(jwt);
       });
 
       it("empty opts -> local only", async () => {
         const actual = await client.sessions.authenticateJwt(jwt, {});
-        await expect(actual.request_id).toEqual("");
+        await expect(actual.session_jwt).toEqual(jwt);
       });
 
       it("no opts -> local only", async () => {
         const actual = await client.sessions.authenticateJwt(jwt);
-        await expect(actual.request_id).toEqual("");
+        await expect(actual.session_jwt).toEqual(jwt);
       });
     }
   );
