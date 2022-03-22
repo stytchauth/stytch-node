@@ -122,25 +122,21 @@ class Sessions {
       if (now - iat > maxTokenAge) {
         throw new _errors.ClientError("jwt_too_old", `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`);
       }
-    } // Re-pack the JWT contents as session data. Since we're actually changing the types of
-    // values stored on the session object, we have to disable type-checking for a bit.
-    //
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }
 
-
-    const session = payload[sessionClaim]; // The subject claim is the user ID.
-
-    session.user_id = payload.sub; // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
-    // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
-    // other two timestamps are RFC3339-formatted strings.
-
-    session.expires_at = new Date((payload.exp || 0) * 1000);
-    session.started_at = new Date(session.started_at);
-    session.last_accessed_at = new Date(session.last_accessed_at); // The JWT has a slightly different name for the session ID.
-
-    session.session_id = session.id;
-    delete session.id;
-    return session;
+    const claim = payload[sessionClaim];
+    return {
+      session_id: claim.id,
+      attributes: claim.attributes,
+      authentication_factors: claim.authentication_factors,
+      user_id: payload.sub || "",
+      // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
+      // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
+      // other two timestamps are RFC3339-formatted strings.
+      started_at: new Date(claim.started_at),
+      last_accessed_at: new Date(claim.last_accessed_at),
+      expires_at: new Date((payload.exp || 0) * 1000)
+    };
   }
 
   revoke(data) {
