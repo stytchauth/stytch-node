@@ -1,5 +1,4 @@
 import * as jose from "jose";
-import { URL } from "url";
 import { request, Attributes, Session, AuthenticationFactor } from "./shared";
 import { ClientError } from "./errors";
 
@@ -56,7 +55,7 @@ interface AuthenticateResponseRaw extends BaseResponse {
 
 interface JwtConfig {
   projectID: string;
-  jwksURL: URL;
+  jwks: jose.JWTVerifyGetKey;
 }
 
 const sessionClaim = "https://stytch.com/session";
@@ -80,7 +79,7 @@ export class Sessions {
   constructor(client: AxiosInstance, jwtConfig: JwtConfig) {
     this.client = client;
 
-    this.jwks = jose.createRemoteJWKSet(jwtConfig.jwksURL);
+    this.jwks = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,

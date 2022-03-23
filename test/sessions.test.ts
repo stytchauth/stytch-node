@@ -1,4 +1,4 @@
-import { URL } from "url";
+import * as jose from "jose";
 import axios from "axios";
 import { Sessions } from "../lib/sessions";
 import { mockRequest } from "./helpers";
@@ -6,7 +6,7 @@ import { mockRequest } from "./helpers";
 function jwtConfig(projectID: string) {
   return {
     projectID,
-    jwksURL: new URL(`sessions/jwks/${projectID}`, "http://localhost:8000/v1/"),
+    jwks: jose.createLocalJWKSet({ keys: [] }),
   };
 }
 

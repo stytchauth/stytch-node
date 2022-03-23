@@ -1,4 +1,5 @@
 import { URL } from "url";
+import * as jose from "jose";
 import axios from "axios";
 import { version } from "../package.json";
 import * as envs from "./envs";
@@ -82,7 +83,9 @@ export class Client {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwksURL: new URL(`sessions/jwks/${config.project_id}`, baseURL),
+      jwks: jose.createRemoteJWKSet(
+        new URL(`sessions/jwks/${config.project_id}`, baseURL)
+      ),
     };
 
     this.users = new Users(this.client);
