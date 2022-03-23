@@ -24,7 +24,7 @@ class Sessions {
     _defineProperty(this, "base_path", "sessions");
 
     this.client = client;
-    this.jwks = jose.createRemoteJWKSet(jwtConfig.jwksURL);
+    this.jwks = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,
@@ -87,30 +87,35 @@ class Sessions {
       throw err;
     }
   }
-  /** Parse a JWT and verify the signature locally (without making an /authenticate call).
+  /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
    *
    * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
    * claim) more than maxTokenAge seconds ago.
    *
    * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
    * even if they are otherwise valid.
+   *
+   * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
+   * defaults to the current date (new Date()).
    */
 
 
   async authenticateJwtLocal(jwt, options) {
-    // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity". We
-    // want zero to mean "every token is stale" and force remote verification.
-    const maxTokenAge = options === null || options === void 0 ? void 0 : options.max_token_age_seconds;
-    const now = Date.now() / 1000; // Unix epoch seconds
-
+    const now = (options === null || options === void 0 ? void 0 : options.current_date) || new Date();
     let payload;
 
     try {
-      const token = await jose.jwtVerify(jwt, this.jwks, this.jwtOptions);
+      const token = await jose.jwtVerify(jwt, this.jwks, { ...this.jwtOptions,
+        currentDate: now // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
+        // We want zero to mean "every token is stale" and force remote verification.
+
+      });
       payload = token.payload;
     } catch (err) {
       throw new _errors.ClientError("jwt_invalid", "Could not verify JWT", err);
     }
+
+    const maxTokenAge = options === null || options === void 0 ? void 0 : options.max_token_age_seconds;
 
     if (maxTokenAge != null) {
       const iat = payload.iat;
@@ -119,7 +124,9 @@ class Sessions {
         throw new _errors.ClientError("jwt_invalid", "JWT was missing iat claim");
       }
 
-      if (now - iat > maxTokenAge) {
+      const nowEpoch = +now / 1000; // Epoch seconds from milliseconds
+
+      if (nowEpoch - iat >= maxTokenAge) {
         throw new _errors.ClientError("jwt_too_old", `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`);
       }
     }

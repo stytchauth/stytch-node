@@ -31,7 +31,13 @@ exports.RequestError = RequestError;
 
 class ClientError extends Error {
   constructor(code, message, cause) {
-    super(`${code}: ${message}`);
+    let msg = `${code}: ${message}`;
+
+    if (cause) {
+      msg += `: ${cause}`;
+    }
+
+    super(msg);
     this.code = code;
     this.cause = cause;
   }

@@ -1,5 +1,4 @@
-/// <reference types="node" />
-import { URL } from "url";
+import * as jose from "jose";
 import { Session } from "./shared";
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
@@ -27,7 +26,7 @@ export interface RevokeRequest {
 export declare type RevokeResponse = BaseResponse;
 interface JwtConfig {
     projectID: string;
-    jwksURL: URL;
+    jwks: jose.JWTVerifyGetKey;
 }
 export declare class Sessions {
     base_path: string;
@@ -52,16 +51,20 @@ export declare class Sessions {
         session: Session;
         session_jwt: string;
     }>;
-    /** Parse a JWT and verify the signature locally (without making an /authenticate call).
+    /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
      *
      * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
      * claim) more than maxTokenAge seconds ago.
      *
      * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
      * even if they are otherwise valid.
+     *
+     * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
+     * defaults to the current date (new Date()).
      */
     authenticateJwtLocal(jwt: string, options?: {
         max_token_age_seconds?: number;
+        current_date?: Date;
     }): Promise<Session>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
 }
