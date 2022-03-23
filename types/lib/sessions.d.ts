@@ -8,6 +8,23 @@ export interface GetRequest {
 export interface GetResponse extends BaseResponse {
     sessions: Session[];
 }
+export interface JwksRequest {
+    project_id: string;
+}
+export interface JwksResponse extends BaseResponse {
+    keys: JWK[];
+}
+export interface JWK {
+    alg: string;
+    key_ops: string[];
+    kid: string;
+    kty: string;
+    use: string;
+    x5c: string[];
+    "x5t#S256": string;
+    n: string;
+    e: string;
+}
 export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
@@ -31,11 +48,12 @@ interface JwtConfig {
 export declare class Sessions {
     base_path: string;
     private client;
-    private jwks;
+    private jwksClient;
     private jwtOptions;
     constructor(client: AxiosInstance, jwtConfig: JwtConfig);
     private endpoint;
     get(params: GetRequest): Promise<GetResponse>;
+    jwks(params: JwksRequest): Promise<JwksResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *

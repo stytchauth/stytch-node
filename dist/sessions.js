@@ -24,7 +24,7 @@ class Sessions {
     _defineProperty(this, "base_path", "sessions");
 
     this.client = client;
-    this.jwks = jwtConfig.jwks;
+    this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,
@@ -45,6 +45,13 @@ class Sessions {
       return { ...res,
         sessions: res.sessions.map(parseSession)
       };
+    });
+  }
+
+  jwks(params) {
+    return (0, _shared.request)(this.client, {
+      method: "GET",
+      url: this.endpoint(`jwks/${params.project_id}`)
     });
   }
 
@@ -105,7 +112,7 @@ class Sessions {
     let payload;
 
     try {
-      const token = await jose.jwtVerify(jwt, this.jwks, { ...this.jwtOptions,
+      const token = await jose.jwtVerify(jwt, this.jwksClient, { ...this.jwtOptions,
         currentDate: now // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
         // We want zero to mean "every token is stale" and force remote verification.
 
