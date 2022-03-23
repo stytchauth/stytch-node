@@ -13,10 +13,6 @@ export interface GetResponse extends BaseResponse {
   sessions: Session[];
 }
 
-export interface JwksRequest {
-  project_id: string;
-}
-
 export interface JwksResponse extends BaseResponse {
   keys: JWK[];
 }
@@ -125,10 +121,10 @@ export class Sessions {
     });
   }
 
-  jwks(params: JwksRequest): Promise<JwksResponse> {
+  jwks(project_id: string): Promise<JwksResponse> {
     return request(this.client, {
       method: "GET",
-      url: this.endpoint(`jwks/${params.project_id}`),
+      url: this.endpoint(`jwks/${project_id}`),
     });
   }
 

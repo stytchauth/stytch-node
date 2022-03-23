@@ -48,10 +48,10 @@ class Sessions {
     });
   }
 
-  jwks(params) {
+  jwks(project_id) {
     return (0, _shared.request)(this.client, {
       method: "GET",
-      url: this.endpoint(`jwks/${params.project_id}`)
+      url: this.endpoint(`jwks/${project_id}`)
     });
   }
 

@@ -8,9 +8,6 @@ export interface GetRequest {
 export interface GetResponse extends BaseResponse {
     sessions: Session[];
 }
-export interface JwksRequest {
-    project_id: string;
-}
 export interface JwksResponse extends BaseResponse {
     keys: JWK[];
 }
@@ -53,7 +50,7 @@ export declare class Sessions {
     constructor(client: AxiosInstance, jwtConfig: JwtConfig);
     private endpoint;
     get(params: GetRequest): Promise<GetResponse>;
-    jwks(params: JwksRequest): Promise<JwksResponse>;
+    jwks(project_id: string): Promise<JwksResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *

@@ -151,9 +151,7 @@ describe("sessions.jwks", () => {
 
   test("success", () => {
     return expect(
-      sessions.jwks({
-        project_id: "project-test-11111111-1111-4111-8111-111111111111",
-      })
+      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
     ).resolves.toEqual({});
   });
 });
