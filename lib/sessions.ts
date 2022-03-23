@@ -147,7 +147,7 @@ export class Sessions {
     }
   }
 
-  /** Parse a JWT and verify the signature locally (without making an /authenticate call).
+  /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
    *
    * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
    * claim) more than maxTokenAge seconds ago.
