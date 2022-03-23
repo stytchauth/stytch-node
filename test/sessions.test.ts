@@ -135,6 +135,29 @@ describe("sessions.revoke", () => {
   });
 });
 
+describe("sessions.jwks", () => {
+  const adapter = mockRequest((req) => {
+    expect(req).toEqual({
+      method: "get",
+      path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+    });
+
+    return { status: 200, data: {} };
+  });
+  const sessions = new Sessions(
+    axios.create({ adapter }),
+    jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+  );
+
+  test("success", () => {
+    return expect(
+      sessions.jwks({
+        project_id: "project-test-11111111-1111-4111-8111-111111111111",
+      })
+    ).resolves.toEqual({});
+  });
+});
+
 /** Format the UTC timestamp truncated to second precision. */
 function iso(ts: Date): string {
   const pad = (n: number): string => {

@@ -13,6 +13,27 @@ export interface GetResponse extends BaseResponse {
   sessions: Session[];
 }
 
+export interface JwksRequest {
+  project_id: string;
+}
+
+export interface JwksResponse extends BaseResponse {
+  keys: JWK[];
+}
+
+export interface JWK {
+  alg: string;
+  key_ops: string[];
+  kid: string;
+  kty: string;
+  use: string;
+  x5c: string[];
+  "x5t#S256": string;
+
+  n: string;
+  e: string;
+}
+
 export interface AuthenticateRequest {
   session_duration_minutes?: number;
   session_token?: string;
@@ -73,13 +94,13 @@ export class Sessions {
   base_path = "sessions";
   private client: AxiosInstance;
 
-  private jwks: jose.JWTVerifyGetKey;
+  private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
 
   constructor(client: AxiosInstance, jwtConfig: JwtConfig) {
     this.client = client;
 
-    this.jwks = jwtConfig.jwks;
+    this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,
@@ -101,6 +122,13 @@ export class Sessions {
         ...res,
         sessions: res.sessions.map(parseSession),
       };
+    });
+  }
+
+  jwks(params: JwksRequest): Promise<JwksResponse> {
+    return request(this.client, {
+      method: "GET",
+      url: this.endpoint(`jwks/${params.project_id}`),
     });
   }
 
@@ -169,7 +197,7 @@ export class Sessions {
 
     let payload;
     try {
-      const token = await jose.jwtVerify(jwt, this.jwks, {
+      const token = await jose.jwtVerify(jwt, this.jwksClient, {
         ...this.jwtOptions,
         currentDate: now,
         // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
