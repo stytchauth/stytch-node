@@ -154,32 +154,40 @@ export class Sessions {
    *
    * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
    * even if they are otherwise valid.
+   *
+   * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
+   * defaults to the current date (new Date()).
    */
   async authenticateJwtLocal(
     jwt: string,
     options?: {
       max_token_age_seconds?: number;
+      current_date?: Date;
     }
   ): Promise<Session> {
-    // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity". We
-    // want zero to mean "every token is stale" and force remote verification.
-    const maxTokenAge = options?.max_token_age_seconds;
-    const now = Date.now() / 1000; // Unix epoch seconds
+    const now = options?.current_date || new Date();
 
     let payload;
     try {
-      const token = await jose.jwtVerify(jwt, this.jwks, this.jwtOptions);
+      const token = await jose.jwtVerify(jwt, this.jwks, {
+        ...this.jwtOptions,
+        currentDate: now,
+        // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
+        // We want zero to mean "every token is stale" and force remote verification.
+      });
       payload = token.payload;
     } catch (err) {
       throw new ClientError("jwt_invalid", "Could not verify JWT", err);
     }
 
+    const maxTokenAge = options?.max_token_age_seconds;
     if (maxTokenAge != null) {
       const iat = payload.iat;
       if (!iat) {
         throw new ClientError("jwt_invalid", "JWT was missing iat claim");
       }
-      if (now - iat > maxTokenAge) {
+      const nowEpoch = +now / 1000; // Epoch seconds from milliseconds
+      if (nowEpoch - iat >= maxTokenAge) {
         throw new ClientError(
           "jwt_too_old",
           `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`
