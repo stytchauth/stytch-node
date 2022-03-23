@@ -37,7 +37,11 @@ export class ClientError extends Error {
   cause: unknown;
 
   constructor(code: string, message: string, cause?: unknown) {
-    super(`${code}: ${message}`);
+    let msg = `${code}: ${message}`;
+    if (cause) {
+      msg += `: ${cause}`;
+    }
+    super(msg);
     this.code = code;
     this.cause = cause;
   }
