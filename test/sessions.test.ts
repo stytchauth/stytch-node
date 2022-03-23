@@ -310,4 +310,24 @@ describe("sessions.authenticateJwtLocal", () => {
     await expect(promise).rejects.toThrow(ClientError);
     await expect(promise).rejects.toHaveProperty("code", "jwt_too_old");
   });
+
+  test("reject alg=none", async () => {
+    jwt = new jose.UnsecuredJWT({
+      sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setIssuedAt()
+      .setExpirationTime("2h")
+      .setIssuer(`stytch.com/${projectID}`)
+      .setAudience([projectID])
+      .encode();
+
+    const decoded = jose.UnsecuredJWT.decode(jwt);
+    expect(decoded.header.alg).toBe("none");
+
+    const promise = sessions.authenticateJwtLocal(jwt);
+    await expect(promise).rejects.toThrow(ClientError);
+    await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
+    // This is part of the unstructured error message and comes directly from jose.
+    await expect(promise).rejects.toThrow(/Unsupported "alg" value/);
+  });
 });
