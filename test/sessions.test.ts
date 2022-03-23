@@ -266,12 +266,24 @@ describe("sessions.authenticateJwtLocal", () => {
     });
   });
 
-  test("setting max_token_age_seconds", async () => {
-    const promise = sessions.authenticateJwtLocal(jwt, {
-      current_date: dateAdd(startedAt, +10),
-      max_token_age_seconds: 30,
-    });
-    await expect(promise).resolves.toHaveProperty(
+  test("clock_tolerance_seconds allows for clock drift", async () => {
+    // Say the app clock is ahead of API clock by 10 seconds so we're verifying "before" the
+    // not-before time (nbf).
+    const appNow = dateAdd(startedAt, -10);
+
+    await expect(
+      sessions.authenticateJwtLocal(jwt, {
+        current_date: appNow,
+        clock_tolerance_seconds: 9,
+      })
+    ).rejects.toHaveProperty("code", "jwt_invalid");
+
+    await expect(
+      sessions.authenticateJwtLocal(jwt, {
+        current_date: appNow,
+        clock_tolerance_seconds: 10,
+      })
+    ).resolves.toHaveProperty(
       "user_id",
       "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
     );
@@ -294,6 +306,17 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("errors if token is too stale", async () => {
+    // Make sure the token validates at an earlier time.
+    await expect(
+      sessions.authenticateJwtLocal(jwt, {
+        current_date: dateAdd(startedAt, +3),
+        max_token_age_seconds: 5,
+      })
+    ).resolves.toHaveProperty(
+      "user_id",
+      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
+    );
+
     const promise = sessions.authenticateJwtLocal(jwt, {
       current_date: dateAdd(startedAt, +10),
       max_token_age_seconds: 5,

@@ -76,8 +76,12 @@ export declare class Sessions {
      *
      * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
      * defaults to the current date (new Date()).
+     *
+     * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
+     * timestamps. It defaults to zero.
      */
     authenticateJwtLocal(jwt: string, options?: {
+        clock_tolerance_seconds?: number;
         max_token_age_seconds?: number;
         current_date?: Date;
     }): Promise<Session>;

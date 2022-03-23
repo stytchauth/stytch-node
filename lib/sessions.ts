@@ -181,10 +181,14 @@ export class Sessions {
    *
    * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
    * defaults to the current date (new Date()).
+   *
+   * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
+   * timestamps. It defaults to zero.
    */
   async authenticateJwtLocal(
     jwt: string,
     options?: {
+      clock_tolerance_seconds?: number;
       max_token_age_seconds?: number;
       current_date?: Date;
     }
@@ -195,6 +199,7 @@ export class Sessions {
     try {
       const token = await jose.jwtVerify(jwt, this.jwksClient, {
         ...this.jwtOptions,
+        clockTolerance: options?.clock_tolerance_seconds,
         currentDate: now,
         // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
         // We want zero to mean "every token is stale" and force remote verification.
