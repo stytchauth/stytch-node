@@ -189,6 +189,15 @@ describe("sessions.authenticateJwtLocal", () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
     const { publicKey, privateKey } = await jose.generateKeyPair("RS256");
+
+    // This is definitely a crypto.KeyObject, but the export to JWK format only works in newer
+    // versions of Node (v16 and up). Something seems to be using older type definitions, so work
+    // around those by casting to any.
+    //
+    // When we start running these tests on older Node versions, we'll need to make this work
+    // there. But for now...
+    //
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const jwk = (publicKey as crypto.KeyObject as any).export({
       format: "jwk",
     });
