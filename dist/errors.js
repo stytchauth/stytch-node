@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RequestError = exports.StytchError = void 0;
+exports.ClientError = exports.RequestError = exports.StytchError = void 0;
 
 class StytchError extends Error {
   constructor(data) {
@@ -28,3 +28,20 @@ class RequestError extends Error {
 }
 
 exports.RequestError = RequestError;
+
+class ClientError extends Error {
+  constructor(code, message, cause) {
+    let msg = `${code}: ${message}`;
+
+    if (cause) {
+      msg += `: ${cause}`;
+    }
+
+    super(msg);
+    this.code = code;
+    this.cause = cause;
+  }
+
+}
+
+exports.ClientError = ClientError;

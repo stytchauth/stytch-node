@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Client = void 0;
 
+var _url = require("url");
+
+var jose = _interopRequireWildcard(require("jose"));
+
 var _axios = _interopRequireDefault(require("axios"));
 
 var _package = require("../package.json");
@@ -27,11 +31,11 @@ var _totps = require("./totps");
 
 var _webauthn = require("./webauthn");
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -67,12 +71,25 @@ class Client {
         username: config.project_id,
         password: config.secret
       }
-    });
+    }); // Get a baseURL that ends with a slash to make building route URLs easier.
+
+    let baseURL = config.env;
+
+    if (!baseURL.endsWith("/")) {
+      baseURL += "/";
+    }
+
+    const jwtConfig = {
+      // Only allow JWTs that were meant for this project.
+      projectID: config.project_id,
+      // Fetch the signature verification keys for this project as needed.
+      jwks: jose.createRemoteJWKSet(new _url.URL(`sessions/jwks/${config.project_id}`, baseURL))
+    };
     this.users = new _users.Users(this.client);
     this.magicLinks = new _magic_links.MagicLinks(this.client);
     this.oauth = new _oauth.OAuth(this.client);
     this.otps = new _otps.OTPs(this.client);
-    this.sessions = new _sessions.Sessions(this.client);
+    this.sessions = new _sessions.Sessions(this.client, jwtConfig);
     this.totps = new _totps.TOTPs(this.client);
     this.webauthn = new _webauthn.WebAuthn(this.client);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.client);

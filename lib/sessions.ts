@@ -1,4 +1,6 @@
+import * as jose from "jose";
 import { request, Attributes, Session, AuthenticationFactor } from "./shared";
+import { ClientError } from "./errors";
 
 import type { AxiosInstance } from "axios";
 import type { BaseResponse } from "./shared";
@@ -11,19 +13,39 @@ export interface GetResponse extends BaseResponse {
   sessions: Session[];
 }
 
+export interface JwksResponse extends BaseResponse {
+  keys: JWK[];
+}
+
+export interface JWK {
+  alg: string;
+  key_ops: string[];
+  kid: string;
+  kty: string;
+  use: string;
+  x5c: string[];
+  "x5t#S256": string;
+
+  n: string;
+  e: string;
+}
+
 export interface AuthenticateRequest {
-  session_token: string;
   session_duration_minutes?: number;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface AuthenticateResponse extends BaseResponse {
   session: Session;
   session_token: string;
+  session_jwt: string;
 }
 
 export interface RevokeRequest {
   session_id?: string;
   session_token?: string;
+  session_jwt?: string;
 }
 
 export type RevokeResponse = BaseResponse;
@@ -45,14 +67,41 @@ interface GetResponseRaw extends BaseResponse {
 interface AuthenticateResponseRaw extends BaseResponse {
   session: SessionRaw;
   session_token: string;
+  session_jwt: string;
 }
+
+interface JwtConfig {
+  projectID: string;
+  jwks: jose.JWTVerifyGetKey;
+}
+
+const sessionClaim = "https://stytch.com/session";
+
+type SessionClaim = {
+  id: string;
+  started_at: string;
+  last_accessed_at: string;
+  expires_at: string;
+  attributes: Attributes;
+  authentication_factors: AuthenticationFactor[];
+};
 
 export class Sessions {
   base_path = "sessions";
   private client: AxiosInstance;
 
-  constructor(client: AxiosInstance) {
+  private jwksClient: jose.JWTVerifyGetKey;
+  private jwtOptions: jose.JWTVerifyOptions;
+
+  constructor(client: AxiosInstance, jwtConfig: JwtConfig) {
     this.client = client;
+
+    this.jwksClient = jwtConfig.jwks;
+    this.jwtOptions = {
+      audience: jwtConfig.projectID,
+      issuer: `stytch.com/${jwtConfig.projectID}`,
+      typ: "JWT",
+    };
   }
 
   private endpoint(path: string): string {
@@ -72,6 +121,13 @@ export class Sessions {
     });
   }
 
+  jwks(project_id: string): Promise<JwksResponse> {
+    return request(this.client, {
+      method: "GET",
+      url: this.endpoint(`jwks/${project_id}`),
+    });
+  }
+
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
     return request<AuthenticateResponseRaw>(this.client, {
       method: "POST",
@@ -83,6 +139,106 @@ export class Sessions {
         session: parseSession(res.session),
       };
     });
+  }
+
+  /** Parse a JWT and verify the signature, preferring local verification over remote.
+   *
+   * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
+   * (based on the "iat" claim) more than that many seconds ago.
+   *
+   * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
+   * authenticate method instead.
+   */
+  async authenticateJwt(
+    jwt: string,
+    options?: {
+      max_token_age_seconds?: number;
+    }
+  ): Promise<{ session: Session; session_jwt: string }> {
+    try {
+      const session = await this.authenticateJwtLocal(jwt, options);
+      return {
+        session,
+        session_jwt: jwt,
+      };
+    } catch (err) {
+      if (err instanceof ClientError && err.code === "jwt_too_old") {
+        // JWT was too old (stale) to verify locally. Check with the Stytch API.
+        return this.authenticate({ session_jwt: jwt });
+      }
+
+      throw err;
+    }
+  }
+
+  /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
+   *
+   * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
+   * claim) more than maxTokenAge seconds ago.
+   *
+   * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
+   * even if they are otherwise valid.
+   *
+   * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
+   * defaults to the current date (new Date()).
+   *
+   * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
+   * timestamps. It defaults to zero.
+   */
+  async authenticateJwtLocal(
+    jwt: string,
+    options?: {
+      clock_tolerance_seconds?: number;
+      max_token_age_seconds?: number;
+      current_date?: Date;
+    }
+  ): Promise<Session> {
+    const now = options?.current_date || new Date();
+
+    let payload;
+    try {
+      const token = await jose.jwtVerify(jwt, this.jwksClient, {
+        ...this.jwtOptions,
+        clockTolerance: options?.clock_tolerance_seconds,
+        currentDate: now,
+        // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
+        // We want zero to mean "every token is stale" and force remote verification.
+      });
+      payload = token.payload;
+    } catch (err) {
+      throw new ClientError("jwt_invalid", "Could not verify JWT", err);
+    }
+
+    const maxTokenAge = options?.max_token_age_seconds;
+    if (maxTokenAge != null) {
+      const iat = payload.iat;
+      if (!iat) {
+        throw new ClientError("jwt_invalid", "JWT was missing iat claim");
+      }
+      const nowEpoch = +now / 1000; // Epoch seconds from milliseconds
+      if (nowEpoch - iat >= maxTokenAge) {
+        throw new ClientError(
+          "jwt_too_old",
+          `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`
+        );
+      }
+    }
+
+    const claim = payload[sessionClaim] as SessionClaim;
+    return {
+      session_id: claim.id,
+      attributes: claim.attributes,
+      authentication_factors: claim.authentication_factors,
+
+      user_id: payload.sub || "",
+
+      // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
+      // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
+      // other two timestamps are RFC3339-formatted strings.
+      started_at: new Date(claim.started_at),
+      last_accessed_at: new Date(claim.last_accessed_at),
+      expires_at: new Date((payload.exp || 0) * 1000),
+    };
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {

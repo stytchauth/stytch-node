@@ -19,12 +19,14 @@ export interface AuthenticateRequest {
     user_id: string;
     totp_code: string;
     session_token?: string;
+    session_jwt?: string;
     session_duration_minutes?: number;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     totp_id: string;
     session_token?: string;
+    session_jwt?: string;
     session?: Session;
 }
 export interface RecoveryCodesRequest {
@@ -38,12 +40,14 @@ export interface RecoverRequest {
     user_id: string;
     recovery_code: string;
     session_token?: string;
+    session_jwt?: string;
     session_duration_minutes?: number;
 }
 export interface RecoverResponse extends BaseResponse {
     user_id: string;
     totp_id: string;
     session_token?: string;
+    session_jwt?: string;
     session?: Session;
 }
 export declare class TOTPs {

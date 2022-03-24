@@ -31,12 +31,14 @@ export interface AuthenticateStartResponse extends BaseResponse {
 export interface AuthenticateRequest {
     public_key_credential: string;
     session_token?: string;
+    session_jwt?: string;
     session_duration_minutes?: number;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: UserID;
     webauthn_registration_id: string;
     session_token?: string;
+    session_jwt?: string;
     session?: Session;
 }
 export declare class WebAuthn {
