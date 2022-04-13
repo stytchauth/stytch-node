@@ -113,7 +113,7 @@ export interface GithubOAuthFactor {
   };
 }
 
-export interface GitlabOAuthFactor {
+export interface GitLabOAuthFactor {
   delivery_method: "oauth_gitlab";
   type: string;
   last_authenticated_at: string;
@@ -182,7 +182,7 @@ export type AuthenticationFactor =
   | MicrosoftOAuthFactor
   | AppleOAuthFactor
   | GithubOAuthFactor
-  | GitlabOAuthFactor
+  | GitLabOAuthFactor
   | FacebookOAuthFactor
   | WebAuthnFactor
   | AuthenticatorAppFactor

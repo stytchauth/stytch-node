@@ -96,7 +96,7 @@ export interface GithubOAuthFactor {
         provider_subject: string;
     };
 }
-export interface GitlabOAuthFactor {
+export interface GitLabOAuthFactor {
     delivery_method: "oauth_gitlab";
     type: string;
     last_authenticated_at: string;
@@ -152,7 +152,7 @@ export interface CryptoWalletFactor {
         crypto_wallet_type: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitlabOAuthFactor | FacebookOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor;
 export interface Session {
     session_id: string;
     user_id: string;
