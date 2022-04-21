@@ -38,29 +38,3 @@ describe("config errors", () => {
   });
 });
 
-describe("backward compatibility", () => {
-  // TODO(v4): Remove these deprecated methods.
-  test("v2.0 top-level client methods still exist", () => {
-    const client = new stytch.Client({
-      project_id: "project-test-00000000-0000-4000-8000-000000000000",
-      secret: "secret-test-11111111-1111-4111-8111-111111111111",
-      env: stytch.envs.test,
-    });
-
-    expect(client.createUser).toBeTruthy();
-    expect(client.getUser).toBeTruthy();
-    expect(client.updateUser).toBeTruthy();
-    expect(client.deleteUser).toBeTruthy();
-    expect(client.deleteUserEmail).toBeTruthy();
-    expect(client.deleteUserPhoneNumber).toBeTruthy();
-    expect(client.getPendingUsers).toBeTruthy();
-    expect(client.sendMagicLinkByEmail).toBeTruthy();
-    expect(client.loginOrCreate).toBeTruthy();
-    expect(client.inviteByEmail).toBeTruthy();
-    expect(client.revokePendingInvite).toBeTruthy();
-    expect(client.authenticateMagicLink).toBeTruthy();
-    expect(client.sendOTPBySMS).toBeTruthy();
-    expect(client.loginOrCreateUserBySMS).toBeTruthy();
-    expect(client.authenticateOTP).toBeTruthy();
-  });
-});

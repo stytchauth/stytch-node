@@ -133,21 +133,6 @@ describeIf(
       });
     });
 
-    // TODO(v4): Remove these deprecated methods
-    describe("sendMagicLinkByEmail", () => {
-      test("success", () => {
-        return client
-          .sendMagicLinkByEmail({
-            email: "sandbox@stytch.com",
-            login_magic_link_url: "http://localhost:8000/login",
-            signup_magic_link_url: "http://localhost:8000/signup",
-          })
-          .then((res) => {
-            expect(res.status_code).toEqual(200);
-          });
-      });
-    });
-
     describe("sessions.authenticate", () => {
       test("success", () => {
         return expect(
