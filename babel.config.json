@@ -3,5 +3,5 @@
     ["@babel/preset-env", { "modules": "commonjs" }],
     "@babel/preset-typescript"
   ],
-  "targets": "node 12"
+  "targets": "node 14"
 }

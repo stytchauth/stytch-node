@@ -1,6 +1,6 @@
 import { version } from "../package.json";
-import { URL } from "url";
 import * as jose from "jose";
+import { btoa } from "isomorphic-base64";
 import * as envs from "./envs";
 import { CryptoWallets } from "./crypto_wallets";
 import { Users } from "./users";
@@ -36,20 +36,20 @@ export class Client {
   constructor(config: Config) {
     if (typeof config != "object") {
       throw new Error(
-        "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library."
+        "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.",
       );
     }
 
     if (!config.project_id) {
-      throw new Error('Missing "project_id" in config');
+      throw new Error("Missing \"project_id\" in config");
     }
 
     if (!config.secret) {
-      throw new Error('Missing "secret" in config');
+      throw new Error("Missing \"secret\" in config");
     }
 
     if (!config.env) {
-      throw new Error('Missing "env" in config');
+      throw new Error("Missing \"env\" in config");
     }
 
     if (config.env != envs.test && config.env != envs.live) {
@@ -59,15 +59,15 @@ export class Client {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${version}`,
-      "Authorization": 'Basic ' +
-        Buffer.from(config.project_id + ':' + config.secret).toString('base64')
-    }
+      "Authorization": "Basic " +
+        btoa(config.project_id + ":" + config.secret),
+    };
 
     this.fetchConfig = {
       baseURL: config.env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
-    }
+    };
 
     // Get a baseURL that ends with a slash to make building route URLs easier.
     let baseURL = config.env;
@@ -80,7 +80,7 @@ export class Client {
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, baseURL)
+        new URL(`sessions/jwks/${config.project_id}`, baseURL),
       ),
     };
 

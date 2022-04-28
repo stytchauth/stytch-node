@@ -7,8 +7,6 @@ exports.Users = exports.UserSearchIterator = exports.UserSearchOperator = void 0
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 let UserSearchOperator;
 exports.UserSearchOperator = UserSearchOperator;
 
@@ -62,9 +60,9 @@ class UserSearchIterator {
 exports.UserSearchIterator = UserSearchIterator;
 
 class Users {
-  constructor(fetchConfig) {
-    _defineProperty(this, "base_path", "users");
+  base_path = "users";
 
+  constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 

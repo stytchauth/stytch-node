@@ -7,13 +7,11 @@ exports.MagicLinks = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 // eslint-disable-line @typescript-eslint/no-empty-interface
 class Email {
-  constructor(fetchConfig, parent_path) {
-    _defineProperty(this, "delivery", "email");
+  delivery = "email";
 
+  constructor(fetchConfig, parent_path) {
     this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
   }
@@ -57,9 +55,9 @@ class Email {
 }
 
 class MagicLinks {
-  constructor(fetchConfig) {
-    _defineProperty(this, "base_path", "magic_links");
+  base_path = "magic_links";
 
+  constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.email = new Email(fetchConfig, this.base_path);
   }

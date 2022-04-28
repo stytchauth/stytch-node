@@ -7,9 +7,9 @@ exports.Client = void 0;
 
 var _package = require("../package.json");
 
-var _url = require("url");
-
 var jose = _interopRequireWildcard(require("jose"));
+
+var _isomorphicBase = require("isomorphic-base64");
 
 var envs = _interopRequireWildcard(require("./envs"));
 
@@ -42,15 +42,15 @@ class Client {
     }
 
     if (!config.project_id) {
-      throw new Error('Missing "project_id" in config');
+      throw new Error("Missing \"project_id\" in config");
     }
 
     if (!config.secret) {
-      throw new Error('Missing "secret" in config');
+      throw new Error("Missing \"secret\" in config");
     }
 
     if (!config.env) {
-      throw new Error('Missing "env" in config');
+      throw new Error("Missing \"env\" in config");
     }
 
     if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
@@ -59,7 +59,7 @@ class Client {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${_package.version}`,
-      "Authorization": 'Basic ' + Buffer.from(config.project_id + ':' + config.secret).toString('base64')
+      "Authorization": "Basic " + (0, _isomorphicBase.btoa)(config.project_id + ":" + config.secret)
     };
     this.fetchConfig = {
       baseURL: config.env,
@@ -77,7 +77,7 @@ class Client {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new _url.URL(`sessions/jwks/${config.project_id}`, baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`sessions/jwks/${config.project_id}`, baseURL))
     };
     this.users = new _users.Users(this.fetchConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);

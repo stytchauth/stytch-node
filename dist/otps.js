@@ -7,12 +7,10 @@ exports.OTPs = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 class Email {
-  constructor(fetchConfig, base_path) {
-    _defineProperty(this, "delivery", "email");
+  delivery = "email";
 
+  constructor(fetchConfig, base_path) {
     this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
@@ -40,9 +38,9 @@ class Email {
 }
 
 class SMS {
-  constructor(fetchConfig, base_path) {
-    _defineProperty(this, "delivery", "sms");
+  delivery = "sms";
 
+  constructor(fetchConfig, base_path) {
     this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
@@ -70,9 +68,9 @@ class SMS {
 }
 
 class WhatsApp {
-  constructor(fetchConfig, base_path) {
-    _defineProperty(this, "delivery", "whatsapp");
+  delivery = "whatsapp";
 
+  constructor(fetchConfig, base_path) {
     this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
@@ -100,9 +98,9 @@ class WhatsApp {
 }
 
 class OTPs {
-  constructor(fetchConfig) {
-    _defineProperty(this, "base_path", "otps");
+  base_path = "otps";
 
+  constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.email = new Email(fetchConfig, this.base_path);
     this.sms = new SMS(fetchConfig, this.base_path);
