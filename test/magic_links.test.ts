@@ -1,19 +1,21 @@
-import axios from "axios";
 import { MagicLinks } from "../lib/magic_links";
+import { MOCK_FETCH_CONFIG } from "./helpers";
+import { request } from "../lib/shared";
 
-import type { AxiosRequestConfig } from "axios";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const adapter = (config: AxiosRequestConfig): Promise<any> => {
-  return Promise.resolve({
-    data: {
+jest.mock('../lib/shared');
+beforeEach(() => {
+  (request as jest.Mock).mockReset();
+  (request as jest.Mock).mockImplementation((_, config) => {
+    return Promise.resolve({
       method: config.method,
       path: config.url,
-      data: JSON.parse(config.data),
-    },
+      data: config.data,
+      params: config.params,
+    });
   });
-};
-const magicLinks = new MagicLinks(axios.create({ adapter }));
+});
+
+const magicLinks = new MagicLinks(MOCK_FETCH_CONFIG);
 
 describe("magicLinks.create", () => {
   test("success", () => {
@@ -23,7 +25,7 @@ describe("magicLinks.create", () => {
         expiration_minutes: 75,
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links",
       data: {
         user_id: "user-test-22222222-2222-4222-8222-222222222222",
@@ -41,7 +43,7 @@ describe("magicLinks.authenticate", () => {
         session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/authenticate",
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
@@ -54,7 +56,7 @@ describe("magicLinks.authenticate", () => {
     return expect(
       magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/authenticate",
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
@@ -70,7 +72,7 @@ describe("magicLinks.email.send", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/send",
       data: {
         email: "sandbox@stytch.com",
@@ -91,7 +93,7 @@ describe("magicLinks.email.send", () => {
         },
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/send",
       data: {
         email: "sandbox@stytch.com",
@@ -115,7 +117,7 @@ describe("magicLinks.email.loginOrCreate", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
@@ -137,7 +139,7 @@ describe("magicLinks.email.loginOrCreate", () => {
         },
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
@@ -162,7 +164,7 @@ describe("magicLinks.email.invite", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/invite",
       data: {
         email: "sandbox@stytch.com",
@@ -181,7 +183,7 @@ describe("magicLinks.email.invite", () => {
         },
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/invite",
       data: {
         email: "sandbox@stytch.com",
@@ -203,7 +205,7 @@ describe("magicLinks.email.revokeInvite", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "magic_links/email/revoke_invite",
       data: {
         email: "sandbox@stytch.com",

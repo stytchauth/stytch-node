@@ -1,12 +1,13 @@
-import axios from "axios";
 import { CryptoWallets } from "../lib/crypto_wallets";
-import { mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+
+jest.mock('../lib/shared');
 
 describe("cryptowallets.authenticateStart", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "crypto_wallets/authenticate/start",
         data: {
           crypto_wallet_address: "0x1234567890123456789012345678901234567890",
@@ -22,7 +23,7 @@ describe("cryptowallets.authenticateStart", () => {
       };
       return { status: 200, data };
     });
-    const cryptoWallets = new CryptoWallets(axios.create({ adapter }));
+    const cryptoWallets = new CryptoWallets(MOCK_FETCH_CONFIG);
 
     return expect(
       cryptoWallets.authenticateStart({
@@ -40,9 +41,9 @@ describe("cryptowallets.authenticateStart", () => {
 
 describe("cryptowallets.authenticate", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "crypto_wallets/authenticate",
         data: {
           crypto_wallet_address: "0x1234567890123456789012345678901234567890",
@@ -58,7 +59,7 @@ describe("cryptowallets.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const cryptoWallets = new CryptoWallets(axios.create({ adapter }));
+    const cryptoWallets = new CryptoWallets(MOCK_FETCH_CONFIG);
 
     return expect(
       cryptoWallets.authenticate({

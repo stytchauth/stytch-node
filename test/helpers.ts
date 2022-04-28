@@ -1,4 +1,6 @@
-import type { AxiosRequestConfig } from "axios";
+// import type { AxiosRequestConfig } from "axios";
+
+import { request, requestConfig } from "../lib/shared";
 
 export type Response = {
   status: number;
@@ -8,25 +10,35 @@ export type Response = {
 export type Request = {
   method: string;
   path: string;
-  params: Record<string, unknown>;
-  data?: Record<string, unknown>;
+  params?: Record<string, unknown>;
+  data?: unknown;
+};
+
+export const MOCK_FETCH_CONFIG = {
+  baseURL: "https://api.com",
+  headers: {},
+  timeout: 100,
 };
 
 export function mockRequest(
-  handler: (config: Request) => Response
+  handler: (config: Request) => Response,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): (config: AxiosRequestConfig) => Promise<any> {
-  return (config: AxiosRequestConfig) => {
+): void {
+  if (!(request as jest.Mock).mockImplementation) {
+    throw Error(`request() is not a jest mock. Be sure to call "jest.mock('../lib/shared');" before using this helper!`);
+  }
+  (request as jest.Mock).mockReset();
+  (request as jest.Mock).mockImplementation((_, requestConfig: requestConfig) => {
     const request = {
-      method: config.method?.toString() || "",
-      path: config.url?.toString() || "",
-      params: config.params,
-      data: config.data && JSON.parse(config.data)
+      method: requestConfig.method?.toString() || "",
+      path: requestConfig.url?.toString() || "",
+      params: requestConfig.params,
+      data: requestConfig.data,
     };
-    const response = handler(request);
+    const { status, data } = handler(request);
     return Promise.resolve({
-      ...response,
-      config
+      status,
+      ...data,
     });
-  };
+  });
 }

@@ -1,19 +1,23 @@
-import axios from "axios";
+
 import { OTPs } from "../lib/otps";
+import { MOCK_FETCH_CONFIG } from "./helpers";
+import { request } from "../lib/shared";
 
-import type { AxiosRequestConfig } from "axios";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const adapter = (config: AxiosRequestConfig): Promise<any> => {
-  return Promise.resolve({
-    data: {
+jest.mock('../lib/shared');
+beforeEach(() => {
+  (request as jest.Mock).mockReset();
+  (request as jest.Mock).mockImplementation((_, config) => {
+    return Promise.resolve({
       method: config.method,
       path: config.url,
-      data: JSON.parse(config.data),
-    },
+      data: config.data,
+      params: config.params,
+    });
   });
-};
-const otps = new OTPs(axios.create({ adapter }));
+});
+
+
+const otps = new OTPs(MOCK_FETCH_CONFIG);
 
 describe("otps.authenticate", () => {
   test("session", () => {
@@ -25,7 +29,7 @@ describe("otps.authenticate", () => {
         session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/authenticate",
       data: {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -42,7 +46,7 @@ describe("otps.authenticate", () => {
         code: "123456",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/authenticate",
       data: {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -59,7 +63,7 @@ describe("otps.email.send", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/email/send",
       data: {
         email: "sandbox@stytch.com",
@@ -75,7 +79,7 @@ describe("otps.email.loginOrCreate", () => {
         email: "sandbox@stytch.com",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
@@ -91,7 +95,7 @@ describe("otps.sms.send", () => {
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/sms/send",
       data: {
         phone_number: "+12025550162",
@@ -107,7 +111,7 @@ describe("otps.sms.loginOrCreate", () => {
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/sms/login_or_create",
       data: {
         phone_number: "+12025550162",
@@ -123,7 +127,7 @@ describe("otps.whatsapp.send", () => {
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/whatsapp/send",
       data: {
         phone_number: "+12025550162",
@@ -139,7 +143,7 @@ describe("otps.whatsapp.loginOrCreate", () => {
         phone_number: "+12025550162",
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "otps/whatsapp/login_or_create",
       data: {
         phone_number: "+12025550162",

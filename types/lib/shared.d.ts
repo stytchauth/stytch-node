@@ -177,6 +177,6 @@ export declare type requestConfig = {
     url: string;
     method: "GET" | "DELETE" | "POST" | "PUT";
     params?: Record<string, string | number>;
-    data?: any;
+    data?: unknown;
 };
 export declare function request<T>(fetchConfig: fetchConfig, requestConfig: requestConfig): Promise<T>;

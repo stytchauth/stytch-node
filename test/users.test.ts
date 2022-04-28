@@ -1,21 +1,24 @@
-import axios from "axios";
 import { Users, UserSearchIterator, UserSearchOperator } from "../lib/users";
 
-import type { AxiosRequestConfig } from "axios";
-import { mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+import { request } from "../lib/shared";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const adapter = (config: AxiosRequestConfig): Promise<any> => {
-  return Promise.resolve({
-    data: {
+
+const users = new Users(MOCK_FETCH_CONFIG);
+
+jest.mock('../lib/shared');
+
+beforeEach(() => {
+  (request as jest.Mock).mockReset();
+  (request as jest.Mock).mockImplementation((_, config) => {
+    return Promise.resolve({
       method: config.method,
       path: config.url,
-      data: config.data && JSON.parse(config.data),
-      params: config.params
-    }
+      data: config.data,
+      params: config.params,
+    });
   });
-};
-const users = new Users(axios.create({ adapter }));
+});
 
 describe("users.create", () => {
   test("success", () => {
@@ -24,7 +27,7 @@ describe("users.create", () => {
         email: "sandbox@stytch.com"
       })
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "users",
       data: {
         email: "sandbox@stytch.com"
@@ -38,7 +41,7 @@ describe("users.get", () => {
     return expect(
       users.get("user-test-22222222-2222-4222-8222-222222222222")
     ).resolves.toMatchObject({
-      method: "get",
+      method: "GET",
       path: "users/user-test-22222222-2222-4222-8222-222222222222"
     });
   });
@@ -46,9 +49,9 @@ describe("users.get", () => {
 
 describe("users.search", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "users/search",
         data: {
           limit: 200,
@@ -83,7 +86,7 @@ describe("users.search", () => {
       return { status: 200, data };
     });
 
-    const users = new Users(axios.create({ adapter }));
+    const users = new Users({  } as any);
 
     return expect(
       users.search({
@@ -183,7 +186,7 @@ describe("users.update", () => {
         phone_numbers: [{ phone_number: "+12025550162" }]
       })
     ).resolves.toMatchObject({
-      method: "put",
+      method: "PUT",
       path: "users/user-test-22222222-2222-4222-8222-222222222222",
       data: {
         name: {
@@ -202,7 +205,7 @@ describe("users.delete", () => {
     return expect(
       users.delete("user-test-22222222-2222-4222-8222-222222222222")
     ).resolves.toMatchObject({
-      method: "delete",
+      method: "DELETE",
       path: "users/user-test-22222222-2222-4222-8222-222222222222"
     });
   });
@@ -211,7 +214,7 @@ describe("users.delete", () => {
 describe("users.getPending", () => {
   test("no arguments", () => {
     return expect(users.getPending()).resolves.toMatchObject({
-      method: "get",
+      method: "GET",
       path: "users/pending",
       params: {}
     });
@@ -224,7 +227,7 @@ describe("users.getPending", () => {
         limit: 10
       })
     ).resolves.toMatchObject({
-      method: "get",
+      method: "GET",
       path: "users/pending",
       params: {
         starting_after_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
@@ -235,7 +238,7 @@ describe("users.getPending", () => {
 
   test("empty params object", () => {
     return expect(users.getPending({})).resolves.toMatchObject({
-      method: "get",
+      method: "GET",
       path: "users/pending",
       params: {}
     });
@@ -247,7 +250,7 @@ describe("users.deleteEmail", () => {
     return expect(
       users.deleteEmail("email-test-33333333-3333-4333-8333-333333333333")
     ).resolves.toMatchObject({
-      method: "delete",
+      method: "DELETE",
       path: "users/emails/email-test-33333333-3333-4333-8333-333333333333"
     });
   });
@@ -260,7 +263,7 @@ describe("users.deletePhoneNumber", () => {
         "phone-number-test-33333333-3333-4333-8333-333333333333"
       )
     ).resolves.toMatchObject({
-      method: "delete",
+      method: "DELETE",
       path: "users/phone_numbers/phone-number-test-33333333-3333-4333-8333-333333333333"
     });
   });
@@ -273,7 +276,7 @@ describe("users.deleteWebAuthnRegistration", () => {
         "webauthn-registration-test-33333333-3333-4333-8333-333333333333"
       )
     ).resolves.toMatchObject({
-      method: "delete",
+      method: "DELETE",
       path: "users/webauthn_registrations/webauthn-registration-test-33333333-3333-4333-8333-333333333333"
     });
   });
@@ -286,7 +289,7 @@ describe("users.deleteTOTP", () => {
             "totp-test-33333333-3333-4333-8333-333333333333"
         )
     ).resolves.toMatchObject({
-      method: "delete",
+      method: "DELETE",
       path: "users/totps/totp-test-33333333-3333-4333-8333-333333333333"
     });
   });

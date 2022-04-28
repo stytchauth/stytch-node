@@ -218,7 +218,7 @@ export type requestConfig = {
   url: string;
   method: "GET" | "DELETE" | "POST" | "PUT";
   params?: Record<string, string | number>;
-  data?: any
+  data?: unknown
 }
 
 export async function request<T>(

@@ -1,13 +1,15 @@
-import axios from "axios";
+
 import { WebAuthn } from "../lib/webauthn";
-import { mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+
+jest.mock('../lib/shared');
 
 describe("webauthn.registerStart", () => {
   test("authenticator_type & user_agent", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/register/start",
+        method: "POST",
+                path: "webauthn/register/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -24,7 +26,7 @@ describe("webauthn.registerStart", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.registerStart({
@@ -40,10 +42,10 @@ describe("webauthn.registerStart", () => {
     });
   });
   test("only user_id & domain", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/register/start",
+        method: "POST",
+                path: "webauthn/register/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -58,7 +60,7 @@ describe("webauthn.registerStart", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.registerStart({
@@ -75,10 +77,10 @@ describe("webauthn.registerStart", () => {
 
 describe("webauthn.register", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/register",
+        method: "POST",
+                path: "webauthn/register",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           public_key_credential: "{\"type\":\"public-key\",\"idxx\":\"AWuLy3DPlOkYijmcwOOLDezxd5TI_xmmrlHACfp8l4lEIzrt1LOTU9X6NYwtskdSii-_48MinrGfvRJOzzFj_qDkCE_s1p-oelqSXyNzlna8oal9M92dWn2nolXbTRp_yZdNpx9928NzEIVMaO6feYZZxs337VMM140\",\"rawId\":\"AWuLy3DPlOkYijmcwOOLDezxd5TI_xmmrlHACfp8l4lEIzrt1LOTU9X6NYwtskdSii-_48MinrGfvRJOzzFj_qDkCE_s1p-oelqSXyNzlna8oal9M92dWn2nolXbTRp_yZdNpx9928NzEIVMaO6feYZZxs337VMM140\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiV2VxZXlCTDlXdGxIMW8tMER5Y1lNZ3FYODM4UHdZTHdwdDN1elFlb1E4SnkiLCJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"attestationObject\":\"o2NmbXRmcGFja2VkZ2F0dFN0bXSiY2FsZyZjc2lnWEcwRQIhAPebfmzJVo-17PcBStxY3l9-ZqKhjUCyxtrFE9cxf1JpAiBOcX6dhUgVjUR9zaA890rLgBjpRUrv8t1YiJRFMhJIkmhhdXRoRGF0YVj-SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFYXh_rq3OAAI1vMYKZIsLJfHwVQMAegFri8twz5TpGIo5nMDjiw3s8XeUyP8Zpq5RwAn6fJeJRCM67dSzk1PV-jWMLbJHUoovv-PDIp6xn70STs8xY_6g5AhP7NafqHpakl8jc5Z2vKGpfTPdnVp9p6JV200af8mXTacffdvDcxCFTGjun3mGWcbN9-1TDNeNpQECAyYgASFYIDs_uAPbmr1FO_nnAKqBHcYGcgOhgsPp-SbNHNrdnjlsIlggjAMm-M6rEpX5QnUppyFRDFFS01Nap5Au1fQVu21HM3s\"},\"clientExtensionResults\":{}}",
@@ -93,7 +95,7 @@ describe("webauthn.register", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.register({
@@ -110,10 +112,10 @@ describe("webauthn.register", () => {
 
 describe("webauthn.authenticateStart", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/authenticate/start",
+        method: "POST",
+                path: "webauthn/authenticate/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -128,7 +130,7 @@ describe("webauthn.authenticateStart", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.authenticateStart({
@@ -145,10 +147,10 @@ describe("webauthn.authenticateStart", () => {
 
 describe("webauthn.authenticate", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/authenticate",
+        method: "POST",
+                path: "webauthn/authenticate",
         data: {
           public_key_credential: "{\"type\": \"public-key\",\"id\": \"Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY\",\"rawId\": \"Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY\",\"response\": {\"authenticatorData\": \"SZYN5YgOjGh7NBcPZHZgW1_krrmihjLHmVzzuoNcl2MFYZKokg\",\"clientDataJSON\": \"eyJ2eXBlOjopo2ViYBx0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWEtEWDVJa25EWEU3by1KQlRkYTNfS1NiTXdmb3dMWDQxMldlNEFDY04tYWgiLCJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"signature\": \"MEYCIQDU1FGXEBrq3hsQ2ye1pBcYLMu7zmzLVVdcbs6R21hGyAIhAJmpdBo2Hd7P4Ks9VFKBUYbKSIioMdhl2XIIjWHNKD77\",\"userHandle\": \"dXNlus1kZXZlbG9wLBC2M2E1MGI0LWEwMGEtNGU3NC89NTJmLTFlOGRhODE2nDBnMw\"},\"clientExtensionResults\": {}}",
         },
@@ -162,7 +164,7 @@ describe("webauthn.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.authenticate({
@@ -175,10 +177,10 @@ describe("webauthn.authenticate", () => {
     });
   });
   test("session token & duration", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
-        path: "webauthn/authenticate",
+        method: "POST",
+                path: "webauthn/authenticate",
         data: {
           public_key_credential: "{\"type\": \"public-key\",\"id\": \"Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY\",\"rawId\": \"Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY\",\"response\": {\"authenticatorData\": \"SZYN5YgOjGh7NBcPZHZgW1_krrmihjLHmVzzuoNcl2MFYZKokg\",\"clientDataJSON\": \"eyJ2eXBlOjopo2ViYBx0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWEtEWDVJa25EWEU3by1KQlRkYTNfS1NiTXdmb3dMWDQxMldlNEFDY04tYWgiLCJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"signature\": \"MEYCIQDU1FGXEBrq3hsQ2ye1pBcYLMu7zmzLVVdcbs6R21hGyAIhAJmpdBo2Hd7P4Ks9VFKBUYbKSIioMdhl2XIIjWHNKD77\",\"userHandle\": \"dXNlus1kZXZlbG9wLBC2M2E1MGI0LWEwMGEtNGU3NC89NTJmLTFlOGRhODE2nDBnMw\"},\"clientExtensionResults\": {}}",
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -199,7 +201,7 @@ describe("webauthn.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const webauthn = new WebAuthn(axios.create({ adapter }));
+    const webauthn = new WebAuthn(MOCK_FETCH_CONFIG);
 
     return expect(
       webauthn.authenticate({
