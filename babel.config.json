@@ -3,5 +3,8 @@
     ["@babel/preset-env", { "modules": "commonjs" }],
     "@babel/preset-typescript"
   ],
-  "targets": "node 14"
+  "targets": "node 14",
+  "ignore": [
+    "**/__mocks__/**"
+  ]
 }
