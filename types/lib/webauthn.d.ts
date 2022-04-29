@@ -1,6 +1,5 @@
 import { Session } from "./shared";
-import type { AxiosInstance } from "axios";
-import type { BaseResponse } from "./shared";
+import type { BaseResponse, fetchConfig } from "./shared";
 import { UserID } from "./users";
 export interface RegisterStartRequest {
     user_id: UserID;
@@ -43,8 +42,8 @@ export interface AuthenticateResponse extends BaseResponse {
 }
 export declare class WebAuthn {
     base_path: string;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     registerStart(data: RegisterStartRequest): Promise<RegisterStartResponse>;
     register(data: RegisterRequest): Promise<RegisterResponse>;

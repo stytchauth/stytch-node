@@ -15,15 +15,13 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 const sessionClaim = "https://stytch.com/session";
 
 class Sessions {
-  constructor(client, jwtConfig) {
-    _defineProperty(this, "base_path", "sessions");
+  base_path = "sessions";
 
-    this.client = client;
+  constructor(fetchConfig, jwtConfig) {
+    this.fetchConfig = fetchConfig;
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
@@ -37,10 +35,11 @@ class Sessions {
   }
 
   get(params) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
-      params
+      params: { ...params
+      }
     }).then(res => {
       return { ...res,
         sessions: res.sessions.map(parseSession)
@@ -49,14 +48,14 @@ class Sessions {
   }
 
   jwks(project_id) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(`jwks/${project_id}`)
     });
   }
 
   authenticate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
@@ -158,7 +157,7 @@ class Sessions {
   }
 
   revoke(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke"),
       data

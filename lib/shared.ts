@@ -1,6 +1,10 @@
-import { StytchError, RequestError } from "./errors";
+import * as http from "http";
+import { StytchError, RequestError, StytchErrorJSON } from "./errors";
 
-import type { AxiosInstance, AxiosRequestConfig } from "axios";
+// https://github.com/developit/unfetch/issues/99
+import * as fetchImport from "isomorphic-unfetch";
+const fetch = (fetchImport.default ||
+  fetchImport) as typeof fetchImport.default;
 
 export interface Attributes {
   ip_address?: string;
@@ -204,23 +208,57 @@ export interface BaseResponse {
   request_id: string;
 }
 
-export function request<T>(
-  client: AxiosInstance,
-  config: AxiosRequestConfig
+export interface fetchConfig {
+  baseURL: string;
+  headers: Record<string, string>;
+  timeout: number;
+  agent?: http.Agent;
+}
+
+export type requestConfig = {
+  url: string;
+  method: "GET" | "DELETE" | "POST" | "PUT";
+  params?: Record<string, string | number>;
+  data?: unknown;
+};
+
+export async function request<T>(
+  fetchConfig: fetchConfig,
+  requestConfig: requestConfig
 ): Promise<T> {
-  return client
-    .request(config)
-    .then((res) => res.data)
-    .catch((err) => {
-      if (err.response) {
-        // Received a structured error from the API
-        throw new StytchError(err.response.data);
-      } else if (err.request) {
-        // No response received for the request.
-        throw new RequestError(err.message, err.config);
-      } else {
-        // The request couldn't be sent for some reason.
-        throw new RequestError(err.message, config);
-      }
+  const url = new URL(requestConfig.url, fetchConfig.baseURL);
+  if (requestConfig.params) {
+    Object.entries(requestConfig.params).forEach(([key, value]) =>
+      url.searchParams.append(key, String(value))
+    );
+  }
+
+  let response: Response;
+  try {
+    response = await fetch(url.toString(), {
+      method: requestConfig.method,
+      body: JSON.stringify(requestConfig.data),
+      ...fetchConfig,
     });
+  } catch (e) {
+    const err = e as Error;
+    throw new RequestError(err.message, requestConfig);
+  }
+
+  let responseJSON;
+  try {
+    responseJSON = await response.json();
+  } catch (e) {
+    const err = e as Error;
+    throw new RequestError(
+      `Unable to parse JSON response from server: ${err.message}`,
+      requestConfig
+    );
+  }
+
+  if (response.status >= 400) {
+    throw new StytchError(responseJSON as StytchErrorJSON);
+  }
+
+  return responseJSON as T;
 }

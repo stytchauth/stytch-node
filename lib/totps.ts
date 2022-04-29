@@ -1,7 +1,6 @@
 import { request } from "./shared";
 
-import type { AxiosInstance } from "axios";
-import type { BaseResponse, Session } from "./shared";
+import type { BaseResponse, Session, fetchConfig } from "./shared";
 
 export interface TOTP {
   totp_id: string;
@@ -65,10 +64,10 @@ export interface RecoverResponse extends BaseResponse {
 export class TOTPs {
   base_path = "totps";
 
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   private endpoint(path: string): string {
@@ -76,7 +75,7 @@ export class TOTPs {
   }
 
   create(data: CreateRequest): Promise<CreateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data,
@@ -84,7 +83,7 @@ export class TOTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
@@ -92,7 +91,7 @@ export class TOTPs {
   }
 
   recoveryCodes(data: RecoveryCodesRequest): Promise<RecoveryCodesResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recovery_codes"),
       data,
@@ -100,7 +99,7 @@ export class TOTPs {
   }
 
   recover(data: RecoverRequest): Promise<RecoverResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recover"),
       data,

@@ -1,43 +1,28 @@
-import type { AxiosRequestConfig } from "axios";
-import axios from "axios";
-import { OAuth } from "../dist/oauth";
+import { OAuth } from "../lib/oauth";
+import { MOCK_FETCH_CONFIG } from "./helpers";
+import { request } from "../lib/shared";
 
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const adapter = (config: AxiosRequestConfig): Promise<any> => {
+jest.mock("../lib/shared");
+(request as jest.Mock).mockImplementation((_, config) => {
   return Promise.resolve({
-    data: {
-      method: config.method,
-      path: config.url,
-      data: JSON.parse(config.data),
-    },
+    method: config.method,
+    path: config.url,
+    data: config.data,
+    params: config.params,
   });
-};
-const oauth = new OAuth(axios.create({ adapter }));
+});
+
+const oauth = new OAuth(MOCK_FETCH_CONFIG);
 
 describe("oauth.authenticate", () => {
   test("session", () => {
     return expect(
       oauth.authenticate("fake-token")
     ).resolves.toMatchObject({
-      method: "post",
+      method: "POST",
       path: "oauth/authenticate",
       data: {
         token: "fake-token",
-      },
-    });
-  });
-  test("no session", () => {
-    return expect(
-      oauth.authenticate("fake-token",{
-        session_management_type: "idp"
-      })
-    ).resolves.toMatchObject({
-      method: "post",
-      path: "oauth/authenticate",
-      data: {
-        token: "fake-token",
-        session_management_type: "idp",
       },
     });
   });

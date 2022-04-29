@@ -1,11 +1,9 @@
 import * as crypto from "crypto";
 import * as jose from "jose";
-import axios from "axios";
 import { Sessions } from "../lib/sessions";
 import { ClientError } from "../lib/errors";
-import { mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
 
-import type { AxiosInstance } from "axios";
 
 function jwtConfig(projectID: string) {
   return {
@@ -14,11 +12,13 @@ function jwtConfig(projectID: string) {
   };
 }
 
+jest.mock("../lib/shared");
+
 describe("sessions.get", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "get",
+        method: "GET",
         path: "sessions",
         params: {
           user_id: "user-test-22222222-2222-4222-8222-222222222222",
@@ -42,14 +42,14 @@ describe("sessions.get", () => {
       return { status: 200, data };
     });
     const sessions = new Sessions(
-      axios.create({ adapter }),
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+      MOCK_FETCH_CONFIG,
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
     );
 
     return expect(
       sessions.get({
         user_id: "user-test-22222222-2222-4222-8222-222222222222",
-      })
+      }),
     ).resolves.toMatchObject({
       status_code: 200,
       sessions: [
@@ -64,9 +64,9 @@ describe("sessions.get", () => {
 
 describe("sessions.authenticate", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "sessions/authenticate",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -90,15 +90,15 @@ describe("sessions.authenticate", () => {
       return { status: 200, data };
     });
     const sessions = new Sessions(
-      axios.create({ adapter }),
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
+      MOCK_FETCH_CONFIG,
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
     );
 
     return expect(
       sessions.authenticate({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
-      })
+      }),
     ).resolves.toMatchObject({
       session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       session: {
@@ -110,49 +110,51 @@ describe("sessions.authenticate", () => {
 });
 
 describe("sessions.revoke", () => {
-  const adapter = mockRequest((req) => {
-    expect(req).toEqual({
-      method: "post",
-      path: "sessions/revoke",
-      data: {
-        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-      },
-    });
-
-    return { status: 200, data: {} };
-  });
-  const sessions = new Sessions(
-    axios.create({ adapter }),
-    jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
-  );
-
   test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "POST",
+        path: "sessions/revoke",
+        data: {
+          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        },
+      });
+
+      return { status: 200, data: {} };
+    });
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+    );
+
     return expect(
       sessions.revoke({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-      })
-    ).resolves.toEqual({});
+      }),
+    ).resolves.toEqual({
+      status: 200,
+    });
   });
 });
 
 describe("sessions.jwks", () => {
-  const adapter = mockRequest((req) => {
-    expect(req).toEqual({
-      method: "get",
-      path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
-    });
-
-    return { status: 200, data: {} };
-  });
-  const sessions = new Sessions(
-    axios.create({ adapter }),
-    jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
-  );
-
   test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "GET",
+        path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+      });
+
+      return { status: 200, data: {} };
+    });
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+    );
+
     return expect(
-      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
-    ).resolves.toEqual({});
+      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111"),
+    ).resolves.toEqual({ status: 200 });
   });
 });
 
@@ -203,7 +205,7 @@ describe("sessions.authenticateJwtLocal", () => {
     });
     const jwks = jose.createLocalJWKSet({ keys: [{ ...jwk, kid: keyID }] });
 
-    sessions = new Sessions(jest.fn() as unknown as AxiosInstance, {
+    sessions = new Sessions(MOCK_FETCH_CONFIG, {
       jwks,
       projectID,
     });
@@ -284,17 +286,17 @@ describe("sessions.authenticateJwtLocal", () => {
       sessions.authenticateJwtLocal(jwt, {
         current_date: appNow,
         clock_tolerance_seconds: 9,
-      })
+      }),
     ).rejects.toHaveProperty("code", "jwt_invalid");
 
     await expect(
       sessions.authenticateJwtLocal(jwt, {
         current_date: appNow,
         clock_tolerance_seconds: 10,
-      })
+      }),
     ).resolves.toHaveProperty(
       "user_id",
-      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
+      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     );
   });
 
@@ -320,10 +322,10 @@ describe("sessions.authenticateJwtLocal", () => {
       sessions.authenticateJwtLocal(jwt, {
         current_date: dateAdd(startedAt, +3),
         max_token_age_seconds: 5,
-      })
+      }),
     ).resolves.toHaveProperty(
       "user_id",
-      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
+      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     );
 
     const promise = sessions.authenticateJwtLocal(jwt, {

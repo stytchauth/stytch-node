@@ -1,7 +1,6 @@
 import { request, Session } from "./shared";
 
-import type { AxiosInstance } from "axios";
-import type { BaseResponse } from "./shared";
+import type { BaseResponse, fetchConfig } from "./shared";
 import { UserID } from "./users";
 
 export interface RegisterStartRequest {
@@ -53,10 +52,10 @@ export interface AuthenticateResponse extends BaseResponse {
 
 export class WebAuthn {
   base_path = "webauthn";
-  private client: AxiosInstance;
+  private fetchConfig: fetchConfig;
 
-  constructor(client: AxiosInstance) {
-    this.client = client;
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   private endpoint(path: string): string {
@@ -64,7 +63,7 @@ export class WebAuthn {
   }
 
   registerStart(data: RegisterStartRequest): Promise<RegisterStartResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register/start"),
       data,
@@ -72,7 +71,7 @@ export class WebAuthn {
   }
 
   register(data: RegisterRequest): Promise<RegisterResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register"),
       data,
@@ -82,7 +81,7 @@ export class WebAuthn {
   authenticateStart(
     data: AuthenticateStartRequest
   ): Promise<AuthenticateStartResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
       data,
@@ -90,7 +89,7 @@ export class WebAuthn {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.client, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,

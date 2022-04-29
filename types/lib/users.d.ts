@@ -1,6 +1,5 @@
 import { OAuthProvider } from "./shared";
-import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration, TOTP, CryptoWallet } from "./shared";
+import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration, TOTP, CryptoWallet, fetchConfig } from "./shared";
 export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
@@ -186,8 +185,8 @@ export declare class UserSearchIterator {
 }
 export declare class Users {
     base_path: string;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     create(data: CreateRequest): Promise<CreateResponse>;
     get(userID: UserID): Promise<GetResponse>;

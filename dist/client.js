@@ -5,13 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Client = void 0;
 
-var _url = require("url");
+var _package = require("../package.json");
 
 var jose = _interopRequireWildcard(require("jose"));
 
-var _axios = _interopRequireDefault(require("axios"));
-
-var _package = require("../package.json");
+var _isomorphicBase = require("isomorphic-base64");
 
 var envs = _interopRequireWildcard(require("./envs"));
 
@@ -30,8 +28,6 @@ var _sessions = require("./sessions");
 var _totps = require("./totps");
 
 var _webauthn = require("./webauthn");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -60,18 +56,16 @@ class Client {
     if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
     }
 
-    this.client = _axios.default.create({
+    const headers = {
+      "Content-Type": "application/json",
+      "User-Agent": `Stytch Node v${_package.version}`,
+      Authorization: "Basic " + (0, _isomorphicBase.btoa)(config.project_id + ":" + config.secret)
+    };
+    this.fetchConfig = {
       baseURL: config.env,
-      timeout: config.timeout || DEFAULT_TIMEOUT,
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": `Stytch Node v${_package.version}`
-      },
-      auth: {
-        username: config.project_id,
-        password: config.secret
-      }
-    }); // Get a baseURL that ends with a slash to make building route URLs easier.
+      headers,
+      timeout: config.timeout || DEFAULT_TIMEOUT
+    }; // Get a baseURL that ends with a slash to make building route URLs easier.
 
     let baseURL = config.env;
 
@@ -83,16 +77,16 @@ class Client {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new _url.URL(`sessions/jwks/${config.project_id}`, baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`sessions/jwks/${config.project_id}`, baseURL))
     };
-    this.users = new _users.Users(this.client);
-    this.magicLinks = new _magic_links.MagicLinks(this.client);
-    this.oauth = new _oauth.OAuth(this.client);
-    this.otps = new _otps.OTPs(this.client);
-    this.sessions = new _sessions.Sessions(this.client, jwtConfig);
-    this.totps = new _totps.TOTPs(this.client);
-    this.webauthn = new _webauthn.WebAuthn(this.client);
-    this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.client);
+    this.users = new _users.Users(this.fetchConfig);
+    this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
+    this.oauth = new _oauth.OAuth(this.fetchConfig);
+    this.otps = new _otps.OTPs(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig, jwtConfig);
+    this.totps = new _totps.TOTPs(this.fetchConfig);
+    this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
+    this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
   }
 
 }

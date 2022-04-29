@@ -1,6 +1,5 @@
 import { Session } from "./shared";
-import type { AxiosInstance } from "axios";
-import type { Attributes, BaseResponse, Name } from "./shared";
+import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
 export interface SendByEmailRequest {
     email: string;
     login_magic_link_url?: string;
@@ -72,8 +71,8 @@ export interface RevokePendingInviteByEmailResponse extends BaseResponse {
 declare class Email {
     base_path: string;
     delivery: string;
-    private client;
-    constructor(client: AxiosInstance, parent_path: string);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig, parent_path: string);
     private endpoint;
     send(data: SendByEmailRequest): Promise<SendByEmailResponse>;
     loginOrCreate(data: LoginOrCreateByEmailRequest): Promise<LoginOrCreateByEmailResponse>;
@@ -83,8 +82,8 @@ declare class Email {
 export declare class MagicLinks {
     base_path: string;
     email: Email;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     create(data: CreateRequest): Promise<CreateResponse>;
     authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;

@@ -1,6 +1,5 @@
 import * as jose from "jose";
-import { Session } from "./shared";
-import type { AxiosInstance } from "axios";
+import { Session, fetchConfig } from "./shared";
 import type { BaseResponse } from "./shared";
 export interface GetRequest {
     user_id: string;
@@ -44,10 +43,10 @@ interface JwtConfig {
 }
 export declare class Sessions {
     base_path: string;
-    private client;
+    private fetchConfig;
     private jwksClient;
     private jwtOptions;
-    constructor(client: AxiosInstance, jwtConfig: JwtConfig);
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     private endpoint;
     get(params: GetRequest): Promise<GetResponse>;
     jwks(project_id: string): Promise<JwksResponse>;

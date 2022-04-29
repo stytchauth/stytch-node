@@ -7,13 +7,11 @@ exports.TOTPs = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 class TOTPs {
-  constructor(client) {
-    _defineProperty(this, "base_path", "totps");
+  base_path = "totps";
 
-    this.client = client;
+  constructor(fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   endpoint(path) {
@@ -21,7 +19,7 @@ class TOTPs {
   }
 
   create(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data
@@ -29,7 +27,7 @@ class TOTPs {
   }
 
   authenticate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
@@ -37,7 +35,7 @@ class TOTPs {
   }
 
   recoveryCodes(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recovery_codes"),
       data
@@ -45,7 +43,7 @@ class TOTPs {
   }
 
   recover(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recover"),
       data

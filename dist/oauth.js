@@ -7,13 +7,11 @@ exports.OAuth = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 class OAuth {
-  constructor(client) {
-    _defineProperty(this, "base_path", "oauth");
+  base_path = "oauth";
 
-    this.client = client;
+  constructor(fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   endpoint(path) {
@@ -21,7 +19,7 @@ class OAuth {
   }
 
   authenticate(token, data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: {

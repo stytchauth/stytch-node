@@ -7,13 +7,11 @@ exports.OTPs = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 class Email {
-  constructor(client, base_path) {
-    _defineProperty(this, "delivery", "email");
+  delivery = "email";
 
-    this.client = client;
+  constructor(fetchConfig, base_path) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -22,7 +20,7 @@ class Email {
   }
 
   send(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data
@@ -30,7 +28,7 @@ class Email {
   }
 
   loginOrCreate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data
@@ -40,10 +38,10 @@ class Email {
 }
 
 class SMS {
-  constructor(client, base_path) {
-    _defineProperty(this, "delivery", "sms");
+  delivery = "sms";
 
-    this.client = client;
+  constructor(fetchConfig, base_path) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -52,7 +50,7 @@ class SMS {
   }
 
   send(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data
@@ -60,7 +58,7 @@ class SMS {
   }
 
   loginOrCreate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data
@@ -70,10 +68,10 @@ class SMS {
 }
 
 class WhatsApp {
-  constructor(client, base_path) {
-    _defineProperty(this, "delivery", "whatsapp");
+  delivery = "whatsapp";
 
-    this.client = client;
+  constructor(fetchConfig, base_path) {
+    this.fetchConfig = fetchConfig;
     this.base_path = base_path;
   }
 
@@ -82,7 +80,7 @@ class WhatsApp {
   }
 
   send(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
       data
@@ -90,7 +88,7 @@ class WhatsApp {
   }
 
   loginOrCreate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
       data
@@ -100,13 +98,13 @@ class WhatsApp {
 }
 
 class OTPs {
-  constructor(client) {
-    _defineProperty(this, "base_path", "otps");
+  base_path = "otps";
 
-    this.client = client;
-    this.email = new Email(client, this.base_path);
-    this.sms = new SMS(client, this.base_path);
-    this.whatsapp = new WhatsApp(client, this.base_path);
+  constructor(fetchConfig) {
+    this.fetchConfig = fetchConfig;
+    this.email = new Email(fetchConfig, this.base_path);
+    this.sms = new SMS(fetchConfig, this.base_path);
+    this.whatsapp = new WhatsApp(fetchConfig, this.base_path);
   }
 
   endpoint(path) {
@@ -114,7 +112,7 @@ class OTPs {
   }
 
   authenticate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data

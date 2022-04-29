@@ -1,4 +1,4 @@
-import type { AxiosInstance } from "axios";
+import { fetchConfig } from "./shared";
 import type { Attributes, BaseResponse, Session } from "./shared";
 export interface OTPEmailSendRequest {
     email: string;
@@ -82,8 +82,8 @@ export interface AuthenticateResponse extends BaseResponse {
 declare class Email {
     base_path: string;
     delivery: string;
-    private client;
-    constructor(client: AxiosInstance, base_path: string);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
     send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse>;
     loginOrCreate(data: OTPEmailLoginOrCreateRequest): Promise<OTPEmailLoginOrCreateResponse>;
@@ -91,8 +91,8 @@ declare class Email {
 declare class SMS {
     base_path: string;
     delivery: string;
-    private client;
-    constructor(client: AxiosInstance, base_path: string);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
     send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
     loginOrCreate(data: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
@@ -100,8 +100,8 @@ declare class SMS {
 declare class WhatsApp {
     base_path: string;
     delivery: string;
-    private client;
-    constructor(client: AxiosInstance, base_path: string);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
     send(data: OTPWhatsAppSendRequest): Promise<OTPWhatsAppSendResponse>;
     loginOrCreate(data: OTPWhatsAppLoginOrCreateRequest): Promise<OTPWhatsAppLoginOrCreateResponse>;
@@ -111,8 +111,8 @@ export declare class OTPs {
     email: Email;
     sms: SMS;
     whatsapp: WhatsApp;
-    private client;
-    constructor(client: AxiosInstance);
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     private endpoint;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
 }

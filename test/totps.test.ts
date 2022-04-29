@@ -1,12 +1,13 @@
-import axios from "axios";
 import { TOTPs } from "../lib/totps";
-import { mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+
+jest.mock('../lib/shared');
 
 describe("totps.create", () => {
   test("only required fields", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -34,7 +35,7 @@ describe("totps.create", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
       totp.create({
@@ -61,9 +62,9 @@ describe("totps.create", () => {
     });
   });
   test("required fields and expiration", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -92,7 +93,7 @@ describe("totps.create", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
       totp.create({
@@ -123,9 +124,9 @@ describe("totps.create", () => {
 
 describe("totps.authenticate", () => {
   test("only required fields", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps/authenticate",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -141,7 +142,7 @@ describe("totps.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
       totp.authenticate({
@@ -155,9 +156,9 @@ describe("totps.authenticate", () => {
     });
   });
   test("session token & duration", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps/authenticate",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -180,7 +181,7 @@ describe("totps.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
         totp.authenticate({
@@ -205,9 +206,9 @@ describe("totps.authenticate", () => {
 
 describe("totps.recovery_codes", () => {
   test("success", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps/recovery_codes",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -233,7 +234,7 @@ describe("totps.recovery_codes", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
       totp.recoveryCodes({
@@ -261,9 +262,9 @@ describe("totps.recovery_codes", () => {
 
 describe("totp.recover", () => {
   test("only required fields", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps/recover",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -279,7 +280,7 @@ describe("totp.recover", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
       totp.recover({
@@ -294,9 +295,9 @@ describe("totp.recover", () => {
     });
   });
   test("session token & duration", () => {
-    const adapter = mockRequest((req) => {
+    mockRequest((req) => {
       expect(req).toEqual({
-        method: "post",
+        method: "POST",
         path: "totps/recover",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -319,7 +320,7 @@ describe("totp.recover", () => {
       };
       return { status: 200, data };
     });
-    const totp = new TOTPs(axios.create({ adapter }));
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
         totp.recover({

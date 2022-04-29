@@ -7,13 +7,11 @@ exports.WebAuthn = void 0;
 
 var _shared = require("./shared");
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 class WebAuthn {
-  constructor(client) {
-    _defineProperty(this, "base_path", "webauthn");
+  base_path = "webauthn";
 
-    this.client = client;
+  constructor(fetchConfig) {
+    this.fetchConfig = fetchConfig;
   }
 
   endpoint(path) {
@@ -21,7 +19,7 @@ class WebAuthn {
   }
 
   registerStart(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register/start"),
       data
@@ -29,7 +27,7 @@ class WebAuthn {
   }
 
   register(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register"),
       data
@@ -37,7 +35,7 @@ class WebAuthn {
   }
 
   authenticateStart(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
       data
@@ -45,7 +43,7 @@ class WebAuthn {
   }
 
   authenticate(data) {
-    return (0, _shared.request)(this.client, {
+    return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
