@@ -3,8 +3,6 @@ import { StytchError, RequestError, StytchErrorJSON } from "./errors";
 import fetch from "isomorphic-unfetch";
 import * as http from "http";
 
-// import type { AxiosInstance, AxiosRequestConfig } from "axios";
-
 export interface Attributes {
   ip_address?: string;
   user_agent?: string;
@@ -234,7 +232,7 @@ export async function request<T>(
 
   let response: Response;
   try {
-    response = await fetch.bind(globalThis)(url.toString(), {
+    response = await fetch(url.toString(), {
       headers: fetchConfig.headers,
       method: requestConfig.method,
       body: JSON.stringify(requestConfig.data),
