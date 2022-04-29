@@ -233,9 +233,9 @@ export async function request<T>(
   let response: Response;
   try {
     response = await fetch(url.toString(), {
-      headers: fetchConfig.headers,
       method: requestConfig.method,
       body: JSON.stringify(requestConfig.data),
+      ...fetchConfig,
     });
   } catch (e) {
     const err = e as Error;
