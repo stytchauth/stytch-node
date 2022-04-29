@@ -14,7 +14,7 @@ export type Request = {
 };
 
 export const MOCK_FETCH_CONFIG = {
-  baseURL: "https://api.com",
+  baseURL: "https://example.net",
   headers: {},
   timeout: 100,
   agent: { mock: "agent" } as unknown as http.Agent,
