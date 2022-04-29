@@ -8,11 +8,14 @@ jobs:
   unit-test:
     name: Run Unit Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [14, 16, 18]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: ${{ matrix.version }}
       - run: npm ci
       - run: npm test
 
