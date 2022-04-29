@@ -1,6 +1,7 @@
 // import type { AxiosRequestConfig } from "axios";
 
 import { request, requestConfig } from "../lib/shared";
+import * as http from "http";
 
 export type Response = {
   status: number;
@@ -18,6 +19,7 @@ export const MOCK_FETCH_CONFIG = {
   baseURL: "https://api.com",
   headers: {},
   timeout: 100,
+  agent: { mock: "agent" } as http.Agent,
 };
 
 export function mockRequest(

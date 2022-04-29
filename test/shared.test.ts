@@ -30,13 +30,12 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
-      headers: {},
+      ...MOCK_FETCH_CONFIG
     });
   });
 
   test("Appends key-value pairs to the URL search params", async () => {
     mockResponse({ key: "value" }, 200);
-    // expect(
     await request(MOCK_FETCH_CONFIG, {
       url: "http://localhost:8000/hello",
       method: "GET",
@@ -45,13 +44,12 @@ describe("request", () => {
         number: 1234,
       },
     });
-    // ).resolves.toEqual({ key: "value" });
 
     const expectedURL = "http://localhost:8000/hello?string=here&number=1234";
 
     expect(fetchMock).toHaveBeenCalledWith(expectedURL, {
       method: "GET",
-      headers: {},
+      ...MOCK_FETCH_CONFIG
     });
   });
 
@@ -71,8 +69,8 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
-      headers: {},
       body: `{"string":"here","number":1234,"deep":{"array":[123]}}`,
+      ...MOCK_FETCH_CONFIG
     });
   });
 
@@ -97,10 +95,10 @@ describe("request", () => {
       },
     );
 
-    expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/whoops", {
+    expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/whoops", expect.objectContaining({
       method: "POST",
-      headers: {},
-    });
+      ...MOCK_FETCH_CONFIG
+    }));
   });
 
   test("no response rethrows original error", () => {

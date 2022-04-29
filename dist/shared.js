@@ -22,9 +22,9 @@ async function request(fetchConfig, requestConfig) {
 
   try {
     response = await (0, _isomorphicUnfetch.default)(url.toString(), {
-      headers: fetchConfig.headers,
       method: requestConfig.method,
-      body: JSON.stringify(requestConfig.data)
+      body: JSON.stringify(requestConfig.data),
+      ...fetchConfig
     });
   } catch (e) {
     const err = e;
