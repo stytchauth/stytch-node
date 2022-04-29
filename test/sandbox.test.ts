@@ -1,4 +1,6 @@
-import * as stytch from '../lib'
+import * as stytch from "../lib";
+import * as https from "https";
+import * as dns from "dns";
 
 function env(name: string): string {
   const val = process.env[name];
@@ -37,7 +39,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -49,10 +51,10 @@ describeIf(
             expect(err.status_code).toEqual(401);
             expect(err.error_type).toEqual("unable_to_auth_magic_link");
             expect(err.error_message).toEqual(
-              "Magic link could not be authenticated."
+              "Magic link could not be authenticated.",
             );
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/401"
+              "https://stytch.com/docs/api/errors/401",
             );
           });
       });
@@ -65,7 +67,7 @@ describeIf(
             expect(err.error_type).toEqual("magic_link_not_found");
             expect(err.error_message).toEqual("Magic Link could not be found.");
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/404"
+              "https://stytch.com/docs/api/errors/404",
             );
           });
       });
@@ -82,7 +84,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -99,7 +101,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -115,7 +117,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -138,7 +140,7 @@ describeIf(
         return expect(
           client.sessions.authenticate({
             session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
-          })
+          }),
         ).resolves.toMatchObject({
           status_code: 200,
           session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
@@ -153,12 +155,31 @@ describeIf(
         return expect(
           client.sessions.authenticate({
             session_token: "59cnLELtq5cFVS6uYK9f-pAWzBkhqZl8AvLhbhOvKNWw",
-          })
+          }),
         ).rejects.toMatchObject({
           status_code: 404,
           error_type: "session_not_found",
         });
       });
+
+      test("Using a custom agent", async () => {
+        const lookupSpy = jest.spyOn(dns, 'lookup') as unknown as typeof dns.lookup;
+        const agent = new https.Agent({
+          lookup: lookupSpy,
+        });
+        client = new stytch.Client({
+          project_id: env("PROJECT_ID"),
+          secret: env("SECRET"),
+          env: process.env["STYTCH_API_URL"] || stytch.envs.test,
+          agent,
+        });
+
+        await client.magicLinks
+          .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=");
+
+        expect(lookupSpy).toHaveBeenCalledWith(
+          'test.stytch.com', expect.anything(), expect.anything());
+      });
     });
-  }
+  },
 );

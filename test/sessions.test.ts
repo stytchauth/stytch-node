@@ -1,4 +1,3 @@
-import * as crypto from "crypto";
 import * as jose from "jose";
 import { Sessions } from "../lib/sessions";
 import { ClientError } from "../lib/errors";

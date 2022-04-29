@@ -1,3 +1,5 @@
+/// <reference types="node" />
+import * as http from "http";
 import { CryptoWallets } from "./crypto_wallets";
 import { Users } from "./users";
 import { MagicLinks } from "./magic_links";
@@ -11,6 +13,7 @@ interface Config {
     secret: string;
     env: string;
     timeout?: number;
+    agent?: http.Agent;
 }
 export declare class Client {
     users: Users;

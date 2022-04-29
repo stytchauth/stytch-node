@@ -64,7 +64,8 @@ class Client {
     this.fetchConfig = {
       baseURL: config.env,
       headers,
-      timeout: config.timeout || DEFAULT_TIMEOUT
+      timeout: config.timeout || DEFAULT_TIMEOUT,
+      agent: config.agent
     }; // Get a baseURL that ends with a slash to make building route URLs easier.
 
     let baseURL = config.env;
