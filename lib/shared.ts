@@ -216,17 +216,17 @@ export type requestConfig = {
   url: string;
   method: "GET" | "DELETE" | "POST" | "PUT";
   params?: Record<string, string | number>;
-  data?: unknown
-}
+  data?: unknown;
+};
 
 export async function request<T>(
   fetchConfig: fetchConfig,
-  requestConfig: requestConfig,
+  requestConfig: requestConfig
 ): Promise<T> {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
-    Object.entries(requestConfig.params).forEach(
-      ([key, value]) => url.searchParams.append(key, String(value)),
+    Object.entries(requestConfig.params).forEach(([key, value]) =>
+      url.searchParams.append(key, String(value))
     );
   }
 
@@ -249,7 +249,7 @@ export async function request<T>(
     const err = e as Error;
     throw new RequestError(
       `Unable to parse JSON response from server: ${err.message}`,
-      requestConfig,
+      requestConfig
     );
   }
 

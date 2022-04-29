@@ -361,7 +361,7 @@ export class Users {
   }
 
   deleteWebAuthnRegistration(
-    webAuthnRegistrationID: string,
+    webAuthnRegistrationID: string
   ): Promise<DeleteWebAuthnRegistrationResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",

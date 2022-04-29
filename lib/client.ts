@@ -36,20 +36,20 @@ export class Client {
   constructor(config: Config) {
     if (typeof config != "object") {
       throw new Error(
-        "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.",
+        "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library."
       );
     }
 
     if (!config.project_id) {
-      throw new Error("Missing \"project_id\" in config");
+      throw new Error('Missing "project_id" in config');
     }
 
     if (!config.secret) {
-      throw new Error("Missing \"secret\" in config");
+      throw new Error('Missing "secret" in config');
     }
 
     if (!config.env) {
-      throw new Error("Missing \"env\" in config");
+      throw new Error('Missing "env" in config');
     }
 
     if (config.env != envs.test && config.env != envs.live) {
@@ -59,8 +59,7 @@ export class Client {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${version}`,
-      "Authorization": "Basic " +
-        btoa(config.project_id + ":" + config.secret),
+      Authorization: "Basic " + btoa(config.project_id + ":" + config.secret),
     };
 
     this.fetchConfig = {
@@ -80,7 +79,7 @@ export class Client {
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, baseURL),
+        new URL(`sessions/jwks/${config.project_id}`, baseURL)
       ),
     };
 

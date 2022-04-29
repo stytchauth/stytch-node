@@ -1,5 +1,11 @@
 import * as jose from "jose";
-import { request, Attributes, Session, AuthenticationFactor, fetchConfig } from "./shared";
+import {
+  request,
+  Attributes,
+  Session,
+  AuthenticationFactor,
+  fetchConfig,
+} from "./shared";
 import { ClientError } from "./errors";
 
 import type { BaseResponse } from "./shared";

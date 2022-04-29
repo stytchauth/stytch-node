@@ -40,7 +40,7 @@ export class OAuth {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest,
+    data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
