@@ -42,15 +42,15 @@ class Client {
     }
 
     if (!config.project_id) {
-      throw new Error("Missing \"project_id\" in config");
+      throw new Error('Missing "project_id" in config');
     }
 
     if (!config.secret) {
-      throw new Error("Missing \"secret\" in config");
+      throw new Error('Missing "secret" in config');
     }
 
     if (!config.env) {
-      throw new Error("Missing \"env\" in config");
+      throw new Error('Missing "env" in config');
     }
 
     if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
@@ -59,7 +59,7 @@ class Client {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${_package.version}`,
-      "Authorization": "Basic " + (0, _isomorphicBase.btoa)(config.project_id + ":" + config.secret)
+      Authorization: "Basic " + (0, _isomorphicBase.btoa)(config.project_id + ":" + config.secret)
     };
     this.fetchConfig = {
       baseURL: config.env,
