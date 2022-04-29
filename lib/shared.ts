@@ -1,7 +1,9 @@
+import * as http from "http";
 import { StytchError, RequestError, StytchErrorJSON } from "./errors";
 
-import fetch from "isomorphic-unfetch";
-import * as http from "http";
+// https://github.com/developit/unfetch/issues/99
+import * as fetchImport from 'isomorphic-unfetch'
+const fetch = (fetchImport.default || fetchImport) as typeof fetchImport.default
 
 export interface Attributes {
   ip_address?: string;

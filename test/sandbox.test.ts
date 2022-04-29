@@ -1,4 +1,4 @@
-import stytch = require("../lib");
+import * as stytch from '../lib'
 
 function env(name: string): string {
   const val = process.env[name];
