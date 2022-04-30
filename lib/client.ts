@@ -1,3 +1,4 @@
+import * as http from "http";
 import { version } from "../package.json";
 import * as jose from "jose";
 import { btoa } from "isomorphic-base64";
@@ -19,6 +20,7 @@ interface Config {
   secret: string;
   env: string;
   timeout?: number;
+  agent?: http.Agent;
 }
 
 export class Client {
@@ -66,6 +68,7 @@ export class Client {
       baseURL: config.env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
+      agent: config.agent,
     };
 
     // Get a baseURL that ends with a slash to make building route URLs easier.

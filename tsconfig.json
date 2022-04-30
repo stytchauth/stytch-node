@@ -22,5 +22,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["lib/**/*"]
+  "include": ["lib/**/*"],
+  "exclude": ["**/__mocks__/*"]
 }
