@@ -83,14 +83,10 @@ class Sessions {
         session_jwt: jwt
       };
     } catch (err) {
-      if (err instanceof _errors.ClientError && err.code === "jwt_too_old") {
-        // JWT was too old (stale) to verify locally. Check with the Stytch API.
-        return this.authenticate({
-          session_jwt: jwt
-        });
-      }
-
-      throw err;
+      // JWT could not be verified locally. Check with the Stytch API.
+      return this.authenticate({
+        session_jwt: jwt
+      });
     }
   }
   /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).

@@ -167,12 +167,8 @@ export class Sessions {
         session_jwt: jwt,
       };
     } catch (err) {
-      if (err instanceof ClientError && err.code === "jwt_too_old") {
-        // JWT was too old (stale) to verify locally. Check with the Stytch API.
-        return this.authenticate({ session_jwt: jwt });
-      }
-
-      throw err;
+      // JWT could not be verified locally. Check with the Stytch API.
+      return this.authenticate({ session_jwt: jwt });
     }
   }
 
