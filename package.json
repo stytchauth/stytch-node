@@ -1,6 +1,10 @@
 {
   "name": "stytch",
+<<<<<<< HEAD
   "version": "5.0.1",
+=======
+  "version": "5.1.0",
+>>>>>>> main
   "description": "A wrapper for the Stytch API",
   "types": "./types/lib/index.d.ts",
   "main": "./dist/index.js",
