@@ -34,6 +34,7 @@ export interface WebAuthnRegistration {
   domain: string;
   user_agent: string;
   verified: boolean;
+  authenticator_type: string;
 }
 
 export interface TOTP {
