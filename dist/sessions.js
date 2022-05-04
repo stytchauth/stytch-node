@@ -145,10 +145,11 @@ class Sessions {
       user_id: payload.sub || "",
       // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
       // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
-      // other two timestamps are RFC3339-formatted strings.
+      // other timestamps are RFC3339-formatted strings.
       started_at: new Date(claim.started_at),
       last_accessed_at: new Date(claim.last_accessed_at),
-      expires_at: new Date((payload.exp || 0) * 1000)
+      // For JWTs that include it, prefer the inner expires_at claim.
+      expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000)
     };
   }
 

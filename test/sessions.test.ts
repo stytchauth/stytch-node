@@ -225,7 +225,8 @@ describe("sessions.authenticateJwtLocal", () => {
   const projectID = "project-test-00000000-0000-0000-0000-000000000000";
 
   let sessions: Sessions;
-  let jwt: string;
+  let jwtWithExpiresAt: string;
+  let jwtOld: string;
   let startedAt: Date;
   let expiresAt: Date;
 
@@ -246,13 +247,13 @@ describe("sessions.authenticateJwtLocal", () => {
     // timestamps are used to create the JWT.
     const nowEpoch = Math.floor(+new Date() / 1000);
     startedAt = new Date(nowEpoch * 1000);
-    const expiresEpoch = nowEpoch + 2 * 60 * 60; // two hours
-    expiresAt = new Date(expiresEpoch * 1000);
+    expiresAt = new Date(+startedAt + 2 * 60 * 60 * 1000); // two hours
 
     // Format the timestamp fields like the API does to check the date parsing.
     const claim = {
       started_at: iso(startedAt),
       last_accessed_at: iso(startedAt),
+      expires_at: iso(expiresAt),
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
         {
@@ -268,8 +269,8 @@ describe("sessions.authenticateJwtLocal", () => {
       id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
     };
 
-    // And now sign the JWT.
-    jwt = await new jose.SignJWT({
+    // And now sign the JWTs.
+    jwtWithExpiresAt = await new jose.SignJWT({
       "https://stytch.com/session": claim,
       sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     })
@@ -280,14 +281,30 @@ describe("sessions.authenticateJwtLocal", () => {
       })
       .setIssuedAt(nowEpoch)
       .setNotBefore(nowEpoch)
-      .setExpirationTime(expiresEpoch)
+      .setExpirationTime(nowEpoch + 5 * 60) // five minutes
+      .setIssuer(`stytch.com/${projectID}`)
+      .setAudience([projectID])
+      .sign(privateKey);
+
+    jwtOld = await new jose.SignJWT({
+      "https://stytch.com/session": { ...claim, expires_at: null },
+      sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: keyID,
+        typ: "JWT",
+      })
+      .setIssuedAt(nowEpoch)
+      .setNotBefore(nowEpoch)
+      .setExpirationTime(nowEpoch + 5 * 60) // five minutes
       .setIssuer(`stytch.com/${projectID}`)
       .setAudience([projectID])
       .sign(privateKey);
   });
 
-  test("extract session data from the claims", async () => {
-    const session = await sessions.authenticateJwtLocal(jwt);
+  test("extract session data from new-style claims", async () => {
+    const session = await sessions.authenticateJwtLocal(jwtWithExpiresAt);
     expect(session).toEqual({
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
@@ -309,20 +326,43 @@ describe("sessions.authenticateJwtLocal", () => {
     });
   });
 
+  test("extract session data from old-style claims", async () => {
+    const session = await sessions.authenticateJwtLocal(jwtOld);
+    expect(session).toEqual({
+      attributes: { user_agent: "", ip_address: "" },
+      authentication_factors: [
+        {
+          delivery_method: "email",
+          email_factor: {
+            email_address: "sandbox@stytch.com",
+            email_id: "email-live-cca9d7d0-11b6-4167-9385-d7e0c9a77418",
+          },
+          last_authenticated_at: iso(startedAt),
+          type: "magic_link",
+        },
+      ],
+      expires_at: new Date(+startedAt + 5 * 60 * 1000),
+      last_accessed_at: startedAt,
+      session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
+      started_at: startedAt,
+      user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    });
+  });
+
   test("clock_tolerance_seconds allows for clock drift", async () => {
     // Say the app clock is ahead of API clock by 10 seconds so we're verifying "before" the
     // not-before time (nbf).
     const appNow = dateAdd(startedAt, -10);
 
     await expect(
-      sessions.authenticateJwtLocal(jwt, {
+      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: appNow,
         clock_tolerance_seconds: 9,
       }),
     ).rejects.toHaveProperty("code", "jwt_invalid");
 
     await expect(
-      sessions.authenticateJwtLocal(jwt, {
+      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: appNow,
         clock_tolerance_seconds: 10,
       }),
@@ -333,7 +373,7 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("errors before not-before time (nbf)", async () => {
-    const promise = sessions.authenticateJwtLocal(jwt, {
+    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
       current_date: dateAdd(startedAt, -1),
     });
     await expect(promise).rejects.toThrow(ClientError);
@@ -341,7 +381,7 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("errors after expiration time (exp)", async () => {
-    const promise = sessions.authenticateJwtLocal(jwt, {
+    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
       current_date: dateAdd(expiresAt, +1),
     });
     await expect(promise).rejects.toThrow(ClientError);
@@ -351,7 +391,7 @@ describe("sessions.authenticateJwtLocal", () => {
   test("errors if token is too stale", async () => {
     // Make sure the token validates at an earlier time.
     await expect(
-      sessions.authenticateJwtLocal(jwt, {
+      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: dateAdd(startedAt, +3),
         max_token_age_seconds: 5,
       }),
@@ -360,7 +400,7 @@ describe("sessions.authenticateJwtLocal", () => {
       "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     );
 
-    const promise = sessions.authenticateJwtLocal(jwt, {
+    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
       current_date: dateAdd(startedAt, +10),
       max_token_age_seconds: 5,
     });
@@ -369,7 +409,7 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("zero max_token_age_seconds forces staleness", async () => {
-    const promise = sessions.authenticateJwtLocal(jwt, {
+    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
       current_date: startedAt,
       max_token_age_seconds: 0,
     });
@@ -378,7 +418,7 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("reject alg=none", async () => {
-    jwt = new jose.UnsecuredJWT({
+    jwtWithExpiresAt = new jose.UnsecuredJWT({
       sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     })
       .setIssuedAt()
@@ -387,10 +427,10 @@ describe("sessions.authenticateJwtLocal", () => {
       .setAudience([projectID])
       .encode();
 
-    const decoded = jose.UnsecuredJWT.decode(jwt);
+    const decoded = jose.UnsecuredJWT.decode(jwtWithExpiresAt);
     expect(decoded.header.alg).toBe("none");
 
-    const promise = sessions.authenticateJwtLocal(jwt);
+    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt);
     await expect(promise).rejects.toThrow(ClientError);
     await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
     // This is part of the unstructured error message and comes directly from jose.
