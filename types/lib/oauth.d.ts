@@ -11,7 +11,7 @@ export interface AuthenticateResponse extends BaseResponse {
     session_token?: string;
     session_jwt?: string;
     session?: Session;
-    providerValues: ProvidersValues;
+    provider_values: ProvidersValues;
 }
 export interface ProvidersValues {
     access_token?: string;
