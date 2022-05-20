@@ -4,7 +4,10 @@ import {
   Attributes,
   Session,
   AuthenticationFactor,
-  fetchConfig, parseUser, WithRawUser, User,
+  fetchConfig,
+  parseUser,
+  WithRawUser,
+  User,
 } from "./shared";
 import { ClientError } from "./errors";
 

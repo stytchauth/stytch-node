@@ -200,7 +200,7 @@ export declare type UserRaw = Omit<User, "created_at"> & {
     created_at: string;
 };
 export declare type WithRawUser<T extends {
-    "user": User;
+    user: User;
 }> = Omit<T, "user"> & {
     user: UserRaw;
 };

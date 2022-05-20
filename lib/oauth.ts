@@ -1,4 +1,10 @@
-import type { BaseResponse, Session, fetchConfig, WithRawUser, User } from "./shared";
+import type {
+  BaseResponse,
+  Session,
+  fetchConfig,
+  WithRawUser,
+  User,
+} from "./shared";
 import { parseUser, request } from "./shared";
 
 export interface AuthenticateRequest {

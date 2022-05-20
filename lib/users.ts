@@ -49,100 +49,100 @@ export enum UserSearchOperator {
 
 export type UserSearchOperand =
   | {
-  filter_name: "created_at_greater_than";
-  // Timestamp in RFC 3339 Format
-  filter_value: string;
-}
+      filter_name: "created_at_greater_than";
+      // Timestamp in RFC 3339 Format
+      filter_value: string;
+    }
   | {
-  filter_name: "created_at_less_than";
-  // Timestamp in RFC 3339 Format
-  filter_value: string;
-}
+      filter_name: "created_at_less_than";
+      // Timestamp in RFC 3339 Format
+      filter_value: string;
+    }
   | {
-  filter_name: "created_at_between";
-  filter_value: {
-    // Timestamp in RFC 3339 Format
-    greater_than: string;
-    // Timestamp in RFC 3339 Format
-    less_than: string;
-  };
-}
+      filter_name: "created_at_between";
+      filter_value: {
+        // Timestamp in RFC 3339 Format
+        greater_than: string;
+        // Timestamp in RFC 3339 Format
+        less_than: string;
+      };
+    }
   | {
-  filter_name: "status";
-  filter_value: "active" | "pending";
-}
+      filter_name: "status";
+      filter_value: "active" | "pending";
+    }
   | {
-  filter_name: "oauth_provider";
-  filter_value: string[];
-}
+      filter_name: "oauth_provider";
+      filter_value: string[];
+    }
   | {
-  filter_name: "user_id";
-  filter_value: string[];
-}
+      filter_name: "user_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "full_name_fuzzy";
-  filter_value: string;
-}
+      filter_name: "full_name_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "phone_number";
-  filter_value: string[];
-}
+      filter_name: "phone_number";
+      filter_value: string[];
+    }
   | {
-  filter_name: "phone_id";
-  filter_value: string[];
-}
+      filter_name: "phone_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "phone_verified";
-  filter_value: boolean;
-}
+      filter_name: "phone_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "phone_number_fuzzy";
-  filter_value: string;
-}
+      filter_name: "phone_number_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "email_address";
-  filter_value: string[];
-}
+      filter_name: "email_address";
+      filter_value: string[];
+    }
   | {
-  filter_name: "email_id";
-  filter_value: string[];
-}
+      filter_name: "email_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "email_verified";
-  filter_value: boolean;
-}
+      filter_name: "email_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "email_address_fuzzy";
-  filter_value: string;
-}
+      filter_name: "email_address_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "webauthn_registration_verified";
-  filter_value: boolean;
-}
+      filter_name: "webauthn_registration_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "webauthn_registration_id";
-  filter_value: string[];
-}
+      filter_name: "webauthn_registration_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "crypto_wallet_id";
-  filter_value: string[];
-}
+      filter_name: "crypto_wallet_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "crypto_wallet_address";
-  filter_value: string[];
-}
+      filter_name: "crypto_wallet_address";
+      filter_value: string[];
+    }
   | {
-  filter_name: "crypto_wallet_verified";
-  filter_value: boolean;
-}
+      filter_name: "crypto_wallet_verified";
+      filter_value: boolean;
+    }
   | {
-  filter_name: "totp_id";
-  filter_value: string[];
-}
+      filter_name: "totp_id";
+      filter_value: string[];
+    }
   | {
-  filter_name: "totp_verified";
-  filter_value: boolean;
-};
+      filter_name: "totp_verified";
+      filter_value: boolean;
+    };
 
 export interface SearchRequest {
   limit?: number;
@@ -182,7 +182,7 @@ export interface UpdateRequest {
 
 export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
-  user: User,
+  user: User;
   emails: Email[];
   phone_numbers: PhoneNumber[];
   crypto_wallets: CryptoWallet[];
@@ -260,7 +260,7 @@ export class UserSearchIterator {
     return this.mode !== mode.complete;
   }
 
-  async* [Symbol.asyncIterator](): AsyncIterator<User[]> {
+  async *[Symbol.asyncIterator](): AsyncIterator<User[]> {
     while (this.hasNext()) {
       yield this.next();
     }
@@ -372,12 +372,15 @@ export class Users {
   }
 
   deleteWebAuthnRegistration(
-    webAuthnRegistrationID: string,
+    webAuthnRegistrationID: string
   ): Promise<DeleteWebAuthnRegistrationResponse> {
-    return request<WithRawUser<DeleteWebAuthnRegistrationResponse>>(this.fetchConfig, {
-      method: "DELETE",
-      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
-    }).then((res) => {
+    return request<WithRawUser<DeleteWebAuthnRegistrationResponse>>(
+      this.fetchConfig,
+      {
+        method: "DELETE",
+        url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
+      }
+    ).then((res) => {
       return {
         ...res,
         user: parseUser(res.user),
@@ -398,7 +401,7 @@ export class Users {
   }
 
   deleteCryptoWallet(
-    cryptoWalletID: string,
+    cryptoWalletID: string
   ): Promise<DeleteCryptoWalletResponse> {
     return request<WithRawUser<DeleteCryptoWalletResponse>>(this.fetchConfig, {
       method: "DELETE",

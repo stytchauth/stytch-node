@@ -242,12 +242,12 @@ export type requestConfig = {
 
 export async function request<T>(
   fetchConfig: fetchConfig,
-  requestConfig: requestConfig,
+  requestConfig: requestConfig
 ): Promise<T> {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) =>
-      url.searchParams.append(key, String(value)),
+      url.searchParams.append(key, String(value))
     );
   }
 
@@ -270,7 +270,7 @@ export async function request<T>(
     const err = e as Error;
     throw new RequestError(
       `Unable to parse JSON response from server: ${err.message}`,
-      requestConfig,
+      requestConfig
     );
   }
 
@@ -282,7 +282,9 @@ export async function request<T>(
 }
 
 export type UserRaw = Omit<User, "created_at"> & { created_at: string };
-export type WithRawUser<T extends { "user": User }> = Omit<T, "user"> & { user: UserRaw }
+export type WithRawUser<T extends { user: User }> = Omit<T, "user"> & {
+  user: UserRaw;
+};
 
 export function parseUser(user: UserRaw): User {
   return {

@@ -3,7 +3,7 @@ import { User, UserRaw } from "../shared";
 export const request = jest.fn();
 
 export function parseUser(user: UserRaw): User {
-  if(typeof user !== "object") {
+  if (typeof user !== "object") {
     return user;
   }
   return {
