@@ -157,6 +157,39 @@ export interface FacebookOAuthFactor {
   };
 }
 
+export interface DiscordOAuthFactor {
+  delivery_method: "oauth_discord";
+  type: string;
+  last_authenticated_at: string;
+  discord_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
+export interface SlackOAuthFactor {
+  delivery_method: "oauth_slack";
+  type: string;
+  last_authenticated_at: string;
+  slack_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
+export interface CoinbaseOAuthFactor {
+  delivery_method: "oauth_coinbase";
+  type: string;
+  last_authenticated_at: string;
+  coinbase_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
 export interface WebAuthnFactor {
   delivery_method: "webauthn_registration";
   type: string;
@@ -206,6 +239,9 @@ export type AuthenticationFactor =
   | GithubOAuthFactor
   | GitLabOAuthFactor
   | FacebookOAuthFactor
+  | DiscordOAuthFactor
+  | SlackOAuthFactor
+  | CoinbaseOAuthFactor
   | WebAuthnFactor
   | AuthenticatorAppFactor
   | RecoveryCodeFactor
