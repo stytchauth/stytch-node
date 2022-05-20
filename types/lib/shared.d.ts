@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import * as http from "http";
+import { UserID } from "./users";
 export interface Attributes {
     ip_address?: string;
     user_agent?: string;
@@ -29,6 +30,18 @@ export interface WebAuthnRegistration {
 export interface TOTP {
     totp_id: string;
     verified: boolean;
+}
+export interface User {
+    user_id: UserID;
+    created_at: Date;
+    status: string;
+    name: Name;
+    emails: Email[];
+    phone_numbers: PhoneNumber[];
+    providers: OAuthProvider[];
+    webauthn_registrations: WebAuthnRegistration[];
+    totps: TOTP[];
+    crypto_wallets: CryptoWallet[];
 }
 export interface CryptoWallet {
     crypto_wallet_id: string;
@@ -213,3 +226,12 @@ export declare type requestConfig = {
     data?: unknown;
 };
 export declare function request<T>(fetchConfig: fetchConfig, requestConfig: requestConfig): Promise<T>;
+export declare type UserRaw = Omit<User, "created_at"> & {
+    created_at: string;
+};
+export declare type WithRawUser<T extends {
+    user: User;
+}> = Omit<T, "user"> & {
+    user: UserRaw;
+};
+export declare function parseUser(user: UserRaw): User;

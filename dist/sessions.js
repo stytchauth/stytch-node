@@ -61,6 +61,7 @@ class Sessions {
       data
     }).then(res => {
       return { ...res,
+        user: (0, _shared.parseUser)(res.user),
         session: parseSession(res.session)
       };
     });

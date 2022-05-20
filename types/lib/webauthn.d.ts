@@ -1,4 +1,4 @@
-import { Session } from "./shared";
+import { Session, User } from "./shared";
 import type { BaseResponse, fetchConfig } from "./shared";
 import { UserID } from "./users";
 export interface RegisterStartRequest {
@@ -35,6 +35,7 @@ export interface AuthenticateRequest {
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
     webauthn_registration_id: string;
     session_token?: string;
     session_jwt?: string;

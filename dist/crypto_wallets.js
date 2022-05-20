@@ -31,6 +31,10 @@ class CryptoWallets {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 

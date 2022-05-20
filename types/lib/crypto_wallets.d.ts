@@ -1,4 +1,4 @@
-import { Session, fetchConfig } from "./shared";
+import { Session, fetchConfig, User } from "./shared";
 import type { BaseResponse } from "./shared";
 import { UserID } from "./users";
 export interface AuthenticateStartRequest {
@@ -21,6 +21,7 @@ export interface AuthenticateRequest {
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
     session_token?: string;
     session_jwt?: string;
     session?: Session;

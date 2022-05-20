@@ -1,5 +1,5 @@
-import { OAuthProvider } from "./shared";
-import type { Attributes, BaseResponse, Email, Name, PhoneNumber, WebAuthnRegistration, TOTP, CryptoWallet, fetchConfig } from "./shared";
+import { User } from "./shared";
+import type { Attributes, BaseResponse, Email, Name, PhoneNumber, TOTP, CryptoWallet, fetchConfig } from "./shared";
 export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
@@ -20,21 +20,10 @@ export interface CreateRequest {
 }
 export interface CreateResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
     email_id: string;
     phone_id: string;
     status: string;
-}
-interface User {
-    user_id: UserID;
-    created_at: Date;
-    status: string;
-    name: Name;
-    emails: Email[];
-    phone_numbers: PhoneNumber[];
-    providers: OAuthProvider[];
-    webauthn_registrations: WebAuthnRegistration[];
-    totps: TOTP[];
-    crypto_wallets: CryptoWallet[];
 }
 export declare type GetResponse = BaseResponse & User;
 export declare enum UserSearchOperator {
@@ -142,6 +131,7 @@ export interface UpdateRequest {
 }
 export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
     emails: Email[];
     phone_numbers: PhoneNumber[];
     crypto_wallets: CryptoWallet[];
@@ -161,18 +151,23 @@ export interface GetPendingResponse extends BaseResponse {
 }
 export interface DeleteEmailResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
 }
 export interface DeletePhoneNumberResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
 }
 export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
 }
 export interface DeleteTOTPResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
 }
 export interface DeleteCryptoWalletResponse extends BaseResponse {
     user_id: UserID;
+    user: User;
 }
 export declare class UserSearchIterator {
     private client;
@@ -201,4 +196,3 @@ export declare class Users {
     deleteTOTP(totpID: string): Promise<DeleteTOTPResponse>;
     deleteCryptoWallet(cryptoWalletID: string): Promise<DeleteCryptoWalletResponse>;
 }
-export {};

@@ -5,6 +5,9 @@ import {
   Session,
   AuthenticationFactor,
   fetchConfig,
+  parseUser,
+  WithRawUser,
+  User,
 } from "./shared";
 import { ClientError } from "./errors";
 
@@ -43,6 +46,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   session: Session;
+  user: User;
   session_token: string;
   session_jwt: string;
 }
@@ -70,6 +74,7 @@ interface GetResponseRaw extends BaseResponse {
 }
 
 interface AuthenticateResponseRaw extends BaseResponse {
+  user: User;
   session: SessionRaw;
   session_token: string;
   session_jwt: string;
@@ -134,13 +139,14 @@ export class Sessions {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<AuthenticateResponseRaw>(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponseRaw>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
     }).then((res): AuthenticateResponse => {
       return {
         ...res,
+        user: parseUser(res.user),
         session: parseSession(res.session),
       };
     });

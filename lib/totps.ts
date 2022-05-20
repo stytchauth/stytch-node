@@ -1,4 +1,4 @@
-import { request } from "./shared";
+import { parseUser, request, User, WithRawUser } from "./shared";
 
 import type { BaseResponse, Session, fetchConfig } from "./shared";
 
@@ -30,6 +30,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
+  user: User;
   totp_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -55,6 +56,7 @@ export interface RecoverRequest {
 
 export interface RecoverResponse extends BaseResponse {
   user_id: string;
+  user: User;
   totp_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -83,10 +85,15 @@ export class TOTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
@@ -99,10 +106,15 @@ export class TOTPs {
   }
 
   recover(data: RecoverRequest): Promise<RecoverResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<RecoverResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recover"),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 }

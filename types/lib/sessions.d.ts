@@ -1,5 +1,5 @@
 import * as jose from "jose";
-import { Session, fetchConfig } from "./shared";
+import { Session, fetchConfig, User } from "./shared";
 import type { BaseResponse } from "./shared";
 export interface GetRequest {
     user_id: string;
@@ -28,6 +28,7 @@ export interface AuthenticateRequest {
 }
 export interface AuthenticateResponse extends BaseResponse {
     session: Session;
+    user: User;
     session_token: string;
     session_jwt: string;
 }
