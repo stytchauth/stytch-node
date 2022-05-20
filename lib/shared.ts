@@ -3,6 +3,8 @@ import { StytchError, RequestError, StytchErrorJSON } from "./errors";
 
 // https://github.com/developit/unfetch/issues/99
 import * as fetchImport from "isomorphic-unfetch";
+import { UserID } from "./users";
+
 const fetch = (fetchImport.default ||
   fetchImport) as typeof fetchImport.default;
 
@@ -40,6 +42,19 @@ export interface WebAuthnRegistration {
 export interface TOTP {
   totp_id: string;
   verified: boolean;
+}
+
+export interface User {
+  user_id: UserID;
+  created_at: Date;
+  status: string;
+  name: Name;
+  emails: Email[];
+  phone_numbers: PhoneNumber[];
+  providers: OAuthProvider[];
+  webauthn_registrations: WebAuthnRegistration[];
+  totps: TOTP[];
+  crypto_wallets: CryptoWallet[];
 }
 
 export interface CryptoWallet {
@@ -227,12 +242,12 @@ export type requestConfig = {
 
 export async function request<T>(
   fetchConfig: fetchConfig,
-  requestConfig: requestConfig
+  requestConfig: requestConfig,
 ): Promise<T> {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) =>
-      url.searchParams.append(key, String(value))
+      url.searchParams.append(key, String(value)),
     );
   }
 
@@ -255,7 +270,7 @@ export async function request<T>(
     const err = e as Error;
     throw new RequestError(
       `Unable to parse JSON response from server: ${err.message}`,
-      requestConfig
+      requestConfig,
     );
   }
 
@@ -264,4 +279,14 @@ export async function request<T>(
   }
 
   return responseJSON as T;
+}
+
+export type UserRaw = Omit<User, "created_at"> & { created_at: string };
+export type WithRawUser<T extends { "user": User }> = Omit<T, "user"> & { user: UserRaw }
+
+export function parseUser(user: UserRaw): User {
+  return {
+    ...user,
+    created_at: new Date(user.created_at),
+  };
 }

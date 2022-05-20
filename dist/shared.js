@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.request = request;
+exports.parseUser = parseUser;
 
 var _errors = require("./errors");
 
@@ -50,4 +51,10 @@ async function request(fetchConfig, requestConfig) {
   }
 
   return responseJSON;
+}
+
+function parseUser(user) {
+  return { ...user,
+    created_at: new Date(user.created_at)
+  };
 }

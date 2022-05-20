@@ -1,4 +1,4 @@
-import { fetchConfig, request } from "./shared";
+import { fetchConfig, parseUser, request, User, WithRawUser } from "./shared";
 
 import type { Attributes, BaseResponse, Session } from "./shared";
 
@@ -89,6 +89,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
+  user: User;
   method_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -217,10 +218,15 @@ export class OTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 }

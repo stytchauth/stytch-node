@@ -1,3 +1,4 @@
+import { User } from "./shared";
 import type { BaseResponse, Session, fetchConfig } from "./shared";
 export interface TOTP {
     totp_id: string;
@@ -23,6 +24,7 @@ export interface AuthenticateRequest {
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
+    user: User;
     totp_id: string;
     session_token?: string;
     session_jwt?: string;
@@ -44,6 +46,7 @@ export interface RecoverRequest {
 }
 export interface RecoverResponse extends BaseResponse {
     user_id: string;
+    user: User;
     totp_id: string;
     session_token?: string;
     session_jwt?: string;

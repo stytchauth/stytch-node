@@ -1,4 +1,4 @@
-import { OAuthProvider, request } from "./shared";
+import { parseUser, request, User, UserRaw, WithRawUser } from "./shared";
 
 import type {
   Attributes,
@@ -6,7 +6,6 @@ import type {
   Email,
   Name,
   PhoneNumber,
-  WebAuthnRegistration,
   TOTP,
   CryptoWallet,
   fetchConfig,
@@ -35,25 +34,11 @@ export interface CreateRequest {
 
 export interface CreateResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
   email_id: string;
   phone_id: string;
   status: string;
 }
-
-interface User {
-  user_id: UserID;
-  created_at: Date;
-  status: string;
-  name: Name;
-  emails: Email[];
-  phone_numbers: PhoneNumber[];
-  providers: OAuthProvider[];
-  webauthn_registrations: WebAuthnRegistration[];
-  totps: TOTP[];
-  crypto_wallets: CryptoWallet[];
-}
-
-type UserRaw = Omit<User, "created_at"> & { created_at: string };
 
 export type GetResponse = BaseResponse & User;
 
@@ -64,100 +49,100 @@ export enum UserSearchOperator {
 
 export type UserSearchOperand =
   | {
-      filter_name: "created_at_greater_than";
-      // Timestamp in RFC 3339 Format
-      filter_value: string;
-    }
+  filter_name: "created_at_greater_than";
+  // Timestamp in RFC 3339 Format
+  filter_value: string;
+}
   | {
-      filter_name: "created_at_less_than";
-      // Timestamp in RFC 3339 Format
-      filter_value: string;
-    }
+  filter_name: "created_at_less_than";
+  // Timestamp in RFC 3339 Format
+  filter_value: string;
+}
   | {
-      filter_name: "created_at_between";
-      filter_value: {
-        // Timestamp in RFC 3339 Format
-        greater_than: string;
-        // Timestamp in RFC 3339 Format
-        less_than: string;
-      };
-    }
+  filter_name: "created_at_between";
+  filter_value: {
+    // Timestamp in RFC 3339 Format
+    greater_than: string;
+    // Timestamp in RFC 3339 Format
+    less_than: string;
+  };
+}
   | {
-      filter_name: "status";
-      filter_value: "active" | "pending";
-    }
+  filter_name: "status";
+  filter_value: "active" | "pending";
+}
   | {
-      filter_name: "oauth_provider";
-      filter_value: string[];
-    }
+  filter_name: "oauth_provider";
+  filter_value: string[];
+}
   | {
-      filter_name: "user_id";
-      filter_value: string[];
-    }
+  filter_name: "user_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "full_name_fuzzy";
-      filter_value: string;
-    }
+  filter_name: "full_name_fuzzy";
+  filter_value: string;
+}
   | {
-      filter_name: "phone_number";
-      filter_value: string[];
-    }
+  filter_name: "phone_number";
+  filter_value: string[];
+}
   | {
-      filter_name: "phone_id";
-      filter_value: string[];
-    }
+  filter_name: "phone_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "phone_verified";
-      filter_value: boolean;
-    }
+  filter_name: "phone_verified";
+  filter_value: boolean;
+}
   | {
-      filter_name: "phone_number_fuzzy";
-      filter_value: string;
-    }
+  filter_name: "phone_number_fuzzy";
+  filter_value: string;
+}
   | {
-      filter_name: "email_address";
-      filter_value: string[];
-    }
+  filter_name: "email_address";
+  filter_value: string[];
+}
   | {
-      filter_name: "email_id";
-      filter_value: string[];
-    }
+  filter_name: "email_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "email_verified";
-      filter_value: boolean;
-    }
+  filter_name: "email_verified";
+  filter_value: boolean;
+}
   | {
-      filter_name: "email_address_fuzzy";
-      filter_value: string;
-    }
+  filter_name: "email_address_fuzzy";
+  filter_value: string;
+}
   | {
-      filter_name: "webauthn_registration_verified";
-      filter_value: boolean;
-    }
+  filter_name: "webauthn_registration_verified";
+  filter_value: boolean;
+}
   | {
-      filter_name: "webauthn_registration_id";
-      filter_value: string[];
-    }
+  filter_name: "webauthn_registration_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "crypto_wallet_id";
-      filter_value: string[];
-    }
+  filter_name: "crypto_wallet_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "crypto_wallet_address";
-      filter_value: string[];
-    }
+  filter_name: "crypto_wallet_address";
+  filter_value: string[];
+}
   | {
-      filter_name: "crypto_wallet_verified";
-      filter_value: boolean;
-    }
+  filter_name: "crypto_wallet_verified";
+  filter_value: boolean;
+}
   | {
-      filter_name: "totp_id";
-      filter_value: string[];
-    }
+  filter_name: "totp_id";
+  filter_value: string[];
+}
   | {
-      filter_name: "totp_verified";
-      filter_value: boolean;
-    };
+  filter_name: "totp_verified";
+  filter_value: boolean;
+};
 
 export interface SearchRequest {
   limit?: number;
@@ -197,6 +182,7 @@ export interface UpdateRequest {
 
 export interface UpdateResponse extends BaseResponse {
   user_id: UserID;
+  user: User,
   emails: Email[];
   phone_numbers: PhoneNumber[];
   crypto_wallets: CryptoWallet[];
@@ -220,22 +206,27 @@ export interface GetPendingResponse extends BaseResponse {
 
 export interface DeleteEmailResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
 }
 
 export interface DeletePhoneNumberResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
 }
 
 export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
 }
 
 export interface DeleteTOTPResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
 }
 
 export interface DeleteCryptoWalletResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
 }
 
 enum mode {
@@ -269,7 +260,7 @@ export class UserSearchIterator {
     return this.mode !== mode.complete;
   }
 
-  async *[Symbol.asyncIterator](): AsyncIterator<User[]> {
+  async* [Symbol.asyncIterator](): AsyncIterator<User[]> {
     while (this.hasNext()) {
       yield this.next();
     }
@@ -289,10 +280,15 @@ export class Users {
   }
 
   create(data: CreateRequest): Promise<CreateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<CreateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
@@ -324,10 +320,15 @@ export class Users {
   }
 
   update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<UpdateResponse>>(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
@@ -347,48 +348,66 @@ export class Users {
   }
 
   deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<DeleteEmailResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
   deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<DeletePhoneNumberResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
   deleteWebAuthnRegistration(
-    webAuthnRegistrationID: string
+    webAuthnRegistrationID: string,
   ): Promise<DeleteWebAuthnRegistrationResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<DeleteWebAuthnRegistrationResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
   deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<DeleteTOTPResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 
   deleteCryptoWallet(
-    cryptoWalletID: string
+    cryptoWalletID: string,
   ): Promise<DeleteCryptoWalletResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<DeleteCryptoWalletResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
-}
-
-function parseUser(user: UserRaw): User {
-  return {
-    ...user,
-    created_at: new Date(user.created_at),
-  };
 }

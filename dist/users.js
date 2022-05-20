@@ -75,6 +75,10 @@ class Users {
       method: "POST",
       url: this.base_path,
       data
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -83,7 +87,7 @@ class Users {
       method: "GET",
       url: this.endpoint(userID)
     }).then(res => ({ ...res,
-      ...parseUser(res)
+      ...(0, _shared.parseUser)(res)
     }));
   }
 
@@ -94,7 +98,7 @@ class Users {
       data
     }).then(res => {
       return { ...res,
-        results: res.results.map(parseUser)
+        results: res.results.map(_shared.parseUser)
       };
     });
   }
@@ -108,6 +112,10 @@ class Users {
       method: "PUT",
       url: this.endpoint(userID),
       data
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -131,6 +139,10 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -138,6 +150,10 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -145,6 +161,10 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -152,6 +172,10 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
@@ -159,15 +183,13 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
     });
   }
 
 }
 
 exports.Users = Users;
-
-function parseUser(user) {
-  return { ...user,
-    created_at: new Date(user.created_at)
-  };
-}

@@ -1,4 +1,4 @@
-import { request, Session } from "./shared";
+import { parseUser, request, Session, User, WithRawUser } from "./shared";
 
 import type { BaseResponse, fetchConfig } from "./shared";
 import { UserID } from "./users";
@@ -44,6 +44,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
   webauthn_registration_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -89,10 +90,15 @@ export class WebAuthn {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Session } from "./shared";
+import { Session, User } from "./shared";
 import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
 export interface SendByEmailRequest {
     email: string;
@@ -58,6 +58,7 @@ export interface AuthenticateRequest {
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
+    user: User;
     method_id: string;
     session_token?: string;
     session_jwt?: string;

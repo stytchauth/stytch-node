@@ -1,4 +1,4 @@
-import { request, Session, fetchConfig } from "./shared";
+import { request, Session, fetchConfig, parseUser, WithRawUser, User } from "./shared";
 
 import type { BaseResponse } from "./shared";
 import { UserID } from "./users";
@@ -26,6 +26,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: UserID;
+  user: User;
   session_token?: string;
   session_jwt?: string;
   session?: Session;
@@ -44,7 +45,7 @@ export class CryptoWallets {
   }
 
   authenticateStart(
-    data: AuthenticateStartRequest
+    data: AuthenticateStartRequest,
   ): Promise<AuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
@@ -54,10 +55,15 @@ export class CryptoWallets {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 }

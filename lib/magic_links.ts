@@ -1,4 +1,4 @@
-import { request, Session } from "./shared";
+import { parseUser, request, Session, User, WithRawUser } from "./shared";
 
 import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
 
@@ -69,6 +69,7 @@ export interface AuthenticateRequest {
 
 export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
+  user: User;
   method_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -160,10 +161,15 @@ export class MagicLinks {
     token: string,
     data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
-    return request(this.fetchConfig, {
+    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: { token, ...data },
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
     });
   }
 }
