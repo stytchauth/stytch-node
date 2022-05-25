@@ -179,6 +179,39 @@ export interface SlackOAuthFactor {
   };
 }
 
+export interface AmazonOAuthFactor {
+  delivery_method: "oauth_amazon";
+  type: string;
+  last_authenticated_at: string;
+  amazon_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
+export interface BitbucketOAuthFactor {
+  delivery_method: "oauth_bitbucket";
+  type: string;
+  last_authenticated_at: string;
+  bitbucket_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
+export interface LinkedInOAuthFactor {
+  delivery_method: "oauth_linkedin";
+  type: string;
+  last_authenticated_at: string;
+  linkedin_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
 export interface CoinbaseOAuthFactor {
   delivery_method: "oauth_coinbase";
   type: string;
@@ -241,6 +274,9 @@ export type AuthenticationFactor =
   | FacebookOAuthFactor
   | DiscordOAuthFactor
   | SlackOAuthFactor
+  | AmazonOAuthFactor
+  | BitbucketOAuthFactor
+  | LinkedInOAuthFactor
   | CoinbaseOAuthFactor
   | WebAuthnFactor
   | AuthenticatorAppFactor
