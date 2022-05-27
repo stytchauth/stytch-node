@@ -7,6 +7,7 @@ export interface SendByEmailRequest {
     login_expiration_minutes?: number;
     signup_expiration_minutes?: number;
     attributes?: Attributes;
+    code_challenge?: string;
 }
 export interface SendByEmailResponse extends BaseResponse {
     user_id: string;
@@ -20,6 +21,7 @@ export interface LoginOrCreateByEmailRequest {
     signup_expiration_minutes?: number;
     create_user_as_pending?: boolean;
     attributes?: Attributes;
+    code_challenge?: string;
 }
 export interface LoginOrCreateByEmailResponse extends BaseResponse {
     user_id: string;
@@ -55,6 +57,7 @@ export interface AuthenticateRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
+    code_verifier?: string;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
