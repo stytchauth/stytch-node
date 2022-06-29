@@ -1,17 +1,18 @@
 import * as http from "http";
-import { version } from "../package.json";
-import * as jose from "jose";
 import { btoa } from "isomorphic-base64";
-import * as envs from "./envs";
+import * as jose from "jose";
+import { version } from "../package.json";
 import { CryptoWallets } from "./crypto_wallets";
-import { Users } from "./users";
+import * as envs from "./envs";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
+import { Passwords } from "./passwords";
 import { Sessions } from "./sessions";
-import { TOTPs } from "./totps";
-import { WebAuthn } from "./webauthn";
 import { fetchConfig } from "./shared";
+import { TOTPs } from "./totps";
+import { Users } from "./users";
+import { WebAuthn } from "./webauthn";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -28,6 +29,7 @@ export class Client {
   magicLinks: MagicLinks;
   otps: OTPs;
   oauth: OAuth;
+  passwords: Passwords;
   sessions: Sessions;
   totps: TOTPs;
   webauthn: WebAuthn;
@@ -90,6 +92,7 @@ export class Client {
     this.magicLinks = new MagicLinks(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);
+    this.passwords = new Passwords(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, jwtConfig);
     this.totps = new TOTPs(this.fetchConfig);
     this.webauthn = new WebAuthn(this.fetchConfig);
