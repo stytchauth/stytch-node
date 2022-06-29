@@ -26,10 +26,11 @@ This client library supports all of Stytch's live products:
   - [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
   - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
   - [x] [Session Management](https://stytch.com/docs/api/sessions-overview)
-  - [x] [WebAuthn (Beta)](https://stytch.com/docs/api/webauthn-overview)
-  - [x] [User Management (Beta)](https://stytch.com/docs/api/users)
-  - [x] [Time-based one-time passcodes (TOTPs) (Beta)](https://stytch.com/docs/api/totps-overview)
-  - [x] [Crypto wallets (Beta)](https://stytch.com/docs/api/crypto-wallet-overview)
+  - [x] [WebAuthn](https://stytch.com/docs/api/webauthn-overview)
+  - [x] [User Management](https://stytch.com/docs/api/users)
+  - [x] [Time-based one-time passcodes (TOTPs)](https://stytch.com/docs/api/totps-overview)
+  - [x] [Crypto wallets](https://stytch.com/docs/api/crypto-wallet-overview)
+  - [x] [Passwords (Beta)](https://stytch.com/docs/api/password-overview)
 
 ### Example usage
 Create an API client:
