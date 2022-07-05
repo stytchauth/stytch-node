@@ -238,6 +238,7 @@ export interface Session {
     expires_at: Date;
     attributes: Attributes;
     authentication_factors: AuthenticationFactor[];
+    custom_claims?: Map<string, any>;
 }
 export interface BaseResponse {
     status_code: number;

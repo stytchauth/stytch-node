@@ -11,6 +11,7 @@ export interface AuthenticateRequest {
   session_token?: string;
   session_jwt?: string;
   session_duration_minutes?: number;
+  session_custom_claims?: Map<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   code_verifier?: string;
 }
 
