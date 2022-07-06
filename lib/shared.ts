@@ -291,6 +291,7 @@ export interface Session {
   expires_at: Date;
   attributes: Attributes;
   authentication_factors: AuthenticationFactor[];
+  custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface BaseResponse {
