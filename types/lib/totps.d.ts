@@ -21,7 +21,7 @@ export interface AuthenticateRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
-    session_custom_claims?: Map<string, any>;
+    session_custom_claims?: Record<string, any>;
 }
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
@@ -44,7 +44,7 @@ export interface RecoverRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
-    session_custom_claims?: Map<string, any>;
+    session_custom_claims?: Record<string, any>;
 }
 export interface RecoverResponse extends BaseResponse {
     user_id: string;

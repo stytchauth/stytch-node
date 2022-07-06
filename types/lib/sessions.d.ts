@@ -25,7 +25,7 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
     session_jwt?: string;
-    session_custom_claims?: Map<string, any>;
+    session_custom_claims?: Record<string, any>;
 }
 export interface AuthenticateResponse extends BaseResponse {
     session: Session;
