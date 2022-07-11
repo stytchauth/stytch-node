@@ -8,7 +8,11 @@ export interface CreateRequest {
 }
 export interface CreateResponse extends BaseResponse {
     user_id: string;
+    user: User;
     email_id: string;
+    session_token?: string;
+    session_jwt?: string;
+    session?: Session;
 }
 export interface AuthenticateRequest {
     email: string;
@@ -21,7 +25,6 @@ export interface AuthenticateRequest {
 export interface AuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
-    method_id: string;
     session_token?: string;
     session_jwt?: string;
     session?: Session;
@@ -49,17 +52,21 @@ export interface ResetByEmailRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
     code_verifier?: string;
 }
 export interface ResetByEmailResponse extends BaseResponse {
     user_id: string;
-    email_id: string;
+    user: User;
+    session_token?: string;
+    session_jwt?: string;
+    session?: Session;
 }
-export interface CheckStrengthRequest {
-    email: string;
+export interface StrengthCheckRequest {
+    email?: string;
     password: string;
 }
-export interface CheckStrengthResponse extends BaseResponse {
+export interface StrengthCheckResponse extends BaseResponse {
     valid_password: boolean;
     score: number;
     breached_password: boolean;
@@ -67,6 +74,18 @@ export interface CheckStrengthResponse extends BaseResponse {
         suggestions: string[];
         warning: string;
     };
+}
+export interface MigrateRequest {
+    email: string;
+    hash: string;
+    hash_type: "bcrypt";
+    prepend_salt: string;
+    append_salt: string;
+}
+export interface MigrateRequestResponse extends BaseResponse {
+    user_id: string;
+    email_id: string;
+    user_created: boolean;
 }
 export declare class Passwords {
     base_path: string;
@@ -77,5 +96,5 @@ export declare class Passwords {
     authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
     resetByEmail(token: string, data: ResetByEmailRequest): Promise<ResetByEmailResponse>;
-    checkStrength(data: CheckStrengthRequest): Promise<CheckStrengthResponse>;
+    strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
 }

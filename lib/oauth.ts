@@ -24,7 +24,7 @@ export interface AuthenticateResponse extends BaseResponse {
   session_jwt?: string;
   session?: Session;
   provider_values: ProvidersValues;
-  reset_session: boolean;
+  reset_sessions: boolean;
 }
 
 export interface ProvidersValues {

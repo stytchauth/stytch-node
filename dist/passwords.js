@@ -57,7 +57,7 @@ class Passwords {
     });
   }
 
-  checkStrength(data) {
+  strengthCheck(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("strength_check"),

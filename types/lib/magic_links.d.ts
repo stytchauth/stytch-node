@@ -67,7 +67,7 @@ export interface AuthenticateResponse extends BaseResponse {
     session_token?: string;
     session_jwt?: string;
     session?: Session;
-    reset_session: boolean;
+    reset_sessions: boolean;
 }
 export interface RevokePendingInviteByEmailRequest {
     email: string;

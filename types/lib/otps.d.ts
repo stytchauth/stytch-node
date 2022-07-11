@@ -80,7 +80,7 @@ export interface AuthenticateResponse extends BaseResponse {
     session_token?: string;
     session_jwt?: string;
     session?: Session;
-    reset_session: boolean;
+    reset_sessions: boolean;
 }
 declare class Email {
     base_path: string;
