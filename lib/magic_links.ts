@@ -1,6 +1,6 @@
 import { parseUser, request, Session, User, WithRawUser } from "./shared";
 
-import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
+import type { Attributes, BaseResponse, fetchConfig, Name } from "./shared";
 
 export interface SendByEmailRequest {
   email: string;
@@ -78,6 +78,7 @@ export interface AuthenticateResponse extends BaseResponse {
   session_token?: string;
   session_jwt?: string;
   session?: Session;
+  reset_sessions: boolean;
 }
 
 export interface RevokePendingInviteByEmailRequest {

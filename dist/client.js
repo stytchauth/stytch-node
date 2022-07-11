@@ -5,17 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Client = void 0;
 
-var _package = require("../package.json");
+var _isomorphicBase = require("isomorphic-base64");
 
 var jose = _interopRequireWildcard(require("jose"));
 
-var _isomorphicBase = require("isomorphic-base64");
-
-var envs = _interopRequireWildcard(require("./envs"));
+var _package = require("../package.json");
 
 var _crypto_wallets = require("./crypto_wallets");
 
-var _users = require("./users");
+var envs = _interopRequireWildcard(require("./envs"));
 
 var _magic_links = require("./magic_links");
 
@@ -23,9 +21,13 @@ var _oauth = require("./oauth");
 
 var _otps = require("./otps");
 
+var _passwords = require("./passwords");
+
 var _sessions = require("./sessions");
 
 var _totps = require("./totps");
+
+var _users = require("./users");
 
 var _webauthn = require("./webauthn");
 
@@ -84,6 +86,7 @@ class Client {
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otps.OTPs(this.fetchConfig);
+    this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, jwtConfig);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);

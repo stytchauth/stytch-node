@@ -95,6 +95,7 @@ export interface AuthenticateResponse extends BaseResponse {
   session_token?: string;
   session_jwt?: string;
   session?: Session;
+  reset_sessions: boolean;
 }
 
 class Email {
