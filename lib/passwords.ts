@@ -91,8 +91,8 @@ export interface MigrateRequest {
   email: string;
   hash: string;
   hash_type: "bcrypt";
-  prepend_salt: string;
-  append_salt: string;
+  prepend_salt?: string;
+  append_salt?: string;
 }
 
 export interface MigrateResponse extends BaseResponse {

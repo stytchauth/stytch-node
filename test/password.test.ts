@@ -157,14 +157,12 @@ describe("passwords.strengthCheck", () => {
 })
 
 describe("passwords.migrate", () => {
-  test("basic", () => {
+  test("bcrypt", () => {
     return expect(
       passwords.migrate({
         email: "Ada_Lovelace@example.com",
         hash_type: "bcrypt",
         hash: "not-a-real-password-hash",
-        append_salt: "not-a-real-appended-salt",
-        prepend_salt: "not-a-real-prepend-salt",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -173,8 +171,6 @@ describe("passwords.migrate", () => {
         email: "Ada_Lovelace@example.com",
         hash_type: "bcrypt",
         hash: "not-a-real-password-hash",
-        append_salt: "not-a-real-appended-salt",
-        prepend_salt: "not-a-real-prepend-salt",
       },
     });
   })
