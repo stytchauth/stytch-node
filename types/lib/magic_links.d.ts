@@ -1,5 +1,5 @@
 import { Session, User } from "./shared";
-import type { Attributes, BaseResponse, Name, fetchConfig } from "./shared";
+import type { Attributes, BaseResponse, fetchConfig, Name } from "./shared";
 export interface SendByEmailRequest {
     email: string;
     login_magic_link_url?: string;
@@ -67,6 +67,7 @@ export interface AuthenticateResponse extends BaseResponse {
     session_token?: string;
     session_jwt?: string;
     session?: Session;
+    reset_session: boolean;
 }
 export interface RevokePendingInviteByEmailRequest {
     email: string;

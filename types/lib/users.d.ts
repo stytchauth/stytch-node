@@ -1,10 +1,11 @@
-import { User } from "./shared";
-import type { Attributes, BaseResponse, Email, Name, PhoneNumber, TOTP, CryptoWallet, fetchConfig } from "./shared";
+import { Password, User } from "./shared";
+import type { Attributes, BaseResponse, CryptoWallet, Email, fetchConfig, Name, PhoneNumber, TOTP } from "./shared";
 export declare type UserID = string;
 export interface PendingUser {
     user_id: UserID;
     name: Name;
     emails: Email[];
+    password: Password;
     phone_numbers: PhoneNumber[];
     crypto_wallet: CryptoWallet[];
     status: string;
@@ -98,6 +99,9 @@ export declare type UserSearchOperand = {
     filter_value: string[];
 } | {
     filter_name: "totp_verified";
+    filter_value: boolean;
+} | {
+    filter_name: "password_exists";
     filter_value: boolean;
 };
 export interface SearchRequest {

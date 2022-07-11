@@ -31,12 +31,17 @@ export interface TOTP {
     totp_id: string;
     verified: boolean;
 }
+export interface Password {
+    password_id: string;
+    requires_reset: boolean;
+}
 export interface User {
     user_id: UserID;
     created_at: Date;
     status: string;
     name: Name;
     emails: Email[];
+    password: Password;
     phone_numbers: PhoneNumber[];
     providers: OAuthProvider[];
     webauthn_registrations: WebAuthnRegistration[];
