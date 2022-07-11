@@ -138,10 +138,10 @@ describe("passwords.resetByEmail", () => {
   })
 })
 
-describe("passwords.checkStrength", () => {
+describe("passwords.strengthCheck", () => {
   test("basic", () => {
     return expect(
-      passwords.checkStrength({
+      passwords.strengthCheck({
         email: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
       })
