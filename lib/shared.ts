@@ -1,5 +1,5 @@
 import * as http from "http";
-import { StytchError, RequestError, StytchErrorJSON } from "./errors";
+import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
 // https://github.com/developit/unfetch/issues/99
 import * as fetchImport from "isomorphic-unfetch";
@@ -44,12 +44,18 @@ export interface TOTP {
   verified: boolean;
 }
 
+export interface Password {
+  password_id: string;
+  requires_reset: boolean;
+}
+
 export interface User {
   user_id: UserID;
   created_at: Date;
   status: string;
   name: Name;
   emails: Email[];
+  password: Password;
   phone_numbers: PhoneNumber[];
   providers: OAuthProvider[];
   webauthn_registrations: WebAuthnRegistration[];

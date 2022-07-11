@@ -1,9 +1,9 @@
 import type {
   BaseResponse,
-  Session,
   fetchConfig,
-  WithRawUser,
+  Session,
   User,
+  WithRawUser,
 } from "./shared";
 import { parseUser, request } from "./shared";
 
@@ -24,6 +24,7 @@ export interface AuthenticateResponse extends BaseResponse {
   session_jwt?: string;
   session?: Session;
   provider_values: ProvidersValues;
+  reset_session: boolean;
 }
 
 export interface ProvidersValues {

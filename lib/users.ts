@@ -1,14 +1,21 @@
-import { parseUser, request, User, UserRaw, WithRawUser } from "./shared";
+import {
+  parseUser,
+  Password,
+  request,
+  User,
+  UserRaw,
+  WithRawUser,
+} from "./shared";
 
 import type {
   Attributes,
   BaseResponse,
+  CryptoWallet,
   Email,
+  fetchConfig,
   Name,
   PhoneNumber,
   TOTP,
-  CryptoWallet,
-  fetchConfig,
 } from "./shared";
 
 export type UserID = string;
@@ -17,6 +24,7 @@ export interface PendingUser {
   user_id: UserID;
   name: Name;
   emails: Email[];
+  password: Password;
   phone_numbers: PhoneNumber[];
   crypto_wallet: CryptoWallet[];
   status: string;
@@ -141,6 +149,10 @@ export type UserSearchOperand =
     }
   | {
       filter_name: "totp_verified";
+      filter_value: boolean;
+    }
+  | {
+      filter_name: "password_exists";
       filter_value: boolean;
     };
 
