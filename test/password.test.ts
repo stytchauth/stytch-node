@@ -155,3 +155,27 @@ describe("passwords.strengthCheck", () => {
     });
   })
 })
+
+describe("passwords.migrate", () => {
+  test("basic", () => {
+    return expect(
+      passwords.migrate({
+        email: "Ada_Lovelace@example.com",
+        hash_type: "bcrypt",
+        hash: "not-a-real-password-hash",
+        append_salt: "not-a-real-appended-salt",
+        prepend_salt: "not-a-real-prepend-salt",
+      })
+    ).resolves.toMatchObject({
+      method: "POST",
+      path: "passwords/migrate",
+      data: {
+        email: "Ada_Lovelace@example.com",
+        hash_type: "bcrypt",
+        hash: "not-a-real-password-hash",
+        append_salt: "not-a-real-appended-salt",
+        prepend_salt: "not-a-real-prepend-salt",
+      },
+    });
+  })
+})

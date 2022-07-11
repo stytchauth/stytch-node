@@ -82,7 +82,7 @@ export interface MigrateRequest {
     prepend_salt: string;
     append_salt: string;
 }
-export interface MigrateRequestResponse extends BaseResponse {
+export interface MigrateResponse extends BaseResponse {
     user_id: string;
     email_id: string;
     user_created: boolean;
@@ -97,4 +97,5 @@ export declare class Passwords {
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
     resetByEmail(token: string, data: ResetByEmailRequest): Promise<ResetByEmailResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
+    migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }

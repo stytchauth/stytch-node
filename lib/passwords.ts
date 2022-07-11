@@ -95,7 +95,7 @@ export interface MigrateRequest {
   append_salt: string;
 }
 
-export interface MigrateRequestResponse extends BaseResponse {
+export interface MigrateResponse extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
@@ -160,6 +160,14 @@ export class Passwords {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("strength_check"),
+      data: data,
+    });
+  }
+
+  migrate(data: MigrateRequest): Promise<MigrateResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("migrate"),
       data: data,
     });
   }

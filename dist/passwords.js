@@ -65,6 +65,14 @@ class Passwords {
     });
   }
 
+  migrate(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("migrate"),
+      data: data
+    });
+  }
+
 }
 
 exports.Passwords = Passwords;
