@@ -38,7 +38,6 @@ export interface AuthenticateResponse extends BaseResponse {
 export interface ResetByEmailStartRequest {
   email: string;
   login_redirect_url?: string;
-  login_expiration_minutes?: number;
   reset_password_redirect_url?: string;
   reset_password_expiration_minutes?: number;
   attributes?: Attributes;
