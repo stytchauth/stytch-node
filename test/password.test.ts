@@ -108,10 +108,8 @@ describe("passwords.resetByEmailStart", () => {
 describe("passwords.resetByEmail", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmail('example-token',{
-        password: "not-a-real-password",
-      })
-    ).resolves.toMatchObject({
+      passwords.resetByEmail('example-token', "not-a-real-password"))
+      .resolves.toMatchObject({
       method: "POST",
       path: "passwords/email/reset",
       data: {
@@ -122,8 +120,8 @@ describe("passwords.resetByEmail", () => {
   })
   test("pkce", () => {
     return expect(
-      passwords.resetByEmail('example-token',{
-        password: "not-a-real-password",
+      passwords.resetByEmail('example-token', "not-a-real-password",
+      {
         code_verifier: "exmaple_code_verifier",
       })
     ).resolves.toMatchObject({

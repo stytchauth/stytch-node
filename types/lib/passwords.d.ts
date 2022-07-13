@@ -42,7 +42,6 @@ export interface ResetByEmailStartResponse extends BaseResponse {
     email_id: string;
 }
 export interface ResetByEmailRequest {
-    password: string;
     options?: {
         ip_match_required?: boolean;
         user_agent_match_required?: boolean;
@@ -94,7 +93,7 @@ export declare class Passwords {
     create(data: CreateRequest): Promise<CreateResponse>;
     authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
-    resetByEmail(token: string, data: ResetByEmailRequest): Promise<ResetByEmailResponse>;
+    resetByEmail(token: string, password: string, data?: ResetByEmailRequest): Promise<ResetByEmailResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
     migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }
