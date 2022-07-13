@@ -50,7 +50,6 @@ export interface ResetByEmailStartResponse extends BaseResponse {
 }
 
 export interface ResetByEmailRequest {
-  password: string;
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -146,12 +145,13 @@ export class Passwords {
 
   resetByEmail(
     token: string,
-    data: ResetByEmailRequest
+    password: string,
+    data?: ResetByEmailRequest
   ): Promise<ResetByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("email/reset"),
-      data: { token, ...data },
+      data: { token, password, ...data },
     });
   }
 
