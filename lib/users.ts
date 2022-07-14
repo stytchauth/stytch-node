@@ -24,7 +24,7 @@ export interface PendingUser {
   user_id: UserID;
   name: Name;
   emails: Email[];
-  password: Password;
+  password?: Password;
   phone_numbers: PhoneNumber[];
   crypto_wallet: CryptoWallet[];
   status: string;

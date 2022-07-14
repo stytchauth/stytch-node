@@ -41,7 +41,7 @@ export interface User {
     status: string;
     name: Name;
     emails: Email[];
-    password: Password;
+    password?: Password;
     phone_numbers: PhoneNumber[];
     providers: OAuthProvider[];
     webauthn_registrations: WebAuthnRegistration[];
@@ -234,7 +234,12 @@ export interface CryptoWalletFactor {
         crypto_wallet_type: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor;
+export interface PasswordFactor {
+    delivery_method: "knowledge";
+    type: string;
+    last_authenticated_at: string;
+}
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
 export interface Session {
     session_id: string;
     user_id: string;
