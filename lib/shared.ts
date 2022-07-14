@@ -55,7 +55,7 @@ export interface User {
   status: string;
   name: Name;
   emails: Email[];
-  password: Password;
+  password?: Password;
   phone_numbers: PhoneNumber[];
   providers: OAuthProvider[];
   webauthn_registrations: WebAuthnRegistration[];
@@ -269,6 +269,12 @@ export interface CryptoWalletFactor {
   };
 }
 
+export interface PasswordFactor {
+  delivery_method: "knowledge";
+  type: string;
+  last_authenticated_at: string;
+}
+
 export type AuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
@@ -287,7 +293,8 @@ export type AuthenticationFactor =
   | WebAuthnFactor
   | AuthenticatorAppFactor
   | RecoveryCodeFactor
-  | CryptoWalletFactor;
+  | CryptoWalletFactor
+  | PasswordFactor;
 
 export interface Session {
   session_id: string;
