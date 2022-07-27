@@ -118,7 +118,11 @@ interface Argon2IDMigrateRequest extends MigrateRequestBase {
   argon_2_key_length?: string;
 }
 
-export type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest
+export type MigrateRequest =
+  | MD5MigrateRequest
+  | BcryptMigrateRequest
+  | Argon2IMigrateRequest
+  | Argon2IDMigrateRequest;
 
 export interface MigrateResponse extends BaseResponse {
   user_id: string;
