@@ -73,18 +73,35 @@ export interface StrengthCheckResponse extends BaseResponse {
         warning: string;
     };
 }
-export interface MigrateRequest {
+interface MigrateRequestBase {
     email: string;
     hash: string;
-    hash_type: string;
+}
+interface MD5MigrateRequest extends MigrateRequestBase {
+    hash_type: "md_5";
     prepend_salt?: string;
     append_salt?: string;
+}
+interface BcryptMigrateRequest extends MigrateRequestBase {
+    hash_type: "bcrypt";
+}
+interface Argon2IMigrateRequest extends MigrateRequestBase {
+    hash_type: "argon_2i";
     argon_2_salt?: string;
     argon_2_iteration_amount?: string;
     argon_2_memory?: string;
     argon_2_threads?: string;
     argon_2_key_length?: string;
 }
+interface Argon2IDMigrateRequest extends MigrateRequestBase {
+    hash_type: "argon_2id";
+    argon_2_salt?: string;
+    argon_2_iteration_amount?: string;
+    argon_2_memory?: string;
+    argon_2_threads?: string;
+    argon_2_key_length?: string;
+}
+export declare type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest;
 export interface MigrateResponse extends BaseResponse {
     user_id: string;
     email_id: string;
@@ -102,3 +119,4 @@ export declare class Passwords {
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
     migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }
+export {};
