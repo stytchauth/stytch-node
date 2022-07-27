@@ -76,9 +76,14 @@ export interface StrengthCheckResponse extends BaseResponse {
 export interface MigrateRequest {
     email: string;
     hash: string;
-    hash_type: "bcrypt";
+    hash_type: string;
     prepend_salt?: string;
     append_salt?: string;
+    argon_2_salt?: string;
+    argon_2_iteration_amount?: string;
+    argon_2_memory?: string;
+    argon_2_threads?: string;
+    argon_2_key_length?: string;
 }
 export interface MigrateResponse extends BaseResponse {
     user_id: string;
