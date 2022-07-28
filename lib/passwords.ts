@@ -95,7 +95,7 @@ interface MD5MigrateRequest extends MigrateRequestBase {
   md_5_config?: {
     prepend_salt?: string;
     append_salt?: string;
-  }
+  };
 }
 
 interface BcryptMigrateRequest extends MigrateRequestBase {
@@ -110,7 +110,7 @@ interface Argon2IMigrateRequest extends MigrateRequestBase {
     memory: string;
     threads: string;
     key_length: string;
-  }
+  };
 }
 
 interface Argon2IDMigrateRequest extends MigrateRequestBase {
@@ -121,7 +121,7 @@ interface Argon2IDMigrateRequest extends MigrateRequestBase {
     memory: string;
     threads: string;
     key_length: string;
-  }
+  };
 }
 
 export type MigrateRequest =
