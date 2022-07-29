@@ -85,13 +85,50 @@ export interface StrengthCheckResponse extends BaseResponse {
   };
 }
 
-export interface MigrateRequest {
+interface MigrateRequestBase {
   email: string;
   hash: string;
-  hash_type: "bcrypt";
-  prepend_salt?: string;
-  append_salt?: string;
 }
+
+interface MD5MigrateRequest extends MigrateRequestBase {
+  hash_type: "md_5";
+  md_5_config?: {
+    prepend_salt?: string;
+    append_salt?: string;
+  };
+}
+
+interface BcryptMigrateRequest extends MigrateRequestBase {
+  hash_type: "bcrypt";
+}
+
+interface Argon2IMigrateRequest extends MigrateRequestBase {
+  hash_type: "argon_2i";
+  argon_2_config?: {
+    salt: string;
+    iteration_amount: string;
+    memory: string;
+    threads: string;
+    key_length: string;
+  };
+}
+
+interface Argon2IDMigrateRequest extends MigrateRequestBase {
+  hash_type: "argon_2id";
+  argon_2_config?: {
+    salt: string;
+    iteration_amount: string;
+    memory: string;
+    threads: string;
+    key_length: string;
+  };
+}
+
+export type MigrateRequest =
+  | MD5MigrateRequest
+  | BcryptMigrateRequest
+  | Argon2IMigrateRequest
+  | Argon2IDMigrateRequest;
 
 export interface MigrateResponse extends BaseResponse {
   user_id: string;
