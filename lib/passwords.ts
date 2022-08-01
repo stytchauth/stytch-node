@@ -70,6 +70,24 @@ export interface ResetByEmailResponse extends BaseResponse {
   session?: Session;
 }
 
+export interface ResetByExistingPasswordRequest {
+  email: string;
+  existing_password: string;
+  new_password: string;
+  session_token?: string;
+  session_jwt?: string;
+  session_duration_minutes?: number;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface ResetByExistingPasswordResponse extends BaseResponse {
+  user_id: string;
+  user: User;
+  session_token?: string;
+  session_jwt?: string;
+  session?: Session;
+}
+
 export interface StrengthCheckRequest {
   email?: string;
   password: string;
@@ -189,6 +207,16 @@ export class Passwords {
       method: "POST",
       url: this.endpoint("email/reset"),
       data: { token, password, ...data },
+    });
+  }
+
+  resetByExistingPassword(
+    data: ResetByExistingPasswordRequest
+  ): Promise<ResetByExistingPasswordResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("existing_password/reset"),
+      data: data,
     });
   }
 

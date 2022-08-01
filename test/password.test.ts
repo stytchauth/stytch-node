@@ -136,6 +136,26 @@ describe("passwords.resetByEmail", () => {
   })
 })
 
+describe("passwords.resetByExistingPassword", () => {
+  test("basic", () => {
+    return expect(
+      passwords.resetByExistingPassword({
+        email: "Ada_Lovelace@example.com",
+        existing_password: "existing_password",
+        new_password: "new_password",
+      })
+    ).resolves.toMatchObject({
+        method: "POST",
+        path: "passwords/existing_password/reset",
+        data: {
+          email: "Ada_Lovelace@example.com",
+          existing_password: "existing_password",
+          new_password: "new_password",
+        },
+      });
+  })
+})
+
 describe("passwords.strengthCheck", () => {
   test("basic", () => {
     return expect(

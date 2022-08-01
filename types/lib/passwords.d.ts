@@ -60,6 +60,22 @@ export interface ResetByEmailResponse extends BaseResponse {
     session_jwt?: string;
     session?: Session;
 }
+export interface ResetByExistingPasswordRequest {
+    email: string;
+    existing_password: string;
+    new_password: string;
+    session_token?: string;
+    session_jwt?: string;
+    session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
+}
+export interface ResetByExistingPasswordResponse extends BaseResponse {
+    user_id: string;
+    user: User;
+    session_token?: string;
+    session_jwt?: string;
+    session?: Session;
+}
 export interface StrengthCheckRequest {
     email?: string;
     password: string;
@@ -122,6 +138,7 @@ export declare class Passwords {
     authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
     resetByEmail(token: string, password: string, data?: ResetByEmailRequest): Promise<ResetByEmailResponse>;
+    resetByExistingPassword(data: ResetByExistingPasswordRequest): Promise<ResetByExistingPasswordResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
     migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }
