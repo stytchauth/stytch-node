@@ -310,6 +310,7 @@ export type AuthenticationFactor =
   | BitbucketOAuthFactor
   | LinkedInOAuthFactor
   | CoinbaseOAuthFactor
+  | TwitchOAuthFactor
   | WebAuthnFactor
   | BiometricFactor
   | AuthenticatorAppFactor
