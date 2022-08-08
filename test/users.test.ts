@@ -294,3 +294,29 @@ describe("users.deleteTOTP", () => {
     });
   });
 });
+
+describe("users.deleteCryptoWallet", () => {
+  test("success", () => {
+    return expect(
+      users.deleteCryptoWallet(
+        "crypto-wallet-test-33333333-3333-4333-8333-333333333333"
+      )
+    ).resolves.toMatchObject({
+      method: "DELETE",
+      path: "users/crypto_wallets/crypto-wallet-test-33333333-3333-4333-8333-333333333333"
+    });
+  });
+});
+
+describe("users.deletePassword", () => {
+  test("success", () => {
+    return expect(
+      users.deletePassword(
+        "password-test-33333333-3333-4333-8333-333333333333"
+      )
+    ).resolves.toMatchObject({
+      method: "DELETE",
+      path: "users/passwords/passwords-test-33333333-3333-4333-8333-333333333333"
+    });
+  });
+});

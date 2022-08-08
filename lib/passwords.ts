@@ -88,6 +88,17 @@ export interface ResetByExistingPasswordResponse extends BaseResponse {
   session?: Session;
 }
 
+export interface ResetBySessionRequest {
+  password: string;
+  session_token?: string;
+  session_jwt?: string;
+}
+
+export interface ResetBySessionResponse extends BaseResponse {
+  user_id: string;
+  user: User;
+}
+
 export interface StrengthCheckRequest {
   email?: string;
   password: string;
@@ -142,11 +153,32 @@ interface Argon2IDMigrateRequest extends MigrateRequestBase {
   };
 }
 
+interface SHA1MigrateRequest extends MigrateRequestBase {
+  hash_type: "sha_1";
+  sha_1_config?: {
+    prepend_salt?: string;
+    append_salt?: string;
+  };
+}
+
+interface ScryptMigrateRequest extends MigrateRequestBase {
+  hash_type: "scrypt";
+  scrypt_config?: {
+    salt: string;
+    n_value: string;
+    r_value: string;
+    p_value: string;
+    key_length: string;
+  };
+}
+
 export type MigrateRequest =
   | MD5MigrateRequest
   | BcryptMigrateRequest
   | Argon2IMigrateRequest
-  | Argon2IDMigrateRequest;
+  | Argon2IDMigrateRequest
+  | SHA1MigrateRequest
+  | ScryptMigrateRequest;
 
 export interface MigrateResponse extends BaseResponse {
   user_id: string;
@@ -216,6 +248,16 @@ export class Passwords {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("existing_password/reset"),
+      data: data,
+    });
+  }
+
+  resetBySession(
+    data: ResetBySessionRequest
+  ): Promise<ResetBySessionResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("session/reset"),
       data: data,
     });
   }

@@ -241,6 +241,11 @@ export interface DeleteCryptoWalletResponse extends BaseResponse {
   user: User;
 }
 
+export interface DeletePasswordResponse extends BaseResponse {
+  user_id: UserID;
+  user: User;
+}
+
 enum mode {
   pending,
   inProgress,
@@ -418,6 +423,20 @@ export class Users {
     return request<WithRawUser<DeleteCryptoWalletResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
+    });
+  }
+
+  deletePassword(
+    passwordID: string
+  ): Promise<DeleteCryptoWalletResponse> {
+    return request<WithRawUser<DeletePasswordResponse>>(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`passwords/${passwordID}`),
     }).then((res) => {
       return {
         ...res,

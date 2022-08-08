@@ -156,6 +156,24 @@ describe("passwords.resetByExistingPassword", () => {
   })
 })
 
+describe("passwords.resetBySession", () => {
+  test("basic", () => {
+    return expect(
+      passwords.resetBySession({
+        password: "new_password",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      })
+    ).resolves.toMatchObject({
+      method: "POST",
+      path: "passwords/session/reset",
+      data: {
+        password: "new_password",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      },
+    });
+  })
+})
+
 describe("passwords.strengthCheck", () => {
   test("basic", () => {
     return expect(
