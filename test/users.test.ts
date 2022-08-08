@@ -316,7 +316,7 @@ describe("users.deletePassword", () => {
       )
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/passwords/passwords-test-33333333-3333-4333-8333-333333333333"
+      path: "users/passwords/password-test-33333333-3333-4333-8333-333333333333"
     });
   });
 });
