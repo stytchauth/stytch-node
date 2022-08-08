@@ -190,6 +190,17 @@ class Users {
     });
   }
 
+  deletePassword(passwordID) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`passwords/${passwordID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
+    });
+  }
+
 }
 
 exports.Users = Users;
