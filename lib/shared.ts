@@ -240,6 +240,15 @@ export interface WebAuthnFactor {
   };
 }
 
+export interface BiometricFactor {
+  delivery_method: "biometric_registration";
+  type: string;
+  last_authenticated_at: string;
+  biometric_factor: {
+    biometric_registration_id: string;
+  };
+}
+
 export interface AuthenticatorAppFactor {
   delivery_method: "authenticator_app";
   type: string;
@@ -291,6 +300,7 @@ export type AuthenticationFactor =
   | LinkedInOAuthFactor
   | CoinbaseOAuthFactor
   | WebAuthnFactor
+  | BiometricFactor
   | AuthenticatorAppFactor
   | RecoveryCodeFactor
   | CryptoWalletFactor
