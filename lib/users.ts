@@ -431,9 +431,7 @@ export class Users {
     });
   }
 
-  deletePassword(
-    passwordID: string
-  ): Promise<DeleteCryptoWalletResponse> {
+  deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse> {
     return request<WithRawUser<DeletePasswordResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),

@@ -252,9 +252,7 @@ export class Passwords {
     });
   }
 
-  resetBySession(
-    data: ResetBySessionRequest
-  ): Promise<ResetBySessionResponse> {
+  resetBySession(data: ResetBySessionRequest): Promise<ResetBySessionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("session/reset"),
