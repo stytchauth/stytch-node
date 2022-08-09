@@ -208,6 +208,14 @@ export interface WebAuthnFactor {
         user_agent: string;
     };
 }
+export interface BiometricFactor {
+    delivery_method: "biometric_registration";
+    type: string;
+    last_authenticated_at: string;
+    biometric_factor: {
+        biometric_registration_id: string;
+    };
+}
 export interface AuthenticatorAppFactor {
     delivery_method: "authenticator_app";
     type: string;
@@ -239,7 +247,7 @@ export interface PasswordFactor {
     type: string;
     last_authenticated_at: string;
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | WebAuthnFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | WebAuthnFactor | BiometricFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
 export interface Session {
     session_id: string;
     user_id: string;
