@@ -219,7 +219,7 @@ export interface WebAuthnFactor {
     };
 }
 export interface BiometricFactor {
-    delivery_method: "biometric_registration";
+    delivery_method: "biometric";
     type: string;
     last_authenticated_at: string;
     biometric_factor: {
