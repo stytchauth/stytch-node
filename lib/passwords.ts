@@ -135,10 +135,10 @@ interface Argon2IMigrateRequest extends MigrateRequestBase {
   hash_type: "argon_2i";
   argon_2_config?: {
     salt: string;
-    iteration_amount: string;
-    memory: string;
-    threads: string;
-    key_length: string;
+    iteration_amount: number;
+    memory: number;
+    threads: number;
+    key_length: number;
   };
 }
 
@@ -146,10 +146,10 @@ interface Argon2IDMigrateRequest extends MigrateRequestBase {
   hash_type: "argon_2id";
   argon_2_config?: {
     salt: string;
-    iteration_amount: string;
-    memory: string;
-    threads: string;
-    key_length: string;
+    iteration_amount: number;
+    memory: number;
+    threads: number;
+    key_length: number;
   };
 }
 
@@ -165,10 +165,10 @@ interface ScryptMigrateRequest extends MigrateRequestBase {
   hash_type: "scrypt";
   scrypt_config?: {
     salt: string;
-    n_value: string;
-    r_value: string;
-    p_value: string;
-    key_length: string;
+    n_parameter: number;
+    r_parameter: number;
+    p_parameter: number;
+    key_length: number;
   };
 }
 
