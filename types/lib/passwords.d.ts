@@ -84,6 +84,7 @@ export interface ResetBySessionRequest {
 export interface ResetBySessionResponse extends BaseResponse {
     user_id: string;
     user: User;
+    session: Session;
 }
 export interface StrengthCheckRequest {
     email?: string;
