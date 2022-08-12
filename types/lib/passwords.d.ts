@@ -76,6 +76,16 @@ export interface ResetByExistingPasswordResponse extends BaseResponse {
     session_jwt?: string;
     session?: Session;
 }
+export interface ResetBySessionRequest {
+    password: string;
+    session_token?: string;
+    session_jwt?: string;
+}
+export interface ResetBySessionResponse extends BaseResponse {
+    user_id: string;
+    user: User;
+    session: Session;
+}
 export interface StrengthCheckRequest {
     email?: string;
     password: string;
@@ -107,23 +117,40 @@ interface Argon2IMigrateRequest extends MigrateRequestBase {
     hash_type: "argon_2i";
     argon_2_config?: {
         salt: string;
-        iteration_amount: string;
-        memory: string;
-        threads: string;
-        key_length: string;
+        iteration_amount: number;
+        memory: number;
+        threads: number;
+        key_length: number;
     };
 }
 interface Argon2IDMigrateRequest extends MigrateRequestBase {
     hash_type: "argon_2id";
     argon_2_config?: {
         salt: string;
-        iteration_amount: string;
-        memory: string;
-        threads: string;
-        key_length: string;
+        iteration_amount: number;
+        memory: number;
+        threads: number;
+        key_length: number;
     };
 }
-export declare type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest;
+interface SHA1MigrateRequest extends MigrateRequestBase {
+    hash_type: "sha_1";
+    sha_1_config?: {
+        prepend_salt?: string;
+        append_salt?: string;
+    };
+}
+interface ScryptMigrateRequest extends MigrateRequestBase {
+    hash_type: "scrypt";
+    scrypt_config?: {
+        salt: string;
+        n_parameter: number;
+        r_parameter: number;
+        p_parameter: number;
+        key_length: number;
+    };
+}
+export declare type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest | SHA1MigrateRequest | ScryptMigrateRequest;
 export interface MigrateResponse extends BaseResponse {
     user_id: string;
     email_id: string;
@@ -139,6 +166,7 @@ export declare class Passwords {
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
     resetByEmail(token: string, password: string, data?: ResetByEmailRequest): Promise<ResetByEmailResponse>;
     resetByExistingPassword(data: ResetByExistingPasswordRequest): Promise<ResetByExistingPasswordResponse>;
+    resetBySession(data: ResetBySessionRequest): Promise<ResetBySessionResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
     migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }

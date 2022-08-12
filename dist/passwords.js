@@ -66,6 +66,14 @@ class Passwords {
     });
   }
 
+  resetBySession(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("session/reset"),
+      data: data
+    });
+  }
+
   strengthCheck(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
