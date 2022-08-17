@@ -241,7 +241,6 @@ export class Sessions {
     // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
     // to omit and using ...rest for to collect the custom claims.
     const {
-      // These
       /* eslint-disable @typescript-eslint/no-unused-vars */
       aud: _aud,
       exp: _exp,

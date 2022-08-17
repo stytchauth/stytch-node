@@ -142,8 +142,6 @@ class Sessions {
 
 
     const {
-      // These
-
       /* eslint-disable @typescript-eslint/no-unused-vars */
       aud: _aud,
       exp: _exp,
