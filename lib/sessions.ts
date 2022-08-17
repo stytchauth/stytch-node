@@ -95,11 +95,6 @@ type SessionClaim = {
   expires_at: string;
   attributes: Attributes;
   authentication_factors: AuthenticationFactor[];
-  // Since custom claims are free-from JSON, the best we can say is that we collect them into an
-  // object with string keys.
-  //
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  custom_claims: Record<string, any>;
 };
 
 export class Sessions {
