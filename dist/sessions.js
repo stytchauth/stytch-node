@@ -136,9 +136,28 @@ class Sessions {
       if (nowEpoch - iat >= maxTokenAge) {
         throw new _errors.ClientError("jwt_too_old", `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`);
       }
-    }
+    } // The custom claim set is all the claims in the payload except for the standard claims and
+    // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
+    // to omit and using ...rest for to collect the custom claims.
 
-    const claim = payload[sessionClaim];
+
+    const {
+      // These
+
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      aud: _aud,
+      exp: _exp,
+      iat: _iat,
+      iss: _iss,
+      jti: _jti,
+      nbf: _nbf,
+      sub: _sub,
+
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      [sessionClaim]: stytchClaim,
+      ...customClaims
+    } = payload;
+    const claim = stytchClaim;
     return {
       session_id: claim.id,
       attributes: claim.attributes,
@@ -150,7 +169,8 @@ class Sessions {
       started_at: new Date(claim.started_at),
       last_accessed_at: new Date(claim.last_accessed_at),
       // For JWTs that include it, prefer the inner expires_at claim.
-      expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000)
+      expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000),
+      custom_claims: customClaims
     };
   }
 
