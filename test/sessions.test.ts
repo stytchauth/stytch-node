@@ -3,7 +3,6 @@ import { Sessions } from "../lib/sessions";
 import { ClientError } from "../lib/errors";
 import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
 
-
 function jwtConfig(projectID: string) {
   return {
     projectID,
@@ -42,13 +41,13 @@ describe("sessions.get", () => {
     });
     const sessions = new Sessions(
       MOCK_FETCH_CONFIG,
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
     );
 
     return expect(
       sessions.get({
         user_id: "user-test-22222222-2222-4222-8222-222222222222",
-      }),
+      })
     ).resolves.toMatchObject({
       status_code: 200,
       sessions: [
@@ -90,14 +89,14 @@ describe("sessions.authenticate", () => {
     });
     const sessions = new Sessions(
       MOCK_FETCH_CONFIG,
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
     );
 
     return expect(
       sessions.authenticate({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
-      }),
+      })
     ).resolves.toMatchObject({
       session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       session: {
@@ -123,13 +122,13 @@ describe("sessions.revoke", () => {
     });
     const sessions = new Sessions(
       MOCK_FETCH_CONFIG,
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
     );
 
     return expect(
       sessions.revoke({
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-      }),
+      })
     ).resolves.toEqual({
       status: 200,
     });
@@ -148,11 +147,11 @@ describe("sessions.jwks", () => {
     });
     const sessions = new Sessions(
       MOCK_FETCH_CONFIG,
-      jwtConfig("project-test-00000000-0000-4000-8000-000000000000"),
+      jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
     );
 
     return expect(
-      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111"),
+      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
     ).resolves.toEqual({ status: 200 });
   });
 });
@@ -358,17 +357,17 @@ describe("sessions.authenticateJwtLocal", () => {
       sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: appNow,
         clock_tolerance_seconds: 9,
-      }),
+      })
     ).rejects.toHaveProperty("code", "jwt_invalid");
 
     await expect(
       sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: appNow,
         clock_tolerance_seconds: 10,
-      }),
+      })
     ).resolves.toHaveProperty(
       "user_id",
-      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
     );
   });
 
@@ -394,10 +393,10 @@ describe("sessions.authenticateJwtLocal", () => {
       sessions.authenticateJwtLocal(jwtWithExpiresAt, {
         current_date: dateAdd(startedAt, +3),
         max_token_age_seconds: 5,
-      }),
+      })
     ).resolves.toHaveProperty(
       "user_id",
-      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+      "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
     );
 
     const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
