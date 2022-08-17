@@ -272,6 +272,14 @@ describe("sessions.authenticateJwtLocal", () => {
     jwtWithExpiresAt = await new jose.SignJWT({
       "https://stytch.com/session": claim,
       sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+
+      // Include some custom claims
+      a: "A",
+      "https://example.com/claim": {
+        i: 0,
+        s: "foo",
+        arr: ["nested", { data: "values" }],
+      },
     })
       .setProtectedHeader({
         alg: "RS256",
@@ -304,7 +312,7 @@ describe("sessions.authenticateJwtLocal", () => {
 
   test("extract session data from new-style claims", async () => {
     const session = await sessions.authenticateJwtLocal(jwtWithExpiresAt);
-    expect(session).toEqual({
+    expect(session).toMatchObject({
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
         {
@@ -327,7 +335,7 @@ describe("sessions.authenticateJwtLocal", () => {
 
   test("extract session data from old-style claims", async () => {
     const session = await sessions.authenticateJwtLocal(jwtOld);
-    expect(session).toEqual({
+    expect(session).toMatchObject({
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
         {
@@ -434,5 +442,19 @@ describe("sessions.authenticateJwtLocal", () => {
     await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
     // This is part of the unstructured error message and comes directly from jose.
     await expect(promise).rejects.toThrow(/Unsupported "alg" value/);
+  });
+
+  test("extract custom claims", async () => {
+    const session = await sessions.authenticateJwtLocal(jwtWithExpiresAt);
+    expect(session).toMatchObject({
+      custom_claims: {
+        a: "A",
+        "https://example.com/claim": {
+          i: 0,
+          s: "foo",
+          arr: ["nested", { data: "values" }],
+        },
+      },
+    });
   });
 });
