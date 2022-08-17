@@ -95,6 +95,11 @@ type SessionClaim = {
   expires_at: string;
   attributes: Attributes;
   authentication_factors: AuthenticationFactor[];
+  // Since custom claims are free-from JSON, the best we can say is that we collect them into an
+  // object with string keys.
+  //
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  custom_claims: Record<string, any>;
 };
 
 export class Sessions {
@@ -232,7 +237,26 @@ export class Sessions {
       }
     }
 
-    const claim = payload[sessionClaim] as SessionClaim;
+    // The custom claim set is all the claims in the payload except for the standard claims and
+    // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
+    // to omit and using ...rest for to collect the custom claims.
+    const {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      aud: _aud,
+      exp: _exp,
+      iat: _iat,
+      iss: _iss,
+      jti: _jti,
+      nbf: _nbf,
+      sub: _sub,
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+
+      [sessionClaim]: stytchClaim,
+      ...customClaims
+    } = payload;
+
+    const claim = stytchClaim as SessionClaim;
+
     return {
       session_id: claim.id,
       attributes: claim.attributes,
@@ -247,6 +271,8 @@ export class Sessions {
       last_accessed_at: new Date(claim.last_accessed_at),
       // For JWTs that include it, prefer the inner expires_at claim.
       expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000),
+
+      custom_claims: customClaims,
     };
   }
 
