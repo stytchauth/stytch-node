@@ -417,7 +417,9 @@ export class Users {
       this.fetchConfig,
       {
         method: "DELETE",
-        url: this.endpoint(`biometric_registrations/${biometricRegistrationID}`),
+        url: this.endpoint(
+          `biometric_registrations/${biometricRegistrationID}`
+        ),
       }
     ).then((res) => {
       return {
