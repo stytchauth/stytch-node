@@ -18,6 +18,8 @@ export interface CreateResponse extends BaseResponse {
   secret: string;
   qr_code: string;
   recovery_codes: string[];
+  user: User;
+  user_id: string;
 }
 
 export interface AuthenticateRequest {
