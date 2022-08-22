@@ -168,6 +168,17 @@ class Users {
     });
   }
 
+  deleteBiometricRegistration(biometricRegistrationID) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`biometric_registrations/${biometricRegistrationID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
+    });
+  }
+
   deleteTOTP(totpID) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
