@@ -139,6 +139,22 @@ describeIf(
 
     describe("sessions.authenticate", () => {
       test("success", () => {
+        // Make sure there's a key that can be used to sign the sandbox JWT.
+        //
+        // You should never need to trigger this for a real project in either environment (Test or
+        // Live). Signing keys will be automatically generated for your project the first time the
+        // API needs one to sign a JWT. Those keys will be automatically rotated as you continue
+        // to use sessions.
+        //
+        // We only need this in this test suite because it's a very narrow edge case:
+        //
+        // 1. The credentials we use for CI are for a project that never creates real sessions
+        //    (and therefore doesn't naturally get a signing key).
+        // 2. Sandbox requests still sign the JWTs so you can test your validation code for the
+        //    (nonexistent) session, but they aren't allowed to persist anything.
+        //
+        client.sessions.jwks(env("PROJECT_ID"));
+
         return expect(
           client.sessions.authenticate({
             session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
