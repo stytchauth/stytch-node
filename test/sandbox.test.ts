@@ -138,7 +138,7 @@ describeIf(
     });
 
     describe("sessions.authenticate", () => {
-      test("success", () => {
+      test("success", async () => {
         // Make sure there's a key that can be used to sign the sandbox JWT.
         //
         // You should never need to trigger this for a real project in either environment (Test or
@@ -153,7 +153,7 @@ describeIf(
         // 2. Sandbox requests still sign the JWTs so you can test your validation code for the
         //    (nonexistent) session, but they aren't allowed to persist anything.
         //
-        client.sessions.jwks(env("PROJECT_ID"));
+        await client.sessions.jwks(env("PROJECT_ID"));
 
         return expect(
           client.sessions.authenticate({
