@@ -138,8 +138,12 @@ describeIf(
     });
 
     describe("sessions.authenticate", () => {
-      test("success", () => {
-        return expect(
+      test("success", async () => {
+        // Make sure there's a key that can be used to sign the sandbox JWT.
+        const jwks = await client.sessions.jwks(env("PROJECT_ID"));
+        expect(jwks.keys.length).toBeGreaterThan(0);
+
+        await expect(
           client.sessions.authenticate({
             session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
           })
