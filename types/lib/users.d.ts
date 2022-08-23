@@ -165,6 +165,10 @@ export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
+export interface DeleteBiometricRegistrationResponse extends BaseResponse {
+    user_id: UserID;
+    user: User;
+}
 export interface DeleteTOTPResponse extends BaseResponse {
     user_id: UserID;
     user: User;
@@ -201,6 +205,7 @@ export declare class Users {
     deleteEmail(emailID: string): Promise<DeleteEmailResponse>;
     deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
     deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse>;
+    deleteBiometricRegistration(biometricRegistrationID: string): Promise<DeleteBiometricRegistrationResponse>;
     deleteTOTP(totpID: string): Promise<DeleteTOTPResponse>;
     deleteCryptoWallet(cryptoWalletID: string): Promise<DeleteCryptoWalletResponse>;
     deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse>;

@@ -231,6 +231,11 @@ export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
   user: User;
 }
 
+export interface DeleteBiometricRegistrationResponse extends BaseResponse {
+  user_id: UserID;
+  user: User;
+}
+
 export interface DeleteTOTPResponse extends BaseResponse {
   user_id: UserID;
   user: User;
@@ -396,6 +401,25 @@ export class Users {
       {
         method: "DELETE",
         url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
+      }
+    ).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
+    });
+  }
+
+  deleteBiometricRegistration(
+    biometricRegistrationID: string
+  ): Promise<DeleteBiometricRegistrationResponse> {
+    return request<WithRawUser<DeleteBiometricRegistrationResponse>>(
+      this.fetchConfig,
+      {
+        method: "DELETE",
+        url: this.endpoint(
+          `biometric_registrations/${biometricRegistrationID}`
+        ),
       }
     ).then((res) => {
       return {

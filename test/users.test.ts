@@ -282,6 +282,19 @@ describe("users.deleteWebAuthnRegistration", () => {
   });
 });
 
+describe("users.deleteBiometricRegistration", () => {
+  test("success", () => {
+    return expect(
+      users.deleteBiometricRegistration(
+        "biometric-registration-test-33333333-3333-4333-8333-333333333333"
+      )
+    ).resolves.toMatchObject({
+      method: "DELETE",
+      path: "users/biometric_registrations/biometric-registration-test-33333333-3333-4333-8333-333333333333"
+    });
+  });
+});
+
 describe("users.deleteTOTP", () => {
   test("success", () => {
     return expect(
