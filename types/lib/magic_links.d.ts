@@ -8,6 +8,9 @@ export interface SendByEmailRequest {
     signup_expiration_minutes?: number;
     attributes?: Attributes;
     code_challenge?: string;
+    user_id?: string;
+    session_token?: string;
+    session_jwt?: string;
 }
 export interface SendByEmailResponse extends BaseResponse {
     user_id: string;

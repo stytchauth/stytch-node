@@ -6,6 +6,9 @@ export interface OTPEmailSendRequest {
   email: string;
   expiration_minutes?: number;
   attributes?: Attributes;
+  user_id?: string;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface OTPEmailSendResponse extends BaseResponse {
@@ -30,6 +33,9 @@ export interface SendOTPBySMSRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
+  user_id?: string;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface SendOTPBySMSResponse extends BaseResponse {
@@ -54,6 +60,9 @@ export interface OTPWhatsAppSendRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
+  user_id?: string;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface OTPWhatsAppSendResponse extends BaseResponse {
