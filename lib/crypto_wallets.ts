@@ -14,6 +14,8 @@ export interface AuthenticateStartRequest {
   crypto_wallet_address: string;
   crypto_wallet_type: string;
   user_id?: UserID;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 export interface AuthenticateStartResponse extends BaseResponse {
