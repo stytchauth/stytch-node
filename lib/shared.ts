@@ -71,6 +71,7 @@ export interface CryptoWallet {
 }
 
 export interface OAuthProvider {
+  oauth_user_registration_id: string;
   provider_subject: string;
   provider_type: string;
   profile_picture_url: string;

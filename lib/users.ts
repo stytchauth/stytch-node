@@ -251,6 +251,11 @@ export interface DeletePasswordResponse extends BaseResponse {
   user: User;
 }
 
+export interface DeleteOAuthUserRegistrationResponse extends BaseResponse {
+  user_id: UserID;
+  user: User;
+}
+
 enum mode {
   pending,
   inProgress,
@@ -459,6 +464,18 @@ export class Users {
     return request<WithRawUser<DeletePasswordResponse>>(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),
+    }).then((res) => {
+      return {
+        ...res,
+        user: parseUser(res.user),
+      };
+    });
+  }
+
+  deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<DeleteOAuthUserRegistrationResponse> {
+    return request<WithRawUser<DeleteOAuthUserRegistrationResponse>>(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`oauth/${oauthUserRegistrationID}`),
     }).then((res) => {
       return {
         ...res,
