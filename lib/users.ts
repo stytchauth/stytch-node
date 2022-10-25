@@ -472,11 +472,16 @@ export class Users {
     });
   }
 
-  deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<DeleteOAuthUserRegistrationResponse> {
-    return request<WithRawUser<DeleteOAuthUserRegistrationResponse>>(this.fetchConfig, {
-      method: "DELETE",
-      url: this.endpoint(`oauth/${oauthUserRegistrationID}`),
-    }).then((res) => {
+  deleteOAuthUserRegistration(
+    oauthUserRegistrationID: string
+  ): Promise<DeleteOAuthUserRegistrationResponse> {
+    return request<WithRawUser<DeleteOAuthUserRegistrationResponse>>(
+      this.fetchConfig,
+      {
+        method: "DELETE",
+        url: this.endpoint(`oauth/${oauthUserRegistrationID}`),
+      }
+    ).then((res) => {
       return {
         ...res,
         user: parseUser(res.user),
