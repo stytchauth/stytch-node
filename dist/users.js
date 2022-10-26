@@ -212,6 +212,17 @@ class Users {
     });
   }
 
+  deleteOAuthUserRegistration(oauthUserRegistrationID) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`oauth/${oauthUserRegistrationID}`)
+    }).then(res => {
+      return { ...res,
+        user: (0, _shared.parseUser)(res.user)
+      };
+    });
+  }
+
 }
 
 exports.Users = Users;

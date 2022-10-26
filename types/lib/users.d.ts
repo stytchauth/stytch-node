@@ -181,6 +181,10 @@ export interface DeletePasswordResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
+export interface DeleteOAuthUserRegistrationResponse extends BaseResponse {
+    user_id: UserID;
+    user: User;
+}
 export declare class UserSearchIterator {
     private client;
     private data;
@@ -209,4 +213,5 @@ export declare class Users {
     deleteTOTP(totpID: string): Promise<DeleteTOTPResponse>;
     deleteCryptoWallet(cryptoWalletID: string): Promise<DeleteCryptoWalletResponse>;
     deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse>;
+    deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<DeleteOAuthUserRegistrationResponse>;
 }

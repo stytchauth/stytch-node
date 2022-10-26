@@ -18,6 +18,7 @@ export interface AuthenticateRequest {
 export interface AuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
+  oauth_user_registration_id: string;
   provider_subject: string;
   provider_type: string;
   session_token?: string;
