@@ -9,6 +9,7 @@ export interface OTPEmailSendRequest {
   user_id?: string;
   session_token?: string;
   session_jwt?: string;
+  locale?: string;
 }
 
 export interface OTPEmailSendResponse extends BaseResponse {
@@ -21,6 +22,7 @@ export interface OTPEmailLoginOrCreateRequest {
   expiration_minutes?: number;
   attributes?: Attributes;
   create_user_as_pending?: boolean;
+  locale?: string;
 }
 
 export interface OTPEmailLoginOrCreateResponse extends BaseResponse {

@@ -61,6 +61,7 @@ describe("otps.email.send", () => {
     return expect(
       otps.email.send({
         email: "sandbox@stytch.com",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -77,6 +78,7 @@ describe("otps.email.loginOrCreate", () => {
     return expect(
       otps.email.loginOrCreate({
         email: "sandbox@stytch.com",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",

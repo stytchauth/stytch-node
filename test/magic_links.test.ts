@@ -91,6 +91,7 @@ describe("magicLinks.email.send", () => {
           user_agent: "Toaster/3.0",
           ip_address: "203.0.113.1",
         },
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -137,6 +138,7 @@ describe("magicLinks.email.loginOrCreate", () => {
           user_agent: "Toaster/3.0",
           ip_address: "203.0.113.1",
         },
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -181,6 +183,7 @@ describe("magicLinks.email.invite", () => {
           user_agent: "Toaster/3.0",
           ip_address: "203.0.113.1",
         },
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
