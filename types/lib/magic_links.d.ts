@@ -11,6 +11,7 @@ export interface SendByEmailRequest {
     user_id?: string;
     session_token?: string;
     session_jwt?: string;
+    locale?: string;
 }
 export interface SendByEmailResponse extends BaseResponse {
     user_id: string;
@@ -25,6 +26,7 @@ export interface LoginOrCreateByEmailRequest {
     create_user_as_pending?: boolean;
     attributes?: Attributes;
     code_challenge?: string;
+    locale?: string;
 }
 export interface LoginOrCreateByEmailResponse extends BaseResponse {
     user_id: string;
@@ -37,6 +39,7 @@ export interface InviteByEmailRequest {
     invite_expiration_minutes?: number;
     name?: Name;
     attributes?: Attributes;
+    locale?: string;
 }
 export interface InviteByEmailResponse extends BaseResponse {
     user_id: string;
