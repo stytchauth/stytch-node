@@ -47,6 +47,8 @@ export interface User {
     webauthn_registrations: WebAuthnRegistration[];
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
+    trusted_metadata?: Record<string, any>;
+    untrusted_metadata?: Record<string, any>;
 }
 export interface CryptoWallet {
     crypto_wallet_id: string;

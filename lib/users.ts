@@ -38,6 +38,8 @@ export interface CreateRequest {
   name?: Name;
   create_user_as_pending?: boolean;
   attributes?: Attributes;
+  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface CreateResponse extends BaseResponse {
@@ -190,6 +192,8 @@ export interface UpdateRequest {
     crypto_wallet_type: string;
   }[];
   attributes?: Attributes;
+  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface UpdateResponse extends BaseResponse {

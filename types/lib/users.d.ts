@@ -18,6 +18,8 @@ export interface CreateRequest {
     name?: Name;
     create_user_as_pending?: boolean;
     attributes?: Attributes;
+    trusted_metadata?: Record<string, any>;
+    untrusted_metadata?: Record<string, any>;
 }
 export interface CreateResponse extends BaseResponse {
     user_id: UserID;
@@ -132,6 +134,8 @@ export interface UpdateRequest {
         crypto_wallet_type: string;
     }[];
     attributes?: Attributes;
+    trusted_metadata?: Record<string, any>;
+    untrusted_metadata?: Record<string, any>;
 }
 export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
