@@ -19,6 +19,7 @@ import type {
 } from "./shared";
 
 export type UserID = string;
+export type Metadata = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export interface PendingUser {
   user_id: UserID;
@@ -38,8 +39,8 @@ export interface CreateRequest {
   name?: Name;
   create_user_as_pending?: boolean;
   attributes?: Attributes;
-  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata?: Metadata;
+  untrusted_metadata?: Metadata;
 }
 
 export interface CreateResponse extends BaseResponse {
@@ -192,8 +193,8 @@ export interface UpdateRequest {
     crypto_wallet_type: string;
   }[];
   attributes?: Attributes;
-  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata?: Metadata;
+  untrusted_metadata?: Metadata;
 }
 
 export interface UpdateResponse extends BaseResponse {
