@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import * as http from "http";
-import { Metadata, UserID } from "./users";
+import { UserMetadata, UserID } from "./users";
 export interface Attributes {
     ip_address?: string;
     user_agent?: string;
@@ -47,8 +47,8 @@ export interface User {
     webauthn_registrations: WebAuthnRegistration[];
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
-    trusted_metadata?: Metadata;
-    untrusted_metadata?: Metadata;
+    trusted_metadata?: UserMetadata;
+    untrusted_metadata?: UserMetadata;
 }
 export interface CryptoWallet {
     crypto_wallet_id: string;

@@ -1,7 +1,7 @@
 import { Password, User } from "./shared";
 import type { Attributes, BaseResponse, CryptoWallet, Email, fetchConfig, Name, PhoneNumber, TOTP } from "./shared";
 export declare type UserID = string;
-export declare type Metadata = Record<string, any>;
+export declare type UserMetadata = Record<string, any>;
 export interface PendingUser {
     user_id: UserID;
     name: Name;
@@ -19,8 +19,8 @@ export interface CreateRequest {
     name?: Name;
     create_user_as_pending?: boolean;
     attributes?: Attributes;
-    trusted_metadata?: Metadata;
-    untrusted_metadata?: Metadata;
+    trusted_metadata?: UserMetadata;
+    untrusted_metadata?: UserMetadata;
 }
 export interface CreateResponse extends BaseResponse {
     user_id: UserID;
@@ -135,8 +135,8 @@ export interface UpdateRequest {
         crypto_wallet_type: string;
     }[];
     attributes?: Attributes;
-    trusted_metadata?: Metadata;
-    untrusted_metadata?: Metadata;
+    trusted_metadata?: UserMetadata;
+    untrusted_metadata?: UserMetadata;
 }
 export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
