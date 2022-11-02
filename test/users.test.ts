@@ -24,13 +24,15 @@ describe("users.create", () => {
   test("success", () => {
     return expect(
       users.create({
-        email: "sandbox@stytch.com"
+        email: "sandbox@stytch.com",
+        trusted_metadata: {"key1": "value1"}
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "users",
       data: {
-        email: "sandbox@stytch.com"
+        email: "sandbox@stytch.com",
+        trusted_metadata: {"key1": "value1"}
       }
     });
   });

@@ -3,7 +3,7 @@ import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
 // https://github.com/developit/unfetch/issues/99
 import * as fetchImport from "isomorphic-unfetch";
-import { UserID } from "./users";
+import { UserMetadata, UserID } from "./users";
 
 const fetch = (fetchImport.default ||
   fetchImport) as typeof fetchImport.default;
@@ -61,6 +61,8 @@ export interface User {
   webauthn_registrations: WebAuthnRegistration[];
   totps: TOTP[];
   crypto_wallets: CryptoWallet[];
+  trusted_metadata?: UserMetadata;
+  untrusted_metadata?: UserMetadata;
 }
 
 export interface CryptoWallet {
