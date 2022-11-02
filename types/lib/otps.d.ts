@@ -32,6 +32,7 @@ export interface SendOTPBySMSRequest {
     user_id?: string;
     session_token?: string;
     session_jwt?: string;
+    locale?: string;
 }
 export interface SendOTPBySMSResponse extends BaseResponse {
     user_id: string;
@@ -42,6 +43,7 @@ export interface LoginOrCreateUserBySMSRequest {
     expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
+    locale?: string;
 }
 export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
     user_id: string;
@@ -55,6 +57,7 @@ export interface OTPWhatsAppSendRequest {
     user_id?: string;
     session_token?: string;
     session_jwt?: string;
+    locale?: string;
 }
 export interface OTPWhatsAppSendResponse extends BaseResponse {
     user_id: string;
@@ -65,6 +68,7 @@ export interface OTPWhatsAppLoginOrCreateRequest {
     expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
+    locale?: string;
 }
 export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
     user_id: string;
