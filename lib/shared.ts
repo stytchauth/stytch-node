@@ -355,6 +355,10 @@ export type AuthenticationFactor =
   | LinkedInOAuthFactor
   | CoinbaseOAuthFactor
   | TwitchOAuthFactor
+  | TwitterOAuthFactor
+  | TikTokOAuthFactor
+  | SnapchatOAuthFactor
+  | FigmaOAuthFactor
   | WebAuthnFactor
   | BiometricFactor
   | AuthenticatorAppFactor
