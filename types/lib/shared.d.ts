@@ -211,6 +211,43 @@ export interface TwitchOAuthFactor {
         provider_subject: string;
     };
 }
+export interface TwitterOAuthFactor {
+    delivery_method: "oauth_twitter";
+    type: string;
+    last_authenticated_at: string;
+    twitter_oauth_factor: {
+        id: string;
+        provider_subject: string;
+    };
+}
+export interface TikTokOAuthFactor {
+    delivery_method: "oauth_tiktok";
+    type: string;
+    last_authenticated_at: string;
+    tiktok_oauth_factor: {
+        id: string;
+        provider_subject: string;
+    };
+}
+export interface FigmaOAuthFactor {
+    delivery_method: "oauth_figma";
+    type: string;
+    last_authenticated_at: string;
+    figma_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
+export interface SnapchatOAuthFactor {
+    delivery_method: "oauth_snapchat";
+    type: string;
+    last_authenticated_at: string;
+    snapchat_oauth_factor: {
+        id: string;
+        provider_subject: string;
+    };
+}
 export interface WebAuthnFactor {
     delivery_method: "webauthn_registration";
     type: string;
