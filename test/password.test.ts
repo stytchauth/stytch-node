@@ -93,6 +93,7 @@ describe("passwords.resetByEmailStart", () => {
       passwords.resetByEmailStart({
         email: "Ada_Lovelace@example.com",
         code_challenge: "exmaple_code_challenge",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",

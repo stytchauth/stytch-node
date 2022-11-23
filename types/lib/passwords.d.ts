@@ -36,6 +36,7 @@ export interface ResetByEmailStartRequest {
     reset_password_expiration_minutes?: number;
     attributes?: Attributes;
     code_challenge?: string;
+    locale?: string;
 }
 export interface ResetByEmailStartResponse extends BaseResponse {
     user_id: string;

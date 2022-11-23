@@ -61,6 +61,7 @@ describe("otps.email.send", () => {
     return expect(
       otps.email.send({
         email: "sandbox@stytch.com",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -77,6 +78,7 @@ describe("otps.email.loginOrCreate", () => {
     return expect(
       otps.email.loginOrCreate({
         email: "sandbox@stytch.com",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -93,6 +95,7 @@ describe("otps.sms.send", () => {
     return expect(
       otps.sms.send({
         phone_number: "+12025550162",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -109,6 +112,7 @@ describe("otps.sms.loginOrCreate", () => {
     return expect(
       otps.sms.loginOrCreate({
         phone_number: "+12025550162",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -125,6 +129,7 @@ describe("otps.whatsapp.send", () => {
     return expect(
       otps.whatsapp.send({
         phone_number: "+12025550162",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -141,6 +146,7 @@ describe("otps.whatsapp.loginOrCreate", () => {
     return expect(
       otps.whatsapp.loginOrCreate({
         phone_number: "+12025550162",
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
