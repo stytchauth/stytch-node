@@ -39,6 +39,11 @@ export interface WebAuthnRegistration {
   authenticator_type: string;
 }
 
+export interface BiometricRegistration {
+  biometric_registration_id: string;
+  verified: boolean;
+}
+
 export interface TOTP {
   totp_id: string;
   verified: boolean;
@@ -59,6 +64,7 @@ export interface User {
   phone_numbers: PhoneNumber[];
   providers: OAuthProvider[];
   webauthn_registrations: WebAuthnRegistration[];
+  biometric_registrations: BiometricRegistration[];
   totps: TOTP[];
   crypto_wallets: CryptoWallet[];
   trusted_metadata?: UserMetadata;

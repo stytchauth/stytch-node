@@ -27,6 +27,10 @@ export interface WebAuthnRegistration {
     verified: boolean;
     authenticator_type: string;
 }
+export interface BiometricRegistration {
+    biometric_registration_id: string;
+    verified: boolean;
+}
 export interface TOTP {
     totp_id: string;
     verified: boolean;
