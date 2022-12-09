@@ -33,6 +33,14 @@ class OAuth {
     });
   }
 
+  attach(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("attach"),
+      data
+    });
+  }
+
 }
 
 exports.OAuth = OAuth;

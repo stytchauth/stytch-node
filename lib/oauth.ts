@@ -36,6 +36,19 @@ export interface ProvidersValues {
   scopes: string[];
 }
 
+export interface AttachRequest {
+  provider: string;
+
+  /** Exactly one of these user-selection fields must be provided. */
+  user_id?: string;
+  session_token?: string;
+  session_jwt?: string;
+}
+
+export interface AttachResponse extends BaseResponse {
+  oauth_attach_token: string;
+}
+
 export class OAuth {
   base_path = "oauth";
 
@@ -62,6 +75,14 @@ export class OAuth {
         ...res,
         user: parseUser(res.user),
       };
+    });
+  }
+
+  attach(data?: AttachRequest): Promise<AttachResponse> {
+    return request<AttachResponse>(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("attach"),
+      data,
     });
   }
 }

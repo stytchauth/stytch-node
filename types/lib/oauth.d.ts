@@ -25,10 +25,21 @@ export interface ProvidersValues {
     expires_at?: number;
     scopes: string[];
 }
+export interface AttachRequest {
+    provider: string;
+    /** Exactly one of these user-selection fields must be provided. */
+    user_id?: string;
+    session_token?: string;
+    session_jwt?: string;
+}
+export interface AttachResponse extends BaseResponse {
+    oauth_attach_token: string;
+}
 export declare class OAuth {
     base_path: string;
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
     authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
+    attach(data?: AttachRequest): Promise<AttachResponse>;
 }
