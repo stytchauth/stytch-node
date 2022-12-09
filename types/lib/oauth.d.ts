@@ -27,6 +27,7 @@ export interface ProvidersValues {
 }
 export interface AttachRequest {
     provider: string;
+    /** Exactly one of these user-selection fields must be provided. */
     user_id?: string;
     session_token?: string;
     session_jwt?: string;
