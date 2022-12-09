@@ -49,6 +49,7 @@ export interface User {
     phone_numbers: PhoneNumber[];
     providers: OAuthProvider[];
     webauthn_registrations: WebAuthnRegistration[];
+    biometric_registrations: BiometricRegistration[];
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
     trusted_metadata?: UserMetadata;
