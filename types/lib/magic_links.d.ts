@@ -39,7 +39,7 @@ export interface InviteByEmailRequest {
     email: string;
     invite_magic_link_url?: string;
     invite_expiration_minutes?: number;
-    template_id?: string;
+    invite_template_id?: string;
     name?: Name;
     attributes?: Attributes;
     locale?: string;

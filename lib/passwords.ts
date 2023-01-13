@@ -40,7 +40,7 @@ export interface ResetByEmailStartRequest {
   login_redirect_url?: string;
   reset_password_redirect_url?: string;
   reset_password_expiration_minutes?: number;
-  template_id?: string;
+  reset_password_template_id?: string;
   attributes?: Attributes;
   code_challenge?: string;
   locale?: string;
