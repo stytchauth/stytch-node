@@ -6,6 +6,8 @@ export interface SendByEmailRequest {
     signup_magic_link_url?: string;
     login_expiration_minutes?: number;
     signup_expiration_minutes?: number;
+    login_template_id?: string;
+    signup_template_id?: string;
     attributes?: Attributes;
     code_challenge?: string;
     user_id?: string;
@@ -37,6 +39,7 @@ export interface InviteByEmailRequest {
     email: string;
     invite_magic_link_url?: string;
     invite_expiration_minutes?: number;
+    invite_template_id?: string;
     name?: Name;
     attributes?: Attributes;
     locale?: string;
