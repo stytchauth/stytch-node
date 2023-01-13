@@ -167,7 +167,6 @@ interface PHPassMigrateRequest extends MigrateRequestBase {
   hash_type: "phpass";
 }
 
-
 interface ScryptMigrateRequest extends MigrateRequestBase {
   hash_type: "scrypt";
   scrypt_config?: {
