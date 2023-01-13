@@ -194,6 +194,23 @@ describe("passwords.strengthCheck", () => {
 })
 
 describe("passwords.migrate", () => {
+  test("phpass", () => {
+    return expect(
+      passwords.migrate({
+        email: "Ada_Lovelace@example.com",
+        hash_type: "phpass",
+        hash: "not-a-real-password-hash",
+      })
+    ).resolves.toMatchObject({
+      method: "POST",
+      path: "passwords/migrate",
+      data: {
+        email: "Ada_Lovelace@example.com",
+        hash_type: "phpass",
+        hash: "not-a-real-password-hash",
+      },
+    });
+  })
   test("bcrypt", () => {
     return expect(
       passwords.migrate({

@@ -163,6 +163,10 @@ interface SHA1MigrateRequest extends MigrateRequestBase {
   };
 }
 
+interface PHPassMigrateRequest extends MigrateRequestBase {
+  hash_type: "phpass";
+}
+
 interface ScryptMigrateRequest extends MigrateRequestBase {
   hash_type: "scrypt";
   scrypt_config?: {
@@ -180,7 +184,8 @@ export type MigrateRequest =
   | Argon2IMigrateRequest
   | Argon2IDMigrateRequest
   | SHA1MigrateRequest
-  | ScryptMigrateRequest;
+  | ScryptMigrateRequest
+  | PHPassMigrateRequest;
 
 export interface MigrateResponse extends BaseResponse {
   user_id: string;

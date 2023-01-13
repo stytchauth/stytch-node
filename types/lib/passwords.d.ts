@@ -141,6 +141,9 @@ interface SHA1MigrateRequest extends MigrateRequestBase {
         append_salt?: string;
     };
 }
+interface PHPassMigrateRequest extends MigrateRequestBase {
+    hash_type: "phpass";
+}
 interface ScryptMigrateRequest extends MigrateRequestBase {
     hash_type: "scrypt";
     scrypt_config?: {
@@ -151,7 +154,7 @@ interface ScryptMigrateRequest extends MigrateRequestBase {
         key_length: number;
     };
 }
-export declare type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest | SHA1MigrateRequest | ScryptMigrateRequest;
+export declare type MigrateRequest = MD5MigrateRequest | BcryptMigrateRequest | Argon2IMigrateRequest | Argon2IDMigrateRequest | SHA1MigrateRequest | ScryptMigrateRequest | PHPassMigrateRequest;
 export interface MigrateResponse extends BaseResponse {
     user_id: string;
     email_id: string;
