@@ -3,6 +3,8 @@ import type { Attributes, BaseResponse, Session } from "./shared";
 export interface OTPEmailSendRequest {
     email: string;
     expiration_minutes?: number;
+    login_template_id?: string;
+    signup_template_id?: string;
     attributes?: Attributes;
     user_id?: string;
     session_token?: string;
@@ -16,6 +18,8 @@ export interface OTPEmailSendResponse extends BaseResponse {
 export interface OTPEmailLoginOrCreateRequest {
     email: string;
     expiration_minutes?: number;
+    login_template_id?: string;
+    signup_template_id?: string;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
     locale?: string;
