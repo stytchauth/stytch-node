@@ -29,6 +29,8 @@ export interface LoginOrCreateByEmailRequest {
   signup_magic_link_url?: string;
   login_expiration_minutes?: number;
   signup_expiration_minutes?: number;
+  login_template_id?: string;
+  signup_template_id?: string;
   create_user_as_pending?: boolean;
   attributes?: Attributes;
   code_challenge?: string;
