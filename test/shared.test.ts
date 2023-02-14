@@ -20,17 +20,18 @@ const mockResponse = (data: unknown, statusCode: number) => {
 };
 
 describe("request", () => {
-
-
   test("successful response returns data", () => {
     mockResponse({ key: "value" }, 200);
     expect(
-      request(MOCK_FETCH_CONFIG, { url: "http://localhost:8000/hello", method: "GET" }),
+      request(MOCK_FETCH_CONFIG, {
+        url: "http://localhost:8000/hello",
+        method: "GET",
+      })
     ).resolves.toEqual({ key: "value" });
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
-      ...MOCK_FETCH_CONFIG
+      ...MOCK_FETCH_CONFIG,
     });
   });
 
@@ -49,7 +50,7 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith(expectedURL, {
       method: "GET",
-      ...MOCK_FETCH_CONFIG
+      ...MOCK_FETCH_CONFIG,
     });
   });
 
@@ -70,35 +71,42 @@ describe("request", () => {
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
       body: `{"string":"here","number":1234,"deep":{"array":[123]}}`,
-      ...MOCK_FETCH_CONFIG
+      ...MOCK_FETCH_CONFIG,
     });
   });
 
   test("error response throws inspectable error", async () => {
     expect.assertions(2);
 
-    mockResponse({
-      status_code: 400,
-      error_type: "bad_request",
-      error_message: "Whoops!",
-      error_url: "https://stytch.com/docs/api/errors/400",
-    }, 400);
-
-    await request(MOCK_FETCH_CONFIG, { url: "http://localhost:8000/whoops", method: "POST" }).catch(
-      (err) => {
-        expect(err).toMatchObject({
-          status_code: 400,
-          error_type: "bad_request",
-          error_message: "Whoops!",
-          error_url: "https://stytch.com/docs/api/errors/400",
-        });
+    mockResponse(
+      {
+        status_code: 400,
+        error_type: "bad_request",
+        error_message: "Whoops!",
+        error_url: "https://stytch.com/docs/api/errors/400",
       },
+      400
     );
 
-    expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/whoops", expect.objectContaining({
+    await request(MOCK_FETCH_CONFIG, {
+      url: "http://localhost:8000/whoops",
       method: "POST",
-      ...MOCK_FETCH_CONFIG
-    }));
+    }).catch((err) => {
+      expect(err).toMatchObject({
+        status_code: 400,
+        error_type: "bad_request",
+        error_message: "Whoops!",
+        error_url: "https://stytch.com/docs/api/errors/400",
+      });
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8000/whoops",
+      expect.objectContaining({
+        method: "POST",
+        ...MOCK_FETCH_CONFIG,
+      })
+    );
   });
 
   test("no response rethrows original error", () => {
@@ -106,15 +114,17 @@ describe("request", () => {
 
     fetchMock.mockRejectedValue(new Error("connect ECONNREFUSED 127.0.0.1:80"));
 
-    return request(MOCK_FETCH_CONFIG, { url: "nowhere", method: "GET" }).catch((err) => {
-      expect(err.toString()).toEqual(
-        "Error: connect ECONNREFUSED 127.0.0.1:80",
-      );
-      expect(err.message).toEqual("connect ECONNREFUSED 127.0.0.1:80");
-      expect(err.request).toMatchObject({
-        url: "nowhere",
-      });
-    });
+    return request(MOCK_FETCH_CONFIG, { url: "nowhere", method: "GET" }).catch(
+      (err) => {
+        expect(err.toString()).toEqual(
+          "Error: connect ECONNREFUSED 127.0.0.1:80"
+        );
+        expect(err.message).toEqual("connect ECONNREFUSED 127.0.0.1:80");
+        expect(err.request).toMatchObject({
+          url: "nowhere",
+        });
+      }
+    );
   });
 
   test("JSON parse error ", () => {
@@ -122,15 +132,17 @@ describe("request", () => {
 
     fetchMock.mockRejectedValue(new Error("connect ECONNREFUSED 127.0.0.1:80"));
 
-    return request(MOCK_FETCH_CONFIG, { url: "nowhere", method: "GET" }).catch((err) => {
-      expect(err.toString()).toEqual(
-        "Error: connect ECONNREFUSED 127.0.0.1:80",
-      );
-      expect(err.message).toEqual("connect ECONNREFUSED 127.0.0.1:80");
-      expect(err.request).toMatchObject({
-        url: "nowhere",
-      });
-    });
+    return request(MOCK_FETCH_CONFIG, { url: "nowhere", method: "GET" }).catch(
+      (err) => {
+        expect(err.toString()).toEqual(
+          "Error: connect ECONNREFUSED 127.0.0.1:80"
+        );
+        expect(err.message).toEqual("connect ECONNREFUSED 127.0.0.1:80");
+        expect(err.request).toMatchObject({
+          url: "nowhere",
+        });
+      }
+    );
   });
 
   test("unsendable request rethrows original error", () => {
@@ -145,7 +157,7 @@ describe("request", () => {
       data: { bigint: BigInt(10) },
     }).catch((err) => {
       expect(err.toString()).toEqual(
-        "Error: Do not know how to serialize a BigInt",
+        "Error: Do not know how to serialize a BigInt"
       );
       expect(err.message).toEqual("Do not know how to serialize a BigInt");
       expect(err.request).toMatchObject({

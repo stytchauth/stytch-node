@@ -1,7 +1,7 @@
 import { CryptoWallets } from "../lib/crypto_wallets";
 import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
 
-jest.mock('../lib/shared');
+jest.mock("../lib/shared");
 
 describe("cryptowallets.authenticateStart", () => {
   test("success", () => {
@@ -11,7 +11,7 @@ describe("cryptowallets.authenticateStart", () => {
         path: "crypto_wallets/authenticate/start",
         data: {
           crypto_wallet_address: "0x1234567890123456789012345678901234567890",
-          crypto_wallet_type: "ethereum"
+          crypto_wallet_type: "ethereum",
         },
       });
 
@@ -28,7 +28,7 @@ describe("cryptowallets.authenticateStart", () => {
     return expect(
       cryptoWallets.authenticateStart({
         crypto_wallet_address: "0x1234567890123456789012345678901234567890",
-        crypto_wallet_type: "ethereum"
+        crypto_wallet_type: "ethereum",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",

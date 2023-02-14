@@ -5,7 +5,7 @@ Thanks for contributing to Stytch's Node library! If you run into trouble, find 
 ## Setup
 
 1. Install a supported stable release of [Node](https://nodejs.org/).
-    - You may find the currently supported Node version in this repo's `.nvmrc` file.
+   - You may find the currently supported Node version in this repo's `.nvmrc` file.
 2. Clone this repo.
 3. Run `npm install`.
 
@@ -45,4 +45,4 @@ If you have non-trivial changes you'd like us to incorporate, please open an iss
 
 When you're ready for someone to look at your issue or PR, assign `@stytchauth/client-libraries` (GitHub should do this automatically). If we don't acknowledge it within one business day, please escalate it by tagging `@stytchauth/engineering` in a comment or letting us know in [Slack].
 
-[Slack]: https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg
+[slack]: https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg
