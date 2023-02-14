@@ -10,7 +10,7 @@ var _shared = require("../shared");
 var _members = require("./members");
 
 class Organizations {
-  base_path = 'organizations';
+  base_path = "organizations";
 
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
@@ -23,7 +23,7 @@ class Organizations {
 
   create(data) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'POST',
+      method: "POST",
       url: this.base_path,
       data
     });
@@ -33,22 +33,22 @@ class Organizations {
     organization_id
   }) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'GET',
+      method: "GET",
       url: this.endpoint(organization_id)
     });
   }
 
   search(data) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'POST',
-      url: this.endpoint('search'),
+      method: "POST",
+      url: this.endpoint("search"),
       data
     });
   }
 
   update(data) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'PUT',
+      method: "PUT",
       url: this.endpoint(data.organization_id),
       data
     });
@@ -58,7 +58,7 @@ class Organizations {
     organization_id
   }) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'DELETE',
+      method: "DELETE",
       url: this.endpoint(organization_id)
     });
   }
