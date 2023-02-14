@@ -1,6 +1,6 @@
 import { Passwords } from "../../lib/b2c/passwords";
 import { request } from "../../lib/shared";
-import { MOCK_FETCH_CONFIG } from "./helpers";
+import { MOCK_FETCH_CONFIG } from "../helpers";
 
 jest.mock("../../lib/shared");
 jest.mock("../../lib/b2c/shared_b2c");

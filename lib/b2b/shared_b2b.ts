@@ -1,6 +1,5 @@
-
 export interface EmailFactor {
-  delivery_method: 'email';
+  delivery_method: "email";
   type: string;
   last_authenticated_at: string;
   email_factor: {
@@ -44,6 +43,6 @@ export interface ResultsMetadata {
 }
 
 export enum SearchOperator {
-  OR = 'OR',
-  AND = 'AND',
+  OR = "OR",
+  AND = "AND",
 }

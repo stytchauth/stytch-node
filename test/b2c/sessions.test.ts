@@ -1,7 +1,7 @@
 import * as jose from "jose";
 import { Sessions } from "../../lib/b2c/sessions";
 import { ClientError } from "../../lib/shared/errors";
-import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 function jwtConfig(projectID: string) {
   return {

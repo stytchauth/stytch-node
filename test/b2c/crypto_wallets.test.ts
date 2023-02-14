@@ -1,5 +1,5 @@
 import { CryptoWallets } from "../../lib/b2c/crypto_wallets";
-import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 jest.mock("../../lib/shared");
 jest.mock("../../lib/b2c/shared_b2c");

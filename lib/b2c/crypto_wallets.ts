@@ -1,9 +1,4 @@
-import {
-  Session,
-  parseUser,
-  WithRawUser,
-  User,
-} from "./shared_b2c";
+import { Session, parseUser, WithRawUser, User } from "./shared_b2c";
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { UserID } from "./users";
 
@@ -52,7 +47,7 @@ export class CryptoWallets {
   }
 
   authenticateStart(
-    data: AuthenticateStartRequest,
+    data: AuthenticateStartRequest
   ): Promise<AuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",

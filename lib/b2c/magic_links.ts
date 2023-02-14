@@ -1,5 +1,12 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
-import { Attributes, Name, Session, User, WithRawUser, parseUser } from "./shared_b2c";
+import {
+  Attributes,
+  Name,
+  Session,
+  User,
+  WithRawUser,
+  parseUser,
+} from "./shared_b2c";
 
 export interface SendByEmailRequest {
   email: string;
@@ -95,8 +102,8 @@ export interface RevokePendingInviteByEmailRequest {
   email: string;
 }
 
-export interface RevokePendingInviteByEmailResponse extends BaseResponse {
-} // eslint-disable-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RevokePendingInviteByEmailResponse extends BaseResponse {}
 
 class Email {
   base_path: string;
@@ -122,7 +129,7 @@ class Email {
   }
 
   loginOrCreate(
-    data: LoginOrCreateByEmailRequest,
+    data: LoginOrCreateByEmailRequest
   ): Promise<LoginOrCreateByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
@@ -140,7 +147,7 @@ class Email {
   }
 
   revokeInvite(
-    data: RevokePendingInviteByEmailRequest,
+    data: RevokePendingInviteByEmailRequest
   ): Promise<RevokePendingInviteByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
@@ -175,7 +182,7 @@ export class MagicLinks {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest,
+    data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
     return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",

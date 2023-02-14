@@ -1,5 +1,5 @@
 import { MagicLinks } from "../../lib/b2c/magic_links";
-import { MOCK_FETCH_CONFIG } from "./helpers";
+import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
 jest.mock("../../lib/shared");

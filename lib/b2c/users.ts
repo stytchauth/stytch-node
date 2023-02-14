@@ -1,4 +1,4 @@
-import { BaseResponse, fetchConfig, request, } from "../shared";
+import { BaseResponse, fetchConfig, request } from "../shared";
 
 import {
   Attributes,

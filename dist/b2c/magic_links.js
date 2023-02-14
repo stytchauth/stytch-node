@@ -9,7 +9,6 @@ var _shared = require("../shared");
 
 var _shared_b2c = require("./shared_b2c");
 
-// eslint-disable-line @typescript-eslint/no-empty-interface
 class Email {
   delivery = "email";
 

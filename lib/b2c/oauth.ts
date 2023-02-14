@@ -58,7 +58,7 @@ export class OAuth {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest,
+    data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
     return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",

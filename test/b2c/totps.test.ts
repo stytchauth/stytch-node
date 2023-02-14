@@ -1,5 +1,5 @@
 import { TOTPs } from "../../lib/b2c/totps";
-import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
+import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 jest.mock("../../lib/shared");
 jest.mock("../../lib/b2c/shared_b2c");

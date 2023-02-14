@@ -68,7 +68,9 @@ class Email {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  loginOrSignup(data: LoginOrSignupByEmailRequest): Promise<LoginOrSignupByEmailResponse> {
+  loginOrSignup(
+    data: LoginOrSignupByEmailRequest
+  ): Promise<LoginOrSignupByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_signup"),

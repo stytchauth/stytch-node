@@ -1,4 +1,4 @@
-import { request, requestConfig } from "../../lib/shared";
+import { request, requestConfig } from "../lib/shared";
 import * as http from "http";
 
 export type Response = {

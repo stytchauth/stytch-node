@@ -1,4 +1,10 @@
-import { parseUser, Attributes, Session, User, WithRawUser } from "./shared_b2c";
+import {
+  parseUser,
+  Attributes,
+  Session,
+  User,
+  WithRawUser,
+} from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface CreateRequest {

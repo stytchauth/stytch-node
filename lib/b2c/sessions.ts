@@ -163,7 +163,7 @@ export class Sessions {
     jwt: string,
     options?: {
       max_token_age_seconds?: number;
-    },
+    }
   ): Promise<{ session: Session; session_jwt: string }> {
     try {
       const session = await this.authenticateJwtLocal(jwt, options);
@@ -197,7 +197,7 @@ export class Sessions {
       clock_tolerance_seconds?: number;
       max_token_age_seconds?: number;
       current_date?: Date;
-    },
+    }
   ): Promise<Session> {
     const now = options?.current_date || new Date();
 
@@ -225,7 +225,7 @@ export class Sessions {
       if (nowEpoch - iat >= maxTokenAge) {
         throw new ClientError(
           "jwt_too_old",
-          `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`,
+          `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`
         );
       }
     }
