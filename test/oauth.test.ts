@@ -1,6 +1,6 @@
-import { OAuth } from "../lib/oauth";
+import { OAuth } from "../lib/b2c/oauth";
 import { MOCK_FETCH_CONFIG } from "./helpers";
-import { request } from "../lib/shared";
+import { request } from "../lib/b2c/shared";
 
 jest.mock("../lib/shared");
 (request as jest.Mock).mockImplementation((_, config) => {

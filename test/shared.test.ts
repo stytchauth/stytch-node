@@ -1,4 +1,4 @@
-import { request } from "../lib/shared";
+import { request } from "../lib/b2c/shared";
 import { MOCK_FETCH_CONFIG } from "./helpers";
 
 const fetchMock = jest.fn();

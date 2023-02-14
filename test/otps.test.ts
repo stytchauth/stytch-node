@@ -1,6 +1,6 @@
-import { OTPs } from "../lib/otps";
+import { OTPs } from "../lib/b2c/otps";
 import { MOCK_FETCH_CONFIG } from "./helpers";
-import { request } from "../lib/shared";
+import { request } from "../lib/b2c/shared";
 
 jest.mock("../lib/shared");
 beforeEach(() => {

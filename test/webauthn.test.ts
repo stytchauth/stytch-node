@@ -1,4 +1,4 @@
-import { WebAuthn } from "../lib/webauthn";
+import { WebAuthn } from "../lib/b2c/webauthn";
 import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
 
 jest.mock("../lib/shared");

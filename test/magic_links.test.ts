@@ -1,6 +1,6 @@
-import { MagicLinks } from "../lib/magic_links";
+import { MagicLinks } from "../lib/b2c/magic_links";
 import { MOCK_FETCH_CONFIG } from "./helpers";
-import { request } from "../lib/shared";
+import { request } from "../lib/b2c/shared";
 
 jest.mock("../lib/shared");
 beforeEach(() => {

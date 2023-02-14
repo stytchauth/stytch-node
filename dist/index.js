@@ -22,15 +22,15 @@ Object.defineProperty(exports, "UserSearchOperator", {
 });
 exports.envs = void 0;
 
-var _client = require("./client");
+var _client = require("./b2c/client");
 
-var _envs = _interopRequireWildcard(require("./envs"));
+var _envs = _interopRequireWildcard(require("./b2c/envs"));
 
 exports.envs = _envs;
 
-var _users = require("./users");
+var _users = require("./b2c/users");
 
-var _errors = require("./errors");
+var _errors = require("./b2c/errors");
 
 Object.keys(_errors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

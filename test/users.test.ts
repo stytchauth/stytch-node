@@ -1,7 +1,7 @@
-import { Users, UserSearchIterator, UserSearchOperator } from "../lib/users";
+import { Users, UserSearchIterator, UserSearchOperator } from "../lib/b2c/users";
 
 import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
-import { request } from "../lib/shared";
+import { request } from "../lib/b2c/shared";
 
 const users = new Users(MOCK_FETCH_CONFIG);
 

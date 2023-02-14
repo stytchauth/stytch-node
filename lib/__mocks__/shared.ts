@@ -1,4 +1,4 @@
-import { User, UserRaw } from "../shared";
+import { User, UserRaw } from "../b2c/shared";
 
 export const request = jest.fn();
 

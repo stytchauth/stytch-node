@@ -1,7 +1,7 @@
 import * as http from "http";
 import { btoa } from "isomorphic-base64";
 import * as jose from "jose";
-import { version } from "../package.json";
+import { version } from "../../package.json";
 import { CryptoWallets } from "./crypto_wallets";
 import * as envs from "./envs";
 import { MagicLinks } from "./magic_links";
