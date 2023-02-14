@@ -30,21 +30,21 @@ export interface UpdateMemberResponse extends BaseResponse {
 
 export type MemberSearchOperand =
   | {
-  filter_name: "member_ids";
-  filter_value: string[];
-}
+      filter_name: "member_ids";
+      filter_value: string[];
+    }
   | {
-  filter_name: "member_emails";
-  filter_value: string[];
-}
+      filter_name: "member_emails";
+      filter_value: string[];
+    }
   | {
-  filter_name: "member_email_fuzzy";
-  filter_value: string;
-}
+      filter_name: "member_email_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "status";
-  filter_value: "active" | "pending";
-};
+      filter_name: "status";
+      filter_value: "active" | "pending";
+    };
 
 export interface SearchOrganizationMemberRequest {
   organization_ids: string[];
@@ -102,7 +102,9 @@ export class Members {
     });
   }
 
-  search(data: SearchOrganizationMemberRequest): Promise<SearchOrganizationMemberResponse> {
+  search(
+    data: SearchOrganizationMemberRequest
+  ): Promise<SearchOrganizationMemberResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `${this.base_path}/members/search`,

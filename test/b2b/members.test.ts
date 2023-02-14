@@ -1,27 +1,27 @@
-import { Members } from '../../lib/b2b/members';
+import { Members } from "../../lib/b2b/members";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 import { SearchOperator } from "../../lib/b2b/shared_b2b";
 
 jest.mock("../../lib/shared");
 
-const members = new Members(MOCK_FETCH_CONFIG, 'organizations');
+const members = new Members(MOCK_FETCH_CONFIG, "organizations");
 
-describe('members.create', () => {
-  test('success', () => {
+describe("members.create", () => {
+  test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
-        method: 'POST',
-        path: 'organizations/organization-id-1234/members',
+        method: "POST",
+        path: "organizations/organization-id-1234/members",
         data: {
-          organization_id: 'organization-id-1234',
-          email_address: 'test@stytch.com',
+          organization_id: "organization-id-1234",
+          email_address: "test@stytch.com",
           create_member_as_pending: true,
         },
       });
 
       const data = {
-        request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-        member_id: 'member-id-1234',
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        member_id: "member-id-1234",
         status_code: 200,
       };
       return { status: 200, data };
@@ -29,34 +29,34 @@ describe('members.create', () => {
 
     return expect(
       members.create({
-        organization_id: 'organization-id-1234',
-        email_address: 'test@stytch.com',
+        organization_id: "organization-id-1234",
+        email_address: "test@stytch.com",
         create_member_as_pending: true,
-      }),
+      })
     ).resolves.toMatchObject({
-      request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-      member_id: 'member-id-1234',
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      member_id: "member-id-1234",
       status_code: 200,
     });
   });
 });
 
-describe('members.update', () => {
-  test('success', () => {
+describe("members.update", () => {
+  test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
-        method: 'PUT',
-        path: 'organizations/organization-id-1234/members/member-id-1234',
+        method: "PUT",
+        path: "organizations/organization-id-1234/members/member-id-1234",
         data: {
-          member_id: 'member-id-1234',
-          organization_id: 'organization-id-1234',
-          name: 'new name',
+          member_id: "member-id-1234",
+          organization_id: "organization-id-1234",
+          name: "new name",
         },
       });
 
       const data = {
-        request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-        member_id: 'member-id-1234',
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        member_id: "member-id-1234",
         status_code: 200,
       };
       return { status: 200, data };
@@ -64,41 +64,41 @@ describe('members.update', () => {
 
     return expect(
       members.update({
-        member_id: 'member-id-1234',
-        organization_id: 'organization-id-1234',
-        name: 'new name',
-      }),
+        member_id: "member-id-1234",
+        organization_id: "organization-id-1234",
+        name: "new name",
+      })
     ).resolves.toMatchObject({
-      request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-      member_id: 'member-id-1234',
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      member_id: "member-id-1234",
       status_code: 200,
     });
   });
 });
 
-describe('members.search', () => {
-  test('success', () => {
+describe("members.search", () => {
+  test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
-        method: 'POST',
-        path: 'organizations/members/search',
+        method: "POST",
+        path: "organizations/members/search",
         data: {
-          organization_ids: ['organization_id'],
+          organization_ids: ["organization_id"],
           limit: 200,
           query: {
             operator: SearchOperator.OR,
             operands: [
-              { filter_name: 'member_ids', filter_value: ['member-id-1234'] },
+              { filter_name: "member_ids", filter_value: ["member-id-1234"] },
             ],
           },
         },
       });
 
       const data = {
-        request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
         results: [
           {
-            member_id: 'member-id-1234',
+            member_id: "member-id-1234",
           },
         ],
         results_metadata: {
@@ -112,20 +112,20 @@ describe('members.search', () => {
 
     return expect(
       members.search({
-        organization_ids: ['organization_id'],
+        organization_ids: ["organization_id"],
         limit: 200,
         query: {
           operator: SearchOperator.OR,
           operands: [
-            { filter_name: 'member_ids', filter_value: ['member-id-1234'] },
+            { filter_name: "member_ids", filter_value: ["member-id-1234"] },
           ],
         },
-      }),
+      })
     ).resolves.toMatchObject({
-      request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
       results: [
         {
-          member_id: 'member-id-1234',
+          member_id: "member-id-1234",
         },
       ],
       results_metadata: {
@@ -137,17 +137,17 @@ describe('members.search', () => {
   });
 });
 
-describe('members.delete', () => {
-  test('success', () => {
+describe("members.delete", () => {
+  test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
-        method: 'DELETE',
-        path: 'organizations/organization-id-1234/members/member-id-1234',
+        method: "DELETE",
+        path: "organizations/organization-id-1234/members/member-id-1234",
       });
 
       const data = {
-        request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-        member_id: 'member-id-1234',
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        member_id: "member-id-1234",
         status_code: 200,
       };
       return { status: 200, data };
@@ -155,12 +155,12 @@ describe('members.delete', () => {
 
     return expect(
       members.delete({
-        member_id: 'member-id-1234',
-        organization_id: 'organization-id-1234',
-      }),
+        member_id: "member-id-1234",
+        organization_id: "organization-id-1234",
+      })
     ).resolves.toMatchObject({
-      request_id: 'request-id-test-55555555-5555-4555-8555-555555555555',
-      member_id: 'member-id-1234',
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      member_id: "member-id-1234",
       status_code: 200,
     });
   });
