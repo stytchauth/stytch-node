@@ -1,18 +1,12 @@
 import * as http from "http";
 import { btoa } from "isomorphic-base64";
-import * as jose from "jose";
-import { version } from "../../package.json";
-import { CryptoWallets } from "./crypto_wallets";
 import * as envs from "../shared/envs";
 import { MagicLinks } from "./magic_links";
-import { OAuth } from "./oauth";
-import { OTPs } from "./otps";
-import { Passwords } from "./passwords";
 import { Sessions } from "./sessions";
+import { Organizations } from "./organizations";
 import { fetchConfig } from "../shared";
-import { TOTPs } from "./totps";
-import { Users } from "./users";
-import { WebAuthn } from "./webauthn";
+import { SSO } from "./sso";
+import { version } from "../../package.json";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -24,16 +18,11 @@ interface Config {
   agent?: http.Agent;
 }
 
-export class Client {
-  users: Users;
+export class B2BClient {
   magicLinks: MagicLinks;
-  otps: OTPs;
-  oauth: OAuth;
-  passwords: Passwords;
   sessions: Sessions;
-  totps: TOTPs;
-  webauthn: WebAuthn;
-  cryptoWallets: CryptoWallets;
+  organizations: Organizations;
+  sso: SSO;
 
   private fetchConfig: fetchConfig;
 
@@ -79,23 +68,9 @@ export class Client {
       baseURL += "/";
     }
 
-    const jwtConfig = {
-      // Only allow JWTs that were meant for this project.
-      projectID: config.project_id,
-      // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, baseURL)
-      ),
-    };
-
-    this.users = new Users(this.fetchConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
-    this.oauth = new OAuth(this.fetchConfig);
-    this.otps = new OTPs(this.fetchConfig);
-    this.passwords = new Passwords(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, jwtConfig);
-    this.totps = new TOTPs(this.fetchConfig);
-    this.webauthn = new WebAuthn(this.fetchConfig);
-    this.cryptoWallets = new CryptoWallets(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig);
+    this.organizations = new Organizations(this.fetchConfig);
+    this.sso = new SSO(this.fetchConfig);
   }
 }

@@ -3,33 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Client = void 0;
+exports.B2BClient = void 0;
 
 var _isomorphicBase = require("isomorphic-base64");
-
-var jose = _interopRequireWildcard(require("jose"));
-
-var _package = require("../../package.json");
-
-var _crypto_wallets = require("./crypto_wallets");
 
 var envs = _interopRequireWildcard(require("../shared/envs"));
 
 var _magic_links = require("./magic_links");
 
-var _oauth = require("./oauth");
-
-var _otps = require("./otps");
-
-var _passwords = require("./passwords");
-
 var _sessions = require("./sessions");
 
-var _totps = require("./totps");
+var _organizations = require("./organizations");
 
-var _users = require("./users");
+var _sso = require("./sso");
 
-var _webauthn = require("./webauthn");
+var _package = require("../../package.json");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -37,7 +25,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
-class Client {
+class B2BClient {
   constructor(config) {
     if (typeof config != "object") {
       throw new Error("Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.");
@@ -76,23 +64,12 @@ class Client {
       baseURL += "/";
     }
 
-    const jwtConfig = {
-      // Only allow JWTs that were meant for this project.
-      projectID: config.project_id,
-      // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`sessions/jwks/${config.project_id}`, baseURL))
-    };
-    this.users = new _users.Users(this.fetchConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
-    this.oauth = new _oauth.OAuth(this.fetchConfig);
-    this.otps = new _otps.OTPs(this.fetchConfig);
-    this.passwords = new _passwords.Passwords(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, jwtConfig);
-    this.totps = new _totps.TOTPs(this.fetchConfig);
-    this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
-    this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig);
+    this.organizations = new _organizations.Organizations(this.fetchConfig);
+    this.sso = new _sso.SSO(this.fetchConfig);
   }
 
 }
 
-exports.Client = Client;
+exports.B2BClient = B2BClient;
