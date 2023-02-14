@@ -30,7 +30,7 @@ exports.envs = _envs;
 
 var _users = require("./b2c/users");
 
-var _errors = require("./b2c/errors");
+var _errors = require("./shared/errors");
 
 Object.keys(_errors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

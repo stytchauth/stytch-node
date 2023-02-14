@@ -9,7 +9,7 @@ import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
 import { Sessions } from "./sessions";
-import { fetchConfig } from "./shared";
+import { fetchConfig } from "../shared";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
 import { WebAuthn } from "./webauthn";

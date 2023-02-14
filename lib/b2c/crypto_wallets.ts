@@ -1,13 +1,10 @@
 import {
-  request,
   Session,
-  fetchConfig,
   parseUser,
   WithRawUser,
   User,
-} from "./shared";
-
-import type { BaseResponse } from "./shared";
+} from "./shared_b2c";
+import { request, fetchConfig, BaseResponse } from "../shared";
 import { UserID } from "./users";
 
 export interface AuthenticateStartRequest {
@@ -55,7 +52,7 @@ export class CryptoWallets {
   }
 
   authenticateStart(
-    data: AuthenticateStartRequest
+    data: AuthenticateStartRequest,
   ): Promise<AuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",

@@ -1,6 +1,5 @@
-import { parseUser, request, Session, User, WithRawUser } from "./shared";
-
-import type { BaseResponse, fetchConfig } from "./shared";
+import { parseUser, Session, User, WithRawUser } from "./shared_b2c";
+import { request, BaseResponse, fetchConfig } from "../shared";
 import { UserID } from "./users";
 
 export interface RegisterStartRequest {

@@ -1,22 +1,18 @@
-import {
-  parseUser,
-  Password,
-  request,
-  User,
-  UserRaw,
-  WithRawUser,
-} from "./shared";
+import { BaseResponse, fetchConfig, request, } from "../shared";
 
-import type {
+import {
   Attributes,
-  BaseResponse,
   CryptoWallet,
   Email,
-  fetchConfig,
   Name,
   PhoneNumber,
   TOTP,
-} from "./shared";
+  parseUser,
+  Password,
+  User,
+  UserRaw,
+  WithRawUser,
+} from "./shared_b2c";
 
 export type UserID = string;
 export type UserMetadata = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any

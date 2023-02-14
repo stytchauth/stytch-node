@@ -1,11 +1,5 @@
-import type {
-  BaseResponse,
-  fetchConfig,
-  Session,
-  User,
-  WithRawUser,
-} from "./shared";
-import { parseUser, request } from "./shared";
+import { parseUser, Session, User, WithRawUser } from "./shared_b2c";
+import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface AuthenticateRequest {
   session_token?: string;
@@ -64,7 +58,7 @@ export class OAuth {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest
+    data?: AuthenticateRequest,
   ): Promise<AuthenticateResponse> {
     return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
       method: "POST",

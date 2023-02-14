@@ -1,6 +1,5 @@
-import { parseUser, request, Session, User, WithRawUser } from "./shared";
-
-import type { Attributes, BaseResponse, fetchConfig } from "./shared";
+import { parseUser, Attributes, Session, User, WithRawUser } from "./shared_b2c";
+import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface CreateRequest {
   email: string;

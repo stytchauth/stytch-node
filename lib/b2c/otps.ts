@@ -1,6 +1,5 @@
-import { fetchConfig, parseUser, request, User, WithRawUser } from "./shared";
-
-import type { Attributes, BaseResponse, Session } from "./shared";
+import { parseUser,Attributes, Session, User, WithRawUser } from "./shared_b2c";
+import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface OTPEmailSendRequest {
   email: string;

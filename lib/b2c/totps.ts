@@ -1,6 +1,5 @@
-import { parseUser, request, User, WithRawUser } from "./shared";
-
-import type { BaseResponse, Session, fetchConfig } from "./shared";
+import { parseUser, Session, User, WithRawUser } from "./shared_b2c";
+import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface TOTP {
   totp_id: string;
