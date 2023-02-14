@@ -1,5 +1,5 @@
-import { BaseResponse, fetchConfig } from '../shared';
-import { SAMLConnection } from './sso';
+import { BaseResponse, fetchConfig } from "../shared";
+import { SAMLConnection } from "./sso";
 export interface CreateSAMLConnectionRequest {
     organization_id: string;
     display_name?: string;

@@ -17,7 +17,7 @@ class SAML {
     ...data
   }) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'POST',
+      method: "POST",
       url: `sso/saml/${organization_id}`,
       data
     });
@@ -29,7 +29,7 @@ class SAML {
     ...data
   }) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'PUT',
+      method: "PUT",
       url: `sso/saml/${organization_id}/connections/${connection_id}`,
       data
     });
@@ -41,7 +41,7 @@ class SAML {
     certificate_id
   }) {
     return (0, _shared.request)(this.fetchConfig, {
-      method: 'DELETE',
+      method: "DELETE",
       url: `sso/saml/${organization_id}/connections/${connection_id}/verification_certificates/${certificate_id}`
     });
   }

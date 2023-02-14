@@ -56,7 +56,7 @@ export declare class SSO {
     private readonly fetchConfig;
     saml: SAML;
     constructor(fetchConfig: fetchConfig);
-    get({ organization_id }: GetSSOConnectionsRequest): Promise<GetSSOConnectionsResponse>;
-    delete({ organization_id, connection_id }: DeleteSSOConnectionRequest): Promise<DeleteSSOConnectionResponse>;
+    get({ organization_id, }: GetSSOConnectionsRequest): Promise<GetSSOConnectionsResponse>;
+    delete({ organization_id, connection_id, }: DeleteSSOConnectionRequest): Promise<DeleteSSOConnectionResponse>;
     authenticate(data: SSOAuthenticateRequest): Promise<SSOAuthenticateResponse>;
 }
