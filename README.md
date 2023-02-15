@@ -21,6 +21,7 @@ You can find your API credentials in the [Stytch Dashboard](https://stytch.com/d
 This client library supports all of Stytch's live products:
 
 **B2C**
+
 - [x] [Email Magic Links](https://stytch.com/docs/api/send-by-email)
 - [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link-overview)
 - [x] [OAuth logins](https://stytch.com/docs/api/oauth-overview)
@@ -35,6 +36,7 @@ This client library supports all of Stytch's live products:
 - [x] [Passwords](https://stytch.com/docs/api/password-overview)
 
 **B2B**
+
 - [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
 - [x] [Members](https://stytch.com/docs/b2b/api/member-object)
 - [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
@@ -98,8 +100,8 @@ const client = new stytch.B2BClient({
 Create an organization
 
 ```javascript
-client.organizations.
-  create({
+client.organizations
+  .create({
     organization_name: "Acme Co",
     organization_slug: "acme-co",
     email_allowed_domains: ["acme.co"],
