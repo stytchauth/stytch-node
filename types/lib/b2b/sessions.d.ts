@@ -1,6 +1,7 @@
 import { BaseResponse, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { JwtConfig } from "../shared/sessions";
+import { Organization } from "./organizations";
 export interface GetRequest {
     organization_id: string;
     member_id: string;
@@ -33,6 +34,7 @@ export interface AuthenticateResponse extends BaseResponse {
     member: Member;
     session_token: string;
     session_jwt: string;
+    organization: Organization;
 }
 export declare type RevokeRequest = {
     member_session_id: string;
