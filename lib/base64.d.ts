@@ -1,4 +1,3 @@
-declare module "isomorphic-base64" {
-  export function atob(str: string): string;
+declare module "b64-lite" {
   export function btoa(str: string): string;
 }

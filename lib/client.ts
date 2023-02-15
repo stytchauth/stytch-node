@@ -1,5 +1,5 @@
 import * as http from "http";
-import { btoa } from "isomorphic-base64";
+import { btoa } from "b64-lite";
 import * as jose from "jose";
 import { version } from "../package.json";
 import { CryptoWallets } from "./crypto_wallets";
