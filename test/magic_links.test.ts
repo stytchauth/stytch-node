@@ -2,7 +2,7 @@ import { MagicLinks } from "../lib/magic_links";
 import { MOCK_FETCH_CONFIG } from "./helpers";
 import { request } from "../lib/shared";
 
-jest.mock('../lib/shared');
+jest.mock("../lib/shared");
 beforeEach(() => {
   (request as jest.Mock).mockReset();
   (request as jest.Mock).mockImplementation((_, config) => {

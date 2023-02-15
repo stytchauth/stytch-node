@@ -1,9 +1,8 @@
-
 import { OTPs } from "../lib/otps";
 import { MOCK_FETCH_CONFIG } from "./helpers";
 import { request } from "../lib/shared";
 
-jest.mock('../lib/shared');
+jest.mock("../lib/shared");
 beforeEach(() => {
   (request as jest.Mock).mockReset();
   (request as jest.Mock).mockImplementation((_, config) => {
@@ -15,7 +14,6 @@ beforeEach(() => {
     });
   });
 });
-
 
 const otps = new OTPs(MOCK_FETCH_CONFIG);
 

@@ -37,4 +37,3 @@ describe("config errors", () => {
     }).toThrow(/Missing "env" in config/);
   });
 });
-

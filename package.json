@@ -22,8 +22,8 @@
   },
   "scripts": {
     "build": "rm -rf dist types && babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
-    "format": "prettier --write lib",
-    "check-format": "prettier --check lib",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
     "lint": "eslint lib",
     "test": "jest",
     "test-packages": "./test-packages/test.sh"

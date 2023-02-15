@@ -1,7 +1,7 @@
 import { TOTPs } from "../lib/totps";
 import { MOCK_FETCH_CONFIG, mockRequest } from "./helpers";
 
-jest.mock('../lib/shared');
+jest.mock("../lib/shared");
 
 describe("totps.create", () => {
   test("only required fields", () => {
@@ -19,7 +19,8 @@ describe("totps.create", () => {
         user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         status_code: 200,
         secret: "BTGNX5RKJRMQWQFRQKTG34JCF6XDRHZS",
-        qr_code: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
+        qr_code:
+          "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
         recovery_codes: [
           "ckss-2skx-ebow",
           "spbc-424h-usy0",
@@ -31,7 +32,7 @@ describe("totps.create", () => {
           "lz0m-02bi-psbx",
           "l2qm-zrk1-8ujs",
           "c2qd-k7m4-ifmc",
-        ]
+        ],
       };
       return { status: 200, data };
     });
@@ -46,7 +47,8 @@ describe("totps.create", () => {
       user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
       status_code: 200,
       secret: "BTGNX5RKJRMQWQFRQKTG34JCF6XDRHZS",
-      qr_code: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
+      qr_code:
+        "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
       recovery_codes: [
         "ckss-2skx-ebow",
         "spbc-424h-usy0",
@@ -58,7 +60,7 @@ describe("totps.create", () => {
         "lz0m-02bi-psbx",
         "l2qm-zrk1-8ujs",
         "c2qd-k7m4-ifmc",
-      ]
+      ],
     });
   });
   test("required fields and expiration", () => {
@@ -77,7 +79,8 @@ describe("totps.create", () => {
         user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         status_code: 200,
         secret: "BTGNX5RKJRMQWQFRQKTG34JCF6XDRHZS",
-        qr_code: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
+        qr_code:
+          "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
         recovery_codes: [
           "ckss-2skx-ebow",
           "spbc-424h-usy0",
@@ -89,7 +92,7 @@ describe("totps.create", () => {
           "lz0m-02bi-psbx",
           "l2qm-zrk1-8ujs",
           "c2qd-k7m4-ifmc",
-        ]
+        ],
       };
       return { status: 200, data };
     });
@@ -105,7 +108,8 @@ describe("totps.create", () => {
       user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
       status_code: 200,
       secret: "BTGNX5RKJRMQWQFRQKTG34JCF6XDRHZS",
-      qr_code: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
+      qr_code:
+        "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAAG8ElEQVR8EAAD//7dQP/5Y00bRAAAAAElFTkSuQmCC",
       recovery_codes: [
         "ckss-2skx-ebow",
         "spbc-424h-usy0",
@@ -117,7 +121,7 @@ describe("totps.create", () => {
         "lz0m-02bi-psbx",
         "l2qm-zrk1-8ujs",
         "c2qd-k7m4-ifmc",
-      ]
+      ],
     });
   });
 });
@@ -130,7 +134,7 @@ describe("totps.authenticate", () => {
         path: "totps/authenticate",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
-          totp_code: "111111"
+          totp_code: "111111",
         },
       });
 
@@ -147,7 +151,7 @@ describe("totps.authenticate", () => {
     return expect(
       totp.authenticate({
         user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
-        totp_code: "111111"
+        totp_code: "111111",
       })
     ).resolves.toMatchObject({
       status_code: 200,
@@ -184,12 +188,12 @@ describe("totps.authenticate", () => {
     const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
-        totp.authenticate({
-          user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
-          totp_code: "111111",
-          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-          session_duration_minutes: 60,
-        })
+      totp.authenticate({
+        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        totp_code: "111111",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session_duration_minutes: 60,
+      })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
       user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
@@ -219,7 +223,42 @@ describe("totps.recovery_codes", () => {
         request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
         user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         status_code: 200,
-        totps: [{totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6", status: "active", recovery_codes: [
+        totps: [
+          {
+            totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
+            status: "active",
+            recovery_codes: [
+              "ckss-2skx-ebow",
+              "spbc-424h-usy0",
+              "hi08-n5tk-lns5",
+              "1n6i-l5na-8axe",
+              "aduj-eufq-w6yy",
+              "i4l3-dxyt-urmx",
+              "ayyi-utb0-gj0s",
+              "lz0m-02bi-psbx",
+              "l2qm-zrk1-8ujs",
+              "c2qd-k7m4-ifmc",
+            ],
+          },
+        ],
+      };
+      return { status: 200, data };
+    });
+    const totp = new TOTPs(MOCK_FETCH_CONFIG);
+
+    return expect(
+      totp.recoveryCodes({
+        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+      })
+    ).resolves.toMatchObject({
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+      status_code: 200,
+      totps: [
+        {
+          totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
+          status: "active",
+          recovery_codes: [
             "ckss-2skx-ebow",
             "spbc-424h-usy0",
             "hi08-n5tk-lns5",
@@ -230,32 +269,9 @@ describe("totps.recovery_codes", () => {
             "lz0m-02bi-psbx",
             "l2qm-zrk1-8ujs",
             "c2qd-k7m4-ifmc",
-          ]}]
-      };
-      return { status: 200, data };
-    });
-    const totp = new TOTPs(MOCK_FETCH_CONFIG);
-
-    return expect(
-      totp.recoveryCodes({
-        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0"
-      })
-    ).resolves.toMatchObject({
-      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
-      user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
-      status_code: 200,
-      totps: [{totp_id: "totp-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6", status: "active", recovery_codes: [
-          "ckss-2skx-ebow",
-          "spbc-424h-usy0",
-          "hi08-n5tk-lns5",
-          "1n6i-l5na-8axe",
-          "aduj-eufq-w6yy",
-          "i4l3-dxyt-urmx",
-          "ayyi-utb0-gj0s",
-          "lz0m-02bi-psbx",
-          "l2qm-zrk1-8ujs",
-          "c2qd-k7m4-ifmc",
-        ]}]
+          ],
+        },
+      ],
     });
   });
 });
@@ -323,12 +339,12 @@ describe("totp.recover", () => {
     const totp = new TOTPs(MOCK_FETCH_CONFIG);
 
     return expect(
-        totp.recover({
-          user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
-          recovery_code: "1111-1111-1111",
-          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-          session_duration_minutes: 60,
-        })
+      totp.recover({
+        user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
+        recovery_code: "1111-1111-1111",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        session_duration_minutes: 60,
+      })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
       user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",

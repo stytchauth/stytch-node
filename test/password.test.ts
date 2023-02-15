@@ -1,9 +1,8 @@
-
 import { Passwords } from "../lib/passwords";
 import { request } from "../lib/shared";
 import { MOCK_FETCH_CONFIG } from "./helpers";
 
-jest.mock('../lib/shared');
+jest.mock("../lib/shared");
 beforeEach(() => {
   (request as jest.Mock).mockReset();
   (request as jest.Mock).mockImplementation((_, config) => {
@@ -15,7 +14,6 @@ beforeEach(() => {
     });
   });
 });
-
 
 const passwords = new Passwords(MOCK_FETCH_CONFIG);
 
@@ -34,8 +32,8 @@ describe("passwords.create", () => {
         email: "Ada_Lovelace@example.com",
       },
     });
-  })
-})
+  });
+});
 
 describe("passwords.authenticate", () => {
   test("session", () => {
@@ -87,7 +85,7 @@ describe("passwords.resetByEmailStart", () => {
         email: "Ada_Lovelace@example.com",
       },
     });
-  })
+  });
   test("pkce", () => {
     return expect(
       passwords.resetByEmailStart({
@@ -103,39 +101,38 @@ describe("passwords.resetByEmailStart", () => {
         email: "Ada_Lovelace@example.com",
       },
     });
-  })
-})
+  });
+});
 
 describe("passwords.resetByEmail", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmail('example-token', "not-a-real-password"))
-      .resolves.toMatchObject({
+      passwords.resetByEmail("example-token", "not-a-real-password")
+    ).resolves.toMatchObject({
       method: "POST",
       path: "passwords/email/reset",
       data: {
-        token: 'example-token',
+        token: "example-token",
         password: "not-a-real-password",
       },
     });
-  })
+  });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmail('example-token', "not-a-real-password",
-      {
+      passwords.resetByEmail("example-token", "not-a-real-password", {
         code_verifier: "exmaple_code_verifier",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "passwords/email/reset",
       data: {
-        token: 'example-token',
+        token: "example-token",
         password: "not-a-real-password",
         code_verifier: "exmaple_code_verifier",
       },
     });
-  })
-})
+  });
+});
 
 describe("passwords.resetByExistingPassword", () => {
   test("basic", () => {
@@ -146,16 +143,16 @@ describe("passwords.resetByExistingPassword", () => {
         new_password: "new_password",
       })
     ).resolves.toMatchObject({
-        method: "POST",
-        path: "passwords/existing_password/reset",
-        data: {
-          email: "Ada_Lovelace@example.com",
-          existing_password: "existing_password",
-          new_password: "new_password",
-        },
-      });
-  })
-})
+      method: "POST",
+      path: "passwords/existing_password/reset",
+      data: {
+        email: "Ada_Lovelace@example.com",
+        existing_password: "existing_password",
+        new_password: "new_password",
+      },
+    });
+  });
+});
 
 describe("passwords.resetBySession", () => {
   test("basic", () => {
@@ -172,8 +169,8 @@ describe("passwords.resetBySession", () => {
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
     });
-  })
-})
+  });
+});
 
 describe("passwords.strengthCheck", () => {
   test("basic", () => {
@@ -190,8 +187,8 @@ describe("passwords.strengthCheck", () => {
         email: "Ada_Lovelace@example.com",
       },
     });
-  })
-})
+  });
+});
 
 describe("passwords.migrate", () => {
   test("phpass", () => {
@@ -210,7 +207,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
       },
     });
-  })
+  });
   test("bcrypt", () => {
     return expect(
       passwords.migrate({
@@ -227,7 +224,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
       },
     });
-  })
+  });
   test("sha1 with appended salt", () => {
     return expect(
       passwords.migrate({
@@ -250,7 +247,7 @@ describe("passwords.migrate", () => {
         },
       },
     });
-  })
+  });
   test("sha1 with prepended salt", () => {
     return expect(
       passwords.migrate({
@@ -273,7 +270,7 @@ describe("passwords.migrate", () => {
         },
       },
     });
-  })
+  });
   test("sha1 with no salt", () => {
     return expect(
       passwords.migrate({
@@ -290,7 +287,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
       },
     });
-  })
+  });
   test("md5 with appended salt", () => {
     return expect(
       passwords.migrate({
@@ -313,7 +310,7 @@ describe("passwords.migrate", () => {
         },
       },
     });
-  })
+  });
   test("md5 with prepended salt", () => {
     return expect(
       passwords.migrate({
@@ -336,7 +333,7 @@ describe("passwords.migrate", () => {
         },
       },
     });
-  })
+  });
   test("md5 with no salt", () => {
     return expect(
       passwords.migrate({
@@ -353,7 +350,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
       },
     });
-  })
+  });
   test("argon2i", () => {
     return expect(
       passwords.migrate({
@@ -385,66 +382,66 @@ describe("passwords.migrate", () => {
       },
     });
   }),
-  test("argon2id", () => {
-    return expect(
-      passwords.migrate({
-        email: "Ada_Lovelace@example.com",
-        hash_type: "argon_2id",
-        hash: "not-a-real-password-hash",
-        argon_2_config: {
-          salt: "not-a-real-salt",
-          iteration_amount: 2,
-          memory: 1048576,
-          threads: 1,
-          key_length: 32,
+    test("argon2id", () => {
+      return expect(
+        passwords.migrate({
+          email: "Ada_Lovelace@example.com",
+          hash_type: "argon_2id",
+          hash: "not-a-real-password-hash",
+          argon_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 2,
+            memory: 1048576,
+            threads: 1,
+            key_length: 32,
+          },
+        })
+      ).resolves.toMatchObject({
+        method: "POST",
+        path: "passwords/migrate",
+        data: {
+          email: "Ada_Lovelace@example.com",
+          hash_type: "argon_2id",
+          hash: "not-a-real-password-hash",
+          argon_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 2,
+            memory: 1048576,
+            threads: 1,
+            key_length: 32,
+          },
         },
-      })
-    ).resolves.toMatchObject({
-      method: "POST",
-      path: "passwords/migrate",
-      data: {
-        email: "Ada_Lovelace@example.com",
-        hash_type: "argon_2id",
-        hash: "not-a-real-password-hash",
-        argon_2_config: {
-          salt: "not-a-real-salt",
-          iteration_amount: 2,
-          memory: 1048576,
-          threads: 1,
-          key_length: 32,
+      });
+    }),
+    test("scrypt", () => {
+      return expect(
+        passwords.migrate({
+          email: "Ada_Lovelace@example.com",
+          hash_type: "scrypt",
+          hash: "not-a-real-password-hash",
+          scrypt_config: {
+            salt: "not-a-real-salt",
+            n_parameter: 16384,
+            r_parameter: 8,
+            p_parameter: 1,
+            key_length: 32,
+          },
+        })
+      ).resolves.toMatchObject({
+        method: "POST",
+        path: "passwords/migrate",
+        data: {
+          email: "Ada_Lovelace@example.com",
+          hash_type: "scrypt",
+          hash: "not-a-real-password-hash",
+          scrypt_config: {
+            salt: "not-a-real-salt",
+            n_parameter: 16384,
+            r_parameter: 8,
+            p_parameter: 1,
+            key_length: 32,
+          },
         },
-      },
+      });
     });
-  }),
-  test("scrypt", () => {
-    return expect(
-      passwords.migrate({
-        email: "Ada_Lovelace@example.com",
-        hash_type: "scrypt",
-        hash: "not-a-real-password-hash",
-        scrypt_config: {
-          salt: "not-a-real-salt",
-          n_parameter: 16384,
-          r_parameter: 8,
-          p_parameter: 1,
-          key_length: 32,
-        },
-      })
-    ).resolves.toMatchObject({
-      method: "POST",
-      path: "passwords/migrate",
-      data: {
-        email: "Ada_Lovelace@example.com",
-        hash_type: "scrypt",
-        hash: "not-a-real-password-hash",
-        scrypt_config: {
-          salt: "not-a-real-salt",
-          n_parameter: 16384,
-          r_parameter: 8,
-          p_parameter: 1,
-          key_length: 32,
-        },
-      },
-    });
-  })
-})
+});

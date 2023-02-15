@@ -16,9 +16,7 @@ const oauth = new OAuth(MOCK_FETCH_CONFIG);
 
 describe("oauth.authenticate", () => {
   test("session", () => {
-    return expect(
-      oauth.authenticate("fake-token")
-    ).resolves.toMatchObject({
+    return expect(oauth.authenticate("fake-token")).resolves.toMatchObject({
       method: "POST",
       path: "oauth/authenticate",
       data: {
