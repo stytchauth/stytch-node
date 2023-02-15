@@ -1,4 +1,4 @@
-import { parseUser, Session, User, WithRawUser } from "./shared_b2c";
+import { Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface TOTP {
@@ -88,15 +88,10 @@ export class TOTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
@@ -109,15 +104,10 @@ export class TOTPs {
   }
 
   recover(data: RecoverRequest): Promise<RecoverResponse> {
-    return request<WithRawUser<RecoverResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recover"),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 }

@@ -7,8 +7,6 @@ exports.Users = exports.UserSearchIterator = exports.UserSearchOperator = void 0
 
 var _shared = require("../shared");
 
-var _shared_b2c = require("./shared_b2c");
-
 let UserSearchOperator;
 exports.UserSearchOperator = UserSearchOperator;
 
@@ -77,10 +75,6 @@ class Users {
       method: "POST",
       url: this.base_path,
       data
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -88,9 +82,7 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(userID)
-    }).then(res => ({ ...res,
-      ...(0, _shared_b2c.parseUser)(res)
-    }));
+    });
   }
 
   search(data) {
@@ -98,10 +90,6 @@ class Users {
       method: "POST",
       url: this.endpoint("search"),
       data
-    }).then(res => {
-      return { ...res,
-        results: res.results.map(_shared_b2c.parseUser)
-      };
     });
   }
 
@@ -114,10 +102,6 @@ class Users {
       method: "PUT",
       url: this.endpoint(userID),
       data
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -141,10 +125,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -152,10 +132,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -163,10 +139,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -174,10 +146,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`biometric_registrations/${biometricRegistrationID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -185,10 +153,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -196,10 +160,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -207,10 +167,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 
@@ -218,10 +174,6 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`oauth/${oauthUserRegistrationID}`)
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 

@@ -1,10 +1,4 @@
-import {
-  parseUser,
-  Attributes,
-  Session,
-  User,
-  WithRawUser,
-} from "./shared_b2c";
+import { Attributes, Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 
 export interface OTPEmailSendRequest {
@@ -244,15 +238,10 @@ export class OTPs {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 }

@@ -7,11 +7,8 @@ import {
   Name,
   PhoneNumber,
   TOTP,
-  parseUser,
   Password,
   User,
-  UserRaw,
-  WithRawUser,
 } from "./shared_b2c";
 
 export type UserID = string;
@@ -164,14 +161,6 @@ export interface SearchRequest {
   cursor?: string | null;
 }
 
-interface SearchResponseRaw extends BaseResponse {
-  results: UserRaw[];
-  results_metadata: {
-    next_cursor: string | null;
-    total: number;
-  };
-}
-
 export interface SearchResponse extends BaseResponse {
   results: User[];
   results_metadata: {
@@ -302,38 +291,25 @@ export class Users {
   }
 
   create(data: CreateRequest): Promise<CreateResponse> {
-    return request<WithRawUser<CreateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   get(userID: UserID): Promise<GetResponse> {
-    return request<BaseResponse & UserRaw>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(userID),
-    }).then((res) => ({
-      ...res,
-      ...parseUser(res),
-    }));
+    });
   }
 
   search(data: SearchRequest): Promise<SearchResponse> {
-    return request<SearchResponseRaw>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("search"),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        results: res.results.map(parseUser),
-      };
     });
   }
 
@@ -342,15 +318,10 @@ export class Users {
   }
 
   update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse> {
-    return request<WithRawUser<UpdateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
@@ -370,117 +341,66 @@ export class Users {
   }
 
   deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
-    return request<WithRawUser<DeleteEmailResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`),
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
-    return request<WithRawUser<DeletePhoneNumberResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   deleteWebAuthnRegistration(
     webAuthnRegistrationID: string
   ): Promise<DeleteWebAuthnRegistrationResponse> {
-    return request<WithRawUser<DeleteWebAuthnRegistrationResponse>>(
-      this.fetchConfig,
-      {
-        method: "DELETE",
-        url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
-      }
-    ).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
+    return request(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
     });
   }
 
   deleteBiometricRegistration(
     biometricRegistrationID: string
   ): Promise<DeleteBiometricRegistrationResponse> {
-    return request<WithRawUser<DeleteBiometricRegistrationResponse>>(
-      this.fetchConfig,
-      {
-        method: "DELETE",
-        url: this.endpoint(
-          `biometric_registrations/${biometricRegistrationID}`
-        ),
-      }
-    ).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
+    return request(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`biometric_registrations/${biometricRegistrationID}`),
     });
   }
 
   deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
-    return request<WithRawUser<DeleteTOTPResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   deleteCryptoWallet(
     cryptoWalletID: string
   ): Promise<DeleteCryptoWalletResponse> {
-    return request<WithRawUser<DeleteCryptoWalletResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse> {
-    return request<WithRawUser<DeletePasswordResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 
   deleteOAuthUserRegistration(
     oauthUserRegistrationID: string
   ): Promise<DeleteOAuthUserRegistrationResponse> {
-    return request<WithRawUser<DeleteOAuthUserRegistrationResponse>>(
-      this.fetchConfig,
-      {
-        method: "DELETE",
-        url: this.endpoint(`oauth/${oauthUserRegistrationID}`),
-      }
-    ).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
+    return request(this.fetchConfig, {
+      method: "DELETE",
+      url: this.endpoint(`oauth/${oauthUserRegistrationID}`),
     });
   }
 }

@@ -7,8 +7,6 @@ exports.MagicLinks = void 0;
 
 var _shared = require("../shared");
 
-var _shared_b2c = require("./shared_b2c");
-
 class Email {
   delivery = "email";
 
@@ -83,10 +81,6 @@ class MagicLinks {
         token,
         ...data
       }
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 

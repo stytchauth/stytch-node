@@ -1,12 +1,5 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
-import {
-  Attributes,
-  Name,
-  Session,
-  User,
-  WithRawUser,
-  parseUser,
-} from "./shared_b2c";
+import { Attributes, Name, Session, User } from "./shared_b2c";
 
 export interface SendByEmailRequest {
   email: string;
@@ -184,15 +177,10 @@ export class MagicLinks {
     token: string,
     data?: AuthenticateRequest
   ): Promise<AuthenticateResponse> {
-    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data: { token, ...data },
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 }

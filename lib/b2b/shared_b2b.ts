@@ -12,9 +12,9 @@ export interface MemberSession {
   member_session_id: string;
   member_id: string;
   organization_id: string;
-  started_at: Date;
-  last_accessed_at: Date;
-  expires_at: Date;
+  started_at: string;
+  last_accessed_at: string;
+  expires_at: string;
   authentication_factors: AuthenticationFactor[];
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

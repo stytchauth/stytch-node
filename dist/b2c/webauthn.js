@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WebAuthn = void 0;
 
-var _shared_b2c = require("./shared_b2c");
-
 var _shared = require("../shared");
 
 class WebAuthn {
@@ -49,10 +47,6 @@ class WebAuthn {
       method: "POST",
       url: this.endpoint("authenticate"),
       data
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 

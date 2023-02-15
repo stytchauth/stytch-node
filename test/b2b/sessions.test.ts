@@ -304,10 +304,10 @@ describe("sessions.authenticateJwtLocal", () => {
           type: "magic_link",
         },
       ],
-      expires_at: expiresAt,
-      last_accessed_at: startedAt,
+      expires_at: expiresAt.toISOString(),
+      last_accessed_at: iso(startedAt),
       member_session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: startedAt,
+      started_at: iso(startedAt),
       member_id: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });

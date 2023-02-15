@@ -114,7 +114,7 @@ describe("users.search", () => {
           emails: [],
           phone_numbers: [],
           status: "active",
-          created_at: new Date("2021-12-02T02:54:57Z"),
+          created_at: "2021-12-02T02:54:57Z",
         },
       ],
       results_metadata: {
