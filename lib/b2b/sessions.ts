@@ -1,5 +1,7 @@
 import { BaseResponse, request, fetchConfig } from "../shared";
-import { Member, MemberSession } from "./shared_b2b";
+import { AuthenticationFactor, Member, MemberSession } from "./shared_b2b";
+import * as jose from "jose";
+import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 
 export interface GetRequest {
   organization_id: string;
@@ -49,12 +51,23 @@ export type RevokeRequest =
 
 export type RevokeResponse = BaseResponse;
 
+const organizationClaim = "https://stytch.com/organization";
+
 export class Sessions {
   private base_path = "sessions";
   private fetchConfig: fetchConfig;
+  private jwksClient: jose.JWTVerifyGetKey;
+  private jwtOptions: jose.JWTVerifyOptions;
 
-  constructor(fetchConfig: fetchConfig) {
+  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
     this.fetchConfig = fetchConfig;
+
+    this.jwksClient = jwtConfig.jwks;
+    this.jwtOptions = {
+      audience: jwtConfig.projectID,
+      issuer: `stytch.com/${jwtConfig.projectID}`,
+      typ: "JWT",
+    };
   }
 
   private endpoint(path: string): string {
@@ -82,6 +95,53 @@ export class Sessions {
       url: this.endpoint("authenticate"),
       data,
     });
+  }
+
+  /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
+   *
+   * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
+   * claim) more than maxTokenAge seconds ago.
+   *
+   * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
+   * even if they are otherwise valid.
+   *
+   * The value for current_date is used to compare timestamp claims ("exp", "nbf", "iat"). It
+   * defaults to the current date (new Date()).
+   *
+   * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
+   * timestamps. It defaults to zero.
+   */
+  async authenticateJwtLocal(
+    jwt: string,
+    options?: {
+      clock_tolerance_seconds?: number;
+      max_token_age_seconds?: number;
+      current_date?: Date;
+    }
+  ): Promise<MemberSession> {
+    const sess = await authenticateJwtLocal(
+      this.jwksClient,
+      this.jwtOptions,
+      jwt,
+      options
+    );
+
+    const { [organizationClaim]: orgClaimUntyped, ...claims } =
+      sess.custom_claims;
+
+    const orgClaim = orgClaimUntyped as { organization_id: string };
+
+    return {
+      member_session_id: sess.session_id,
+      member_id: sess.sub,
+      organization_id: orgClaim.organization_id,
+      authentication_factors:
+        sess.authentication_factors as AuthenticationFactor[],
+      started_at: sess.started_at,
+      last_accessed_at: sess.last_accessed_at,
+      expires_at: sess.expires_at,
+      custom_claims: claims,
+    };
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {

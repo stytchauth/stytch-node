@@ -24,7 +24,7 @@ class B2BClient extends _client.BaseClient {
     }
 
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.organizations = new _organizations.Organizations(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
   }

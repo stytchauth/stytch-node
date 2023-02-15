@@ -27,7 +27,7 @@ type IntermediateSession = {
   started_at: Date;
   last_accessed_at: Date;
   expires_at: Date;
-  custom_claims: Record<string, any>;
+  custom_claims: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 };
 
 export async function authenticateJwtLocal(
