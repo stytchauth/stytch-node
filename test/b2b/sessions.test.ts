@@ -31,7 +31,7 @@ describe("sessions.get", () => {
           {
             expires_at: "2021-08-30T18:16:53.370383Z",
             last_accessed_at: "2021-08-30T17:16:53.370383Z",
-            member_member_session_id:
+            member_session_id:
               "session-test-33333333-3333-4333-8333-333333333333",
             started_at: "2021-08-28T00:41:58.935673870Z",
             member_id: "member-test-22222222-2222-4222-8222-222222222222",
@@ -56,7 +56,7 @@ describe("sessions.get", () => {
           expires_at: "2021-08-30T18:16:53.370383Z",
           last_accessed_at: "2021-08-30T17:16:53.370383Z",
           member_id: "member-test-22222222-2222-4222-8222-222222222222",
-          member_member_session_id:
+          member_session_id:
             "session-test-33333333-3333-4333-8333-333333333333",
           started_at: "2021-08-28T00:41:58.935673870Z",
         }),
