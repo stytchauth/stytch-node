@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Sessions = void 0;
 
-var _shared_b2c = require("./shared_b2c");
-
 var _shared = require("../shared");
 
 var _sessions = require("../shared/sessions");
@@ -55,7 +53,6 @@ class Sessions {
       data
     }).then(res => {
       return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user),
         session: parseSession(res.session)
       };
     });

@@ -48,7 +48,7 @@ export interface Password {
 
 export interface User {
   user_id: UserID;
-  created_at: Date;
+  created_at: string;
   status: string;
   name: Name;
   emails: Email[];
@@ -373,16 +373,4 @@ export interface Session {
   attributes: Attributes;
   authentication_factors: AuthenticationFactor[];
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-export type UserRaw = Omit<User, "created_at"> & { created_at: string };
-export type WithRawUser<T extends { user: User }> = Omit<T, "user"> & {
-  user: UserRaw;
-};
-
-export function parseUser(user: UserRaw): User {
-  return {
-    ...user,
-    created_at: new Date(user.created_at),
-  };
 }

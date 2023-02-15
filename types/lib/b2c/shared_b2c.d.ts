@@ -39,7 +39,7 @@ export interface Password {
 }
 export interface User {
     user_id: UserID;
-    created_at: Date;
+    created_at: string;
     status: string;
     name: Name;
     emails: Email[];
@@ -311,12 +311,3 @@ export interface Session {
     authentication_factors: AuthenticationFactor[];
     custom_claims?: Record<string, any>;
 }
-export declare type UserRaw = Omit<User, "created_at"> & {
-    created_at: string;
-};
-export declare type WithRawUser<T extends {
-    user: User;
-}> = Omit<T, "user"> & {
-    user: UserRaw;
-};
-export declare function parseUser(user: UserRaw): User;

@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OAuth = void 0;
 
-var _shared_b2c = require("./shared_b2c");
-
 var _shared = require("../shared");
 
 class OAuth {
@@ -28,10 +26,6 @@ class OAuth {
         token,
         ...data
       }
-    }).then(res => {
-      return { ...res,
-        user: (0, _shared_b2c.parseUser)(res.user)
-      };
     });
   }
 

@@ -1,4 +1,4 @@
-import { parseUser, Session, User, WithRawUser } from "./shared_b2c";
+import { Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 import { UserID } from "./users";
 
@@ -90,15 +90,10 @@ export class WebAuthn {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<WithRawUser<AuthenticateResponse>>(this.fetchConfig, {
+    return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
-    }).then((res) => {
-      return {
-        ...res,
-        user: parseUser(res.user),
-      };
     });
   }
 }

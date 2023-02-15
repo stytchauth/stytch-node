@@ -1,12 +1,5 @@
 import * as jose from "jose";
-import {
-  Attributes,
-  Session,
-  AuthenticationFactor,
-  parseUser,
-  WithRawUser,
-  User,
-} from "./shared_b2c";
+import { Attributes, Session, AuthenticationFactor, User } from "./shared_b2c";
 
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
@@ -122,14 +115,13 @@ export class Sessions {
   }
 
   authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<WithRawUser<AuthenticateResponseRaw>>(this.fetchConfig, {
+    return request<AuthenticateResponseRaw>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
     }).then((res): AuthenticateResponse => {
       return {
         ...res,
-        user: parseUser(res.user),
         session: parseSession(res.session),
       };
     });
