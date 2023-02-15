@@ -7,9 +7,9 @@ import {
   WithRawUser,
   User,
 } from "./shared_b2c";
-import { ClientError } from "../shared/errors";
 
 import { request, fetchConfig, BaseResponse } from "../shared";
+import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 
 export interface GetRequest {
   user_id: string;
@@ -78,22 +78,6 @@ interface AuthenticateResponseRaw extends BaseResponse {
   session_token: string;
   session_jwt: string;
 }
-
-interface JwtConfig {
-  projectID: string;
-  jwks: jose.JWTVerifyGetKey;
-}
-
-const sessionClaim = "https://stytch.com/session";
-
-type SessionClaim = {
-  id: string;
-  started_at: string;
-  last_accessed_at: string;
-  expires_at: string;
-  attributes: Attributes;
-  authentication_factors: AuthenticationFactor[];
-};
 
 export class Sessions {
   base_path = "sessions";
@@ -199,73 +183,23 @@ export class Sessions {
       current_date?: Date;
     }
   ): Promise<Session> {
-    const now = options?.current_date || new Date();
-
-    let payload;
-    try {
-      const token = await jose.jwtVerify(jwt, this.jwksClient, {
-        ...this.jwtOptions,
-        clockTolerance: options?.clock_tolerance_seconds,
-        currentDate: now,
-        // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
-        // We want zero to mean "every token is stale" and force remote verification.
-      });
-      payload = token.payload;
-    } catch (err) {
-      throw new ClientError("jwt_invalid", "Could not verify JWT", err);
-    }
-
-    const maxTokenAge = options?.max_token_age_seconds;
-    if (maxTokenAge != null) {
-      const iat = payload.iat;
-      if (!iat) {
-        throw new ClientError("jwt_invalid", "JWT was missing iat claim");
-      }
-      const nowEpoch = +now / 1000; // Epoch seconds from milliseconds
-      if (nowEpoch - iat >= maxTokenAge) {
-        throw new ClientError(
-          "jwt_too_old",
-          `JWT was issued at ${iat}, more than ${maxTokenAge} seconds ago`
-        );
-      }
-    }
-
-    // The custom claim set is all the claims in the payload except for the standard claims and
-    // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
-    // to omit and using ...rest for to collect the custom claims.
-    const {
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      aud: _aud,
-      exp: _exp,
-      iat: _iat,
-      iss: _iss,
-      jti: _jti,
-      nbf: _nbf,
-      sub: _sub,
-      /* eslint-enable @typescript-eslint/no-unused-vars */
-
-      [sessionClaim]: stytchClaim,
-      ...customClaims
-    } = payload;
-
-    const claim = stytchClaim as SessionClaim;
+    const sess = await authenticateJwtLocal(
+      this.jwksClient,
+      this.jwtOptions,
+      jwt,
+      options
+    );
 
     return {
-      session_id: claim.id,
-      attributes: claim.attributes,
-      authentication_factors: claim.authentication_factors,
-
-      user_id: payload.sub || "",
-
-      // Parse the timestamps into Dates. The JWT expiration time is the same as the session's.
-      // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
-      // other timestamps are RFC3339-formatted strings.
-      started_at: new Date(claim.started_at),
-      last_accessed_at: new Date(claim.last_accessed_at),
-      // For JWTs that include it, prefer the inner expires_at claim.
-      expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000),
-
-      custom_claims: customClaims,
+      session_id: sess.session_id,
+      attributes: sess.attributes as Attributes,
+      authentication_factors:
+        sess.authentication_factors as AuthenticationFactor[],
+      user_id: sess.sub,
+      started_at: sess.started_at,
+      last_accessed_at: sess.last_accessed_at,
+      expires_at: sess.expires_at,
+      custom_claims: sess.custom_claims,
     };
   }
 
