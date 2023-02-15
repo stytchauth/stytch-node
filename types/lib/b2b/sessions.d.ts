@@ -7,6 +7,20 @@ export interface GetRequest {
 export interface GetResponse extends BaseResponse {
     member_sessions: MemberSession[];
 }
+export interface JwksResponse extends BaseResponse {
+    keys: JWK[];
+}
+export interface JWK {
+    alg: string;
+    key_ops: string[];
+    kid: string;
+    kty: string;
+    use: string;
+    x5c: string[];
+    "x5t#S256": string;
+    n: string;
+    e: string;
+}
 export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
@@ -35,6 +49,7 @@ export declare class Sessions {
     constructor(fetchConfig: fetchConfig);
     private endpoint;
     get({ organization_id, member_id }: GetRequest): Promise<GetResponse>;
+    jwks(project_id: string): Promise<JwksResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
 }

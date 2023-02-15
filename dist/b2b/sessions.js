@@ -32,6 +32,13 @@ class Sessions {
     });
   }
 
+  jwks(project_id) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: this.endpoint(`jwks/${project_id}`)
+    });
+  }
+
   authenticate(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",

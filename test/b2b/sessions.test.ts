@@ -123,3 +123,21 @@ describe("sessions.revoke", () => {
     });
   });
 });
+
+describe("sessions.jwks", () => {
+  test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "GET",
+        path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+      });
+
+      return { status: 200, data: {} };
+    });
+    const sessions = new Sessions(MOCK_FETCH_CONFIG);
+
+    return expect(
+      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
+    ).resolves.toEqual({ status: 200 });
+  });
+});
