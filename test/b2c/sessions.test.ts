@@ -53,7 +53,7 @@ describe("sessions.get", () => {
       status_code: 200,
       sessions: [
         expect.objectContaining({
-          started_at: new Date("2021-08-28T00:41:58.935673Z"),
+          started_at: "2021-08-28T00:41:58.935673870Z",
           user_id: "user-test-22222222-2222-4222-8222-222222222222",
         }),
       ],
@@ -101,7 +101,7 @@ describe("sessions.authenticate", () => {
     ).resolves.toMatchObject({
       session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       session: {
-        started_at: new Date("2021-08-28T00:41:58.935673Z"),
+        started_at: "2021-08-28T00:41:58.935673870Z",
         user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
       },
     });
@@ -192,7 +192,7 @@ describe("sessions.authenticateJwt", () => {
       {
         session_jwt: "fresh_jwt",
         session: {
-          started_at: new Date("2021-08-28T00:41:58.935673Z"),
+          started_at: "2021-08-28T00:41:58.935673870Z",
           user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
         },
       }
@@ -326,10 +326,10 @@ describe("sessions.authenticateJwtLocal", () => {
           type: "magic_link",
         },
       ],
-      expires_at: expiresAt,
-      last_accessed_at: startedAt,
+      expires_at: expiresAt.toISOString(),
+      last_accessed_at: iso(startedAt),
       session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: startedAt,
+      started_at: iso(startedAt),
       user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });
@@ -349,10 +349,10 @@ describe("sessions.authenticateJwtLocal", () => {
           type: "magic_link",
         },
       ],
-      expires_at: new Date(+startedAt + 5 * 60 * 1000),
-      last_accessed_at: startedAt,
+      expires_at: new Date(+startedAt + 5 * 60 * 1000).toISOString(),
+      last_accessed_at: iso(startedAt),
       session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: startedAt,
+      started_at: iso(startedAt),
       user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });

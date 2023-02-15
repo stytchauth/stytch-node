@@ -212,7 +212,7 @@ describe("webauthn.authenticate", () => {
           "webauthn-registration-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session: {
-          started_at: new Date("2021-08-28T00:41:58.935673Z"),
+          started_at: "2021-08-28T00:41:58.935673Z",
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         },
         status_code: 200,
@@ -235,7 +235,7 @@ describe("webauthn.authenticate", () => {
         "webauthn-registration-test-5c44cc6a-8af7-48d6-8da7-ea821342f5a6",
       session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       session: {
-        started_at: new Date("2021-08-28T00:41:58.935673Z"),
+        started_at: "2021-08-28T00:41:58.935673Z",
         user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
       },
     });
