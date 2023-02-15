@@ -197,8 +197,12 @@ describe("users.update", () => {
           first_name: "First",
           last_name: "Last",
         },
-        emails: [{ email: "sandbox@stytch.com" }],
-        phone_numbers: [{ phone_number: "+12025550162" }],
+        trusted_metadata: {
+          role: "reader",
+        },
+        untrusted_metadata: {
+          timezome: "PST",
+        },
       })
     ).resolves.toMatchObject({
       method: "PUT",
@@ -208,8 +212,12 @@ describe("users.update", () => {
           first_name: "First",
           last_name: "Last",
         },
-        emails: [{ email: "sandbox@stytch.com" }],
-        phone_numbers: [{ phone_number: "+12025550162" }],
+        trusted_metadata: {
+          role: "reader",
+        },
+        untrusted_metadata: {
+          timezome: "PST",
+        },
       },
     });
   });

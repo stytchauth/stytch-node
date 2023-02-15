@@ -124,19 +124,9 @@ export interface SearchResponse extends BaseResponse {
 }
 export interface UpdateRequest {
     name?: Name;
-    emails?: {
-        email: string;
-    }[];
-    phone_numbers?: {
-        phone_number: string;
-    }[];
-    crypto_wallets?: {
-        crypto_wallet_address: string;
-        crypto_wallet_type: string;
-    }[];
-    attributes?: Attributes;
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
+    attributes?: Attributes;
 }
 export interface UpdateResponse extends BaseResponse {
     user_id: UserID;
