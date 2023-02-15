@@ -5,13 +5,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   Client: true,
+  B2BClient: true,
   envs: true,
-  UserSearchOperator: true
+  UserSearchOperator: true,
+  SearchOperator: true
 };
 Object.defineProperty(exports, "Client", {
   enumerable: true,
   get: function () {
     return _client.Client;
+  }
+});
+Object.defineProperty(exports, "B2BClient", {
+  enumerable: true,
+  get: function () {
+    return _client2.B2BClient;
   }
 });
 Object.defineProperty(exports, "UserSearchOperator", {
@@ -20,17 +28,27 @@ Object.defineProperty(exports, "UserSearchOperator", {
     return _users.UserSearchOperator;
   }
 });
+Object.defineProperty(exports, "SearchOperator", {
+  enumerable: true,
+  get: function () {
+    return _shared_b2b.SearchOperator;
+  }
+});
 exports.envs = void 0;
 
-var _client = require("./client");
+var _client = require("./b2c/client");
 
-var _envs = _interopRequireWildcard(require("./envs"));
+var _client2 = require("./b2b/client");
+
+var _envs = _interopRequireWildcard(require("./shared/envs"));
 
 exports.envs = _envs;
 
-var _users = require("./users");
+var _users = require("./b2c/users");
 
-var _errors = require("./errors");
+var _shared_b2b = require("./b2b/shared_b2b");
+
+var _errors = require("./shared/errors");
 
 Object.keys(_errors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
