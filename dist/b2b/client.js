@@ -18,6 +18,11 @@ var _client = require("../shared/client");
 class B2BClient extends _client.BaseClient {
   constructor(config) {
     super(config);
+
+    if (!this.fetchConfig.baseURL.endsWith("b2b/")) {
+      this.fetchConfig.baseURL += "b2b/";
+    }
+
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig);
     this.organizations = new _organizations.Organizations(this.fetchConfig);

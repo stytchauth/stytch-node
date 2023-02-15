@@ -14,7 +14,7 @@ export interface LoginOrSignupByEmailRequest {
 export interface LoginOrSignupByEmailResponse extends BaseResponse {
   member_id: string;
   member: Member;
-  member_creared: boolean;
+  member_created: boolean;
 }
 
 export interface InviteByEmailRequest {
