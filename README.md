@@ -20,6 +20,7 @@ You can find your API credentials in the [Stytch Dashboard](https://stytch.com/d
 
 This client library supports all of Stytch's live products:
 
+**B2C**
 - [x] [Email Magic Links](https://stytch.com/docs/api/send-by-email)
 - [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link-overview)
 - [x] [OAuth logins](https://stytch.com/docs/api/oauth-overview)
@@ -33,7 +34,14 @@ This client library supports all of Stytch's live products:
 - [x] [Crypto wallets](https://stytch.com/docs/api/crypto-wallet-overview)
 - [x] [Passwords](https://stytch.com/docs/api/password-overview)
 
-### Example usage
+**B2B**
+- [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
+- [x] [Members](https://stytch.com/docs/b2b/api/member-object)
+- [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
+- [x] [Session Management](https://stytch.com/docs/b2b/api/sessions-overview)
+- [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-overview)
+
+### Example B2C usage
 
 Create an API client:
 
@@ -67,6 +75,46 @@ Authenticate the token from the magic link:
 ```javascript
 client.magicLinks
   .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+### Example B2B usage
+
+Create an API client:
+
+```javascript
+const stytch = require("stytch");
+// Or as an ES6 module:
+// import * as stytch from "stytch";
+
+const client = new stytch.B2BClient({
+  project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
+  secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
+  env: stytch.envs.test,
+});
+```
+
+Create an organization
+
+```javascript
+client.organizations.
+  create({
+    organization_name: "Acme Co",
+    organization_slug: "acme-co",
+    email_allowed_domains: ["acme.co"],
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+Log the first user into the organization
+
+```javascript
+client.magicLinks.loginOrSignup({
+  organization_id: "organization-id-from-create-response-..."
+  email_address: "admin@acme.co"
+})
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
