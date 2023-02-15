@@ -11,7 +11,12 @@ export class B2BClient extends BaseClient {
   sso: SSO;
 
   constructor(config: ClientConfig) {
-    super(config)
+    super(config);
+
+    if (!this.fetchConfig.baseURL.endsWith("b2b/")) {
+      this.fetchConfig.baseURL += "b2b/";
+    }
+
     this.magicLinks = new MagicLinks(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig);
     this.organizations = new Organizations(this.fetchConfig);
