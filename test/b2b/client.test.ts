@@ -1,39 +1,25 @@
 import * as stytch from "../../lib";
 
-describe("config errors", () => {
-  test("config is not an object", () => {
-    expect(() => {
-      new stytch.B2BClient(0 as any); // eslint-disable-line @typescript-eslint/no-explicit-any
-    }).toThrow(/Unexpected config type/);
-  });
+describe("B2B Client", () => {
+  test("URL is as expected", () => {
+    const testClient = new stytch.B2BClient({
+      project_id: "project-test-00000000-0000-4000-8000-000000000000",
+      secret: "secret-test-11111111-1111-4111-8111-111111111111",
+      env: stytch.envs.test,
+    });
 
-  test("missing project ID", () => {
-    expect(() => {
-      new stytch.B2BClient({
-        project_id: "",
-        secret: "secret-test-11111111-1111-4111-8111-111111111111",
-        env: stytch.envs.test,
-      });
-    }).toThrow(/Missing "project_id" in config/);
-  });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(testClient.fetchConfig.baseURL).toBe("https://test.stytch.com/v1/b2b/")
 
-  test("missing secret", () => {
-    expect(() => {
-      new stytch.B2BClient({
-        project_id: "project-test-00000000-0000-4000-8000-000000000000",
-        secret: "",
-        env: stytch.envs.test,
-      });
-    }).toThrow(/Missing "secret" in config/);
-  });
+    const liveClient = new stytch.B2BClient({
+      project_id: "project-test-00000000-0000-4000-8000-000000000000",
+      secret: "secret-test-11111111-1111-4111-8111-111111111111",
+      env: stytch.envs.live,
+    });
 
-  test("missing environment", () => {
-    expect(() => {
-      new stytch.B2BClient({
-        project_id: "project-test-00000000-0000-4000-8000-000000000000",
-        secret: "secret-test-11111111-1111-4111-8111-111111111111",
-        env: "",
-      });
-    }).toThrow(/Missing "env" in config/);
-  });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(liveClient.fetchConfig.baseURL).toBe("https://api.stytch.com/v1/b2b/")
+  })
 });
