@@ -152,6 +152,46 @@ describe("sessions.jwks", () => {
   });
 });
 
+describe("sessions.authenticateJwt", () => {
+  test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "POST",
+        path: "sessions/authenticate",
+        data: {
+          session_jwt: "stale_jwt",
+        },
+      });
+
+      const data = {
+        request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
+        session_jwt: "fresh_jwt",
+        session: {
+          attributes: null,
+          expires_at: "2021-08-30T18:16:53.370383Z",
+          last_accessed_at: "2021-08-30T17:16:53.370383Z",
+          session_id: "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
+          started_at: "2021-08-28T00:41:58.935673870Z",
+          member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        },
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+
+    return expect(sessions.authenticateJwt("stale_jwt")).resolves.toMatchObject(
+      {
+        session_jwt: "fresh_jwt",
+        session: {
+          started_at: "2021-08-28T00:41:58.935673870Z",
+          member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        },
+      }
+    );
+  });
+});
+
 /** Format the UTC timestamp truncated to second precision. */
 function iso(ts: Date): string {
   const pad = (n: number): string => {

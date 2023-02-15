@@ -54,6 +54,20 @@ export declare class Sessions {
     get({ organization_id, member_id }: GetRequest): Promise<GetResponse>;
     jwks(project_id: string): Promise<JwksResponse>;
     authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    /** Parse a JWT and verify the signature, preferring local verification over remote.
+     *
+     * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
+     * (based on the "iat" claim) more than that many seconds ago.
+     *
+     * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
+     * authenticate method instead.
+     */
+    authenticateJwt(jwt: string, options?: {
+        max_token_age_seconds?: number;
+    }): Promise<{
+        member_session: MemberSession;
+        session_jwt: string;
+    }>;
     /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
      *
      * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
