@@ -1,6 +1,7 @@
 import { BaseResponse, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { SAML } from "./saml";
+import { Organization } from "./organizations";
 export interface X509Certificate {
     certificate_id: string;
     certificate: string;
@@ -51,6 +52,7 @@ export interface SSOAuthenticateResponse extends BaseResponse {
     session_jwt?: string;
     session?: MemberSession;
     reset_session: boolean;
+    organization: Organization;
 }
 export declare class SSO {
     private readonly fetchConfig;

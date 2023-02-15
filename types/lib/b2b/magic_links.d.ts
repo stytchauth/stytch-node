@@ -1,5 +1,6 @@
 import { MemberSession, Member } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
+import { Organization } from "./organizations";
 export interface LoginOrSignupByEmailRequest {
     organization_id: string;
     email_address: string;
@@ -13,6 +14,7 @@ export interface LoginOrSignupByEmailResponse extends BaseResponse {
     member_id: string;
     member: Member;
     member_created: boolean;
+    organization: Organization;
 }
 export interface InviteByEmailRequest {
     organization_id: string;
@@ -27,6 +29,7 @@ export interface InviteByEmailRequest {
 export interface InviteByEmailResponse extends BaseResponse {
     member_id: string;
     member: Member;
+    organization: Organization;
 }
 export interface AuthenticateRequest {
     magic_links_token: string;
@@ -39,6 +42,7 @@ export interface AuthenticateRequest {
 export interface AuthenticateResponse extends BaseResponse {
     member_id: string;
     member: Member;
+    organization: Organization;
     organization_id: string;
     method_id: string;
     member_session?: MemberSession;

@@ -1,5 +1,6 @@
 import { Member, SearchOperator, ResultsMetadata } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
+import { Organization } from "./organizations";
 export interface CreateMemberRequest {
     organization_id: string;
     email_address: string;
@@ -11,6 +12,7 @@ export interface CreateMemberRequest {
 export interface CreateMemberResponse extends BaseResponse {
     member_id: string;
     member: Member;
+    organization: Organization;
 }
 export interface UpdateMemberRequest {
     organization_id: string;
@@ -22,6 +24,7 @@ export interface UpdateMemberRequest {
 export interface UpdateMemberResponse extends BaseResponse {
     member_id: string;
     member: Member;
+    organization: Organization;
 }
 export declare type MemberSearchOperand = {
     filter_name: "member_ids";
