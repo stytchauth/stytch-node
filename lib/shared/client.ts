@@ -1,7 +1,7 @@
 import * as http from "http";
 import * as envs from "./envs";
 import { version } from "../../package.json";
-import { btoa } from "isomorphic-base64";
+import { btoa } from "b64-lite";
 import { fetchConfig } from ".";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
