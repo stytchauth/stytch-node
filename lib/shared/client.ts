@@ -14,7 +14,6 @@ export interface ClientConfig {
   agent?: http.Agent;
 }
 
-
 export class BaseClient {
   protected fetchConfig: fetchConfig;
   protected baseURL: string;
@@ -61,5 +60,4 @@ export class BaseClient {
       this.baseURL += "/";
     }
   }
-
 }

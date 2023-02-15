@@ -1,5 +1,5 @@
 import * as stytch from "../../lib";
-import { BaseClient, } from "../../lib/shared/client";
+import { BaseClient } from "../../lib/shared/client";
 
 describe("config errors", () => {
   test("config is not an object", () => {

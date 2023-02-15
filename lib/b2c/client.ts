@@ -22,7 +22,7 @@ export class Client extends BaseClient {
   cryptoWallets: CryptoWallets;
 
   constructor(config: ClientConfig) {
-    super(config)
+    super(config);
 
     const jwtConfig = {
       // Only allow JWTs that were meant for this project.
