@@ -18,7 +18,7 @@ export class B2BClient extends BaseClient {
     }
 
     this.magicLinks = new MagicLinks(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.organizations = new Organizations(this.fetchConfig);
     this.sso = new SSO(this.fetchConfig);
   }

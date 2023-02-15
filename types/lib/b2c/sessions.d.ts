@@ -1,6 +1,6 @@
-import * as jose from "jose";
 import { Session, User } from "./shared_b2c";
 import { fetchConfig, BaseResponse } from "../shared";
+import { JwtConfig } from "../shared/sessions";
 export interface GetRequest {
     user_id: string;
 }
@@ -39,10 +39,6 @@ export interface RevokeRequest {
     session_jwt?: string;
 }
 export declare type RevokeResponse = BaseResponse;
-interface JwtConfig {
-    projectID: string;
-    jwks: jose.JWTVerifyGetKey;
-}
 export declare class Sessions {
     base_path: string;
     private fetchConfig;
@@ -88,4 +84,3 @@ export declare class Sessions {
     }): Promise<Session>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
 }
-export {};

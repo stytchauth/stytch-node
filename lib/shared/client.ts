@@ -3,6 +3,8 @@ import * as envs from "./envs";
 import { version } from "../../package.json";
 import { btoa } from "b64-lite";
 import { fetchConfig } from ".";
+import * as jose from "jose";
+import { JwtConfig } from "./sessions";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -17,6 +19,7 @@ export interface ClientConfig {
 export class BaseClient {
   protected fetchConfig: fetchConfig;
   protected baseURL: string;
+  protected jwtConfig: JwtConfig;
 
   constructor(config: ClientConfig) {
     if (typeof config != "object") {
@@ -59,5 +62,14 @@ export class BaseClient {
     if (!this.baseURL.endsWith("/")) {
       this.baseURL += "/";
     }
+
+    this.jwtConfig = {
+      // Only allow JWTs that were meant for this project.
+      projectID: config.project_id,
+      // Fetch the signature verification keys for this project as needed.
+      jwks: jose.createRemoteJWKSet(
+        new URL(`sessions/jwks/${config.project_id}`, this.baseURL)
+      ),
+    };
   }
 }
