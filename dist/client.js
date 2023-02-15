@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Client = void 0;
 
-var _isomorphicBase = require("isomorphic-base64");
+var _b64Lite = require("b64-lite");
 
 var jose = _interopRequireWildcard(require("jose"));
 
@@ -61,7 +61,7 @@ class Client {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${_package.version}`,
-      Authorization: "Basic " + (0, _isomorphicBase.btoa)(config.project_id + ":" + config.secret)
+      Authorization: "Basic " + (0, _b64Lite.btoa)(config.project_id + ":" + config.secret)
     };
     this.fetchConfig = {
       baseURL: config.env,
