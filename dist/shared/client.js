@@ -9,9 +9,9 @@ var envs = _interopRequireWildcard(require("./envs"));
 
 var _package = require("../../package.json");
 
-var _b64Lite = require("b64-lite");
-
 var jose = _interopRequireWildcard(require("jose"));
+
+var _base = require("./base64");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -43,7 +43,7 @@ class BaseClient {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${_package.version}`,
-      Authorization: "Basic " + (0, _b64Lite.btoa)(config.project_id + ":" + config.secret)
+      Authorization: "Basic " + (0, _base.base64Encode)(config.project_id + ":" + config.secret)
     };
     this.fetchConfig = {
       baseURL: config.env,
