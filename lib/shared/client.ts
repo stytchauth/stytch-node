@@ -1,10 +1,10 @@
 import * as http from "http";
 import * as envs from "./envs";
 import { version } from "../../package.json";
-import { btoa } from "b64-lite";
 import { fetchConfig } from ".";
 import * as jose from "jose";
 import { JwtConfig } from "./sessions";
+import { base64Encode } from "./base64";
 
 const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 
@@ -47,7 +47,8 @@ export class BaseClient {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${version}`,
-      Authorization: "Basic " + btoa(config.project_id + ":" + config.secret),
+      Authorization:
+        "Basic " + base64Encode(config.project_id + ":" + config.secret),
     };
 
     this.fetchConfig = {
