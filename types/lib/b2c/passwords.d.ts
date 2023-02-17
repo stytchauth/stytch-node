@@ -96,9 +96,19 @@ export interface StrengthCheckResponse extends BaseResponse {
     valid_password: boolean;
     score: number;
     breached_password: boolean;
+    strength_policy: string;
+    breach_detection_on_create: boolean;
     feedback: {
         suggestions: string[];
         warning: string;
+        luds_requirements: {
+            has_lower_case: boolean;
+            has_upper_case: boolean;
+            has_digit: boolean;
+            has_symbol: boolean;
+            missing_complexity: number;
+            missing_characters: number;
+        };
     };
 }
 interface MigrateRequestBase {
