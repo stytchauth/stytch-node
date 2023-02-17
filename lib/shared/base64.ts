@@ -1,4 +1,5 @@
-const LOOKUP_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+const LOOKUP_TABLE =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 /**
  * base64Encode is a vanilla-javascript implementation of base64 encoding
@@ -19,12 +20,19 @@ export function base64Encode(input: string): string {
   // Unicode sanity check
   for (let i = 0; i < input.length; i++) {
     if (input.charCodeAt(i) > 128) {
-      throw Error("Base64 encoded unicode is not supported. Cannot encode " + input);
+      throw Error(
+        "Base64 encoded unicode is not supported. Cannot encode " + input
+      );
     }
   }
 
-  let char1 = 0, char2 = 0, char3 = 0;
-  let enc1 = 0, enc2 = 0, enc3 = 0, enc4 = 0;
+  let char1 = 0,
+    char2 = 0,
+    char3 = 0;
+  let enc1 = 0,
+    enc2 = 0,
+    enc3 = 0,
+    enc4 = 0;
 
   let i = 0;
 
@@ -44,9 +52,12 @@ export function base64Encode(input: string): string {
       enc4 = 64;
     }
 
-    output = output +
-      LOOKUP_TABLE.charAt(enc1) + LOOKUP_TABLE.charAt(enc2) +
-      LOOKUP_TABLE.charAt(enc3) + LOOKUP_TABLE.charAt(enc4);
+    output =
+      output +
+      LOOKUP_TABLE.charAt(enc1) +
+      LOOKUP_TABLE.charAt(enc2) +
+      LOOKUP_TABLE.charAt(enc3) +
+      LOOKUP_TABLE.charAt(enc4);
   }
   return output;
 }

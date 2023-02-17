@@ -47,7 +47,8 @@ export class BaseClient {
     const headers = {
       "Content-Type": "application/json",
       "User-Agent": `Stytch Node v${version}`,
-      Authorization: "Basic " + base64Encode(config.project_id + ":" + config.secret),
+      Authorization:
+        "Basic " + base64Encode(config.project_id + ":" + config.secret),
     };
 
     this.fetchConfig = {

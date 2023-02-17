@@ -3,7 +3,6 @@ import { randomBytes, randomUUID } from "crypto";
 
 describe("base64Encode", () => {
   test("Successfully encodes a project ID and secret for basic auth", () => {
-
     const project_id = "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317";
     const secret = "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=";
     const header = project_id + ":" + secret;
@@ -33,6 +32,8 @@ describe("base64Encode", () => {
   });
 
   test("Throws an error when given unicode input", () => {
-    expect(() => base64Encode("😅")).toThrow("Base64 encoded unicode is not supported. Cannot encode 😅");
+    expect(() => base64Encode("😅")).toThrow(
+      "Base64 encoded unicode is not supported. Cannot encode 😅"
+    );
   });
 });
