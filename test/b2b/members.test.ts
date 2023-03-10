@@ -89,7 +89,7 @@ describe("members.search", () => {
             operator: SearchOperator.OR,
             operands: [
               { filter_name: "member_ids", filter_value: ["member-id-1234"] },
-              { filter_name: "statuses", filter_value: ["active", "invited"] }
+              { filter_name: "statuses", filter_value: ["active", "invited"] },
             ],
           },
         },
@@ -119,7 +119,7 @@ describe("members.search", () => {
           operator: SearchOperator.OR,
           operands: [
             { filter_name: "member_ids", filter_value: ["member-id-1234"] },
-            { filter_name: "statuses", filter_value: ["active", "invited"] }
+            { filter_name: "statuses", filter_value: ["active", "invited"] },
           ],
         },
       })
