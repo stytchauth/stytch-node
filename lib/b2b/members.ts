@@ -45,8 +45,8 @@ export type MemberSearchOperand =
       filter_value: string;
     }
   | {
-      filter_name: "status";
-      filter_value: "active" | "pending";
+      filter_name: "statuses";
+      filter_value: string[];
     };
 
 export interface SearchOrganizationMemberRequest {

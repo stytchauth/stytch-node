@@ -36,8 +36,8 @@ export declare type MemberSearchOperand = {
     filter_name: "member_email_fuzzy";
     filter_value: string;
 } | {
-    filter_name: "status";
-    filter_value: "active" | "pending";
+    filter_name: "statuses";
+    filter_value: string[];
 };
 export interface SearchOrganizationMemberRequest {
     organization_ids: string[];
