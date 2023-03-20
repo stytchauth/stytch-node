@@ -9,8 +9,6 @@ var envs = _interopRequireWildcard(require("./envs"));
 
 var _package = require("../../package.json");
 
-var jose = _interopRequireWildcard(require("jose"));
-
 var _base = require("./base64");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -57,13 +55,6 @@ class BaseClient {
     if (!this.baseURL.endsWith("/")) {
       this.baseURL += "/";
     }
-
-    this.jwtConfig = {
-      // Only allow JWTs that were meant for this project.
-      projectID: config.project_id,
-      // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`sessions/jwks/${config.project_id}`, this.baseURL))
-    };
   }
 
 }
