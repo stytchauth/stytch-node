@@ -1,4 +1,3 @@
-import { discovery } from "../../lib/b2b/discovery";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 import { Discovery } from "../../lib/b2b/discovery";

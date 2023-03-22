@@ -14,7 +14,7 @@ export interface OrganizationsRequest {
 
 export interface OrganizationsResponse extends BaseResponse {
   email_address: string;
-  discovered_organization: DiscoveredOrganization[];
+  discovered_organizations: DiscoveredOrganization[];
 }
 
 export interface DiscoveryOrganizationCreateRequest

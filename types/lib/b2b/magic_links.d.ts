@@ -66,17 +66,21 @@ export interface DiscoveryAuthenticateResponse extends BaseResponse {
     email_address: string;
     discovered_organizations: DiscoveredOrganization[];
 }
-declare class Discovery {
+declare class EmailDiscovery {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     send(data: DiscoveryByEmailRequest): Promise<DiscoveryByEmailResponse>;
+}
+declare class Discovery {
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
     authenticate(data: DiscoveryAuthenticateRequest): Promise<DiscoveryAuthenticateResponse>;
 }
 declare class Email {
     private base_path;
     private delivery;
     private fetchConfig;
-    discovery: Discovery;
+    discovery: EmailDiscovery;
     constructor(fetchConfig: fetchConfig, parent_path: string);
     private endpoint;
     loginOrSignup(data: LoginOrSignupByEmailRequest): Promise<LoginOrSignupByEmailResponse>;
@@ -85,6 +89,7 @@ declare class Email {
 export declare class MagicLinks {
     private base_path;
     email: Email;
+    discovery: Discovery;
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;

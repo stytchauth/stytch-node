@@ -77,7 +77,7 @@ export interface DiscoveryAuthenticateResponse extends BaseResponse {
   discovered_organizations: DiscoveredOrganization[];
 }
 
-class Discovery {
+class EmailDiscovery {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
@@ -91,13 +91,21 @@ class Discovery {
       data,
     });
   }
+}
+
+class Discovery {
+  private fetchConfig: fetchConfig;
+
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
+  }
 
   authenticate(
     data: DiscoveryAuthenticateRequest
   ): Promise<DiscoveryAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
-      url: "magic_links/email/discovery/authenticate",
+      url: "magic_links/discovery/authenticate",
       data,
     });
   }
@@ -108,12 +116,12 @@ class Email {
   private delivery = "email";
 
   private fetchConfig: fetchConfig;
-  discovery: Discovery;
+  discovery: EmailDiscovery;
 
   constructor(fetchConfig: fetchConfig, parent_path: string) {
     this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
-    this.discovery = new Discovery(fetchConfig);
+    this.discovery = new EmailDiscovery(fetchConfig);
   }
 
   private endpoint(path: string): string {
@@ -142,12 +150,14 @@ class Email {
 export class MagicLinks {
   private base_path = "magic_links";
   email: Email;
+  discovery: Discovery;
 
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.email = new Email(fetchConfig, this.base_path);
+    this.discovery = new Discovery(fetchConfig);
   }
 
   private endpoint(path: string): string {

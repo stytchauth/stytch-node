@@ -171,10 +171,10 @@ describe("magicLinks.email.discovery.send", () => {
   });
 });
 
-describe("magicLinks.email.discovery.authenticate", () => {
+describe("magicLinks.discovery.authenticate", () => {
   test("success", () => {
     return expect(
-      magicLinks.email.discovery.authenticate({
+      magicLinks.discovery.authenticate({
         intermediate_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
@@ -189,7 +189,7 @@ describe("magicLinks.email.discovery.authenticate", () => {
   });
   test("success: everything", () => {
     return expect(
-      magicLinks.email.discovery.authenticate({
+      magicLinks.discovery.authenticate({
         intermediate_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         pkce_code_verifier: "1111111111",
