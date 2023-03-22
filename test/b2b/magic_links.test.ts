@@ -180,7 +180,7 @@ describe("magicLinks.discovery.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/discovery/authenticate",
+      path: "magic_links/discovery/authenticate",
       data: {
         intermediate_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -196,7 +196,7 @@ describe("magicLinks.discovery.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/discovery/authenticate",
+      path: "magic_links/discovery/authenticate",
       data: {
         intermediate_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
