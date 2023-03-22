@@ -1,6 +1,10 @@
 import { Member, MemberSession } from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
-import { DiscoveredOrganization, Organization, CreateOrganizationRequest } from "./organizations";
+import {
+  DiscoveredOrganization,
+  Organization,
+  CreateOrganizationRequest,
+} from "./organizations";
 
 export interface OrganizationsRequest {
   intermediate_session_token?: string;
@@ -13,7 +17,8 @@ export interface OrganizationsResponse extends BaseResponse {
   discovered_organization: DiscoveredOrganization[];
 }
 
-export interface DiscoveryOrganizationCreateRequest extends CreateOrganizationRequest {
+export interface DiscoveryOrganizationCreateRequest
+  extends CreateOrganizationRequest {
   intermediate_session_token: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -59,7 +64,9 @@ class Organizations {
     });
   }
 
-  create(data: DiscoveryOrganizationCreateRequest): Promise<DiscoveryOrganizationCreateResponse> {
+  create(
+    data: DiscoveryOrganizationCreateRequest
+  ): Promise<DiscoveryOrganizationCreateResponse> {
     return request<DiscoveryOrganizationCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: "discovery/organizations/create",
@@ -75,7 +82,9 @@ class IntermediateSessions {
     this.fetchConfig = fetchConfig;
   }
 
-  exchange(data: IntermediateSessionExchangeRequest): Promise<IntermediateSessionExchangeResponse> {
+  exchange(
+    data: IntermediateSessionExchangeRequest
+  ): Promise<IntermediateSessionExchangeResponse> {
     return request<IntermediateSessionExchangeResponse>(this.fetchConfig, {
       method: "POST",
       url: "discovery/intermediate_sessions/exchange",

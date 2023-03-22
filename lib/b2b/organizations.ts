@@ -4,37 +4,37 @@ import { Members } from "./members";
 
 export type OrganizationSearchOperand =
   | {
-  filter_name: "organization_ids";
-  filter_value: string[];
-}
+      filter_name: "organization_ids";
+      filter_value: string[];
+    }
   | {
-  filter_name: "organization_slugs";
-  filter_value: string[];
-}
+      filter_name: "organization_slugs";
+      filter_value: string[];
+    }
   | {
-  filter_name: "organization_name_fuzzy";
-  filter_value: string;
-}
+      filter_name: "organization_name_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "organization_slug_fuzzy";
-  filter_value: string;
-}
+      filter_name: "organization_slug_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "member_emails";
-  filter_value: string[];
-}
+      filter_name: "member_emails";
+      filter_value: string[];
+    }
   | {
-  filter_name: "member_email_fuzzy";
-  filter_value: string;
-}
+      filter_name: "member_email_fuzzy";
+      filter_value: string;
+    }
   | {
-  filter_name: "allowed_domains";
-  filter_value: string[];
-}
+      filter_name: "allowed_domains";
+      filter_value: string[];
+    }
   | {
-  filter_name: "allowed_domain_fuzzy";
-  filter_value: string;
-};
+      filter_name: "allowed_domain_fuzzy";
+      filter_value: string;
+    };
 
 export interface Organization {
   organization_id: string;
@@ -59,18 +59,17 @@ export interface Organization {
 export interface DiscoveredOrganization {
   organization: Organization;
   membership:
-    {
-      type: "eligible_to_join_by_email_domain",
-      details: { domain: string }
-      member: null,
-    } |
-    {
-      type: "active_member" | "pending_member" | "invited_member",
-      details: null,
-      member: Member,
-    };
+    | {
+        type: "eligible_to_join_by_email_domain";
+        details: { domain: string };
+        member: null;
+      }
+    | {
+        type: "active_member" | "pending_member" | "invited_member";
+        details: null;
+        member: Member;
+      };
 }
-
 
 export interface CreateOrganizationRequest {
   organization_name: string;
@@ -161,8 +160,8 @@ export class Organizations {
   }
 
   get({
-        organization_id,
-      }: GetOrganizationRequest): Promise<GetOrganizationResponse> {
+    organization_id,
+  }: GetOrganizationRequest): Promise<GetOrganizationResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(organization_id),
@@ -186,8 +185,8 @@ export class Organizations {
   }
 
   delete({
-           organization_id,
-         }: DeleteOrganizationRequest): Promise<DeleteOrganizationResponse> {
+    organization_id,
+  }: DeleteOrganizationRequest): Promise<DeleteOrganizationResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(organization_id),

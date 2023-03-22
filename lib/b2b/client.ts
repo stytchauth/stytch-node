@@ -27,7 +27,7 @@ export class B2BClient extends BaseClient {
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL),
+        new URL(`sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)
       ),
     };
 

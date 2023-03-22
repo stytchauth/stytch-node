@@ -78,16 +78,13 @@ export interface DiscoveryAuthenticateResponse extends BaseResponse {
 }
 
 class Discovery {
-
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
-  send(
-    data: DiscoveryByEmailRequest
-  ): Promise<DiscoveryByEmailResponse> {
+  send(data: DiscoveryByEmailRequest): Promise<DiscoveryByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: "magic_links/email/discovery/send",
@@ -95,7 +92,9 @@ class Discovery {
     });
   }
 
-  authenticate(data: DiscoveryAuthenticateRequest): Promise<DiscoveryAuthenticateResponse> {
+  authenticate(
+    data: DiscoveryAuthenticateRequest
+  ): Promise<DiscoveryAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: "magic_links/email/discovery/authenticate",

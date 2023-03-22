@@ -141,9 +141,9 @@ describe("sessions.exchange", () => {
         method: "POST",
         path: "sessions/exchange",
         data: {
-          organization_id:  "organization-id-1234",
+          organization_id: "organization-id-1234",
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        }
+        },
       });
 
       return { status: 200, data: {} };
@@ -152,7 +152,7 @@ describe("sessions.exchange", () => {
 
     return expect(
       sessions.exchange({
-        organization_id:  "organization-id-1234",
+        organization_id: "organization-id-1234",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
     ).resolves.toEqual({ status: 200 });

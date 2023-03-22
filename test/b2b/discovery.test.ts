@@ -23,13 +23,15 @@ describe("discovery.organizations.list", () => {
   test("success", () => {
     return expect(
       discovery.organizations.list({
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "discovery/organizations",
       data: {
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
       },
     });
   });
@@ -39,7 +41,8 @@ describe("discovery.organizations.create", () => {
   test("success", () => {
     return expect(
       discovery.organizations.create({
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         organization_name: "organization_name",
         organization_slug: "slug",
         organization_logo_url: "https://example.com",
@@ -53,7 +56,8 @@ describe("discovery.organizations.create", () => {
       method: "POST",
       path: "discovery/organizations/create",
       data: {
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         organization_name: "organization_name",
         organization_slug: "slug",
         organization_logo_url: "https://example.com",
@@ -71,15 +75,17 @@ describe("discovery.intermediateSessions.exchange", () => {
   test("success", () => {
     return expect(
       discovery.intermediateSessions.exchange({
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
-        organization_id: "organization-id-1234"
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        organization_id: "organization-id-1234",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "discovery/intermediate_sessions/exchange",
       data: {
-        intermediate_session_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
-        organization_id: "organization-id-1234"
+        intermediate_session_token:
+          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        organization_id: "organization-id-1234",
       },
     });
   });

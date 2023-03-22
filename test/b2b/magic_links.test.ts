@@ -175,28 +175,32 @@ describe("magicLinks.email.discovery.authenticate", () => {
   test("success", () => {
     return expect(
       magicLinks.email.discovery.authenticate({
-        intermediate_magic_links_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        intermediate_magic_links_token:
+          "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "magic_links/email/discovery/authenticate",
       data: {
-        intermediate_magic_links_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        intermediate_magic_links_token:
+          "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
     });
   });
   test("success: everything", () => {
     return expect(
       magicLinks.email.discovery.authenticate({
-        intermediate_magic_links_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        pkce_code_verifier: '1111111111',
+        intermediate_magic_links_token:
+          "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        pkce_code_verifier: "1111111111",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "magic_links/email/discovery/authenticate",
       data: {
-        intermediate_magic_links_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
-        pkce_code_verifier: '1111111111',
+        intermediate_magic_links_token:
+          "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        pkce_code_verifier: "1111111111",
       },
     });
   });
