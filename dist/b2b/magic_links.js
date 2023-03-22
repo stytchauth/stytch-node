@@ -7,12 +7,36 @@ exports.MagicLinks = void 0;
 
 var _shared = require("../shared");
 
+class Discovery {
+  constructor(fetchConfig) {
+    this.fetchConfig = fetchConfig;
+  }
+
+  send(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: "magic_links/email/discovery/send",
+      data
+    });
+  }
+
+  authenticate(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: "magic_links/email/discovery/authenticate",
+      data
+    });
+  }
+
+}
+
 class Email {
   delivery = "email";
 
   constructor(fetchConfig, parent_path) {
     this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
+    this.discovery = new Discovery(fetchConfig);
   }
 
   endpoint(path) {

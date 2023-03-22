@@ -1,4 +1,4 @@
-import { SearchOperator, ResultsMetadata } from "./shared_b2b";
+import { SearchOperator, ResultsMetadata, Member } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
 import { Members } from "./members";
 export declare type OrganizationSearchOperand = {
@@ -42,6 +42,20 @@ export interface Organization {
     email_allowed_domains: string[];
     email_jit_provisioning: "RESTRICTED" | "NOT_ALLOWED";
     email_invites: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
+}
+export interface DiscoveredOrganization {
+    organization: Organization;
+    membership: {
+        type: "eligible_to_join_by_email_domain";
+        details: {
+            domain: string;
+        };
+        member: null;
+    } | {
+        type: "active_member" | "pending_member" | "invited_member";
+        details: null;
+        member: Member;
+    };
 }
 export interface CreateOrganizationRequest {
     organization_name: string;
