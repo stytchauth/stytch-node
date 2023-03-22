@@ -53,6 +53,21 @@ export type RevokeRequest =
 
 export type RevokeResponse = BaseResponse;
 
+export interface SessionExchangeRequest {
+  organization_id: string;
+  session_token?: string;
+  session_jwt?: string;
+}
+
+export interface SessionExchangeResponse extends BaseResponse {
+  member_id: string;
+  member_session: MemberSession;
+  session_token: string;
+  session_jwt: string;
+  member: Member;
+  organization: Organization;
+}
+
 const organizationClaim = "https://stytch.com/organization";
 
 export class Sessions {
@@ -170,6 +185,14 @@ export class Sessions {
       expires_at: sess.expires_at,
       custom_claims: claims,
     };
+  }
+
+  exchange(data: SessionExchangeRequest): Promise<SessionExchangeResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("exchange"),
+      data,
+    });
   }
 
   revoke(data: RevokeRequest): Promise<RevokeResponse> {
