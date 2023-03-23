@@ -46,6 +46,19 @@ export declare type RevokeRequest = {
     member_id: string;
 };
 export declare type RevokeResponse = BaseResponse;
+export interface SessionExchangeRequest {
+    organization_id: string;
+    session_token?: string;
+    session_jwt?: string;
+}
+export interface SessionExchangeResponse extends BaseResponse {
+    member_id: string;
+    member_session: MemberSession;
+    session_token: string;
+    session_jwt: string;
+    member: Member;
+    organization: Organization;
+}
 export declare class Sessions {
     private base_path;
     private fetchConfig;
@@ -89,5 +102,6 @@ export declare class Sessions {
         max_token_age_seconds?: number;
         current_date?: Date;
     }): Promise<MemberSession>;
+    exchange(data: SessionExchangeRequest): Promise<SessionExchangeResponse>;
     revoke(data: RevokeRequest): Promise<RevokeResponse>;
 }

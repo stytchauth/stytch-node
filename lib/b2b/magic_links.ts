@@ -1,6 +1,6 @@
 import { MemberSession, Member } from "./shared_b2b";
 import { BaseResponse, fetchConfig, request } from "../shared";
-import { Organization } from "./organizations";
+import { DiscoveredOrganization, Organization } from "./organizations";
 
 export interface LoginOrSignupByEmailRequest {
   organization_id: string;
@@ -57,15 +57,71 @@ export interface AuthenticateResponse extends BaseResponse {
   reset_sessions: boolean;
 }
 
+export interface DiscoveryByEmailRequest {
+  email_address: string;
+  discovery_redirect_url?: string;
+  pkce_code_challenge?: string;
+  login_template_id?: string;
+}
+
+export type DiscoveryByEmailResponse = BaseResponse;
+
+export interface DiscoveryAuthenticateRequest {
+  intermediate_magic_links_token: string;
+  pkce_code_verifier?: string;
+}
+
+export interface DiscoveryAuthenticateResponse extends BaseResponse {
+  intermediate_session_token: string;
+  email_address: string;
+  discovered_organizations: DiscoveredOrganization[];
+}
+
+class EmailDiscovery {
+  private fetchConfig: fetchConfig;
+
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
+  }
+
+  send(data: DiscoveryByEmailRequest): Promise<DiscoveryByEmailResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: "magic_links/email/discovery/send",
+      data,
+    });
+  }
+}
+
+class Discovery {
+  private fetchConfig: fetchConfig;
+
+  constructor(fetchConfig: fetchConfig) {
+    this.fetchConfig = fetchConfig;
+  }
+
+  authenticate(
+    data: DiscoveryAuthenticateRequest
+  ): Promise<DiscoveryAuthenticateResponse> {
+    return request(this.fetchConfig, {
+      method: "POST",
+      url: "magic_links/discovery/authenticate",
+      data,
+    });
+  }
+}
+
 class Email {
   private base_path: string;
   private delivery = "email";
 
   private fetchConfig: fetchConfig;
+  discovery: EmailDiscovery;
 
   constructor(fetchConfig: fetchConfig, parent_path: string) {
     this.fetchConfig = fetchConfig;
     this.base_path = `${parent_path}`;
+    this.discovery = new EmailDiscovery(fetchConfig);
   }
 
   private endpoint(path: string): string {
@@ -94,12 +150,14 @@ class Email {
 export class MagicLinks {
   private base_path = "magic_links";
   email: Email;
+  discovery: Discovery;
 
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.email = new Email(fetchConfig, this.base_path);
+    this.discovery = new Discovery(fetchConfig);
   }
 
   private endpoint(path: string): string {

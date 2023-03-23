@@ -134,6 +134,31 @@ describe("sessions.revoke", () => {
   });
 });
 
+describe("sessions.exchange", () => {
+  test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "POST",
+        path: "sessions/exchange",
+        data: {
+          organization_id: "organization-id-1234",
+          session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+        },
+      });
+
+      return { status: 200, data: {} };
+    });
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+
+    return expect(
+      sessions.exchange({
+        organization_id: "organization-id-1234",
+        session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
+      })
+    ).resolves.toEqual({ status: 200 });
+  });
+});
+
 describe("sessions.jwks", () => {
   test("success", () => {
     mockRequest((req) => {

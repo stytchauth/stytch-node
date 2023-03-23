@@ -1,6 +1,6 @@
 import { MemberSession, Member } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
-import { Organization } from "./organizations";
+import { DiscoveredOrganization, Organization } from "./organizations";
 export interface LoginOrSignupByEmailRequest {
     organization_id: string;
     email_address: string;
@@ -50,10 +50,37 @@ export interface AuthenticateResponse extends BaseResponse {
     session_jwt?: string;
     reset_sessions: boolean;
 }
+export interface DiscoveryByEmailRequest {
+    email_address: string;
+    discovery_redirect_url?: string;
+    pkce_code_challenge?: string;
+    login_template_id?: string;
+}
+export declare type DiscoveryByEmailResponse = BaseResponse;
+export interface DiscoveryAuthenticateRequest {
+    intermediate_magic_links_token: string;
+    pkce_code_verifier?: string;
+}
+export interface DiscoveryAuthenticateResponse extends BaseResponse {
+    intermediate_session_token: string;
+    email_address: string;
+    discovered_organizations: DiscoveredOrganization[];
+}
+declare class EmailDiscovery {
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
+    send(data: DiscoveryByEmailRequest): Promise<DiscoveryByEmailResponse>;
+}
+declare class Discovery {
+    private fetchConfig;
+    constructor(fetchConfig: fetchConfig);
+    authenticate(data: DiscoveryAuthenticateRequest): Promise<DiscoveryAuthenticateResponse>;
+}
 declare class Email {
     private base_path;
     private delivery;
     private fetchConfig;
+    discovery: EmailDiscovery;
     constructor(fetchConfig: fetchConfig, parent_path: string);
     private endpoint;
     loginOrSignup(data: LoginOrSignupByEmailRequest): Promise<LoginOrSignupByEmailResponse>;
@@ -62,6 +89,7 @@ declare class Email {
 export declare class MagicLinks {
     private base_path;
     email: Email;
+    discovery: Discovery;
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;

@@ -115,6 +115,14 @@ class Sessions {
     };
   }
 
+  exchange(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: this.endpoint("exchange"),
+      data
+    });
+  }
+
   revoke(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
