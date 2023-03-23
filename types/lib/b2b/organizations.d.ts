@@ -63,7 +63,7 @@ export interface CreateOrganizationRequest {
     organization_logo_url?: string;
     trusted_metadata?: Record<string, any>;
     sso_jit_provisioning?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
-    email_allowed_domains: string[];
+    email_allowed_domains?: string[];
     email_jit_provisioning?: "RESTRICTED" | "NOT_ALLOWED";
     email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
 }
