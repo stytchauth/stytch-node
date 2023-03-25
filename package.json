@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0",
-    "jose": "^4.6.0"
+    "jose": "^4.13.1"
   },
   "eslintConfig": {
     "extends": "airbnb",
