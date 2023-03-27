@@ -9,6 +9,7 @@ export interface CreateMemberRequest {
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   create_member_as_pending?: boolean;
+  is_breakglass?: boolean;
 }
 
 export interface CreateMemberResponse extends BaseResponse {
@@ -23,6 +24,7 @@ export interface UpdateMemberRequest {
   name?: string;
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  is_breakglass?: boolean;
 }
 
 export interface UpdateMemberResponse extends BaseResponse {
@@ -43,6 +45,10 @@ export type MemberSearchOperand =
   | {
       filter_name: "member_email_fuzzy";
       filter_value: string;
+    }
+  | {
+      filter_name: "member_is_breakglass";
+      filter_value: boolean;
     }
   | {
       filter_name: "statuses";

@@ -8,6 +8,7 @@ export interface CreateMemberRequest {
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
     create_member_as_pending?: boolean;
+    is_breakglass?: boolean;
 }
 export interface CreateMemberResponse extends BaseResponse {
     member_id: string;
@@ -20,6 +21,7 @@ export interface UpdateMemberRequest {
     name?: string;
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
+    is_breakglass?: boolean;
 }
 export interface UpdateMemberResponse extends BaseResponse {
     member_id: string;
@@ -35,6 +37,9 @@ export declare type MemberSearchOperand = {
 } | {
     filter_name: "member_email_fuzzy";
     filter_value: string;
+} | {
+    filter_name: "member_is_breakglass";
+    filter_value: boolean;
 } | {
     filter_name: "statuses";
     filter_value: string[];
