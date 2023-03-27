@@ -47,7 +47,7 @@ describe("oidc.update", () => {
         issuer: "https://example.com/sso",
         authorization_url: "https://example.com/sso/authorize",
         token_url: "https://example.com/sso/token",
-        user_info_url: "https://example.com/sso/userinfo",
+        userinfo_url: "https://example.com/sso/userinfo",
         jwks_url: "https://example.com/sso/jwks",
       })
     ).resolves.toMatchObject({
@@ -60,7 +60,7 @@ describe("oidc.update", () => {
         issuer: "https://example.com/sso",
         authorization_url: "https://example.com/sso/authorize",
         token_url: "https://example.com/sso/token",
-        user_info_url: "https://example.com/sso/userinfo",
+        userinfo_url: "https://example.com/sso/userinfo",
         jwks_url: "https://example.com/sso/jwks",
       },
     });

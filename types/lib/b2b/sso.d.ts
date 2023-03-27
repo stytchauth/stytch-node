@@ -21,7 +21,7 @@ export interface OIDCConnection {
     issuer: string;
     authorization_url: string;
     token_url: string;
-    user_info_url: string;
+    userinfo_url: string;
     jwks_url: string;
 }
 export interface SAMLConnection {

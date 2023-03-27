@@ -19,7 +19,7 @@ export interface UpdateOIDCConnectionRequest {
   issuer: string;
   authorization_url: string;
   token_url: string;
-  user_info_url: string;
+  userinfo_url: string;
   jwks_url: string;
 }
 
@@ -31,9 +31,9 @@ export class OIDC {
   constructor(private readonly fetchConfig: fetchConfig) {}
 
   create({
-    organization_id,
-    ...data
-  }: CreateOIDCConnectionRequest): Promise<CreateOIDCConnectionResponse> {
+           organization_id,
+           ...data
+         }: CreateOIDCConnectionRequest): Promise<CreateOIDCConnectionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `sso/oidc/${organization_id}`,
@@ -42,10 +42,10 @@ export class OIDC {
   }
 
   update({
-    organization_id,
-    connection_id,
-    ...data
-  }: UpdateOIDCConnectionRequest): Promise<UpdateOIDCConnectionResponse> {
+           organization_id,
+           connection_id,
+           ...data
+         }: UpdateOIDCConnectionRequest): Promise<UpdateOIDCConnectionResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: `sso/oidc/${organization_id}/connections/${connection_id}`,
