@@ -31,6 +31,8 @@ describe("organizations.create", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -44,6 +46,8 @@ describe("organizations.create", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       },
     });
   });
@@ -142,6 +146,8 @@ describe("organizations.update", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       })
     ).resolves.toMatchObject({
       method: "PUT",
@@ -157,6 +163,8 @@ describe("organizations.update", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       },
     });
   });

@@ -27,6 +27,7 @@ export interface Member {
     sso_registrations: SSORegistration[];
     trusted_metadata: Record<string, any>;
     untrusted_metadata: Record<string, any>;
+    is_breakglass: boolean;
 }
 export interface SSORegistration {
     connection_id: string;
