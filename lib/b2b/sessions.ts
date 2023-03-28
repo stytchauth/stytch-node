@@ -57,6 +57,8 @@ export interface SessionExchangeRequest {
   organization_id: string;
   session_token?: string;
   session_jwt?: string;
+  session_duration_minutes?: number;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface SessionExchangeResponse extends BaseResponse {
