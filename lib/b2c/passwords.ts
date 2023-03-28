@@ -1,6 +1,6 @@
 import { Attributes, Name, Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
-import {UserMetadata} from "./users";
+import { UserMetadata } from "./users";
 
 export interface CreateRequest {
   email: string;
