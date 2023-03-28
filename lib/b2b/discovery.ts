@@ -19,7 +19,7 @@ export interface OrganizationsResponse extends BaseResponse {
 
 export interface DiscoveryOrganizationCreateRequest
   extends CreateOrganizationRequest {
-  discovery_magic_links_token: string;
+  intermediate_session_token: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

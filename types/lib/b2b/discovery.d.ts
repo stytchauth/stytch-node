@@ -11,7 +11,7 @@ export interface OrganizationsResponse extends BaseResponse {
     discovered_organizations: DiscoveredOrganization[];
 }
 export interface DiscoveryOrganizationCreateRequest extends CreateOrganizationRequest {
-    discovery_magic_links_token: string;
+    intermediate_session_token: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
