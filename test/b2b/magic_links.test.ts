@@ -175,14 +175,14 @@ describe("magicLinks.discovery.authenticate", () => {
   test("success", () => {
     return expect(
       magicLinks.discovery.authenticate({
-        intermediate_magic_links_token:
+        discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "magic_links/discovery/authenticate",
       data: {
-        intermediate_magic_links_token:
+        discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
     });
@@ -190,7 +190,7 @@ describe("magicLinks.discovery.authenticate", () => {
   test("success: everything", () => {
     return expect(
       magicLinks.discovery.authenticate({
-        intermediate_magic_links_token:
+        discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         pkce_code_verifier: "1111111111",
       })
@@ -198,7 +198,7 @@ describe("magicLinks.discovery.authenticate", () => {
       method: "POST",
       path: "magic_links/discovery/authenticate",
       data: {
-        intermediate_magic_links_token:
+        discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         pkce_code_verifier: "1111111111",
       },
