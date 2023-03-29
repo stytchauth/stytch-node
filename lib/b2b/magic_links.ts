@@ -67,7 +67,7 @@ export interface DiscoveryByEmailRequest {
 export type DiscoveryByEmailResponse = BaseResponse;
 
 export interface DiscoveryAuthenticateRequest {
-  intermediate_magic_links_token: string;
+  discovery_magic_links_token: string;
   pkce_code_verifier?: string;
 }
 

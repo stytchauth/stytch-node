@@ -1,10 +1,14 @@
-import { Attributes, Session, User } from "./shared_b2c";
+import { Attributes, Name, Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
+import { UserMetadata } from "./users";
 export interface CreateRequest {
     email: string;
     password: string;
+    name?: Name;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
+    trusted_metadata?: UserMetadata;
+    untrusted_metadata?: UserMetadata;
 }
 export interface CreateResponse extends BaseResponse {
     user_id: string;
@@ -114,6 +118,9 @@ export interface StrengthCheckResponse extends BaseResponse {
 interface MigrateRequestBase {
     email: string;
     hash: string;
+    name?: Name;
+    trusted_metadata?: UserMetadata;
+    untrusted_metadata?: UserMetadata;
 }
 interface MD5MigrateRequest extends MigrateRequestBase {
     hash_type: "md_5";
