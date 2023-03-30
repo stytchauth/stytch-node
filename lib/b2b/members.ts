@@ -18,6 +18,18 @@ export interface CreateMemberResponse extends BaseResponse {
   organization: Organization;
 }
 
+export interface GetMemberRequest {
+  organization_id: string;
+  member_id?: string;
+  email_address?: string;
+}
+
+export interface GetMemberResponse extends BaseResponse {
+  member_id: string;
+  member: Member;
+  organization: Organization;
+}
+
 export interface UpdateMemberRequest {
   organization_id: string;
   member_id: string;
@@ -93,6 +105,14 @@ export class Members {
       method: "POST",
       url: `${this.base_path}/${data.organization_id}/members`,
       data,
+    });
+  }
+
+  get(params: GetMemberRequest): Promise<GetMemberResponse> {
+    return request(this.fetchConfig, {
+      method: "GET",
+      url: `${this.base_path}/${params.organization_id}/member`,
+      params: { ...params },
     });
   }
 

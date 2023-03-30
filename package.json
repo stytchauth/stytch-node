@@ -1,6 +1,6 @@
 {
   "name": "stytch",
-  "version": "6.0.8",
+  "version": "6.0.9",
   "description": "A wrapper for the Stytch API",
   "types": "./types/lib/index.d.ts",
   "main": "./dist/index.js",

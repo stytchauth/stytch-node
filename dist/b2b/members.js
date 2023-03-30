@@ -21,6 +21,15 @@ class Members {
     });
   }
 
+  get(params) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `${this.base_path}/${params.organization_id}/member`,
+      params: { ...params
+      }
+    });
+  }
+
   update(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
