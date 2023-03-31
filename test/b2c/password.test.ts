@@ -92,14 +92,14 @@ describe("passwords.resetByEmailStart", () => {
     return expect(
       passwords.resetByEmailStart({
         email: "Ada_Lovelace@example.com",
-        code_challenge: "exmaple_code_challenge",
+        code_challenge: "example_code_challenge",
         locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
       path: "passwords/email/reset/start",
       data: {
-        code_challenge: "exmaple_code_challenge",
+        code_challenge: "example_code_challenge",
         email: "Ada_Lovelace@example.com",
       },
     });
@@ -122,7 +122,7 @@ describe("passwords.resetByEmail", () => {
   test("pkce", () => {
     return expect(
       passwords.resetByEmail("example-token", "not-a-real-password", {
-        code_verifier: "exmaple_code_verifier",
+        code_verifier: "example_code_verifier",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -130,7 +130,7 @@ describe("passwords.resetByEmail", () => {
       data: {
         token: "example-token",
         password: "not-a-real-password",
-        code_verifier: "exmaple_code_verifier",
+        code_verifier: "example_code_verifier",
       },
     });
   });
