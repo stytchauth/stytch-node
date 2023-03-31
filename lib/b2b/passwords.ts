@@ -1,6 +1,7 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { Organization } from "./organizations";
+import * as shared from "../shared/passwords";
 
 export interface AuthenticateRequest {
   email_address: string;
@@ -126,71 +127,14 @@ interface MigrateRequestBase {
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-interface MD5MigrateRequest extends MigrateRequestBase {
-  hash_type: "md_5";
-  md_5_config?: {
-    prepend_salt?: string;
-    append_salt?: string;
-  };
-}
-
-interface BcryptMigrateRequest extends MigrateRequestBase {
-  hash_type: "bcrypt";
-}
-
-interface Argon2IMigrateRequest extends MigrateRequestBase {
-  hash_type: "argon_2i";
-  argon_2_config?: {
-    salt: string;
-    iteration_amount: number;
-    memory: number;
-    threads: number;
-    key_length: number;
-  };
-}
-
-interface Argon2IDMigrateRequest extends MigrateRequestBase {
-  hash_type: "argon_2id";
-  argon_2_config?: {
-    salt: string;
-    iteration_amount: number;
-    memory: number;
-    threads: number;
-    key_length: number;
-  };
-}
-
-interface SHA1MigrateRequest extends MigrateRequestBase {
-  hash_type: "sha_1";
-  sha_1_config?: {
-    prepend_salt?: string;
-    append_salt?: string;
-  };
-}
-
-interface PHPassMigrateRequest extends MigrateRequestBase {
-  hash_type: "phpass";
-}
-
-interface ScryptMigrateRequest extends MigrateRequestBase {
-  hash_type: "scrypt";
-  scrypt_config?: {
-    salt: string;
-    n_parameter: number;
-    r_parameter: number;
-    p_parameter: number;
-    key_length: number;
-  };
-}
-
 export type MigrateRequest =
-  | MD5MigrateRequest
-  | BcryptMigrateRequest
-  | Argon2IMigrateRequest
-  | Argon2IDMigrateRequest
-  | SHA1MigrateRequest
-  | ScryptMigrateRequest
-  | PHPassMigrateRequest;
+  | (shared.MD5MigrateRequest & MigrateRequestBase)
+  | (shared.BcryptMigrateRequest & MigrateRequestBase)
+  | (shared.Argon2IMigrateRequest & MigrateRequestBase)
+  | (shared.Argon2IDMigrateRequest & MigrateRequestBase)
+  | (shared.SHA1MigrateRequest & MigrateRequestBase)
+  | (shared.ScryptMigrateRequest & MigrateRequestBase)
+  | (shared.PHPassMigrateRequest & MigrateRequestBase);
 
 export interface MigrateResponse extends BaseResponse {
   member_id: string;
