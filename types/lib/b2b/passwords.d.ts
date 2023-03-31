@@ -1,8 +1,8 @@
 import { BaseResponse, fetchConfig } from "../shared";
-import { Member, MemberSession } from "./shared_b2b";
-import { Organization } from "./organizations";
+import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import * as shared from "../shared/passwords";
 export interface AuthenticateRequest {
+    organization_id: string;
     email_address: string;
     password: string;
     session_token?: string;
@@ -10,14 +10,11 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
-    member_id: string;
+export interface AuthenticateResponse extends ResponseWithMember {
     organization_id: string;
-    member: Member;
     session_token?: string;
     session_jwt?: string;
     member_session?: MemberSession;
-    organization: Organization;
 }
 export interface EmailResetStartRequest {
     organization_id: string;
@@ -42,15 +39,12 @@ export interface EmailResetRequest {
     session_custom_claims?: Record<string, any>;
     code_verifier?: string;
 }
-export interface EmailResetResponse extends BaseResponse {
-    member_id: string;
+export interface EmailResetResponse extends ResponseWithMember {
     member_email_id: string;
     organization_id: string;
-    member: Member;
     session_token?: string;
     session_jwt?: string;
     member_session?: MemberSession;
-    organization: Organization;
 }
 export interface ExistingPasswordResetRequest {
     email_address: string;
@@ -62,10 +56,7 @@ export interface ExistingPasswordResetRequest {
     session_custom_claims?: Record<string, any>;
     organization_id: string;
 }
-export interface ExistingPasswordResetResponse extends BaseResponse {
-    member_id: string;
-    organization: Organization;
-    member: Member;
+export interface ExistingPasswordResetResponse extends ResponseWithMember {
     session_token?: string;
     session_jwt?: string;
     member_session?: MemberSession;
@@ -76,10 +67,7 @@ export interface SessionResetRequest {
     session_token?: string;
     session_jwt?: string;
 }
-export interface SessionResetResponse extends BaseResponse {
-    member_id: string;
-    organization: Organization;
-    member: Member;
+export interface SessionResetResponse extends ResponseWithMember {
     member_session?: MemberSession;
 }
 export interface StrengthCheckRequest {
@@ -114,8 +102,7 @@ interface MigrateRequestBase {
     untrusted_metadata?: Record<string, any>;
 }
 export declare type MigrateRequest = (shared.MD5MigrateRequest & MigrateRequestBase) | (shared.BcryptMigrateRequest & MigrateRequestBase) | (shared.Argon2IMigrateRequest & MigrateRequestBase) | (shared.Argon2IDMigrateRequest & MigrateRequestBase) | (shared.SHA1MigrateRequest & MigrateRequestBase) | (shared.ScryptMigrateRequest & MigrateRequestBase) | (shared.PHPassMigrateRequest & MigrateRequestBase);
-export interface MigrateResponse extends BaseResponse {
-    member_id: string;
+export interface MigrateResponse extends ResponseWithMember {
     organization_id: string;
     member_created: boolean;
 }

@@ -1,9 +1,9 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
-import { Member, MemberSession } from "./shared_b2b";
-import { Organization } from "./organizations";
+import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import * as shared from "../shared/passwords";
 
 export interface AuthenticateRequest {
+  organization_id: string;
   email_address: string;
   password: string;
   session_token?: string;
@@ -12,14 +12,11 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
-  member_id: string;
+export interface AuthenticateResponse extends ResponseWithMember {
   organization_id: string;
-  member: Member;
   session_token?: string;
   session_jwt?: string;
   member_session?: MemberSession;
-  organization: Organization;
 }
 
 export interface EmailResetStartRequest {
@@ -48,15 +45,12 @@ export interface EmailResetRequest {
   code_verifier?: string;
 }
 
-export interface EmailResetResponse extends BaseResponse {
-  member_id: string;
+export interface EmailResetResponse extends ResponseWithMember {
   member_email_id: string;
   organization_id: string;
-  member: Member;
   session_token?: string;
   session_jwt?: string;
   member_session?: MemberSession;
-  organization: Organization;
 }
 
 export interface ExistingPasswordResetRequest {
@@ -70,10 +64,7 @@ export interface ExistingPasswordResetRequest {
   organization_id: string;
 }
 
-export interface ExistingPasswordResetResponse extends BaseResponse {
-  member_id: string;
-  organization: Organization;
-  member: Member;
+export interface ExistingPasswordResetResponse extends ResponseWithMember {
   session_token?: string;
   session_jwt?: string;
   member_session?: MemberSession;
@@ -86,10 +77,7 @@ export interface SessionResetRequest {
   session_jwt?: string;
 }
 
-export interface SessionResetResponse extends BaseResponse {
-  member_id: string;
-  organization: Organization;
-  member: Member;
+export interface SessionResetResponse extends ResponseWithMember {
   member_session?: MemberSession;
 }
 
@@ -136,8 +124,7 @@ export type MigrateRequest =
   | (shared.ScryptMigrateRequest & MigrateRequestBase)
   | (shared.PHPassMigrateRequest & MigrateRequestBase);
 
-export interface MigrateResponse extends BaseResponse {
-  member_id: string;
+export interface MigrateResponse extends ResponseWithMember {
   organization_id: string;
   member_created: boolean;
 }
