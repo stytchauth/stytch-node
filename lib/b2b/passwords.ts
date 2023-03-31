@@ -1,6 +1,6 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
-import {Member, MemberSession} from "./shared_b2b";
-import {Organization} from "./organizations";
+import { Member, MemberSession } from "./shared_b2b";
+import { Organization } from "./organizations";
 
 export interface AuthenticateRequest {
   email_address: string;
@@ -80,7 +80,7 @@ export interface ExistingPasswordResetResponse extends BaseResponse {
 
 export interface SessionResetRequest {
   password: string;
-  organization_id: string
+  organization_id: string;
   session_token?: string;
   session_jwt?: string;
 }
@@ -106,7 +106,7 @@ export interface StrengthCheckResponse extends BaseResponse {
   zxcvbn_feedback: {
     suggestions: string[];
     warning: string;
-  }
+  };
   luds_feedback: {
     has_lower_case: boolean;
     has_upper_case: boolean;
@@ -184,13 +184,13 @@ interface ScryptMigrateRequest extends MigrateRequestBase {
 }
 
 export type MigrateRequest =
-    | MD5MigrateRequest
-    | BcryptMigrateRequest
-    | Argon2IMigrateRequest
-    | Argon2IDMigrateRequest
-    | SHA1MigrateRequest
-    | ScryptMigrateRequest
-    | PHPassMigrateRequest;
+  | MD5MigrateRequest
+  | BcryptMigrateRequest
+  | Argon2IMigrateRequest
+  | Argon2IDMigrateRequest
+  | SHA1MigrateRequest
+  | ScryptMigrateRequest
+  | PHPassMigrateRequest;
 
 export interface MigrateResponse extends BaseResponse {
   member_id: string;
@@ -220,7 +220,7 @@ export class Passwords {
   }
 
   resetByEmailStart(
-      data: EmailResetStartRequest
+    data: EmailResetStartRequest
   ): Promise<EmailResetStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
@@ -230,9 +230,9 @@ export class Passwords {
   }
 
   resetByEmail(
-      token: string,
-      password: string,
-      data?: EmailResetRequest
+    token: string,
+    password: string,
+    data?: EmailResetRequest
   ): Promise<EmailResetResponse> {
     return request(this.fetchConfig, {
       method: "POST",
@@ -242,7 +242,7 @@ export class Passwords {
   }
 
   resetByExistingPassword(
-      data: ExistingPasswordResetRequest
+    data: ExistingPasswordResetRequest
   ): Promise<ExistingPasswordResetResponse> {
     return request(this.fetchConfig, {
       method: "POST",
