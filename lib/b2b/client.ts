@@ -6,7 +6,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { Discovery } from "./discovery";
-import {Passwords} from "./passwords";
+import { Passwords } from "./passwords";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
