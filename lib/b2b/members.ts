@@ -1,6 +1,10 @@
-import { Member, SearchOperator, ResultsMetadata } from "./shared_b2b";
+import {
+  Member,
+  SearchOperator,
+  ResultsMetadata,
+  ResponseWithMember,
+} from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
-import { Organization } from "./organizations";
 
 export interface CreateMemberRequest {
   organization_id: string;
@@ -12,11 +16,7 @@ export interface CreateMemberRequest {
   is_breakglass?: boolean;
 }
 
-export interface CreateMemberResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
-}
+export type CreateMemberResponse = ResponseWithMember;
 
 export interface GetMemberRequest {
   organization_id: string;
@@ -24,11 +24,7 @@ export interface GetMemberRequest {
   email_address?: string;
 }
 
-export interface GetMemberResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
-}
+export type GetMemberResponse = ResponseWithMember;
 
 export interface UpdateMemberRequest {
   organization_id: string;
@@ -39,11 +35,7 @@ export interface UpdateMemberRequest {
   is_breakglass?: boolean;
 }
 
-export interface UpdateMemberResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
-}
+export type UpdateMemberResponse = ResponseWithMember;
 
 export type MemberSearchOperand =
   | {

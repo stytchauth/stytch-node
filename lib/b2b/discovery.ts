@@ -1,8 +1,7 @@
-import { Member, MemberSession } from "./shared_b2b";
+import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
 import {
   DiscoveredOrganization,
-  Organization,
   CreateOrganizationRequest,
 } from "./organizations";
 
@@ -24,13 +23,11 @@ export interface DiscoveryOrganizationCreateRequest
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface DiscoveryOrganizationCreateResponse extends BaseResponse {
-  member_id: string;
+export interface DiscoveryOrganizationCreateResponse
+  extends ResponseWithMember {
   member_session: MemberSession;
   session_token: string;
   session_jwt: string;
-  member: Member;
-  organization: Organization;
 }
 
 export interface IntermediateSessionExchangeRequest {
@@ -40,13 +37,11 @@ export interface IntermediateSessionExchangeRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface IntermediateSessionExchangeResponse extends BaseResponse {
-  member_id: string;
+export interface IntermediateSessionExchangeResponse
+  extends ResponseWithMember {
   member_session: MemberSession;
   session_token: string;
   session_jwt: string;
-  member: Member;
-  organization: Organization;
 }
 
 class Organizations {

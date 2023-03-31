@@ -1,6 +1,6 @@
-import { Member, MemberSession } from "./shared_b2b";
+import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
-import { DiscoveredOrganization, Organization, CreateOrganizationRequest } from "./organizations";
+import { DiscoveredOrganization, CreateOrganizationRequest } from "./organizations";
 export interface OrganizationsRequest {
     intermediate_session_token?: string;
     session_token?: string;
@@ -15,13 +15,10 @@ export interface DiscoveryOrganizationCreateRequest extends CreateOrganizationRe
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface DiscoveryOrganizationCreateResponse extends BaseResponse {
-    member_id: string;
+export interface DiscoveryOrganizationCreateResponse extends ResponseWithMember {
     member_session: MemberSession;
     session_token: string;
     session_jwt: string;
-    member: Member;
-    organization: Organization;
 }
 export interface IntermediateSessionExchangeRequest {
     intermediate_session_token: string;
@@ -29,13 +26,10 @@ export interface IntermediateSessionExchangeRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface IntermediateSessionExchangeResponse extends BaseResponse {
-    member_id: string;
+export interface IntermediateSessionExchangeResponse extends ResponseWithMember {
     member_session: MemberSession;
     session_token: string;
     session_jwt: string;
-    member: Member;
-    organization: Organization;
 }
 declare class Organizations {
     private fetchConfig;
