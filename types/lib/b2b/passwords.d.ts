@@ -1,26 +1,9 @@
-import { Attributes, Name, Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
-import { UserMetadata } from "./users";
+import { Member, MemberSession } from "./shared_b2b";
+import { Organization } from "./organizations";
 import * as shared from "../shared/passwords";
-export interface CreateRequest {
-    email: string;
-    password: string;
-    name?: Name;
-    session_duration_minutes?: number;
-    session_custom_claims?: Record<string, any>;
-    trusted_metadata?: UserMetadata;
-    untrusted_metadata?: UserMetadata;
-}
-export interface CreateResponse extends BaseResponse {
-    user_id: string;
-    user: User;
-    email_id: string;
-    session_token?: string;
-    session_jwt?: string;
-    session?: Session;
-}
 export interface AuthenticateRequest {
-    email: string;
+    email_address: string;
     password: string;
     session_token?: string;
     session_jwt?: string;
@@ -28,73 +11,79 @@ export interface AuthenticateRequest {
     session_custom_claims?: Record<string, any>;
 }
 export interface AuthenticateResponse extends BaseResponse {
-    user_id: string;
-    user: User;
+    member_id: string;
+    organization_id: string;
+    member: Member;
     session_token?: string;
     session_jwt?: string;
-    session?: Session;
+    member_session?: MemberSession;
+    organization: Organization;
 }
-export interface ResetByEmailStartRequest {
-    email: string;
+export interface EmailResetStartRequest {
+    organization_id: string;
+    email_address: string;
     login_redirect_url?: string;
     reset_password_redirect_url?: string;
     reset_password_expiration_minutes?: number;
     reset_password_template_id?: string;
-    attributes?: Attributes;
     code_challenge?: string;
     locale?: string;
 }
-export interface ResetByEmailStartResponse extends BaseResponse {
-    user_id: string;
-    email_id: string;
+export interface EmailResetStartResponse extends BaseResponse {
+    member_id: string;
+    member_email_id: string;
 }
-export interface ResetByEmailRequest {
-    options?: {
-        ip_match_required?: boolean;
-        user_agent_match_required?: boolean;
-    };
-    attributes?: Attributes;
+export interface EmailResetRequest {
+    password_reset_token: string;
+    password: string;
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     code_verifier?: string;
 }
-export interface ResetByEmailResponse extends BaseResponse {
-    user_id: string;
-    user: User;
+export interface EmailResetResponse extends BaseResponse {
+    member_id: string;
+    member_email_id: string;
+    organization_id: string;
+    member: Member;
     session_token?: string;
     session_jwt?: string;
-    session?: Session;
+    member_session?: MemberSession;
+    organization: Organization;
 }
-export interface ResetByExistingPasswordRequest {
-    email: string;
+export interface ExistingPasswordResetRequest {
+    email_address: string;
     existing_password: string;
     new_password: string;
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
+    organization_id: string;
 }
-export interface ResetByExistingPasswordResponse extends BaseResponse {
-    user_id: string;
-    user: User;
+export interface ExistingPasswordResetResponse extends BaseResponse {
+    member_id: string;
+    organization: Organization;
+    member: Member;
     session_token?: string;
     session_jwt?: string;
-    session?: Session;
+    member_session?: MemberSession;
 }
-export interface ResetBySessionRequest {
+export interface SessionResetRequest {
     password: string;
+    organization_id: string;
     session_token?: string;
     session_jwt?: string;
 }
-export interface ResetBySessionResponse extends BaseResponse {
-    user_id: string;
-    user: User;
-    session: Session;
+export interface SessionResetResponse extends BaseResponse {
+    member_id: string;
+    organization: Organization;
+    member: Member;
+    member_session?: MemberSession;
 }
 export interface StrengthCheckRequest {
-    email?: string;
+    email_address?: string;
     password: string;
 }
 export interface StrengthCheckResponse extends BaseResponse {
@@ -103,43 +92,43 @@ export interface StrengthCheckResponse extends BaseResponse {
     breached_password: boolean;
     strength_policy: string;
     breach_detection_on_create: boolean;
-    feedback: {
+    zxcvbn_feedback: {
         suggestions: string[];
         warning: string;
-        luds_requirements: {
-            has_lower_case: boolean;
-            has_upper_case: boolean;
-            has_digit: boolean;
-            has_symbol: boolean;
-            missing_complexity: number;
-            missing_characters: number;
-        };
+    };
+    luds_feedback: {
+        has_lower_case: boolean;
+        has_upper_case: boolean;
+        has_digit: boolean;
+        has_symbol: boolean;
+        missing_complexity: number;
+        missing_characters: number;
     };
 }
 interface MigrateRequestBase {
-    email: string;
+    organization_id: string;
+    email_address: string;
     hash: string;
-    name?: Name;
-    trusted_metadata?: UserMetadata;
-    untrusted_metadata?: UserMetadata;
+    name?: string;
+    trusted_metadata?: Record<string, any>;
+    untrusted_metadata?: Record<string, any>;
 }
 export declare type MigrateRequest = (shared.MD5MigrateRequest & MigrateRequestBase) | (shared.BcryptMigrateRequest & MigrateRequestBase) | (shared.Argon2IMigrateRequest & MigrateRequestBase) | (shared.Argon2IDMigrateRequest & MigrateRequestBase) | (shared.SHA1MigrateRequest & MigrateRequestBase) | (shared.ScryptMigrateRequest & MigrateRequestBase) | (shared.PHPassMigrateRequest & MigrateRequestBase);
 export interface MigrateResponse extends BaseResponse {
-    user_id: string;
-    email_id: string;
-    user_created: boolean;
+    member_id: string;
+    organization_id: string;
+    member_created: boolean;
 }
 export declare class Passwords {
     base_path: string;
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateRequest): Promise<CreateResponse>;
     authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
-    resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
-    resetByEmail(token: string, password: string, data?: ResetByEmailRequest): Promise<ResetByEmailResponse>;
-    resetByExistingPassword(data: ResetByExistingPasswordRequest): Promise<ResetByExistingPasswordResponse>;
-    resetBySession(data: ResetBySessionRequest): Promise<ResetBySessionResponse>;
+    resetByEmailStart(data: EmailResetStartRequest): Promise<EmailResetStartResponse>;
+    resetByEmail(token: string, password: string, data?: EmailResetRequest): Promise<EmailResetResponse>;
+    resetByExistingPassword(data: ExistingPasswordResetRequest): Promise<ExistingPasswordResetResponse>;
+    resetBySession(data: SessionResetRequest): Promise<SessionResetResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
     migrate(data: MigrateRequest): Promise<MigrateResponse>;
 }
