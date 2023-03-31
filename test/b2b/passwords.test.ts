@@ -30,7 +30,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/authenticate",
+      path: "passwords/authenticate",
       data: {
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
@@ -47,7 +47,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/authenticate",
+      path: "passwords/authenticate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
@@ -65,7 +65,7 @@ describe("passwords.emailResetStart", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/email/reset/start",
+      path: "passwords/email/reset/start",
       data: {
         email_address: "Ada_Lovelace@example.com",
       },
@@ -81,7 +81,7 @@ describe("passwords.emailResetStart", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/email/reset/start",
+      path: "passwords/email/reset/start",
       data: {
         code_challenge: "example_code_challenge",
         email_address: "Ada_Lovelace@example.com",
@@ -96,7 +96,7 @@ describe("passwords.emailReset", () => {
       passwords.resetByEmail("example-token", "not-a-real-password")
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/email/reset",
+      path: "passwords/email/reset",
       data: {
         token: "example-token",
         password: "not-a-real-password",
@@ -112,7 +112,7 @@ describe("passwords.emailReset", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/email/reset",
+      path: "passwords/email/reset",
       data: {
         token: "example-token",
         password: "not-a-real-password",
@@ -133,7 +133,7 @@ describe("passwords.existingPasswordReset", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/existing_password/reset",
+      path: "passwords/existing_password/reset",
       data: {
         email_address: "Ada_Lovelace@example.com",
         existing_password: "existing_password",
@@ -153,7 +153,7 @@ describe("passwords.sessionReset", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/session/reset",
+      path: "passwords/session/reset",
       data: {
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -171,7 +171,7 @@ describe("passwords.strengthCheck", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/strength_check",
+      path: "passwords/strength_check",
       data: {
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
@@ -191,7 +191,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "phpass",
@@ -209,7 +209,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "bcrypt",
@@ -230,7 +230,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
@@ -254,7 +254,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
@@ -275,7 +275,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
@@ -296,7 +296,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
@@ -320,7 +320,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
@@ -341,7 +341,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
@@ -366,7 +366,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "b2b/passwords/migrate",
+      path: "passwords/migrate",
       data: {
         email_address: "Ada_Lovelace@example.com",
         hash_type: "argon_2i",
@@ -398,7 +398,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toMatchObject({
         method: "POST",
-        path: "b2b/passwords/migrate",
+        path: "passwords/migrate",
         data: {
           email_address: "Ada_Lovelace@example.com",
           hash_type: "argon_2id",
@@ -430,7 +430,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toMatchObject({
         method: "POST",
-        path: "b2b/passwords/migrate",
+        path: "passwords/migrate",
         data: {
           email_address: "Ada_Lovelace@example.com",
           hash_type: "scrypt",

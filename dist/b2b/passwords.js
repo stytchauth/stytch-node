@@ -8,7 +8,7 @@ exports.Passwords = void 0;
 var _shared = require("../shared");
 
 class Passwords {
-  base_path = "b2b/passwords";
+  base_path = "passwords";
 
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
