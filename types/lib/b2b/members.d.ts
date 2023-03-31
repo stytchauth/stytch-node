@@ -15,6 +15,16 @@ export interface CreateMemberResponse extends BaseResponse {
     member: Member;
     organization: Organization;
 }
+export interface GetMemberRequest {
+    organization_id: string;
+    member_id?: string;
+    email_address?: string;
+}
+export interface GetMemberResponse extends BaseResponse {
+    member_id: string;
+    member: Member;
+    organization: Organization;
+}
 export interface UpdateMemberRequest {
     organization_id: string;
     member_id: string;
@@ -69,6 +79,7 @@ export declare class Members {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, parent_path: string);
     create(data: CreateMemberRequest): Promise<CreateMemberResponse>;
+    get(params: GetMemberRequest): Promise<GetMemberResponse>;
     update(data: UpdateMemberRequest): Promise<UpdateMemberResponse>;
     delete(data: DeleteMemberRequest): Promise<DeleteMemberResponse>;
     search(data: SearchOrganizationMemberRequest): Promise<SearchOrganizationMemberResponse>;
