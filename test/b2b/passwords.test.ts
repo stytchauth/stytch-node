@@ -39,7 +39,7 @@ describe("passwords.authenticate", () => {
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("no session", () => {
@@ -57,7 +57,7 @@ describe("passwords.authenticate", () => {
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -76,7 +76,7 @@ describe("passwords.emailResetStart", () => {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("pkce", () => {
@@ -96,7 +96,7 @@ describe("passwords.emailResetStart", () => {
         email_address: "Ada_Lovelace@example.com",
         locale: "en",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -115,7 +115,7 @@ describe("passwords.emailReset", () => {
         password_reset_token: "example-token",
         password: "not-a-real-password",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("pkce", () => {
@@ -133,7 +133,7 @@ describe("passwords.emailReset", () => {
         password: "not-a-real-password",
         code_verifier: "example_code_verifier",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -156,7 +156,7 @@ describe("passwords.existingPasswordReset", () => {
         existing_password: "existing_password",
         new_password: "new_password",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -177,7 +177,7 @@ describe("passwords.sessionReset", () => {
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -196,7 +196,7 @@ describe("passwords.strengthCheck", () => {
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
       },
-      params: undefined
+      params: undefined,
     });
   });
 });
@@ -219,7 +219,7 @@ describe("passwords.migrate", () => {
         hash_type: "phpass",
         hash: "not-a-real-password-hash",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("bcrypt", () => {
@@ -239,7 +239,7 @@ describe("passwords.migrate", () => {
         hash_type: "bcrypt",
         hash: "not-a-real-password-hash",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("sha1 with appended salt", () => {
@@ -265,7 +265,7 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("sha1 with prepended salt", () => {
@@ -291,7 +291,7 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("sha1 with no salt", () => {
@@ -311,7 +311,7 @@ describe("passwords.migrate", () => {
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("md5 with appended salt", () => {
@@ -337,7 +337,7 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("md5 with prepended salt", () => {
@@ -363,7 +363,7 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("md5 with no salt", () => {
@@ -383,7 +383,7 @@ describe("passwords.migrate", () => {
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
       },
-      params: undefined
+      params: undefined,
     });
   });
   test("argon2i", () => {
@@ -417,7 +417,7 @@ describe("passwords.migrate", () => {
           key_length: 32,
         },
       },
-      params: undefined
+      params: undefined,
     });
   }),
     test("argon2id", () => {
@@ -451,7 +451,7 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         },
-        params: undefined
+        params: undefined,
       });
     }),
     test("scrypt", () => {
@@ -485,7 +485,7 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         },
-        params: undefined
+        params: undefined,
       });
     });
 });
