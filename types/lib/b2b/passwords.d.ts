@@ -113,7 +113,7 @@ export declare class Passwords {
     private endpoint;
     authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
     resetByEmailStart(data: EmailResetStartRequest): Promise<EmailResetStartResponse>;
-    resetByEmail(token: string, password: string, data?: EmailResetRequest): Promise<EmailResetResponse>;
+    resetByEmail(data?: EmailResetRequest): Promise<EmailResetResponse>;
     resetByExistingPassword(data: ExistingPasswordResetRequest): Promise<ExistingPasswordResetResponse>;
     resetBySession(data: SessionResetRequest): Promise<SessionResetResponse>;
     strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse>;
