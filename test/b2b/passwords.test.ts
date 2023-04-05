@@ -23,35 +23,41 @@ describe("passwords.authenticate", () => {
   test("session", () => {
     return expect(
       passwords.authenticate({
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/authenticate",
       data: {
+        organization_id: "organization-id-1234",
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
       },
+      params: undefined,
     });
   });
   test("no session", () => {
     return expect(
       passwords.authenticate({
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/authenticate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
       },
+      params: undefined,
     });
   });
 });
@@ -63,12 +69,14 @@ describe("passwords.emailResetStart", () => {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/email/reset/start",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
       },
+      params: undefined,
     });
   });
   test("pkce", () => {
@@ -79,13 +87,16 @@ describe("passwords.emailResetStart", () => {
         code_challenge: "example_code_challenge",
         locale: "en",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/email/reset/start",
       data: {
+        organization_id: "organization-id-1234",
         code_challenge: "example_code_challenge",
         email_address: "Ada_Lovelace@example.com",
+        locale: "en",
       },
+      params: undefined,
     });
   });
 });
@@ -93,31 +104,36 @@ describe("passwords.emailResetStart", () => {
 describe("passwords.emailReset", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmail("example-token", "not-a-real-password")
-    ).resolves.toMatchObject({
+      passwords.resetByEmail({
+        password_reset_token: "example-token",
+        password: "not-a-real-password",
+      })
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/email/reset",
       data: {
-        token: "example-token",
+        password_reset_token: "example-token",
         password: "not-a-real-password",
       },
+      params: undefined,
     });
   });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmail("example-token", "not-a-real-password", {
+      passwords.resetByEmail({
         password_reset_token: "example-token",
         password: "not-a-real-password",
         code_verifier: "example_code_verifier",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/email/reset",
       data: {
-        token: "example-token",
+        password_reset_token: "example-token",
         password: "not-a-real-password",
         code_verifier: "example_code_verifier",
       },
+      params: undefined,
     });
   });
 });
@@ -131,14 +147,16 @@ describe("passwords.existingPasswordReset", () => {
         existing_password: "existing_password",
         new_password: "new_password",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/existing_password/reset",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         existing_password: "existing_password",
         new_password: "new_password",
       },
+      params: undefined,
     });
   });
 });
@@ -151,13 +169,15 @@ describe("passwords.sessionReset", () => {
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/session/reset",
       data: {
+        organization_id: "organization-id-1234",
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       },
+      params: undefined,
     });
   });
 });
@@ -169,13 +189,14 @@ describe("passwords.strengthCheck", () => {
         email_address: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/strength_check",
       data: {
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
       },
+      params: undefined,
     });
   });
 });
@@ -189,14 +210,16 @@ describe("passwords.migrate", () => {
         hash_type: "phpass",
         hash: "not-a-real-password-hash",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "phpass",
         hash: "not-a-real-password-hash",
       },
+      params: undefined,
     });
   });
   test("bcrypt", () => {
@@ -207,14 +230,16 @@ describe("passwords.migrate", () => {
         hash_type: "bcrypt",
         hash: "not-a-real-password-hash",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "bcrypt",
         hash: "not-a-real-password-hash",
       },
+      params: undefined,
     });
   });
   test("sha1 with appended salt", () => {
@@ -228,10 +253,11 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
@@ -239,6 +265,7 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       },
+      params: undefined,
     });
   });
   test("sha1 with prepended salt", () => {
@@ -252,10 +279,11 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
@@ -263,6 +291,7 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       },
+      params: undefined,
     });
   });
   test("sha1 with no salt", () => {
@@ -273,14 +302,16 @@ describe("passwords.migrate", () => {
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
       },
+      params: undefined,
     });
   });
   test("md5 with appended salt", () => {
@@ -294,10 +325,11 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
@@ -305,6 +337,7 @@ describe("passwords.migrate", () => {
           append_salt: "not-a-real-salt",
         },
       },
+      params: undefined,
     });
   });
   test("md5 with prepended salt", () => {
@@ -318,10 +351,11 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
@@ -329,6 +363,7 @@ describe("passwords.migrate", () => {
           prepend_salt: "not-a-real-salt",
         },
       },
+      params: undefined,
     });
   });
   test("md5 with no salt", () => {
@@ -339,14 +374,16 @@ describe("passwords.migrate", () => {
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
       },
+      params: undefined,
     });
   });
   test("argon2i", () => {
@@ -364,10 +401,11 @@ describe("passwords.migrate", () => {
           key_length: 32,
         },
       })
-    ).resolves.toMatchObject({
+    ).resolves.toEqual({
       method: "POST",
       path: "passwords/migrate",
       data: {
+        organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "argon_2i",
         hash: "not-a-real-password-hash",
@@ -379,6 +417,7 @@ describe("passwords.migrate", () => {
           key_length: 32,
         },
       },
+      params: undefined,
     });
   }),
     test("argon2id", () => {
@@ -396,10 +435,11 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         })
-      ).resolves.toMatchObject({
+      ).resolves.toEqual({
         method: "POST",
         path: "passwords/migrate",
         data: {
+          organization_id: "organization-id-1234",
           email_address: "Ada_Lovelace@example.com",
           hash_type: "argon_2id",
           hash: "not-a-real-password-hash",
@@ -411,6 +451,7 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         },
+        params: undefined,
       });
     }),
     test("scrypt", () => {
@@ -428,10 +469,11 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         })
-      ).resolves.toMatchObject({
+      ).resolves.toEqual({
         method: "POST",
         path: "passwords/migrate",
         data: {
+          organization_id: "organization-id-1234",
           email_address: "Ada_Lovelace@example.com",
           hash_type: "scrypt",
           hash: "not-a-real-password-hash",
@@ -443,6 +485,7 @@ describe("passwords.migrate", () => {
             key_length: 32,
           },
         },
+        params: undefined,
       });
     });
 });

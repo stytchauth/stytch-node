@@ -160,15 +160,11 @@ export class Passwords {
     });
   }
 
-  resetByEmail(
-    token: string,
-    password: string,
-    data?: EmailResetRequest
-  ): Promise<EmailResetResponse> {
+  resetByEmail(data?: EmailResetRequest): Promise<EmailResetResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("email/reset"),
-      data: { token, password, ...data },
+      data: data,
     });
   }
 

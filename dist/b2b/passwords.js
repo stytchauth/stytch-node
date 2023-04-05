@@ -34,15 +34,11 @@ class Passwords {
     });
   }
 
-  resetByEmail(token, password, data) {
+  resetByEmail(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("email/reset"),
-      data: {
-        token,
-        password,
-        ...data
-      }
+      data: data
     });
   }
 
