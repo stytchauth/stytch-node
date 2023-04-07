@@ -72,6 +72,7 @@ export interface DiscoveredOrganization {
         details: null;
         member: Member;
       };
+  member_authenticated: boolean;
 }
 
 export interface CreateOrganizationRequest {
