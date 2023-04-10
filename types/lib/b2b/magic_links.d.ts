@@ -9,6 +9,7 @@ export interface LoginOrSignupByEmailRequest {
     pkce_code_challenge?: string;
     login_template_id?: string;
     signup_template_id?: string;
+    locale?: "en" | "es" | "pt-br";
 }
 export interface LoginOrSignupByEmailResponse extends ResponseWithMember {
     member_created: boolean;
@@ -22,6 +23,7 @@ export interface InviteByEmailRequest {
     invite_template_id?: string;
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
+    locale?: "en" | "es" | "pt-br";
 }
 export declare type InviteByEmailResponse = ResponseWithMember;
 export interface AuthenticateRequest {
@@ -45,6 +47,7 @@ export interface DiscoveryByEmailRequest {
     discovery_redirect_url?: string;
     pkce_code_challenge?: string;
     login_template_id?: string;
+    locale?: "en" | "es" | "pt-br";
 }
 export declare type DiscoveryByEmailResponse = BaseResponse;
 export interface DiscoveryAuthenticateRequest {
