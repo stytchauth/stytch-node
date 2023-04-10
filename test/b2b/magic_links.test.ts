@@ -77,6 +77,7 @@ describe("magicLinks.email.loginOrSignup", () => {
         pkce_code_challenge: "000000000000",
         login_template_id: "login_dark_mode",
         signup_template_id: "signup_dark_mode",
+        locale: "es",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -86,6 +87,10 @@ describe("magicLinks.email.loginOrSignup", () => {
         organization_id: "organization-id-1234",
         login_redirect_url: "http://localhost:8000/login",
         signup_redirect_url: "http://localhost:8000/signup",
+        pkce_code_challenge: "000000000000",
+        login_template_id: "login_dark_mode",
+        signup_template_id: "signup_dark_mode",
+        locale: "es",
       },
     });
   });
@@ -118,6 +123,7 @@ describe("magicLinks.email.invite", () => {
         invite_template_id: "invite_darkmode",
         trusted_metadata: { a: 1, b: [2] },
         untrusted_metadata: { a: 1, b: [2] },
+        locale: "pt-br",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -131,6 +137,7 @@ describe("magicLinks.email.invite", () => {
         invite_template_id: "invite_darkmode",
         trusted_metadata: { a: 1, b: [2] },
         untrusted_metadata: { a: 1, b: [2] },
+        locale: "pt-br",
       },
     });
   });
@@ -157,6 +164,7 @@ describe("magicLinks.email.discovery.send", () => {
         discovery_redirect_url: "http://localhost:8000/discover",
         pkce_code_challenge: "000000000000",
         login_template_id: "login_dark_mode",
+        locale: "pt-br",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -166,6 +174,7 @@ describe("magicLinks.email.discovery.send", () => {
         discovery_redirect_url: "http://localhost:8000/discover",
         pkce_code_challenge: "000000000000",
         login_template_id: "login_dark_mode",
+        locale: "pt-br",
       },
     });
   });

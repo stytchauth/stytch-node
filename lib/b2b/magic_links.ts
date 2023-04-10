@@ -10,6 +10,7 @@ export interface LoginOrSignupByEmailRequest {
   pkce_code_challenge?: string;
   login_template_id?: string;
   signup_template_id?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface LoginOrSignupByEmailResponse extends ResponseWithMember {
@@ -25,6 +26,7 @@ export interface InviteByEmailRequest {
   invite_template_id?: string;
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br";
 }
 
 export type InviteByEmailResponse = ResponseWithMember;
@@ -52,6 +54,7 @@ export interface DiscoveryByEmailRequest {
   discovery_redirect_url?: string;
   pkce_code_challenge?: string;
   login_template_id?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export type DiscoveryByEmailResponse = BaseResponse;
