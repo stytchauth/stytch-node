@@ -2,6 +2,7 @@ import { BaseResponse, request, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { SAML } from "./saml";
 import { Organization } from "./organizations";
+import { OIDC } from "./oidc";
 
 export interface X509Certificate {
   certificate_id: string;
@@ -9,6 +10,21 @@ export interface X509Certificate {
   issuer: string;
   created_at: string;
   expires_at: string;
+}
+
+export interface OIDCConnection {
+  organization_id: string;
+  connection_id: string;
+  status: string;
+  display_name: string;
+  redirect_url: string;
+  client_id: string;
+  client_secret: string;
+  issuer: string;
+  authorization_url: string;
+  token_url: string;
+  userinfo_url: string;
+  jwks_url: string;
 }
 
 export interface SAMLConnection {
@@ -31,6 +47,7 @@ export interface GetSSOConnectionsRequest {
 
 export interface GetSSOConnectionsResponse extends BaseResponse {
   saml_connections: SAMLConnection[];
+  oidc_connections: OIDCConnection[];
 }
 
 export interface DeleteSSOConnectionRequest {
@@ -65,9 +82,11 @@ export interface SSOAuthenticateResponse extends BaseResponse {
 
 export class SSO {
   saml: SAML;
+  oidc: OIDC;
 
   constructor(private readonly fetchConfig: fetchConfig) {
     this.saml = new SAML(fetchConfig);
+    this.oidc = new OIDC(fetchConfig);
   }
 
   get({

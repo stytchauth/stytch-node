@@ -9,10 +9,13 @@ var _shared = require("../shared");
 
 var _saml = require("./saml");
 
+var _oidc = require("./oidc");
+
 class SSO {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.saml = new _saml.SAML(fetchConfig);
+    this.oidc = new _oidc.OIDC(fetchConfig);
   }
 
   get({
