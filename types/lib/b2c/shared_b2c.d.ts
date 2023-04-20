@@ -154,6 +154,16 @@ export interface DiscordOAuthFactor {
         provider_subject: string;
     };
 }
+export interface SalesforceOAuthFactor {
+    delivery_method: "oauth_salesforce";
+    type: string;
+    last_authenticated_at: string;
+    salesforce_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+}
 export interface SlackOAuthFactor {
     delivery_method: "oauth_slack";
     type: string;
@@ -300,7 +310,7 @@ export interface PasswordFactor {
     type: string;
     last_authenticated_at: string;
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | TwitchOAuthFactor | TwitterOAuthFactor | TikTokOAuthFactor | SnapchatOAuthFactor | FigmaOAuthFactor | WebAuthnFactor | BiometricFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
+export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SalesforceOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | TwitchOAuthFactor | TwitterOAuthFactor | TikTokOAuthFactor | SnapchatOAuthFactor | FigmaOAuthFactor | WebAuthnFactor | BiometricFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
 export interface Session {
     session_id: string;
     user_id: string;

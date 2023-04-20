@@ -175,6 +175,17 @@ export interface DiscordOAuthFactor {
   };
 }
 
+export interface SalesforceOAuthFactor {
+  delivery_method: "oauth_salesforce";
+  type: string;
+  last_authenticated_at: string;
+  salesforce_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
 export interface SlackOAuthFactor {
   delivery_method: "oauth_slack";
   type: string;
@@ -347,6 +358,7 @@ export type AuthenticationFactor =
   | GitLabOAuthFactor
   | FacebookOAuthFactor
   | DiscordOAuthFactor
+  | SalesforceOAuthFactor
   | SlackOAuthFactor
   | AmazonOAuthFactor
   | BitbucketOAuthFactor
