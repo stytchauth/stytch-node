@@ -18,7 +18,7 @@
     "url": "git://github.com/stytchauth/stytch-node.git"
   },
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 16.0.0"
   },
   "scripts": {
     "build": "rm -rf dist types && babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
