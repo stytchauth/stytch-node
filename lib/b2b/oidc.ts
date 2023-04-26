@@ -1,16 +1,16 @@
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { OIDCConnection } from "./sso";
 
-export interface CreateOIDCConnectionRequest {
+export interface B2BOIDCCreateConnectionRequest {
   organization_id: string;
   display_name?: string;
 }
 
-export interface CreateOIDCConnectionResponse extends BaseResponse {
+export interface B2BOIDCCreateConnectionResponse extends BaseResponse {
   connection: OIDCConnection;
 }
 
-export interface UpdateOIDCConnectionRequest {
+export interface B2BOIDCUpdateConnectionRequest {
   organization_id: string;
   connection_id: string;
   display_name?: string;
@@ -23,7 +23,7 @@ export interface UpdateOIDCConnectionRequest {
   jwks_url?: string;
 }
 
-export interface UpdateOIDCConnectionResponse extends BaseResponse {
+export interface B2BOIDCUpdateConnectionResponse extends BaseResponse {
   connection: OIDCConnection;
 }
 
@@ -33,7 +33,7 @@ export class OIDC {
   create({
     organization_id,
     ...data
-  }: CreateOIDCConnectionRequest): Promise<CreateOIDCConnectionResponse> {
+  }: B2BOIDCCreateConnectionRequest): Promise<B2BOIDCCreateConnectionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `sso/oidc/${organization_id}`,
@@ -45,7 +45,7 @@ export class OIDC {
     organization_id,
     connection_id,
     ...data
-  }: UpdateOIDCConnectionRequest): Promise<UpdateOIDCConnectionResponse> {
+  }: B2BOIDCUpdateConnectionRequest): Promise<B2BOIDCUpdateConnectionResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: `sso/oidc/${organization_id}/connections/${connection_id}`,

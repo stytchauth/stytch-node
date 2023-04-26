@@ -1,7 +1,7 @@
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
 import { DiscoveredOrganization } from "./organizations";
-export interface LoginOrSignupByEmailRequest {
+export interface B2BMagicLinksLoginOrSignupByEmailRequest {
     organization_id: string;
     email_address: string;
     login_redirect_url?: string;
@@ -11,10 +11,10 @@ export interface LoginOrSignupByEmailRequest {
     signup_template_id?: string;
     locale?: "en" | "es" | "pt-br";
 }
-export interface LoginOrSignupByEmailResponse extends ResponseWithMember {
+export interface B2BMagicLinksLoginOrSignupByEmailResponse extends ResponseWithMember {
     member_created: boolean;
 }
-export interface InviteByEmailRequest {
+export interface B2BMagicLinksInviteByEmailRequest {
     organization_id: string;
     email_address: string;
     name?: string;
@@ -25,8 +25,8 @@ export interface InviteByEmailRequest {
     untrusted_metadata?: Record<string, any>;
     locale?: "en" | "es" | "pt-br";
 }
-export declare type InviteByEmailResponse = ResponseWithMember;
-export interface MagicLinksAuthenticateRequest {
+export declare type B2BMagicLinksInviteByEmailResponse = ResponseWithMember;
+export interface B2BMagicLinksAuthenticateRequest {
     magic_links_token: string;
     session_token?: string;
     session_jwt?: string;
@@ -34,7 +34,7 @@ export interface MagicLinksAuthenticateRequest {
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
 }
-export interface MagicLinksAuthenticateResponse extends ResponseWithMember {
+export interface B2BMagicLinksAuthenticateResponse extends ResponseWithMember {
     organization_id: string;
     method_id: string;
     member_session?: MemberSession;
@@ -42,19 +42,19 @@ export interface MagicLinksAuthenticateResponse extends ResponseWithMember {
     session_jwt?: string;
     reset_sessions: boolean;
 }
-export interface DiscoveryByEmailRequest {
+export interface B2BMagicLinksDiscoveryByEmailRequest {
     email_address: string;
     discovery_redirect_url?: string;
     pkce_code_challenge?: string;
     login_template_id?: string;
     locale?: "en" | "es" | "pt-br";
 }
-export declare type DiscoveryByEmailResponse = BaseResponse;
-export interface DiscoveryAuthenticateRequest {
+export declare type B2BMagicLinksDiscoveryByEmailResponse = BaseResponse;
+export interface B2BMagicLinksDiscoveryAuthenticateRequest {
     discovery_magic_links_token: string;
     pkce_code_verifier?: string;
 }
-export interface DiscoveryAuthenticateResponse extends BaseResponse {
+export interface B2BMagicLinksDiscoveryAuthenticateResponse extends BaseResponse {
     intermediate_session_token: string;
     email_address: string;
     discovered_organizations: DiscoveredOrganization[];
@@ -62,12 +62,12 @@ export interface DiscoveryAuthenticateResponse extends BaseResponse {
 declare class EmailDiscovery {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
-    send(data: DiscoveryByEmailRequest): Promise<DiscoveryByEmailResponse>;
+    send(data: B2BMagicLinksDiscoveryByEmailRequest): Promise<B2BMagicLinksDiscoveryByEmailResponse>;
 }
 declare class Discovery {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
-    authenticate(data: DiscoveryAuthenticateRequest): Promise<DiscoveryAuthenticateResponse>;
+    authenticate(data: B2BMagicLinksDiscoveryAuthenticateRequest): Promise<B2BMagicLinksDiscoveryAuthenticateResponse>;
 }
 declare class Email {
     private base_path;
@@ -76,8 +76,8 @@ declare class Email {
     discovery: EmailDiscovery;
     constructor(fetchConfig: fetchConfig, parent_path: string);
     private endpoint;
-    loginOrSignup(data: LoginOrSignupByEmailRequest): Promise<LoginOrSignupByEmailResponse>;
-    invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse>;
+    loginOrSignup(data: B2BMagicLinksLoginOrSignupByEmailRequest): Promise<B2BMagicLinksLoginOrSignupByEmailResponse>;
+    invite(data: B2BMagicLinksInviteByEmailRequest): Promise<B2BMagicLinksInviteByEmailResponse>;
 }
 export declare class MagicLinks {
     private base_path;
@@ -86,6 +86,6 @@ export declare class MagicLinks {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data: MagicLinksAuthenticateRequest): Promise<MagicLinksAuthenticateResponse>;
+    authenticate(data: B2BMagicLinksAuthenticateRequest): Promise<B2BMagicLinksAuthenticateResponse>;
 }
 export {};

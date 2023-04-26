@@ -75,7 +75,7 @@ export interface DiscoveredOrganization {
   member_authenticated: boolean;
 }
 
-export interface CreateOrganizationRequest {
+export interface B2BOrganizationCreateRequest {
   organization_name: string;
   organization_slug: string;
   organization_logo_url?: string;
@@ -88,19 +88,19 @@ export interface CreateOrganizationRequest {
   allowed_auth_methods?: string[];
 }
 
-export interface CreateOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationCreateResponse extends BaseResponse {
   organization: Organization;
 }
 
-export interface GetOrganizationRequest {
+export interface B2BOrganizationGetRequest {
   organization_id: string;
 }
 
-export interface GetOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationGetResponse extends BaseResponse {
   organization: Organization;
 }
 
-export interface SearchOrganizationRequest {
+export interface B2BOrganizationSearchRequest {
   limit?: number;
   query?: {
     operator: SearchOperator;
@@ -109,20 +109,20 @@ export interface SearchOrganizationRequest {
   cursor?: string | null;
 }
 
-export interface SearchOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationSearchResponse extends BaseResponse {
   organizations: Organization[];
   results_metadata: ResultsMetadata;
 }
 
-export interface DeleteOrganizationRequest {
+export interface B2BOrganizationDeleteRequest {
   organization_id: string;
 }
 
-export interface DeleteOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationDeleteResponse extends BaseResponse {
   organization_id: string;
 }
 
-export interface UpdateOrganizationRequest {
+export interface B2BOrganizationUpdateRequest {
   organization_id: string;
   organization_name?: string;
   organization_slug?: string;
@@ -141,7 +141,7 @@ export interface UpdateOrganizationRequest {
   allowed_auth_methods?: string[];
 }
 
-export interface UpdateOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationUpdateResponse extends BaseResponse {
   organization: Organization;
 }
 
@@ -160,7 +160,9 @@ export class Organizations {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateOrganizationRequest): Promise<CreateOrganizationResponse> {
+  create(
+    data: B2BOrganizationCreateRequest
+  ): Promise<B2BOrganizationCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -170,14 +172,16 @@ export class Organizations {
 
   get({
     organization_id,
-  }: GetOrganizationRequest): Promise<GetOrganizationResponse> {
+  }: B2BOrganizationGetRequest): Promise<B2BOrganizationGetResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(organization_id),
     });
   }
 
-  search(data: SearchOrganizationRequest): Promise<SearchOrganizationResponse> {
+  search(
+    data: B2BOrganizationSearchRequest
+  ): Promise<B2BOrganizationSearchResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("search"),
@@ -185,7 +189,9 @@ export class Organizations {
     });
   }
 
-  update(data: UpdateOrganizationRequest): Promise<UpdateOrganizationResponse> {
+  update(
+    data: B2BOrganizationUpdateRequest
+  ): Promise<B2BOrganizationUpdateResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(data.organization_id),
@@ -195,7 +201,7 @@ export class Organizations {
 
   delete({
     organization_id,
-  }: DeleteOrganizationRequest): Promise<DeleteOrganizationResponse> {
+  }: B2BOrganizationDeleteRequest): Promise<B2BOrganizationDeleteResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(organization_id),

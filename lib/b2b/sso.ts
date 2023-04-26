@@ -41,25 +41,25 @@ export interface SAMLConnection {
   verification_certificates: X509Certificate[];
 }
 
-export interface GetSSOConnectionsRequest {
+export interface B2BSSOGetConnectionsRequest {
   organization_id: string;
 }
 
-export interface GetSSOConnectionsResponse extends BaseResponse {
+export interface B2BSSOGetConnectionsResponse extends BaseResponse {
   saml_connections: SAMLConnection[];
   oidc_connections: OIDCConnection[];
 }
 
-export interface DeleteSSOConnectionRequest {
+export interface B2BSSODeleteConnectionRequest {
   organization_id: string;
   connection_id: string;
 }
 
-export interface DeleteSSOConnectionResponse extends BaseResponse {
+export interface B2BSSODeleteConnectionResponse extends BaseResponse {
   connection_id: string;
 }
 
-export interface SSOAuthenticateRequest {
+export interface B2BSSOAuthenticateRequest {
   sso_token: string;
   session_token?: string;
   session_jwt?: string;
@@ -68,7 +68,7 @@ export interface SSOAuthenticateRequest {
   pkce_code_verifier?: string;
 }
 
-export interface SSOAuthenticateResponse extends BaseResponse {
+export interface B2BSSOAuthenticateResponse extends BaseResponse {
   member_id: string;
   member: Member;
   organization_id: string;
@@ -91,7 +91,7 @@ export class SSO {
 
   get({
     organization_id,
-  }: GetSSOConnectionsRequest): Promise<GetSSOConnectionsResponse> {
+  }: B2BSSOGetConnectionsRequest): Promise<B2BSSOGetConnectionsResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: `sso/${organization_id}`,
@@ -101,14 +101,16 @@ export class SSO {
   delete({
     organization_id,
     connection_id,
-  }: DeleteSSOConnectionRequest): Promise<DeleteSSOConnectionResponse> {
+  }: B2BSSODeleteConnectionRequest): Promise<B2BSSODeleteConnectionResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: `sso/${organization_id}/connections/${connection_id}`,
     });
   }
 
-  authenticate(data: SSOAuthenticateRequest): Promise<SSOAuthenticateResponse> {
+  authenticate(
+    data: B2BSSOAuthenticateRequest
+  ): Promise<B2BSSOAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `sso/authenticate`,

@@ -1,13 +1,13 @@
 import { BaseResponse, fetchConfig } from "../shared";
 import { OIDCConnection } from "./sso";
-export interface CreateOIDCConnectionRequest {
+export interface B2BOIDCCreateConnectionRequest {
     organization_id: string;
     display_name?: string;
 }
-export interface CreateOIDCConnectionResponse extends BaseResponse {
+export interface B2BOIDCCreateConnectionResponse extends BaseResponse {
     connection: OIDCConnection;
 }
-export interface UpdateOIDCConnectionRequest {
+export interface B2BOIDCUpdateConnectionRequest {
     organization_id: string;
     connection_id: string;
     display_name?: string;
@@ -19,12 +19,12 @@ export interface UpdateOIDCConnectionRequest {
     userinfo_url?: string;
     jwks_url?: string;
 }
-export interface UpdateOIDCConnectionResponse extends BaseResponse {
+export interface B2BOIDCUpdateConnectionResponse extends BaseResponse {
     connection: OIDCConnection;
 }
 export declare class OIDC {
     private readonly fetchConfig;
     constructor(fetchConfig: fetchConfig);
-    create({ organization_id, ...data }: CreateOIDCConnectionRequest): Promise<CreateOIDCConnectionResponse>;
-    update({ organization_id, connection_id, ...data }: UpdateOIDCConnectionRequest): Promise<UpdateOIDCConnectionResponse>;
+    create({ organization_id, ...data }: B2BOIDCCreateConnectionRequest): Promise<B2BOIDCCreateConnectionResponse>;
+    update({ organization_id, connection_id, ...data }: B2BOIDCUpdateConnectionRequest): Promise<B2BOIDCUpdateConnectionResponse>;
 }
