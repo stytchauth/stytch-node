@@ -70,14 +70,11 @@ class Organizations {
   create(
     data: B2BDiscoveryOrganizationCreateRequest
   ): Promise<B2BDiscoveryOrganizationCreateResponse> {
-    return request<B2BDiscoveryOrganizationCreateResponse>(
-      this.fetchConfig,
-      {
-        method: "POST",
-        url: "discovery/organizations/create",
-        data,
-      }
-    );
+    return request<B2BDiscoveryOrganizationCreateResponse>(this.fetchConfig, {
+      method: "POST",
+      url: "discovery/organizations/create",
+      data,
+    });
   }
 }
 
