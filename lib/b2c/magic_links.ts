@@ -57,18 +57,18 @@ export interface InviteByEmailResponse extends BaseResponse {
   email_id: string;
 }
 
-export interface CreateRequest {
+export interface MagicLinksCreateRequest {
   user_id: string;
   expiration_minutes?: number;
   attributes?: Attributes;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface MagicLinksCreateResponse extends BaseResponse {
   token: string;
   user_id: string;
 }
 
-export interface AuthenticateRequest {
+export interface MagicLinksAuthenticateRequest {
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -81,7 +81,7 @@ export interface AuthenticateRequest {
   code_verifier?: string;
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface MagicLinksAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   method_id: string;
@@ -165,7 +165,7 @@ export class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: MagicLinksCreateRequest): Promise<MagicLinksCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -175,8 +175,8 @@ export class MagicLinks {
 
   authenticate(
     token: string,
-    data?: AuthenticateRequest
-  ): Promise<AuthenticateResponse> {
+    data?: MagicLinksAuthenticateRequest
+  ): Promise<MagicLinksAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

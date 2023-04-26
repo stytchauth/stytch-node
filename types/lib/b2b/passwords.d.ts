@@ -1,7 +1,7 @@
 import { BaseResponse, fetchConfig } from "../shared";
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import * as shared from "../shared/passwords";
-export interface AuthenticateRequest {
+export interface PasswordsAuthenticateRequest {
     organization_id: string;
     email_address: string;
     password: string;
@@ -10,7 +10,7 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends ResponseWithMember {
+export interface PasswordsAuthenticateResponse extends ResponseWithMember {
     organization_id: string;
     session_token?: string;
     session_jwt?: string;
@@ -111,7 +111,7 @@ export declare class Passwords {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data?: PasswordsAuthenticateRequest): Promise<PasswordsAuthenticateResponse>;
     resetByEmailStart(data: EmailResetStartRequest): Promise<EmailResetStartResponse>;
     resetByEmail(data?: EmailResetRequest): Promise<EmailResetResponse>;
     resetByExistingPassword(data: ExistingPasswordResetRequest): Promise<ExistingPasswordResetResponse>;

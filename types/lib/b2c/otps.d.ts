@@ -79,7 +79,7 @@ export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
     phone_id: string;
     user_created: boolean;
 }
-export interface AuthenticateRequest {
+export interface OTPAuthenticateRequest {
     method_id: string;
     code: string;
     attributes?: Attributes;
@@ -92,7 +92,7 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface OTPAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     method_id: string;
@@ -136,6 +136,6 @@ export declare class OTPs {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: OTPAuthenticateRequest): Promise<OTPAuthenticateResponse>;
 }
 export {};

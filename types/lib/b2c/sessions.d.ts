@@ -4,7 +4,7 @@ import { JwtConfig } from "../shared/sessions";
 export interface GetRequest {
     user_id: string;
 }
-export interface GetResponse extends BaseResponse {
+export interface SessionsGetResponse extends BaseResponse {
     sessions: Session[];
 }
 export interface JwksResponse extends BaseResponse {
@@ -21,13 +21,13 @@ export interface JWK {
     n: string;
     e: string;
 }
-export interface AuthenticateRequest {
+export interface SessionsAuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
     session_jwt?: string;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface SessionsAuthenticateResponse extends BaseResponse {
     session: Session;
     user: User;
     session_token: string;
@@ -46,9 +46,9 @@ export declare class Sessions {
     private jwtOptions;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     private endpoint;
-    get(params: GetRequest): Promise<GetResponse>;
+    get(params: GetRequest): Promise<SessionsGetResponse>;
     jwks(project_id: string): Promise<JwksResponse>;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: SessionsAuthenticateRequest): Promise<SessionsAuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
      * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at

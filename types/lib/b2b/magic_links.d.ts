@@ -26,7 +26,7 @@ export interface InviteByEmailRequest {
     locale?: "en" | "es" | "pt-br";
 }
 export declare type InviteByEmailResponse = ResponseWithMember;
-export interface AuthenticateRequest {
+export interface MagicLinksAuthenticateRequest {
     magic_links_token: string;
     session_token?: string;
     session_jwt?: string;
@@ -34,7 +34,7 @@ export interface AuthenticateRequest {
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
 }
-export interface AuthenticateResponse extends ResponseWithMember {
+export interface MagicLinksAuthenticateResponse extends ResponseWithMember {
     organization_id: string;
     method_id: string;
     member_session?: MemberSession;
@@ -86,6 +86,6 @@ export declare class MagicLinks {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: MagicLinksAuthenticateRequest): Promise<MagicLinksAuthenticateResponse>;
 }
 export {};

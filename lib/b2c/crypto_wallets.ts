@@ -2,7 +2,7 @@ import { Session, User } from "./shared_b2c";
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { UserID } from "./users";
 
-export interface AuthenticateStartRequest {
+export interface CryptoWalletsAuthenticateStartRequest {
   crypto_wallet_address: string;
   crypto_wallet_type: string;
   user_id?: UserID;
@@ -10,13 +10,13 @@ export interface AuthenticateStartRequest {
   session_jwt?: string;
 }
 
-export interface AuthenticateStartResponse extends BaseResponse {
+export interface CryptoWalletsAuthenticateStartResponse extends BaseResponse {
   user_id: UserID;
   challenge: string;
   user_created: boolean;
 }
 
-export interface AuthenticateRequest {
+export interface CryptoWalletsAuthenticateRequest {
   crypto_wallet_address: string;
   crypto_wallet_type: string;
   signature: string;
@@ -26,7 +26,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface CryptoWalletsAuthenticateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   session_token?: string;
@@ -47,8 +47,8 @@ export class CryptoWallets {
   }
 
   authenticateStart(
-    data: AuthenticateStartRequest
-  ): Promise<AuthenticateStartResponse> {
+    data: CryptoWalletsAuthenticateStartRequest
+  ): Promise<CryptoWalletsAuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
@@ -56,7 +56,9 @@ export class CryptoWallets {
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data: CryptoWalletsAuthenticateRequest
+  ): Promise<CryptoWalletsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

@@ -92,7 +92,7 @@ export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
   user_created: boolean;
 }
 
-export interface AuthenticateRequest {
+export interface OTPAuthenticateRequest {
   method_id: string;
   code: string;
   attributes?: Attributes;
@@ -106,7 +106,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface OTPAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   method_id: string;
@@ -237,7 +237,7 @@ export class OTPs {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(data: OTPAuthenticateRequest): Promise<OTPAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

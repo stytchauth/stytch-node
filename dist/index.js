@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   Client: true,
+  B2C: true,
   B2BClient: true,
+  B2B: true,
   envs: true,
   UserSearchOperator: true,
   SearchOperator: true
@@ -34,11 +36,19 @@ Object.defineProperty(exports, "SearchOperator", {
     return _shared_b2b.SearchOperator;
   }
 });
-exports.envs = void 0;
+exports.envs = exports.B2B = exports.B2C = void 0;
 
 var _client = require("./b2c/client");
 
+var _B2C = _interopRequireWildcard(require("./b2c/index"));
+
+exports.B2C = _B2C;
+
 var _client2 = require("./b2b/client");
+
+var _B2B = _interopRequireWildcard(require("./b2b/index"));
+
+exports.B2B = _B2B;
 
 var _envs = _interopRequireWildcard(require("./shared/envs"));
 

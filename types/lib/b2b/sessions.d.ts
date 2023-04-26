@@ -23,13 +23,13 @@ export interface JWK {
     n: string;
     e: string;
 }
-export interface AuthenticateRequest {
+export interface SessionsAuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
     session_jwt?: string;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface SessionsAuthenticateResponse extends BaseResponse {
     member_session: MemberSession;
     member: Member;
     session_token: string;
@@ -70,7 +70,7 @@ export declare class Sessions {
     private endpoint;
     get({ organization_id, member_id }: GetRequest): Promise<GetResponse>;
     jwks(project_id: string): Promise<JwksResponse>;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(data: SessionsAuthenticateRequest): Promise<SessionsAuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
      * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at

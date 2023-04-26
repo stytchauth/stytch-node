@@ -8,7 +8,7 @@ export interface GetRequest {
   user_id: string;
 }
 
-export interface GetResponse extends BaseResponse {
+export interface SessionsGetResponse extends BaseResponse {
   sessions: Session[];
 }
 
@@ -29,14 +29,14 @@ export interface JWK {
   e: string;
 }
 
-export interface AuthenticateRequest {
+export interface SessionsAuthenticateRequest {
   session_duration_minutes?: number;
   session_token?: string;
   session_jwt?: string;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface SessionsAuthenticateResponse extends BaseResponse {
   session: Session;
   user: User;
   session_token: string;
@@ -73,7 +73,7 @@ export class Sessions {
     return `${this.base_path}/${path}`;
   }
 
-  get(params: GetRequest): Promise<GetResponse> {
+  get(params: GetRequest): Promise<SessionsGetResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
@@ -88,7 +88,9 @@ export class Sessions {
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data: SessionsAuthenticateRequest
+  ): Promise<SessionsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

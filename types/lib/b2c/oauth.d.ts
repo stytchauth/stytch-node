@@ -1,13 +1,13 @@
 import { Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
-export interface AuthenticateRequest {
+export interface OAuthAuthenticateRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     code_verifier?: string;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface OAuthAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     oauth_user_registration_id: string;
@@ -41,6 +41,6 @@ export declare class OAuth {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
+    authenticate(token: string, data?: OAuthAuthenticateRequest): Promise<OAuthAuthenticateResponse>;
     attach(data?: AttachRequest): Promise<AttachResponse>;
 }

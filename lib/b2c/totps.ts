@@ -7,12 +7,12 @@ export interface TOTP {
   recovery_codes: string[];
 }
 
-export interface CreateRequest {
+export interface TOTPsCreateRequest {
   user_id: string;
   expiration_minutes?: number;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface TOTPsCreateResponse extends BaseResponse {
   totp_id: string;
   secret: string;
   qr_code: string;
@@ -21,7 +21,7 @@ export interface CreateResponse extends BaseResponse {
   user_id: string;
 }
 
-export interface AuthenticateRequest {
+export interface TOTPsAuthenticateRequest {
   user_id: string;
   totp_code: string;
   session_token?: string;
@@ -30,7 +30,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface TOTPsAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   totp_id: string;
@@ -79,7 +79,7 @@ export class TOTPs {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: TOTPsCreateRequest): Promise<TOTPsCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -87,7 +87,9 @@ export class TOTPs {
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data: TOTPsAuthenticateRequest
+  ): Promise<TOTPsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

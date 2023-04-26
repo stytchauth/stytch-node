@@ -26,7 +26,7 @@ export interface PendingUser {
   totps: TOTP[];
 }
 
-export interface CreateRequest {
+export interface UsersCreateRequest {
   email?: string;
   phone_number?: string;
   name?: Name;
@@ -36,7 +36,7 @@ export interface CreateRequest {
   untrusted_metadata?: UserMetadata;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface UsersCreateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   email_id: string;
@@ -290,7 +290,7 @@ export class Users {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: UsersCreateRequest): Promise<UsersCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,

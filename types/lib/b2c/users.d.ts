@@ -13,7 +13,7 @@ export interface PendingUser {
     invited_at: string;
     totps: TOTP[];
 }
-export interface CreateRequest {
+export interface UsersCreateRequest {
     email?: string;
     phone_number?: string;
     name?: Name;
@@ -22,7 +22,7 @@ export interface CreateRequest {
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
 }
-export interface CreateResponse extends BaseResponse {
+export interface UsersCreateResponse extends BaseResponse {
     user_id: UserID;
     user: User;
     email_id: string;
@@ -194,7 +194,7 @@ export declare class Users {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateRequest): Promise<CreateResponse>;
+    create(data: UsersCreateRequest): Promise<UsersCreateResponse>;
     get(userID: UserID): Promise<GetResponse>;
     search(data: SearchRequest): Promise<SearchResponse>;
     searchAll(data: SearchRequest): UserSearchIterator;

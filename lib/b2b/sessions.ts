@@ -30,14 +30,14 @@ export interface JWK {
   e: string;
 }
 
-export interface AuthenticateRequest {
+export interface SessionsAuthenticateRequest {
   session_duration_minutes?: number;
   session_token?: string;
   session_jwt?: string;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface SessionsAuthenticateResponse extends BaseResponse {
   member_session: MemberSession;
   member: Member;
   session_token: string;
@@ -108,8 +108,10 @@ export class Sessions {
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<AuthenticateResponse>(this.fetchConfig, {
+  authenticate(
+    data: SessionsAuthenticateRequest
+  ): Promise<SessionsAuthenticateResponse> {
+    return request<SessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,

@@ -3,7 +3,7 @@ import { request, BaseResponse, fetchConfig } from "../shared";
 import { UserMetadata } from "./users";
 import * as shared from "../shared/passwords";
 
-export interface CreateRequest {
+export interface PasswordsCreateRequest {
   email: string;
   password: string;
   name?: Name;
@@ -13,7 +13,7 @@ export interface CreateRequest {
   untrusted_metadata?: UserMetadata;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface PasswordsCreateResponse extends BaseResponse {
   user_id: string;
   user: User;
   email_id: string;
@@ -22,7 +22,7 @@ export interface CreateResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface AuthenticateRequest {
+export interface PasswordsAuthenticateRequest {
   email: string;
   password: string;
   session_token?: string;
@@ -31,7 +31,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface PasswordsAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   session_token?: string;
@@ -167,7 +167,7 @@ export class Passwords {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: PasswordsCreateRequest): Promise<PasswordsCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -175,7 +175,9 @@ export class Passwords {
     });
   }
 
-  authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data?: PasswordsAuthenticateRequest
+  ): Promise<PasswordsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

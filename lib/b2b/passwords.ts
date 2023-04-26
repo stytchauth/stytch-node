@@ -2,7 +2,7 @@ import { request, BaseResponse, fetchConfig } from "../shared";
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import * as shared from "../shared/passwords";
 
-export interface AuthenticateRequest {
+export interface PasswordsAuthenticateRequest {
   organization_id: string;
   email_address: string;
   password: string;
@@ -12,7 +12,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends ResponseWithMember {
+export interface PasswordsAuthenticateResponse extends ResponseWithMember {
   organization_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -142,7 +142,9 @@ export class Passwords {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data?: PasswordsAuthenticateRequest
+  ): Promise<PasswordsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

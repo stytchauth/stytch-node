@@ -5,11 +5,11 @@ export interface TOTP {
     verified: boolean;
     recovery_codes: string[];
 }
-export interface CreateRequest {
+export interface TOTPsCreateRequest {
     user_id: string;
     expiration_minutes?: number;
 }
-export interface CreateResponse extends BaseResponse {
+export interface TOTPsCreateResponse extends BaseResponse {
     totp_id: string;
     secret: string;
     qr_code: string;
@@ -17,7 +17,7 @@ export interface CreateResponse extends BaseResponse {
     user: User;
     user_id: string;
 }
-export interface AuthenticateRequest {
+export interface TOTPsAuthenticateRequest {
     user_id: string;
     totp_code: string;
     session_token?: string;
@@ -25,7 +25,7 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface TOTPsAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     totp_id: string;
@@ -61,8 +61,8 @@ export declare class TOTPs {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateRequest): Promise<CreateResponse>;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    create(data: TOTPsCreateRequest): Promise<TOTPsCreateResponse>;
+    authenticate(data: TOTPsAuthenticateRequest): Promise<TOTPsAuthenticateResponse>;
     recoveryCodes(data: RecoveryCodesRequest): Promise<RecoveryCodesResponse>;
     recover(data: RecoverRequest): Promise<RecoverResponse>;
 }

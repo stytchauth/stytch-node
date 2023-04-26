@@ -2,7 +2,7 @@ import { Attributes, Name, Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
 import { UserMetadata } from "./users";
 import * as shared from "../shared/passwords";
-export interface CreateRequest {
+export interface PasswordsCreateRequest {
     email: string;
     password: string;
     name?: Name;
@@ -11,7 +11,7 @@ export interface CreateRequest {
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
 }
-export interface CreateResponse extends BaseResponse {
+export interface PasswordsCreateResponse extends BaseResponse {
     user_id: string;
     user: User;
     email_id: string;
@@ -19,7 +19,7 @@ export interface CreateResponse extends BaseResponse {
     session_jwt?: string;
     session?: Session;
 }
-export interface AuthenticateRequest {
+export interface PasswordsAuthenticateRequest {
     email: string;
     password: string;
     session_token?: string;
@@ -27,7 +27,7 @@ export interface AuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface PasswordsAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     session_token?: string;
@@ -134,8 +134,8 @@ export declare class Passwords {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateRequest): Promise<CreateResponse>;
-    authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse>;
+    create(data: PasswordsCreateRequest): Promise<PasswordsCreateResponse>;
+    authenticate(data?: PasswordsAuthenticateRequest): Promise<PasswordsAuthenticateResponse>;
     resetByEmailStart(data: ResetByEmailStartRequest): Promise<ResetByEmailStartResponse>;
     resetByEmail(token: string, password: string, data?: ResetByEmailRequest): Promise<ResetByEmailResponse>;
     resetByExistingPassword(data: ResetByExistingPasswordRequest): Promise<ResetByExistingPasswordResponse>;
