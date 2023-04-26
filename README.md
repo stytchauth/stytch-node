@@ -43,6 +43,7 @@ This client library supports all of Stytch's live products:
 - [x] [Session Management](https://stytch.com/docs/b2b/api/sessions-overview)
 - [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-overview)
 - [x] [Discovery](https://stytch.com/docs/b2b/api/discovery-overview)
+- [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-overview)
 
 ### Example B2C usage
 

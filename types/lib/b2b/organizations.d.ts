@@ -42,6 +42,8 @@ export interface Organization {
     email_allowed_domains: string[];
     email_jit_provisioning: "RESTRICTED" | "NOT_ALLOWED";
     email_invites: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
+    auth_methods: "ALL_ALLOWED" | "RESTRICTED";
+    allowed_auth_methods: string[];
 }
 export interface DiscoveredOrganization {
     organization: Organization;
@@ -56,6 +58,7 @@ export interface DiscoveredOrganization {
         details: null;
         member: Member;
     };
+    member_authenticated: boolean;
 }
 export interface CreateOrganizationRequest {
     organization_name: string;
@@ -66,6 +69,8 @@ export interface CreateOrganizationRequest {
     email_allowed_domains?: string[];
     email_jit_provisioning?: "RESTRICTED" | "NOT_ALLOWED";
     email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
+    auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
+    allowed_auth_methods?: string[];
 }
 export interface CreateOrganizationResponse extends BaseResponse {
     organization: Organization;
@@ -106,6 +111,8 @@ export interface UpdateOrganizationRequest {
     email_allowed_domains?: string[];
     email_jit_provisioning?: "RESTRICTED" | "NOT_ALLOWED";
     email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
+    auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
+    allowed_auth_methods?: string[];
 }
 export interface UpdateOrganizationResponse extends BaseResponse {
     organization: Organization;

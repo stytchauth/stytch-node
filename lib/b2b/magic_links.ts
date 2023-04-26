@@ -1,6 +1,6 @@
-import { MemberSession, Member } from "./shared_b2b";
+import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig, request } from "../shared";
-import { DiscoveredOrganization, Organization } from "./organizations";
+import { DiscoveredOrganization } from "./organizations";
 
 export interface LoginOrSignupByEmailRequest {
   organization_id: string;
@@ -10,13 +10,11 @@ export interface LoginOrSignupByEmailRequest {
   pkce_code_challenge?: string;
   login_template_id?: string;
   signup_template_id?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
-export interface LoginOrSignupByEmailResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
+export interface LoginOrSignupByEmailResponse extends ResponseWithMember {
   member_created: boolean;
-  organization: Organization;
 }
 
 export interface InviteByEmailRequest {
@@ -28,13 +26,10 @@ export interface InviteByEmailRequest {
   invite_template_id?: string;
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br";
 }
 
-export interface InviteByEmailResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
-}
+export type InviteByEmailResponse = ResponseWithMember;
 
 export interface AuthenticateRequest {
   magic_links_token: string;
@@ -45,10 +40,7 @@ export interface AuthenticateRequest {
   pkce_code_verifier?: string;
 }
 
-export interface AuthenticateResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
+export interface AuthenticateResponse extends ResponseWithMember {
   organization_id: string;
   method_id: string;
   member_session?: MemberSession;
@@ -62,12 +54,13 @@ export interface DiscoveryByEmailRequest {
   discovery_redirect_url?: string;
   pkce_code_challenge?: string;
   login_template_id?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export type DiscoveryByEmailResponse = BaseResponse;
 
 export interface DiscoveryAuthenticateRequest {
-  intermediate_magic_links_token: string;
+  discovery_magic_links_token: string;
   pkce_code_verifier?: string;
 }
 

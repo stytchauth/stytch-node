@@ -1,6 +1,5 @@
-import { Member, SearchOperator, ResultsMetadata } from "./shared_b2b";
+import { Member, SearchOperator, ResultsMetadata, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
-import { Organization } from "./organizations";
 export interface CreateMemberRequest {
     organization_id: string;
     email_address: string;
@@ -8,24 +7,24 @@ export interface CreateMemberRequest {
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
     create_member_as_pending?: boolean;
+    is_breakglass?: boolean;
 }
-export interface CreateMemberResponse extends BaseResponse {
-    member_id: string;
-    member: Member;
-    organization: Organization;
+export declare type CreateMemberResponse = ResponseWithMember;
+export interface GetMemberRequest {
+    organization_id: string;
+    member_id?: string;
+    email_address?: string;
 }
+export declare type GetMemberResponse = ResponseWithMember;
 export interface UpdateMemberRequest {
     organization_id: string;
     member_id: string;
     name?: string;
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
+    is_breakglass?: boolean;
 }
-export interface UpdateMemberResponse extends BaseResponse {
-    member_id: string;
-    member: Member;
-    organization: Organization;
-}
+export declare type UpdateMemberResponse = ResponseWithMember;
 export declare type MemberSearchOperand = {
     filter_name: "member_ids";
     filter_value: string[];
@@ -35,6 +34,9 @@ export declare type MemberSearchOperand = {
 } | {
     filter_name: "member_email_fuzzy";
     filter_value: string;
+} | {
+    filter_name: "member_is_breakglass";
+    filter_value: boolean;
 } | {
     filter_name: "statuses";
     filter_value: string[];
@@ -64,6 +66,7 @@ export declare class Members {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, parent_path: string);
     create(data: CreateMemberRequest): Promise<CreateMemberResponse>;
+    get(params: GetMemberRequest): Promise<GetMemberResponse>;
     update(data: UpdateMemberRequest): Promise<UpdateMemberResponse>;
     delete(data: DeleteMemberRequest): Promise<DeleteMemberResponse>;
     search(data: SearchOrganizationMemberRequest): Promise<SearchOrganizationMemberResponse>;

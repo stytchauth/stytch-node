@@ -50,6 +50,8 @@ describe("discovery.organizations.create", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -65,6 +67,8 @@ describe("discovery.organizations.create", () => {
         email_allowed_domains: ["stytch.co", "example.io"],
         email_jit_provisioning: "RESTRICTED",
         email_invites: "ALL_ALLOWED",
+        auth_methods: "RESTRICTED",
+        allowed_auth_methods: ["sso"],
       },
     });
   });
