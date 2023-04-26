@@ -237,7 +237,9 @@ export class OTPs {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(data: B2COTPsAuthenticateRequest): Promise<B2COTPsAuthenticateResponse> {
+  authenticate(
+    data: B2COTPsAuthenticateRequest
+  ): Promise<B2COTPsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

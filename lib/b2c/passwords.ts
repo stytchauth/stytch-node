@@ -86,7 +86,8 @@ export interface B2CPasswordsResetByExistingPasswordRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface B2CPasswordsResetByExistingPasswordResponse extends BaseResponse {
+export interface B2CPasswordsResetByExistingPasswordResponse
+  extends BaseResponse {
   user_id: string;
   user: User;
   session_token?: string;
@@ -217,7 +218,9 @@ export class Passwords {
     });
   }
 
-  resetBySession(data: B2CPasswordsResetBySessionRequest): Promise<B2CPasswordsResetBySessionResponse> {
+  resetBySession(
+    data: B2CPasswordsResetBySessionRequest
+  ): Promise<B2CPasswordsResetBySessionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("session/reset"),
@@ -225,7 +228,9 @@ export class Passwords {
     });
   }
 
-  strengthCheck(data: B2CPasswordsStrengthCheckRequest): Promise<B2CPasswordsStrengthCheckResponse> {
+  strengthCheck(
+    data: B2CPasswordsStrengthCheckRequest
+  ): Promise<B2CPasswordsStrengthCheckResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("strength_check"),
@@ -233,7 +238,9 @@ export class Passwords {
     });
   }
 
-  migrate(data: B2CPasswordsMigrateRequest): Promise<B2CPasswordsMigrateResponse> {
+  migrate(
+    data: B2CPasswordsMigrateRequest
+  ): Promise<B2CPasswordsMigrateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("migrate"),

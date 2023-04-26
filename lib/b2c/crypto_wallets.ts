@@ -10,7 +10,8 @@ export interface B2CCryptoWalletsAuthenticateStartRequest {
   session_jwt?: string;
 }
 
-export interface B2CCryptoWalletsAuthenticateStartResponse extends BaseResponse {
+export interface B2CCryptoWalletsAuthenticateStartResponse
+  extends BaseResponse {
   user_id: UserID;
   challenge: string;
   user_created: boolean;

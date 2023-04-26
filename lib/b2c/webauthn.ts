@@ -63,7 +63,9 @@ export class WebAuthn {
     return `${this.base_path}/${path}`;
   }
 
-  registerStart(data: B2CWebAuthnRegisterStartRequest): Promise<B2CWebAuthnRegisterStartResponse> {
+  registerStart(
+    data: B2CWebAuthnRegisterStartRequest
+  ): Promise<B2CWebAuthnRegisterStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register/start"),
@@ -71,7 +73,9 @@ export class WebAuthn {
     });
   }
 
-  register(data: B2CWebAuthnRegisterRequest): Promise<B2CWebAuthnRegisterResponse> {
+  register(
+    data: B2CWebAuthnRegisterRequest
+  ): Promise<B2CWebAuthnRegisterResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register"),
@@ -89,7 +93,9 @@ export class WebAuthn {
     });
   }
 
-  authenticate(data: B2CWebAuthnAuthenticateRequest): Promise<B2CWebAuthnAuthenticateResponse> {
+  authenticate(
+    data: B2CWebAuthnAuthenticateRequest
+  ): Promise<B2CWebAuthnAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

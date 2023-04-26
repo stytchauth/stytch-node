@@ -124,10 +124,11 @@ client.magicLinks.loginOrSignup({
 ```
 
 ## TypeScript support
+
 This package includes TypeScript declarations for the Stytch API.
 
-Request and response types will always follow the format `$Vertical$Product$Method(Request|Response)` - 
-for example the `B2BMagicLinksAuthenticateRequest` maps to the B2B 
+Request and response types will always follow the format `$Vertical$Product$Method(Request|Response)` -
+for example the `B2BMagicLinksAuthenticateRequest` maps to the B2B
 [Authenticate Magic Link](https://stytch.com/docs/b2b/api/authenticate-magic-link) endpoint, while the
 `B2CMagicLinksAuthenticateRequest` maps to the B2C [Authenticate Magic Link](https://stytch.com/docs/api/authenticate-magic-link) endpoint.
 

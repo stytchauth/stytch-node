@@ -97,7 +97,9 @@ export class TOTPs {
     });
   }
 
-  recoveryCodes(data: B2CTOTPsRecoveryCodesRequest): Promise<B2CTOTPsRecoveryCodesResponse> {
+  recoveryCodes(
+    data: B2CTOTPsRecoveryCodesRequest
+  ): Promise<B2CTOTPsRecoveryCodesResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recovery_codes"),

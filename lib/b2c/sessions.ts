@@ -1,5 +1,10 @@
 import * as jose from "jose";
-import { Attributes, Session, B2CAuthenticationFactor, User } from "./shared_b2c";
+import {
+  Attributes,
+  Session,
+  B2CAuthenticationFactor,
+  User,
+} from "./shared_b2c";
 
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";

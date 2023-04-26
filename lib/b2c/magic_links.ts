@@ -36,7 +36,8 @@ export interface B2CMagicLinksLoginOrCreateByEmailRequest {
   locale?: string;
 }
 
-export interface B2CMagicLinksLoginOrCreateByEmailResponse extends BaseResponse {
+export interface B2CMagicLinksLoginOrCreateByEmailResponse
+  extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
@@ -96,7 +97,8 @@ export interface B2CMagicLinksRevokePendingInviteByEmailRequest {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface B2CMagicLinksRevokePendingInviteByEmailResponse extends BaseResponse {}
+export interface B2CMagicLinksRevokePendingInviteByEmailResponse
+  extends BaseResponse {}
 
 class Email {
   base_path: string;
@@ -113,7 +115,9 @@ class Email {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(data: B2CMagicLinksSendByEmailRequest): Promise<B2CMagicLinksSendByEmailResponse> {
+  send(
+    data: B2CMagicLinksSendByEmailRequest
+  ): Promise<B2CMagicLinksSendByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
@@ -131,7 +135,9 @@ class Email {
     });
   }
 
-  invite(data: B2CMagicLinksInviteByEmailRequest): Promise<B2CMagicLinksInviteByEmailResponse> {
+  invite(
+    data: B2CMagicLinksInviteByEmailRequest
+  ): Promise<B2CMagicLinksInviteByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("invite"),
@@ -165,7 +171,9 @@ export class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: B2CMagicLinksCreateRequest): Promise<B2CMagicLinksCreateResponse> {
+  create(
+    data: B2CMagicLinksCreateRequest
+  ): Promise<B2CMagicLinksCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,

@@ -7,7 +7,7 @@
   "exports": {
     "require": "./dist/index.js",
     "import": "./module.mjs",
-    "types": "./types/lib/index"
+    "types": "./types/lib/index.d.ts"
   },
   "files": [
     "dist/**/*",

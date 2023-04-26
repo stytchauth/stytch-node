@@ -210,12 +210,14 @@ export interface B2CUsersDeletePhoneNumberResponse extends BaseResponse {
   user: User;
 }
 
-export interface B2CUsersDeleteWebAuthnRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteWebAuthnRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface B2CUsersDeleteBiometricRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteBiometricRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
@@ -235,7 +237,8 @@ export interface B2CUsersDeletePasswordResponse extends BaseResponse {
   user: User;
 }
 
-export interface B2CUsersDeleteOAuthUserRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteOAuthUserRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
@@ -317,7 +320,10 @@ export class Users {
     return new UserSearchIterator(this, data);
   }
 
-  update(userID: UserID, data: B2CUsersUpdateRequest): Promise<B2CUsersUpdateResponse> {
+  update(
+    userID: UserID,
+    data: B2CUsersUpdateRequest
+  ): Promise<B2CUsersUpdateResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
@@ -332,7 +338,9 @@ export class Users {
     });
   }
 
-  getPending(params?: B2CUsersGetPendingRequest): Promise<B2CUsersGetPendingResponse> {
+  getPending(
+    params?: B2CUsersGetPendingRequest
+  ): Promise<B2CUsersGetPendingResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint("pending"),
@@ -347,7 +355,9 @@ export class Users {
     });
   }
 
-  deletePhoneNumber(phoneID: string): Promise<B2CUsersDeletePhoneNumberResponse> {
+  deletePhoneNumber(
+    phoneID: string
+  ): Promise<B2CUsersDeletePhoneNumberResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
@@ -388,7 +398,9 @@ export class Users {
     });
   }
 
-  deletePassword(passwordID: string): Promise<B2CUsersDeleteCryptoWalletResponse> {
+  deletePassword(
+    passwordID: string
+  ): Promise<B2CUsersDeleteCryptoWalletResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),

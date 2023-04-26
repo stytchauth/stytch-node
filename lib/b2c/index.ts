@@ -46,17 +46,14 @@ export type {
 export type {
   B2COTPsAuthenticateRequest,
   B2COTPsAuthenticateResponse,
-
   B2COTPsSMSSendRequest,
   B2COTPsSMSSendResponse,
   B2COTPsSMSLoginOrCreateRequest,
   B2COTPsSMSLoginOrCreateResponse,
-
   B2COTPsEmailSendRequest,
   B2COTPsEmailSendResponse,
   B2COTPsEmailLoginOrCreateRequest,
   B2COTPsEmailLoginOrCreateResponse,
-
   B2COTPsWhatsAppSendRequest,
   B2COTPsWhatsAppSendResponse,
   B2COTPsWhatsAppLoginOrCreateRequest,
