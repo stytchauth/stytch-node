@@ -8,8 +8,8 @@ export type {
 export type {
   B2BDiscoveryIntermediateSessionExchangeRequest,
   B2BDiscoveryIntermediateSessionExchangeResponse,
-  B2BDiscoveryDiscoveryOrganizationCreateRequest,
-  B2BDiscoveryDiscoveryOrganizationCreateResponse,
+  B2BDiscoveryOrganizationCreateRequest,
+  B2BDiscoveryOrganizationCreateResponse,
   B2BDiscoveryOrganizationsRequest,
   B2BDiscoveryOrganizationsResponse,
 } from "./discovery";

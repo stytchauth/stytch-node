@@ -10,7 +10,7 @@ export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
     email_address: string;
     discovered_organizations: DiscoveredOrganization[];
 }
-export interface B2BDiscoveryDiscoveryOrganizationCreateRequest {
+export interface B2BDiscoveryOrganizationCreateRequest {
     intermediate_session_token: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
@@ -25,7 +25,7 @@ export interface B2BDiscoveryDiscoveryOrganizationCreateRequest {
     auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
     allowed_auth_methods?: string[];
 }
-export interface B2BDiscoveryDiscoveryOrganizationCreateResponse extends ResponseWithMember {
+export interface B2BDiscoveryOrganizationCreateResponse extends ResponseWithMember {
     member_session: MemberSession;
     session_token: string;
     session_jwt: string;
@@ -45,7 +45,7 @@ declare class Organizations {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     list(data: B2BDiscoveryOrganizationsRequest): Promise<B2BDiscoveryOrganizationsResponse>;
-    create(data: B2BDiscoveryDiscoveryOrganizationCreateRequest): Promise<B2BDiscoveryDiscoveryOrganizationCreateResponse>;
+    create(data: B2BDiscoveryOrganizationCreateRequest): Promise<B2BDiscoveryOrganizationCreateResponse>;
 }
 declare class IntermediateSessions {
     private fetchConfig;

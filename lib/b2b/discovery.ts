@@ -13,7 +13,7 @@ export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
   discovered_organizations: DiscoveredOrganization[];
 }
 
-export interface B2BDiscoveryDiscoveryOrganizationCreateRequest {
+export interface B2BDiscoveryOrganizationCreateRequest {
   intermediate_session_token: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -29,7 +29,7 @@ export interface B2BDiscoveryDiscoveryOrganizationCreateRequest {
   allowed_auth_methods?: string[];
 }
 
-export interface B2BDiscoveryDiscoveryOrganizationCreateResponse
+export interface B2BDiscoveryOrganizationCreateResponse
   extends ResponseWithMember {
   member_session: MemberSession;
   session_token: string;
@@ -68,9 +68,9 @@ class Organizations {
   }
 
   create(
-    data: B2BDiscoveryDiscoveryOrganizationCreateRequest
-  ): Promise<B2BDiscoveryDiscoveryOrganizationCreateResponse> {
-    return request<B2BDiscoveryDiscoveryOrganizationCreateResponse>(
+    data: B2BDiscoveryOrganizationCreateRequest
+  ): Promise<B2BDiscoveryOrganizationCreateResponse> {
+    return request<B2BDiscoveryOrganizationCreateResponse>(
       this.fetchConfig,
       {
         method: "POST",
