@@ -1,6 +1,6 @@
 {
   "name": "stytch",
-  "version": "5.4.0",
+  "version": "6.2.2",
   "description": "A wrapper for the Stytch API",
   "types": "./types/lib/index.d.ts",
   "main": "./dist/index.js",
@@ -22,8 +22,8 @@
   },
   "scripts": {
     "build": "rm -rf dist types && babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
-    "format": "prettier --write lib",
-    "check-format": "prettier --check lib",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
     "lint": "eslint lib",
     "test": "jest",
     "test-packages": "./test-packages/test.sh"
@@ -50,7 +50,6 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "isomorphic-base64": "^1.0.2",
     "isomorphic-unfetch": "^3.1.0",
     "jose": "^4.6.0"
   },

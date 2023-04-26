@@ -19,20 +19,36 @@ yarn add stytch
 You can find your API credentials in the [Stytch Dashboard](https://stytch.com/dashboard/api-keys).
 
 This client library supports all of Stytch's live products:
-  - [x] [Email Magic Links](https://stytch.com/docs/api/send-by-email)
-  - [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link-overview)
-  - [x] [OAuth logins](https://stytch.com/docs/api/oauth-overview)
-  - [x] [SMS passcodes](https://stytch.com/docs/api/send-otp-by-sms)
-  - [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
-  - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
-  - [x] [Session Management](https://stytch.com/docs/api/sessions-overview)
-  - [x] [WebAuthn (Beta)](https://stytch.com/docs/api/webauthn-overview)
-  - [x] [User Management (Beta)](https://stytch.com/docs/api/users)
-  - [x] [Time-based one-time passcodes (TOTPs) (Beta)](https://stytch.com/docs/api/totps-overview)
-  - [x] [Crypto wallets (Beta)](https://stytch.com/docs/api/crypto-wallet-overview)
 
-### Example usage
+**B2C**
+
+- [x] [Email Magic Links](https://stytch.com/docs/api/send-by-email)
+- [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link-overview)
+- [x] [OAuth logins](https://stytch.com/docs/api/oauth-overview)
+- [x] [SMS passcodes](https://stytch.com/docs/api/send-otp-by-sms)
+- [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
+- [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
+- [x] [Session Management](https://stytch.com/docs/api/sessions-overview)
+- [x] [WebAuthn](https://stytch.com/docs/api/webauthn-overview)
+- [x] [User Management](https://stytch.com/docs/api/users)
+- [x] [Time-based one-time passcodes (TOTPs)](https://stytch.com/docs/api/totps-overview)
+- [x] [Crypto wallets](https://stytch.com/docs/api/crypto-wallet-overview)
+- [x] [Passwords](https://stytch.com/docs/api/password-overview)
+
+**B2B**
+
+- [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
+- [x] [Members](https://stytch.com/docs/b2b/api/member-object)
+- [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
+- [x] [Session Management](https://stytch.com/docs/b2b/api/sessions-overview)
+- [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-overview)
+- [x] [Discovery](https://stytch.com/docs/b2b/api/discovery-overview)
+- [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-overview)
+
+### Example B2C usage
+
 Create an API client:
+
 ```javascript
 const stytch = require("stytch");
 // Or as an ES6 module:
@@ -46,6 +62,7 @@ const client = new stytch.Client({
 ```
 
 Send a magic link by email:
+
 ```javascript
 client.magicLinks.email
   .loginOrCreate({
@@ -58,6 +75,7 @@ client.magicLinks.email
 ```
 
 Authenticate the token from the magic link:
+
 ```javascript
 client.magicLinks
   .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
@@ -65,9 +83,50 @@ client.magicLinks
   .catch((err) => console.error(err));
 ```
 
+### Example B2B usage
+
+Create an API client:
+
+```javascript
+const stytch = require("stytch");
+// Or as an ES6 module:
+// import * as stytch from "stytch";
+
+const client = new stytch.B2BClient({
+  project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
+  secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
+  env: stytch.envs.test,
+});
+```
+
+Create an organization
+
+```javascript
+client.organizations
+  .create({
+    organization_name: "Acme Co",
+    organization_slug: "acme-co",
+    email_allowed_domains: ["acme.co"],
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+Log the first user into the organization
+
+```javascript
+client.magicLinks.loginOrSignup({
+  organization_id: "organization-id-from-create-response-..."
+  email_address: "admin@acme.co"
+})
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
 ## Handling Errors
 
 Stytch errors always include an `error_type` field you can use to identify them:
+
 ```javascript
 client.magicLinks
   .authenticate("not-a-token!")
@@ -78,16 +137,18 @@ client.magicLinks
     }
   });
 ```
+
 Learn more about errors in the [docs](https://stytch.com/docs/api/errors).
 
 ## Customizing the HTTPS Agent
-The Stytch client can be customized to use your own HTTPS agent. 
+
+The Stytch client can be customized to use your own HTTPS agent.
 For example, you can enable HTTPS Keep-Alive to avoid the cost of establishing a new connection with the Stytch servers on every request.
 
 ```javascript
 const agent = new https.Agent({
-  keepAlive: true
-})
+  keepAlive: true,
+});
 
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
