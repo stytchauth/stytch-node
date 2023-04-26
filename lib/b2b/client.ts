@@ -6,6 +6,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { Discovery } from "./discovery";
+import { Passwords } from "./passwords";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -14,6 +15,7 @@ export class B2BClient extends BaseClient {
   organizations: Organizations;
   sso: SSO;
   discovery: Discovery;
+  passwords: Passwords;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -36,5 +38,6 @@ export class B2BClient extends BaseClient {
     this.organizations = new Organizations(this.fetchConfig);
     this.sso = new SSO(this.fetchConfig);
     this.discovery = new Discovery(this.fetchConfig);
+    this.passwords = new Passwords(this.fetchConfig);
   }
 }

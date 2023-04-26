@@ -1,3 +1,6 @@
+import { BaseResponse } from "../shared";
+import { Organization } from "./organizations";
+
 export interface EmailFactor {
   delivery_method: "email";
   type: string;
@@ -28,6 +31,7 @@ export interface Member {
   sso_registrations: SSORegistration[];
   trusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  is_breakglass: boolean;
 }
 
 export interface SSORegistration {
@@ -45,4 +49,10 @@ export interface ResultsMetadata {
 export enum SearchOperator {
   OR = "OR",
   AND = "AND",
+}
+
+export interface ResponseWithMember extends BaseResponse {
+  member_id: string;
+  member: Member;
+  organization: Organization;
 }

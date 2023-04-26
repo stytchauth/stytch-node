@@ -16,6 +16,7 @@ describe("members.create", () => {
           organization_id: "organization-id-1234",
           email_address: "test@stytch.com",
           create_member_as_pending: true,
+          is_breakglass: false,
         },
       });
 
@@ -32,6 +33,40 @@ describe("members.create", () => {
         organization_id: "organization-id-1234",
         email_address: "test@stytch.com",
         create_member_as_pending: true,
+        is_breakglass: false,
+      })
+    ).resolves.toMatchObject({
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      member_id: "member-id-1234",
+      status_code: 200,
+    });
+  });
+});
+
+describe("members.get", () => {
+  test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "GET",
+        path: "organizations/organization-id-1234/member",
+        params: {
+          organization_id: "organization-id-1234",
+          email_address: "test@stytch.com",
+        },
+      });
+
+      const data = {
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        member_id: "member-id-1234",
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+
+    return expect(
+      members.get({
+        organization_id: "organization-id-1234",
+        email_address: "test@stytch.com",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
@@ -51,6 +86,7 @@ describe("members.update", () => {
           member_id: "member-id-1234",
           organization_id: "organization-id-1234",
           name: "new name",
+          is_breakglass: true,
         },
       });
 
@@ -67,6 +103,7 @@ describe("members.update", () => {
         member_id: "member-id-1234",
         organization_id: "organization-id-1234",
         name: "new name",
+        is_breakglass: true,
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",

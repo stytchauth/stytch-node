@@ -4,3 +4,4 @@ typings
 .DS_Store
 .env
 /coverage
+.idea

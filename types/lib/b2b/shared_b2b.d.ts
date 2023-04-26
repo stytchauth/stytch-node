@@ -1,3 +1,5 @@
+import { BaseResponse } from "../shared";
+import { Organization } from "./organizations";
 export interface EmailFactor {
     delivery_method: "email";
     type: string;
@@ -27,6 +29,7 @@ export interface Member {
     sso_registrations: SSORegistration[];
     trusted_metadata: Record<string, any>;
     untrusted_metadata: Record<string, any>;
+    is_breakglass: boolean;
 }
 export interface SSORegistration {
     connection_id: string;
@@ -41,4 +44,9 @@ export interface ResultsMetadata {
 export declare enum SearchOperator {
     OR = "OR",
     AND = "AND"
+}
+export interface ResponseWithMember extends BaseResponse {
+    member_id: string;
+    member: Member;
+    organization: Organization;
 }

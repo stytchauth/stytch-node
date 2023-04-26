@@ -1,6 +1,10 @@
-import { Member, SearchOperator, ResultsMetadata } from "./shared_b2b";
+import {
+  Member,
+  SearchOperator,
+  ResultsMetadata,
+  ResponseWithMember,
+} from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
-import { Organization } from "./organizations";
 
 export interface CreateMemberRequest {
   organization_id: string;
@@ -9,13 +13,18 @@ export interface CreateMemberRequest {
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   create_member_as_pending?: boolean;
+  is_breakglass?: boolean;
 }
 
-export interface CreateMemberResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
+export type CreateMemberResponse = ResponseWithMember;
+
+export interface GetMemberRequest {
+  organization_id: string;
+  member_id?: string;
+  email_address?: string;
 }
+
+export type GetMemberResponse = ResponseWithMember;
 
 export interface UpdateMemberRequest {
   organization_id: string;
@@ -23,13 +32,10 @@ export interface UpdateMemberRequest {
   name?: string;
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  is_breakglass?: boolean;
 }
 
-export interface UpdateMemberResponse extends BaseResponse {
-  member_id: string;
-  member: Member;
-  organization: Organization;
-}
+export type UpdateMemberResponse = ResponseWithMember;
 
 export type MemberSearchOperand =
   | {
@@ -43,6 +49,10 @@ export type MemberSearchOperand =
   | {
       filter_name: "member_email_fuzzy";
       filter_value: string;
+    }
+  | {
+      filter_name: "member_is_breakglass";
+      filter_value: boolean;
     }
   | {
       filter_name: "statuses";
@@ -87,6 +97,14 @@ export class Members {
       method: "POST",
       url: `${this.base_path}/${data.organization_id}/members`,
       data,
+    });
+  }
+
+  get(params: GetMemberRequest): Promise<GetMemberResponse> {
+    return request(this.fetchConfig, {
+      method: "GET",
+      url: `${this.base_path}/${params.organization_id}/member`,
+      params: { ...params },
     });
   }
 
