@@ -1,7 +1,7 @@
 import { Attributes, Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 
-export interface OTPEmailSendRequest {
+export interface B2COTPsEmailSendRequest {
   email: string;
   expiration_minutes?: number;
   login_template_id?: string;
@@ -13,12 +13,12 @@ export interface OTPEmailSendRequest {
   locale?: string;
 }
 
-export interface OTPEmailSendResponse extends BaseResponse {
+export interface B2COTPsEmailSendResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-export interface OTPEmailLoginOrCreateRequest {
+export interface B2COTPsEmailLoginOrCreateRequest {
   email: string;
   expiration_minutes?: number;
   login_template_id?: string;
@@ -28,13 +28,13 @@ export interface OTPEmailLoginOrCreateRequest {
   locale?: string;
 }
 
-export interface OTPEmailLoginOrCreateResponse extends BaseResponse {
+export interface B2COTPsEmailLoginOrCreateResponse extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
 }
 
-export interface SendOTPBySMSRequest {
+export interface B2COTPsSMSSendRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
@@ -44,12 +44,12 @@ export interface SendOTPBySMSRequest {
   locale?: string;
 }
 
-export interface SendOTPBySMSResponse extends BaseResponse {
+export interface B2COTPsSMSSendResponse extends BaseResponse {
   user_id: string;
   phone_id: string;
 }
 
-export interface LoginOrCreateUserBySMSRequest {
+export interface B2COTPsSMSLoginOrCreateRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
@@ -57,13 +57,13 @@ export interface LoginOrCreateUserBySMSRequest {
   locale?: string;
 }
 
-export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
+export interface B2COTPsSMSLoginOrCreateResponse extends BaseResponse {
   user_id: string;
   phone_id: string;
   user_created: boolean;
 }
 
-export interface OTPWhatsAppSendRequest {
+export interface B2COTPsWhatsAppSendRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
@@ -73,12 +73,12 @@ export interface OTPWhatsAppSendRequest {
   locale?: string;
 }
 
-export interface OTPWhatsAppSendResponse extends BaseResponse {
+export interface B2COTPsWhatsAppSendResponse extends BaseResponse {
   user_id: string;
   phone_id: string;
 }
 
-export interface OTPWhatsAppLoginOrCreateRequest {
+export interface B2COTPsWhatsAppLoginOrCreateRequest {
   phone_number: string;
   expiration_minutes?: number;
   attributes?: Attributes;
@@ -86,13 +86,13 @@ export interface OTPWhatsAppLoginOrCreateRequest {
   locale?: string;
 }
 
-export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
+export interface B2COTPsWhatsAppLoginOrCreateResponse extends BaseResponse {
   user_id: string;
   phone_id: string;
   user_created: boolean;
 }
 
-export interface OTPAuthenticateRequest {
+export interface B2COTPsAuthenticateRequest {
   method_id: string;
   code: string;
   attributes?: Attributes;
@@ -106,7 +106,7 @@ export interface OTPAuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface OTPAuthenticateResponse extends BaseResponse {
+export interface B2COTPsAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   method_id: string;
@@ -131,7 +131,7 @@ class Email {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse> {
+  send(data: B2COTPsEmailSendRequest): Promise<B2COTPsEmailSendResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
@@ -140,8 +140,8 @@ class Email {
   }
 
   loginOrCreate(
-    data: OTPEmailLoginOrCreateRequest
-  ): Promise<OTPEmailLoginOrCreateResponse> {
+    data: B2COTPsEmailLoginOrCreateRequest
+  ): Promise<B2COTPsEmailLoginOrCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
@@ -165,7 +165,7 @@ class SMS {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse> {
+  send(data: B2COTPsSMSSendRequest): Promise<B2COTPsSMSSendResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
@@ -174,8 +174,8 @@ class SMS {
   }
 
   loginOrCreate(
-    data: LoginOrCreateUserBySMSRequest
-  ): Promise<LoginOrCreateUserBySMSResponse> {
+    data: B2COTPsSMSLoginOrCreateRequest
+  ): Promise<B2COTPsSMSLoginOrCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
@@ -199,7 +199,7 @@ class WhatsApp {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(data: OTPWhatsAppSendRequest): Promise<OTPWhatsAppSendResponse> {
+  send(data: B2COTPsWhatsAppSendRequest): Promise<B2COTPsWhatsAppSendResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
@@ -208,8 +208,8 @@ class WhatsApp {
   }
 
   loginOrCreate(
-    data: OTPWhatsAppLoginOrCreateRequest
-  ): Promise<OTPWhatsAppLoginOrCreateResponse> {
+    data: B2COTPsWhatsAppLoginOrCreateRequest
+  ): Promise<B2COTPsWhatsAppLoginOrCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
@@ -237,7 +237,7 @@ export class OTPs {
     return `${this.base_path}/${path}`;
   }
 
-  authenticate(data: OTPAuthenticateRequest): Promise<OTPAuthenticateResponse> {
+  authenticate(data: B2COTPsAuthenticateRequest): Promise<B2COTPsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

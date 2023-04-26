@@ -68,7 +68,7 @@ export declare class Sessions {
     private jwtOptions;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     private endpoint;
-    get({ organization_id, member_id }: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse>;
+    get({ organization_id, member_id, }: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse>;
     jwks(project_id: string): Promise<B2BSessionsJwksResponse>;
     authenticate(data: B2BSessionsAuthenticateRequest): Promise<B2BSessionsAuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.

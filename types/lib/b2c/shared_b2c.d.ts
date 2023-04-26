@@ -310,7 +310,7 @@ export interface PasswordFactor {
     type: string;
     last_authenticated_at: string;
 }
-export declare type AuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SalesforceOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | TwitchOAuthFactor | TwitterOAuthFactor | TikTokOAuthFactor | SnapchatOAuthFactor | FigmaOAuthFactor | WebAuthnFactor | BiometricFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
+export declare type B2CAuthenticationFactor = EmailFactor | PhoneNumberFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | AppleOAuthFactor | GithubOAuthFactor | GitLabOAuthFactor | FacebookOAuthFactor | DiscordOAuthFactor | SalesforceOAuthFactor | SlackOAuthFactor | AmazonOAuthFactor | BitbucketOAuthFactor | LinkedInOAuthFactor | CoinbaseOAuthFactor | TwitchOAuthFactor | TwitterOAuthFactor | TikTokOAuthFactor | SnapchatOAuthFactor | FigmaOAuthFactor | WebAuthnFactor | BiometricFactor | AuthenticatorAppFactor | RecoveryCodeFactor | CryptoWalletFactor | PasswordFactor;
 export interface Session {
     session_id: string;
     user_id: string;
@@ -318,6 +318,6 @@ export interface Session {
     last_accessed_at: string;
     expires_at: string;
     attributes: Attributes;
-    authentication_factors: AuthenticationFactor[];
+    authentication_factors: B2CAuthenticationFactor[];
     custom_claims?: Record<string, any>;
 }

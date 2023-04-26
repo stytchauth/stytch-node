@@ -1,7 +1,7 @@
 import { Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 
-export interface OAuthAuthenticateRequest {
+export interface B2COAuthAuthenticateRequest {
   session_token?: string;
   session_jwt?: string;
   session_duration_minutes?: number;
@@ -9,7 +9,7 @@ export interface OAuthAuthenticateRequest {
   code_verifier?: string;
 }
 
-export interface OAuthAuthenticateResponse extends BaseResponse {
+export interface B2COAuthAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   oauth_user_registration_id: string;
@@ -30,7 +30,7 @@ export interface ProvidersValues {
   scopes: string[];
 }
 
-export interface AttachRequest {
+export interface B2COAuthAttachRequest {
   provider: string;
 
   /** Exactly one of these user-selection fields must be provided. */
@@ -39,7 +39,7 @@ export interface AttachRequest {
   session_jwt?: string;
 }
 
-export interface AttachResponse extends BaseResponse {
+export interface B2COAuthAttachResponse extends BaseResponse {
   oauth_attach_token: string;
 }
 
@@ -58,8 +58,8 @@ export class OAuth {
 
   authenticate(
     token: string,
-    data?: OAuthAuthenticateRequest
-  ): Promise<OAuthAuthenticateResponse> {
+    data?: B2COAuthAuthenticateRequest
+  ): Promise<B2COAuthAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -67,8 +67,8 @@ export class OAuth {
     });
   }
 
-  attach(data?: AttachRequest): Promise<AttachResponse> {
-    return request<AttachResponse>(this.fetchConfig, {
+  attach(data?: B2COAuthAttachRequest): Promise<B2COAuthAttachResponse> {
+    return request<B2COAuthAttachResponse>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("attach"),
       data,

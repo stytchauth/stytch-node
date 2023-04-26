@@ -5,9 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   Client: true,
-  B2C: true,
   B2BClient: true,
-  B2B: true,
   envs: true,
   UserSearchOperator: true,
   SearchOperator: true
@@ -36,19 +34,39 @@ Object.defineProperty(exports, "SearchOperator", {
     return _shared_b2b.SearchOperator;
   }
 });
-exports.envs = exports.B2B = exports.B2C = void 0;
+exports.envs = void 0;
 
 var _client = require("./b2c/client");
 
-var _B2C = _interopRequireWildcard(require("./b2c/index"));
+var _index = require("./b2c/index");
 
-exports.B2C = _B2C;
+Object.keys(_index).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index[key];
+    }
+  });
+});
 
 var _client2 = require("./b2b/client");
 
-var _B2B = _interopRequireWildcard(require("./b2b/index"));
+var _index2 = require("./b2b/index");
 
-exports.B2B = _B2B;
+Object.keys(_index2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index2[key];
+    }
+  });
+});
 
 var _envs = _interopRequireWildcard(require("./shared/envs"));
 

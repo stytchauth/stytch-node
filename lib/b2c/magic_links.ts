@@ -1,7 +1,7 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
 import { Attributes, Name, Session, User } from "./shared_b2c";
 
-export interface SendByEmailRequest {
+export interface B2CMagicLinksSendByEmailRequest {
   email: string;
   login_magic_link_url?: string;
   signup_magic_link_url?: string;
@@ -17,12 +17,12 @@ export interface SendByEmailRequest {
   locale?: string;
 }
 
-export interface SendByEmailResponse extends BaseResponse {
+export interface B2CMagicLinksSendByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-export interface LoginOrCreateByEmailRequest {
+export interface B2CMagicLinksLoginOrCreateByEmailRequest {
   email: string;
   login_magic_link_url?: string;
   signup_magic_link_url?: string;
@@ -36,13 +36,13 @@ export interface LoginOrCreateByEmailRequest {
   locale?: string;
 }
 
-export interface LoginOrCreateByEmailResponse extends BaseResponse {
+export interface B2CMagicLinksLoginOrCreateByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
 }
 
-export interface InviteByEmailRequest {
+export interface B2CMagicLinksInviteByEmailRequest {
   email: string;
   invite_magic_link_url?: string;
   invite_expiration_minutes?: number;
@@ -52,23 +52,23 @@ export interface InviteByEmailRequest {
   locale?: string;
 }
 
-export interface InviteByEmailResponse extends BaseResponse {
+export interface B2CMagicLinksInviteByEmailResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-export interface MagicLinksCreateRequest {
+export interface B2CMagicLinksCreateRequest {
   user_id: string;
   expiration_minutes?: number;
   attributes?: Attributes;
 }
 
-export interface MagicLinksCreateResponse extends BaseResponse {
+export interface B2CMagicLinksCreateResponse extends BaseResponse {
   token: string;
   user_id: string;
 }
 
-export interface MagicLinksAuthenticateRequest {
+export interface B2CMagicLinksAuthenticateRequest {
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -81,7 +81,7 @@ export interface MagicLinksAuthenticateRequest {
   code_verifier?: string;
 }
 
-export interface MagicLinksAuthenticateResponse extends BaseResponse {
+export interface B2CMagicLinksAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   method_id: string;
@@ -91,12 +91,12 @@ export interface MagicLinksAuthenticateResponse extends BaseResponse {
   reset_sessions: boolean;
 }
 
-export interface RevokePendingInviteByEmailRequest {
+export interface B2CMagicLinksRevokePendingInviteByEmailRequest {
   email: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface RevokePendingInviteByEmailResponse extends BaseResponse {}
+export interface B2CMagicLinksRevokePendingInviteByEmailResponse extends BaseResponse {}
 
 class Email {
   base_path: string;
@@ -113,7 +113,7 @@ class Email {
     return `${this.base_path}/${this.delivery}/${path}`;
   }
 
-  send(data: SendByEmailRequest): Promise<SendByEmailResponse> {
+  send(data: B2CMagicLinksSendByEmailRequest): Promise<B2CMagicLinksSendByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("send"),
@@ -122,8 +122,8 @@ class Email {
   }
 
   loginOrCreate(
-    data: LoginOrCreateByEmailRequest
-  ): Promise<LoginOrCreateByEmailResponse> {
+    data: B2CMagicLinksLoginOrCreateByEmailRequest
+  ): Promise<B2CMagicLinksLoginOrCreateByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("login_or_create"),
@@ -131,7 +131,7 @@ class Email {
     });
   }
 
-  invite(data: InviteByEmailRequest): Promise<InviteByEmailResponse> {
+  invite(data: B2CMagicLinksInviteByEmailRequest): Promise<B2CMagicLinksInviteByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("invite"),
@@ -140,8 +140,8 @@ class Email {
   }
 
   revokeInvite(
-    data: RevokePendingInviteByEmailRequest
-  ): Promise<RevokePendingInviteByEmailResponse> {
+    data: B2CMagicLinksRevokePendingInviteByEmailRequest
+  ): Promise<B2CMagicLinksRevokePendingInviteByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke_invite"),
@@ -165,7 +165,7 @@ export class MagicLinks {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: MagicLinksCreateRequest): Promise<MagicLinksCreateResponse> {
+  create(data: B2CMagicLinksCreateRequest): Promise<B2CMagicLinksCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -175,8 +175,8 @@ export class MagicLinks {
 
   authenticate(
     token: string,
-    data?: MagicLinksAuthenticateRequest
-  ): Promise<MagicLinksAuthenticateResponse> {
+    data?: B2CMagicLinksAuthenticateRequest
+  ): Promise<B2CMagicLinksAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

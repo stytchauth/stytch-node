@@ -1,18 +1,18 @@
 import * as jose from "jose";
-import { Attributes, Session, AuthenticationFactor, User } from "./shared_b2c";
+import { Attributes, Session, B2CAuthenticationFactor, User } from "./shared_b2c";
 
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 
-export interface GetRequest {
+export interface B2CSessionsGetRequest {
   user_id: string;
 }
 
-export interface SessionsGetResponse extends BaseResponse {
+export interface B2CSessionsGetResponse extends BaseResponse {
   sessions: Session[];
 }
 
-export interface JwksResponse extends BaseResponse {
+export interface B2CSessionsJwksResponse extends BaseResponse {
   keys: JWK[];
 }
 
@@ -29,27 +29,27 @@ export interface JWK {
   e: string;
 }
 
-export interface SessionsAuthenticateRequest {
+export interface B2CSessionsAuthenticateRequest {
   session_duration_minutes?: number;
   session_token?: string;
   session_jwt?: string;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface SessionsAuthenticateResponse extends BaseResponse {
+export interface B2CSessionsAuthenticateResponse extends BaseResponse {
   session: Session;
   user: User;
   session_token: string;
   session_jwt: string;
 }
 
-export interface RevokeRequest {
+export interface B2CSessionsRevokeRequest {
   session_id?: string;
   session_token?: string;
   session_jwt?: string;
 }
 
-export type RevokeResponse = BaseResponse;
+export type B2CSessionsRevokeResponse = BaseResponse;
 
 export class Sessions {
   base_path = "sessions";
@@ -73,7 +73,7 @@ export class Sessions {
     return `${this.base_path}/${path}`;
   }
 
-  get(params: GetRequest): Promise<SessionsGetResponse> {
+  get(params: B2CSessionsGetRequest): Promise<B2CSessionsGetResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
@@ -81,7 +81,7 @@ export class Sessions {
     });
   }
 
-  jwks(project_id: string): Promise<JwksResponse> {
+  jwks(project_id: string): Promise<B2CSessionsJwksResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(`jwks/${project_id}`),
@@ -89,8 +89,8 @@ export class Sessions {
   }
 
   authenticate(
-    data: SessionsAuthenticateRequest
-  ): Promise<SessionsAuthenticateResponse> {
+    data: B2CSessionsAuthenticateRequest
+  ): Promise<B2CSessionsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -157,7 +157,7 @@ export class Sessions {
       session_id: sess.session_id,
       attributes: sess.attributes as Attributes,
       authentication_factors:
-        sess.authentication_factors as AuthenticationFactor[],
+        sess.authentication_factors as B2CAuthenticationFactor[],
       user_id: sess.sub,
       started_at: sess.started_at,
       last_accessed_at: sess.last_accessed_at,
@@ -166,7 +166,7 @@ export class Sessions {
     };
   }
 
-  revoke(data: RevokeRequest): Promise<RevokeResponse> {
+  revoke(data: B2CSessionsRevokeRequest): Promise<B2CSessionsRevokeResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke"),

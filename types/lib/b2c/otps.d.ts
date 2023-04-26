@@ -1,6 +1,6 @@
 import { Attributes, Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
-export interface OTPEmailSendRequest {
+export interface B2COTPsEmailSendRequest {
     email: string;
     expiration_minutes?: number;
     login_template_id?: string;
@@ -11,11 +11,11 @@ export interface OTPEmailSendRequest {
     session_jwt?: string;
     locale?: string;
 }
-export interface OTPEmailSendResponse extends BaseResponse {
+export interface B2COTPsEmailSendResponse extends BaseResponse {
     user_id: string;
     email_id: string;
 }
-export interface OTPEmailLoginOrCreateRequest {
+export interface B2COTPsEmailLoginOrCreateRequest {
     email: string;
     expiration_minutes?: number;
     login_template_id?: string;
@@ -24,12 +24,12 @@ export interface OTPEmailLoginOrCreateRequest {
     create_user_as_pending?: boolean;
     locale?: string;
 }
-export interface OTPEmailLoginOrCreateResponse extends BaseResponse {
+export interface B2COTPsEmailLoginOrCreateResponse extends BaseResponse {
     user_id: string;
     email_id: string;
     user_created: boolean;
 }
-export interface SendOTPBySMSRequest {
+export interface B2COTPsSMSSendRequest {
     phone_number: string;
     expiration_minutes?: number;
     attributes?: Attributes;
@@ -38,23 +38,23 @@ export interface SendOTPBySMSRequest {
     session_jwt?: string;
     locale?: string;
 }
-export interface SendOTPBySMSResponse extends BaseResponse {
+export interface B2COTPsSMSSendResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
 }
-export interface LoginOrCreateUserBySMSRequest {
+export interface B2COTPsSMSLoginOrCreateRequest {
     phone_number: string;
     expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
     locale?: string;
 }
-export interface LoginOrCreateUserBySMSResponse extends BaseResponse {
+export interface B2COTPsSMSLoginOrCreateResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
     user_created: boolean;
 }
-export interface OTPWhatsAppSendRequest {
+export interface B2COTPsWhatsAppSendRequest {
     phone_number: string;
     expiration_minutes?: number;
     attributes?: Attributes;
@@ -63,23 +63,23 @@ export interface OTPWhatsAppSendRequest {
     session_jwt?: string;
     locale?: string;
 }
-export interface OTPWhatsAppSendResponse extends BaseResponse {
+export interface B2COTPsWhatsAppSendResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
 }
-export interface OTPWhatsAppLoginOrCreateRequest {
+export interface B2COTPsWhatsAppLoginOrCreateRequest {
     phone_number: string;
     expiration_minutes?: number;
     attributes?: Attributes;
     create_user_as_pending?: boolean;
     locale?: string;
 }
-export interface OTPWhatsAppLoginOrCreateResponse extends BaseResponse {
+export interface B2COTPsWhatsAppLoginOrCreateResponse extends BaseResponse {
     user_id: string;
     phone_id: string;
     user_created: boolean;
 }
-export interface OTPAuthenticateRequest {
+export interface B2COTPsAuthenticateRequest {
     method_id: string;
     code: string;
     attributes?: Attributes;
@@ -92,7 +92,7 @@ export interface OTPAuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface OTPAuthenticateResponse extends BaseResponse {
+export interface B2COTPsAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     method_id: string;
@@ -107,8 +107,8 @@ declare class Email {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
-    send(data: OTPEmailSendRequest): Promise<OTPEmailSendResponse>;
-    loginOrCreate(data: OTPEmailLoginOrCreateRequest): Promise<OTPEmailLoginOrCreateResponse>;
+    send(data: B2COTPsEmailSendRequest): Promise<B2COTPsEmailSendResponse>;
+    loginOrCreate(data: B2COTPsEmailLoginOrCreateRequest): Promise<B2COTPsEmailLoginOrCreateResponse>;
 }
 declare class SMS {
     base_path: string;
@@ -116,8 +116,8 @@ declare class SMS {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
-    send(data: SendOTPBySMSRequest): Promise<SendOTPBySMSResponse>;
-    loginOrCreate(data: LoginOrCreateUserBySMSRequest): Promise<LoginOrCreateUserBySMSResponse>;
+    send(data: B2COTPsSMSSendRequest): Promise<B2COTPsSMSSendResponse>;
+    loginOrCreate(data: B2COTPsSMSLoginOrCreateRequest): Promise<B2COTPsSMSLoginOrCreateResponse>;
 }
 declare class WhatsApp {
     base_path: string;
@@ -125,8 +125,8 @@ declare class WhatsApp {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, base_path: string);
     private endpoint;
-    send(data: OTPWhatsAppSendRequest): Promise<OTPWhatsAppSendResponse>;
-    loginOrCreate(data: OTPWhatsAppLoginOrCreateRequest): Promise<OTPWhatsAppLoginOrCreateResponse>;
+    send(data: B2COTPsWhatsAppSendRequest): Promise<B2COTPsWhatsAppSendResponse>;
+    loginOrCreate(data: B2COTPsWhatsAppLoginOrCreateRequest): Promise<B2COTPsWhatsAppLoginOrCreateResponse>;
 }
 export declare class OTPs {
     base_path: string;
@@ -136,6 +136,6 @@ export declare class OTPs {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data: OTPAuthenticateRequest): Promise<OTPAuthenticateResponse>;
+    authenticate(data: B2COTPsAuthenticateRequest): Promise<B2COTPsAuthenticateResponse>;
 }
 export {};

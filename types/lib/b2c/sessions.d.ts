@@ -1,13 +1,13 @@
 import { Session, User } from "./shared_b2c";
 import { fetchConfig, BaseResponse } from "../shared";
 import { JwtConfig } from "../shared/sessions";
-export interface GetRequest {
+export interface B2CSessionsGetRequest {
     user_id: string;
 }
-export interface SessionsGetResponse extends BaseResponse {
+export interface B2CSessionsGetResponse extends BaseResponse {
     sessions: Session[];
 }
-export interface JwksResponse extends BaseResponse {
+export interface B2CSessionsJwksResponse extends BaseResponse {
     keys: JWK[];
 }
 export interface JWK {
@@ -21,24 +21,24 @@ export interface JWK {
     n: string;
     e: string;
 }
-export interface SessionsAuthenticateRequest {
+export interface B2CSessionsAuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
     session_jwt?: string;
     session_custom_claims?: Record<string, any>;
 }
-export interface SessionsAuthenticateResponse extends BaseResponse {
+export interface B2CSessionsAuthenticateResponse extends BaseResponse {
     session: Session;
     user: User;
     session_token: string;
     session_jwt: string;
 }
-export interface RevokeRequest {
+export interface B2CSessionsRevokeRequest {
     session_id?: string;
     session_token?: string;
     session_jwt?: string;
 }
-export declare type RevokeResponse = BaseResponse;
+export declare type B2CSessionsRevokeResponse = BaseResponse;
 export declare class Sessions {
     base_path: string;
     private fetchConfig;
@@ -46,9 +46,9 @@ export declare class Sessions {
     private jwtOptions;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     private endpoint;
-    get(params: GetRequest): Promise<SessionsGetResponse>;
-    jwks(project_id: string): Promise<JwksResponse>;
-    authenticate(data: SessionsAuthenticateRequest): Promise<SessionsAuthenticateResponse>;
+    get(params: B2CSessionsGetRequest): Promise<B2CSessionsGetResponse>;
+    jwks(project_id: string): Promise<B2CSessionsJwksResponse>;
+    authenticate(data: B2CSessionsAuthenticateRequest): Promise<B2CSessionsAuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
      * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -82,5 +82,5 @@ export declare class Sessions {
         max_token_age_seconds?: number;
         current_date?: Date;
     }): Promise<Session>;
-    revoke(data: RevokeRequest): Promise<RevokeResponse>;
+    revoke(data: B2CSessionsRevokeRequest): Promise<B2CSessionsRevokeResponse>;
 }

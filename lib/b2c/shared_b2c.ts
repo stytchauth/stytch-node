@@ -348,7 +348,7 @@ export interface PasswordFactor {
   last_authenticated_at: string;
 }
 
-export type AuthenticationFactor =
+export type B2CAuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
   | GoogleOAuthFactor
@@ -383,6 +383,6 @@ export interface Session {
   last_accessed_at: string;
   expires_at: string;
   attributes: Attributes;
-  authentication_factors: AuthenticationFactor[];
+  authentication_factors: B2CAuthenticationFactor[];
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

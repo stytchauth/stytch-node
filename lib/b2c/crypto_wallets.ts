@@ -2,7 +2,7 @@ import { Session, User } from "./shared_b2c";
 import { request, fetchConfig, BaseResponse } from "../shared";
 import { UserID } from "./users";
 
-export interface CryptoWalletsAuthenticateStartRequest {
+export interface B2CCryptoWalletsAuthenticateStartRequest {
   crypto_wallet_address: string;
   crypto_wallet_type: string;
   user_id?: UserID;
@@ -10,13 +10,13 @@ export interface CryptoWalletsAuthenticateStartRequest {
   session_jwt?: string;
 }
 
-export interface CryptoWalletsAuthenticateStartResponse extends BaseResponse {
+export interface B2CCryptoWalletsAuthenticateStartResponse extends BaseResponse {
   user_id: UserID;
   challenge: string;
   user_created: boolean;
 }
 
-export interface CryptoWalletsAuthenticateRequest {
+export interface B2CCryptoWalletsAuthenticateRequest {
   crypto_wallet_address: string;
   crypto_wallet_type: string;
   signature: string;
@@ -26,7 +26,7 @@ export interface CryptoWalletsAuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface CryptoWalletsAuthenticateResponse extends BaseResponse {
+export interface B2CCryptoWalletsAuthenticateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   session_token?: string;
@@ -47,8 +47,8 @@ export class CryptoWallets {
   }
 
   authenticateStart(
-    data: CryptoWalletsAuthenticateStartRequest
-  ): Promise<CryptoWalletsAuthenticateStartResponse> {
+    data: B2CCryptoWalletsAuthenticateStartRequest
+  ): Promise<B2CCryptoWalletsAuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
@@ -57,8 +57,8 @@ export class CryptoWallets {
   }
 
   authenticate(
-    data: CryptoWalletsAuthenticateRequest
-  ): Promise<CryptoWalletsAuthenticateResponse> {
+    data: B2CCryptoWalletsAuthenticateRequest
+  ): Promise<B2CCryptoWalletsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

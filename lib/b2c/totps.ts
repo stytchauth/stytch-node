@@ -7,12 +7,12 @@ export interface TOTP {
   recovery_codes: string[];
 }
 
-export interface TOTPsCreateRequest {
+export interface B2CTOTPsCreateRequest {
   user_id: string;
   expiration_minutes?: number;
 }
 
-export interface TOTPsCreateResponse extends BaseResponse {
+export interface B2CTOTPsCreateResponse extends BaseResponse {
   totp_id: string;
   secret: string;
   qr_code: string;
@@ -21,7 +21,7 @@ export interface TOTPsCreateResponse extends BaseResponse {
   user_id: string;
 }
 
-export interface TOTPsAuthenticateRequest {
+export interface B2CTOTPsAuthenticateRequest {
   user_id: string;
   totp_code: string;
   session_token?: string;
@@ -30,7 +30,7 @@ export interface TOTPsAuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface TOTPsAuthenticateResponse extends BaseResponse {
+export interface B2CTOTPsAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   totp_id: string;
@@ -39,16 +39,16 @@ export interface TOTPsAuthenticateResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface RecoveryCodesRequest {
+export interface B2CTOTPsRecoveryCodesRequest {
   user_id: string;
 }
 
-export interface RecoveryCodesResponse extends BaseResponse {
+export interface B2CTOTPsRecoveryCodesResponse extends BaseResponse {
   user_id: string;
   totps: TOTP[];
 }
 
-export interface RecoverRequest {
+export interface B2CTOTPsRecoverRequest {
   user_id: string;
   recovery_code: string;
   session_token?: string;
@@ -57,7 +57,7 @@ export interface RecoverRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface RecoverResponse extends BaseResponse {
+export interface B2CTOTPsRecoverResponse extends BaseResponse {
   user_id: string;
   user: User;
   totp_id: string;
@@ -79,7 +79,7 @@ export class TOTPs {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: TOTPsCreateRequest): Promise<TOTPsCreateResponse> {
+  create(data: B2CTOTPsCreateRequest): Promise<B2CTOTPsCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -88,8 +88,8 @@ export class TOTPs {
   }
 
   authenticate(
-    data: TOTPsAuthenticateRequest
-  ): Promise<TOTPsAuthenticateResponse> {
+    data: B2CTOTPsAuthenticateRequest
+  ): Promise<B2CTOTPsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -97,7 +97,7 @@ export class TOTPs {
     });
   }
 
-  recoveryCodes(data: RecoveryCodesRequest): Promise<RecoveryCodesResponse> {
+  recoveryCodes(data: B2CTOTPsRecoveryCodesRequest): Promise<B2CTOTPsRecoveryCodesResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recovery_codes"),
@@ -105,7 +105,7 @@ export class TOTPs {
     });
   }
 
-  recover(data: RecoverRequest): Promise<RecoverResponse> {
+  recover(data: B2CTOTPsRecoverRequest): Promise<B2CTOTPsRecoverResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("recover"),
