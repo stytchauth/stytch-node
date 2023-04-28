@@ -108,8 +108,6 @@ export type {
   B2CUsersGetResponse,
   B2CUsersUpdateRequest,
   B2CUsersUpdateResponse,
-  B2CUsersGetPendingRequest,
-  B2CUsersGetPendingResponse,
   B2CUsersDeleteCryptoWalletResponse,
   B2CUsersDeleteTOTPResponse,
   B2CUsersDeleteWebAuthnRegistrationResponse,

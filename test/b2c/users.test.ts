@@ -234,40 +234,6 @@ describe("users.delete", () => {
   });
 });
 
-describe("users.getPending", () => {
-  test("no arguments", () => {
-    return expect(users.getPending()).resolves.toMatchObject({
-      method: "GET",
-      path: "users/pending",
-      params: {},
-    });
-  });
-
-  test("both arguments", () => {
-    return expect(
-      users.getPending({
-        starting_after_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        limit: 10,
-      })
-    ).resolves.toMatchObject({
-      method: "GET",
-      path: "users/pending",
-      params: {
-        starting_after_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        limit: 10,
-      },
-    });
-  });
-
-  test("empty params object", () => {
-    return expect(users.getPending({})).resolves.toMatchObject({
-      method: "GET",
-      path: "users/pending",
-      params: {},
-    });
-  });
-});
-
 describe("users.deleteEmail", () => {
   test("success", () => {
     return expect(

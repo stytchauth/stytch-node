@@ -6,25 +6,11 @@ import {
   Email,
   Name,
   PhoneNumber,
-  TOTP,
-  Password,
   User,
 } from "./shared_b2c";
 
 export type UserID = string;
 export type UserMetadata = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-export interface PendingUser {
-  user_id: UserID;
-  name: Name;
-  emails: Email[];
-  password?: Password;
-  phone_numbers: PhoneNumber[];
-  crypto_wallet: CryptoWallet[];
-  status: string;
-  invited_at: string;
-  totps: TOTP[];
-}
 
 export interface B2CUsersCreateRequest {
   email?: string;
@@ -188,18 +174,6 @@ export interface B2CUsersDeleteResponse extends BaseResponse {
   user_id: UserID;
 }
 
-export interface B2CUsersGetPendingRequest {
-  starting_after_id?: string;
-  limit?: number;
-}
-
-export interface B2CUsersGetPendingResponse extends BaseResponse {
-  users: PendingUser[];
-  has_more: boolean;
-  starting_after_id: string;
-  total: number;
-}
-
 export interface B2CUsersDeleteEmailResponse extends BaseResponse {
   user_id: UserID;
   user: User;
@@ -335,16 +309,6 @@ export class Users {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(userID),
-    });
-  }
-
-  getPending(
-    params?: B2CUsersGetPendingRequest
-  ): Promise<B2CUsersGetPendingResponse> {
-    return request(this.fetchConfig, {
-      method: "GET",
-      url: this.endpoint("pending"),
-      params: { ...params },
     });
   }
 
