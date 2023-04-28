@@ -13,7 +13,7 @@ export interface PendingUser {
     invited_at: string;
     totps: TOTP[];
 }
-export interface CreateRequest {
+export interface B2CUsersCreateRequest {
     email?: string;
     phone_number?: string;
     name?: Name;
@@ -22,14 +22,14 @@ export interface CreateRequest {
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
 }
-export interface CreateResponse extends BaseResponse {
+export interface B2CUsersCreateResponse extends BaseResponse {
     user_id: UserID;
     user: User;
     email_id: string;
     phone_id: string;
     status: string;
 }
-export declare type GetResponse = BaseResponse & User;
+export declare type B2CUsersGetResponse = BaseResponse & User;
 export declare enum UserSearchOperator {
     OR = "OR",
     AND = "AND"
@@ -107,7 +107,7 @@ export declare type UserSearchOperand = {
     filter_name: "password_exists";
     filter_value: boolean;
 };
-export interface SearchRequest {
+export interface B2CUsersSearchRequest {
     limit?: number;
     query?: {
         operator: UserSearchOperator;
@@ -115,68 +115,68 @@ export interface SearchRequest {
     };
     cursor?: string | null;
 }
-export interface SearchResponse extends BaseResponse {
+export interface B2CUsersSearchResponse extends BaseResponse {
     results: User[];
     results_metadata: {
         next_cursor: string | null;
         total: number;
     };
 }
-export interface UpdateRequest {
+export interface B2CUsersUpdateRequest {
     name?: Name;
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
     attributes?: Attributes;
 }
-export interface UpdateResponse extends BaseResponse {
+export interface B2CUsersUpdateResponse extends BaseResponse {
     user_id: UserID;
     user: User;
     emails: Email[];
     phone_numbers: PhoneNumber[];
     crypto_wallets: CryptoWallet[];
 }
-export interface DeleteResponse extends BaseResponse {
+export interface B2CUsersDeleteResponse extends BaseResponse {
     user_id: UserID;
 }
-export interface GetPendingRequest {
+export interface B2CUsersGetPendingRequest {
     starting_after_id?: string;
     limit?: number;
 }
-export interface GetPendingResponse extends BaseResponse {
+export interface B2CUsersGetPendingResponse extends BaseResponse {
     users: PendingUser[];
     has_more: boolean;
     starting_after_id: string;
     total: number;
 }
-export interface DeleteEmailResponse extends BaseResponse {
+export interface B2CUsersDeleteEmailResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeletePhoneNumberResponse extends BaseResponse {
+export interface B2CUsersDeletePhoneNumberResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteWebAuthnRegistrationResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeleteBiometricRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteBiometricRegistrationResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeleteTOTPResponse extends BaseResponse {
+export interface B2CUsersDeleteTOTPResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeleteCryptoWalletResponse extends BaseResponse {
+export interface B2CUsersDeleteCryptoWalletResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeletePasswordResponse extends BaseResponse {
+export interface B2CUsersDeletePasswordResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
-export interface DeleteOAuthUserRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteOAuthUserRegistrationResponse extends BaseResponse {
     user_id: UserID;
     user: User;
 }
@@ -184,7 +184,7 @@ export declare class UserSearchIterator {
     private client;
     private data;
     private mode;
-    constructor(client: Users, data: SearchRequest);
+    constructor(client: Users, data: B2CUsersSearchRequest);
     next(): Promise<User[]>;
     hasNext(): boolean;
     [Symbol.asyncIterator](): AsyncIterator<User[]>;
@@ -194,19 +194,19 @@ export declare class Users {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateRequest): Promise<CreateResponse>;
-    get(userID: UserID): Promise<GetResponse>;
-    search(data: SearchRequest): Promise<SearchResponse>;
-    searchAll(data: SearchRequest): UserSearchIterator;
-    update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse>;
-    delete(userID: UserID): Promise<DeleteResponse>;
-    getPending(params?: GetPendingRequest): Promise<GetPendingResponse>;
-    deleteEmail(emailID: string): Promise<DeleteEmailResponse>;
-    deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse>;
-    deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<DeleteWebAuthnRegistrationResponse>;
-    deleteBiometricRegistration(biometricRegistrationID: string): Promise<DeleteBiometricRegistrationResponse>;
-    deleteTOTP(totpID: string): Promise<DeleteTOTPResponse>;
-    deleteCryptoWallet(cryptoWalletID: string): Promise<DeleteCryptoWalletResponse>;
-    deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse>;
-    deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<DeleteOAuthUserRegistrationResponse>;
+    create(data: B2CUsersCreateRequest): Promise<B2CUsersCreateResponse>;
+    get(userID: UserID): Promise<B2CUsersGetResponse>;
+    search(data: B2CUsersSearchRequest): Promise<B2CUsersSearchResponse>;
+    searchAll(data: B2CUsersSearchRequest): UserSearchIterator;
+    update(userID: UserID, data: B2CUsersUpdateRequest): Promise<B2CUsersUpdateResponse>;
+    delete(userID: UserID): Promise<B2CUsersDeleteResponse>;
+    getPending(params?: B2CUsersGetPendingRequest): Promise<B2CUsersGetPendingResponse>;
+    deleteEmail(emailID: string): Promise<B2CUsersDeleteEmailResponse>;
+    deletePhoneNumber(phoneID: string): Promise<B2CUsersDeletePhoneNumberResponse>;
+    deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<B2CUsersDeleteWebAuthnRegistrationResponse>;
+    deleteBiometricRegistration(biometricRegistrationID: string): Promise<B2CUsersDeleteBiometricRegistrationResponse>;
+    deleteTOTP(totpID: string): Promise<B2CUsersDeleteTOTPResponse>;
+    deleteCryptoWallet(cryptoWalletID: string): Promise<B2CUsersDeleteCryptoWalletResponse>;
+    deletePassword(passwordID: string): Promise<B2CUsersDeleteCryptoWalletResponse>;
+    deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<B2CUsersDeleteOAuthUserRegistrationResponse>;
 }

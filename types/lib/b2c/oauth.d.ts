@@ -1,13 +1,13 @@
 import { Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
-export interface AuthenticateRequest {
+export interface B2COAuthAuthenticateRequest {
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     code_verifier?: string;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2COAuthAuthenticateResponse extends BaseResponse {
     user_id: string;
     user: User;
     oauth_user_registration_id: string;
@@ -26,14 +26,14 @@ export interface ProvidersValues {
     expires_at?: number;
     scopes: string[];
 }
-export interface AttachRequest {
+export interface B2COAuthAttachRequest {
     provider: string;
     /** Exactly one of these user-selection fields must be provided. */
     user_id?: string;
     session_token?: string;
     session_jwt?: string;
 }
-export interface AttachResponse extends BaseResponse {
+export interface B2COAuthAttachResponse extends BaseResponse {
     oauth_attach_token: string;
 }
 export declare class OAuth {
@@ -41,6 +41,6 @@ export declare class OAuth {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(token: string, data?: AuthenticateRequest): Promise<AuthenticateResponse>;
-    attach(data?: AttachRequest): Promise<AttachResponse>;
+    authenticate(token: string, data?: B2COAuthAuthenticateRequest): Promise<B2COAuthAuthenticateResponse>;
+    attach(data?: B2COAuthAttachRequest): Promise<B2COAuthAttachResponse>;
 }

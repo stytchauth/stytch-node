@@ -60,7 +60,7 @@ export interface DiscoveredOrganization {
     };
     member_authenticated: boolean;
 }
-export interface CreateOrganizationRequest {
+export interface B2BOrganizationCreateRequest {
     organization_name: string;
     organization_slug: string;
     organization_logo_url?: string;
@@ -72,16 +72,16 @@ export interface CreateOrganizationRequest {
     auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
     allowed_auth_methods?: string[];
 }
-export interface CreateOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationCreateResponse extends BaseResponse {
     organization: Organization;
 }
-export interface GetOrganizationRequest {
+export interface B2BOrganizationGetRequest {
     organization_id: string;
 }
-export interface GetOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationGetResponse extends BaseResponse {
     organization: Organization;
 }
-export interface SearchOrganizationRequest {
+export interface B2BOrganizationSearchRequest {
     limit?: number;
     query?: {
         operator: SearchOperator;
@@ -89,17 +89,17 @@ export interface SearchOrganizationRequest {
     };
     cursor?: string | null;
 }
-export interface SearchOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationSearchResponse extends BaseResponse {
     organizations: Organization[];
     results_metadata: ResultsMetadata;
 }
-export interface DeleteOrganizationRequest {
+export interface B2BOrganizationDeleteRequest {
     organization_id: string;
 }
-export interface DeleteOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationDeleteResponse extends BaseResponse {
     organization_id: string;
 }
-export interface UpdateOrganizationRequest {
+export interface B2BOrganizationUpdateRequest {
     organization_id: string;
     organization_name?: string;
     organization_slug?: string;
@@ -114,7 +114,7 @@ export interface UpdateOrganizationRequest {
     auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
     allowed_auth_methods?: string[];
 }
-export interface UpdateOrganizationResponse extends BaseResponse {
+export interface B2BOrganizationUpdateResponse extends BaseResponse {
     organization: Organization;
 }
 export declare class Organizations {
@@ -123,9 +123,9 @@ export declare class Organizations {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    create(data: CreateOrganizationRequest): Promise<CreateOrganizationResponse>;
-    get({ organization_id, }: GetOrganizationRequest): Promise<GetOrganizationResponse>;
-    search(data: SearchOrganizationRequest): Promise<SearchOrganizationResponse>;
-    update(data: UpdateOrganizationRequest): Promise<UpdateOrganizationResponse>;
-    delete({ organization_id, }: DeleteOrganizationRequest): Promise<DeleteOrganizationResponse>;
+    create(data: B2BOrganizationCreateRequest): Promise<B2BOrganizationCreateResponse>;
+    get({ organization_id, }: B2BOrganizationGetRequest): Promise<B2BOrganizationGetResponse>;
+    search(data: B2BOrganizationSearchRequest): Promise<B2BOrganizationSearchResponse>;
+    update(data: B2BOrganizationUpdateRequest): Promise<B2BOrganizationUpdateResponse>;
+    delete({ organization_id, }: B2BOrganizationDeleteRequest): Promise<B2BOrganizationDeleteResponse>;
 }

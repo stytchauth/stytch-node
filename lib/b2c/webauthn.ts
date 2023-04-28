@@ -2,39 +2,39 @@ import { Session, User } from "./shared_b2c";
 import { request, BaseResponse, fetchConfig } from "../shared";
 import { UserID } from "./users";
 
-export interface RegisterStartRequest {
+export interface B2CWebAuthnRegisterStartRequest {
   user_id: UserID;
   domain: string;
   user_agent?: string;
   authenticator_type?: string;
 }
 
-export interface RegisterStartResponse extends BaseResponse {
+export interface B2CWebAuthnRegisterStartResponse extends BaseResponse {
   user_id: UserID;
   public_key_credential_creation_options: string;
 }
 
-export interface RegisterRequest {
+export interface B2CWebAuthnRegisterRequest {
   user_id: UserID;
   public_key_credential: string;
 }
 
-export interface RegisterResponse extends BaseResponse {
+export interface B2CWebAuthnRegisterResponse extends BaseResponse {
   user_id: UserID;
   webauthn_registration_id: string;
 }
 
-export interface AuthenticateStartRequest {
+export interface B2CWebAuthnAuthenticateStartRequest {
   user_id: UserID;
   domain: string;
 }
 
-export interface AuthenticateStartResponse extends BaseResponse {
+export interface B2CWebAuthnAuthenticateStartResponse extends BaseResponse {
   user_id: UserID;
   public_key_credential_request_options: string;
 }
 
-export interface AuthenticateRequest {
+export interface B2CWebAuthnAuthenticateRequest {
   public_key_credential: string;
   session_token?: string;
   session_jwt?: string;
@@ -42,7 +42,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2CWebAuthnAuthenticateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   webauthn_registration_id: string;
@@ -63,7 +63,9 @@ export class WebAuthn {
     return `${this.base_path}/${path}`;
   }
 
-  registerStart(data: RegisterStartRequest): Promise<RegisterStartResponse> {
+  registerStart(
+    data: B2CWebAuthnRegisterStartRequest
+  ): Promise<B2CWebAuthnRegisterStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register/start"),
@@ -71,7 +73,9 @@ export class WebAuthn {
     });
   }
 
-  register(data: RegisterRequest): Promise<RegisterResponse> {
+  register(
+    data: B2CWebAuthnRegisterRequest
+  ): Promise<B2CWebAuthnRegisterResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("register"),
@@ -80,8 +84,8 @@ export class WebAuthn {
   }
 
   authenticateStart(
-    data: AuthenticateStartRequest
-  ): Promise<AuthenticateStartResponse> {
+    data: B2CWebAuthnAuthenticateStartRequest
+  ): Promise<B2CWebAuthnAuthenticateStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate/start"),
@@ -89,7 +93,9 @@ export class WebAuthn {
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data: B2CWebAuthnAuthenticateRequest
+  ): Promise<B2CWebAuthnAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),

@@ -1,19 +1,19 @@
 import { BaseResponse, request, fetchConfig } from "../shared";
-import { AuthenticationFactor, Member, MemberSession } from "./shared_b2b";
+import { B2BAuthenticationFactor, Member, MemberSession } from "./shared_b2b";
 import * as jose from "jose";
 import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 import { Organization } from "./organizations";
 
-export interface GetRequest {
+export interface B2BSessionsGetRequest {
   organization_id: string;
   member_id: string;
 }
 
-export interface GetResponse extends BaseResponse {
+export interface B2BSessionsGetResponse extends BaseResponse {
   member_sessions: MemberSession[];
 }
 
-export interface JwksResponse extends BaseResponse {
+export interface B2BSessionsJwksResponse extends BaseResponse {
   keys: JWK[];
 }
 
@@ -30,14 +30,14 @@ export interface JWK {
   e: string;
 }
 
-export interface AuthenticateRequest {
+export interface B2BSessionsAuthenticateRequest {
   session_duration_minutes?: number;
   session_token?: string;
   session_jwt?: string;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2BSessionsAuthenticateResponse extends BaseResponse {
   member_session: MemberSession;
   member: Member;
   session_token: string;
@@ -45,15 +45,15 @@ export interface AuthenticateResponse extends BaseResponse {
   organization: Organization;
 }
 
-export type RevokeRequest =
+export type B2BSessionsRevokeRequest =
   | { member_session_id: string }
   | { session_token: string }
   | { session_jwt: string }
   | { member_id: string };
 
-export type RevokeResponse = BaseResponse;
+export type B2BSessionsRevokeResponse = BaseResponse;
 
-export interface SessionExchangeRequest {
+export interface B2BSessionsExchangeRequest {
   organization_id: string;
   session_token?: string;
   session_jwt?: string;
@@ -61,7 +61,7 @@ export interface SessionExchangeRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface SessionExchangeResponse extends BaseResponse {
+export interface B2BSessionsExchangeResponse extends BaseResponse {
   member_id: string;
   member_session: MemberSession;
   session_token: string;
@@ -93,23 +93,28 @@ export class Sessions {
     return `${this.base_path}/${path}`;
   }
 
-  get({ organization_id, member_id }: GetRequest): Promise<GetResponse> {
-    return request<GetResponse>(this.fetchConfig, {
+  get({
+    organization_id,
+    member_id,
+  }: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse> {
+    return request<B2BSessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: this.base_path,
       params: { organization_id, member_id },
     });
   }
 
-  jwks(project_id: string): Promise<JwksResponse> {
+  jwks(project_id: string): Promise<B2BSessionsJwksResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(`jwks/${project_id}`),
     });
   }
 
-  authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse> {
-    return request<AuthenticateResponse>(this.fetchConfig, {
+  authenticate(
+    data: B2BSessionsAuthenticateRequest
+  ): Promise<B2BSessionsAuthenticateResponse> {
+    return request<B2BSessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
       data,
@@ -181,7 +186,7 @@ export class Sessions {
       member_id: sess.sub,
       organization_id: orgClaim.organization_id,
       authentication_factors:
-        sess.authentication_factors as AuthenticationFactor[],
+        sess.authentication_factors as B2BAuthenticationFactor[],
       started_at: sess.started_at,
       last_accessed_at: sess.last_accessed_at,
       expires_at: sess.expires_at,
@@ -189,7 +194,9 @@ export class Sessions {
     };
   }
 
-  exchange(data: SessionExchangeRequest): Promise<SessionExchangeResponse> {
+  exchange(
+    data: B2BSessionsExchangeRequest
+  ): Promise<B2BSessionsExchangeResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("exchange"),
@@ -197,7 +204,7 @@ export class Sessions {
     });
   }
 
-  revoke(data: RevokeRequest): Promise<RevokeResponse> {
+  revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("revoke"),

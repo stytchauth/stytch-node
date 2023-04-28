@@ -2,14 +2,14 @@ import { BaseResponse, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { JwtConfig } from "../shared/sessions";
 import { Organization } from "./organizations";
-export interface GetRequest {
+export interface B2BSessionsGetRequest {
     organization_id: string;
     member_id: string;
 }
-export interface GetResponse extends BaseResponse {
+export interface B2BSessionsGetResponse extends BaseResponse {
     member_sessions: MemberSession[];
 }
-export interface JwksResponse extends BaseResponse {
+export interface B2BSessionsJwksResponse extends BaseResponse {
     keys: JWK[];
 }
 export interface JWK {
@@ -23,20 +23,20 @@ export interface JWK {
     n: string;
     e: string;
 }
-export interface AuthenticateRequest {
+export interface B2BSessionsAuthenticateRequest {
     session_duration_minutes?: number;
     session_token?: string;
     session_jwt?: string;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2BSessionsAuthenticateResponse extends BaseResponse {
     member_session: MemberSession;
     member: Member;
     session_token: string;
     session_jwt: string;
     organization: Organization;
 }
-export declare type RevokeRequest = {
+export declare type B2BSessionsRevokeRequest = {
     member_session_id: string;
 } | {
     session_token: string;
@@ -45,15 +45,15 @@ export declare type RevokeRequest = {
 } | {
     member_id: string;
 };
-export declare type RevokeResponse = BaseResponse;
-export interface SessionExchangeRequest {
+export declare type B2BSessionsRevokeResponse = BaseResponse;
+export interface B2BSessionsExchangeRequest {
     organization_id: string;
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface SessionExchangeResponse extends BaseResponse {
+export interface B2BSessionsExchangeResponse extends BaseResponse {
     member_id: string;
     member_session: MemberSession;
     session_token: string;
@@ -68,9 +68,9 @@ export declare class Sessions {
     private jwtOptions;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     private endpoint;
-    get({ organization_id, member_id }: GetRequest): Promise<GetResponse>;
-    jwks(project_id: string): Promise<JwksResponse>;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    get({ organization_id, member_id, }: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse>;
+    jwks(project_id: string): Promise<B2BSessionsJwksResponse>;
+    authenticate(data: B2BSessionsAuthenticateRequest): Promise<B2BSessionsAuthenticateResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
      * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -104,6 +104,6 @@ export declare class Sessions {
         max_token_age_seconds?: number;
         current_date?: Date;
     }): Promise<MemberSession>;
-    exchange(data: SessionExchangeRequest): Promise<SessionExchangeResponse>;
-    revoke(data: RevokeRequest): Promise<RevokeResponse>;
+    exchange(data: B2BSessionsExchangeRequest): Promise<B2BSessionsExchangeResponse>;
+    revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse>;
 }

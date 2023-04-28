@@ -1,16 +1,16 @@
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { SAMLConnection } from "./sso";
 
-export interface CreateSAMLConnectionRequest {
+export interface B2BSAMLCreateConnectionRequest {
   organization_id: string;
   display_name?: string;
 }
 
-export interface CreateSAMLConnectionResponse extends BaseResponse {
+export interface B2BSAMLCreateConnectionResponse extends BaseResponse {
   connection: SAMLConnection;
 }
 
-export interface UpdateSAMLConnectionRequest {
+export interface B2BSAMLUpdateConnectionRequest {
   organization_id: string;
   connection_id: string;
   idp_entity_id?: string;
@@ -20,17 +20,17 @@ export interface UpdateSAMLConnectionRequest {
   idp_sso_url?: string;
 }
 
-export interface UpdateSAMLConnectionResponse extends BaseResponse {
+export interface B2BSAMLUpdateConnectionResponse extends BaseResponse {
   connection: SAMLConnection;
 }
 
-export interface DeleteSAMLVerificationCertificateRequest {
+export interface B2BSAMLDeleteVerificationCertificateRequest {
   organization_id: string;
   connection_id: string;
   certificate_id: string;
 }
 
-export interface DeleteSAMLVerificationCertificateResponse
+export interface B2BSAMLDeleteVerificationCertificateResponse
   extends BaseResponse {
   certificate_id: string;
 }
@@ -41,7 +41,7 @@ export class SAML {
   create({
     organization_id,
     ...data
-  }: CreateSAMLConnectionRequest): Promise<CreateSAMLConnectionResponse> {
+  }: B2BSAMLCreateConnectionRequest): Promise<B2BSAMLCreateConnectionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `sso/saml/${organization_id}`,
@@ -53,7 +53,7 @@ export class SAML {
     organization_id,
     connection_id,
     ...data
-  }: UpdateSAMLConnectionRequest): Promise<UpdateSAMLConnectionResponse> {
+  }: B2BSAMLUpdateConnectionRequest): Promise<B2BSAMLUpdateConnectionResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: `sso/saml/${organization_id}/connections/${connection_id}`,
@@ -65,7 +65,7 @@ export class SAML {
     organization_id,
     connection_id,
     certificate_id,
-  }: DeleteSAMLVerificationCertificateRequest): Promise<DeleteSAMLVerificationCertificateResponse> {
+  }: B2BSAMLDeleteVerificationCertificateRequest): Promise<B2BSAMLDeleteVerificationCertificateResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: `sso/saml/${organization_id}/connections/${connection_id}/verification_certificates/${certificate_id}`,

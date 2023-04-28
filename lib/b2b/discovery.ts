@@ -2,18 +2,18 @@ import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { DiscoveredOrganization } from "./organizations";
 
-export interface OrganizationsRequest {
+export interface B2BDiscoveryOrganizationsRequest {
   intermediate_session_token?: string;
   session_token?: string;
   session_jwt?: string;
 }
 
-export interface OrganizationsResponse extends BaseResponse {
+export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
   email_address: string;
   discovered_organizations: DiscoveredOrganization[];
 }
 
-export interface DiscoveryOrganizationCreateRequest {
+export interface B2BDiscoveryOrganizationCreateRequest {
   intermediate_session_token: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -29,21 +29,21 @@ export interface DiscoveryOrganizationCreateRequest {
   allowed_auth_methods?: string[];
 }
 
-export interface DiscoveryOrganizationCreateResponse
+export interface B2BDiscoveryOrganizationCreateResponse
   extends ResponseWithMember {
   member_session: MemberSession;
   session_token: string;
   session_jwt: string;
 }
 
-export interface IntermediateSessionExchangeRequest {
+export interface B2BDiscoveryIntermediateSessionExchangeRequest {
   intermediate_session_token: string;
   organization_id: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface IntermediateSessionExchangeResponse
+export interface B2BDiscoveryIntermediateSessionExchangeResponse
   extends ResponseWithMember {
   member_session: MemberSession;
   session_token: string;
@@ -57,8 +57,10 @@ class Organizations {
     this.fetchConfig = fetchConfig;
   }
 
-  list(data: OrganizationsRequest): Promise<OrganizationsResponse> {
-    return request<OrganizationsResponse>(this.fetchConfig, {
+  list(
+    data: B2BDiscoveryOrganizationsRequest
+  ): Promise<B2BDiscoveryOrganizationsResponse> {
+    return request<B2BDiscoveryOrganizationsResponse>(this.fetchConfig, {
       method: "POST",
       url: "discovery/organizations",
       data,
@@ -66,9 +68,9 @@ class Organizations {
   }
 
   create(
-    data: DiscoveryOrganizationCreateRequest
-  ): Promise<DiscoveryOrganizationCreateResponse> {
-    return request<DiscoveryOrganizationCreateResponse>(this.fetchConfig, {
+    data: B2BDiscoveryOrganizationCreateRequest
+  ): Promise<B2BDiscoveryOrganizationCreateResponse> {
+    return request<B2BDiscoveryOrganizationCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: "discovery/organizations/create",
       data,
@@ -84,13 +86,16 @@ class IntermediateSessions {
   }
 
   exchange(
-    data: IntermediateSessionExchangeRequest
-  ): Promise<IntermediateSessionExchangeResponse> {
-    return request<IntermediateSessionExchangeResponse>(this.fetchConfig, {
-      method: "POST",
-      url: "discovery/intermediate_sessions/exchange",
-      data,
-    });
+    data: B2BDiscoveryIntermediateSessionExchangeRequest
+  ): Promise<B2BDiscoveryIntermediateSessionExchangeResponse> {
+    return request<B2BDiscoveryIntermediateSessionExchangeResponse>(
+      this.fetchConfig,
+      {
+        method: "POST",
+        url: "discovery/intermediate_sessions/exchange",
+        data,
+      }
+    );
   }
 }
 

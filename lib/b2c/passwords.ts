@@ -3,7 +3,7 @@ import { request, BaseResponse, fetchConfig } from "../shared";
 import { UserMetadata } from "./users";
 import * as shared from "../shared/passwords";
 
-export interface CreateRequest {
+export interface B2CPasswordsCreateRequest {
   email: string;
   password: string;
   name?: Name;
@@ -13,7 +13,7 @@ export interface CreateRequest {
   untrusted_metadata?: UserMetadata;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface B2CPasswordsCreateResponse extends BaseResponse {
   user_id: string;
   user: User;
   email_id: string;
@@ -22,7 +22,7 @@ export interface CreateResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface AuthenticateRequest {
+export interface B2CPasswordsAuthenticateRequest {
   email: string;
   password: string;
   session_token?: string;
@@ -31,7 +31,7 @@ export interface AuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2CPasswordsAuthenticateResponse extends BaseResponse {
   user_id: string;
   user: User;
   session_token?: string;
@@ -39,7 +39,7 @@ export interface AuthenticateResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface ResetByEmailStartRequest {
+export interface B2CPasswordsResetByEmailStartRequest {
   email: string;
   login_redirect_url?: string;
   reset_password_redirect_url?: string;
@@ -50,12 +50,12 @@ export interface ResetByEmailStartRequest {
   locale?: string;
 }
 
-export interface ResetByEmailStartResponse extends BaseResponse {
+export interface B2CPasswordsResetByEmailStartResponse extends BaseResponse {
   user_id: string;
   email_id: string;
 }
 
-export interface ResetByEmailRequest {
+export interface B2CPasswordsResetByEmailRequest {
   options?: {
     ip_match_required?: boolean;
     user_agent_match_required?: boolean;
@@ -68,7 +68,7 @@ export interface ResetByEmailRequest {
   code_verifier?: string;
 }
 
-export interface ResetByEmailResponse extends BaseResponse {
+export interface B2CPasswordsResetByEmailResponse extends BaseResponse {
   user_id: string;
   user: User;
   session_token?: string;
@@ -76,7 +76,7 @@ export interface ResetByEmailResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface ResetByExistingPasswordRequest {
+export interface B2CPasswordsResetByExistingPasswordRequest {
   email: string;
   existing_password: string;
   new_password: string;
@@ -86,7 +86,8 @@ export interface ResetByExistingPasswordRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface ResetByExistingPasswordResponse extends BaseResponse {
+export interface B2CPasswordsResetByExistingPasswordResponse
+  extends BaseResponse {
   user_id: string;
   user: User;
   session_token?: string;
@@ -94,24 +95,24 @@ export interface ResetByExistingPasswordResponse extends BaseResponse {
   session?: Session;
 }
 
-export interface ResetBySessionRequest {
+export interface B2CPasswordsResetBySessionRequest {
   password: string;
   session_token?: string;
   session_jwt?: string;
 }
 
-export interface ResetBySessionResponse extends BaseResponse {
+export interface B2CPasswordsResetBySessionResponse extends BaseResponse {
   user_id: string;
   user: User;
   session: Session;
 }
 
-export interface StrengthCheckRequest {
+export interface B2CPasswordsStrengthCheckRequest {
   email?: string;
   password: string;
 }
 
-export interface StrengthCheckResponse extends BaseResponse {
+export interface B2CPasswordsStrengthCheckResponse extends BaseResponse {
   valid_password: boolean;
   score: number;
   breached_password: boolean;
@@ -139,7 +140,7 @@ interface MigrateRequestBase {
   untrusted_metadata?: UserMetadata;
 }
 
-export type MigrateRequest =
+export type B2CPasswordsMigrateRequest =
   | (shared.MD5MigrateRequest & MigrateRequestBase)
   | (shared.BcryptMigrateRequest & MigrateRequestBase)
   | (shared.Argon2IMigrateRequest & MigrateRequestBase)
@@ -148,7 +149,7 @@ export type MigrateRequest =
   | (shared.ScryptMigrateRequest & MigrateRequestBase)
   | (shared.PHPassMigrateRequest & MigrateRequestBase);
 
-export interface MigrateResponse extends BaseResponse {
+export interface B2CPasswordsMigrateResponse extends BaseResponse {
   user_id: string;
   email_id: string;
   user_created: boolean;
@@ -167,7 +168,7 @@ export class Passwords {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: B2CPasswordsCreateRequest): Promise<B2CPasswordsCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -175,7 +176,9 @@ export class Passwords {
     });
   }
 
-  authenticate(data?: AuthenticateRequest): Promise<AuthenticateResponse> {
+  authenticate(
+    data?: B2CPasswordsAuthenticateRequest
+  ): Promise<B2CPasswordsAuthenticateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("authenticate"),
@@ -184,8 +187,8 @@ export class Passwords {
   }
 
   resetByEmailStart(
-    data: ResetByEmailStartRequest
-  ): Promise<ResetByEmailStartResponse> {
+    data: B2CPasswordsResetByEmailStartRequest
+  ): Promise<B2CPasswordsResetByEmailStartResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("email/reset/start"),
@@ -196,8 +199,8 @@ export class Passwords {
   resetByEmail(
     token: string,
     password: string,
-    data?: ResetByEmailRequest
-  ): Promise<ResetByEmailResponse> {
+    data?: B2CPasswordsResetByEmailRequest
+  ): Promise<B2CPasswordsResetByEmailResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("email/reset"),
@@ -206,8 +209,8 @@ export class Passwords {
   }
 
   resetByExistingPassword(
-    data: ResetByExistingPasswordRequest
-  ): Promise<ResetByExistingPasswordResponse> {
+    data: B2CPasswordsResetByExistingPasswordRequest
+  ): Promise<B2CPasswordsResetByExistingPasswordResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("existing_password/reset"),
@@ -215,7 +218,9 @@ export class Passwords {
     });
   }
 
-  resetBySession(data: ResetBySessionRequest): Promise<ResetBySessionResponse> {
+  resetBySession(
+    data: B2CPasswordsResetBySessionRequest
+  ): Promise<B2CPasswordsResetBySessionResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("session/reset"),
@@ -223,7 +228,9 @@ export class Passwords {
     });
   }
 
-  strengthCheck(data: StrengthCheckRequest): Promise<StrengthCheckResponse> {
+  strengthCheck(
+    data: B2CPasswordsStrengthCheckRequest
+  ): Promise<B2CPasswordsStrengthCheckResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("strength_check"),
@@ -231,7 +238,9 @@ export class Passwords {
     });
   }
 
-  migrate(data: MigrateRequest): Promise<MigrateResponse> {
+  migrate(
+    data: B2CPasswordsMigrateRequest
+  ): Promise<B2CPasswordsMigrateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("migrate"),
