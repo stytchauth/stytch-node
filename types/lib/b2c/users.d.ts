@@ -1,18 +1,7 @@
 import { BaseResponse, fetchConfig } from "../shared";
-import { Attributes, CryptoWallet, Email, Name, PhoneNumber, TOTP, Password, User } from "./shared_b2c";
+import { Attributes, CryptoWallet, Email, Name, PhoneNumber, User } from "./shared_b2c";
 export declare type UserID = string;
 export declare type UserMetadata = Record<string, any>;
-export interface PendingUser {
-    user_id: UserID;
-    name: Name;
-    emails: Email[];
-    password?: Password;
-    phone_numbers: PhoneNumber[];
-    crypto_wallet: CryptoWallet[];
-    status: string;
-    invited_at: string;
-    totps: TOTP[];
-}
 export interface B2CUsersCreateRequest {
     email?: string;
     phone_number?: string;
@@ -138,16 +127,6 @@ export interface B2CUsersUpdateResponse extends BaseResponse {
 export interface B2CUsersDeleteResponse extends BaseResponse {
     user_id: UserID;
 }
-export interface B2CUsersGetPendingRequest {
-    starting_after_id?: string;
-    limit?: number;
-}
-export interface B2CUsersGetPendingResponse extends BaseResponse {
-    users: PendingUser[];
-    has_more: boolean;
-    starting_after_id: string;
-    total: number;
-}
 export interface B2CUsersDeleteEmailResponse extends BaseResponse {
     user_id: UserID;
     user: User;
@@ -200,7 +179,6 @@ export declare class Users {
     searchAll(data: B2CUsersSearchRequest): UserSearchIterator;
     update(userID: UserID, data: B2CUsersUpdateRequest): Promise<B2CUsersUpdateResponse>;
     delete(userID: UserID): Promise<B2CUsersDeleteResponse>;
-    getPending(params?: B2CUsersGetPendingRequest): Promise<B2CUsersGetPendingResponse>;
     deleteEmail(emailID: string): Promise<B2CUsersDeleteEmailResponse>;
     deletePhoneNumber(phoneID: string): Promise<B2CUsersDeletePhoneNumberResponse>;
     deleteWebAuthnRegistration(webAuthnRegistrationID: string): Promise<B2CUsersDeleteWebAuthnRegistrationResponse>;

@@ -112,15 +112,6 @@ class Users {
     });
   }
 
-  getPending(params) {
-    return (0, _shared.request)(this.fetchConfig, {
-      method: "GET",
-      url: this.endpoint("pending"),
-      params: { ...params
-      }
-    });
-  }
-
   deleteEmail(emailID) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
