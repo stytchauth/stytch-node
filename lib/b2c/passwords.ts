@@ -138,6 +138,7 @@ interface MigrateRequestBase {
   name?: Name;
   trusted_metadata?: UserMetadata;
   untrusted_metadata?: UserMetadata;
+  set_email_verified?: boolean;
 }
 
 export type B2CPasswordsMigrateRequest =

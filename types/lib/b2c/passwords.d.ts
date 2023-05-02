@@ -122,6 +122,7 @@ interface MigrateRequestBase {
     name?: Name;
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
+    set_email_verified?: boolean;
 }
 export declare type B2CPasswordsMigrateRequest = (shared.MD5MigrateRequest & MigrateRequestBase) | (shared.BcryptMigrateRequest & MigrateRequestBase) | (shared.Argon2IMigrateRequest & MigrateRequestBase) | (shared.Argon2IDMigrateRequest & MigrateRequestBase) | (shared.SHA1MigrateRequest & MigrateRequestBase) | (shared.ScryptMigrateRequest & MigrateRequestBase) | (shared.PHPassMigrateRequest & MigrateRequestBase);
 export interface B2CPasswordsMigrateResponse extends BaseResponse {
