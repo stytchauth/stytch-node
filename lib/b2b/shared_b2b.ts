@@ -32,6 +32,7 @@ export interface Member {
   trusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   is_breakglass: boolean;
+  member_password_id: string;
 }
 
 export interface SSORegistration {

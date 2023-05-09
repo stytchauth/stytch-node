@@ -30,6 +30,7 @@ export interface Member {
     trusted_metadata: Record<string, any>;
     untrusted_metadata: Record<string, any>;
     is_breakglass: boolean;
+    member_password_id: string;
 }
 export interface SSORegistration {
     connection_id: string;
