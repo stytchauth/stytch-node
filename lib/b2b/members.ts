@@ -73,7 +73,6 @@ export interface SearchOrganizationMemberRequest {
 export interface SearchOrganizationMemberResponse extends BaseResponse {
   members: Member[];
   results_metadata: ResultsMetadata;
-  // map of strings to organization objects
   organizations: Record<string, Organization>;
 }
 
