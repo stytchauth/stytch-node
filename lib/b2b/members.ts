@@ -7,7 +7,7 @@ import {
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { Organization } from "./organizations";
 
-export interface CreateMemberRequest {
+export interface B2BMemberCreateRequest {
   organization_id: string;
   email_address: string;
   name?: string;
@@ -17,17 +17,17 @@ export interface CreateMemberRequest {
   is_breakglass?: boolean;
 }
 
-export type CreateMemberResponse = ResponseWithMember;
+export type B2BMemberCreateResponse = ResponseWithMember;
 
-export interface GetMemberRequest {
+export interface B2BMemberGetRequest {
   organization_id: string;
   member_id?: string;
   email_address?: string;
 }
 
-export type GetMemberResponse = ResponseWithMember;
+export type B2BMemberGetResponse = ResponseWithMember;
 
-export interface UpdateMemberRequest {
+export interface B2BMemberUpdateRequest {
   organization_id: string;
   member_id: string;
   name?: string;
@@ -36,7 +36,7 @@ export interface UpdateMemberRequest {
   is_breakglass?: boolean;
 }
 
-export type UpdateMemberResponse = ResponseWithMember;
+export type B2BMemberUpdateResponse = ResponseWithMember;
 
 export type MemberSearchOperand =
   | {
@@ -60,7 +60,7 @@ export type MemberSearchOperand =
       filter_value: string[];
     };
 
-export interface SearchOrganizationMemberRequest {
+export interface B2BMemberSearchRequest {
   organization_ids: string[];
   limit?: number;
   query?: {
@@ -70,18 +70,18 @@ export interface SearchOrganizationMemberRequest {
   cursor?: string | null;
 }
 
-export interface SearchOrganizationMemberResponse extends BaseResponse {
+export interface B2BMemberSearchResponse extends BaseResponse {
   members: Member[];
   results_metadata: ResultsMetadata;
   organizations: Record<string, Organization>;
 }
 
-export interface DeleteMemberRequest {
+export interface B2BMemberDeleteRequest {
   member_id: string;
   organization_id: string;
 }
 
-export interface DeleteMemberResponse extends BaseResponse {
+export interface B2BMemberDeleteResponse extends BaseResponse {
   member_id: string;
 }
 
@@ -94,7 +94,7 @@ export class Members {
     this.base_path = `${parent_path}`;
   }
 
-  create(data: CreateMemberRequest): Promise<CreateMemberResponse> {
+  create(data: B2BMemberCreateRequest): Promise<B2BMemberCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `${this.base_path}/${data.organization_id}/members`,
@@ -102,7 +102,7 @@ export class Members {
     });
   }
 
-  get(params: GetMemberRequest): Promise<GetMemberResponse> {
+  get(params: B2BMemberGetRequest): Promise<B2BMemberGetResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: `${this.base_path}/${params.organization_id}/member`,
@@ -110,7 +110,7 @@ export class Members {
     });
   }
 
-  update(data: UpdateMemberRequest): Promise<UpdateMemberResponse> {
+  update(data: B2BMemberUpdateRequest): Promise<B2BMemberUpdateResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: `${this.base_path}/${data.organization_id}/members/${data.member_id}`,
@@ -118,16 +118,14 @@ export class Members {
     });
   }
 
-  delete(data: DeleteMemberRequest): Promise<DeleteMemberResponse> {
+  delete(data: B2BMemberDeleteRequest): Promise<B2BMemberDeleteResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: `${this.base_path}/${data.organization_id}/members/${data.member_id}`,
     });
   }
 
-  search(
-    data: SearchOrganizationMemberRequest
-  ): Promise<SearchOrganizationMemberResponse> {
+  search(data: B2BMemberSearchRequest): Promise<B2BMemberSearchResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: `${this.base_path}/members/search`,

@@ -4,7 +4,7 @@ The Stytch Node library makes it easy to use the Stytch user infrastructure API 
 
 It pairs well with the Stytch [Web SDK](https://www.npmjs.com/package/@stytch/stytch-js) or your own custom authentication flow.
 
-This library is tested with all current LTS versions of Node - **14**, **16**, and **18**.
+This library is tested with all current LTS versions of Node - **16**, **18**, and **20**.
 
 ## Install
 
@@ -122,6 +122,15 @@ client.magicLinks.loginOrSignup({
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
+
+## TypeScript support
+
+This package includes TypeScript declarations for the Stytch API.
+
+Request and response types will always follow the format `$Vertical$Product$Method(Request|Response)` -
+for example the `B2BMagicLinksAuthenticateRequest` maps to the B2B
+[Authenticate Magic Link](https://stytch.com/docs/b2b/api/authenticate-magic-link) endpoint, while the
+`B2CMagicLinksAuthenticateRequest` maps to the B2C [Authenticate Magic Link](https://stytch.com/docs/api/authenticate-magic-link) endpoint.
 
 ## Handling Errors
 

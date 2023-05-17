@@ -1,12 +1,13 @@
 {
   "name": "stytch",
-  "version": "6.2.0",
+  "version": "7.0.1",
   "description": "A wrapper for the Stytch API",
   "types": "./types/lib/index.d.ts",
   "main": "./dist/index.js",
   "exports": {
     "require": "./dist/index.js",
-    "import": "./module.mjs"
+    "import": "./module.mjs",
+    "types": "./types/lib/index.d.ts"
   },
   "files": [
     "dist/**/*",
@@ -18,7 +19,7 @@
     "url": "git://github.com/stytchauth/stytch-node.git"
   },
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 16.0.0"
   },
   "scripts": {
     "build": "rm -rf dist types && babel lib --out-dir dist --extensions '.ts' && tsc --declaration --outDir types --emitDeclarationOnly",
@@ -51,7 +52,12 @@
   },
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0",
-    "jose": "^4.6.0"
+    "jose": "^4.13.2"
+  },
+  "overrides": {
+    "isomorphic-unfetch": {
+      "node-fetch": "2.6.9"
+    }
   },
   "eslintConfig": {
     "extends": "airbnb",

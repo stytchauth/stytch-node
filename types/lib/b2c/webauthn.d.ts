@@ -1,40 +1,40 @@
 import { Session, User } from "./shared_b2c";
 import { BaseResponse, fetchConfig } from "../shared";
 import { UserID } from "./users";
-export interface RegisterStartRequest {
+export interface B2CWebAuthnRegisterStartRequest {
     user_id: UserID;
     domain: string;
     user_agent?: string;
     authenticator_type?: string;
 }
-export interface RegisterStartResponse extends BaseResponse {
+export interface B2CWebAuthnRegisterStartResponse extends BaseResponse {
     user_id: UserID;
     public_key_credential_creation_options: string;
 }
-export interface RegisterRequest {
+export interface B2CWebAuthnRegisterRequest {
     user_id: UserID;
     public_key_credential: string;
 }
-export interface RegisterResponse extends BaseResponse {
+export interface B2CWebAuthnRegisterResponse extends BaseResponse {
     user_id: UserID;
     webauthn_registration_id: string;
 }
-export interface AuthenticateStartRequest {
+export interface B2CWebAuthnAuthenticateStartRequest {
     user_id: UserID;
     domain: string;
 }
-export interface AuthenticateStartResponse extends BaseResponse {
+export interface B2CWebAuthnAuthenticateStartResponse extends BaseResponse {
     user_id: UserID;
     public_key_credential_request_options: string;
 }
-export interface AuthenticateRequest {
+export interface B2CWebAuthnAuthenticateRequest {
     public_key_credential: string;
     session_token?: string;
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
 }
-export interface AuthenticateResponse extends BaseResponse {
+export interface B2CWebAuthnAuthenticateResponse extends BaseResponse {
     user_id: UserID;
     user: User;
     webauthn_registration_id: string;
@@ -47,8 +47,8 @@ export declare class WebAuthn {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    registerStart(data: RegisterStartRequest): Promise<RegisterStartResponse>;
-    register(data: RegisterRequest): Promise<RegisterResponse>;
-    authenticateStart(data: AuthenticateStartRequest): Promise<AuthenticateStartResponse>;
-    authenticate(data: AuthenticateRequest): Promise<AuthenticateResponse>;
+    registerStart(data: B2CWebAuthnRegisterStartRequest): Promise<B2CWebAuthnRegisterStartResponse>;
+    register(data: B2CWebAuthnRegisterRequest): Promise<B2CWebAuthnRegisterResponse>;
+    authenticateStart(data: B2CWebAuthnAuthenticateStartRequest): Promise<B2CWebAuthnAuthenticateStartResponse>;
+    authenticate(data: B2CWebAuthnAuthenticateRequest): Promise<B2CWebAuthnAuthenticateResponse>;
 }

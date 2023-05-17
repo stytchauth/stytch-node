@@ -175,6 +175,17 @@ export interface DiscordOAuthFactor {
   };
 }
 
+export interface SalesforceOAuthFactor {
+  delivery_method: "oauth_salesforce";
+  type: string;
+  last_authenticated_at: string;
+  salesforce_oauth_factor: {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+  };
+}
+
 export interface SlackOAuthFactor {
   delivery_method: "oauth_slack";
   type: string;
@@ -337,7 +348,7 @@ export interface PasswordFactor {
   last_authenticated_at: string;
 }
 
-export type AuthenticationFactor =
+export type B2CAuthenticationFactor =
   | EmailFactor
   | PhoneNumberFactor
   | GoogleOAuthFactor
@@ -347,6 +358,7 @@ export type AuthenticationFactor =
   | GitLabOAuthFactor
   | FacebookOAuthFactor
   | DiscordOAuthFactor
+  | SalesforceOAuthFactor
   | SlackOAuthFactor
   | AmazonOAuthFactor
   | BitbucketOAuthFactor
@@ -371,6 +383,6 @@ export interface Session {
   last_accessed_at: string;
   expires_at: string;
   attributes: Attributes;
-  authentication_factors: AuthenticationFactor[];
+  authentication_factors: B2CAuthenticationFactor[];
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

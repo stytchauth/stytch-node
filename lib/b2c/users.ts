@@ -6,27 +6,13 @@ import {
   Email,
   Name,
   PhoneNumber,
-  TOTP,
-  Password,
   User,
 } from "./shared_b2c";
 
 export type UserID = string;
 export type UserMetadata = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-export interface PendingUser {
-  user_id: UserID;
-  name: Name;
-  emails: Email[];
-  password?: Password;
-  phone_numbers: PhoneNumber[];
-  crypto_wallet: CryptoWallet[];
-  status: string;
-  invited_at: string;
-  totps: TOTP[];
-}
-
-export interface CreateRequest {
+export interface B2CUsersCreateRequest {
   email?: string;
   phone_number?: string;
   name?: Name;
@@ -36,7 +22,7 @@ export interface CreateRequest {
   untrusted_metadata?: UserMetadata;
 }
 
-export interface CreateResponse extends BaseResponse {
+export interface B2CUsersCreateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   email_id: string;
@@ -44,7 +30,7 @@ export interface CreateResponse extends BaseResponse {
   status: string;
 }
 
-export type GetResponse = BaseResponse & User;
+export type B2CUsersGetResponse = BaseResponse & User;
 
 export enum UserSearchOperator {
   OR = "OR",
@@ -152,7 +138,7 @@ export type UserSearchOperand =
       filter_value: boolean;
     };
 
-export interface SearchRequest {
+export interface B2CUsersSearchRequest {
   limit?: number;
   query?: {
     operator: UserSearchOperator;
@@ -161,7 +147,7 @@ export interface SearchRequest {
   cursor?: string | null;
 }
 
-export interface SearchResponse extends BaseResponse {
+export interface B2CUsersSearchResponse extends BaseResponse {
   results: User[];
   results_metadata: {
     next_cursor: string | null;
@@ -169,14 +155,14 @@ export interface SearchResponse extends BaseResponse {
   };
 }
 
-export interface UpdateRequest {
+export interface B2CUsersUpdateRequest {
   name?: Name;
   trusted_metadata?: UserMetadata;
   untrusted_metadata?: UserMetadata;
   attributes?: Attributes;
 }
 
-export interface UpdateResponse extends BaseResponse {
+export interface B2CUsersUpdateResponse extends BaseResponse {
   user_id: UserID;
   user: User;
   emails: Email[];
@@ -184,58 +170,49 @@ export interface UpdateResponse extends BaseResponse {
   crypto_wallets: CryptoWallet[];
 }
 
-export interface DeleteResponse extends BaseResponse {
+export interface B2CUsersDeleteResponse extends BaseResponse {
   user_id: UserID;
 }
 
-export interface GetPendingRequest {
-  starting_after_id?: string;
-  limit?: number;
-}
-
-export interface GetPendingResponse extends BaseResponse {
-  users: PendingUser[];
-  has_more: boolean;
-  starting_after_id: string;
-  total: number;
-}
-
-export interface DeleteEmailResponse extends BaseResponse {
+export interface B2CUsersDeleteEmailResponse extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeletePhoneNumberResponse extends BaseResponse {
+export interface B2CUsersDeletePhoneNumberResponse extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeleteWebAuthnRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteWebAuthnRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeleteBiometricRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteBiometricRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeleteTOTPResponse extends BaseResponse {
+export interface B2CUsersDeleteTOTPResponse extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeleteCryptoWalletResponse extends BaseResponse {
+export interface B2CUsersDeleteCryptoWalletResponse extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeletePasswordResponse extends BaseResponse {
+export interface B2CUsersDeletePasswordResponse extends BaseResponse {
   user_id: UserID;
   user: User;
 }
 
-export interface DeleteOAuthUserRegistrationResponse extends BaseResponse {
+export interface B2CUsersDeleteOAuthUserRegistrationResponse
+  extends BaseResponse {
   user_id: UserID;
   user: User;
 }
@@ -249,7 +226,7 @@ enum mode {
 export class UserSearchIterator {
   private mode: mode;
 
-  constructor(private client: Users, private data: SearchRequest) {
+  constructor(private client: Users, private data: B2CUsersSearchRequest) {
     this.mode = mode.pending;
   }
 
@@ -290,7 +267,7 @@ export class Users {
     return `${this.base_path}/${path}`;
   }
 
-  create(data: CreateRequest): Promise<CreateResponse> {
+  create(data: B2CUsersCreateRequest): Promise<B2CUsersCreateResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.base_path,
@@ -298,14 +275,14 @@ export class Users {
     });
   }
 
-  get(userID: UserID): Promise<GetResponse> {
+  get(userID: UserID): Promise<B2CUsersGetResponse> {
     return request(this.fetchConfig, {
       method: "GET",
       url: this.endpoint(userID),
     });
   }
 
-  search(data: SearchRequest): Promise<SearchResponse> {
+  search(data: B2CUsersSearchRequest): Promise<B2CUsersSearchResponse> {
     return request(this.fetchConfig, {
       method: "POST",
       url: this.endpoint("search"),
@@ -313,11 +290,14 @@ export class Users {
     });
   }
 
-  searchAll(data: SearchRequest): UserSearchIterator {
+  searchAll(data: B2CUsersSearchRequest): UserSearchIterator {
     return new UserSearchIterator(this, data);
   }
 
-  update(userID: UserID, data: UpdateRequest): Promise<UpdateResponse> {
+  update(
+    userID: UserID,
+    data: B2CUsersUpdateRequest
+  ): Promise<B2CUsersUpdateResponse> {
     return request(this.fetchConfig, {
       method: "PUT",
       url: this.endpoint(userID),
@@ -325,29 +305,23 @@ export class Users {
     });
   }
 
-  delete(userID: UserID): Promise<DeleteResponse> {
+  delete(userID: UserID): Promise<B2CUsersDeleteResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(userID),
     });
   }
 
-  getPending(params?: GetPendingRequest): Promise<GetPendingResponse> {
-    return request(this.fetchConfig, {
-      method: "GET",
-      url: this.endpoint("pending"),
-      params: { ...params },
-    });
-  }
-
-  deleteEmail(emailID: string): Promise<DeleteEmailResponse> {
+  deleteEmail(emailID: string): Promise<B2CUsersDeleteEmailResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`emails/${emailID}`),
     });
   }
 
-  deletePhoneNumber(phoneID: string): Promise<DeletePhoneNumberResponse> {
+  deletePhoneNumber(
+    phoneID: string
+  ): Promise<B2CUsersDeletePhoneNumberResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`phone_numbers/${phoneID}`),
@@ -356,7 +330,7 @@ export class Users {
 
   deleteWebAuthnRegistration(
     webAuthnRegistrationID: string
-  ): Promise<DeleteWebAuthnRegistrationResponse> {
+  ): Promise<B2CUsersDeleteWebAuthnRegistrationResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`webauthn_registrations/${webAuthnRegistrationID}`),
@@ -365,14 +339,14 @@ export class Users {
 
   deleteBiometricRegistration(
     biometricRegistrationID: string
-  ): Promise<DeleteBiometricRegistrationResponse> {
+  ): Promise<B2CUsersDeleteBiometricRegistrationResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`biometric_registrations/${biometricRegistrationID}`),
     });
   }
 
-  deleteTOTP(totpID: string): Promise<DeleteTOTPResponse> {
+  deleteTOTP(totpID: string): Promise<B2CUsersDeleteTOTPResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`totps/${totpID}`),
@@ -381,14 +355,16 @@ export class Users {
 
   deleteCryptoWallet(
     cryptoWalletID: string
-  ): Promise<DeleteCryptoWalletResponse> {
+  ): Promise<B2CUsersDeleteCryptoWalletResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`crypto_wallets/${cryptoWalletID}`),
     });
   }
 
-  deletePassword(passwordID: string): Promise<DeleteCryptoWalletResponse> {
+  deletePassword(
+    passwordID: string
+  ): Promise<B2CUsersDeleteCryptoWalletResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),
@@ -397,7 +373,7 @@ export class Users {
 
   deleteOAuthUserRegistration(
     oauthUserRegistrationID: string
-  ): Promise<DeleteOAuthUserRegistrationResponse> {
+  ): Promise<B2CUsersDeleteOAuthUserRegistrationResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`oauth/${oauthUserRegistrationID}`),

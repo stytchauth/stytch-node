@@ -38,7 +38,35 @@ exports.envs = void 0;
 
 var _client = require("./b2c/client");
 
+var _index = require("./b2c/index");
+
+Object.keys(_index).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index[key];
+    }
+  });
+});
+
 var _client2 = require("./b2b/client");
+
+var _index2 = require("./b2b/index");
+
+Object.keys(_index2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _index2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _index2[key];
+    }
+  });
+});
 
 var _envs = _interopRequireWildcard(require("./shared/envs"));
 

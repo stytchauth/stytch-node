@@ -10,7 +10,7 @@ export interface EmailFactor {
     email_address: string;
   };
 }
-export type AuthenticationFactor = EmailFactor;
+export type B2BAuthenticationFactor = EmailFactor;
 export interface MemberSession {
   member_session_id: string;
   member_id: string;
@@ -18,7 +18,7 @@ export interface MemberSession {
   started_at: string;
   last_accessed_at: string;
   expires_at: string;
-  authentication_factors: AuthenticationFactor[];
+  authentication_factors: B2BAuthenticationFactor[];
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -32,6 +32,7 @@ export interface Member {
   trusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   is_breakglass: boolean;
+  member_password_id: string;
 }
 
 export interface SSORegistration {

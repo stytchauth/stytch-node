@@ -1,7 +1,8 @@
 import { Member, SearchOperator, ResultsMetadata, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
 import { Organization } from "./organizations";
-export interface CreateMemberRequest {
+
+export interface B2BMemberCreateRequest {
     organization_id: string;
     email_address: string;
     name?: string;
@@ -10,14 +11,14 @@ export interface CreateMemberRequest {
     create_member_as_pending?: boolean;
     is_breakglass?: boolean;
 }
-export declare type CreateMemberResponse = ResponseWithMember;
-export interface GetMemberRequest {
+export declare type B2BMemberCreateResponse = ResponseWithMember;
+export interface B2BMemberGetRequest {
     organization_id: string;
     member_id?: string;
     email_address?: string;
 }
-export declare type GetMemberResponse = ResponseWithMember;
-export interface UpdateMemberRequest {
+export declare type B2BMemberGetResponse = ResponseWithMember;
+export interface B2BMemberUpdateRequest {
     organization_id: string;
     member_id: string;
     name?: string;
@@ -25,7 +26,7 @@ export interface UpdateMemberRequest {
     untrusted_metadata?: Record<string, any>;
     is_breakglass?: boolean;
 }
-export declare type UpdateMemberResponse = ResponseWithMember;
+export declare type B2BMemberUpdateResponse = ResponseWithMember;
 export declare type MemberSearchOperand = {
     filter_name: "member_ids";
     filter_value: string[];
@@ -42,7 +43,7 @@ export declare type MemberSearchOperand = {
     filter_name: "statuses";
     filter_value: string[];
 };
-export interface SearchOrganizationMemberRequest {
+export interface B2BMemberSearchRequest {
     organization_ids: string[];
     limit?: number;
     query?: {
@@ -51,25 +52,25 @@ export interface SearchOrganizationMemberRequest {
     };
     cursor?: string | null;
 }
-export interface SearchOrganizationMemberResponse extends BaseResponse {
+export interface B2BMemberSearchResponse extends BaseResponse {
     members: Member[];
     results_metadata: ResultsMetadata;
     organizations: Record<string, Organization>;
 }
-export interface DeleteMemberRequest {
+export interface B2BMemberDeleteRequest {
     member_id: string;
     organization_id: string;
 }
-export interface DeleteMemberResponse extends BaseResponse {
+export interface B2BMemberDeleteResponse extends BaseResponse {
     member_id: string;
 }
 export declare class Members {
     private base_path;
     private fetchConfig;
     constructor(fetchConfig: fetchConfig, parent_path: string);
-    create(data: CreateMemberRequest): Promise<CreateMemberResponse>;
-    get(params: GetMemberRequest): Promise<GetMemberResponse>;
-    update(data: UpdateMemberRequest): Promise<UpdateMemberResponse>;
-    delete(data: DeleteMemberRequest): Promise<DeleteMemberResponse>;
-    search(data: SearchOrganizationMemberRequest): Promise<SearchOrganizationMemberResponse>;
+    create(data: B2BMemberCreateRequest): Promise<B2BMemberCreateResponse>;
+    get(params: B2BMemberGetRequest): Promise<B2BMemberGetResponse>;
+    update(data: B2BMemberUpdateRequest): Promise<B2BMemberUpdateResponse>;
+    delete(data: B2BMemberDeleteRequest): Promise<B2BMemberDeleteResponse>;
+    search(data: B2BMemberSearchRequest): Promise<B2BMemberSearchResponse>;
 }

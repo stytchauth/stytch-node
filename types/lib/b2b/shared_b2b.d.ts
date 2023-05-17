@@ -9,7 +9,7 @@ export interface EmailFactor {
         email_address: string;
     };
 }
-export declare type AuthenticationFactor = EmailFactor;
+export declare type B2BAuthenticationFactor = EmailFactor;
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
@@ -17,7 +17,7 @@ export interface MemberSession {
     started_at: string;
     last_accessed_at: string;
     expires_at: string;
-    authentication_factors: AuthenticationFactor[];
+    authentication_factors: B2BAuthenticationFactor[];
     custom_claims?: Record<string, any>;
 }
 export interface Member {
@@ -30,6 +30,7 @@ export interface Member {
     trusted_metadata: Record<string, any>;
     untrusted_metadata: Record<string, any>;
     is_breakglass: boolean;
+    member_password_id: string;
 }
 export interface SSORegistration {
     connection_id: string;
