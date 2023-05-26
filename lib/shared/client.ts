@@ -9,7 +9,7 @@ const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
 export interface ClientConfig {
   project_id: string;
   secret: string;
-  env: string;
+  env?: string;
   timeout?: number;
   agent?: http.Agent;
 }
@@ -34,7 +34,11 @@ export class BaseClient {
     }
 
     if (!config.env) {
-      throw new Error('Missing "env" in config');
+      if (config.project_id.startsWith("project-live-")) {
+        config.env = envs.live
+      } else {
+        config.env = envs.test
+      }
     }
 
     if (config.env != envs.test && config.env != envs.live) {
