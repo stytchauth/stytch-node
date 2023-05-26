@@ -32,7 +32,11 @@ class BaseClient {
     }
 
     if (!config.env) {
-      throw new Error('Missing "env" in config');
+      if (config.project_id.startsWith("project-live-")) {
+        config.env = envs.live;
+      } else {
+        config.env = envs.test;
+      }
     }
 
     if (config.env != envs.test && config.env != envs.live) {// TODO: warn about non-production configuration
