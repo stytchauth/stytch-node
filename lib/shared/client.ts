@@ -35,9 +35,9 @@ export class BaseClient {
 
     if (!config.env) {
       if (config.project_id.startsWith("project-live-")) {
-        config.env = envs.live
+        config.env = envs.live;
       } else {
-        config.env = envs.test
+        config.env = envs.test;
       }
     }
 
