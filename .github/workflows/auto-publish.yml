@@ -1,0 +1,57 @@
+name: Publish NPM package
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    name: Build and publish stytch package to NPM
+    steps:
+      - uses: actions/checkout@v3
+
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install
+        run: npm install
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(node -e 'console.log(`v${require("./package.json").version}`)')
+          echo "release_tag=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get changed files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+
+      - name: Check for package.json diff
+        id: diff
+        run: |
+          FOUND=0
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            if [[ $changed_file == "package.json" ]]; then
+              FOUND=1
+            fi
+          done
+          echo "diff=$FOUND" >> $GITHUB_OUTPUT
+
+      - name: Create release draft
+        if: steps.diff.outputs.diff != 0
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.release_tag }}
+          release_name: ${{ steps.version.outputs.release_tag }}
+          draft: true
+
+      - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: steps.diff.outputs.diff != 0 && env.NODE_AUTH_TOKEN != ''
+        run: npm publish
