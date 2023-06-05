@@ -1,3 +1,4 @@
+import { GoogleOAuthFactor, MicrosoftOAuthFactor } from "../b2c/shared_b2c";
 import { BaseResponse } from "../shared";
 import { Organization } from "./organizations";
 
@@ -10,7 +11,7 @@ export interface EmailFactor {
     email_address: string;
   };
 }
-export type B2BAuthenticationFactor = EmailFactor;
+export type B2BAuthenticationFactor = EmailFactor | GoogleOAuthFactor | MicrosoftOAuthFactor;
 export interface MemberSession {
   member_session_id: string;
   member_id: string;
@@ -28,6 +29,7 @@ export interface Member {
   email_address: string;
   status: string;
   name: string;
+  oauth_registrations: OAuthRegistration[];
   sso_registrations: SSORegistration[];
   trusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -40,6 +42,14 @@ export interface SSORegistration {
   external_id: string;
   registration_id: string;
   sso_attributes: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface OAuthRegistration {
+  provider_subject: string;
+  provider_type: string;
+  member_oauth_registration_id: string;
+  locale?: string;
+  profile_picture_url?: string;
 }
 
 export interface ResultsMetadata {

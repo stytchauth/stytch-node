@@ -3,6 +3,7 @@ export type {
   MemberSession,
   Member,
   SSORegistration,
+  OAuthRegistration,
 } from "./shared_b2b";
 
 export type {
