@@ -19,7 +19,7 @@ const oauth = new OAuth(MOCK_FETCH_CONFIG);
 describe("oauth.authenticate", () => {
   test("session", () => {
     const data = {
-      oauth_token: "fake-token"
+      oauth_token: "fake-token",
     };
     return expect(oauth.authenticate(data)).resolves.toMatchObject({
       method: "POST",
@@ -34,7 +34,7 @@ describe("oauth.authenticate", () => {
 describe("oauth.discovery.authenticate", () => {
   test("session", () => {
     const data = {
-      discovery_oauth_token: "fake-token"
+      discovery_oauth_token: "fake-token",
     };
     return expect(oauth.discovery.authenticate(data)).resolves.toMatchObject({
       method: "POST",

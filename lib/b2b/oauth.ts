@@ -26,7 +26,7 @@ export interface B2BOAuthAuthenticateResponse extends BaseResponse {
   member_id: string;
   member: Member;
   organization_id: string;
-  organization: Organization
+  organization: Organization;
   session_token?: string;
   session_jwt?: string;
   member_session?: MemberSession;
@@ -42,7 +42,7 @@ export interface ProvidersValues {
 }
 
 class Discovery {
-  private base_path = "oauth/discovery"
+  private base_path = "oauth/discovery";
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {

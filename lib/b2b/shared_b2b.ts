@@ -11,7 +11,10 @@ export interface EmailFactor {
     email_address: string;
   };
 }
-export type B2BAuthenticationFactor = EmailFactor | GoogleOAuthFactor | MicrosoftOAuthFactor;
+export type B2BAuthenticationFactor =
+  | EmailFactor
+  | GoogleOAuthFactor
+  | MicrosoftOAuthFactor;
 export interface MemberSession {
   member_session_id: string;
   member_id: string;
