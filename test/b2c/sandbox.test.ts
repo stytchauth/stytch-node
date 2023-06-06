@@ -54,7 +54,7 @@ describeIf(
               "The magic link could not be authenticated because it was either already used or expired. Send another magic link to this user."
             );
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/401/unable_to_auth_magic_link"
+              "https://stytch.com/docs/api/errors/401#unable_to_auth_magic_link"
             );
           });
       });
@@ -69,7 +69,7 @@ describeIf(
               "The magic link could not be authenticated, try sending another magic link to the user."
             );
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/404/magic_link_not_found"
+              "https://stytch.com/docs/api/errors/404#magic_link_not_found"
             );
           });
       });
