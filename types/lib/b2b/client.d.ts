@@ -6,6 +6,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { JwtConfig } from "../shared/sessions";
 import { Discovery } from "./discovery";
 import { Passwords } from "./passwords";
+import { OAuth } from "./oauth";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     magicLinks: MagicLinks;
@@ -14,5 +15,6 @@ export declare class B2BClient extends BaseClient {
     sso: SSO;
     discovery: Discovery;
     passwords: Passwords;
+    oauth: OAuth;
     constructor(config: ClientConfig);
 }
