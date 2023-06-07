@@ -8,7 +8,7 @@ export interface B2BOAuthAuthenticateRequest {
   session_jwt?: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  code_verifier?: string;
+  pkce_code_verifier?: string;
 }
 
 export interface DiscoveryB2BOAuthAuthenticateRequest {
