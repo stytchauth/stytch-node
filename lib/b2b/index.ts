@@ -51,8 +51,8 @@ export type {
 export type {
   B2BOAuthAuthenticateRequest,
   B2BOAuthAuthenticateResponse,
-  DiscoveryB2BOAuthAuthenticateRequest,
-  DiscoveryB2BOAuthAuthenticateResponse,
+  B2BDiscoveryOAuthAuthenticateRequest,
+  B2BDiscoveryOAuthAuthenticateResponse,
 } from "./oauth";
 
 export type {
