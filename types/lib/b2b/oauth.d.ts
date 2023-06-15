@@ -7,13 +7,13 @@ export interface B2BOAuthAuthenticateRequest {
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
-    code_verifier?: string;
+    pkce_code_verifier?: string;
 }
-export interface DiscoveryB2BOAuthAuthenticateRequest {
+export interface B2BDiscoveryOAuthAuthenticateRequest {
     discovery_oauth_token: string;
     pkce_code_verifier?: string;
 }
-export interface DiscoveryB2BOAuthAuthenticateResponse extends BaseResponse {
+export interface B2BDiscoveryOAuthAuthenticateResponse extends BaseResponse {
     intermediate_session_token: string;
     email_address: string;
     discovered_organizations: DiscoveredOrganization[];
@@ -40,7 +40,7 @@ declare class Discovery {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     private endpoint;
-    authenticate(data: DiscoveryB2BOAuthAuthenticateRequest): Promise<DiscoveryB2BOAuthAuthenticateResponse>;
+    authenticate(data: B2BDiscoveryOAuthAuthenticateRequest): Promise<B2BDiscoveryOAuthAuthenticateResponse>;
 }
 export declare class OAuth {
     private base_path;

@@ -49,6 +49,13 @@ export type {
 } from "./oidc";
 
 export type {
+  B2BOAuthAuthenticateRequest,
+  B2BOAuthAuthenticateResponse,
+  B2BDiscoveryOAuthAuthenticateRequest,
+  B2BDiscoveryOAuthAuthenticateResponse,
+} from "./oauth";
+
+export type {
   B2BOrganizationCreateRequest,
   B2BOrganizationCreateResponse,
   B2BOrganizationGetRequest,

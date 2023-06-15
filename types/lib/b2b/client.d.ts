@@ -11,6 +11,7 @@ export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     magicLinks: MagicLinks;
     sessions: Sessions;
+    oauth: OAuth;
     organizations: Organizations;
     sso: SSO;
     discovery: Discovery;
