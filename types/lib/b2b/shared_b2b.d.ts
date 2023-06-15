@@ -44,8 +44,8 @@ export interface OAuthRegistration {
     provider_subject: string;
     provider_type: string;
     member_oauth_registration_id: string;
-    locale?: string;
-    profile_picture_url?: string;
+    locale?: string | null;
+    profile_picture_url?: string | null;
 }
 export interface ResultsMetadata {
     total: number;
