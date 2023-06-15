@@ -3,6 +3,7 @@ export type {
   MemberSession,
   Member,
   SSORegistration,
+  OAuthRegistration,
 } from "./shared_b2b";
 
 export type {
@@ -46,6 +47,13 @@ export type {
   B2BOIDCUpdateConnectionRequest,
   B2BOIDCUpdateConnectionResponse,
 } from "./oidc";
+
+export type {
+  B2BOAuthAuthenticateRequest,
+  B2BOAuthAuthenticateResponse,
+  B2BDiscoveryOAuthAuthenticateRequest,
+  B2BDiscoveryOAuthAuthenticateResponse,
+} from "./oauth";
 
 export type {
   B2BOrganizationCreateRequest,

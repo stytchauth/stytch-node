@@ -40,6 +40,7 @@ This client library supports all of Stytch's live products:
 - [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
 - [x] [Members](https://stytch.com/docs/b2b/api/member-object)
 - [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
+- [x] [OAuth logins](https://stytch.com/docs/b2b/api/oauth-overview)
 - [x] [Session Management](https://stytch.com/docs/b2b/api/sessions-overview)
 - [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-overview)
 - [x] [Discovery](https://stytch.com/docs/b2b/api/discovery-overview)
