@@ -16,6 +16,5 @@ export declare class B2BClient extends BaseClient {
     sso: SSO;
     discovery: Discovery;
     passwords: Passwords;
-    oauth: OAuth;
     constructor(config: ClientConfig);
 }
