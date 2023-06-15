@@ -1,5 +1,6 @@
 import { Member, SearchOperator, ResultsMetadata, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
+import { Organization } from "./organizations";
 export interface B2BMemberCreateRequest {
     organization_id: string;
     email_address: string;
@@ -53,6 +54,7 @@ export interface B2BMemberSearchRequest {
 export interface B2BMemberSearchResponse extends BaseResponse {
     members: Member[];
     results_metadata: ResultsMetadata;
+    organizations: Record<string, Organization>;
 }
 export interface B2BMemberDeleteRequest {
     member_id: string;
