@@ -362,9 +362,7 @@ export class Users {
     });
   }
 
-  deletePassword(
-    passwordID: string
-  ): Promise<B2CUsersDeleteCryptoWalletResponse> {
+  deletePassword(passwordID: string): Promise<B2CUsersDeletePasswordResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
       url: this.endpoint(`passwords/${passwordID}`),

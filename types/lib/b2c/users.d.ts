@@ -185,6 +185,6 @@ export declare class Users {
     deleteBiometricRegistration(biometricRegistrationID: string): Promise<B2CUsersDeleteBiometricRegistrationResponse>;
     deleteTOTP(totpID: string): Promise<B2CUsersDeleteTOTPResponse>;
     deleteCryptoWallet(cryptoWalletID: string): Promise<B2CUsersDeleteCryptoWalletResponse>;
-    deletePassword(passwordID: string): Promise<B2CUsersDeleteCryptoWalletResponse>;
+    deletePassword(passwordID: string): Promise<B2CUsersDeletePasswordResponse>;
     deleteOAuthUserRegistration(oauthUserRegistrationID: string): Promise<B2CUsersDeleteOAuthUserRegistrationResponse>;
 }
