@@ -123,7 +123,7 @@ interface MigrateRequestBase {
     trusted_metadata?: UserMetadata;
     untrusted_metadata?: UserMetadata;
 }
-export declare type B2CPasswordsMigrateRequest = (shared.MD5MigrateRequest & MigrateRequestBase) | (shared.BcryptMigrateRequest & MigrateRequestBase) | (shared.Argon2IMigrateRequest & MigrateRequestBase) | (shared.Argon2IDMigrateRequest & MigrateRequestBase) | (shared.SHA1MigrateRequest & MigrateRequestBase) | (shared.ScryptMigrateRequest & MigrateRequestBase) | (shared.PHPassMigrateRequest & MigrateRequestBase);
+export declare type B2CPasswordsMigrateRequest = (shared.MD5MigrateRequest & MigrateRequestBase) | (shared.BcryptMigrateRequest & MigrateRequestBase) | (shared.Argon2IMigrateRequest & MigrateRequestBase) | (shared.Argon2IDMigrateRequest & MigrateRequestBase) | (shared.SHA1MigrateRequest & MigrateRequestBase) | (shared.ScryptMigrateRequest & MigrateRequestBase) | (shared.PHPassMigrateRequest & MigrateRequestBase) | (shared.PBKDF2MigrateRequest & MigrateRequestBase);
 export interface B2CPasswordsMigrateResponse extends BaseResponse {
     user_id: string;
     email_id: string;

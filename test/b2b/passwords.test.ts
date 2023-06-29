@@ -487,5 +487,34 @@ describe("passwords.migrate", () => {
         },
         params: undefined,
       });
+    }),
+    test("pbkdf_2", () => {
+      return expect(
+        passwords.migrate({
+          organization_id: "organization-id-1234",
+          email_address: "Ada_Lovelace@example.com",
+          hash_type: "pbkdf_2",
+          hash: "not-a-real-password-hash",
+          pbkdf_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 10000,
+            key_length: 32,
+          },
+        })
+      ).resolves.toMatchObject({
+        method: "POST",
+        path: "passwords/migrate",
+        data: {
+          organization_id: "organization-id-1234",
+          email_address: "Ada_Lovelace@example.com",
+          hash_type: "pbkdf_2",
+          hash: "not-a-real-password-hash",
+          pbkdf_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 10000,
+            key_length: 32,
+          },
+        },
+      });
     });
 });

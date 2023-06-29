@@ -123,7 +123,8 @@ export type B2BPasswordsMigrateRequest =
   | (shared.Argon2IDMigrateRequest & MigrateRequestBase)
   | (shared.SHA1MigrateRequest & MigrateRequestBase)
   | (shared.ScryptMigrateRequest & MigrateRequestBase)
-  | (shared.PHPassMigrateRequest & MigrateRequestBase);
+  | (shared.PHPassMigrateRequest & MigrateRequestBase)
+  | (shared.PBKDF2MigrateRequest & MigrateRequestBase);
 
 export interface B2BPasswordsMigrateResponse extends ResponseWithMember {
   organization_id: string;
