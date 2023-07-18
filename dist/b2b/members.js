@@ -53,6 +53,13 @@ class Members {
     });
   }
 
+  deletePhoneNumber(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: `${this.base_path}/${data.organization_id}/members/phone_numbers/${data.member_phone_id}`
+    });
+  }
+
 }
 
 exports.Members = Members;

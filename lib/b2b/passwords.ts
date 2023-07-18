@@ -1,6 +1,7 @@
 import { request, BaseResponse, fetchConfig } from "../shared";
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import * as shared from "../shared/passwords";
+import { MfaRequired } from "./mfa";
 
 export interface B2BPasswordsAuthenticateRequest {
   organization_id: string;
@@ -10,13 +11,17 @@ export interface B2BPasswordsAuthenticateRequest {
   session_jwt?: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BPasswordsAuthenticateResponse extends ResponseWithMember {
   organization_id: string;
   session_token?: string;
   session_jwt?: string;
-  member_session?: MemberSession;
+  member_session: MemberSession | null;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export interface B2BPasswordsEmailResetStartRequest {
@@ -43,6 +48,7 @@ export interface B2BPasswordsEmailResetRequest {
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   code_verifier?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BPasswordsEmailResetResponse extends ResponseWithMember {
@@ -50,7 +56,10 @@ export interface B2BPasswordsEmailResetResponse extends ResponseWithMember {
   organization_id: string;
   session_token?: string;
   session_jwt?: string;
-  member_session?: MemberSession;
+  member_session: MemberSession | null;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export interface B2BPasswordsExistingPasswordResetRequest {
@@ -62,13 +71,17 @@ export interface B2BPasswordsExistingPasswordResetRequest {
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   organization_id: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BPasswordsExistingPasswordResetResponse
   extends ResponseWithMember {
   session_token?: string;
   session_jwt?: string;
-  member_session?: MemberSession;
+  member_session: MemberSession | null;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export interface B2BPasswordsSessionResetRequest {

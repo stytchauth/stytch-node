@@ -33,6 +33,7 @@ describe("organizations.create", () => {
         email_invites: "ALL_ALLOWED",
         auth_methods: "RESTRICTED",
         allowed_auth_methods: ["sso"],
+        mfa_policy: "OPTIONAL",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -48,6 +49,7 @@ describe("organizations.create", () => {
         email_invites: "ALL_ALLOWED",
         auth_methods: "RESTRICTED",
         allowed_auth_methods: ["sso"],
+        mfa_policy: "OPTIONAL",
       },
     });
   });
@@ -148,6 +150,7 @@ describe("organizations.update", () => {
         email_invites: "ALL_ALLOWED",
         auth_methods: "RESTRICTED",
         allowed_auth_methods: ["sso"],
+        mfa_policy: "REQUIRED_FOR_ALL",
       })
     ).resolves.toMatchObject({
       method: "PUT",
@@ -165,6 +168,7 @@ describe("organizations.update", () => {
         email_invites: "ALL_ALLOWED",
         auth_methods: "RESTRICTED",
         allowed_auth_methods: ["sso"],
+        mfa_policy: "REQUIRED_FOR_ALL",
       },
     });
   });

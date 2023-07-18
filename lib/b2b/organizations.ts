@@ -1,6 +1,7 @@
 import { SearchOperator, ResultsMetadata, Member } from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { Members } from "./members";
+import { MfaRequired } from "./mfa";
 
 export type OrganizationSearchOperand =
   | {
@@ -57,6 +58,8 @@ export interface Organization {
 
   auth_methods: "ALL_ALLOWED" | "RESTRICTED";
   allowed_auth_methods: string[];
+
+  mfa_policy: "OPTIONAL" | "REQUIRED_FOR_ALL";
 }
 
 export interface DiscoveredOrganization {
@@ -73,6 +76,10 @@ export interface DiscoveredOrganization {
         member: Member;
       };
   member_authenticated: boolean;
+  primary_required: {
+    allowed_auth_methods: string[];
+  };
+  mfa_required: MfaRequired;
 }
 
 export interface B2BOrganizationCreateRequest {
@@ -86,6 +93,7 @@ export interface B2BOrganizationCreateRequest {
   email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
   auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
   allowed_auth_methods?: string[];
+  mfa_policy?: "OPTIONAL" | "REQUIRED_FOR_ALL";
 }
 
 export interface B2BOrganizationCreateResponse extends BaseResponse {
@@ -139,6 +147,8 @@ export interface B2BOrganizationUpdateRequest {
 
   auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
   allowed_auth_methods?: string[];
+
+  mfa_policy?: "OPTIONAL" | "REQUIRED_FOR_ALL";
 }
 
 export interface B2BOrganizationUpdateResponse extends BaseResponse {

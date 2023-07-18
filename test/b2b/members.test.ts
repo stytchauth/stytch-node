@@ -17,6 +17,7 @@ describe("members.create", () => {
           email_address: "test@stytch.com",
           create_member_as_pending: true,
           is_breakglass: false,
+          mfa_enrolled: true,
         },
       });
 
@@ -34,6 +35,7 @@ describe("members.create", () => {
         email_address: "test@stytch.com",
         create_member_as_pending: true,
         is_breakglass: false,
+        mfa_enrolled: true,
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
@@ -87,6 +89,7 @@ describe("members.update", () => {
           organization_id: "organization-id-1234",
           name: "new name",
           is_breakglass: true,
+          mfa_enrolled: true,
         },
       });
 
@@ -104,6 +107,7 @@ describe("members.update", () => {
         organization_id: "organization-id-1234",
         name: "new name",
         is_breakglass: true,
+        mfa_enrolled: true,
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
@@ -196,6 +200,35 @@ describe("members.delete", () => {
       members.delete({
         member_id: "member-id-1234",
         organization_id: "organization-id-1234",
+      })
+    ).resolves.toMatchObject({
+      request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+      member_id: "member-id-1234",
+      status_code: 200,
+    });
+  });
+});
+
+describe("members.deletePhoneNumber", () => {
+  test("success", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "DELETE",
+        path: "organizations/organization-id-1234/members/phone_numbers/member-phone-id-1234",
+      });
+
+      const data = {
+        request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
+        member_id: "member-id-1234",
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+
+    return expect(
+      members.deletePhoneNumber({
+        organization_id: "organization-id-1234",
+        member_phone_id: "member-phone-id-1234",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",

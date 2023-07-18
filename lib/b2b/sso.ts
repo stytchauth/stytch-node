@@ -3,6 +3,7 @@ import { Member, MemberSession } from "./shared_b2b";
 import { SAML } from "./saml";
 import { Organization } from "./organizations";
 import { OIDC } from "./oidc";
+import { MfaRequired } from "./mfa";
 
 export interface X509Certificate {
   certificate_id: string;
@@ -66,6 +67,7 @@ export interface B2BSSOAuthenticateRequest {
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   pkce_code_verifier?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BSSOAuthenticateResponse extends BaseResponse {
@@ -75,9 +77,12 @@ export interface B2BSSOAuthenticateResponse extends BaseResponse {
   method_id: string;
   session_token?: string;
   session_jwt?: string;
-  session?: MemberSession;
+  session: MemberSession | null;
   reset_session: boolean;
   organization: Organization;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export class SSO {

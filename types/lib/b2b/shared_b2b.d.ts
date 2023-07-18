@@ -1,4 +1,3 @@
-import { GoogleOAuthFactor, MicrosoftOAuthFactor } from "../b2c/shared_b2c";
 import { BaseResponse } from "../shared";
 import { Organization } from "./organizations";
 export interface EmailFactor {
@@ -9,8 +8,41 @@ export interface EmailFactor {
         email_id: string;
         email_address: string;
     };
+    sequence_order: "PRIMARY" | "SECONDARY";
 }
-export declare type B2BAuthenticationFactor = EmailFactor | GoogleOAuthFactor | MicrosoftOAuthFactor;
+export interface PhoneNumberFactor {
+    delivery_method: "sms" | "whatsapp";
+    type: string;
+    last_authenticated_at: string;
+    phone_number_factor: {
+        phone_id: string;
+        phone_number: string;
+    };
+    sequence_order: "PRIMARY" | "SECONDARY";
+}
+export interface GoogleOAuthFactor {
+    delivery_method: "oauth_google";
+    type: string;
+    last_authenticated_at: string;
+    google_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+    sequence_order: "PRIMARY" | "SECONDARY";
+}
+export interface MicrosoftOAuthFactor {
+    delivery_method: "oauth_microsoft";
+    type: string;
+    last_authenticated_at: string;
+    microsoft_oauth_factor: {
+        id: string;
+        email_id: string;
+        provider_subject: string;
+    };
+    sequence_order: "PRIMARY" | "SECONDARY";
+}
+export declare type B2BAuthenticationFactor = EmailFactor | GoogleOAuthFactor | MicrosoftOAuthFactor | PhoneNumberFactor;
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
@@ -33,6 +65,8 @@ export interface Member {
     untrusted_metadata: Record<string, any>;
     is_breakglass: boolean;
     member_password_id: string;
+    mfa_enrolled: boolean;
+    mfa_phone_number: string;
 }
 export interface SSORegistration {
     connection_id: string;
