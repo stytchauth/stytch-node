@@ -1,6 +1,7 @@
 import { MemberSession, Member } from "./shared_b2b";
 import { BaseResponse, fetchConfig } from "../shared";
 import { DiscoveredOrganization, Organization } from "./organizations";
+import { MfaRequired } from "./mfa";
 export interface B2BOAuthAuthenticateRequest {
     oauth_token: string;
     session_token?: string;
@@ -8,6 +9,7 @@ export interface B2BOAuthAuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
+    locale?: "en" | "es" | "pt-br";
 }
 export interface B2BDiscoveryOAuthAuthenticateRequest {
     discovery_oauth_token: string;
@@ -25,8 +27,11 @@ export interface B2BOAuthAuthenticateResponse extends BaseResponse {
     organization: Organization;
     session_token?: string;
     session_jwt?: string;
-    member_session?: MemberSession;
+    member_session: MemberSession | null;
     provider_values: ProvidersValues;
+    member_authenticated: boolean;
+    intermediate_session_token: string;
+    mfa_required: MfaRequired | null;
 }
 export interface ProvidersValues {
     access_token?: string;

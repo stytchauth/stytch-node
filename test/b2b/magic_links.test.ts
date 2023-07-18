@@ -25,6 +25,7 @@ describe("magicLinks.authenticate", () => {
         magic_links_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "es",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -33,6 +34,7 @@ describe("magicLinks.authenticate", () => {
         magic_links_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "es",
       },
     });
   });

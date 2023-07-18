@@ -28,6 +28,7 @@ describe("passwords.authenticate", () => {
         password: "not-a-real-password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "pt-br",
       })
     ).resolves.toEqual({
       method: "POST",
@@ -38,6 +39,7 @@ describe("passwords.authenticate", () => {
         email_address: "Ada_Lovelace@example.com",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "pt-br",
       },
       params: undefined,
     });

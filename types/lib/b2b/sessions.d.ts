@@ -2,6 +2,7 @@ import { BaseResponse, fetchConfig } from "../shared";
 import { Member, MemberSession } from "./shared_b2b";
 import { JwtConfig } from "../shared/sessions";
 import { Organization } from "./organizations";
+import { MfaRequired } from "./mfa";
 export interface B2BSessionsGetRequest {
     organization_id: string;
     member_id: string;
@@ -52,14 +53,18 @@ export interface B2BSessionsExchangeRequest {
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
+    locale?: "en" | "es" | "pt-br";
 }
 export interface B2BSessionsExchangeResponse extends BaseResponse {
     member_id: string;
-    member_session: MemberSession;
+    member_session: MemberSession | null;
     session_token: string;
     session_jwt: string;
     member: Member;
     organization: Organization;
+    member_authenticated: boolean;
+    intermediate_session_token: string;
+    mfa_required: MfaRequired | null;
 }
 export declare class Sessions {
     private base_path;

@@ -3,6 +3,7 @@ import { B2BAuthenticationFactor, Member, MemberSession } from "./shared_b2b";
 import * as jose from "jose";
 import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 import { Organization } from "./organizations";
+import { MfaRequired } from "./mfa";
 
 export interface B2BSessionsGetRequest {
   organization_id: string;
@@ -59,15 +60,19 @@ export interface B2BSessionsExchangeRequest {
   session_jwt?: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BSessionsExchangeResponse extends BaseResponse {
   member_id: string;
-  member_session: MemberSession;
+  member_session: MemberSession | null;
   session_token: string;
   session_jwt: string;
   member: Member;
   organization: Organization;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 const organizationClaim = "https://stytch.com/organization";

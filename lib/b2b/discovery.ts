@@ -1,6 +1,7 @@
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, request, fetchConfig } from "../shared";
 import { DiscoveredOrganization } from "./organizations";
+import { MfaRequired } from "./mfa";
 
 export interface B2BDiscoveryOrganizationsRequest {
   intermediate_session_token?: string;
@@ -11,6 +12,7 @@ export interface B2BDiscoveryOrganizationsRequest {
 export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
   email_address: string;
   discovered_organizations: DiscoveredOrganization[];
+  organization_id_hint: string | null;
 }
 
 export interface B2BDiscoveryOrganizationCreateRequest {
@@ -27,13 +29,17 @@ export interface B2BDiscoveryOrganizationCreateRequest {
   email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
   auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
   allowed_auth_methods?: string[];
+  mfa_policy?: "OPTIONAL" | "REQUIRED_FOR_ALL";
 }
 
 export interface B2BDiscoveryOrganizationCreateResponse
   extends ResponseWithMember {
-  member_session: MemberSession;
+  member_session: MemberSession | null;
   session_token: string;
   session_jwt: string;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export interface B2BDiscoveryIntermediateSessionExchangeRequest {
@@ -41,13 +47,17 @@ export interface B2BDiscoveryIntermediateSessionExchangeRequest {
   organization_id: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BDiscoveryIntermediateSessionExchangeResponse
   extends ResponseWithMember {
-  member_session: MemberSession;
+  member_session: MemberSession | null;
   session_token: string;
   session_jwt: string;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 class Organizations {

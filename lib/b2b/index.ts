@@ -119,3 +119,10 @@ export type {
   SAMLConnection,
   OIDCConnection,
 } from "./sso";
+
+export type {
+  B2BOTPsSMSSendRequest,
+  B2BOTPsSMSSendResponse,
+  B2BOTPsSMSAuthenticateRequest,
+  B2BOTPsSMSAuthenticateResponse,
+} from "./otps";

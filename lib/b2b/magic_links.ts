@@ -1,6 +1,7 @@
 import { MemberSession, ResponseWithMember } from "./shared_b2b";
 import { BaseResponse, fetchConfig, request } from "../shared";
 import { DiscoveredOrganization } from "./organizations";
+import { MfaRequired } from "./mfa";
 
 export interface B2BMagicLinksLoginOrSignupByEmailRequest {
   organization_id: string;
@@ -39,15 +40,19 @@ export interface B2BMagicLinksAuthenticateRequest {
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   pkce_code_verifier?: string;
+  locale?: "en" | "es" | "pt-br";
 }
 
 export interface B2BMagicLinksAuthenticateResponse extends ResponseWithMember {
   organization_id: string;
   method_id: string;
-  member_session?: MemberSession;
+  member_session: MemberSession | null;
   session_token?: string;
   session_jwt?: string;
   reset_sessions: boolean;
+  member_authenticated: boolean;
+  intermediate_session_token: string;
+  mfa_required: MfaRequired | null;
 }
 
 export interface B2BMagicLinksDiscoveryByEmailRequest {

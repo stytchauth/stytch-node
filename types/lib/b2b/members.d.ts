@@ -9,6 +9,8 @@ export interface B2BMemberCreateRequest {
     untrusted_metadata?: Record<string, any>;
     create_member_as_pending?: boolean;
     is_breakglass?: boolean;
+    phone_number?: string;
+    mfa_enrolled?: boolean;
 }
 export declare type B2BMemberCreateResponse = ResponseWithMember;
 export interface B2BMemberGetRequest {
@@ -24,6 +26,8 @@ export interface B2BMemberUpdateRequest {
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
     is_breakglass?: boolean;
+    phone_number?: string;
+    mfa_enrolled?: boolean;
 }
 export declare type B2BMemberUpdateResponse = ResponseWithMember;
 export declare type MemberSearchOperand = {
@@ -41,6 +45,12 @@ export declare type MemberSearchOperand = {
 } | {
     filter_name: "statuses";
     filter_value: string[];
+} | {
+    filter_name: "member_phone_numbers";
+    filter_value: string[];
+} | {
+    filter_name: "member_phone_number_fuzzy";
+    filter_value: string;
 };
 export interface B2BMemberSearchRequest {
     organization_ids: string[];
@@ -63,6 +73,11 @@ export interface B2BMemberDeleteRequest {
 export interface B2BMemberDeleteResponse extends BaseResponse {
     member_id: string;
 }
+export interface B2BMemberDeletePhoneNumberRequest {
+    organization_id: string;
+    member_phone_id: string;
+}
+export declare type B2BMemberDeletePhoneNumberResponse = ResponseWithMember;
 export declare class Members {
     private base_path;
     private fetchConfig;
@@ -72,4 +87,5 @@ export declare class Members {
     update(data: B2BMemberUpdateRequest): Promise<B2BMemberUpdateResponse>;
     delete(data: B2BMemberDeleteRequest): Promise<B2BMemberDeleteResponse>;
     search(data: B2BMemberSearchRequest): Promise<B2BMemberSearchResponse>;
+    deletePhoneNumber(data: B2BMemberDeletePhoneNumberRequest): Promise<B2BMemberDeletePhoneNumberResponse>;
 }

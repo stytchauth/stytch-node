@@ -36,6 +36,7 @@ describe("sso.authenticate", () => {
         sso_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
@@ -44,6 +45,7 @@ describe("sso.authenticate", () => {
         sso_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "en",
       },
     });
   });

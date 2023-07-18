@@ -8,6 +8,7 @@ import { JwtConfig } from "../shared/sessions";
 import { Discovery } from "./discovery";
 import { Passwords } from "./passwords";
 import { OAuth } from "./oauth";
+import { OTPs } from "./otps";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -18,6 +19,7 @@ export class B2BClient extends BaseClient {
   sso: SSO;
   discovery: Discovery;
   passwords: Passwords;
+  otps: OTPs;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -43,5 +45,6 @@ export class B2BClient extends BaseClient {
     this.discovery = new Discovery(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
+    this.otps = new OTPs(this.fetchConfig);
   }
 }
