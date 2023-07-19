@@ -63,8 +63,8 @@ export interface DiscoveredOrganization {
     member_authenticated: boolean;
     primary_required: {
         allowed_auth_methods: string[];
-    };
-    mfa_required: MfaRequired;
+    } | null;
+    mfa_required: MfaRequired | null;
 }
 export interface B2BOrganizationCreateRequest {
     organization_name: string;
