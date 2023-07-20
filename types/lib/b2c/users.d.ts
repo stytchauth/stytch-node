@@ -617,4 +617,5 @@ export declare class Users {
     deleteCryptoWallet(data: UsersDeleteCryptoWalletRequest): Promise<UsersDeleteCryptoWalletResponse>;
     deletePassword(data: UsersDeletePasswordRequest): Promise<UsersDeletePasswordResponse>;
     deleteOAuthRegistration(data: UsersDeleteOAuthRegistrationRequest): Promise<UsersDeleteOAuthRegistrationResponse>;
+    searchAll(data: UsersSearchRequest): UserSearchIterator;
 }

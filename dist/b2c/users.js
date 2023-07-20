@@ -197,7 +197,14 @@ class Users {
       url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
       data: {}
     });
-  }
+  } // MANUAL(searchAll)(SERVICE_METHOD)
+  // Return an iterator over all search results.  Submit an empty `query` in the request to return all Users.
+
+
+  searchAll(data) {
+    return new UserSearchIterator(this, data);
+  } // ENDMANUAL(searchAll)
+
 
 }
 

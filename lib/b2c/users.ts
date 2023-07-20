@@ -950,4 +950,11 @@ export class Users {
       data: {},
     });
   }
+
+  // MANUAL(searchAll)(SERVICE_METHOD)
+  // Return an iterator over all search results.  Submit an empty `query` in the request to return all Users.
+  searchAll(data: UsersSearchRequest): UserSearchIterator {
+    return new UserSearchIterator(this, data);
+  }
+  // ENDMANUAL(searchAll)
 }

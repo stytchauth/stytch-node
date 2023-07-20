@@ -13,14 +13,14 @@ import { WebAuthn } from "./webauthn";
 
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
-  users: Users;
-  sessions: Sessions;
   cryptoWallets: CryptoWallets;
   magicLinks: MagicLinks;
-  passwords: Passwords;
   oauth: OAuth;
   otps: OTPs;
+  passwords: Passwords;
+  sessions: Sessions;
   totps: TOTPs;
+  users: Users;
   webauthn: WebAuthn;
 
   constructor(config: ClientConfig) {
@@ -38,14 +38,14 @@ export class Client extends BaseClient {
       ),
     };
 
-    this.users = new Users(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
-    this.passwords = new Passwords(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);
+    this.passwords = new Passwords(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.totps = new TOTPs(this.fetchConfig);
+    this.users = new Users(this.fetchConfig);
     this.webauthn = new WebAuthn(this.fetchConfig);
   }
 }

@@ -38,14 +38,14 @@ class B2BClient extends _client.BaseClient {
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
-    this.organizations = new _organizations.Organizations(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.discovery = new _discovery.Discovery(this.fetchConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otp.OTPs(this.fetchConfig);
+    this.organizations = new _organizations.Organizations(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
   }
 
 }

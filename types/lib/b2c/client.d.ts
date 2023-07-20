@@ -11,14 +11,14 @@ import { Users } from "./users";
 import { WebAuthn } from "./webauthn";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
-    users: Users;
-    sessions: Sessions;
     cryptoWallets: CryptoWallets;
     magicLinks: MagicLinks;
-    passwords: Passwords;
     oauth: OAuth;
     otps: OTPs;
+    passwords: Passwords;
+    sessions: Sessions;
     totps: TOTPs;
+    users: Users;
     webauthn: WebAuthn;
     constructor(config: ClientConfig);
 }

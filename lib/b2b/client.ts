@@ -12,14 +12,14 @@ import { SSO } from "./sso";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
-  organizations: Organizations;
-  sessions: Sessions;
   discovery: Discovery;
   magicLinks: MagicLinks;
   oauth: OAuth;
   otps: OTPs;
+  organizations: Organizations;
   passwords: Passwords;
   sso: SSO;
+  sessions: Sessions;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -36,13 +36,13 @@ export class B2BClient extends BaseClient {
       ),
     };
 
-    this.organizations = new Organizations(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.discovery = new Discovery(this.fetchConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);
+    this.organizations = new Organizations(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
     this.sso = new SSO(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
   }
 }

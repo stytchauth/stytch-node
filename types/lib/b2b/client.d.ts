@@ -10,13 +10,13 @@ import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
-    organizations: Organizations;
-    sessions: Sessions;
     discovery: Discovery;
     magicLinks: MagicLinks;
     oauth: OAuth;
     otps: OTPs;
+    organizations: Organizations;
     passwords: Passwords;
     sso: SSO;
+    sessions: Sessions;
     constructor(config: ClientConfig);
 }

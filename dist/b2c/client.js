@@ -40,14 +40,14 @@ class Client extends _client.BaseClient {
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
-    this.users = new _users.Users(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
-    this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otps.OTPs(this.fetchConfig);
+    this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.totps = new _totps.TOTPs(this.fetchConfig);
+    this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
   }
 
