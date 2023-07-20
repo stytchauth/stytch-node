@@ -11,14 +11,13 @@ function jwtConfig(projectID: string) {
 }
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 describe("sessions.get", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions",
+        path: "/v1/sessions",
         params: {
           user_id: "user-test-22222222-2222-4222-8222-222222222222",
         },
@@ -66,7 +65,7 @@ describe("sessions.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/sessions/authenticate",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
           session_duration_minutes: 60,
@@ -113,7 +112,7 @@ describe("sessions.revoke", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/revoke",
+        path: "/v1/sessions/revoke",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         },
@@ -136,12 +135,13 @@ describe("sessions.revoke", () => {
   });
 });
 
-describe("sessions.jwks", () => {
+describe("sessions.getJWKS", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        path: "/v1/sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        params: {},
       });
 
       return { status: 200, data: {} };
@@ -152,7 +152,9 @@ describe("sessions.jwks", () => {
     );
 
     return expect(
-      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
+      sessions.getJWKS({
+        project_id: "project-test-11111111-1111-4111-8111-111111111111",
+      })
     ).resolves.toEqual({ status: 200 });
   });
 });
@@ -162,7 +164,7 @@ describe("sessions.authenticateJwt", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/sessions/authenticate",
         data: {
           session_jwt: "stale_jwt",
         },
@@ -322,14 +324,14 @@ describe("sessions.authenticateJwtLocal", () => {
             email_address: "sandbox@stytch.com",
             email_id: "email-live-cca9d7d0-11b6-4167-9385-d7e0c9a77418",
           },
-          last_authenticated_at: iso(startedAt),
+          last_authenticated_at: startedAt,
           type: "magic_link",
         },
       ],
-      expires_at: expiresAt.toISOString(),
-      last_accessed_at: iso(startedAt),
+      expires_at: expiresAt,
+      last_accessed_at: startedAt,
       session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: iso(startedAt),
+      started_at: startedAt,
       user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });
@@ -345,14 +347,14 @@ describe("sessions.authenticateJwtLocal", () => {
             email_address: "sandbox@stytch.com",
             email_id: "email-live-cca9d7d0-11b6-4167-9385-d7e0c9a77418",
           },
-          last_authenticated_at: iso(startedAt),
+          last_authenticated_at: startedAt,
           type: "magic_link",
         },
       ],
-      expires_at: new Date(+startedAt + 5 * 60 * 1000).toISOString(),
-      last_accessed_at: iso(startedAt),
+      expires_at: new Date(+startedAt + 5 * 60 * 1000),
+      last_accessed_at: startedAt,
       session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: iso(startedAt),
+      started_at: startedAt,
       user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });

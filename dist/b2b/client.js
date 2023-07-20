@@ -5,25 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.B2BClient = void 0;
 
-var _magic_links = require("./magic_links");
-
-var _sessions = require("./sessions");
-
-var _organizations = require("./organizations");
-
-var _sso = require("./sso");
+var jose = _interopRequireWildcard(require("jose"));
 
 var _client = require("../shared/client");
 
-var jose = _interopRequireWildcard(require("jose"));
-
 var _discovery = require("./discovery");
 
-var _passwords = require("./passwords");
+var _magic_links = require("./magic_links");
 
 var _oauth = require("./oauth");
 
-var _otps = require("./otps");
+var _organizations = require("./organizations");
+
+var _otp = require("./otp");
+
+var _passwords = require("./passwords");
+
+var _sessions = require("./sessions");
+
+var _sso = require("./sso");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -32,26 +32,20 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 class B2BClient extends _client.BaseClient {
   constructor(config) {
     super(config);
-
-    if (!this.fetchConfig.baseURL.endsWith("b2b/")) {
-      this.fetchConfig.baseURL += "b2b/";
-    }
-
     this.jwtConfig = {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
-    this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
-    this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.organizations = new _organizations.Organizations(this.fetchConfig);
-    this.sso = new _sso.SSO(this.fetchConfig);
+    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.discovery = new _discovery.Discovery(this.fetchConfig);
-    this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
-    this.otps = new _otps.OTPs(this.fetchConfig);
+    this.otps = new _otp.OTPs(this.fetchConfig);
+    this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.sso = new _sso.SSO(this.fetchConfig);
   }
 
 }

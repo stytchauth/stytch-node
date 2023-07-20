@@ -6,11 +6,6 @@ import * as fetchImport from "isomorphic-unfetch";
 const fetch = (fetchImport.default ||
   fetchImport) as typeof fetchImport.default;
 
-export interface BaseResponse {
-  status_code: number;
-  request_id: string;
-}
-
 export interface fetchConfig {
   baseURL: string;
   headers: Record<string, string>;

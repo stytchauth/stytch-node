@@ -1,19 +1,17 @@
-import { Members } from "../../lib/b2b/members";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
-import { SearchOperator } from "../../lib/b2b/shared_b2b";
+import { Organizations } from "../../lib/b2b/organizations";
 
 jest.mock("../../lib/shared");
 
-const members = new Members(MOCK_FETCH_CONFIG, "organizations");
+const members = new Organizations(MOCK_FETCH_CONFIG).members;
 
 describe("members.create", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "organizations/organization-id-1234/members",
+        path: "/v1/b2b/organizations/organization-id-1234/members",
         data: {
-          organization_id: "organization-id-1234",
           email_address: "test@stytch.com",
           create_member_as_pending: true,
           is_breakglass: false,
@@ -50,7 +48,7 @@ describe("members.get", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "organizations/organization-id-1234/member",
+        path: "/v1/b2b/organizations/organization-id-1234/member",
         params: {
           organization_id: "organization-id-1234",
           email_address: "test@stytch.com",
@@ -83,10 +81,8 @@ describe("members.update", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "PUT",
-        path: "organizations/organization-id-1234/members/member-id-1234",
+        path: "/v1/b2b/organizations/organization-id-1234/members/member-id-1234",
         data: {
-          member_id: "member-id-1234",
-          organization_id: "organization-id-1234",
           name: "new name",
           is_breakglass: true,
           mfa_enrolled: true,
@@ -122,12 +118,12 @@ describe("members.search", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "organizations/members/search",
+        path: "/v1/b2b/organizations/members/search",
         data: {
           organization_ids: ["organization_id"],
           limit: 200,
           query: {
-            operator: SearchOperator.OR,
+            operator: "OR",
             operands: [
               { filter_name: "member_ids", filter_value: ["member-id-1234"] },
               { filter_name: "statuses", filter_value: ["active", "invited"] },
@@ -157,7 +153,7 @@ describe("members.search", () => {
         organization_ids: ["organization_id"],
         limit: 200,
         query: {
-          operator: SearchOperator.OR,
+          operator: "OR",
           operands: [
             { filter_name: "member_ids", filter_value: ["member-id-1234"] },
             { filter_name: "statuses", filter_value: ["active", "invited"] },
@@ -185,7 +181,8 @@ describe("members.delete", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "DELETE",
-        path: "organizations/organization-id-1234/members/member-id-1234",
+        path: "/v1/b2b/organizations/organization-id-1234/members/member-id-1234",
+        data: {},
       });
 
       const data = {
@@ -214,7 +211,8 @@ describe("members.deletePhoneNumber", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "DELETE",
-        path: "organizations/organization-id-1234/members/phone_numbers/member-phone-id-1234",
+        path: "/v1/b2b/organizations/organization-id-1234/members/phone_numbers/member-phone-id-1234",
+        data: {},
       });
 
       const data = {

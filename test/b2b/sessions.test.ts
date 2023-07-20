@@ -17,7 +17,7 @@ describe("sessions.get", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions",
+        path: "/v1/b2b/sessions",
         params: {
           organization_id:
             "organization-test-11111111-1111-4111-8111-111111111111",
@@ -33,7 +33,7 @@ describe("sessions.get", () => {
             last_accessed_at: "2021-08-30T17:16:53.370383Z",
             member_session_id:
               "session-test-33333333-3333-4333-8333-333333333333",
-            started_at: "2021-08-28T00:41:58.935673870Z",
+            started_at: new Date("2021-08-28T00:41:58.935673870Z"),
             member_id: "member-test-22222222-2222-4222-8222-222222222222",
           },
         ],
@@ -58,7 +58,7 @@ describe("sessions.get", () => {
           member_id: "member-test-22222222-2222-4222-8222-222222222222",
           member_session_id:
             "session-test-33333333-3333-4333-8333-333333333333",
-          started_at: "2021-08-28T00:41:58.935673870Z",
+          started_at: new Date("2021-08-28T00:41:58.935673870Z"),
         }),
       ],
     });
@@ -70,7 +70,7 @@ describe("sessions.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/b2b/sessions/authenticate",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
           session_duration_minutes: 60,
@@ -85,7 +85,7 @@ describe("sessions.authenticate", () => {
           last_accessed_at: "2021-08-30T17:16:53.370383Z",
           member_session_id:
             "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
-          started_at: "2021-08-28T00:41:58.935673870Z",
+          started_at: new Date("2021-08-28T00:41:58.935673870Z"),
           member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
         },
         status_code: 200,
@@ -102,7 +102,7 @@ describe("sessions.authenticate", () => {
     ).resolves.toMatchObject({
       session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       member_session: {
-        started_at: "2021-08-28T00:41:58.935673870Z",
+        started_at: new Date("2021-08-28T00:41:58.935673870Z"),
         member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
       },
     });
@@ -114,7 +114,7 @@ describe("sessions.revoke", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/revoke",
+        path: "/v1/b2b/sessions/revoke",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         },
@@ -139,7 +139,7 @@ describe("sessions.exchange", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/exchange",
+        path: "/v1/b2b/sessions/exchange",
         data: {
           organization_id: "organization-id-1234",
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -159,12 +159,13 @@ describe("sessions.exchange", () => {
   });
 });
 
-describe("sessions.jwks", () => {
+describe("sessions.getJWKS", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        path: "/v1/b2b/sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        params: {},
       });
 
       return { status: 200, data: {} };
@@ -172,7 +173,9 @@ describe("sessions.jwks", () => {
     const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
 
     return expect(
-      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
+      sessions.getJWKS({
+        project_id: "project-test-11111111-1111-4111-8111-111111111111",
+      })
     ).resolves.toEqual({ status: 200 });
   });
 });
@@ -182,7 +185,7 @@ describe("sessions.authenticateJwt", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/b2b/sessions/authenticate",
         data: {
           session_jwt: "stale_jwt",
         },
@@ -196,7 +199,7 @@ describe("sessions.authenticateJwt", () => {
           expires_at: "2021-08-30T18:16:53.370383Z",
           last_accessed_at: "2021-08-30T17:16:53.370383Z",
           session_id: "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
-          started_at: "2021-08-28T00:41:58.935673870Z",
+          started_at: new Date("2021-08-28T00:41:58.935673870Z"),
           member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
         },
         status_code: 200,
@@ -209,7 +212,7 @@ describe("sessions.authenticateJwt", () => {
       {
         session_jwt: "fresh_jwt",
         session: {
-          started_at: "2021-08-28T00:41:58.935673870Z",
+          started_at: new Date("2021-08-28T00:41:58.935673870Z"),
           member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
         },
       }
@@ -325,14 +328,14 @@ describe("sessions.authenticateJwtLocal", () => {
             email_address: "sandbox@stytch.com",
             email_id: "email-live-cca9d7d0-11b6-4167-9385-d7e0c9a77418",
           },
-          last_authenticated_at: iso(startedAt),
+          last_authenticated_at: startedAt,
           type: "magic_link",
         },
       ],
-      expires_at: expiresAt.toISOString(),
-      last_accessed_at: iso(startedAt),
+      expires_at: expiresAt,
+      last_accessed_at: startedAt,
       member_session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
-      started_at: iso(startedAt),
+      started_at: startedAt,
       member_id: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     });
   });

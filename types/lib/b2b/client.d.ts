@@ -1,22 +1,22 @@
-import { MagicLinks } from "./magic_links";
-import { Sessions } from "./sessions";
-import { Organizations } from "./organizations";
-import { SSO } from "./sso";
 import { BaseClient, ClientConfig } from "../shared/client";
-import { JwtConfig } from "../shared/sessions";
 import { Discovery } from "./discovery";
-import { Passwords } from "./passwords";
+import { JwtConfig } from "../shared/sessions";
+import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
-import { OTPs } from "./otps";
+import { Organizations } from "./organizations";
+import { OTPs } from "./otp";
+import { Passwords } from "./passwords";
+import { Sessions } from "./sessions";
+import { SSO } from "./sso";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
-    magicLinks: MagicLinks;
-    sessions: Sessions;
-    oauth: OAuth;
     organizations: Organizations;
-    sso: SSO;
+    sessions: Sessions;
     discovery: Discovery;
-    passwords: Passwords;
+    magicLinks: MagicLinks;
+    oauth: OAuth;
     otps: OTPs;
+    passwords: Passwords;
+    sso: SSO;
     constructor(config: ClientConfig);
 }

@@ -73,10 +73,10 @@ async function authenticateJwtLocal(jwksClient, jwtOptions, jwt, options) {
     // The JWT expiration time is the same as the session's.
     // The exp claim is a Unix timestamp in seconds, so convert it to milliseconds first. The
     // other timestamps are RFC3339-formatted strings.
-    started_at: claim.started_at,
-    last_accessed_at: claim.last_accessed_at,
+    started_at: new Date(claim.started_at),
+    last_accessed_at: new Date(claim.last_accessed_at),
     // For JWTs that include it, prefer the inner expires_at claim.
-    expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000).toISOString(),
+    expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000),
     custom_claims: customClaims
   };
 }

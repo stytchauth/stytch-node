@@ -27,7 +27,7 @@ describe("discovery.organizations.list", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "discovery/organizations",
+      path: "/v1/b2b/discovery/organizations",
       data: {
         intermediate_session_token:
           "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
@@ -56,7 +56,7 @@ describe("discovery.organizations.create", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "discovery/organizations/create",
+      path: "/v1/b2b/discovery/organizations/create",
       data: {
         intermediate_session_token:
           "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
@@ -87,7 +87,7 @@ describe("discovery.intermediateSessions.exchange", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "discovery/intermediate_sessions/exchange",
+      path: "/v1/b2b/discovery/intermediate_sessions/exchange",
       data: {
         intermediate_session_token:
           "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",

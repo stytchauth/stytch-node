@@ -2,14 +2,13 @@ import { CryptoWallets } from "../../lib/b2c/crypto_wallets";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 describe("cryptowallets.authenticateStart", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "crypto_wallets/authenticate/start",
+        path: "/v1/crypto_wallets/authenticate/start",
         data: {
           crypto_wallet_address: "0x1234567890123456789012345678901234567890",
           crypto_wallet_type: "ethereum",
@@ -45,7 +44,7 @@ describe("cryptowallets.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "crypto_wallets/authenticate",
+        path: "/v1/crypto_wallets/authenticate",
         data: {
           crypto_wallet_address: "0x1234567890123456789012345678901234567890",
           crypto_wallet_type: "ethereum",

@@ -8,9 +8,9 @@ declare type IntermediateSession = {
     session_id: string;
     attributes: unknown;
     authentication_factors: unknown;
-    started_at: string;
-    last_accessed_at: string;
-    expires_at: string;
+    started_at: Date;
+    last_accessed_at: Date;
+    expires_at: Date;
     custom_claims: Record<string, any>;
 };
 export declare function authenticateJwtLocal(jwksClient: jose.JWTVerifyGetKey, jwtOptions: jose.JWTVerifyOptions, jwt: string, options?: {

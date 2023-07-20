@@ -10,9 +10,7 @@ describe("B2B Client", () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    expect(testClient.fetchConfig.baseURL).toBe(
-      "https://test.stytch.com/v1/b2b/"
-    );
+    expect(testClient.fetchConfig.baseURL).toBe("https://test.stytch.com/");
 
     const liveClient = new stytch.B2BClient({
       project_id: "project-test-00000000-0000-4000-8000-000000000000",
@@ -22,8 +20,6 @@ describe("B2B Client", () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    expect(liveClient.fetchConfig.baseURL).toBe(
-      "https://api.stytch.com/v1/b2b/"
-    );
+    expect(liveClient.fetchConfig.baseURL).toBe("https://api.stytch.com/");
   });
 });

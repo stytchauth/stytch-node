@@ -1,50 +1,48 @@
-import { MagicLinks } from "./magic_links";
-import { Sessions } from "./sessions";
-import { Organizations } from "./organizations";
-import { SSO } from "./sso";
-import { BaseClient, ClientConfig } from "../shared/client";
 import * as jose from "jose";
-import { JwtConfig } from "../shared/sessions";
+import { BaseClient, ClientConfig } from "../shared/client";
 import { Discovery } from "./discovery";
-import { Passwords } from "./passwords";
+import { JwtConfig } from "../shared/sessions";
+import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
-import { OTPs } from "./otps";
+import { Organizations } from "./organizations";
+import { OTPs } from "./otp";
+import { Passwords } from "./passwords";
+import { Sessions } from "./sessions";
+import { SSO } from "./sso";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
-  magicLinks: MagicLinks;
-  sessions: Sessions;
-  oauth: OAuth;
   organizations: Organizations;
-  sso: SSO;
+  sessions: Sessions;
   discovery: Discovery;
-  passwords: Passwords;
+  magicLinks: MagicLinks;
+  oauth: OAuth;
   otps: OTPs;
+  passwords: Passwords;
+  sso: SSO;
 
   constructor(config: ClientConfig) {
     super(config);
-
-    if (!this.fetchConfig.baseURL.endsWith("b2b/")) {
-      this.fetchConfig.baseURL += "b2b/";
-    }
 
     this.jwtConfig = {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)
+        new URL(
+          `/v1/sessions/jwks/${config.project_id}`,
+          this.fetchConfig.baseURL
+        )
       ),
     };
 
-    this.magicLinks = new MagicLinks(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
-    this.oauth = new OAuth(this.fetchConfig);
     this.organizations = new Organizations(this.fetchConfig);
-    this.sso = new SSO(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.discovery = new Discovery(this.fetchConfig);
-    this.passwords = new Passwords(this.fetchConfig);
+    this.magicLinks = new MagicLinks(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);
+    this.passwords = new Passwords(this.fetchConfig);
+    this.sso = new SSO(this.fetchConfig);
   }
 }

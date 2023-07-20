@@ -1,4 +1,4 @@
-import { OTPs } from "../../lib/b2b/otps";
+import { OTPs } from "../../lib/b2b/otp";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
@@ -29,7 +29,7 @@ describe("otps.sms.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/sms/send",
+      path: "/v1/b2b/otps/sms/send",
       data: {
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
@@ -53,7 +53,7 @@ describe("otps.sms.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/sms/authenticate",
+      path: "/v1/b2b/otps/sms/authenticate",
       data: {
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
@@ -76,7 +76,7 @@ describe("otps.sms.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/sms/authenticate",
+      path: "/v1/b2b/otps/sms/authenticate",
       data: {
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
