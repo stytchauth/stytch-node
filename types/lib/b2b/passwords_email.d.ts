@@ -48,7 +48,7 @@ export interface B2BEmailResetRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BEmailResetResponse {
     /**
@@ -117,7 +117,7 @@ export interface B2BEmailResetStartRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
     /**
      * Use a custom template for reset password emails. By default, it will use your default email template.
      * The template must be a template using our built-in customizations or a custom HTML email for Magic Links

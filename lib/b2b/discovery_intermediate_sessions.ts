@@ -48,7 +48,7 @@ export interface B2BIntermediateSessionsExchangeRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 // Response type for `IntermediateSessions.exchange`.

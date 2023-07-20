@@ -67,7 +67,7 @@ export interface B2BOAuthAuthenticateRequest {
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A base64url encoded one time secret used to validate that the request starts and ends on the same device.
   pkce_code_verifier?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 // Response type for `OAuth.authenticate`.

@@ -43,7 +43,7 @@ export interface WhatsappLoginOrCreateRequest {
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 // Response type for `Whatsapp.loginOrCreate`.
@@ -92,7 +92,7 @@ export interface WhatsappSendRequest {
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
   // The unique ID of a specific User.
   user_id?: string;
   // The `session_token` associated with a User's existing Session.

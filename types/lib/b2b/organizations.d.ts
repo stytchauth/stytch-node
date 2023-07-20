@@ -180,7 +180,7 @@ export interface SearchQuery {
      *
      *   `OR` – the operator will return any matches to at least one of the operand values you supply.
      */
-    operator: "OR" | "AND";
+    operator: "OR" | "AND" | string;
     operands: SearchQueryOperand[];
 }
 export interface B2BOrganizationsCreateRequest {

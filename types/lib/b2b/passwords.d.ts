@@ -75,7 +75,7 @@ export interface B2BPasswordsAuthenticateRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BPasswordsAuthenticateResponse {
     /**
@@ -107,7 +107,7 @@ export interface B2BPasswordsMigrateRequest {
      * The password hash used. Currently `bcrypt`, `scrypt`, `argon2i`, `argon2id`, `md_5`, `sha_1`, and
      * `pbkdf_2` are supported.
      */
-    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2";
+    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2" | string;
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value.

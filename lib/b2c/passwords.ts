@@ -279,7 +279,8 @@ export interface PasswordsMigrateRequest {
     | "sha_1"
     | "scrypt"
     | "phpass"
-    | "pbkdf_2";
+    | "pbkdf_2"
+    | string;
   // Optional parameters for MD-5 hash types.
   md_5_config?: MD5Config;
   // Required parameters if the argon2 hex form, as opposed to the encoded form, is supplied.

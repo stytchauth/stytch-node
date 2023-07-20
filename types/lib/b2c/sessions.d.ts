@@ -13,8 +13,8 @@ export interface AppleOAuthFactor {
     provider_subject: string;
 }
 export interface AuthenticationFactor {
-    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso";
-    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo";
+    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | string;
+    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | string;
     last_authenticated_at?: Date;
     created_at?: Date;
     updated_at?: Date;

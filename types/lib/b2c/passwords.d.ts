@@ -212,7 +212,7 @@ export interface PasswordsMigrateRequest {
      * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`, and
      * `pbkdf_2` are supported.
      */
-    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2";
+    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2" | string;
     md_5_config?: MD5Config;
     argon_2_config?: Argon2Config;
     sha_1_config?: SHA1Config;

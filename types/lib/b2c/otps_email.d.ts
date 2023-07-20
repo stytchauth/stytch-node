@@ -32,7 +32,7 @@ export interface EmailLoginOrCreateRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
     /**
      * Use a custom template for login emails. By default, it will use your default email template. The
      * template must be a template using our built-in customizations or a custom HTML email for Magic links -
@@ -84,7 +84,7 @@ export interface EmailSendRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
     user_id?: string;
     session_token?: string;
     session_jwt?: string;

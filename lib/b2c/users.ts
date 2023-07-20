@@ -105,7 +105,7 @@ export interface SearchUsersQuery {
    *
    *   `OR` – the operator will return any matches to at least one of the operand values you supply.
    */
-  operator: "OR" | "AND";
+  operator: "OR" | "AND" | string;
   /**
    * An array of operand objects that contains all of the filters and values to apply to your search search
    * query.

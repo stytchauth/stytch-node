@@ -36,7 +36,7 @@ export interface B2BSmsSendRequest {
   organization_id: string;
   member_id: string;
   phone_number?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export interface B2BSmsSendResponse {

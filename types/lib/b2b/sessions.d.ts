@@ -115,7 +115,7 @@ export interface B2BSessionsExchangeRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BSessionsExchangeResponse {
     /**

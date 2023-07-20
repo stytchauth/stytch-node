@@ -33,7 +33,8 @@ export interface AuthenticationFactor {
     | "crypto"
     | "password"
     | "signature_challenge"
-    | "sso";
+    | "sso"
+    | string;
   delivery_method:
     | "email"
     | "sms"
@@ -69,7 +70,8 @@ export interface AuthenticationFactor {
     | "sso_saml"
     | "sso_oidc"
     | "oauth_salesforce"
-    | "oauth_yahoo";
+    | "oauth_yahoo"
+    | string;
   last_authenticated_at?: Date;
   created_at?: Date;
   updated_at?: Date;
