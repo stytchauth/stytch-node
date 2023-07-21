@@ -105,7 +105,7 @@ export interface B2BMembersDeletePasswordResponse {
 
 export interface B2BMembersDeletePhoneNumberRequest {
   organization_id: string;
-  member_phone_id: string;
+  member_id: string;
 }
 
 export interface B2BMembersDeletePhoneNumberResponse {
@@ -327,7 +327,7 @@ export class Members {
   ): Promise<B2BMembersDeletePhoneNumberResponse> {
     return request<B2BMembersDeletePhoneNumberResponse>(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/phone_numbers/${data.member_phone_id}`,
+      url: `/v1/b2b/organizations/${data.organization_id}/members/phone_numbers/${data.member_id}`,
       data: {},
     });
   }

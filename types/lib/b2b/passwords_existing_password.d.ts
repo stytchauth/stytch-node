@@ -66,10 +66,10 @@ export declare class ExistingPassword {
      * Reset the member’s password using their existing password.
      *
      * This endpoint adapts to your Project's password strength configuration.
-     * If you're using [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the default, your
+     * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your
      * passwords are considered valid
      * if the strength score is >= 3. If you're using
-     * [LUDS](https://stytch.com/docs/passwords#strength-requirements), your passwords are
+     * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are
      * considered valid if they meet the requirements that you've set with Stytch.
      * You may update your password strength configuration in the
      * [stytch dashboard](https://stytch.com/dashboard/password-strength-config).

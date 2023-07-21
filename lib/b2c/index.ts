@@ -106,6 +106,14 @@ export type {
 } from "./crypto_wallets";
 
 export type {
+  M2MClient,
+  M2MClientWithClientSecret,
+  M2MClientWithNextClientSecret,
+  M2MSearchQuery,
+  M2MResultsMetadata,
+} from "./m2m";
+
+export type {
   Options,
   MagicLinksAuthenticateRequest,
   MagicLinksAuthenticateResponse,

@@ -74,7 +74,7 @@ export interface B2BMembersDeletePasswordResponse {
 }
 export interface B2BMembersDeletePhoneNumberRequest {
     organization_id: string;
-    member_phone_id: string;
+    member_id: string;
 }
 export interface B2BMembersDeletePhoneNumberResponse {
     request_id: string;

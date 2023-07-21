@@ -45,7 +45,7 @@ class Members {
   deletePhoneNumber(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/phone_numbers/${data.member_phone_id}`,
+      url: `/v1/b2b/organizations/${data.organization_id}/members/phone_numbers/${data.member_id}`,
       data: {}
     });
   }
