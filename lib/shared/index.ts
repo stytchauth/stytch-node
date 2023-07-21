@@ -33,12 +33,14 @@ export async function request<T>(
     );
   }
 
-  const body: BodyInit | undefined = requestConfig.data
-    ? JSON.stringify(requestConfig.data)
-    : requestConfig.dataRaw;
+
 
   let response: Response;
   try {
+    const body: BodyInit | undefined = requestConfig.data
+      ? JSON.stringify(requestConfig.data)
+      : requestConfig.dataRaw;
+
     response = await fetch(url.toString(), {
       method: requestConfig.method,
       body: body,

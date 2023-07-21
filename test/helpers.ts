@@ -15,7 +15,9 @@ export type Request = {
 
 export const MOCK_FETCH_CONFIG = {
   baseURL: "https://example.net",
-  headers: {},
+  headers: {
+    "User-Agent": `Stytch Node vTEST`,
+  },
   timeout: 100,
   agent: { mock: "agent" } as unknown as http.Agent,
 };
