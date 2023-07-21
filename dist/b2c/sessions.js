@@ -101,7 +101,7 @@ class Sessions {
     });
   } // MANUAL(authenticateJwt)(SERVICE_METHOD)
   // ADDIMPORT: import * as jose from "jose";
-  // ADDIMPORT: import { JwtConfig, authenticateJwtLocal } from "../shared/sessions";
+  // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
@@ -144,7 +144,7 @@ class Sessions {
 
 
   async authenticateJwtLocal(jwt, options) {
-    const sess = await (0, _sessions.authenticateJwtLocal)(this.jwksClient, this.jwtOptions, jwt, options);
+    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, jwt, options);
     return {
       session_id: sess.session_id,
       attributes: sess.attributes,

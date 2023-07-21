@@ -77,11 +77,68 @@ export declare type M2MSearchQueryOperand = {
     filter_name: "scopes";
     filter_value: string[];
 };
+export interface AuthenticateTokenRequest {
+    access_token: string;
+    required_scopes?: string[];
+    max_token_age_seconds?: number;
+}
+export interface AuthenticateTokenResponse {
+    client_id: string;
+    scopes: string[];
+    custom_claims: Record<string, any>;
+}
+export interface TokenRequest {
+    client_id: string;
+    client_secret: string;
+    scopes?: string[];
+}
+export interface TokenResponse {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+}
 export declare class M2M {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
     clients: Clients;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
-    authenticateToken(): void;
+    /**
+     * Retrieve an access token for the given M2M Client.
+     * Access tokens are JWTs signed with the project's JWKS, and are valid for one hour after issuance.
+     * M2M Access tokens contain a standard set of claims as well as any custom claims generated from templates.
+     *
+     * M2M Access tokens can be validated locally using the Authenticate Access Token method in the Stytch Backend SDKs,
+     * or with any library that supports JWT signature validation.
+     *
+     * Here is an example of a standard set of claims from a M2M Access Token:
+     *   ```
+     *  {
+     *    "sub": "m2m-client-test-d731954d-dab3-4a2b-bdee-07f3ad1be885",
+     *    "iss": "stytch.com/project-test-3e71d0a1-1e3e-4ee2-9be0-d7c0900f02c2",
+     *    "aud": ["project-test-3e71d0a1-1e3e-4ee2-9be0-d7c0900f02c2"],
+     *    "scope": "read:users write:users",
+     *    "iat": 4102473300,
+     *    "nbf": 4102473300,
+     *    "exp": 4102476900
+     *  }
+     *  ```
+     * @param data {@link TokenRequest}
+     * @async
+     * @returns {@link TokenResponse}
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    token(data: TokenRequest): Promise<TokenResponse>;
+    /**
+     * Authenticate an access token issued by Stytch from the Token endpoint.
+     * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
+     * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
+     *
+     * @param data {@link AuthenticateTokenRequest}
+     * @async
+     * @returns {@link AuthenticateTokenResponse}
+     * @throws {ClientError} when token can not be authenticated
+     */
+    authenticateToken(data: AuthenticateTokenRequest): Promise<AuthenticateTokenResponse>;
 }

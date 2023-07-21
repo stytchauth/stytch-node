@@ -39,7 +39,10 @@ export async function authenticateJwtLocal(
     max_token_age_seconds?: number;
     current_date?: Date;
   }
-): Promise<IntermediateSession> {
+): Promise<{
+  payload: jose.JWTPayload;
+  customClaims: Record<string, unknown>;
+}> {
   const now = options?.current_date || new Date();
 
   let payload;
@@ -88,6 +91,63 @@ export async function authenticateJwtLocal(
     [sessionClaim]: stytchClaim,
     ...customClaims
   } = payload;
+
+  return { payload, customClaims };
+}
+
+export async function authenticateM2MJwtLocal(
+  jwksClient: jose.JWTVerifyGetKey,
+  jwtOptions: jose.JWTVerifyOptions,
+  jwt: string,
+  options?: {
+    clock_tolerance_seconds?: number;
+    max_token_age_seconds?: number;
+    current_date?: Date;
+  }
+): Promise<{
+  sub: string;
+  scope: string;
+  custom_claims: Record<string, unknown>;
+}> {
+  const { payload, customClaims: untypedClaims } = await authenticateJwtLocal(
+    jwksClient,
+    jwtOptions,
+    jwt,
+    options
+  );
+
+  const { scope: scopeClaim, ...customClaims } = untypedClaims;
+
+  const scope = scopeClaim as string;
+
+  return {
+    sub: payload.sub ?? "",
+    scope: scope,
+    custom_claims: customClaims,
+  };
+}
+
+export async function authenticateSessionJwtLocal(
+  jwksClient: jose.JWTVerifyGetKey,
+  jwtOptions: jose.JWTVerifyOptions,
+  jwt: string,
+  options?: {
+    clock_tolerance_seconds?: number;
+    max_token_age_seconds?: number;
+    current_date?: Date;
+  }
+): Promise<IntermediateSession> {
+  const { payload, customClaims: untypedClaims } = await authenticateJwtLocal(
+    jwksClient,
+    jwtOptions,
+    jwt,
+    options
+  );
+
+  // The custom claim set is all the claims in the payload except for the standard claims and
+  // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
+  // to omit and using ...rest for to collect the custom claims.
+  const { [sessionClaim]: stytchClaim, ...customClaims } = untypedClaims;
 
   const claim = stytchClaim as SessionClaim;
 

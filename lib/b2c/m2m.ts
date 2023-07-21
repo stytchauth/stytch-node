@@ -8,7 +8,9 @@ import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
 
 import * as jose from "jose";
-import { JwtConfig } from "../shared/sessions";
+import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
+import { ClientError } from "../shared/errors";
+import { request } from "../shared";
 
 export interface M2MClient {
   // The ID of the client.
@@ -122,6 +124,43 @@ export type M2MSearchQueryOperand =
     };
 // ENDMANUAL(M2MSearchQueryOperand)
 
+// MANUAL(AuthenticateToken)(TYPES)
+export interface AuthenticateTokenRequest {
+  access_token: string;
+  required_scopes?: string[];
+  max_token_age_seconds?: number;
+}
+
+export interface AuthenticateTokenResponse {
+  client_id: string;
+  scopes: string[];
+  custom_claims: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+// ENDMANUAL(AuthenticateToken)
+
+// MANUAL(Token)(TYPES)
+export interface TokenRequest {
+  // The ID of the client.
+  client_id: string;
+  // The secret of the client.
+  client_secret: string;
+  // An array scopes requested. If omitted, all scopes assigned to the client will be returned.
+  scopes?: string[];
+}
+
+export interface TokenResponse {
+  // The access token granted to the client. Access tokens are JWTs signed with the project's JWKs.
+  access_token: string;
+  // The type of the returned access token. Today, this value will always be equal to "bearer"
+  token_type: string;
+  // The lifetime in seconds of the access token.
+  // For example, the value 3600 denotes that the access token will expire in one hour from the time the response was generated.
+  expires_in: number;
+}
+
+// ENDMANUAL(Token)
+
 export class M2M {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
@@ -139,13 +178,105 @@ export class M2M {
     };
   }
 
+  // MANUAL(token)(SERVICE_METHOD)
+  /**
+   * Retrieve an access token for the given M2M Client.
+   * Access tokens are JWTs signed with the project's JWKS, and are valid for one hour after issuance.
+   * M2M Access tokens contain a standard set of claims as well as any custom claims generated from templates.
+   *
+   * M2M Access tokens can be validated locally using the Authenticate Access Token method in the Stytch Backend SDKs,
+   * or with any library that supports JWT signature validation.
+   *
+   * Here is an example of a standard set of claims from a M2M Access Token:
+   *   ```
+   *  {
+   *    "sub": "m2m-client-test-d731954d-dab3-4a2b-bdee-07f3ad1be885",
+   *    "iss": "stytch.com/project-test-3e71d0a1-1e3e-4ee2-9be0-d7c0900f02c2",
+   *    "aud": ["project-test-3e71d0a1-1e3e-4ee2-9be0-d7c0900f02c2"],
+   *    "scope": "read:users write:users",
+   *    "iat": 4102473300,
+   *    "nbf": 4102473300,
+   *    "exp": 4102476900
+   *  }
+   *  ```
+   * @param data {@link TokenRequest}
+   * @async
+   * @returns {@link TokenResponse}
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  async token(data: TokenRequest): Promise<TokenResponse> {
+    const fetchConfig: fetchConfig = {
+      ...this.fetchConfig,
+      headers: {
+        ["User-Agent"]: this.fetchConfig.headers["User-Agent"],
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    };
+
+    const params: Record<string, string> = {
+      client_id: data.client_id,
+      client_secret: data.client_secret,
+      grant_type: "client_credentials",
+    };
+    if (data.scopes && data.scopes.length > 0) {
+      params.scope = data.scopes?.join(" ");
+    }
+
+    return request<TokenResponse>(fetchConfig, {
+      method: "POST",
+      url: `/v1/public/${this.jwtOptions.audience}/oauth2/token`,
+      dataRaw: new URLSearchParams(params),
+    });
+  }
+  // ENDMANUAL(token)
+
   // MANUAL(authenticateToken)(SERVICE_METHOD)
   // ADDIMPORT: import * as jose from "jose";
-  // ADDIMPORT: import { JwtConfig } from "../shared/sessions";
-  authenticateToken() {
-    // do something silly with the jwks/jwt to appease the linter
-    const arr = [this.jwksClient, this.jwtOptions];
-    arr.pop();
+  // ADDIMPORT: import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
+  // ADDIMPORT: import { ClientError } from "../shared/errors";
+  // ADDIMPORT: import { request } from "../shared";
+  // I do not know why, but it only works if we add the ADDIMPORT here, not on the ^ manual section
+  /**
+   * Authenticate an access token issued by Stytch from the Token endpoint.
+   * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
+   * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
+   *
+   * @param data {@link AuthenticateTokenRequest}
+   * @async
+   * @returns {@link AuthenticateTokenResponse}
+   * @throws {ClientError} when token can not be authenticated
+   */
+  async authenticateToken(
+    data: AuthenticateTokenRequest
+  ): Promise<AuthenticateTokenResponse> {
+    const { sub, scope, custom_claims } = await authenticateM2MJwtLocal(
+      this.jwksClient,
+      this.jwtOptions,
+      data.access_token,
+      { max_token_age_seconds: data.max_token_age_seconds }
+    );
+    const scopes = scope.split(" ");
+
+    if (data.required_scopes && data.required_scopes.length > 0) {
+      const missingScopes = data.required_scopes.filter(
+        (scope) => !scopes.includes(scope)
+      );
+
+      if (missingScopes.length > 0) {
+        throw new ClientError(
+          "missing_scopes",
+          "Missing required scopes",
+          missingScopes
+        );
+      }
+    }
+
+    return {
+      client_id: sub,
+      scopes,
+      custom_claims,
+    };
   }
   // ENDMANUAL(authenticateToken)
 }
