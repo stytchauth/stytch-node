@@ -14,7 +14,7 @@ import { SSO } from "./sso";
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
   discovery: Discovery;
-  m2M: M2M;
+  m2m: M2M;
   magicLinks: MagicLinks;
   oauth: OAuth;
   otps: OTPs;
@@ -39,7 +39,7 @@ export class B2BClient extends BaseClient {
     };
 
     this.discovery = new Discovery(this.fetchConfig);
-    this.m2M = new M2M(this.fetchConfig, this.jwtConfig);
+    this.m2m = new M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);

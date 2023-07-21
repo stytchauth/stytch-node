@@ -12,7 +12,7 @@ import { SSO } from "./sso";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     discovery: Discovery;
-    m2M: M2M;
+    m2m: M2M;
     magicLinks: MagicLinks;
     oauth: OAuth;
     otps: OTPs;

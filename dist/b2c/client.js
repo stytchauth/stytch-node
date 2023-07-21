@@ -43,7 +43,7 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
-    this.m2M = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
+    this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otps.OTPs(this.fetchConfig);

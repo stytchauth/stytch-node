@@ -15,7 +15,7 @@ import { WebAuthn } from "./webauthn";
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
   cryptoWallets: CryptoWallets;
-  m2M: M2M;
+  m2m: M2M;
   magicLinks: MagicLinks;
   oauth: OAuth;
   otps: OTPs;
@@ -41,7 +41,7 @@ export class Client extends BaseClient {
     };
 
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
-    this.m2M = new M2M(this.fetchConfig, this.jwtConfig);
+    this.m2m = new M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);

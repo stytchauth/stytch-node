@@ -13,7 +13,7 @@ import { WebAuthn } from "./webauthn";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
     cryptoWallets: CryptoWallets;
-    m2M: M2M;
+    m2m: M2M;
     magicLinks: MagicLinks;
     oauth: OAuth;
     otps: OTPs;
