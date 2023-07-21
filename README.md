@@ -23,28 +23,28 @@ This client library supports all of Stytch's live products:
 **B2C**
 
 - [x] [Email Magic Links](https://stytch.com/docs/api/send-by-email)
-- [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link-overview)
-- [x] [OAuth logins](https://stytch.com/docs/api/oauth-overview)
+- [x] [Embeddable Magic Links](https://stytch.com/docs/api/create-magic-link)
+- [x] [OAuth logins](https://stytch.com/docs/api/oauth-google-start)
 - [x] [SMS passcodes](https://stytch.com/docs/api/send-otp-by-sms)
 - [x] [WhatsApp passcodes](https://stytch.com/docs/api/whatsapp-send)
 - [x] [Email passcodes](https://stytch.com/docs/api/send-otp-by-email)
-- [x] [Session Management](https://stytch.com/docs/api/sessions-overview)
-- [x] [WebAuthn](https://stytch.com/docs/api/webauthn-overview)
-- [x] [User Management](https://stytch.com/docs/api/users)
-- [x] [Time-based one-time passcodes (TOTPs)](https://stytch.com/docs/api/totps-overview)
-- [x] [Crypto wallets](https://stytch.com/docs/api/crypto-wallet-overview)
-- [x] [Passwords](https://stytch.com/docs/api/password-overview)
+- [x] [Session Management](https://stytch.com/docs/api/session-auth)
+- [x] [WebAuthn](https://stytch.com/docs/api/webauthn-register-start)
+- [x] [User Management](https://stytch.com/docs/api/create-user)
+- [x] [Time-based one-time passcodes (TOTPs)](https://stytch.com/docs/api/totp-create)
+- [x] [Crypto wallets](https://stytch.com/docs/api/crypto-wallet-authenticate-start)
+- [x] [Passwords](https://stytch.com/docs/api/password-create)
 
 **B2B**
 
 - [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
 - [x] [Members](https://stytch.com/docs/b2b/api/member-object)
 - [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
-- [x] [OAuth logins](https://stytch.com/docs/b2b/api/oauth-overview)
-- [x] [Session Management](https://stytch.com/docs/b2b/api/sessions-overview)
-- [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-overview)
-- [x] [Discovery](https://stytch.com/docs/b2b/api/discovery-overview)
-- [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-overview)
+- [x] [OAuth logins](https://stytch.com/docs/b2b/api/oauth-google-start)
+- [x] [Session Management](https://stytch.com/docs/b2b/api/session-object)
+- [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-authenticate-start)
+- [x] [Discovery](https://stytch.com/docs/b2b/api/discovered-organization-object)
+- [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-authenticate)
 
 ### Example B2C usage
 
