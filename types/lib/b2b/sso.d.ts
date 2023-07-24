@@ -59,7 +59,7 @@ export interface B2BSSOAuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BSSOAuthenticateResponse extends BaseResponse {
     member_id: string;

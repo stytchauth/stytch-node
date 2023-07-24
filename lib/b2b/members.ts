@@ -99,7 +99,7 @@ export interface B2BMemberDeleteResponse extends BaseResponse {
 
 export interface B2BMemberDeletePhoneNumberRequest {
   organization_id: string;
-  member_phone_id: string;
+  member_id: string;
 }
 
 export type B2BMemberDeletePhoneNumberResponse = ResponseWithMember;
@@ -157,7 +157,7 @@ export class Members {
   ): Promise<B2BMemberDeletePhoneNumberResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
-      url: `${this.base_path}/${data.organization_id}/members/phone_numbers/${data.member_phone_id}`,
+      url: `${this.base_path}/${data.organization_id}/members/phone_numbers/${data.member_id}`,
     });
   }
 }
