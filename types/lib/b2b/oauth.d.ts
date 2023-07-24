@@ -9,7 +9,7 @@ export interface B2BOAuthAuthenticateRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BDiscoveryOAuthAuthenticateRequest {
     discovery_oauth_token: string;

@@ -214,7 +214,7 @@ describe("members.deletePhoneNumber", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "DELETE",
-        path: "organizations/organization-id-1234/members/phone_numbers/member-phone-id-1234",
+        path: "organizations/organization-id-1234/members/phone_numbers/member-id-1234",
       });
 
       const data = {
@@ -228,7 +228,7 @@ describe("members.deletePhoneNumber", () => {
     return expect(
       members.deletePhoneNumber({
         organization_id: "organization-id-1234",
-        member_phone_id: "member-phone-id-1234",
+        member_id: "member-id-1234",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",

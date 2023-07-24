@@ -11,7 +11,7 @@ export interface B2BMagicLinksLoginOrSignupByEmailRequest {
   pkce_code_challenge?: string;
   login_template_id?: string;
   signup_template_id?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export interface B2BMagicLinksLoginOrSignupByEmailResponse
@@ -28,7 +28,7 @@ export interface B2BMagicLinksInviteByEmailRequest {
   invite_template_id?: string;
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export type B2BMagicLinksInviteByEmailResponse = ResponseWithMember;
@@ -40,7 +40,7 @@ export interface B2BMagicLinksAuthenticateRequest {
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   pkce_code_verifier?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export interface B2BMagicLinksAuthenticateResponse extends ResponseWithMember {
@@ -60,7 +60,7 @@ export interface B2BMagicLinksDiscoveryByEmailRequest {
   discovery_redirect_url?: string;
   pkce_code_challenge?: string;
   login_template_id?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export type B2BMagicLinksDiscoveryByEmailResponse = BaseResponse;

@@ -5,7 +5,7 @@ export interface B2BOTPsSMSSendRequest {
   organization_id: string;
   member_id: string;
   phone_number?: string;
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export type B2BOTPsSMSSendResponse = ResponseWithMember;

@@ -75,7 +75,7 @@ export interface B2BMemberDeleteResponse extends BaseResponse {
 }
 export interface B2BMemberDeletePhoneNumberRequest {
     organization_id: string;
-    member_phone_id: string;
+    member_id: string;
 }
 export declare type B2BMemberDeletePhoneNumberResponse = ResponseWithMember;
 export declare class Members {

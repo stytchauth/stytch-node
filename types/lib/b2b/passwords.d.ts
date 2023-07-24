@@ -10,7 +10,7 @@ export interface B2BPasswordsAuthenticateRequest {
     session_jwt?: string;
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BPasswordsAuthenticateResponse extends ResponseWithMember {
     organization_id: string;
@@ -43,7 +43,7 @@ export interface B2BPasswordsEmailResetRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     code_verifier?: string;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BPasswordsEmailResetResponse extends ResponseWithMember {
     member_email_id: string;
@@ -64,7 +64,7 @@ export interface B2BPasswordsExistingPasswordResetRequest {
     session_duration_minutes?: number;
     session_custom_claims?: Record<string, any>;
     organization_id: string;
-    locale?: "en" | "es" | "pt-br";
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BPasswordsExistingPasswordResetResponse extends ResponseWithMember {
     session_token?: string;

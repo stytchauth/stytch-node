@@ -47,7 +47,7 @@ export interface B2BDiscoveryIntermediateSessionExchangeRequest {
   organization_id: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  locale?: "en" | "es" | "pt-br";
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 export interface B2BDiscoveryIntermediateSessionExchangeResponse
