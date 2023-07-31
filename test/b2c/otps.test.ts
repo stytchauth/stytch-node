@@ -3,7 +3,6 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 beforeEach(() => {
   (request as jest.Mock).mockReset();
@@ -30,7 +29,7 @@ describe("otps.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/authenticate",
+      path: "/v1/otps/authenticate",
       data: {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         code: "123456",
@@ -47,7 +46,7 @@ describe("otps.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/authenticate",
+      path: "/v1/otps/authenticate",
       data: {
         method_id: "phone-number-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         code: "123456",
@@ -65,7 +64,7 @@ describe("otps.email.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/email/send",
+      path: "/v1/otps/email/send",
       data: {
         email: "sandbox@stytch.com",
       },
@@ -82,7 +81,7 @@ describe("otps.email.loginOrCreate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/email/login_or_create",
+      path: "/v1/otps/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
       },
@@ -99,7 +98,7 @@ describe("otps.sms.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/sms/send",
+      path: "/v1/otps/sms/send",
       data: {
         phone_number: "+12025550162",
       },
@@ -116,7 +115,7 @@ describe("otps.sms.loginOrCreate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/sms/login_or_create",
+      path: "/v1/otps/sms/login_or_create",
       data: {
         phone_number: "+12025550162",
       },
@@ -133,7 +132,7 @@ describe("otps.whatsapp.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/whatsapp/send",
+      path: "/v1/otps/whatsapp/send",
       data: {
         phone_number: "+12025550162",
       },
@@ -150,7 +149,7 @@ describe("otps.whatsapp.loginOrCreate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "otps/whatsapp/login_or_create",
+      path: "/v1/otps/whatsapp/login_or_create",
       data: {
         phone_number: "+12025550162",
       },

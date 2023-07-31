@@ -1,9 +1,5 @@
 /// <reference types="node" />
 import * as http from "http";
-export interface BaseResponse {
-    status_code: number;
-    request_id: string;
-}
 export interface fetchConfig {
     baseURL: string;
     headers: Record<string, string>;

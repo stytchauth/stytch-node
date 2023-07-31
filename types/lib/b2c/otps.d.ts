@@ -1,141 +1,96 @@
-import { Attributes, Session, User } from "./shared_b2c";
-import { BaseResponse, fetchConfig } from "../shared";
-export interface B2COTPsEmailSendRequest {
-    email: string;
-    expiration_minutes?: number;
-    login_template_id?: string;
-    signup_template_id?: string;
-    attributes?: Attributes;
-    user_id?: string;
-    session_token?: string;
-    session_jwt?: string;
-    locale?: string;
-}
-export interface B2COTPsEmailSendResponse extends BaseResponse {
-    user_id: string;
-    email_id: string;
-}
-export interface B2COTPsEmailLoginOrCreateRequest {
-    email: string;
-    expiration_minutes?: number;
-    login_template_id?: string;
-    signup_template_id?: string;
-    attributes?: Attributes;
-    create_user_as_pending?: boolean;
-    locale?: string;
-}
-export interface B2COTPsEmailLoginOrCreateResponse extends BaseResponse {
-    user_id: string;
-    email_id: string;
-    user_created: boolean;
-}
-export interface B2COTPsSMSSendRequest {
-    phone_number: string;
-    expiration_minutes?: number;
-    attributes?: Attributes;
-    user_id?: string;
-    session_token?: string;
-    session_jwt?: string;
-    locale?: string;
-}
-export interface B2COTPsSMSSendResponse extends BaseResponse {
-    user_id: string;
-    phone_id: string;
-}
-export interface B2COTPsSMSLoginOrCreateRequest {
-    phone_number: string;
-    expiration_minutes?: number;
-    attributes?: Attributes;
-    create_user_as_pending?: boolean;
-    locale?: string;
-}
-export interface B2COTPsSMSLoginOrCreateResponse extends BaseResponse {
-    user_id: string;
-    phone_id: string;
-    user_created: boolean;
-}
-export interface B2COTPsWhatsAppSendRequest {
-    phone_number: string;
-    expiration_minutes?: number;
-    attributes?: Attributes;
-    user_id?: string;
-    session_token?: string;
-    session_jwt?: string;
-    locale?: string;
-}
-export interface B2COTPsWhatsAppSendResponse extends BaseResponse {
-    user_id: string;
-    phone_id: string;
-}
-export interface B2COTPsWhatsAppLoginOrCreateRequest {
-    phone_number: string;
-    expiration_minutes?: number;
-    attributes?: Attributes;
-    create_user_as_pending?: boolean;
-    locale?: string;
-}
-export interface B2COTPsWhatsAppLoginOrCreateResponse extends BaseResponse {
-    user_id: string;
-    phone_id: string;
-    user_created: boolean;
-}
-export interface B2COTPsAuthenticateRequest {
+import { Attributes } from "./attribute";
+import { Email } from "./otps_email";
+import { fetchConfig } from "../shared";
+import { Options } from "./magic_links";
+import { Session } from "./sessions";
+import { Sms } from "./otps_sms";
+import { User } from "./users";
+import { Whatsapp } from "./otps_whatsapp";
+export interface OTPsAuthenticateRequest {
     method_id: string;
     code: string;
     attributes?: Attributes;
-    options?: {
-        ip_match_required?: boolean;
-        user_agent_match_required?: boolean;
-    };
+    options?: Options;
     session_token?: string;
-    session_jwt?: string;
+    /**
+     * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+     * already exist,
+     *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+     * `session_jwt` will have a fixed lifetime of
+     *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+     *
+     *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+     *
+     *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+     * extend the session this many minutes.
+     *
+     *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+     */
     session_duration_minutes?: number;
+    session_jwt?: string;
+    /**
+     * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+     * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+     * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+     * supply a null value.
+     *
+     *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+     * ignored. Total custom claims size cannot exceed four kilobytes.
+     */
     session_custom_claims?: Record<string, any>;
 }
-export interface B2COTPsAuthenticateResponse extends BaseResponse {
+export interface OTPsAuthenticateResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
     user_id: string;
-    user: User;
     method_id: string;
-    session_token?: string;
-    session_jwt?: string;
-    session?: Session;
+    session_token: string;
+    session_jwt: string;
+    /**
+     * The `user` object affected by this API call. See the
+     * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+     */
+    user: User;
+    /**
+     * Indicates if all other of the User's Sessions need to be reset. You should check this field if you
+     * aren't using Stytch's Session product. If you are using Stytch's Session product, we revoke the User's
+     * other sessions for you.
+     */
     reset_sessions: boolean;
-}
-declare class Email {
-    base_path: string;
-    delivery: string;
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig, base_path: string);
-    private endpoint;
-    send(data: B2COTPsEmailSendRequest): Promise<B2COTPsEmailSendResponse>;
-    loginOrCreate(data: B2COTPsEmailLoginOrCreateRequest): Promise<B2COTPsEmailLoginOrCreateResponse>;
-}
-declare class SMS {
-    base_path: string;
-    delivery: string;
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig, base_path: string);
-    private endpoint;
-    send(data: B2COTPsSMSSendRequest): Promise<B2COTPsSMSSendResponse>;
-    loginOrCreate(data: B2COTPsSMSLoginOrCreateRequest): Promise<B2COTPsSMSLoginOrCreateResponse>;
-}
-declare class WhatsApp {
-    base_path: string;
-    delivery: string;
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig, base_path: string);
-    private endpoint;
-    send(data: B2COTPsWhatsAppSendRequest): Promise<B2COTPsWhatsAppSendResponse>;
-    loginOrCreate(data: B2COTPsWhatsAppLoginOrCreateRequest): Promise<B2COTPsWhatsAppLoginOrCreateResponse>;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
+    /**
+     * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+     * receive a full Session object in the response.
+     *
+     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *
+     */
+    session?: Session;
 }
 export declare class OTPs {
-    base_path: string;
-    email: Email;
-    sms: SMS;
-    whatsapp: WhatsApp;
     private fetchConfig;
+    sms: Sms;
+    whatsapp: Whatsapp;
+    email: Email;
     constructor(fetchConfig: fetchConfig);
-    private endpoint;
-    authenticate(data: B2COTPsAuthenticateRequest): Promise<B2COTPsAuthenticateResponse>;
+    /**
+     * Authenticate a User given a `method_id` (the associated `email_id` or `phone_id`) and a `code`. This
+     * endpoint verifies that the code is valid, hasn't expired or been previously used, and any optional
+     * security settings such as IP match or user agent match are satisfied. A given `method_id` may only have
+     * a single active OTP code at any given time, if a User requests another OTP code before the first one has
+     * expired, the first one will be invalidated.
+     * @param data {@link OTPsAuthenticateRequest}
+     * @returns {@link OTPsAuthenticateResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    authenticate(data: OTPsAuthenticateRequest): Promise<OTPsAuthenticateResponse>;
 }
-export {};

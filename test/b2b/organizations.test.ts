@@ -1,6 +1,5 @@
 import { Organizations } from "../../lib/b2b/organizations";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
-import { SearchOperator } from "../../lib/b2b/shared_b2b";
 import { request } from "../../lib/shared";
 
 jest.mock("../../lib/shared");
@@ -37,7 +36,7 @@ describe("organizations.create", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "organizations",
+      path: "/v1/b2b/organizations",
       data: {
         organization_name: "organization_name",
         organization_slug: "slug",
@@ -61,7 +60,7 @@ describe("organizations.get", () => {
       organizations.get({ organization_id: "organization-id-1234" })
     ).resolves.toMatchObject({
       method: "GET",
-      path: "organizations/organization-id-1234",
+      path: "/v1/b2b/organizations/organization-id-1234",
     });
   });
 });
@@ -71,11 +70,11 @@ describe("organizations.search", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "organizations/search",
+        path: "/v1/b2b/organizations/search",
         data: {
           limit: 200,
           query: {
-            operator: SearchOperator.OR,
+            operator: "or",
             operands: [
               {
                 filter_name: "organization_ids",
@@ -107,7 +106,7 @@ describe("organizations.search", () => {
       organizations.search({
         limit: 200,
         query: {
-          operator: SearchOperator.OR,
+          operator: "or",
           operands: [
             {
               filter_name: "organization_ids",
@@ -154,7 +153,7 @@ describe("organizations.update", () => {
       })
     ).resolves.toMatchObject({
       method: "PUT",
-      path: "organizations/organization-id-1234",
+      path: "/v1/b2b/organizations/organization-id-1234",
       data: {
         organization_name: "organization_name",
         organization_slug: "slug",
@@ -180,7 +179,7 @@ describe("organizations.delete", () => {
       organizations.delete({ organization_id: "organization-id-1234" })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "organizations/organization-id-1234",
+      path: "/v1/b2b/organizations/organization-id-1234",
     });
   });
 });

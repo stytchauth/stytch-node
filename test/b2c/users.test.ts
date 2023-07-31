@@ -1,8 +1,4 @@
-import {
-  Users,
-  UserSearchIterator,
-  UserSearchOperator,
-} from "../../lib/b2c/users";
+import { Users, UserSearchIterator } from "../../lib/b2c/users";
 
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 import { request } from "../../lib/shared";
@@ -10,7 +6,6 @@ import { request } from "../../lib/shared";
 const users = new Users(MOCK_FETCH_CONFIG);
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 beforeEach(() => {
   (request as jest.Mock).mockReset();
@@ -33,7 +28,7 @@ describe("users.create", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "users",
+      path: "/v1/users",
       data: {
         email: "sandbox@stytch.com",
         trusted_metadata: { key1: "value1" },
@@ -45,10 +40,10 @@ describe("users.create", () => {
 describe("users.get", () => {
   test("success", () => {
     return expect(
-      users.get("user-test-22222222-2222-4222-8222-222222222222")
+      users.get({ user_id: "user-test-22222222-2222-4222-8222-222222222222" })
     ).resolves.toMatchObject({
       method: "GET",
-      path: "users/user-test-22222222-2222-4222-8222-222222222222",
+      path: "/v1/users/user-test-22222222-2222-4222-8222-222222222222",
     });
   });
 });
@@ -58,11 +53,11 @@ describe("users.search", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "users/search",
+        path: "/v1/users/search",
         data: {
           limit: 200,
           query: {
-            operator: UserSearchOperator.OR,
+            operator: "OR",
             operands: [
               { filter_name: "status", filter_value: "active" },
               { filter_name: "phone_number_fuzzy", filter_value: "1234" },
@@ -98,7 +93,7 @@ describe("users.search", () => {
       users.search({
         limit: 200,
         query: {
-          operator: UserSearchOperator.OR,
+          operator: "OR",
           operands: [
             { filter_name: "status", filter_value: "active" },
             { filter_name: "phone_number_fuzzy", filter_value: "1234" },
@@ -192,7 +187,8 @@ describe("User Search iteration", () => {
 describe("users.update", () => {
   test("success", () => {
     return expect(
-      users.update("user-test-22222222-2222-4222-8222-222222222222", {
+      users.update({
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
         name: {
           first_name: "First",
           last_name: "Last",
@@ -206,7 +202,7 @@ describe("users.update", () => {
       })
     ).resolves.toMatchObject({
       method: "PUT",
-      path: "users/user-test-22222222-2222-4222-8222-222222222222",
+      path: "/v1/users/user-test-22222222-2222-4222-8222-222222222222",
       data: {
         name: {
           first_name: "First",
@@ -226,10 +222,12 @@ describe("users.update", () => {
 describe("users.delete", () => {
   test("success", () => {
     return expect(
-      users.delete("user-test-22222222-2222-4222-8222-222222222222")
+      users.delete({
+        user_id: "user-test-22222222-2222-4222-8222-222222222222",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/user-test-22222222-2222-4222-8222-222222222222",
+      path: "/v1/users/user-test-22222222-2222-4222-8222-222222222222",
     });
   });
 });
@@ -237,10 +235,12 @@ describe("users.delete", () => {
 describe("users.deleteEmail", () => {
   test("success", () => {
     return expect(
-      users.deleteEmail("email-test-33333333-3333-4333-8333-333333333333")
+      users.deleteEmail({
+        email_id: "email-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/emails/email-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/emails/email-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -248,12 +248,12 @@ describe("users.deleteEmail", () => {
 describe("users.deletePhoneNumber", () => {
   test("success", () => {
     return expect(
-      users.deletePhoneNumber(
-        "phone-number-test-33333333-3333-4333-8333-333333333333"
-      )
+      users.deletePhoneNumber({
+        phone_id: "phone-number-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/phone_numbers/phone-number-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/phone_numbers/phone-number-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -261,12 +261,13 @@ describe("users.deletePhoneNumber", () => {
 describe("users.deleteWebAuthnRegistration", () => {
   test("success", () => {
     return expect(
-      users.deleteWebAuthnRegistration(
-        "webauthn-registration-test-33333333-3333-4333-8333-333333333333"
-      )
+      users.deleteWebAuthnRegistration({
+        webauthn_registration_id:
+          "webauthn-registration-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/webauthn_registrations/webauthn-registration-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/webauthn_registrations/webauthn-registration-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -274,12 +275,13 @@ describe("users.deleteWebAuthnRegistration", () => {
 describe("users.deleteBiometricRegistration", () => {
   test("success", () => {
     return expect(
-      users.deleteBiometricRegistration(
-        "biometric-registration-test-33333333-3333-4333-8333-333333333333"
-      )
+      users.deleteBiometricRegistration({
+        biometric_registration_id:
+          "biometric-registration-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/biometric_registrations/biometric-registration-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/biometric_registrations/biometric-registration-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -287,10 +289,12 @@ describe("users.deleteBiometricRegistration", () => {
 describe("users.deleteTOTP", () => {
   test("success", () => {
     return expect(
-      users.deleteTOTP("totp-test-33333333-3333-4333-8333-333333333333")
+      users.deleteTOTP({
+        totp_id: "totp-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/totps/totp-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/totps/totp-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -298,12 +302,13 @@ describe("users.deleteTOTP", () => {
 describe("users.deleteCryptoWallet", () => {
   test("success", () => {
     return expect(
-      users.deleteCryptoWallet(
-        "crypto-wallet-test-33333333-3333-4333-8333-333333333333"
-      )
+      users.deleteCryptoWallet({
+        crypto_wallet_id:
+          "crypto-wallet-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/crypto_wallets/crypto-wallet-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/crypto_wallets/crypto-wallet-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });
@@ -311,10 +316,12 @@ describe("users.deleteCryptoWallet", () => {
 describe("users.deletePassword", () => {
   test("success", () => {
     return expect(
-      users.deletePassword("password-test-33333333-3333-4333-8333-333333333333")
+      users.deletePassword({
+        password_id: "password-test-33333333-3333-4333-8333-333333333333",
+      })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "users/passwords/password-test-33333333-3333-4333-8333-333333333333",
+      path: "/v1/users/passwords/password-test-33333333-3333-4333-8333-333333333333",
     });
   });
 });

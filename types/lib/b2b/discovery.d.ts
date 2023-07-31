@@ -1,71 +1,36 @@
-import { MemberSession, ResponseWithMember } from "./shared_b2b";
-import { BaseResponse, fetchConfig } from "../shared";
-import { DiscoveredOrganization } from "./organizations";
+import { fetchConfig } from "../shared";
+import { IntermediateSessions } from "./discovery_intermediate_sessions";
+import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
-export interface B2BDiscoveryOrganizationsRequest {
-    intermediate_session_token?: string;
-    session_token?: string;
-    session_jwt?: string;
-}
-export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
-    email_address: string;
-    discovered_organizations: DiscoveredOrganization[];
-    organization_id_hint: string | null;
-}
-export interface B2BDiscoveryOrganizationCreateRequest {
-    intermediate_session_token: string;
-    session_duration_minutes?: number;
-    session_custom_claims?: Record<string, any>;
-    organization_name?: string;
-    organization_slug?: string;
-    organization_logo_url?: string;
-    trusted_metadata?: Record<string, any>;
-    sso_jit_provisioning?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
-    email_allowed_domains?: string[];
-    email_jit_provisioning?: "RESTRICTED" | "NOT_ALLOWED";
-    email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
-    auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
-    allowed_auth_methods?: string[];
-    mfa_policy?: "OPTIONAL" | "REQUIRED_FOR_ALL";
-}
-export interface B2BDiscoveryOrganizationCreateResponse extends ResponseWithMember {
-    member_session: MemberSession | null;
-    session_token: string;
-    session_jwt: string;
+import { Organizations } from "./discovery_organizations";
+export interface DiscoveredOrganization {
+    /**
+     * Indicates whether or not the discovery magic link initiated session is valid for the organization's
+     * allowed auth method settings.
+     *   If not, the member needs to perform additional authentication before logging in - such as password or
+     * SSO auth.
+     */
     member_authenticated: boolean;
-    intermediate_session_token: string;
-    mfa_required: MfaRequired | null;
+    organization?: Organization;
+    membership?: Membership;
+    primary_required?: PrimaryRequired;
+    mfa_required?: MfaRequired;
 }
-export interface B2BDiscoveryIntermediateSessionExchangeRequest {
-    intermediate_session_token: string;
-    organization_id: string;
-    session_duration_minutes?: number;
-    session_custom_claims?: Record<string, any>;
-    locale?: "en" | "es" | "pt-br" | string;
+export interface Membership {
+    type: string;
+    details?: Record<string, any>;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
+    member?: Member;
 }
-export interface B2BDiscoveryIntermediateSessionExchangeResponse extends ResponseWithMember {
-    member_session: MemberSession | null;
-    session_token: string;
-    session_jwt: string;
-    member_authenticated: boolean;
-    intermediate_session_token: string;
-    mfa_required: MfaRequired | null;
-}
-declare class Organizations {
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig);
-    list(data: B2BDiscoveryOrganizationsRequest): Promise<B2BDiscoveryOrganizationsResponse>;
-    create(data: B2BDiscoveryOrganizationCreateRequest): Promise<B2BDiscoveryOrganizationCreateResponse>;
-}
-declare class IntermediateSessions {
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig);
-    exchange(data: B2BDiscoveryIntermediateSessionExchangeRequest): Promise<B2BDiscoveryIntermediateSessionExchangeResponse>;
+export interface PrimaryRequired {
+    allowed_auth_methods: string[];
 }
 export declare class Discovery {
     private fetchConfig;
-    organizations: Organizations;
     intermediateSessions: IntermediateSessions;
+    organizations: Organizations;
     constructor(fetchConfig: fetchConfig);
 }
-export {};

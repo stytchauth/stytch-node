@@ -35,7 +35,9 @@ describeIf(
     describe("magicLinks.authenticate", () => {
       test("success", () => {
         return client.magicLinks
-          .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+          .authenticate({
+            token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+          })
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
@@ -46,7 +48,9 @@ describeIf(
 
       test("magic link not authorized", () => {
         return client.magicLinks
-          .authenticate("3pzjQpgksDlGKWEwUq2Up--hCHC_0oamfLHyfspKDFU=")
+          .authenticate({
+            token: "3pzjQpgksDlGKWEwUq2Up--hCHC_0oamfLHyfspKDFU=",
+          })
           .catch((err) => {
             expect(err.status_code).toEqual(401);
             expect(err.error_type).toEqual("unable_to_auth_magic_link");
@@ -61,7 +65,9 @@ describeIf(
 
       test("magic link not found", () => {
         return client.magicLinks
-          .authenticate("CprTtwhnRNiMBiUS2jSLcWYrfuO2POeBNdo5HhW6qTM=")
+          .authenticate({
+            token: "CprTtwhnRNiMBiUS2jSLcWYrfuO2POeBNdo5HhW6qTM=",
+          })
           .catch((err) => {
             expect(err.status_code).toEqual(404);
             expect(err.error_type).toEqual("magic_link_not_found");
@@ -140,7 +146,9 @@ describeIf(
     describe("sessions.authenticate", () => {
       test("success", async () => {
         // Make sure there's a key that can be used to sign the sandbox JWT.
-        const jwks = await client.sessions.jwks(env("PROJECT_ID"));
+        const jwks = await client.sessions.getJWKS({
+          project_id: env("PROJECT_ID"),
+        });
         expect(jwks.keys.length).toBeGreaterThan(0);
 
         await expect(
@@ -183,9 +191,9 @@ describeIf(
           agent,
         });
 
-        await client.magicLinks.authenticate(
-          "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94="
-        );
+        await client.magicLinks.authenticate({
+          token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+        });
 
         expect(lookupSpy).toHaveBeenCalledWith(
           "test.stytch.com",
