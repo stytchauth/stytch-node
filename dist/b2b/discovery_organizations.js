@@ -25,6 +25,18 @@ class Organizations {
    * This operation consumes the Intermediate Session.
    *
    * This endpoint can also be used to start an initial session for the newly created member and organization.
+   *
+   * (Coming Soon) If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly
+   * created Member will need to complete an MFA step to log in to the Organization.
+   * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
+   * The `intermediate_session_token` can be passed into the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA step and acquire a full member session.
+   * The `intermediate_session_token` can also be used with the
+   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+   * or the
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
+   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
    * @param data {@link B2BDiscoveryOrganizationsCreateRequest}
    * @returns {@link B2BDiscoveryOrganizationsCreateResponse}
    * @async

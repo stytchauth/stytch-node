@@ -58,6 +58,7 @@ class Members {
     });
   }
   /**
+   * Delete a Member's phone number.
    * @param data {@link B2BOrganizationsMembersDeletePhoneNumberRequest}
    * @returns {@link B2BOrganizationsMembersDeletePhoneNumberResponse}
    * @async

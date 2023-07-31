@@ -41,6 +41,11 @@ export interface Member {
     is_breakglass: boolean;
     member_password_id: string;
     oauth_registrations: OAuthRegistration[];
+    /**
+     * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
+     * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
+     * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+     */
     mfa_enrolled: boolean;
     mfa_phone_number: string;
     trusted_metadata?: Record<string, any>;
@@ -258,6 +263,17 @@ export interface B2BOrganizationsCreateRequest {
      *
      */
     allowed_auth_methods?: string[];
+    /**
+     * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
+     * values are:
+     *
+     *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+     * they wish to log in.
+     *
+     *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+     * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+     *
+     */
     mfa_policy?: string;
 }
 export interface B2BOrganizationsCreateResponse {
@@ -445,6 +461,17 @@ export interface B2BOrganizationsUpdateRequest {
      *
      */
     allowed_auth_methods?: string[];
+    /**
+     * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
+     * values are:
+     *
+     *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+     * they wish to log in.
+     *
+     *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+     * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+     *
+     */
     mfa_policy?: string;
 }
 export interface B2BOrganizationsUpdateResponse {
@@ -518,8 +545,9 @@ export declare class Organizations {
     /**
      * Creates an Organization. An `organization_name` and a unique `organization_slug` are required.
      *
-     * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED` if no Organization
-     * authentication settings are explicitly defined in the request.
+     * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED`, and `mfa_policy`
+     * will be set to `OPTIONAL` if no Organization authentication settings are explicitly defined in the
+     * request.
      *
      * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,

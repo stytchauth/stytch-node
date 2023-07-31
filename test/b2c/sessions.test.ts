@@ -351,7 +351,7 @@ describe("sessions.authenticateJwtLocal", () => {
           type: "magic_link",
         },
       ],
-      expires_at: (new Date(+startedAt + 5 * 60 * 1000)).toISOString(),
+      expires_at: new Date(+startedAt + 5 * 60 * 1000).toISOString(),
       last_accessed_at: iso(startedAt),
       session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
       started_at: iso(startedAt),

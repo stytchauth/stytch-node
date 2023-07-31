@@ -32,6 +32,11 @@ export interface B2BOrganizationsMembersCreateRequest {
      */
     is_breakglass?: boolean;
     phone_number?: string;
+    /**
+     * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
+     * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
+     * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+     */
     mfa_enrolled?: boolean;
 }
 export interface B2BOrganizationsMembersCreateResponse {
@@ -73,14 +78,30 @@ export interface B2BOrganizationsMembersDeletePasswordResponse {
     status_code: number;
 }
 export interface B2BOrganizationsMembersDeletePhoneNumberRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
     organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id: string;
 }
 export interface B2BOrganizationsMembersDeletePhoneNumberResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
     request_id: string;
     member_id: string;
     member: Member;
     organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
 }
 export interface B2BOrganizationsMembersDeleteRequest {
@@ -155,7 +176,7 @@ export interface B2BOrganizationsMembersSearchRequest {
     /**
      * The optional query object contains the operator, i.e. `AND` or `OR`, and the operands that will filter
      * your results. Only an operator is required. If you include no operands, no filtering will be applied. If
-     * you include no query object, it will return all Organizations with no filtering applied.
+     * you include no query object, it will return all Members with no filtering applied.
      */
     query?: SearchQuery;
 }
@@ -211,7 +232,18 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * more details.
      */
     is_breakglass?: boolean;
+    /**
+     * (Coming Soon) Sets the Member's phone number. Throws an error if the Member already has a phone number.
+     * To change the Member's phone number, use the
+     * [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-phone-number) to
+     * delete the Member's existing phone number first.
+     */
     phone_number?: string;
+    /**
+     * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
+     * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
+     * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+     */
     mfa_enrolled?: boolean;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
@@ -251,6 +283,7 @@ export declare class Members {
      */
     delete(data: B2BOrganizationsMembersDeleteRequest): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
+     * Delete a Member's phone number.
      * @param data {@link B2BOrganizationsMembersDeletePhoneNumberRequest}
      * @returns {@link B2BOrganizationsMembersDeletePhoneNumberResponse}
      * @async

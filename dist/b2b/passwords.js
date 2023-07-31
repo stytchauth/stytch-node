@@ -30,9 +30,9 @@ class Passwords {
    * the user on how to increase the strength of their password.
    *
    * This endpoint adapts to your Project's password strength configuration. If you're using
-   * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the default, your passwords are
+   * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your passwords are
    * considered valid if the strength score is >= 3. If you're using
-   * [LUDS](https://stytch.com/docs/passwords#strength-requirements), your passwords are considered valid if
+   * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are considered valid if
    * they meet the requirements that you've set with Stytch. You may update your password strength
    * configuration in the [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
    *
@@ -40,12 +40,12 @@ class Passwords {
    * The zxcvbn_feedback and luds_feedback objects contains relevant fields for you to relay feedback to
    * users that failed to create a strong enough password.
    *
-   * If you're using [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the feedback object
+   * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the feedback object
    * will contain warning and suggestions for any password that does not meet the
-   * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) strength requirements. You can return
+   * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) strength requirements. You can return
    * these strings directly to the user to help them craft a strong password.
    *
-   * If you're using [LUDS](https://stytch.com/docs/passwords#strength-requirements), the feedback object
+   * If you're using [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), the feedback object
    * will contain a collection of fields that the user failed or passed. You'll want to prompt the user to
    * create a password that meets all requirements that they failed.
    * @param data {@link B2BPasswordsStrengthCheckRequest}
@@ -99,6 +99,16 @@ class Passwords {
    * authentication method then both the victim and the bad actor have credentials to access to the same
    * account. To prevent this, any further email/password login attempts first require a password reset which
    * can only be accomplished by someone with access to the underlying email address.
+   *
+   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
+   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * The `intermediate_session_token` can be passed into the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA step and acquire a full member session.
+   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
+   *
+   * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
+   * MFA step.
    * @param data {@link B2BPasswordsAuthenticateRequest}
    * @returns {@link B2BPasswordsAuthenticateResponse}
    * @async

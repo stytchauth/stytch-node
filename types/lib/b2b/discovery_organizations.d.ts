@@ -2,10 +2,19 @@ import { DiscoveredOrganization } from "./discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
+import { MfaRequired } from "./mfa";
 export interface B2BDiscoveryOrganizationsCreateRequest {
     /**
-     * The Intermediate Session Token. This token does not belong to a specific instance of a member, but may
-     * be exchanged for an existing Member Session or used to create a new organization.
+     * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
+     * Member, but represents a bag of factors that may be converted to a member session.
+     *     The token can be used with the
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
+     * flow;
+     *     the
+     * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+     * to join a specific Organization that allows the factors represented by the intermediate session token;
+     *     or the
+     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
      */
     intermediate_session_token: string;
     /**
@@ -119,6 +128,17 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
      *
      */
     allowed_auth_methods?: string[];
+    /**
+     * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
+     * values are:
+     *
+     *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+     * they wish to log in.
+     *
+     *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+     * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+     *
+     */
     mfa_policy?: string;
 }
 export interface B2BDiscoveryOrganizationsCreateResponse {
@@ -132,17 +152,48 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
     session_jwt: string;
     member: Member;
     /**
+     * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
+     * to log in to the Organization.
+     */
+    member_authenticated: boolean;
+    /**
+     * The returned Intermediate Session Token is identical to the one that was originally passed in to the
+     * request.
+     *       The token can be used with the
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+     * MFA flow and log in to the Organization.
+     *       It can also be used with the
+     * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+     * to join a different existing Organization,
+     *       or the
+     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
+     */
+    intermediate_session_token: string;
+    /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
     member_session?: MemberSession;
     organization?: Organization;
+    /**
+     * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
+     * fulfilling MFA.
+     */
+    mfa_required?: MfaRequired;
 }
 export interface B2BDiscoveryOrganizationsListRequest {
     /**
-     * The Intermediate Session Token. This token does not belong to a specific instance of a member, but may
-     * be exchanged for an existing Member Session or used to create a new organization.
+     * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
+     * Member, but represents a bag of factors that may be converted to a member session.
+     *     The token can be used with the
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
+     * flow;
+     *     the
+     * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+     * to join a specific Organization that allows the factors represented by the intermediate session token;
+     *     or the
+     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
      */
     intermediate_session_token?: string;
     session_token?: string;
@@ -179,6 +230,13 @@ export interface B2BDiscoveryOrganizationsListResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * If the intermediate session token is associated with a specific Organization, that Organization ID will
+     * be returned here. The Organization ID will be null if the intermediate session token was generated by a
+     * email magic link discovery or OAuth discovery flow. If a session token or session JWT is provided, the
+     * Organization ID hint will be null.
+     */
+    organization_id_hint?: string;
 }
 export declare class Organizations {
     private fetchConfig;
@@ -192,6 +250,18 @@ export declare class Organizations {
      * This operation consumes the Intermediate Session.
      *
      * This endpoint can also be used to start an initial session for the newly created member and organization.
+     *
+     * (Coming Soon) If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly
+     * created Member will need to complete an MFA step to log in to the Organization.
+     * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
+     * The `intermediate_session_token` can be passed into the
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+     * MFA step and acquire a full member session.
+     * The `intermediate_session_token` can also be used with the
+     * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+     * or the
+     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
+     * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
      * @param data {@link B2BDiscoveryOrganizationsCreateRequest}
      * @returns {@link B2BDiscoveryOrganizationsCreateResponse}
      * @async

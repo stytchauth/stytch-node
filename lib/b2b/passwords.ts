@@ -16,6 +16,7 @@ import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
+import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 import { Sessions } from "./passwords_session";
 
@@ -99,6 +100,21 @@ export interface B2BPasswordsAuthenticateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
+   * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
+   * argument will be used to determine which language to use when sending the passcode.
+   *
+   * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+   * e.g. `"en"`.
+   *
+   * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
+   * (`"pt-br"`); if no value is provided, the copy defaults to English.
+   *
+   * Request support for additional languages
+   * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
+   *
+   */
   locale?: "en" | "es" | "pt-br" | string;
 }
 
@@ -125,12 +141,31 @@ export interface B2BPasswordsAuthenticateResponse {
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
+   * The returned Intermediate Session Token contains a password factor associated with the Member.
+   *       The token can be used with the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA flow and log in to the Organization.
+   *       Password factors are not transferable between Organizations, so the intermediate session token is
+   * not valid for use with discovery endpoints.
+   */
+  intermediate_session_token: string;
+  /**
+   * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
+   * to log in to the Organization.
+   */
+  member_authenticated: boolean;
+  /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
+  /**
+   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
+   * fulfilling MFA.
+   */
+  mfa_required?: MfaRequired;
 }
 
 // Request type for `passwords.migrate`.
@@ -144,15 +179,15 @@ export interface B2BPasswordsMigrateRequest {
    * `pbkdf_2` are supported.
    */
   hash_type:
-  | "bcrypt"
-  | "md_5"
-  | "argon_2i"
-  | "argon_2id"
-  | "sha_1"
-  | "scrypt"
-  | "phpass"
-  | "pbkdf_2"
-  | string;
+    | "bcrypt"
+    | "md_5"
+    | "argon_2i"
+    | "argon_2id"
+    | "sha_1"
+    | "scrypt"
+    | "phpass"
+    | "pbkdf_2"
+    | string;
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -288,9 +323,9 @@ export class Passwords {
    * the user on how to increase the strength of their password.
    *
    * This endpoint adapts to your Project's password strength configuration. If you're using
-   * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the default, your passwords are
+   * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your passwords are
    * considered valid if the strength score is >= 3. If you're using
-   * [LUDS](https://stytch.com/docs/passwords#strength-requirements), your passwords are considered valid if
+   * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are considered valid if
    * they meet the requirements that you've set with Stytch. You may update your password strength
    * configuration in the [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
    *
@@ -298,12 +333,12 @@ export class Passwords {
    * The zxcvbn_feedback and luds_feedback objects contains relevant fields for you to relay feedback to
    * users that failed to create a strong enough password.
    *
-   * If you're using [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the feedback object
+   * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the feedback object
    * will contain warning and suggestions for any password that does not meet the
-   * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) strength requirements. You can return
+   * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) strength requirements. You can return
    * these strings directly to the user to help them craft a strong password.
    *
-   * If you're using [LUDS](https://stytch.com/docs/passwords#strength-requirements), the feedback object
+   * If you're using [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), the feedback object
    * will contain a collection of fields that the user failed or passed. You'll want to prompt the user to
    * create a password that meets all requirements that they failed.
    * @param data {@link B2BPasswordsStrengthCheckRequest}
@@ -359,6 +394,16 @@ export class Passwords {
    * authentication method then both the victim and the bad actor have credentials to access to the same
    * account. To prevent this, any further email/password login attempts first require a password reset which
    * can only be accomplished by someone with access to the underlying email address.
+   *
+   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
+   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * The `intermediate_session_token` can be passed into the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA step and acquire a full member session.
+   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
+   *
+   * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
+   * MFA step.
    * @param data {@link B2BPasswordsAuthenticateRequest}
    * @returns {@link B2BPasswordsAuthenticateResponse}
    * @async

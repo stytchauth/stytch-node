@@ -21,10 +21,10 @@ class Email {
    * address, containing a magic link that will allow them to set a new password and authenticate.
    *
    * This endpoint adapts to your Project's password strength configuration.
-   * If you're using [zxcvbn](https://stytch.com/docs/passwords#strength-requirements), the default, your
+   * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your
    * passwords are considered valid
    * if the strength score is >= 3. If you're using
-   * [LUDS](https://stytch.com/docs/passwords#strength-requirements), your passwords are
+   * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are
    * considered valid if they meet the requirements that you've set with Stytch.
    * You may update your password strength configuration in the
    * [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
@@ -50,6 +50,16 @@ class Email {
    * The provided password needs to meet our password strength requirements, which can be checked in advance
    * with the password strength endpoint. If the token and password are accepted, the password is securely
    * stored for future authentication and the user is authenticated.
+   *
+   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
+   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * The `intermediate_session_token` can be passed into the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA step and acquire a full member session.
+   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
+   *
+   * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
+   * MFA step.
    * @param data {@link B2BPasswordsEmailResetRequest}
    * @returns {@link B2BPasswordsEmailResetResponse}
    * @async

@@ -9,6 +9,7 @@ import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
+import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
 // Request type for `magicLinks.authenticate`.
@@ -60,6 +61,21 @@ export interface B2BMagicLinksAuthenticateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
+   * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
+   * argument will be used to determine which language to use when sending the passcode.
+   *
+   * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+   * e.g. `"en"`.
+   *
+   * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
+   * (`"pt-br"`); if no value is provided, the copy defaults to English.
+   *
+   * Request support for additional languages
+   * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
+   *
+   */
   locale?: "en" | "es" | "pt-br" | string;
 }
 
@@ -97,10 +113,33 @@ export interface B2BMagicLinksAuthenticateResponse {
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
+   * The returned Intermediate Session Token contains an Email Magic Link factor associated with the Member's
+   * email address.
+   *       The token can be used with the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA flow and log in to the Organization.
+   *       It can also be used with the
+   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+   * to join a different existing Organization that allows login with Email Magic Links,
+   *       or the
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
+   */
+  intermediate_session_token: string;
+  /**
+   * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
+   * to log in to the Organization.
+   */
+  member_authenticated: boolean;
+  /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  /**
+   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
+   * fulfilling MFA.
+   */
+  mfa_required?: MfaRequired;
 }
 
 export class MagicLinks {
@@ -120,6 +159,20 @@ export class MagicLinks {
    * Provide the `session_duration_minutes` parameter to set the lifetime of the session. If the
    * `session_duration_minutes` parameter is not specified, a Stytch session will be created with a 60 minute
    * duration.
+   *
+   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
+   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * The `intermediate_session_token` can be passed into the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
+   * MFA step and acquire a full member session.
+   * The `intermediate_session_token` can also be used with the
+   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+   * or the
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
+   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
+   *
+   * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
+   * MFA step.
    * @param data {@link B2BMagicLinksAuthenticateRequest}
    * @returns {@link B2BMagicLinksAuthenticateResponse}
    * @async
