@@ -112,8 +112,6 @@ export type {
   B2BOAuthDiscoveryAuthenticateResponse,
 } from "./oauth_discovery";
 
-export type {} from "./otp";
-
 export type {
   B2BOTPSmsAuthenticateRequest,
   B2BOTPSmsAuthenticateResponse,

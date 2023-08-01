@@ -12,7 +12,6 @@ export type { B2BMagicLinksEmailDiscoverySendRequest, B2BMagicLinksEmailDiscover
 export type { B2BMagicLinksDiscoveryAuthenticateRequest, B2BMagicLinksDiscoveryAuthenticateResponse, } from "./magic_links_discovery";
 export type { B2BOAuthProviderValues, B2BOAuthAuthenticateRequest, B2BOAuthAuthenticateResponse, } from "./oauth";
 export type { B2BOAuthDiscoveryAuthenticateRequest, B2BOAuthDiscoveryAuthenticateResponse, } from "./oauth_discovery";
-export type {} from "./otp";
 export type { B2BOTPSmsAuthenticateRequest, B2BOTPSmsAuthenticateResponse, B2BOTPSmsSendRequest, B2BOTPSmsSendResponse, } from "./otp_sms";
 export type { LudsFeedback, ZxcvbnFeedback, B2BPasswordsAuthenticateRequest, B2BPasswordsAuthenticateResponse, B2BPasswordsMigrateRequest, B2BPasswordsMigrateResponse, B2BPasswordsStrengthCheckRequest, B2BPasswordsStrengthCheckResponse, } from "./passwords";
 export type { B2BPasswordsEmailResetRequest, B2BPasswordsEmailResetResponse, B2BPasswordsEmailResetStartRequest, B2BPasswordsEmailResetStartResponse, } from "./passwords_email";

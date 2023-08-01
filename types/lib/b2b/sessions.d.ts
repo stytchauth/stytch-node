@@ -23,15 +23,15 @@ export interface MemberSession {
     expires_at: string;
     authentication_factors: AuthenticationFactor[];
     /**
-     * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
-     * call.
-     */
-    custom_claims: Record<string, any>;
-    /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
+     * call.
+     */
+    custom_claims?: Record<string, any>;
 }
 export interface B2BSessionsAuthenticateRequest {
     session_token?: string;

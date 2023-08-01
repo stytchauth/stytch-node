@@ -35,15 +35,15 @@ export interface MemberSession {
   // An array of different authentication factors that have initiated a Session.
   authentication_factors: AuthenticationFactor[];
   /**
-   * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
-   * call.
-   */
-  custom_claims: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
+  /**
+   * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
+   * call.
+   */
+  custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Request type for `sessions.authenticate`.
