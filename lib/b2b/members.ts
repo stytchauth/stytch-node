@@ -64,11 +64,11 @@ export type MemberSearchOperand =
       filter_value: string[];
     }
   | {
-      filter_name: "member_phone_numbers";
+      filter_name: "member_mfa_phone_numbers";
       filter_value: string[];
     }
   | {
-      filter_name: "member_phone_number_fuzzy";
+      filter_name: "member_mfa_phone_number_fuzzy";
       filter_value: string;
     };
 
@@ -157,7 +157,7 @@ export class Members {
   ): Promise<B2BMemberDeletePhoneNumberResponse> {
     return request(this.fetchConfig, {
       method: "DELETE",
-      url: `${this.base_path}/${data.organization_id}/members/phone_numbers/${data.member_id}`,
+      url: `${this.base_path}/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
     });
   }
 }

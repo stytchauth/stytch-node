@@ -46,10 +46,10 @@ export declare type MemberSearchOperand = {
     filter_name: "statuses";
     filter_value: string[];
 } | {
-    filter_name: "member_phone_numbers";
+    filter_name: "member_mfa_phone_numbers";
     filter_value: string[];
 } | {
-    filter_name: "member_phone_number_fuzzy";
+    filter_name: "member_mfa_phone_number_fuzzy";
     filter_value: string;
 };
 export interface B2BMemberSearchRequest {
