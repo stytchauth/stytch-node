@@ -98,6 +98,10 @@ export interface User {
     phone_numbers: PhoneNumber[];
     webauthn_registrations: WebAuthnRegistration[];
     providers: OAuthProvider[];
+    /**
+     * An array containing a list of all TOTP instances (along with their recovery codes) for a given User in
+     * the Stytch API.
+     */
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
     biometric_registrations: BiometricRegistration[];

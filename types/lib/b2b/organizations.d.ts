@@ -20,6 +20,10 @@ export interface Member {
     organization_id: string;
     member_id: string;
     email_address: string;
+    /**
+     * The status of the connection. The possible values are pending or active. See the
+     * [Update SAML Connection endpoint](/docs/b2b/api/update-saml-connection) for more details.
+     */
     status: string;
     name: string;
     /**
@@ -43,6 +47,12 @@ export interface Member {
      * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled: boolean;
+    /**
+     * (Coming Soon) Sets the Member's phone number. Throws an error if the Member already has a phone number.
+     * To change the Member's phone number, use the
+     * [Delete member phone number endpoint](/docs/b2b/api/delete-member-mfa-phone-number) to delete the
+     * Member's existing phone number first.
+     */
     mfa_phone_number: string;
     trusted_metadata?: Record<string, any>;
     /**
@@ -82,12 +92,14 @@ export interface Organization {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * The name of the Organization. If the name is not specified, a default name will be created based on the
+     * email used to initiate the discovery flow. If the email domain is a common email provider such as
+     * gmail.com, or if the email is a .edu email, the organization name will be generated based on the name
+     * portion of the email. Otherwise, the organization name will be generated based on the email domain.
+     */
     organization_name: string;
     organization_logo_url: string;
-    /**
-     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
-     */
     organization_slug: string;
     /**
      * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.

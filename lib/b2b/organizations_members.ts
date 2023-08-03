@@ -48,6 +48,7 @@ export interface B2BOrganizationsMembersCreateRequest {
    * more details.
    */
   is_breakglass?: boolean;
+  // (Coming Soon) The Member's phone number. A Member may only have one phone number.
   mfa_phone_number?: string;
   /**
    * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
@@ -77,16 +78,37 @@ export interface B2BOrganizationsMembersCreateResponse {
   status_code: number;
 }
 
+// Request type for `organizations.members.deleteMFAPhoneNumber`.
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
   organization_id: string;
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
   member_id: string;
 }
 
+// Response type for `organizations.members.deleteMFAPhoneNumber`.
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
+  // Globally unique UUID that identifies a specific Member.
   member_id: string;
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
   member: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -271,6 +293,12 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * more details.
    */
   is_breakglass?: boolean;
+  /**
+   * (Coming Soon) Sets the Member's phone number. Throws an error if the Member already has a phone number.
+   * To change the Member's phone number, use the
+   * [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-mfa-phone-number) to
+   * delete the Member's existing phone number first.
+   */
   mfa_phone_number?: string;
   /**
    * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
@@ -351,6 +379,7 @@ export class Members {
   }
 
   /**
+   * Delete a Member's MFA phone number.
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async

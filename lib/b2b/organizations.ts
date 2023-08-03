@@ -9,7 +9,7 @@ import { Members } from "./organizations_members";
 import { request } from "../shared";
 
 export interface ActiveSSOConnection {
-  // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+  // Globally unique UUID that identifies a specific SAML Connection.
   connection_id: string;
   // A human-readable display name for the connection.
   display_name: string;
@@ -35,9 +35,12 @@ export interface Member {
   member_id: string;
   // The email address.
   email_address: string;
-  // The status of the Member. The possible values are: `pending`, `invited`, `active`, or `deleted`.
+  /**
+   * The status of the connection. The possible values are pending or active. See the
+   * [Update SAML Connection endpoint](/docs/b2b/api/update-saml-connection) for more details.
+   */
   status: string;
-  // The name of the Member.
+  // The name of the Member. Each field in the name object is optional.
   name: string;
   /**
    * An array of registered [SAML Connection](saml-connection-object) objects the Member has authenticated
@@ -62,7 +65,12 @@ export interface Member {
    * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled: boolean;
-  // (Coming Soon) The Member's phone number. A Member may only have one phone number.
+  /**
+   * (Coming Soon) Sets the Member's phone number. Throws an error if the Member already has a phone number.
+   * To change the Member's phone number, use the
+   * [Delete member phone number endpoint](/docs/b2b/api/delete-member-mfa-phone-number) to delete the
+   * Member's existing phone number first.
+   */
   mfa_phone_number: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -106,14 +114,15 @@ export interface Organization {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // The name of the Organization.
+  /**
+   * The name of the Organization. If the name is not specified, a default name will be created based on the
+   * email used to initiate the discovery flow. If the email domain is a common email provider such as
+   * gmail.com, or if the email is a .edu email, the organization name will be generated based on the name
+   * portion of the email. Otherwise, the organization name will be generated based on the email domain.
+   */
   organization_name: string;
   // The image URL of the Organization logo.
   organization_logo_url: string;
-  /**
-   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
-   */
   organization_slug: string;
   /**
    * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
@@ -198,7 +207,7 @@ export interface Organization {
 }
 
 export interface SSORegistration {
-  // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+  // Globally unique UUID that identifies a specific SAML Connection.
   connection_id: string;
   // The ID of the member given by the identity provider.
   external_id: string;

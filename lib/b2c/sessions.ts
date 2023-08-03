@@ -241,7 +241,7 @@ export interface SalesforceOAuthFactor {
 export interface Session {
   // A unique identifier for a specific Session.
   session_id: string;
-  // The unique ID of the affected User.
+  // The unique ID of the returned User.
   user_id: string;
   // An array of different authentication factors that have initiated a Session.
   authentication_factors: AuthenticationFactor[];

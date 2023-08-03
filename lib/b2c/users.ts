@@ -124,7 +124,7 @@ export interface TOTP {
 }
 
 export interface User {
-  // The unique ID of the affected User.
+  // The unique ID of the returned User.
   user_id: string;
   // An array of email objects for the User.
   emails: Email[];
@@ -136,7 +136,10 @@ export interface User {
   webauthn_registrations: WebAuthnRegistration[];
   // An array of OAuth `provider` objects linked to the User.
   providers: OAuthProvider[];
-  // An array containing a list of all TOTP instances for a given User in the Stytch API.
+  /**
+   * An array containing a list of all TOTP instances (along with their recovery codes) for a given User in
+   * the Stytch API.
+   */
   totps: TOTP[];
   // An array contains a list of all crypto wallets for a given User in the Stytch API.
   crypto_wallets: CryptoWallet[];
