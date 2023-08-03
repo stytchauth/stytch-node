@@ -1,4 +1,4 @@
-import { OIDC } from "../../lib/b2b/oidc";
+import { SSO } from "../../lib/b2b/sso";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
@@ -16,18 +16,18 @@ beforeEach(() => {
   });
 });
 
-const oidc = new OIDC(MOCK_FETCH_CONFIG);
+const oidc = new SSO(MOCK_FETCH_CONFIG).oidc;
 
 describe("oidc.create", () => {
   test("success", () => {
     return expect(
-      oidc.create({
+      oidc.createConnection({
         organization_id: "organization-id-1234",
         display_name: "Test Connection",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "sso/oidc/organization-id-1234",
+      path: "/v1/b2b/sso/oidc/organization-id-1234",
       data: {
         display_name: "Test Connection",
       },
@@ -38,7 +38,7 @@ describe("oidc.create", () => {
 describe("oidc.update", () => {
   test("success", () => {
     return expect(
-      oidc.update({
+      oidc.updateConnection({
         organization_id: "organization-id-1234",
         connection_id: "oidc-connection-5678",
         display_name: "Test Connection",
@@ -52,7 +52,7 @@ describe("oidc.update", () => {
       })
     ).resolves.toMatchObject({
       method: "PUT",
-      path: "sso/oidc/organization-id-1234/connections/oidc-connection-5678",
+      path: "/v1/b2b/sso/oidc/organization-id-1234/connections/oidc-connection-5678",
       data: {
         display_name: "Test Connection",
         client_id: "client-id-1234",

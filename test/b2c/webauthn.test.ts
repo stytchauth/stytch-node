@@ -2,14 +2,13 @@ import { WebAuthn } from "../../lib/b2c/webauthn";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 describe("webauthn.registerStart", () => {
   test("authenticator_type & user_agent", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/register/start",
+        path: "/v1/webauthn/register/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -49,7 +48,7 @@ describe("webauthn.registerStart", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/register/start",
+        path: "/v1/webauthn/register/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -86,7 +85,7 @@ describe("webauthn.register", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/register",
+        path: "/v1/webauthn/register",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           public_key_credential:
@@ -125,7 +124,7 @@ describe("webauthn.authenticateStart", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/authenticate/start",
+        path: "/v1/webauthn/authenticate/start",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           domain: "example.com",
@@ -162,7 +161,7 @@ describe("webauthn.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/authenticate",
+        path: "/v1/webauthn/authenticate",
         data: {
           public_key_credential:
             '{"type": "public-key","id": "Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY","rawId": "Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY","response": {"authenticatorData": "SZYN5YgOjGh7NBcPZHZgW1_krrmihjLHmVzzuoNcl2MFYZKokg","clientDataJSON": "eyJ2eXBlOjopo2ViYBx0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWEtEWDVJa25EWEU3by1KQlRkYTNfS1NiTXdmb3dMWDQxMldlNEFDY04tYWgiLCJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJjcm9zc09yaWdpbiI6ZmFsc2V9","signature": "MEYCIQDU1FGXEBrq3hsQ2ye1pBcYLMu7zmzLVVdcbs6R21hGyAIhAJmpdBo2Hd7P4Ks9VFKBUYbKSIioMdhl2XIIjWHNKD77","userHandle": "dXNlus1kZXZlbG9wLBC2M2E1MGI0LWEwMGEtNGU3NC89NTJmLTFlOGRhODE2nDBnMw"},"clientExtensionResults": {}}',
@@ -196,7 +195,7 @@ describe("webauthn.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "webauthn/authenticate",
+        path: "/v1/webauthn/authenticate",
         data: {
           public_key_credential:
             '{"type": "public-key","id": "Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY","rawId": "Ab6y28pCs5bVRIzSmrlufidfR57gRlEZ-KSTVGJYdkwAfR_SeaVXvdW6ND_XljM25cXYI-dSwrhjuNsj1L3uC0BHqN3mBQIzSswJneTv08RbDNZOLhjiwOEnQ03uPbL5eA7EcyinClOU_qwPMf5lowW1NSTWtaFvOlY","response": {"authenticatorData": "SZYN5YgOjGh7NBcPZHZgW1_krrmihjLHmVzzuoNcl2MFYZKokg","clientDataJSON": "eyJ2eXBlOjopo2ViYBx0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWEtEWDVJa25EWEU3by1KQlRkYTNfS1NiTXdmb3dMWDQxMldlNEFDY04tYWgiLCJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJjcm9zc09yaWdpbiI6ZmFsc2V9","signature": "MEYCIQDU1FGXEBrq3hsQ2ye1pBcYLMu7zmzLVVdcbs6R21hGyAIhAJmpdBo2Hd7P4Ks9VFKBUYbKSIioMdhl2XIIjWHNKD77","userHandle": "dXNlus1kZXZlbG9wLBC2M2E1MGI0LWEwMGEtNGU3NC89NTJmLTFlOGRhODE2nDBnMw"},"clientExtensionResults": {}}',

@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
   Client: true,
   B2BClient: true,
-  envs: true,
-  UserSearchOperator: true,
-  SearchOperator: true
+  envs: true
 };
 Object.defineProperty(exports, "Client", {
   enumerable: true,
@@ -20,18 +18,6 @@ Object.defineProperty(exports, "B2BClient", {
   enumerable: true,
   get: function () {
     return _client2.B2BClient;
-  }
-});
-Object.defineProperty(exports, "UserSearchOperator", {
-  enumerable: true,
-  get: function () {
-    return _users.UserSearchOperator;
-  }
-});
-Object.defineProperty(exports, "SearchOperator", {
-  enumerable: true,
-  get: function () {
-    return _shared_b2b.SearchOperator;
   }
 });
 exports.envs = void 0;
@@ -71,10 +57,6 @@ Object.keys(_index2).forEach(function (key) {
 var _envs = _interopRequireWildcard(require("./shared/envs"));
 
 exports.envs = _envs;
-
-var _users = require("./b2c/users");
-
-var _shared_b2b = require("./b2b/shared_b2b");
 
 var _errors = require("./shared/errors");
 

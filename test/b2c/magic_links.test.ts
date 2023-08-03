@@ -3,7 +3,6 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 beforeEach(() => {
   (request as jest.Mock).mockReset();
@@ -28,7 +27,7 @@ describe("magicLinks.create", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links",
+      path: "/v1/magic_links",
       data: {
         user_id: "user-test-22222222-2222-4222-8222-222222222222",
         expiration_minutes: 75,
@@ -40,13 +39,14 @@ describe("magicLinks.create", () => {
 describe("magicLinks.authenticate", () => {
   test("session", () => {
     return expect(
-      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=", {
+      magicLinks.authenticate({
+        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/authenticate",
+      path: "/v1/magic_links/authenticate",
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -56,10 +56,12 @@ describe("magicLinks.authenticate", () => {
   });
   test("no session", () => {
     return expect(
-      magicLinks.authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+      magicLinks.authenticate({
+        token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
+      })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/authenticate",
+      path: "/v1/magic_links/authenticate",
       data: {
         token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
       },
@@ -75,7 +77,7 @@ describe("magicLinks.email.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/send",
+      path: "/v1/magic_links/email/send",
       data: {
         email: "sandbox@stytch.com",
       },
@@ -97,7 +99,7 @@ describe("magicLinks.email.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/send",
+      path: "/v1/magic_links/email/send",
       data: {
         email: "sandbox@stytch.com",
         login_magic_link_url: "http://localhost:8000/login",
@@ -121,7 +123,7 @@ describe("magicLinks.email.loginOrCreate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/login_or_create",
+      path: "/v1/magic_links/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
       },
@@ -144,7 +146,7 @@ describe("magicLinks.email.loginOrCreate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/login_or_create",
+      path: "/v1/magic_links/email/login_or_create",
       data: {
         email: "sandbox@stytch.com",
         login_magic_link_url: "http://localhost:8000/login",
@@ -169,7 +171,7 @@ describe("magicLinks.email.invite", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/invite",
+      path: "/v1/magic_links/email/invite",
       data: {
         email: "sandbox@stytch.com",
       },
@@ -189,7 +191,7 @@ describe("magicLinks.email.invite", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/invite",
+      path: "/v1/magic_links/email/invite",
       data: {
         email: "sandbox@stytch.com",
         invite_magic_link_url: "http://localhost:8000/invite",
@@ -211,7 +213,7 @@ describe("magicLinks.email.revokeInvite", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/revoke_invite",
+      path: "/v1/magic_links/email/revoke_invite",
       data: {
         email: "sandbox@stytch.com",
       },

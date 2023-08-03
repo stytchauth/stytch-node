@@ -3,7 +3,6 @@ import { request } from "../../lib/shared";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2b/shared_b2b");
 
 beforeEach(() => {
   (request as jest.Mock).mockReset();
@@ -32,7 +31,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/authenticate",
+      path: "/v1/b2b/passwords/authenticate",
       data: {
         organization_id: "organization-id-1234",
         password: "not-a-real-password",
@@ -53,7 +52,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/authenticate",
+      path: "/v1/b2b/passwords/authenticate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -67,13 +66,13 @@ describe("passwords.authenticate", () => {
 describe("passwords.emailResetStart", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmailStart({
+      passwords.email.resetStart({
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/email/reset/start",
+      path: "/v1/b2b/passwords/email/reset/start",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -83,7 +82,7 @@ describe("passwords.emailResetStart", () => {
   });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmailStart({
+      passwords.email.resetStart({
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         code_challenge: "example_code_challenge",
@@ -91,7 +90,7 @@ describe("passwords.emailResetStart", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/email/reset/start",
+      path: "/v1/b2b/passwords/email/reset/start",
       data: {
         organization_id: "organization-id-1234",
         code_challenge: "example_code_challenge",
@@ -106,13 +105,13 @@ describe("passwords.emailResetStart", () => {
 describe("passwords.emailReset", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmail({
+      passwords.email.reset({
         password_reset_token: "example-token",
         password: "not-a-real-password",
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/email/reset",
+      path: "/v1/b2b/passwords/email/reset",
       data: {
         password_reset_token: "example-token",
         password: "not-a-real-password",
@@ -122,14 +121,14 @@ describe("passwords.emailReset", () => {
   });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmail({
+      passwords.email.reset({
         password_reset_token: "example-token",
         password: "not-a-real-password",
         code_verifier: "example_code_verifier",
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/email/reset",
+      path: "/v1/b2b/passwords/email/reset",
       data: {
         password_reset_token: "example-token",
         password: "not-a-real-password",
@@ -143,7 +142,7 @@ describe("passwords.emailReset", () => {
 describe("passwords.existingPasswordReset", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByExistingPassword({
+      passwords.existingPassword.reset({
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         existing_password: "existing_password",
@@ -151,7 +150,7 @@ describe("passwords.existingPasswordReset", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/existing_password/reset",
+      path: "/v1/b2b/passwords/existing_password/reset",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -166,14 +165,14 @@ describe("passwords.existingPasswordReset", () => {
 describe("passwords.sessionReset", () => {
   test("basic", () => {
     return expect(
-      passwords.resetBySession({
+      passwords.sessions.reset({
         organization_id: "organization-id-1234",
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/session/reset",
+      path: "/v1/b2b/passwords/session/reset",
       data: {
         organization_id: "organization-id-1234",
         password: "new_password",
@@ -193,7 +192,7 @@ describe("passwords.strengthCheck", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/strength_check",
+      path: "/v1/b2b/passwords/strength_check",
       data: {
         password: "not-a-real-password",
         email_address: "Ada_Lovelace@example.com",
@@ -214,7 +213,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -234,7 +233,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -252,18 +251,20 @@ describe("passwords.migrate", () => {
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
         sha_1_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
         sha_1_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       },
@@ -279,11 +280,12 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         sha_1_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -291,6 +293,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         sha_1_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       },
       params: undefined,
@@ -306,7 +309,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -324,18 +327,20 @@ describe("passwords.migrate", () => {
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
         md_5_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
         md_5_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       },
@@ -351,11 +356,12 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         md_5_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -363,6 +369,7 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         md_5_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       },
       params: undefined,
@@ -378,7 +385,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -405,7 +412,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toEqual({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/b2b/passwords/migrate",
       data: {
         organization_id: "organization-id-1234",
         email_address: "Ada_Lovelace@example.com",
@@ -439,7 +446,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toEqual({
         method: "POST",
-        path: "passwords/migrate",
+        path: "/v1/b2b/passwords/migrate",
         data: {
           organization_id: "organization-id-1234",
           email_address: "Ada_Lovelace@example.com",
@@ -473,7 +480,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toEqual({
         method: "POST",
-        path: "passwords/migrate",
+        path: "/v1/b2b/passwords/migrate",
         data: {
           organization_id: "organization-id-1234",
           email_address: "Ada_Lovelace@example.com",
@@ -505,7 +512,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toMatchObject({
         method: "POST",
-        path: "passwords/migrate",
+        path: "/v1/b2b/passwords/migrate",
         data: {
           organization_id: "organization-id-1234",
           email_address: "Ada_Lovelace@example.com",

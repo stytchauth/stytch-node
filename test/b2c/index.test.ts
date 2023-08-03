@@ -1,8 +1,8 @@
 import * as stytch from "../../lib";
 
 test("pre-configured environment base URLs", () => {
-  expect(stytch.envs.test).toEqual("https://test.stytch.com/v1/");
-  expect(stytch.envs.live).toEqual("https://api.stytch.com/v1/");
+  expect(stytch.envs.test).toEqual("https://test.stytch.com/");
+  expect(stytch.envs.live).toEqual("https://api.stytch.com/");
 });
 
 test("configuring a test client", () => {

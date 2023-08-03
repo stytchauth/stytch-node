@@ -2,14 +2,13 @@ import { TOTPs } from "../../lib/b2c/totps";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 describe("totps.create", () => {
   test("only required fields", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps",
+        path: "/v1/totps",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         },
@@ -68,7 +67,7 @@ describe("totps.create", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps",
+        path: "/v1/totps",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           expiration_minutes: 10,
@@ -132,7 +131,7 @@ describe("totps.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps/authenticate",
+        path: "/v1/totps/authenticate",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           totp_code: "111111",
@@ -164,7 +163,7 @@ describe("totps.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps/authenticate",
+        path: "/v1/totps/authenticate",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           totp_code: "111111",
@@ -214,7 +213,7 @@ describe("totps.recovery_codes", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps/recovery_codes",
+        path: "/v1/totps/recovery_codes",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
         },
@@ -282,7 +281,7 @@ describe("totp.recover", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps/recover",
+        path: "/v1/totps/recover",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           recovery_code: "1111-1111-1111",
@@ -315,7 +314,7 @@ describe("totp.recover", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "totps/recover",
+        path: "/v1/totps/recover",
         data: {
           user_id: "user-test-d5a3b680-e8a3-40c0-b815-ab79986666d0",
           recovery_code: "1111-1111-1111",

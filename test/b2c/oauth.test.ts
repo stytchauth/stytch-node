@@ -3,7 +3,6 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 (request as jest.Mock).mockImplementation((_, config) => {
   return Promise.resolve({
@@ -18,9 +17,11 @@ const oauth = new OAuth(MOCK_FETCH_CONFIG);
 
 describe("oauth.authenticate", () => {
   test("session", () => {
-    return expect(oauth.authenticate("fake-token")).resolves.toMatchObject({
+    return expect(
+      oauth.authenticate({ token: "fake-token" })
+    ).resolves.toMatchObject({
       method: "POST",
-      path: "oauth/authenticate",
+      path: "/v1/oauth/authenticate",
       data: {
         token: "fake-token",
       },

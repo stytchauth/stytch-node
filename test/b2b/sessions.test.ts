@@ -17,7 +17,7 @@ describe("sessions.get", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions",
+        path: "/v1/b2b/sessions",
         params: {
           organization_id:
             "organization-test-11111111-1111-4111-8111-111111111111",
@@ -70,7 +70,7 @@ describe("sessions.authenticate", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/b2b/sessions/authenticate",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
           session_duration_minutes: 60,
@@ -114,7 +114,7 @@ describe("sessions.revoke", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/revoke",
+        path: "/v1/b2b/sessions/revoke",
         data: {
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         },
@@ -139,7 +139,7 @@ describe("sessions.exchange", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/exchange",
+        path: "/v1/b2b/sessions/exchange",
         data: {
           organization_id: "organization-id-1234",
           session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -159,12 +159,13 @@ describe("sessions.exchange", () => {
   });
 });
 
-describe("sessions.jwks", () => {
+describe("sessions.getJWKS", () => {
   test("success", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "GET",
-        path: "sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        path: "/v1/b2b/sessions/jwks/project-test-11111111-1111-4111-8111-111111111111",
+        params: {},
       });
 
       return { status: 200, data: {} };
@@ -172,7 +173,9 @@ describe("sessions.jwks", () => {
     const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
 
     return expect(
-      sessions.jwks("project-test-11111111-1111-4111-8111-111111111111")
+      sessions.getJWKS({
+        project_id: "project-test-11111111-1111-4111-8111-111111111111",
+      })
     ).resolves.toEqual({ status: 200 });
   });
 });
@@ -182,7 +185,7 @@ describe("sessions.authenticateJwt", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "POST",
-        path: "sessions/authenticate",
+        path: "/v1/b2b/sessions/authenticate",
         data: {
           session_jwt: "stale_jwt",
         },
