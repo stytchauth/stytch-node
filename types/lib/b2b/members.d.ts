@@ -9,7 +9,7 @@ export interface B2BMemberCreateRequest {
     untrusted_metadata?: Record<string, any>;
     create_member_as_pending?: boolean;
     is_breakglass?: boolean;
-    phone_number?: string;
+    mfa_phone_number?: string;
     mfa_enrolled?: boolean;
 }
 export declare type B2BMemberCreateResponse = ResponseWithMember;
@@ -26,7 +26,7 @@ export interface B2BMemberUpdateRequest {
     trusted_metadata?: Record<string, any>;
     untrusted_metadata?: Record<string, any>;
     is_breakglass?: boolean;
-    phone_number?: string;
+    mfa_phone_number?: string;
     mfa_enrolled?: boolean;
 }
 export declare type B2BMemberUpdateResponse = ResponseWithMember;
