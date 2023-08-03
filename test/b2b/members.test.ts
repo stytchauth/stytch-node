@@ -18,6 +18,7 @@ describe("members.create", () => {
           create_member_as_pending: true,
           is_breakglass: false,
           mfa_enrolled: true,
+          mfa_phone_number: "+1234567890",
         },
       });
 
@@ -36,6 +37,7 @@ describe("members.create", () => {
         create_member_as_pending: true,
         is_breakglass: false,
         mfa_enrolled: true,
+        mfa_phone_number: "+1234567890",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
@@ -90,6 +92,7 @@ describe("members.update", () => {
           name: "new name",
           is_breakglass: true,
           mfa_enrolled: true,
+          mfa_phone_number: "+1234567890",
         },
       });
 
@@ -108,6 +111,7 @@ describe("members.update", () => {
         name: "new name",
         is_breakglass: true,
         mfa_enrolled: true,
+        mfa_phone_number: "+1234567890",
       })
     ).resolves.toMatchObject({
       request_id: "request-id-test-55555555-5555-4555-8555-555555555555",
