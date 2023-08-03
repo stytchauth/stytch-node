@@ -215,16 +215,8 @@ describe("members.deletePhoneNumber", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "DELETE",
-<<<<<<< HEAD
-<<<<<<< HEAD
-        path: "organizations/organization-id-1234/members/mfa_phone_numbers/member-id-1234",
-=======
-        path: "organizations/organization-id-1234/members/phone_numbers/member-id-1234",
-=======
-        path: "/v1/b2b/organizations/organization-id-1234/members/phone_numbers/member-id-1234",
->>>>>>> 27b5560 (Update docs)
+        path: "/v1/b2b/organizations/organization-id-1234/members/mfa_phone_numbers/member-id-1234",
         data: {},
->>>>>>> 473fa55 (Generate stytch-node completely from API definitions + docs)
       });
 
       const data = {
@@ -236,7 +228,7 @@ describe("members.deletePhoneNumber", () => {
     });
 
     return expect(
-      members.deletePhoneNumber({
+      members.deleteMFAPhoneNumber({
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
       })

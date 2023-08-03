@@ -31,12 +31,9 @@ export interface Member {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  /**
-   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
-   */
+  // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The email address of the Member.
+  // The email address.
   email_address: string;
   // The status of the Member. The possible values are: `pending`, `invited`, `active`, or `deleted`.
   status: string;

@@ -18,10 +18,6 @@ export interface Member {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
-    /**
-     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
-     */
     member_id: string;
     email_address: string;
     status: string;

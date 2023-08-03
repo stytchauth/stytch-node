@@ -35,7 +35,7 @@ class Members {
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
         is_breakglass: data.is_breakglass,
-        phone_number: data.phone_number,
+        mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled
       }
     });
@@ -58,19 +58,18 @@ class Members {
     });
   }
   /**
-   * Delete a Member's phone number.
-   * @param data {@link B2BOrganizationsMembersDeletePhoneNumberRequest}
-   * @returns {@link B2BOrganizationsMembersDeletePhoneNumberResponse}
+   * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
+   * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
 
 
-  deletePhoneNumber(data) {
+  deleteMFAPhoneNumber(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/phone_numbers/${data.member_id}`,
+      url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
       data: {}
     });
   }
@@ -132,7 +131,7 @@ class Members {
         untrusted_metadata: data.untrusted_metadata,
         create_member_as_pending: data.create_member_as_pending,
         is_breakglass: data.is_breakglass,
-        phone_number: data.phone_number,
+        mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled
       }
     });

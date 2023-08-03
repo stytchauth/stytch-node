@@ -24,6 +24,13 @@ class Sms {
    * not match the existing one.
    *
    * Note that sending another OTP code before the first has expired will invalidate the first code.
+   *
+   * If a Member has a phone number and is enrolled in MFA, then after a successful primary authentication
+   * event (e.g. [email magic link](https://stytch.com/docs/b2b/api/authenticate-magic-link) or
+   * [SSO](https://stytch.com/docs/b2b/api/sso-authenticate) login is complete), an SMS OTP will
+   * automatically be sent to their phone number. In that case, this endpoint should only be used for
+   * subsequent authentication events, such as prompting a Member for an OTP again after a period of
+   * inactivity.
    * @param data {@link B2BOTPSmsSendRequest}
    * @returns {@link B2BOTPSmsSendResponse}
    * @async

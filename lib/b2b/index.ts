@@ -33,10 +33,10 @@ export type {
 export type {
   B2BOrganizationsMembersCreateRequest,
   B2BOrganizationsMembersCreateResponse,
+  B2BOrganizationsMembersDeleteMFAPhoneNumberRequest,
+  B2BOrganizationsMembersDeleteMFAPhoneNumberResponse,
   B2BOrganizationsMembersDeletePasswordRequest,
   B2BOrganizationsMembersDeletePasswordResponse,
-  B2BOrganizationsMembersDeletePhoneNumberRequest,
-  B2BOrganizationsMembersDeletePhoneNumberResponse,
   B2BOrganizationsMembersDeleteRequest,
   B2BOrganizationsMembersDeleteResponse,
   B2BOrganizationsMembersGetRequest,
