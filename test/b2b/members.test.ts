@@ -218,7 +218,7 @@ describe("members.deletePhoneNumber", () => {
     mockRequest((req) => {
       expect(req).toEqual({
         method: "DELETE",
-        path: "organizations/organization-id-1234/members/phone_numbers/member-id-1234",
+        path: "organizations/organization-id-1234/members/mfa_phone_numbers/member-id-1234",
       });
 
       const data = {

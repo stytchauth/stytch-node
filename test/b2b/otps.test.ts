@@ -24,7 +24,7 @@ describe("otps.sms.send", () => {
       otps.sms.send({
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
-        phone_number: "555-555-5555",
+        mfa_phone_number: "555-555-5555",
         locale: "es",
       })
     ).resolves.toMatchObject({
@@ -33,7 +33,7 @@ describe("otps.sms.send", () => {
       data: {
         organization_id: "organization-id-1234",
         member_id: "member-id-1234",
-        phone_number: "555-555-5555",
+        mfa_phone_number: "555-555-5555",
         locale: "es",
       },
     });

@@ -1,5 +1,5 @@
 export interface MemberOptions {
-  phone_number: string;
+  mfa_phone_number: string;
 }
 
 export interface MfaRequired {

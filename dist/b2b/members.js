@@ -56,7 +56,7 @@ class Members {
   deletePhoneNumber(data) {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `${this.base_path}/${data.organization_id}/members/phone_numbers/${data.member_id}`
+      url: `${this.base_path}/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`
     });
   }
 

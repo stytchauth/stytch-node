@@ -4,7 +4,7 @@ import { fetchConfig, request } from "../shared";
 export interface B2BOTPsSMSSendRequest {
   organization_id: string;
   member_id: string;
-  phone_number?: string;
+  mfa_phone_number?: string;
   locale?: "en" | "es" | "pt-br" | string;
 }
 
