@@ -13,7 +13,7 @@ export type {
   TokenRequest,
   TokenResponse,
   M2MSearchQueryOperand,
-} from "./m2m"
+} from "./m2m";
 // ENDMANUAL(exports)
 
 export type { Attributes } from "./attribute";

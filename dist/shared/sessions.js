@@ -63,7 +63,6 @@ async function authenticateJwtLocal(jwksClient, jwtOptions, jwt, options) {
     sub: _sub,
 
     /* eslint-enable @typescript-eslint/no-unused-vars */
-    [sessionClaim]: stytchClaim,
     ...customClaims
   } = payload;
   return {
