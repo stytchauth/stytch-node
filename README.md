@@ -46,6 +46,10 @@ This client library supports all of Stytch's live products:
 - [x] [Discovery](https://stytch.com/docs/b2b/api/discovered-organization-object)
 - [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-authenticate)
 
+**Shared**
+
+- [x] [M2M](https://stytch.com/docs/api/m2m-client)
+
 ### Example B2C usage
 
 Create an API client:

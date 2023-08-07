@@ -6,6 +6,14 @@
 
 // MANUAL(exports)(TYPES)
 export type { SearchUsersQueryOperand } from "./users";
+
+export type {
+  AuthenticateTokenRequest,
+  AuthenticateTokenResponse,
+  TokenRequest,
+  TokenResponse,
+  M2MSearchQueryOperand,
+} from "./m2m"
 // ENDMANUAL(exports)
 
 export type { Attributes } from "./attribute";
