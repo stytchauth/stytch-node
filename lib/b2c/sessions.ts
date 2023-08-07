@@ -4,12 +4,13 @@
 // or your changes may be overwritten later!
 // !!!
 
-import * as jose from "jose";
-import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { User } from "./users";
+
+import * as jose from "jose";
+import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
 export interface AmazonOAuthFactor {
   id: string;
@@ -544,6 +545,8 @@ export class Sessions {
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
+  // ADDIMPORT: import * as jose from "jose";
+  // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -592,7 +595,7 @@ export class Sessions {
       current_date?: Date;
     }
   ): Promise<Session> {
-    const sess = await authenticateJwtLocal(
+    const sess = await authenticateSessionJwtLocal(
       this.jwksClient,
       this.jwtOptions,
       jwt,

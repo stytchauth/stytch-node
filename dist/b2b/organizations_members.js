@@ -58,6 +58,7 @@ class Members {
     });
   }
   /**
+   * Delete a Member's MFA phone number.
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async

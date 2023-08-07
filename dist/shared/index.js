@@ -26,9 +26,10 @@ async function request(fetchConfig, requestConfig) {
   let response;
 
   try {
+    const body = requestConfig.data ? JSON.stringify(requestConfig.data) : requestConfig.dataRaw;
     response = await fetch(url.toString(), {
       method: requestConfig.method,
-      body: JSON.stringify(requestConfig.data),
+      body: body,
       ...fetchConfig
     });
   } catch (e) {

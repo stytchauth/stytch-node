@@ -1,6 +1,7 @@
 import * as stytch from "../../lib";
 import * as https from "https";
 import * as dns from "dns";
+import { M2MClientWithClientSecret } from "../../lib";
 
 function env(name: string): string {
   const val = process.env[name];
@@ -200,6 +201,51 @@ describeIf(
           expect.anything(),
           expect.anything()
         );
+      });
+    });
+
+    describe("m2m operations", () => {
+      let m2m_client: M2MClientWithClientSecret;
+
+      beforeAll(async () => {
+        ({ m2m_client } = await client.m2m.clients.create({
+          scopes: ["read:users", "write:users", "pet:cats"],
+        }));
+      });
+
+      afterAll(async () => {
+        await client.m2m.clients.delete({ client_id: m2m_client.client_id });
+      });
+
+      it("Can read the client", async () => {
+        const { m2m_client: get_response } = await client.m2m.clients.get({
+          client_id: m2m_client.client_id,
+        });
+        expect(m2m_client).toMatchObject(get_response);
+      });
+
+      it("Can retrieve a token for the client and validate it locally", async () => {
+        const { access_token } = await client.m2m.token({
+          client_id: m2m_client.client_id,
+          client_secret: m2m_client.client_secret,
+        });
+
+        const { scopes } = await client.m2m.authenticateToken({ access_token });
+        expect(scopes).toEqual(
+          expect.arrayContaining(["read:users", "write:users", "pet:cats"])
+        );
+
+        await client.m2m.authenticateToken({
+          access_token,
+          required_scopes: ["pet:cats"],
+        });
+
+        await expect(
+          client.m2m.authenticateToken({
+            access_token,
+            required_scopes: ["pet:dogs"],
+          })
+        ).rejects.toThrow("Missing required scopes");
       });
     });
   }

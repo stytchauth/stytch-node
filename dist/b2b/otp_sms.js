@@ -19,9 +19,9 @@ class Sms {
   /**
    * Send a one-time passcode (OTP) to a Member's phone number. If the Member already has a phone number,
    * this will send an OTP to the number associated with their `member_id`. If not, then this will send an
-   * OTP to the `phone_number` provided and link the `phone_number` with the Member.
-   * An error will be thrown if the Member already has a phone number and the provided `phone_number` does
-   * not match the existing one.
+   * OTP to the `mfa_phone_number` provided and link the `mfa_phone_number` with the Member.
+   * An error will be thrown if the Member already has a phone number and the provided `mfa_phone_number`
+   * does not match the existing one.
    *
    * Note that sending another OTP code before the first has expired will invalidate the first code.
    *

@@ -4,13 +4,14 @@
 // or your changes may be overwritten later!
 // !!!
 
-import * as jose from "jose";
-import { authenticateJwtLocal, JwtConfig } from "../shared/sessions";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
+
+import * as jose from "jose";
+import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
 export interface MemberSession {
   // Globally unique UUID that identifies a specific Session.
@@ -425,6 +426,8 @@ export class Sessions {
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
+  // ADDIMPORT: import * as jose from "jose";
+  // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -473,7 +476,7 @@ export class Sessions {
       current_date?: Date;
     }
   ): Promise<MemberSession> {
-    const sess = await authenticateJwtLocal(
+    const sess = await authenticateSessionJwtLocal(
       this.jwksClient,
       this.jwtOptions,
       jwt,

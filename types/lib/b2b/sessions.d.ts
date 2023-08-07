@@ -1,8 +1,8 @@
-import { JwtConfig } from "../shared/sessions";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
+import { JwtConfig } from "../shared/sessions";
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
