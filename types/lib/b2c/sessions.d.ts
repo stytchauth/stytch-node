@@ -1,7 +1,7 @@
-import { JwtConfig } from "../shared/sessions";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { User } from "./users";
+import { JwtConfig } from "../shared/sessions";
 export interface AmazonOAuthFactor {
     id: string;
     email_id: string;

@@ -5,6 +5,7 @@
 // !!!
 
 export interface MemberOptions {
+  // The Member's MFA phone number.
   mfa_phone_number: string;
 }
 

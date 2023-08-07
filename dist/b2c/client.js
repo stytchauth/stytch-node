@@ -11,6 +11,8 @@ var _client = require("../shared/client");
 
 var _crypto_wallets = require("./crypto_wallets");
 
+var _m2m = require("./m2m");
+
 var _magic_links = require("./magic_links");
 
 var _oauth = require("./oauth");
@@ -41,6 +43,7 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
+    this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otps.OTPs(this.fetchConfig);

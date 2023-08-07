@@ -106,6 +106,36 @@ export type {
 } from "./crypto_wallets";
 
 export type {
+  M2MClient,
+  M2MClientWithClientSecret,
+  M2MClientWithNextClientSecret,
+  M2MSearchQuery,
+  M2MResultsMetadata,
+} from "./m2m";
+
+export type {
+  M2MClientsCreateRequest,
+  M2MClientsCreateResponse,
+  M2MClientsDeleteRequest,
+  M2MClientsDeleteResponse,
+  M2MClientsGetRequest,
+  M2MClientsGetResponse,
+  M2MClientsSearchRequest,
+  M2MClientsSearchResponse,
+  M2MClientsUpdateRequest,
+  M2MClientsUpdateResponse,
+} from "./m2m_clients";
+
+export type {
+  M2MClientsSecretsRotateCancelRequest,
+  M2MClientsSecretsRotateCancelResponse,
+  M2MClientsSecretsRotateRequest,
+  M2MClientsSecretsRotateResponse,
+  M2MClientsSecretsRotateStartRequest,
+  M2MClientsSecretsRotateStartResponse,
+} from "./m2m_clients_secrets";
+
+export type {
   Options,
   MagicLinksAuthenticateRequest,
   MagicLinksAuthenticateResponse,
