@@ -9,12 +9,12 @@ export interface M2MClientsSecretsRotateCancelResponse {
      * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
      */
     request_id: string;
+    m2m_client: M2MClient;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    m2m_client?: M2MClient;
 }
 export interface M2MClientsSecretsRotateRequest {
     client_id: string;
@@ -25,12 +25,12 @@ export interface M2MClientsSecretsRotateResponse {
      * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
      */
     request_id: string;
+    m2m_client: M2MClient;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    m2m_client?: M2MClient;
 }
 export interface M2MClientsSecretsRotateStartRequest {
     client_id: string;
@@ -41,12 +41,12 @@ export interface M2MClientsSecretsRotateStartResponse {
      * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
      */
     request_id: string;
+    m2m_client: M2MClientWithNextClientSecret;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    m2m_client?: M2MClientWithNextClientSecret;
 }
 export declare class Secrets {
     private fetchConfig;

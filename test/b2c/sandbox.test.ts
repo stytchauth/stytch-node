@@ -1,6 +1,7 @@
 import * as stytch from "../../lib";
 import * as https from "https";
 import * as dns from "dns";
+import { M2MClientWithClientSecret } from "../../lib";
 
 function env(name: string): string {
   const val = process.env[name];
@@ -41,7 +42,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -55,10 +56,10 @@ describeIf(
             expect(err.status_code).toEqual(401);
             expect(err.error_type).toEqual("unable_to_auth_magic_link");
             expect(err.error_message).toEqual(
-              "The magic link could not be authenticated because it was either already used or expired. Send another magic link to this user."
+              "The magic link could not be authenticated because it was either already used or expired. Send another magic link to this user.",
             );
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/401#unable_to_auth_magic_link"
+              "https://stytch.com/docs/api/errors/401#unable_to_auth_magic_link",
             );
           });
       });
@@ -72,10 +73,10 @@ describeIf(
             expect(err.status_code).toEqual(404);
             expect(err.error_type).toEqual("magic_link_not_found");
             expect(err.error_message).toEqual(
-              "The magic link could not be authenticated, try sending another magic link to the user."
+              "The magic link could not be authenticated, try sending another magic link to the user.",
             );
             expect(err.error_url).toEqual(
-              "https://stytch.com/docs/api/errors/404#magic_link_not_found"
+              "https://stytch.com/docs/api/errors/404#magic_link_not_found",
             );
           });
       });
@@ -92,7 +93,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -109,7 +110,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -125,7 +126,7 @@ describeIf(
           .then((res) => {
             expect(res.status_code).toEqual(200);
             expect(res.user_id).toEqual(
-              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd"
+              "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
             );
           });
       });
@@ -154,7 +155,7 @@ describeIf(
         await expect(
           client.sessions.authenticate({
             session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
-          })
+          }),
         ).resolves.toMatchObject({
           status_code: 200,
           session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
@@ -169,7 +170,7 @@ describeIf(
         return expect(
           client.sessions.authenticate({
             session_token: "59cnLELtq5cFVS6uYK9f-pAWzBkhqZl8AvLhbhOvKNWw",
-          })
+          }),
         ).rejects.toMatchObject({
           status_code: 404,
           error_type: "session_not_found",
@@ -179,7 +180,7 @@ describeIf(
       test("Using a custom agent", async () => {
         const lookupSpy = jest.spyOn(
           dns,
-          "lookup"
+          "lookup",
         ) as unknown as typeof dns.lookup;
         const agent = new https.Agent({
           lookup: lookupSpy,
@@ -198,9 +199,50 @@ describeIf(
         expect(lookupSpy).toHaveBeenCalledWith(
           "test.stytch.com",
           expect.anything(),
-          expect.anything()
+          expect.anything(),
         );
       });
     });
-  }
+  },
 );
+
+describe("M2M Client Operations", () => {
+  const client = new stytch.Client({
+    project_id: env("PROJECT_ID"),
+    secret: env("SECRET"),
+  });
+
+  let m2m_client: M2MClientWithClientSecret;
+
+  beforeAll(async () => {
+    ({ m2m_client } = await client.m2m.clients.create({
+      scopes: ["read:users", "write:users", "pet:cats"],
+    }));
+  });
+
+  afterAll(async () => {
+    await client.m2m.clients.delete({ client_id: m2m_client.client_id });
+  });
+
+  it("Can read the client", async () => {
+    const { m2m_client: get_response } = await client.m2m.clients.get({ client_id: m2m_client.client_id });
+    expect(m2m_client).toMatchObject(get_response);
+  });
+
+  it("Can retrieve a token for the client and validate it locally", async () => {
+    const { access_token } = await client.m2m.token({
+      client_id: m2m_client.client_id,
+      client_secret: m2m_client.client_secret,
+    });
+
+    const { scopes } = await client.m2m.authenticateToken({ access_token });
+    expect(scopes).toEqual(expect.arrayContaining(["read:users", "write:users", "pet:cats"]));
+
+    await client.m2m.authenticateToken({ access_token, required_scopes: ["pet:cats"] });
+
+    await expect(client.m2m.authenticateToken({
+      access_token,
+      required_scopes: ["pet:dogs"],
+    })).rejects.toThrow("Missing required scopes");
+  });
+});

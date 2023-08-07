@@ -23,10 +23,10 @@ async function request(fetchConfig, requestConfig) {
     Object.entries(requestConfig.params).forEach(([key, value]) => url.searchParams.append(key, String(value)));
   }
 
-  const body = requestConfig.data ? JSON.stringify(requestConfig.data) : requestConfig.dataRaw;
   let response;
 
   try {
+    const body = requestConfig.data ? JSON.stringify(requestConfig.data) : requestConfig.dataRaw;
     response = await fetch(url.toString(), {
       method: requestConfig.method,
       body: body,

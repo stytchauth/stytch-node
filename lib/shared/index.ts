@@ -33,8 +33,6 @@ export async function request<T>(
     );
   }
 
-
-
   let response: Response;
   try {
     const body: BodyInit | undefined = requestConfig.data

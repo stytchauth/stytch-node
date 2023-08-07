@@ -47,13 +47,13 @@ export interface M2MClientsCreateResponse {
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
+  // The M2M Client created by this API call.
+  m2m_client: M2MClientWithClientSecret;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  // The M2M Client created by this API call.
-  m2m_client?: M2MClientWithClientSecret;
 }
 
 // Request type for `m2m.clients.delete`.
@@ -91,13 +91,13 @@ export interface M2MClientsGetResponse {
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
+  // The M2M Client affected by this operation.
+  m2m_client: M2MClient;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  // The M2M Client affected by this operation.
-  m2m_client?: M2MClient;
 }
 
 // Request type for `m2m.clients.search`.
@@ -171,13 +171,13 @@ export interface M2MClientsUpdateResponse {
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
+  // The M2M Client affected by this operation.
+  m2m_client: M2MClient;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  // The M2M Client affected by this operation.
-  m2m_client?: M2MClient;
 }
 
 export class Clients {
