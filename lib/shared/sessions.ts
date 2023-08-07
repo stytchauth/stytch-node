@@ -87,8 +87,6 @@ export async function authenticateJwtLocal(
     nbf: _nbf,
     sub: _sub,
     /* eslint-enable @typescript-eslint/no-unused-vars */
-
-    [sessionClaim]: stytchClaim,
     ...customClaims
   } = payload;
 
