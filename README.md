@@ -62,7 +62,6 @@ const stytch = require("stytch");
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-  env: stytch.envs.test,
 });
 ```
 
@@ -83,7 +82,7 @@ Authenticate the token from the magic link:
 
 ```javascript
 client.magicLinks
-  .authenticate("DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=")
+  .authenticate({ token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=" })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
@@ -100,7 +99,6 @@ const stytch = require("stytch");
 const client = new stytch.B2BClient({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-  env: stytch.envs.test,
 });
 ```
 
@@ -143,7 +141,7 @@ Stytch errors always include an `error_type` field you can use to identify them:
 
 ```javascript
 client.magicLinks
-  .authenticate("not-a-token!")
+  .authenticate({ token: "not-a-token!" })
   .then((res) => console.log(res))
   .catch((err) => {
     if (err.error_type === "invalid_token") {
@@ -167,7 +165,6 @@ const agent = new https.Agent({
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-  env: stytch.envs.test,
   agent,
 });
 ```
