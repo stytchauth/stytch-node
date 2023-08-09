@@ -66,8 +66,8 @@ class SSO {
    * To link this authentication event to an existing Stytch session, include either the `session_token` or
    * `session_jwt` param.
    *
-   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
    * MFA step and acquire a full member session.

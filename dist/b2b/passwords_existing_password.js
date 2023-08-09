@@ -28,8 +28,8 @@ class ExistingPassword {
    * You may update your password strength configuration in the
    * [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
    *
-   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
    * MFA step and acquire a full member session.

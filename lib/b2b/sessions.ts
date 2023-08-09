@@ -95,7 +95,10 @@ export interface B2BSessionsAuthenticateResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -145,9 +148,9 @@ export interface B2BSessionsExchangeRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
-   * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
-   * argument will be used to determine which language to use when sending the passcode.
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+   * used to determine which language to use when sending the passcode.
    *
    * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
    * e.g. `"en"`.
@@ -177,7 +180,10 @@ export interface B2BSessionsExchangeResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -204,10 +210,7 @@ export interface B2BSessionsExchangeResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-   * fulfilling MFA.
-   */
+  // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
 }
 
@@ -381,8 +384,8 @@ export class Sessions {
    * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
    * and target Member have the same phone number and the phone number is verified for both Members.
    *
-   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-   * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
    * MFA step and acquire a full member session.

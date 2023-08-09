@@ -48,12 +48,12 @@ export interface B2BOrganizationsMembersCreateRequest {
    * more details.
    */
   is_breakglass?: boolean;
-  // (Coming Soon) The Member's phone number. A Member may only have one phone number.
+  // The Member's phone number. A Member may only have one phone number.
   mfa_phone_number?: string;
   /**
-   * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
-   * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
-   * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled?: boolean;
 }
@@ -67,7 +67,10 @@ export interface B2BOrganizationsMembersCreateResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -101,7 +104,10 @@ export interface B2BOrganizationsMembersDeleteMFAPhoneNumberResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -132,7 +138,10 @@ export interface B2BOrganizationsMembersDeletePasswordResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -198,7 +207,10 @@ export interface B2BOrganizationsMembersGetResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -294,16 +306,16 @@ export interface B2BOrganizationsMembersUpdateRequest {
    */
   is_breakglass?: boolean;
   /**
-   * (Coming Soon) Sets the Member's phone number. Throws an error if the Member already has a phone number.
-   * To change the Member's phone number, use the
+   * Sets the Member's phone number. Throws an error if the Member already has a phone number. To change the
+   * Member's phone number, use the
    * [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-mfa-phone-number) to
    * delete the Member's existing phone number first.
    */
   mfa_phone_number?: string;
   /**
-   * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
-   * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
-   * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled?: boolean;
 }
@@ -317,7 +329,10 @@ export interface B2BOrganizationsMembersUpdateResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -380,6 +395,15 @@ export class Members {
 
   /**
    * Delete a Member's MFA phone number.
+   *
+   * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
+   *
+   * Existing Member Sessions that include a phone number authentication factor will not be revoked if the
+   * phone number is deleted, and MFA will not be enforced until the Member logs in again.
+   * If you wish to enforce MFA immediately after a phone number is deleted, you can do so by prompting the
+   * Member to enter a new phone number
+   * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
+   * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async

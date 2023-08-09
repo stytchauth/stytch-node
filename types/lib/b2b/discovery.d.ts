@@ -13,10 +13,6 @@ export interface DiscoveredOrganization {
     organization?: Organization;
     membership?: Membership;
     primary_required?: PrimaryRequired;
-    /**
-     * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-     * fulfilling MFA.
-     */
     mfa_required?: MfaRequired;
 }
 export interface Membership {

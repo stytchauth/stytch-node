@@ -58,9 +58,9 @@ export interface B2BDiscoveryIntermediateSessionsExchangeRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
-   * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
-   * argument will be used to determine which language to use when sending the passcode.
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+   * used to determine which language to use when sending the passcode.
    *
    * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
    * e.g. `"en"`.
@@ -88,7 +88,10 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -117,10 +120,7 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
-  /**
-   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-   * fulfilling MFA.
-   */
+  // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
 }
 
@@ -139,8 +139,8 @@ export class IntermediateSessions {
    *
    * This endpoint can be used to accept invites and create new members via domain matching.
    *
-   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-   * value of `member_authenticated` will be `false`.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`.
    * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
