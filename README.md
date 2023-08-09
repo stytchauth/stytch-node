@@ -82,7 +82,7 @@ Authenticate the token from the magic link:
 
 ```javascript
 client.magicLinks
-  .authenticate({token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94="})
+  .authenticate({ token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=" })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
@@ -141,7 +141,7 @@ Stytch errors always include an `error_type` field you can use to identify them:
 
 ```javascript
 client.magicLinks
-  .authenticate({token: "not-a-token!"})
+  .authenticate({ token: "not-a-token!" })
   .then((res) => console.log(res))
   .catch((err) => {
     if (err.error_type === "invalid_token") {
