@@ -140,8 +140,7 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   allowed_auth_methods?: string[];
   /**
-   * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
-   * values are:
+   * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
    *
    *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
    * they wish to log in.
@@ -166,7 +165,10 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   /**
    * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
@@ -195,10 +197,7 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   member_session?: MemberSession;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization?: Organization;
-  /**
-   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-   * fulfilling MFA.
-   */
+  // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
 }
 
@@ -282,8 +281,8 @@ export class Organizations {
    *
    * This endpoint can also be used to start an initial session for the newly created member and organization.
    *
-   * (Coming Soon) If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly
-   * created Member will need to complete an MFA step to log in to the Organization.
+   * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member
+   * will need to complete an MFA step to log in to the Organization.
    * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the

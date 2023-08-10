@@ -24,8 +24,8 @@ class IntermediateSessions {
    *
    * This endpoint can be used to accept invites and create new members via domain matching.
    *
-   * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-   * value of `member_authenticated` will be `false`.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`.
    * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the

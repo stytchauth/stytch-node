@@ -53,9 +53,9 @@ export interface B2BOAuthAuthenticateRequest {
     session_custom_claims?: Record<string, any>;
     pkce_code_verifier?: string;
     /**
-     * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
-     * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
-     * argument will be used to determine which language to use when sending the passcode.
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+     * used to determine which language to use when sending the passcode.
      *
      * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
      * e.g. `"en"`.
@@ -88,6 +88,10 @@ export interface B2BOAuthAuthenticateResponse {
     provider_type: string;
     session_token: string;
     session_jwt: string;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -129,10 +133,6 @@ export interface B2BOAuthAuthenticateResponse {
      * returned by Microsoft.
      */
     provider_values?: B2BOAuthProviderValues;
-    /**
-     * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-     * fulfilling MFA.
-     */
     mfa_required?: MfaRequired;
 }
 export declare class OAuth {
@@ -145,8 +145,8 @@ export declare class OAuth {
      * parameter to set the lifetime of the session. If the `session_duration_minutes` parameter is not
      * specified, a Stytch session will be created with a 60 minute duration.
      *
-     * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-     * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+     * If the Member is required to complete MFA to log in to the Organization, the returned value of
+     * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
      * The `intermediate_session_token` can be passed into the
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
      * MFA step and acquire a full member session.

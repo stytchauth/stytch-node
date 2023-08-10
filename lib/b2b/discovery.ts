@@ -21,12 +21,9 @@ export interface DiscoveredOrganization {
   organization?: Organization;
   // Information about the membership.
   membership?: Membership;
-  // (Coming Soon) Information about the primary authentication requirements of the Organization.
+  // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
-  /**
-   * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-   * fulfilling MFA.
-   */
+  // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
 }
 
