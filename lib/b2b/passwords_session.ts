@@ -33,7 +33,10 @@ export interface B2BPasswordsSessionResetResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object).
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;

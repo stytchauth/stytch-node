@@ -26,8 +26,8 @@ class Organizations {
    *
    * This endpoint can also be used to start an initial session for the newly created member and organization.
    *
-   * (Coming Soon) If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly
-   * created Member will need to complete an MFA step to log in to the Organization.
+   * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member
+   * will need to complete an MFA step to log in to the Organization.
    * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the

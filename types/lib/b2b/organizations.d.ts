@@ -18,6 +18,10 @@ export interface Member {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id: string;
     email_address: string;
     status: string;
@@ -37,10 +41,12 @@ export interface Member {
     is_breakglass: boolean;
     member_password_id: string;
     oauth_registrations: OAuthRegistration[];
+    email_address_verified: boolean;
+    mfa_phone_number_verified: boolean;
     /**
-     * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
-     * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
-     * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+     * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+     * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+     * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled: boolean;
     mfa_phone_number: string;
@@ -260,8 +266,7 @@ export interface B2BOrganizationsCreateRequest {
      */
     allowed_auth_methods?: string[];
     /**
-     * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
-     * values are:
+     * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
      *
      *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
      * they wish to log in.
@@ -458,8 +463,7 @@ export interface B2BOrganizationsUpdateRequest {
      */
     allowed_auth_methods?: string[];
     /**
-     * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
-     * values are:
+     * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
      *
      *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
      * they wish to log in.

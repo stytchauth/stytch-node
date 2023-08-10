@@ -31,9 +31,12 @@ export interface Member {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // Globally unique UUID that identifies a specific Member.
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
   member_id: string;
-  // The email address.
+  // The email address of the Member.
   email_address: string;
   // The status of the Member. The possible values are: `pending`, `invited`, `active`, or `deleted`.
   status: string;
@@ -56,13 +59,17 @@ export interface Member {
   member_password_id: string;
   // A list of OAuth registrations for this member.
   oauth_registrations: OAuthRegistration[];
+  // Whether or not the Member's email address is verified.
+  email_address_verified: boolean;
+  // Whether or not the Member's phone number is verified.
+  mfa_phone_number_verified: boolean;
   /**
-   * (Coming Soon) Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
-   * whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
-   * step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled: boolean;
-  // (Coming Soon) The Member's phone number. A Member may only have one phone number.
+  // The Member's phone number. A Member may only have one phone number.
   mfa_phone_number: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -301,8 +308,7 @@ export interface B2BOrganizationsCreateRequest {
    */
   allowed_auth_methods?: string[];
   /**
-   * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
-   * values are:
+   * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
    *
    *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
    * they wish to log in.
@@ -522,8 +528,7 @@ export interface B2BOrganizationsUpdateRequest {
    */
   allowed_auth_methods?: string[];
   /**
-   * (Coming Soon) The setting that controls the MFA policy for all Members in the Organization. The accepted
-   * values are:
+   * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
    *
    *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
    * they wish to log in.

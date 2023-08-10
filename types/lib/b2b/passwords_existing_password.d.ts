@@ -41,9 +41,9 @@ export interface B2BPasswordsExistingPasswordResetRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * (Coming Soon) If the Member needs to complete an MFA step, and the Member has a phone number, this
-     * endpoint will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale
-     * argument will be used to determine which language to use when sending the passcode.
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+     * used to determine which language to use when sending the passcode.
      *
      * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
      * e.g. `"en"`.
@@ -64,6 +64,10 @@ export interface B2BPasswordsExistingPasswordResetResponse {
      */
     request_id: string;
     member_id: string;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     session_token: string;
     session_jwt: string;
@@ -88,10 +92,6 @@ export interface B2BPasswordsExistingPasswordResetResponse {
      */
     status_code: number;
     member_session?: MemberSession;
-    /**
-     * (Coming Soon) Information about the MFA requirements of the Organization and the Member's options for
-     * fulfilling MFA.
-     */
     mfa_required?: MfaRequired;
 }
 export declare class ExistingPassword {
@@ -109,8 +109,8 @@ export declare class ExistingPassword {
      * You may update your password strength configuration in the
      * [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
      *
-     * (Coming Soon) If the Member is required to complete MFA to log in to the Organization, the returned
-     * value of `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+     * If the Member is required to complete MFA to log in to the Organization, the returned value of
+     * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
      * The `intermediate_session_token` can be passed into the
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
      * MFA step and acquire a full member session.
