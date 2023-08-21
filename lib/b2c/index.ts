@@ -51,6 +51,8 @@ export type {
   UsersDeleteTOTPResponse,
   UsersDeleteWebAuthnRegistrationRequest,
   UsersDeleteWebAuthnRegistrationResponse,
+  UsersExchangePrimaryFactorRequest,
+  UsersExchangePrimaryFactorResponse,
   UsersGetRequest,
   UsersGetResponse,
   UsersSearchRequest,

@@ -144,6 +144,25 @@ class Users {
     });
   }
   /**
+   * @param data {@link UsersExchangePrimaryFactorRequest}
+   * @returns {@link UsersExchangePrimaryFactorResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+
+
+  exchangePrimaryFactor(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/users/${data.user_id}/exchange_primary_factor`,
+      data: {
+        email_address: data.email_address,
+        phone_number: data.phone_number
+      }
+    });
+  }
+  /**
    * Delete a User from Stytch.
    * @param data {@link UsersDeleteRequest}
    * @returns {@link UsersDeleteResponse}
