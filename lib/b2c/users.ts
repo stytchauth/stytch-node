@@ -497,6 +497,19 @@ export interface UsersDeleteWebAuthnRegistrationResponse {
   status_code: number;
 }
 
+export interface UsersExchangePrimaryFactorRequest {
+  user_id: string;
+  email_address?: string;
+  phone_number?: string;
+}
+
+export interface UsersExchangePrimaryFactorResponse {
+  request_id: string;
+  user_id: string;
+  user: User;
+  status_code: number;
+}
+
 // Request type for `users.get`.
 export interface UsersGetRequest {
   // The unique ID of a specific User.
@@ -876,6 +889,26 @@ export class Users {
         attributes: data.attributes,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
+      },
+    });
+  }
+
+  /**
+   * @param data {@link UsersExchangePrimaryFactorRequest}
+   * @returns {@link UsersExchangePrimaryFactorResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  exchangePrimaryFactor(
+    data: UsersExchangePrimaryFactorRequest
+  ): Promise<UsersExchangePrimaryFactorResponse> {
+    return request<UsersExchangePrimaryFactorResponse>(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/users/${data.user_id}/exchange_primary_factor`,
+      data: {
+        email_address: data.email_address,
+        phone_number: data.phone_number,
       },
     });
   }

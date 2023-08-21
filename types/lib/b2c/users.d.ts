@@ -382,6 +382,17 @@ export interface UsersDeleteWebAuthnRegistrationResponse {
      */
     status_code: number;
 }
+export interface UsersExchangePrimaryFactorRequest {
+    user_id: string;
+    email_address?: string;
+    phone_number?: string;
+}
+export interface UsersExchangePrimaryFactorResponse {
+    request_id: string;
+    user_id: string;
+    user: User;
+    status_code: number;
+}
 export interface UsersGetRequest {
     user_id: string;
 }
@@ -634,6 +645,14 @@ export declare class Users {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     update(data: UsersUpdateRequest): Promise<UsersUpdateResponse>;
+    /**
+     * @param data {@link UsersExchangePrimaryFactorRequest}
+     * @returns {@link UsersExchangePrimaryFactorResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    exchangePrimaryFactor(data: UsersExchangePrimaryFactorRequest): Promise<UsersExchangePrimaryFactorResponse>;
     /**
      * Delete a User from Stytch.
      * @param data {@link UsersDeleteRequest}
