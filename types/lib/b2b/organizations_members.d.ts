@@ -46,10 +46,6 @@ export interface B2BOrganizationsMembersCreateResponse {
      */
     request_id: string;
     member_id: string;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**
@@ -77,10 +73,6 @@ export interface B2BOrganizationsMembersDeleteMFAPhoneNumberResponse {
      */
     request_id: string;
     member_id: string;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**
@@ -104,10 +96,6 @@ export interface B2BOrganizationsMembersDeletePasswordResponse {
      */
     request_id: string;
     member_id: string;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**
@@ -161,10 +149,33 @@ export interface B2BOrganizationsMembersGetResponse {
      */
     request_id: string;
     member_id: string;
+    member: Member;
+    organization: Organization;
     /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface B2BOrganizationsMembersReactivateRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
+    member_id: string;
+}
+export interface B2BOrganizationsMembersReactivateResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    member_id: string;
     member: Member;
     organization: Organization;
     /**
@@ -269,10 +280,6 @@ export interface B2BOrganizationsMembersUpdateResponse {
      */
     request_id: string;
     member_id: string;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**
@@ -303,6 +310,16 @@ export declare class Members {
      */
     delete(data: B2BOrganizationsMembersDeleteRequest): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
+     * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+     * specified by `organization_id` and `member_id`.
+     * @param data {@link B2BOrganizationsMembersReactivateRequest}
+     * @returns {@link B2BOrganizationsMembersReactivateResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    reactivate(data: B2BOrganizationsMembersReactivateRequest): Promise<B2BOrganizationsMembersReactivateResponse>;
+    /**
      * Delete a Member's MFA phone number.
      *
      * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
@@ -322,7 +339,7 @@ export declare class Members {
     deleteMFAPhoneNumber(data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>;
     /**
      * Search for Members within specified Organizations. An array with at least one `organization_id` is
-     * required. Submitting an empty `query` returns all Members within the specified Organizations.
+     * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
      *
      * *All fuzzy search filters require a minimum of three characters.
      * @param data {@link B2BOrganizationsMembersSearchRequest}

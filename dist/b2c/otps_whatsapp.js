@@ -17,11 +17,16 @@ class Whatsapp {
     this.fetchConfig = fetchConfig;
   }
   /**
-   * Send a one-time passcode (OTP) to a User's WhatsApp. If you'd like to create a user and send them a
+   * Send a One-Time Passcode (OTP) to a User's WhatsApp. If you'd like to create a user and send them a
    * passcode with one request, use our
    * [log in or create](https://stytch.com/docs/api/whatsapp-login-or-create) endpoint.
    *
    * Note that sending another OTP code before the first has expired will invalidate the first code.
+   *
+   * ### Cost to send SMS OTP
+   * Before configuring SMS or WhatsApp OTPs, please review how Stytch
+   * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
+   * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    *
    * ### Add a phone number to an existing user
    *
@@ -55,6 +60,11 @@ class Whatsapp {
   /**
    * Send a one-time passcode (OTP) to a User's WhatsApp using their phone number. If the phone number is not
    * associated with a User already, a User will be created.
+   *
+   * ### Cost to send SMS OTP
+   * Before configuring SMS or WhatsApp OTPs, please review how Stytch
+   * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
+   * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    *
    * ### Next steps
    *

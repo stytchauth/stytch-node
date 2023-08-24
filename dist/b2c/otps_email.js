@@ -17,7 +17,7 @@ class Email {
     this.fetchConfig = fetchConfig;
   }
   /**
-   * Send a one-time passcode (OTP) to a User using their email. If you'd like to create a user and send them
+   * Send a One-Time Passcode (OTP) to a User using their email. If you'd like to create a user and send them
    * a passcode with one request, use our
    * [log in or create endpoint](https://stytch.com/docs/api/log-in-or-create-user-by-email-otp).
    *

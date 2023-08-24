@@ -69,10 +69,7 @@ export interface B2BMagicLinksEmailInviteResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -155,10 +152,7 @@ export interface B2BMagicLinksEmailLoginOrSignupResponse {
    * existed.
    */
   member_created: boolean;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;

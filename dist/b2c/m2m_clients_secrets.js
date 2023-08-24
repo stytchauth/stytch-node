@@ -19,10 +19,10 @@ class Secrets {
   /**
    * Initiate the rotation of an M2M client secret. After this endpoint is called, both the client's
    * `client_secret` and `next_client_secret` will be valid. To complete the secret rotation flow, update all
-   * usages of `client_secret` to `next_client_secret` and call
-   * the[Rotate Secret Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret)[Rotate Secret Endpoint](https://stytch.com/docs/api/m2m-rotate-secret) to complete the flow.
-   * Secret rotation can be cancelled using
-   * the[Rotate Cancel Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-cancel)[Rotate Cancel Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-cancel).
+   * usages of `client_secret` to `next_client_secret` and call the
+   * [Rotate Secret Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret)[Rotate Secret Endpoint](https://stytch.com/docs/api/m2m-rotate-secret) to complete the flow.
+   * Secret rotation can be cancelled using the
+   * [Rotate Cancel Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-cancel)[Rotate Cancel Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-cancel).
    *
    * **Important:** This is the only time you will be able to view the generated `next_client_secret` in the
    * API response. Stytch stores a hash of the `next_client_secret` and cannot recover the value if lost. Be
@@ -44,8 +44,9 @@ class Secrets {
     });
   }
   /**
-   * Cancel the rotation of an M2M client secret started with
-   * the[Start Secret Rotation Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-start)[Start Secret Rotation Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-start).
+   * Cancel the rotation of an M2M client secret started with the
+   * [Start Secret Rotation Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-start)
+   * [Start Secret Rotation Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-start).
    * After this endpoint is called, the client's `next_client_secret` is discarded and only the original
    * `client_secret` will be valid.
    * @param data {@link M2MClientsSecretsRotateCancelRequest}
@@ -64,8 +65,9 @@ class Secrets {
     });
   }
   /**
-   * Complete the rotation of an M2M client secret started with
-   * the[Start Secret Rotation Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-start)[Start Secret Rotation Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-start).
+   * Complete the rotation of an M2M client secret started with the
+   * [Start Secret Rotation Endpoint](https://stytch.com/docs/b2b/api/m2m-rotate-secret-start)
+   * [Start Secret Rotation Endpoint](https://stytch.com/docs/api/m2m-rotate-secret-start).
    * After this endpoint is called, the client's `next_client_secret` becomes its `client_secret` and the
    * previous `client_secret` will no longer be valid.
    * @param data {@link M2MClientsSecretsRotateRequest}
