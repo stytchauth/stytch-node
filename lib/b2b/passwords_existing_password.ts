@@ -81,10 +81,7 @@ export interface B2BPasswordsExistingPasswordResetResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // A secret token for a given Stytch Session.
   session_token: string;

@@ -58,6 +58,24 @@ class Members {
     });
   }
   /**
+   * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+   * specified by `organization_id` and `member_id`.
+   * @param data {@link B2BOrganizationsMembersReactivateRequest}
+   * @returns {@link B2BOrganizationsMembersReactivateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+
+
+  reactivate(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+      data: {}
+    });
+  }
+  /**
    * Delete a Member's MFA phone number.
    *
    * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
@@ -85,7 +103,7 @@ class Members {
   }
   /**
    * Search for Members within specified Organizations. An array with at least one `organization_id` is
-   * required. Submitting an empty `query` returns all Members within the specified Organizations.
+   * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}

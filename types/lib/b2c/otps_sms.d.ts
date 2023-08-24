@@ -2,9 +2,9 @@ import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 export interface OTPsSmsLoginOrCreateRequest {
     /**
-     * The phone number to use for one-time passcodes. The phone number should be in E.164 format. The phone
-     * number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint,
-     * see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+     * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
+     * +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+     * [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
      */
     phone_number: string;
     /**
@@ -52,9 +52,9 @@ export interface OTPsSmsLoginOrCreateResponse {
 }
 export interface OTPsSmsSendRequest {
     /**
-     * The phone number to use for one-time passcodes. The phone number should be in E.164 format. The phone
-     * number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint,
-     * see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+     * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
+     * +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+     * [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
      */
     phone_number: string;
     /**
@@ -103,6 +103,11 @@ export declare class Sms {
      *
      * Note that sending another OTP code before the first has expired will invalidate the first code.
      *
+     * ### Cost to send SMS OTP
+     * Before configuring SMS or WhatsApp OTPs, please review how Stytch
+     * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
+     * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
+     *
      * ### Add a phone number to an existing user
      *
      * This endpoint also allows you to add a new phone number to an existing Stytch User. Including a
@@ -125,9 +130,13 @@ export declare class Sms {
      */
     send(data: OTPsSmsSendRequest): Promise<OTPsSmsSendResponse>;
     /**
-     * Send a one-time passcode (OTP) to a User using their phone number. If the phone number is not associated
+     * Send a One-Time Passcode (OTP) to a User using their phone number. If the phone number is not associated
      * with a user already, a user will be created.
      *
+     * ### Cost to send SMS OTP
+     * Before configuring SMS or WhatsApp OTPs, please review how Stytch
+     * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
+     * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
      * ### Next steps
      *
      * Collect the OTP which was delivered to the User. Call

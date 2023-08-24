@@ -144,6 +144,14 @@ class Users {
     });
   }
   /**
+   * Exchange a user's email address or phone number for another.
+   *
+   * Must pass either an `email_address` or a `phone_number`.
+   *
+   * This endpoint only works if the user has exactly one factor. You are able to exchange the type of factor
+   * for another as well, i.e. exchange an `email_address` for a `phone_number`.
+   *
+   * Use this endpoint with caution as it performs an admin level action.
    * @param data {@link UsersExchangePrimaryFactorRequest}
    * @returns {@link UsersExchangePrimaryFactorResponse}
    * @async
