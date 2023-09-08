@@ -111,11 +111,9 @@ export declare class Sms {
      * ### Add a phone number to an existing user
      *
      * This endpoint also allows you to add a new phone number to an existing Stytch User. Including a
-     * `user_id`, `session_token`, or `session_jwt` in the request will add the phone number to the
-     * pre-existing Stytch User upon successful authentication.
-     *
-     * Adding a new phone number to an existing Stytch User requires the user to be present and validate the
-     * phone number via OTP. This requirement is in place to prevent account takeover attacks.
+     * `user_id`, `session_token`, or `session_jwt` in your Send one-time passcode by SMS request will add the
+     * new, unverified phone number to the existing Stytch User. Upon successful authentication, the phone
+     * number will be marked as verified.
      *
      * ### Next steps
      *
