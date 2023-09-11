@@ -33,7 +33,7 @@ export interface MemberSession {
    * UTC, e.g. `2021-12-29T12:33:09Z`.
    */
   expires_at: string;
-  // An array of different authentication factors that have initiated a Session.
+  // An array of different authentication factors that comprise a Session.
   authentication_factors: AuthenticationFactor[];
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
