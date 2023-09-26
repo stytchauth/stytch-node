@@ -38,7 +38,7 @@ class B2BClient extends _client.BaseClient {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`/v1/b2b/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
     };
     this.discovery = new _discovery.Discovery(this.fetchConfig);
     this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
