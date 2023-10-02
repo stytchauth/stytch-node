@@ -292,6 +292,52 @@ export interface B2BSessionsRevokeResponse {
   status_code: number;
 }
 
+// MANUAL(authenticateJwt)(TYPES)
+
+// Request type for `sessions.authenticateJwt`
+export interface B2BSessionsAuthenticateJwtRequest {
+  /**
+   * The JWT to authenticate. You may provide a JWT that has expired according to its `exp` claim and needs
+   * to be refreshed. If the signature is valid and the underlying session is still active then Stytch will
+   * return a new JWT.
+   */
+  session_jwt: string;
+
+  /**
+   * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
+   * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
+   */
+  max_token_age_seconds?: number;
+}
+
+// Request type for `sessions.authenticateJwtLocal`
+export interface B2BSessionsAuthenticateJwtLocalRequest {
+  /**
+   * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
+   */
+  session_jwt: string;
+
+  /**
+   * The maximum allowable difference when comparing timestamps.
+   * It defaults to zero.
+   */
+  clock_tolerance_seconds?: number;
+
+  /**
+   * If set, return an error if the JWT was issued (based on the "iat" claim) more than max_token_age_seconds seconds ago.
+   * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
+   */
+  max_token_age_seconds?: number;
+
+  /**
+   * The value used to compare timestamp claims ("exp", "nbf", "iat"). It
+   * defaults to the current date (new Date()).
+   */
+  current_date?: Date;
+}
+
+// ENDMANUAL(authenticateJwt)
+
 export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
@@ -434,20 +480,17 @@ export class Sessions {
    * authenticate method instead.
    */
   async authenticateJwt(
-    jwt: string,
-    options?: {
-      max_token_age_seconds?: number;
-    }
+    params: B2BSessionsAuthenticateJwtRequest
   ): Promise<{ member_session: MemberSession; session_jwt: string }> {
     try {
-      const member_session = await this.authenticateJwtLocal(jwt, options);
+      const member_session = await this.authenticateJwtLocal(params);
       return {
         member_session,
-        session_jwt: jwt,
+        session_jwt: params.session_jwt,
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
-      return this.authenticate({ session_jwt: jwt });
+      return this.authenticate({ session_jwt: params.session_jwt });
     }
   }
 
@@ -466,18 +509,17 @@ export class Sessions {
    * timestamps. It defaults to zero.
    */
   async authenticateJwtLocal(
-    jwt: string,
-    options?: {
-      clock_tolerance_seconds?: number;
-      max_token_age_seconds?: number;
-      current_date?: Date;
-    }
+    params: B2BSessionsAuthenticateJwtLocalRequest
   ): Promise<MemberSession> {
     const sess = await authenticateSessionJwtLocal(
       this.jwksClient,
       this.jwtOptions,
-      jwt,
-      options
+      params.session_jwt,
+      {
+        clock_tolerance_seconds: params.clock_tolerance_seconds,
+        max_token_age_seconds: params.max_token_age_seconds,
+        current_date: params.current_date,
+      }
     );
 
     const organizationClaim = "https://stytch.com/organization";
@@ -498,5 +540,6 @@ export class Sessions {
       custom_claims: claims,
     };
   }
+
   // ENDMANUAL(authenticateJwt)
 }
