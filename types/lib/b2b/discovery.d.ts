@@ -1,61 +1,42 @@
-import { MemberSession, ResponseWithMember } from "./shared_b2b";
-import { BaseResponse, fetchConfig } from "../shared";
-import { DiscoveredOrganization } from "./organizations";
-export interface B2BDiscoveryOrganizationsRequest {
-    intermediate_session_token?: string;
-    session_token?: string;
-    session_jwt?: string;
+import { fetchConfig } from "../shared";
+import { IntermediateSessions } from "./discovery_intermediate_sessions";
+import { Member, Organization } from "./organizations";
+import { MfaRequired } from "./mfa";
+import { Organizations } from "./discovery_organizations";
+export interface DiscoveredOrganization {
+    /**
+     * Indicates whether the Member has all of the factors needed to fully authenticate to this Organization.
+     * If false, the Member may need to complete an MFA step or complete a different primary authentication
+     * flow. See the `primary_required` and `mfa_required` fields for more details on each.
+     */
+    member_authenticated: boolean;
+    organization?: Organization;
+    membership?: Membership;
+    primary_required?: PrimaryRequired;
+    mfa_required?: MfaRequired;
 }
-export interface B2BDiscoveryOrganizationsResponse extends BaseResponse {
-    email_address: string;
-    discovered_organizations: DiscoveredOrganization[];
+export interface Membership {
+    type: string;
+    details?: Record<string, any>;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
+    member?: Member;
 }
-export interface B2BDiscoveryOrganizationCreateRequest {
-    intermediate_session_token: string;
-    session_duration_minutes?: number;
-    session_custom_claims?: Record<string, any>;
-    organization_name?: string;
-    organization_slug?: string;
-    organization_logo_url?: string;
-    trusted_metadata?: Record<string, any>;
-    sso_jit_provisioning?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
-    email_allowed_domains?: string[];
-    email_jit_provisioning?: "RESTRICTED" | "NOT_ALLOWED";
-    email_invites?: "ALL_ALLOWED" | "RESTRICTED" | "NOT_ALLOWED";
-    auth_methods?: "ALL_ALLOWED" | "RESTRICTED";
-    allowed_auth_methods?: string[];
-}
-export interface B2BDiscoveryOrganizationCreateResponse extends ResponseWithMember {
-    member_session: MemberSession;
-    session_token: string;
-    session_jwt: string;
-}
-export interface B2BDiscoveryIntermediateSessionExchangeRequest {
-    intermediate_session_token: string;
-    organization_id: string;
-    session_duration_minutes?: number;
-    session_custom_claims?: Record<string, any>;
-}
-export interface B2BDiscoveryIntermediateSessionExchangeResponse extends ResponseWithMember {
-    member_session: MemberSession;
-    session_token: string;
-    session_jwt: string;
-}
-declare class Organizations {
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig);
-    list(data: B2BDiscoveryOrganizationsRequest): Promise<B2BDiscoveryOrganizationsResponse>;
-    create(data: B2BDiscoveryOrganizationCreateRequest): Promise<B2BDiscoveryOrganizationCreateResponse>;
-}
-declare class IntermediateSessions {
-    private fetchConfig;
-    constructor(fetchConfig: fetchConfig);
-    exchange(data: B2BDiscoveryIntermediateSessionExchangeRequest): Promise<B2BDiscoveryIntermediateSessionExchangeResponse>;
+export interface PrimaryRequired {
+    /**
+     * If non-empty, indicates that the Organization restricts the authentication methods it allows for login
+     * (such as `sso` or `password`), and the end user must complete one of those authentication methods to log
+     * in. If empty, indicates that the Organization does not restrict the authentication method it allows for
+     * login, but the end user does not have any transferrable primary factors. Only email magic link and OAuth
+     * factors can be transferred between Organizations.
+     */
+    allowed_auth_methods: string[];
 }
 export declare class Discovery {
     private fetchConfig;
-    organizations: Organizations;
     intermediateSessions: IntermediateSessions;
+    organizations: Organizations;
     constructor(fetchConfig: fetchConfig);
 }
-export {};

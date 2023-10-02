@@ -3,13 +3,9 @@ import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
 // https://github.com/developit/unfetch/issues/99
 import * as fetchImport from "isomorphic-unfetch";
+
 const fetch = (fetchImport.default ||
   fetchImport) as typeof fetchImport.default;
-
-export interface BaseResponse {
-  status_code: number;
-  request_id: string;
-}
 
 export interface fetchConfig {
   baseURL: string;
@@ -23,6 +19,7 @@ export type requestConfig = {
   method: "GET" | "DELETE" | "POST" | "PUT";
   params?: Record<string, string | number>;
   data?: unknown;
+  dataRaw?: BodyInit;
 };
 
 export async function request<T>(
@@ -38,9 +35,13 @@ export async function request<T>(
 
   let response: Response;
   try {
+    const body: BodyInit | undefined = requestConfig.data
+      ? JSON.stringify(requestConfig.data)
+      : requestConfig.dataRaw;
+
     response = await fetch(url.toString(), {
       method: requestConfig.method,
-      body: JSON.stringify(requestConfig.data),
+      body: body,
       ...fetchConfig,
     });
   } catch (e) {

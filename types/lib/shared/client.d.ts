@@ -4,7 +4,7 @@ import { fetchConfig } from ".";
 export interface ClientConfig {
     project_id: string;
     secret: string;
-    env: string;
+    env?: string;
     timeout?: number;
     agent?: http.Agent;
 }

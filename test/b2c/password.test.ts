@@ -3,7 +3,6 @@ import { request } from "../../lib/shared";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 
 jest.mock("../../lib/shared");
-jest.mock("../../lib/b2c/shared_b2c");
 
 beforeEach(() => {
   (request as jest.Mock).mockReset();
@@ -28,7 +27,7 @@ describe("passwords.create", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords",
+      path: "/v1/passwords",
       data: {
         password: "not-a-real-password",
         email: "Ada_Lovelace@example.com",
@@ -48,7 +47,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/authenticate",
+      path: "/v1/passwords/authenticate",
       data: {
         password: "not-a-real-password",
         email: "Ada_Lovelace@example.com",
@@ -65,7 +64,7 @@ describe("passwords.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/authenticate",
+      path: "/v1/passwords/authenticate",
       data: {
         email: "Ada_Lovelace@example.com",
         password: "not-a-real-password",
@@ -77,12 +76,12 @@ describe("passwords.authenticate", () => {
 describe("passwords.resetByEmailStart", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmailStart({
+      passwords.email.resetStart({
         email: "Ada_Lovelace@example.com",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/email/reset/start",
+      path: "/v1/passwords/email/reset/start",
       data: {
         email: "Ada_Lovelace@example.com",
       },
@@ -90,14 +89,14 @@ describe("passwords.resetByEmailStart", () => {
   });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmailStart({
+      passwords.email.resetStart({
         email: "Ada_Lovelace@example.com",
         code_challenge: "example_code_challenge",
         locale: "en",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/email/reset/start",
+      path: "/v1/passwords/email/reset/start",
       data: {
         code_challenge: "example_code_challenge",
         email: "Ada_Lovelace@example.com",
@@ -109,10 +108,13 @@ describe("passwords.resetByEmailStart", () => {
 describe("passwords.resetByEmail", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByEmail("example-token", "not-a-real-password")
+      passwords.email.reset({
+        token: "example-token",
+        password: "not-a-real-password",
+      })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/email/reset",
+      path: "/v1/passwords/email/reset",
       data: {
         token: "example-token",
         password: "not-a-real-password",
@@ -121,12 +123,14 @@ describe("passwords.resetByEmail", () => {
   });
   test("pkce", () => {
     return expect(
-      passwords.resetByEmail("example-token", "not-a-real-password", {
+      passwords.email.reset({
+        token: "example-token",
+        password: "not-a-real-password",
         code_verifier: "example_code_verifier",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/email/reset",
+      path: "/v1/passwords/email/reset",
       data: {
         token: "example-token",
         password: "not-a-real-password",
@@ -139,14 +143,14 @@ describe("passwords.resetByEmail", () => {
 describe("passwords.resetByExistingPassword", () => {
   test("basic", () => {
     return expect(
-      passwords.resetByExistingPassword({
+      passwords.existingPassword.reset({
         email: "Ada_Lovelace@example.com",
         existing_password: "existing_password",
         new_password: "new_password",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/existing_password/reset",
+      path: "/v1/passwords/existing_password/reset",
       data: {
         email: "Ada_Lovelace@example.com",
         existing_password: "existing_password",
@@ -159,13 +163,13 @@ describe("passwords.resetByExistingPassword", () => {
 describe("passwords.resetBySession", () => {
   test("basic", () => {
     return expect(
-      passwords.resetBySession({
+      passwords.sessions.reset({
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/session/reset",
+      path: "/v1/passwords/session/reset",
       data: {
         password: "new_password",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -183,7 +187,7 @@ describe("passwords.strengthCheck", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/strength_check",
+      path: "/v1/passwords/strength_check",
       data: {
         password: "not-a-real-password",
         email: "Ada_Lovelace@example.com",
@@ -202,7 +206,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "phpass",
@@ -219,7 +223,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "bcrypt",
@@ -234,17 +238,19 @@ describe("passwords.migrate", () => {
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
         sha_1_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
         hash: "not-a-real-password-hash",
         sha_1_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       },
@@ -258,11 +264,12 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         sha_1_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
@@ -282,7 +289,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "sha_1",
@@ -297,17 +304,19 @@ describe("passwords.migrate", () => {
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
         md_5_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "md_5",
         hash: "not-a-real-password-hash",
         md_5_config: {
+          prepend_salt: "",
           append_salt: "not-a-real-salt",
         },
       },
@@ -321,11 +330,12 @@ describe("passwords.migrate", () => {
         hash: "not-a-real-password-hash",
         md_5_config: {
           prepend_salt: "not-a-real-salt",
+          append_salt: "",
         },
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "md_5",
@@ -345,7 +355,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "md_5",
@@ -369,7 +379,7 @@ describe("passwords.migrate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "passwords/migrate",
+      path: "/v1/passwords/migrate",
       data: {
         email: "Ada_Lovelace@example.com",
         hash_type: "argon_2i",
@@ -400,7 +410,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toMatchObject({
         method: "POST",
-        path: "passwords/migrate",
+        path: "/v1/passwords/migrate",
         data: {
           email: "Ada_Lovelace@example.com",
           hash_type: "argon_2id",
@@ -431,7 +441,7 @@ describe("passwords.migrate", () => {
         })
       ).resolves.toMatchObject({
         method: "POST",
-        path: "passwords/migrate",
+        path: "/v1/passwords/migrate",
         data: {
           email: "Ada_Lovelace@example.com",
           hash_type: "scrypt",
@@ -441,6 +451,33 @@ describe("passwords.migrate", () => {
             n_parameter: 16384,
             r_parameter: 8,
             p_parameter: 1,
+            key_length: 32,
+          },
+        },
+      });
+    }),
+    test("pbkdf_2", () => {
+      return expect(
+        passwords.migrate({
+          email: "Ada_Lovelace@example.com",
+          hash_type: "pbkdf_2",
+          hash: "not-a-real-password-hash",
+          pbkdf_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 10000,
+            key_length: 32,
+          },
+        })
+      ).resolves.toMatchObject({
+        method: "POST",
+        path: "/v1/passwords/migrate",
+        data: {
+          email: "Ada_Lovelace@example.com",
+          hash_type: "pbkdf_2",
+          hash: "not-a-real-password-hash",
+          pbkdf_2_config: {
+            salt: "not-a-real-salt",
+            iteration_amount: 10000,
             key_length: 32,
           },
         },

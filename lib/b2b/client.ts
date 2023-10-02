@@ -1,43 +1,51 @@
-import { MagicLinks } from "./magic_links";
-import { Sessions } from "./sessions";
-import { Organizations } from "./organizations";
-import { SSO } from "./sso";
-import { BaseClient, ClientConfig } from "../shared/client";
 import * as jose from "jose";
-import { JwtConfig } from "../shared/sessions";
+import { BaseClient, ClientConfig } from "../shared/client";
 import { Discovery } from "./discovery";
+import { JwtConfig } from "../shared/sessions";
+import { M2M } from "../b2c/m2m";
+import { MagicLinks } from "./magic_links";
+import { OAuth } from "./oauth";
+import { Organizations } from "./organizations";
+import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
+import { Sessions } from "./sessions";
+import { SSO } from "./sso";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
-  magicLinks: MagicLinks;
-  sessions: Sessions;
-  organizations: Organizations;
-  sso: SSO;
   discovery: Discovery;
+  m2m: M2M;
+  magicLinks: MagicLinks;
+  oauth: OAuth;
+  otps: OTPs;
+  organizations: Organizations;
   passwords: Passwords;
+  sso: SSO;
+  sessions: Sessions;
 
   constructor(config: ClientConfig) {
     super(config);
-
-    if (!this.fetchConfig.baseURL.endsWith("b2b/")) {
-      this.fetchConfig.baseURL += "b2b/";
-    }
 
     this.jwtConfig = {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
       jwks: jose.createRemoteJWKSet(
-        new URL(`sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)
+        new URL(
+          `/v1/b2b/sessions/jwks/${config.project_id}`,
+          this.fetchConfig.baseURL
+        )
       ),
     };
 
-    this.magicLinks = new MagicLinks(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
-    this.organizations = new Organizations(this.fetchConfig);
-    this.sso = new SSO(this.fetchConfig);
     this.discovery = new Discovery(this.fetchConfig);
+    this.m2m = new M2M(this.fetchConfig, this.jwtConfig);
+    this.magicLinks = new MagicLinks(this.fetchConfig);
+    this.oauth = new OAuth(this.fetchConfig);
+    this.otps = new OTPs(this.fetchConfig);
+    this.organizations = new Organizations(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
+    this.sso = new SSO(this.fetchConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
   }
 }

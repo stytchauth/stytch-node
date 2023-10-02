@@ -25,14 +25,16 @@ describe("magicLinks.authenticate", () => {
         magic_links_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "es",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/authenticate",
+      path: "/v1/b2b/magic_links/authenticate",
       data: {
         magic_links_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         session_token: "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
         session_duration_minutes: 60,
+        locale: "es",
       },
     });
   });
@@ -43,7 +45,7 @@ describe("magicLinks.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/authenticate",
+      path: "/v1/b2b/magic_links/authenticate",
       data: {
         magic_links_token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
       },
@@ -60,7 +62,7 @@ describe("magicLinks.email.loginOrSignup", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/login_or_signup",
+      path: "/v1/b2b/magic_links/email/login_or_signup",
       data: {
         email_address: "sandbox@stytch.com",
         organization_id: "organization-id-1234",
@@ -81,7 +83,7 @@ describe("magicLinks.email.loginOrSignup", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/login_or_signup",
+      path: "/v1/b2b/magic_links/email/login_or_signup",
       data: {
         email_address: "sandbox@stytch.com",
         organization_id: "organization-id-1234",
@@ -105,7 +107,7 @@ describe("magicLinks.email.invite", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/invite",
+      path: "/v1/b2b/magic_links/email/invite",
       data: {
         email_address: "sandbox@stytch.com",
         organization_id: "organization-id-1234",
@@ -127,7 +129,7 @@ describe("magicLinks.email.invite", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/invite",
+      path: "/v1/b2b/magic_links/email/invite",
       data: {
         email_address: "sandbox@stytch.com",
         organization_id: "organization-id-1234",
@@ -151,7 +153,7 @@ describe("magicLinks.email.discovery.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/discovery/send",
+      path: "/v1/b2b/magic_links/email/discovery/send",
       data: {
         email_address: "sandbox@stytch.com",
       },
@@ -168,7 +170,7 @@ describe("magicLinks.email.discovery.send", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/email/discovery/send",
+      path: "/v1/b2b/magic_links/email/discovery/send",
       data: {
         email_address: "sandbox@stytch.com",
         discovery_redirect_url: "http://localhost:8000/discover",
@@ -189,7 +191,7 @@ describe("magicLinks.discovery.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/discovery/authenticate",
+      path: "/v1/b2b/magic_links/discovery/authenticate",
       data: {
         discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",
@@ -205,7 +207,7 @@ describe("magicLinks.discovery.authenticate", () => {
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "magic_links/discovery/authenticate",
+      path: "/v1/b2b/magic_links/discovery/authenticate",
       data: {
         discovery_magic_links_token:
           "mZAYn5aLEqKUlZ_Ad9U_fWr38GaAQ1oFAhT8ds245v7Q",

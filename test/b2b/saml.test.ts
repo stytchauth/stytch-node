@@ -1,4 +1,4 @@
-import { SAML } from "../../lib/b2b/saml";
+import { SSO } from "../../lib/b2b/sso";
 import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 
@@ -16,18 +16,18 @@ beforeEach(() => {
   });
 });
 
-const saml = new SAML(MOCK_FETCH_CONFIG);
+const saml = new SSO(MOCK_FETCH_CONFIG).saml;
 
 describe("saml.create", () => {
   test("success", () => {
     return expect(
-      saml.create({
+      saml.createConnection({
         organization_id: "organization-id-1234",
         display_name: "Test Connection",
       })
     ).resolves.toMatchObject({
       method: "POST",
-      path: "sso/saml/organization-id-1234",
+      path: "/v1/b2b/sso/saml/organization-id-1234",
       data: {
         display_name: "Test Connection",
       },
@@ -38,7 +38,7 @@ describe("saml.create", () => {
 describe("saml.update", () => {
   test("success", () => {
     return expect(
-      saml.update({
+      saml.updateConnection({
         organization_id: "organization-id-1234",
         connection_id: "saml-connection-5678",
         idp_entity_id: "https://example.com/sso",
@@ -53,7 +53,7 @@ describe("saml.update", () => {
       })
     ).resolves.toMatchObject({
       method: "PUT",
-      path: "sso/saml/organization-id-1234/connections/saml-connection-5678",
+      path: "/v1/b2b/sso/saml/organization-id-1234/connections/saml-connection-5678",
       data: {
         idp_entity_id: "https://example.com/sso",
         display_name: "Test Connection",
@@ -79,7 +79,7 @@ describe("saml.deleteVerificationCertificate", () => {
       })
     ).resolves.toMatchObject({
       method: "DELETE",
-      path: "sso/saml/organization-id-1234/connections/saml-connection-5678/verification_certificates/verification-certificate-9012",
+      path: "/v1/b2b/sso/saml/organization-id-1234/connections/saml-connection-5678/verification_certificates/verification-certificate-9012",
     });
   });
 });

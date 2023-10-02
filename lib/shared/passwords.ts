@@ -54,3 +54,12 @@ export interface ScryptMigrateRequest {
     key_length: number;
   };
 }
+
+export interface PBKDF2MigrateRequest {
+  hash_type: "pbkdf_2";
+  pbkdf_2_config?: {
+    salt: string;
+    iteration_amount: number;
+    key_length: number;
+  };
+}

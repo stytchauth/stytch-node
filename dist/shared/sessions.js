@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.authenticateJwtLocal = authenticateJwtLocal;
+exports.authenticateM2MJwtLocal = authenticateM2MJwtLocal;
+exports.authenticateSessionJwtLocal = authenticateSessionJwtLocal;
 
 var jose = _interopRequireWildcard(require("jose"));
 
@@ -61,9 +63,43 @@ async function authenticateJwtLocal(jwksClient, jwtOptions, jwt, options) {
     sub: _sub,
 
     /* eslint-enable @typescript-eslint/no-unused-vars */
-    [sessionClaim]: stytchClaim,
     ...customClaims
   } = payload;
+  return {
+    payload,
+    customClaims
+  };
+}
+
+async function authenticateM2MJwtLocal(jwksClient, jwtOptions, jwt, options) {
+  const {
+    payload,
+    customClaims: untypedClaims
+  } = await authenticateJwtLocal(jwksClient, jwtOptions, jwt, options);
+  const {
+    scope: scopeClaim,
+    ...customClaims
+  } = untypedClaims;
+  const scope = scopeClaim;
+  return {
+    sub: payload.sub ?? "",
+    scope: scope,
+    custom_claims: customClaims
+  };
+}
+
+async function authenticateSessionJwtLocal(jwksClient, jwtOptions, jwt, options) {
+  const {
+    payload,
+    customClaims: untypedClaims
+  } = await authenticateJwtLocal(jwksClient, jwtOptions, jwt, options); // The custom claim set is all the claims in the payload except for the standard claims and
+  // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
+  // to omit and using ...rest for to collect the custom claims.
+
+  const {
+    [sessionClaim]: stytchClaim,
+    ...customClaims
+  } = untypedClaims;
   const claim = stytchClaim;
   return {
     session_id: claim.id,

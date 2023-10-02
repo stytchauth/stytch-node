@@ -1,9 +1,5 @@
 /// <reference types="node" />
 import * as http from "http";
-export interface BaseResponse {
-    status_code: number;
-    request_id: string;
-}
 export interface fetchConfig {
     baseURL: string;
     headers: Record<string, string>;
@@ -15,5 +11,6 @@ export declare type requestConfig = {
     method: "GET" | "DELETE" | "POST" | "PUT";
     params?: Record<string, string | number>;
     data?: unknown;
+    dataRaw?: BodyInit;
 };
 export declare function request<T>(fetchConfig: fetchConfig, requestConfig: requestConfig): Promise<T>;
