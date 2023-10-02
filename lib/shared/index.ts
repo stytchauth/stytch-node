@@ -1,12 +1,6 @@
 import * as http from "http";
 import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
-// https://github.com/developit/unfetch/issues/99
-import * as fetchImport from "isomorphic-unfetch";
-
-const fetch = (fetchImport.default ||
-  fetchImport) as typeof fetchImport.default;
-
 export interface fetchConfig {
   baseURL: string;
   headers: Record<string, string>;

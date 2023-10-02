@@ -3,10 +3,7 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 
 const fetchMock = jest.fn();
 
-jest.mock("isomorphic-unfetch", () => ({
-  __esModule: true,
-  default: (...args: unknown[]) => fetchMock(...args),
-}));
+global.fetch = fetchMock;
 
 beforeEach(() => {
   jest.resetAllMocks();
