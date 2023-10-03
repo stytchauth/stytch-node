@@ -121,9 +121,11 @@ class Users {
    * **Note:** In order to add a new email address or phone number to an existing User object, pass the new
    * email address or phone number into the respective `/send` endpoint for the authentication method of your
    * choice. If you specify the existing User's `user_id` while calling the `/send` endpoint, the new,
-   * unverified email address or phone number will be added to the existing User object. Upon successful
-   * authentication, the email address or phone number will be marked as verified. We require this process to
-   * guard against an account takeover vulnerability.
+   * unverified email address or phone number will be added to the existing User object. If the user
+   * successfully authenticates within 5 minutes of the `/send` request, the new email address or phone
+   * number will be marked as verified and remain permanently on the existing Stytch User. Otherwise, it will
+   * be removed from the User object, and any subsequent login requests using that phone number will create a
+   * new User. We require this process to guard against an account takeover vulnerability.
    * @param data {@link UsersUpdateRequest}
    * @returns {@link UsersUpdateResponse}
    * @async

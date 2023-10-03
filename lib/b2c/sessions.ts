@@ -293,7 +293,7 @@ export interface Session {
   session_id: string;
   // The unique ID of the affected User.
   user_id: string;
-  // An array of different authentication factors that have initiated a Session.
+  // An array of different authentication factors that comprise a Session.
   authentication_factors: AuthenticationFactor[];
   /**
    * The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in

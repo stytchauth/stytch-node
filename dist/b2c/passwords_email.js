@@ -42,6 +42,8 @@ class Email {
    * The provided password needs to meet our password strength requirements, which can be checked in advance
    * with the password strength endpoint. If the token and password are accepted, the password is securely
    * stored for future authentication and the user is authenticated.
+   *
+   * Note that a successful password reset by email will revoke all active sessions for the `user_id`.
    * @param data {@link PasswordsEmailResetRequest}
    * @returns {@link PasswordsEmailResetResponse}
    * @async

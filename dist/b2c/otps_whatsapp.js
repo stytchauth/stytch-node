@@ -32,8 +32,10 @@ class Whatsapp {
    *
    * This endpoint also allows you to add a new phone number to an existing Stytch User. Including a
    * `user_id`, `session_token`, or `session_jwt` in your Send one-time passcode by WhatsApp request will add
-   * the new, unverified phone number to the existing Stytch User. Upon successful authentication, the phone
-   * number will be marked as verified.
+   * the new, unverified phone number to the existing Stytch User. If the user successfully authenticates
+   * within 5 minutes, the new phone number will be marked as verified and remain permanently on the existing
+   * Stytch User. Otherwise, it will be removed from the User object, and any subsequent login requests using
+   * that phone number will create a new User.
    *
    * ### Next steps
    *
