@@ -19,11 +19,11 @@ export async function loader() {
     secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
   });
 
-  // const sessionsAuthenticateResponse = await client.sessions.authenticate({
-  //   session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
-  // }).catch(err => err);
+  const sessionsAuthenticateResponse = await client.sessions.authenticate({
+    session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+  }).catch(err => err);
 
-  return json({  })
+  return json(sessionsAuthenticateResponse)
 }
 
 export default function Index() {

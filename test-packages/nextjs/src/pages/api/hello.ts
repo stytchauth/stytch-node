@@ -3,10 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import * as stytch from 'stytch'
 
-type Data = {
-  name: string
-}
-
 const client = new stytch.Client({
   // Find these values at https://stytch.com/dashboard/api-keys
   // These ones are MADE UP!
@@ -14,11 +10,9 @@ const client = new stytch.Client({
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
 });
 
-export const runtime = 'edge';
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse,
 ) {
   const authenticateResponse = await client.sessions.authenticate({
     session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",

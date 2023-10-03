@@ -1,11 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
 import * as stytch from 'stytch'
-
-type Data = {
-  name: string
-}
 
 const client = new stytch.Client({
   // Find these values at https://stytch.com/dashboard/api-keys
@@ -14,12 +9,18 @@ const client = new stytch.Client({
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export const config = {
+  runtime: 'edge',
+}
+
+export default async function GET() {
   const authenticateResponse = await client.sessions.authenticate({
     session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
   }).catch(err => err);
-  res.status(200).json(authenticateResponse)
+
+  return new NextResponse(JSON.stringify(authenticateResponse), {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 }
