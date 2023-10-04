@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0",
-    "jose": "^4.14.0"
+    "jose": "^4.14.6"
   },
   "overrides": {
     "isomorphic-unfetch": {
