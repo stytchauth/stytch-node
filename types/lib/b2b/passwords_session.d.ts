@@ -1,6 +1,7 @@
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
+import { MfaRequired } from "./mfa";
 export interface B2BPasswordsSessionResetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -10,6 +11,9 @@ export interface B2BPasswordsSessionResetRequest {
     password: string;
     session_token?: string;
     session_jwt?: string;
+    session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
+    locale?: "en" | "es" | "pt-br" | string;
 }
 export interface B2BPasswordsSessionResetResponse {
     /**
@@ -20,12 +24,17 @@ export interface B2BPasswordsSessionResetResponse {
     member_id: string;
     member: Member;
     organization: Organization;
+    session_token: string;
+    session_jwt: string;
+    intermediate_session_token: string;
+    member_authenticated: boolean;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
     member_session?: MemberSession;
+    mfa_required?: MfaRequired;
 }
 export declare class Sessions {
     private fetchConfig;

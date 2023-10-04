@@ -40,8 +40,10 @@ class Email {
    * ### Add an email to an existing user
    * This endpoint also allows you to add a new email address to an existing Stytch User. Including a
    * `user_id`, `session_token`, or `session_jwt` in your Send Magic Link by email request will add the new,
-   * unverified email address to the existing Stytch User. Upon successful authentication, the email address
-   * will be marked as verified.
+   * unverified email address to the existing Stytch User. If the user successfully authenticates within 5
+   * minutes, the new email address will be marked as verified and remain permanently on the existing Stytch
+   * User. Otherwise, it will be removed from the User object, and any subsequent login requests using that
+   * email address will create a new User.
    *
    * ### Next steps
    * The user is emailed a magic link which redirects them to the provided
@@ -71,8 +73,8 @@ class Email {
    *
    * ### Next steps
    * The User is emailed a Magic Link which redirects them to the provided
-   * [redirect URL](https://stytch.com/docs/magic-links#email-magic-links_redirect-routing). Collect the
-   * `token` from the URL query parameters and call
+   * [redirect URL](https://stytch.com/docs/guides/magic-links/email-magic-links/redirect-routing). Collect
+   * the `token` from the URL query parameters and call
    * [Authenticate Magic Link](https://stytch.com/docs/api/authenticate-magic-link) to complete
    * authentication.
    * @param data {@link MagicLinksEmailLoginOrCreateRequest}
@@ -95,8 +97,8 @@ class Email {
    *
    * ### Next steps
    * The User is emailed a Magic Link which redirects them to the provided
-   * [redirect URL](https://stytch.com/docs/magic-links#email-magic-links_redirect-routing). Collect the
-   * `token` from the URL query parameters and call
+   * [redirect URL](https://stytch.com/docs/guides/magic-links/email-magic-links/redirect-routing). Collect
+   * the `token` from the URL query parameters and call
    * [Authenticate Magic Link](https://stytch.com/docs/api/authenticate-magic-link) to complete
    * authentication.
    * @param data {@link MagicLinksEmailInviteRequest}

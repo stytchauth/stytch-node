@@ -12,6 +12,16 @@ export type {
 } from "./sessions";
 // ENDMANUAL(exports)
 
+export type {
+  AuthorizationCheck,
+  Policy,
+  PolicyResource,
+  PolicyRole,
+  PolicyRolePermission,
+  B2BRBACPolicyRequest,
+  B2BRBACPolicyResponse,
+} from "./rbac";
+
 export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {

@@ -5,6 +5,7 @@
 // !!!
 
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
+import { AuthorizationCheck } from "./rbac";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -80,6 +81,7 @@ export interface B2BSessionsAuthenticateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  authorization_check?: AuthorizationCheck;
 }
 
 // Response type for `sessions.authenticate`.
@@ -99,6 +101,8 @@ export interface B2BSessionsAuthenticateResponse {
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  authorized: boolean;
+  verdict: string[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -342,6 +346,7 @@ export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
+  private rbacCache: RBACCacheManager;
 
   constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
     this.fetchConfig = fetchConfig;
@@ -351,6 +356,7 @@ export class Sessions {
       issuer: `stytch.com/${jwtConfig.projectID}`,
       typ: "JWT",
     };
+    this.rbacAgent = new AutoRefreshingRBAC(this.fetchConfig);
   }
 
   /**

@@ -13,6 +13,7 @@ var _oauth = require("./oauth");
 var _organizations = require("./organizations");
 var _otp = require("./otp");
 var _passwords = require("./passwords");
+var _rbac = require("./rbac");
 var _sessions = require("./sessions");
 var _sso = require("./sso");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -33,6 +34,7 @@ class B2BClient extends _client.BaseClient {
     this.otps = new _otp.OTPs(this.fetchConfig);
     this.organizations = new _organizations.Organizations(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.rbac = new _rbac.RBAC(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
   }

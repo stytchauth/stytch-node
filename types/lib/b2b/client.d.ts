@@ -7,6 +7,7 @@ import { OAuth } from "./oauth";
 import { Organizations } from "./organizations";
 import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
+import { RBAC } from "./rbac";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 export declare class B2BClient extends BaseClient {
@@ -18,6 +19,7 @@ export declare class B2BClient extends BaseClient {
     otps: OTPs;
     organizations: Organizations;
     passwords: Passwords;
+    rbac: RBAC;
     sso: SSO;
     sessions: Sessions;
     constructor(config: ClientConfig);

@@ -49,6 +49,7 @@ class Sessions {
       issuer: `stytch.com/${jwtConfig.projectID}`,
       typ: "JWT"
     };
+    this.rbacAgent = new AutoRefreshingRBAC(this.fetchConfig);
   }
 
   /**

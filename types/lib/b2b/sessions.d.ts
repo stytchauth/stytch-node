@@ -1,4 +1,5 @@
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
+import { AuthorizationCheck } from "./rbac";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -63,6 +64,7 @@ export interface B2BSessionsAuthenticateRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    authorization_check?: AuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
     /**
@@ -75,6 +77,8 @@ export interface B2BSessionsAuthenticateResponse {
     session_jwt: string;
     member: Member;
     organization: Organization;
+    authorized: boolean;
+    verdict: string[];
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -275,6 +279,7 @@ export declare class Sessions {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
+    private rbacCache;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     /**
      * Retrieves all active Sessions for a Member.
