@@ -1,10 +1,9 @@
-/// <reference types="node" />
-import * as http from "http";
+import type { Dispatcher } from "undici";
 export interface fetchConfig {
     baseURL: string;
     headers: Record<string, string>;
     timeout: number;
-    agent?: http.Agent;
+    dispatcher?: Dispatcher;
 }
 export declare type requestConfig = {
     url: string;

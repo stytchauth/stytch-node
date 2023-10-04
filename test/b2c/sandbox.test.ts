@@ -1,6 +1,5 @@
 import * as stytch from "../../lib";
-import * as https from "https";
-import * as dns from "dns";
+import * as undici from "undici";
 import { M2MClientWithClientSecret } from "../../lib";
 
 function env(name: string): string {
@@ -178,29 +177,21 @@ describeIf(
       });
 
       test("Using a custom agent", async () => {
-        const lookupSpy = jest.spyOn(
-          dns,
-          "lookup"
-        ) as unknown as typeof dns.lookup;
-        const agent = new https.Agent({
-          lookup: lookupSpy,
-        });
+        const getSpy = jest.fn();
+        getSpy.mockReturnValue(true);
+        const dispatcher = new undici.MockAgent();
+        dispatcher.get(getSpy);
         client = new stytch.Client({
           project_id: env("PROJECT_ID"),
           secret: env("SECRET"),
           env: process.env["STYTCH_API_URL"] || stytch.envs.test,
-          agent,
+          dispatcher,
         });
 
         await client.magicLinks.authenticate({
           token: "DOYoip3rvIMMW5lgItikFK-Ak1CfMsgjuiCyI7uuU94=",
         });
-
-        expect(lookupSpy).toHaveBeenCalledWith(
-          "test.stytch.com",
-          expect.anything(),
-          expect.anything()
-        );
+        expect(getSpy).toHaveBeenCalledTimes(1);
       });
     });
 

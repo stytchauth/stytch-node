@@ -1,4 +1,4 @@
-import * as http from "http";
+import type { Dispatcher } from "undici";
 import * as envs from "./envs";
 import { version } from "../../package.json";
 import { fetchConfig } from ".";
@@ -11,7 +11,7 @@ export interface ClientConfig {
   secret: string;
   env?: string;
   timeout?: number;
-  agent?: http.Agent;
+  dispatcher?: Dispatcher;
 }
 
 export class BaseClient {
@@ -56,7 +56,7 @@ export class BaseClient {
       baseURL: config.env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
-      agent: config.agent,
+      dispatcher: config.dispatcher,
     };
 
     // Get a baseURL that ends with a slash to make building route URLs easier.
