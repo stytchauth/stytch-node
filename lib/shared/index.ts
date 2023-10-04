@@ -1,11 +1,11 @@
-import * as http from "http";
+import type { Dispatcher } from "undici";
 import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
 export interface fetchConfig {
   baseURL: string;
   headers: Record<string, string>;
   timeout: number;
-  agent?: http.Agent;
+  dispatcher?: Dispatcher;
 }
 
 export type requestConfig = {
