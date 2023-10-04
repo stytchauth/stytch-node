@@ -266,8 +266,8 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
      */
     max_token_age_seconds?: number;
     /**
-     * The value used to compare timestamp claims ("exp", "nbf", "iat"). It
-     * defaults to the current date (new Date()).
+     * The value used to compare timestamp claims ("exp", "nbf", "iat").
+     * It defaults to the current date (new Date()).
      */
     current_date?: Date;
 }
