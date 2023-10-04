@@ -6,6 +6,10 @@
 
 // MANUAL(exports)(TYPES)
 export type { SearchQueryOperand } from "./organizations";
+export type {
+  B2BSessionsAuthenticateJwtRequest,
+  B2BSessionsAuthenticateJwtLocalRequest,
+} from "./sessions";
 // ENDMANUAL(exports)
 
 export type { MemberOptions, MfaRequired } from "./mfa";

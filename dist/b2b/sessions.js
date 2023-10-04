@@ -32,6 +32,14 @@ var _sessions = require("../shared/sessions");
 
 // Response type for `sessions.revoke`.
 
+// MANUAL(authenticateJwt)(TYPES)
+
+// Request type for `sessions.authenticateJwt`
+
+// Request type for `sessions.authenticateJwtLocal`
+
+// ENDMANUAL(authenticateJwt)
+
 class Sessions {
   constructor(fetchConfig, jwtConfig) {
     this.fetchConfig = fetchConfig;
@@ -165,17 +173,17 @@ class Sessions {
    * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
    * authenticate method instead.
    */
-  async authenticateJwt(jwt, options) {
+  async authenticateJwt(params) {
     try {
-      const member_session = await this.authenticateJwtLocal(jwt, options);
+      const member_session = await this.authenticateJwtLocal(params);
       return {
         member_session,
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
       return this.authenticate({
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       });
     }
   }
@@ -194,8 +202,12 @@ class Sessions {
    * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
    * timestamps. It defaults to zero.
    */
-  async authenticateJwtLocal(jwt, options) {
-    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, jwt, options);
+  async authenticateJwtLocal(params) {
+    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, params.session_jwt, {
+      clock_tolerance_seconds: params.clock_tolerance_seconds,
+      max_token_age_seconds: params.max_token_age_seconds,
+      current_date: params.current_date
+    });
     const organizationClaim = "https://stytch.com/organization";
     const {
       [organizationClaim]: orgClaimUntyped,
@@ -213,6 +225,7 @@ class Sessions {
       custom_claims: claims
     };
   }
+
   // ENDMANUAL(authenticateJwt)
 }
 exports.Sessions = Sessions;

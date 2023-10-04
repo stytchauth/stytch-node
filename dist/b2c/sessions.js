@@ -28,6 +28,14 @@ var _sessions = require("../shared/sessions");
 
 // Response type for `sessions.revoke`.
 
+// MANUAL(authenticateJwt)(TYPES)
+
+// Request type for `sessions.authenticateJwt`
+
+// Request type for `sessions.authenticateJwtLocal`
+
+// ENDMANUAL(authenticateJwt)
+
 class Sessions {
   constructor(fetchConfig, jwtConfig) {
     this.fetchConfig = fetchConfig;
@@ -123,25 +131,25 @@ class Sessions {
    * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
    * authenticate method instead.
    */
-  async authenticateJwt(jwt, options) {
+  async authenticateJwt(params) {
     try {
-      const session = await this.authenticateJwtLocal(jwt, options);
+      const session = await this.authenticateJwtLocal(params);
       return {
         session,
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
       return this.authenticate({
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       });
     }
   }
 
   /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
    *
-   * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
-   * claim) more than maxTokenAge seconds ago.
+   * If max_token_age_seconds is set, this will return an error if the JWT was issued (based on the "iat"
+   * claim) more than max_token_age_seconds seconds ago.
    *
    * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
    * even if they are otherwise valid.
@@ -152,8 +160,12 @@ class Sessions {
    * The value for clock_tolerance_seconds is the maximum allowable difference when comparing
    * timestamps. It defaults to zero.
    */
-  async authenticateJwtLocal(jwt, options) {
-    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, jwt, options);
+  async authenticateJwtLocal(params) {
+    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, params.session_jwt, {
+      clock_tolerance_seconds: params.clock_tolerance_seconds,
+      max_token_age_seconds: params.max_token_age_seconds,
+      current_date: params.current_date
+    });
     return {
       session_id: sess.session_id,
       attributes: sess.attributes,
