@@ -41,7 +41,7 @@ class BaseClient {
       baseURL: config.env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
-      agent: config.agent
+      dispatcher: config.dispatcher
     };
 
     // Get a baseURL that ends with a slash to make building route URLs easier.

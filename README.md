@@ -154,18 +154,19 @@ Learn more about errors in the [docs](https://stytch.com/docs/api/errors).
 
 ## Customizing the HTTPS Agent
 
-The Stytch client can be customized to use your own HTTPS agent.
+The Stytch client uses [undici](https://github.com/nodejs/undici), the Node fetch implementation. You can pass a custom undici `Dispatcher` to the client for use in requests.
 For example, you can enable HTTPS Keep-Alive to avoid the cost of establishing a new connection with the Stytch servers on every request.
 
 ```javascript
-const agent = new https.Agent({
-  keepAlive: true,
+const dispatcher = new undici.Agent({
+  keepAliveTimeout: 6e6, // 10 minutes in MS
+  keepAliveMaxTimeout: 6e6, // 10 minutes in MS
 });
 
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-  agent,
+  dispatcher,
 });
 ```
 

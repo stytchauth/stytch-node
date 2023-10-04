@@ -1,12 +1,11 @@
-/// <reference types="node" />
-import * as http from "http";
+import type { Dispatcher } from "undici";
 import { fetchConfig } from ".";
 export interface ClientConfig {
     project_id: string;
     secret: string;
     env?: string;
     timeout?: number;
-    agent?: http.Agent;
+    dispatcher?: Dispatcher;
 }
 export declare class BaseClient {
     protected fetchConfig: fetchConfig;

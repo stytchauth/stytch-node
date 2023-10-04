@@ -4,6 +4,7 @@
     "target": "ES2015",
     "module": "commonjs",
     "lib": ["DOM", "es2015"],
+    "types": ["node"],
     "allowJs": true,
     "strict": true,
     "declaration": true,
