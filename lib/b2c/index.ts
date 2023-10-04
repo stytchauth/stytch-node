@@ -8,6 +8,11 @@
 export type { SearchUsersQueryOperand } from "./users";
 
 export type {
+  SessionsAuthenticateJwtRequest,
+  SessionsAuthenticateJwtLocalRequest,
+} from "./sessions";
+
+export type {
   AuthenticateTokenRequest,
   AuthenticateTokenResponse,
   TokenRequest,

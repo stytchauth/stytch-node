@@ -14,6 +14,7 @@ var _sessions = require("../shared/sessions");
 // Only modify code within MANUAL() sections
 // or your changes may be overwritten later!
 // !!!
+// ENDMANUAL(authenticateJwt)
 class Sessions {
   constructor(fetchConfig, jwtConfig) {
     this.fetchConfig = fetchConfig;
@@ -113,24 +114,24 @@ class Sessions {
    */
 
 
-  async authenticateJwt(jwt, options) {
+  async authenticateJwt(params) {
     try {
-      const session = await this.authenticateJwtLocal(jwt, options);
+      const session = await this.authenticateJwtLocal(params);
       return {
         session,
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
       return this.authenticate({
-        session_jwt: jwt
+        session_jwt: params.session_jwt
       });
     }
   }
   /** Parse a JWT and verify the signature locally (without calling /authenticate in the API).
    *
-   * If maxTokenAge is set, this will return an error if the JWT was issued (based on the "iat"
-   * claim) more than maxTokenAge seconds ago.
+   * If max_token_age_seconds is set, this will return an error if the JWT was issued (based on the "iat"
+   * claim) more than max_token_age_seconds seconds ago.
    *
    * If max_token_age_seconds is explicitly set to zero, all tokens will be considered too old,
    * even if they are otherwise valid.
@@ -143,8 +144,12 @@ class Sessions {
    */
 
 
-  async authenticateJwtLocal(jwt, options) {
-    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, jwt, options);
+  async authenticateJwtLocal(params) {
+    const sess = await (0, _sessions.authenticateSessionJwtLocal)(this.jwksClient, this.jwtOptions, params.session_jwt, {
+      clock_tolerance_seconds: params.clock_tolerance_seconds,
+      max_token_age_seconds: params.max_token_age_seconds,
+      current_date: params.current_date
+    });
     return {
       session_id: sess.session_id,
       attributes: sess.attributes,
