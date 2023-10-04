@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
-import * as stytch from 'stytch'
+import * as stytch from "stytch";
 
 const client = new stytch.Client({
   // Find these values at https://stytch.com/dashboard/api-keys
@@ -10,17 +10,19 @@ const client = new stytch.Client({
 });
 
 export const config = {
-  runtime: 'edge',
-}
+  runtime: "edge",
+};
 
 export default async function GET() {
-  const authenticateResponse = await client.sessions.authenticate({
-    session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
-  }).catch(err => err);
+  const authenticateResponse = await client.sessions
+    .authenticate({
+      session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+    })
+    .catch((err) => err);
 
   return new NextResponse(JSON.stringify(authenticateResponse), {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-  })
+  });
 }

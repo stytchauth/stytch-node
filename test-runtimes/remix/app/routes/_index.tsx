@@ -11,7 +11,6 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-
   const client = new stytch.Client({
     // Find these values at https://stytch.com/dashboard/api-keys
     // These ones are MADE UP!
@@ -19,22 +18,22 @@ export async function loader() {
     secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
   });
 
-  const sessionsAuthenticateResponse = await client.sessions.authenticate({
-    session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
-  }).catch(err => err);
+  const sessionsAuthenticateResponse = await client.sessions
+    .authenticate({
+      session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+    })
+    .catch((err) => err);
 
-  return json(sessionsAuthenticateResponse)
+  return json(sessionsAuthenticateResponse);
 }
 
-export default function Index() {
-  const data = useLoaderData<typeof loader>()
+export default function _index() {
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
-      <code>
-        {JSON.stringify(data)}
-      </code>
+      <code>{JSON.stringify(data)}</code>
       <ul>
         <li>
           <a
