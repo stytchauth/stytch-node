@@ -35,6 +35,7 @@ export interface PolicyRolePermission {
   actions: string[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface B2BRBACPolicyRequest {}
 
 export interface B2BRBACPolicyResponse {

@@ -11,6 +11,8 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 class RBAC {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
