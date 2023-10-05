@@ -249,6 +249,10 @@ export interface B2BSessionsAuthenticateJwtRequest {
      */
     session_jwt: string;
     /**
+     * TODO: Field Description
+     */
+    authorization_check?: AuthorizationCheck;
+    /**
      * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
      */
@@ -259,6 +263,10 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
      * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
      */
     session_jwt: string;
+    /**
+     * TODO: Field Description
+     */
+    authorization_check?: AuthorizationCheck;
     /**
      * The maximum allowable difference when comparing timestamps.
      * It defaults to zero.

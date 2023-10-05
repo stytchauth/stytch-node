@@ -2,6 +2,7 @@ import { Sessions } from "../../lib/b2b/sessions";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 import * as jose from "jose";
 import { ClientError } from "../../lib";
+import { MOCK_RBAC_POLICY } from "./rbac_policy";
 
 jest.mock("../../lib/shared");
 
@@ -262,6 +263,12 @@ describe("sessions.authenticateJwtLocal", () => {
       projectID,
     });
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    sessions.rbacCache = {
+      getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY),
+    };
+
     // Set up timestamps truncated to second-level precision to match the API. The epoch
     // timestamps are used to create the JWT.
     const nowEpoch = Math.floor(+new Date() / 1000);
@@ -290,6 +297,7 @@ describe("sessions.authenticateJwtLocal", () => {
     // And now sign the JWTs.
     jwtWithExpiresAt = await new jose.SignJWT({
       "https://stytch.com/session": claim,
+      "https://stytch.com/roles": ["default", "reader"],
       "https://stytch.com/organization": {
         organization_id:
           "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
@@ -453,5 +461,48 @@ describe("sessions.authenticateJwtLocal", () => {
         },
       },
     });
+  });
+
+  test("succeeds when RBAC check succeeds", async () => {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+      authorization_check: {
+        organization_id:
+          "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        resource_id: "documents",
+        action: "delete",
+      },
+    });
+    await expect(promise).rejects.toThrow(ClientError);
+    await expect(promise).rejects.toHaveProperty("code", "invalid_permissions");
+  });
+
+  test("fails if RBAC check fails due to permissions", async () => {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+      authorization_check: {
+        organization_id:
+          "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        resource_id: "documents",
+        action: "read",
+      },
+    });
+    await expect(promise).resolves.toHaveProperty(
+      "member_id",
+      "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
+    );
+  });
+
+  test("fails if RBAC check fails due to tenancy", async () => {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+      authorization_check: {
+        organization_id: "organization-live-some-other-org-id",
+        resource_id: "documents",
+        action: "delete",
+      },
+    });
+    await expect(promise).rejects.toThrow(ClientError);
+    await expect(promise).rejects.toHaveProperty("code", "tenancy_mismatch");
   });
 });

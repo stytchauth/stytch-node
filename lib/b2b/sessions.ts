@@ -13,6 +13,7 @@ import { request } from "../shared";
 
 import * as jose from "jose";
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+import { RBACCacheManager, performAuthorizationCheck } from "./rbac_local";
 
 export interface MemberSession {
   // Globally unique UUID that identifies a specific Session.
@@ -308,6 +309,11 @@ export interface B2BSessionsAuthenticateJwtRequest {
   session_jwt: string;
 
   /**
+   * TODO: Field Description
+   */
+  authorization_check?: AuthorizationCheck;
+
+  /**
    * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
    * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
    */
@@ -320,6 +326,11 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
    * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
    */
   session_jwt: string;
+
+  /**
+   * TODO: Field Description
+   */
+  authorization_check?: AuthorizationCheck;
 
   /**
    * The maximum allowable difference when comparing timestamps.
@@ -356,7 +367,7 @@ export class Sessions {
       issuer: `stytch.com/${jwtConfig.projectID}`,
       typ: "JWT",
     };
-    this.rbacAgent = new AutoRefreshingRBAC(this.fetchConfig);
+    this.rbacCache = new RBACCacheManager(this.fetchConfig);
   }
 
   /**
@@ -477,6 +488,7 @@ export class Sessions {
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
   // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+  // ADDIMPORT: import { RBACCacheManager, performAuthorizationCheck } from "./rbac_local";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -496,7 +508,10 @@ export class Sessions {
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
-      return this.authenticate({ session_jwt: params.session_jwt });
+      return this.authenticate({
+        session_jwt: params.session_jwt,
+        authorization_check: params.authorization_check,
+      });
     }
   }
 
@@ -529,11 +544,27 @@ export class Sessions {
     );
 
     const organizationClaim = "https://stytch.com/organization";
-    const { [organizationClaim]: orgClaimUntyped, ...claims } =
-      sess.custom_claims;
+    const rolesClaim = "https://stytch.com/roles";
+    const {
+      [organizationClaim]: orgClaimUntyped,
+      [rolesClaim]: rolesCaimUntyped,
+      ...claims
+    } = sess.custom_claims;
 
     const orgClaim = orgClaimUntyped as { organization_id: string };
+    const roleClaim = rolesCaimUntyped as string[];
 
+    if (params.authorization_check) {
+      const policy = await this.rbacCache.getPolicy();
+      await performAuthorizationCheck({
+        policy,
+        subjectRoles: roleClaim,
+        subjectOrgID: orgClaim.organization_id,
+        authzRequest: params.authorization_check,
+      });
+    }
+
+    // TODO: The Roles claim will probably make its way into here...
     return {
       member_session_id: sess.session_id,
       member_id: sess.sub,
