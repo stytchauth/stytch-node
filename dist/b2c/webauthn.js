@@ -132,5 +132,22 @@ class WebAuthn {
       data
     });
   }
+
+  /**
+   * @param data {@link WebAuthnUpdateRequest}
+   * @returns {@link WebAuthnUpdateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  update(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/webauthn/${data.webauthn_registration_id}`,
+      data: {
+        name: data.name
+      }
+    });
+  }
 }
 exports.WebAuthn = WebAuthn;
