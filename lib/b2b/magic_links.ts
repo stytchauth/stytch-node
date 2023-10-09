@@ -102,7 +102,10 @@ export interface B2BMagicLinksAuthenticateResponse {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // A secret token for a given Stytch Session.
   session_token: string;

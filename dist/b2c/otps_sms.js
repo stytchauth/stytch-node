@@ -31,17 +31,14 @@ class Sms {
    *
    * Note that sending another OTP code before the first has expired will invalidate the first code.
    *
-   * ### Cost to send SMS OTP
-   * Before configuring SMS or WhatsApp OTPs, please review how Stytch
-   * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
-   * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
-   *
    * ### Add a phone number to an existing user
    *
    * This endpoint also allows you to add a new phone number to an existing Stytch User. Including a
-   * `user_id`, `session_token`, or `session_jwt` in your Send one-time passcode by SMS request will add the
-   * new, unverified phone number to the existing Stytch User. Upon successful authentication, the phone
-   * number will be marked as verified.
+   * `user_id`, `session_token`, or `session_jwt` in the request will add the phone number to the
+   * pre-existing Stytch User upon successful authentication.
+   *
+   * Adding a new phone number to an existing Stytch User requires the user to be present and validate the
+   * phone number via OTP. This requirement is in place to prevent account takeover attacks.
    *
    * ### Next steps
    *
@@ -63,13 +60,9 @@ class Sms {
   }
 
   /**
-   * Send a One-Time Passcode (OTP) to a User using their phone number. If the phone number is not associated
+   * Send a one-time passcode (OTP) to a User using their phone number. If the phone number is not associated
    * with a user already, a user will be created.
    *
-   * ### Cost to send SMS OTP
-   * Before configuring SMS or WhatsApp OTPs, please review how Stytch
-   * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
-   * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    * ### Next steps
    *
    * Collect the OTP which was delivered to the User. Call

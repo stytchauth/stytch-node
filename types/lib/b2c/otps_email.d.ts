@@ -119,15 +119,17 @@ export declare class Email {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Send a One-Time Passcode (OTP) to a User using their email. If you'd like to create a user and send them
+     * Send a one-time passcode (OTP) to a User using their email. If you'd like to create a user and send them
      * a passcode with one request, use our
      * [log in or create endpoint](https://stytch.com/docs/api/log-in-or-create-user-by-email-otp).
      *
      * ### Add an email to an existing user
-     * This endpoint also allows you to add a new email address to an existing Stytch User. Including a
-     * `user_id`, `session_token`, or `session_jwt` in your Send one-time passcode by email request will add
-     * the new, unverified email address to the existing Stytch User. Upon successful authentication, the email
-     * address will be marked as verified.
+     * This endpoint also allows you to add a new email to an existing Stytch User. Including a `user_id`,
+     * `session_token`, or `session_jwt` in the request will add the email to the pre-existing Stytch User upon
+     * successful authentication.
+     *
+     * Adding a new email to an existing Stytch User requires the User to be present and validate the email via
+     * OTP. This requirement is in place to prevent account takeover attacks.
      *
      * ### Next steps
      * Collect the OTP which was delivered to the user. Call

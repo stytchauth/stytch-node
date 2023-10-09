@@ -229,10 +229,12 @@ export declare class Email {
      * [log in or create endpoint](https://stytch.com/docs/api/log-in-or-create-user-by-email).
      *
      * ### Add an email to an existing user
-     * This endpoint also allows you to add a new email address to an existing Stytch User. Including a
-     * `user_id`, `session_token`, or `session_jwt` in your Send Magic Link by email request will add the new,
-     * unverified email address to the existing Stytch User. Upon successful authentication, the email address
-     * will be marked as verified.
+     * This endpoint also allows you to add a new email to an existing Stytch User. Including a `user_id`,
+     * `session_token`, or `session_jwt` in the request will add the email to the pre-existing Stytch User upon
+     * successful authentication.
+     *
+     * Adding a new email to an existing Stytch User requires the user to be present and validate the email via
+     * magic link. This requirement is in place to prevent account takeover attacks.
      *
      * ### Next steps
      * The user is emailed a magic link which redirects them to the provided

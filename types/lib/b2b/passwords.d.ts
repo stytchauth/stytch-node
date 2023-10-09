@@ -105,6 +105,10 @@ export interface B2BPasswordsAuthenticateResponse {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     session_token: string;
     session_jwt: string;
@@ -175,6 +179,10 @@ export interface B2BPasswordsMigrateResponse {
      * existed.
      */
     member_created: boolean;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     organization: Organization;
     /**
