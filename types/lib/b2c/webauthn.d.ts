@@ -1,6 +1,6 @@
 import { fetchConfig } from "../shared";
 import { Session } from "./sessions";
-import { User } from "./users";
+import { User, WebAuthnRegistration } from "./users";
 export interface WebAuthnAuthenticateRequest {
     /**
      * The response of the
@@ -65,8 +65,9 @@ export interface WebAuthnAuthenticateResponse {
     session?: Session;
 }
 export interface WebAuthnAuthenticateStartRequest {
-    user_id: string;
     domain: string;
+    user_id?: string;
+    return_passkey_credential_options?: boolean;
 }
 export interface WebAuthnAuthenticateStartResponse {
     /**
@@ -89,6 +90,10 @@ export interface WebAuthnRegisterRequest {
      * [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
      */
     public_key_credential: string;
+    session_token?: string;
+    session_duration_minutes?: number;
+    session_jwt?: string;
+    session_custom_claims?: Record<string, any>;
 }
 export interface WebAuthnRegisterResponse {
     /**
@@ -98,11 +103,14 @@ export interface WebAuthnRegisterResponse {
     request_id: string;
     user_id: string;
     webauthn_registration_id: string;
+    session_token: string;
+    session_jwt: string;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    session?: Session;
 }
 export interface WebAuthnRegisterStartRequest {
     user_id: string;
@@ -113,6 +121,7 @@ export interface WebAuthnRegisterStartRequest {
      * cross-platform. If no value passed, we assume both values are allowed.
      */
     authenticator_type?: string;
+    return_passkey_credential_options?: boolean;
 }
 export interface WebAuthnRegisterStartResponse {
     /**
@@ -127,6 +136,15 @@ export interface WebAuthnRegisterStartResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+}
+export interface WebAuthnUpdateRequest {
+    webauthn_registration_id: string;
+    name: string;
+}
+export interface WebAuthnUpdateResponse {
+    request_id: string;
+    status_code: number;
+    webauthn_registration?: WebAuthnRegistration;
 }
 export declare class WebAuthn {
     private fetchConfig;
@@ -204,4 +222,12 @@ export declare class WebAuthn {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     authenticate(data: WebAuthnAuthenticateRequest): Promise<WebAuthnAuthenticateResponse>;
+    /**
+     * @param data {@link WebAuthnUpdateRequest}
+     * @returns {@link WebAuthnUpdateResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    update(data: WebAuthnUpdateRequest): Promise<WebAuthnUpdateResponse>;
 }
