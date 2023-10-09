@@ -73,6 +73,10 @@ export interface B2BSessionsAuthenticateResponse {
     member_session: MemberSession;
     session_token: string;
     session_jwt: string;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     organization: Organization;
     /**
@@ -143,6 +147,10 @@ export interface B2BSessionsExchangeResponse {
     member_session: MemberSession;
     session_token: string;
     session_jwt: string;
+    /**
+     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+     * does not.
+     */
     member: Member;
     organization: Organization;
     /**

@@ -13,25 +13,7 @@ export interface AppleOAuthFactor {
     provider_subject: string;
 }
 export interface AuthenticationFactor {
-    /**
-     * The type of authentication factor. The possible values are: `magic_link`, `otp`,
-     *        `oauth`, `password`, or `sso`.
-     */
     type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | string;
-    /**
-     * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
-     *
-     *       `magic_link` – Only `email`.
-     *
-     *       `otp` – Only `sms`.
-     *
-     *       `oauth` – Either `oauth_google` or `oauth_microsoft`.
-     *
-     *       `password` – Only `knowledge`.
-     *
-     *       `sso` – Either `sso_saml` or `sso_oidc`.
-     *
-     */
     delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | string;
     last_authenticated_at?: string;
     created_at?: string;
@@ -126,10 +108,6 @@ export interface GithubOAuthFactor {
 export interface GoogleOAuthFactor {
     id: string;
     email_id: string;
-    /**
-     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-     * "Subject field" in OAuth protocols.
-     */
     provider_subject: string;
 }
 export interface InstagramOAuthFactor {
@@ -156,10 +134,6 @@ export interface LinkedInOAuthFactor {
 export interface MicrosoftOAuthFactor {
     id: string;
     email_id: string;
-    /**
-     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-     * "Subject field" in OAuth protocols.
-     */
     provider_subject: string;
 }
 export interface OIDCSSOFactor {

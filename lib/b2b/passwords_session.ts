@@ -7,6 +7,7 @@
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
+import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
 // Request type for `passwords.sessions.reset`.
@@ -22,6 +23,9 @@ export interface B2BPasswordsSessionResetRequest {
   session_token?: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt?: string;
+  session_duration_minutes?: number;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  locale?: "en" | "es" | "pt-br" | string;
 }
 
 // Response type for `passwords.sessions.reset`.
@@ -33,10 +37,17 @@ export interface B2BPasswordsSessionResetResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
+  /**
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  session_token: string;
+  session_jwt: string;
+  intermediate_session_token: string;
+  member_authenticated: boolean;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -44,6 +55,7 @@ export interface B2BPasswordsSessionResetResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
+  mfa_required?: MfaRequired;
 }
 
 export class Sessions {
