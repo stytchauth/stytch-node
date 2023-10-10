@@ -7,7 +7,7 @@
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { Session } from "./sessions";
-import { User } from "./users";
+import { User, WebAuthnRegistration } from "./users";
 
 // Request type for `webauthn.authenticate`.
 export interface WebAuthnAuthenticateRequest {
@@ -84,10 +84,11 @@ export interface WebAuthnAuthenticateResponse {
 
 // Request type for `webauthn.authenticateStart`.
 export interface WebAuthnAuthenticateStartRequest {
-  // The `user_id` of an active user the WebAuthn registration should be tied to.
-  user_id: string;
   // The domain for WebAuthn. Defaults to `window.location.hostname`.
   domain: string;
+  // The `user_id` of an active user the WebAuthn registration should be tied to.
+  user_id?: string;
+  return_passkey_credential_options?: boolean;
 }
 
 // Response type for `webauthn.authenticateStart`.
@@ -117,6 +118,10 @@ export interface WebAuthnRegisterRequest {
    * [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
    */
   public_key_credential: string;
+  session_token?: string;
+  session_duration_minutes?: number;
+  session_jwt?: string;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `webauthn.register`.
@@ -130,11 +135,14 @@ export interface WebAuthnRegisterResponse {
   user_id: string;
   // The unique ID for the WebAuthn registration.
   webauthn_registration_id: string;
+  session_token: string;
+  session_jwt: string;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  session?: Session;
 }
 
 // Request type for `webauthn.registerStart`.
@@ -150,6 +158,7 @@ export interface WebAuthnRegisterStartRequest {
    * cross-platform. If no value passed, we assume both values are allowed.
    */
   authenticator_type?: string;
+  return_passkey_credential_options?: boolean;
 }
 
 // Response type for `webauthn.registerStart`.
@@ -168,6 +177,17 @@ export interface WebAuthnRegisterStartResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+}
+
+export interface WebAuthnUpdateRequest {
+  webauthn_registration_id: string;
+  name: string;
+}
+
+export interface WebAuthnUpdateResponse {
+  request_id: string;
+  status_code: number;
+  webauthn_registration?: WebAuthnRegistration;
 }
 
 export class WebAuthn {
@@ -281,6 +301,23 @@ export class WebAuthn {
       method: "POST",
       url: `/v1/webauthn/authenticate`,
       data,
+    });
+  }
+
+  /**
+   * @param data {@link WebAuthnUpdateRequest}
+   * @returns {@link WebAuthnUpdateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  update(data: WebAuthnUpdateRequest): Promise<WebAuthnUpdateResponse> {
+    return request<WebAuthnUpdateResponse>(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/webauthn/${data.webauthn_registration_id}`,
+      data: {
+        name: data.name,
+      },
     });
   }
 }

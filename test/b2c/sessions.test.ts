@@ -190,15 +190,15 @@ describe("sessions.authenticateJwt", () => {
       jwtConfig("project-test-00000000-0000-4000-8000-000000000000")
     );
 
-    return expect(sessions.authenticateJwt("stale_jwt")).resolves.toMatchObject(
-      {
-        session_jwt: "fresh_jwt",
-        session: {
-          started_at: "2021-08-28T00:41:58.935673870Z",
-          user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
-        },
-      }
-    );
+    return expect(
+      sessions.authenticateJwt({ session_jwt: "stale_jwt" })
+    ).resolves.toMatchObject({
+      session_jwt: "fresh_jwt",
+      session: {
+        started_at: "2021-08-28T00:41:58.935673870Z",
+        user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+      },
+    });
   });
 });
 
@@ -314,7 +314,9 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("extract session data from new-style claims", async () => {
-    const session = await sessions.authenticateJwtLocal(jwtWithExpiresAt);
+    const session = await sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+    });
     expect(session).toMatchObject({
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
@@ -337,7 +339,9 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("extract session data from old-style claims", async () => {
-    const session = await sessions.authenticateJwtLocal(jwtOld);
+    const session = await sessions.authenticateJwtLocal({
+      session_jwt: jwtOld,
+    });
     expect(session).toMatchObject({
       attributes: { user_agent: "", ip_address: "" },
       authentication_factors: [
@@ -365,14 +369,16 @@ describe("sessions.authenticateJwtLocal", () => {
     const appNow = dateAdd(startedAt, -10);
 
     await expect(
-      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+      sessions.authenticateJwtLocal({
+        session_jwt: jwtWithExpiresAt,
         current_date: appNow,
         clock_tolerance_seconds: 9,
       })
     ).rejects.toHaveProperty("code", "jwt_invalid");
 
     await expect(
-      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+      sessions.authenticateJwtLocal({
+        session_jwt: jwtWithExpiresAt,
         current_date: appNow,
         clock_tolerance_seconds: 10,
       })
@@ -383,7 +389,8 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("errors before not-before time (nbf)", async () => {
-    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
       current_date: dateAdd(startedAt, -1),
     });
     await expect(promise).rejects.toThrow(ClientError);
@@ -391,7 +398,8 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("errors after expiration time (exp)", async () => {
-    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
       current_date: dateAdd(expiresAt, +1),
     });
     await expect(promise).rejects.toThrow(ClientError);
@@ -401,7 +409,8 @@ describe("sessions.authenticateJwtLocal", () => {
   test("errors if token is too stale", async () => {
     // Make sure the token validates at an earlier time.
     await expect(
-      sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+      sessions.authenticateJwtLocal({
+        session_jwt: jwtWithExpiresAt,
         current_date: dateAdd(startedAt, +3),
         max_token_age_seconds: 5,
       })
@@ -410,7 +419,8 @@ describe("sessions.authenticateJwtLocal", () => {
       "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de"
     );
 
-    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
       current_date: dateAdd(startedAt, +10),
       max_token_age_seconds: 5,
     });
@@ -419,7 +429,8 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("zero max_token_age_seconds forces staleness", async () => {
-    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt, {
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
       current_date: startedAt,
       max_token_age_seconds: 0,
     });
@@ -440,7 +451,9 @@ describe("sessions.authenticateJwtLocal", () => {
     const decoded = jose.UnsecuredJWT.decode(jwtWithExpiresAt);
     expect(decoded.header.alg).toBe("none");
 
-    const promise = sessions.authenticateJwtLocal(jwtWithExpiresAt);
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+    });
     await expect(promise).rejects.toThrow(ClientError);
     await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
     // This is part of the unstructured error message and comes directly from jose.
@@ -448,7 +461,9 @@ describe("sessions.authenticateJwtLocal", () => {
   });
 
   test("extract custom claims", async () => {
-    const session = await sessions.authenticateJwtLocal(jwtWithExpiresAt);
+    const session = await sessions.authenticateJwtLocal({
+      session_jwt: jwtWithExpiresAt,
+    });
     expect(session).toMatchObject({
       custom_claims: {
         a: "A",
