@@ -18,6 +18,8 @@ Runtime validation is defined as:
 We can use the following project ID and secret, which are special values that return a pre-canned response from Stytch:
 
 ```javascript
+// Find these values at https://stytch.com/dashboard/api-keys
+// These ones will trigger a well-known erorr message
 const client = new stytch.Client({
   project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
   secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
