@@ -295,9 +295,11 @@ export class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data: MagicLinksEmailSendRequest): Promise<MagicLinksEmailSendResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksEmailSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/send`,
+      headers,
       data,
     });
   }
@@ -323,9 +325,11 @@ export class Email {
   loginOrCreate(
     data: MagicLinksEmailLoginOrCreateRequest
   ): Promise<MagicLinksEmailLoginOrCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksEmailLoginOrCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/login_or_create`,
+      headers,
       data,
     });
   }
@@ -349,9 +353,11 @@ export class Email {
   invite(
     data: MagicLinksEmailInviteRequest
   ): Promise<MagicLinksEmailInviteResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksEmailInviteResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/invite`,
+      headers,
       data,
     });
   }
@@ -367,9 +373,11 @@ export class Email {
   revokeInvite(
     data: MagicLinksEmailRevokeInviteRequest
   ): Promise<MagicLinksEmailRevokeInviteResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksEmailRevokeInviteResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/revoke_invite`,
+      headers,
       data,
     });
   }

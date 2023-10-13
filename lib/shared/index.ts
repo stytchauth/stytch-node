@@ -14,6 +14,7 @@ export type requestConfig = {
   params?: Record<string, string | number>;
   data?: unknown;
   dataRaw?: BodyInit;
+  headers?: Record<string, string>;
 };
 
 export async function request<T>(
@@ -27,6 +28,8 @@ export async function request<T>(
     );
   }
 
+  const finalHeaders = { ...fetchConfig.headers, ...requestConfig?.headers };
+
   let response: Response;
   try {
     const body: BodyInit | undefined = requestConfig.data
@@ -34,9 +37,10 @@ export async function request<T>(
       : requestConfig.dataRaw;
 
     response = await fetch(url.toString(), {
+      ...fetchConfig,
       method: requestConfig.method,
       body: body,
-      ...fetchConfig,
+      headers: finalHeaders,
     });
   } catch (e) {
     const err = e as Error;

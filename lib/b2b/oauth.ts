@@ -194,9 +194,11 @@ export class OAuth {
   authenticate(
     data: B2BOAuthAuthenticateRequest
   ): Promise<B2BOAuthAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOAuthAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/authenticate`,
+      headers,
       data,
     });
   }

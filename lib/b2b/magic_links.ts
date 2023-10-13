@@ -179,9 +179,11 @@ export class MagicLinks {
   authenticate(
     data: B2BMagicLinksAuthenticateRequest
   ): Promise<B2BMagicLinksAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/authenticate`,
+      headers,
       data,
     });
   }

@@ -102,9 +102,11 @@ export class ExistingPassword {
   reset(
     data: PasswordsExistingPasswordResetRequest
   ): Promise<PasswordsExistingPasswordResetResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsExistingPasswordResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/existing_password/reset`,
+      headers,
       data,
     });
   }

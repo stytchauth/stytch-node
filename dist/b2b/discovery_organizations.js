@@ -52,9 +52,11 @@ class Organizations {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations/create`,
+      headers,
       data
     });
   }
@@ -86,9 +88,11 @@ class Organizations {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   list(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations`,
+      headers,
       data
     });
   }

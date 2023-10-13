@@ -53,9 +53,11 @@ class WebAuthn {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   registerStart(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/webauthn/register/start`,
+      headers,
       data
     });
   }
@@ -78,9 +80,11 @@ class WebAuthn {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   register(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/webauthn/register`,
+      headers,
       data
     });
   }
@@ -102,9 +106,11 @@ class WebAuthn {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticateStart(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/webauthn/authenticate/start`,
+      headers,
       data
     });
   }
@@ -126,9 +132,11 @@ class WebAuthn {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/webauthn/authenticate`,
+      headers,
       data
     });
   }
@@ -141,9 +149,11 @@ class WebAuthn {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/webauthn/${data.webauthn_registration_id}`,
+      headers,
       data: {
         name: data.name
       }

@@ -53,16 +53,18 @@ class Sessions {
 
   /**
    * Retrieves all active Sessions for a Member.
-   * @param data {@link B2BSessionsGetRequest}
+   * @param params {@link B2BSessionsGetRequest}
    * @returns {@link B2BSessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions`,
+      headers,
       params: {
         ...params
       }
@@ -84,9 +86,11 @@ class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/authenticate`,
+      headers,
       data
     });
   }
@@ -102,9 +106,11 @@ class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,
+      headers,
       data
     });
   }
@@ -139,25 +145,29 @@ class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   exchange(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
       data
     });
   }
 
   /**
    * Get the JSON Web Key Set (JWKS) for a project.
-   * @param data {@link B2BSessionsGetJWKSRequest}
+   * @param params {@link B2BSessionsGetJWKSRequest}
    * @returns {@link B2BSessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   getJWKS(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      headers,
       params: {}
     });
   }

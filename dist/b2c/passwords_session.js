@@ -35,9 +35,11 @@ class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   reset(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/session/reset`,
+      headers,
       data
     });
   }

@@ -92,25 +92,29 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/users`,
+      headers,
       data
     });
   }
 
   /**
    * Get information about a specific User.
-   * @param data {@link UsersGetRequest}
+   * @param params {@link UsersGetRequest}
    * @returns {@link UsersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/users/${params.user_id}`,
+      headers,
       params: {}
     });
   }
@@ -124,9 +128,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/users/search`,
+      headers,
       data
     });
   }
@@ -149,9 +155,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/users/${data.user_id}`,
+      headers,
       data: {
         name: data.name,
         attributes: data.attributes,
@@ -177,9 +185,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   exchangePrimaryFactor(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/users/${data.user_id}/exchange_primary_factor`,
+      headers,
       data: {
         email_address: data.email_address,
         phone_number: data.phone_number
@@ -196,9 +206,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/${data.user_id}`,
+      headers,
       data: {}
     });
   }
@@ -212,9 +224,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteEmail(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/emails/${data.email_id}`,
+      headers,
       data: {}
     });
   }
@@ -228,9 +242,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deletePhoneNumber(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/phone_numbers/${data.phone_id}`,
+      headers,
       data: {}
     });
   }
@@ -244,9 +260,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteWebAuthnRegistration(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/webauthn_registrations/${data.webauthn_registration_id}`,
+      headers,
       data: {}
     });
   }
@@ -260,9 +278,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteBiometricRegistration(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/biometric_registrations/${data.biometric_registration_id}`,
+      headers,
       data: {}
     });
   }
@@ -276,9 +296,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteTOTP(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/totps/${data.totp_id}`,
+      headers,
       data: {}
     });
   }
@@ -292,9 +314,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteCryptoWallet(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/crypto_wallets/${data.crypto_wallet_id}`,
+      headers,
       data: {}
     });
   }
@@ -308,9 +332,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deletePassword(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/passwords/${data.password_id}`,
+      headers,
       data: {}
     });
   }
@@ -324,9 +350,11 @@ class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteOAuthRegistration(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
+      headers,
       data: {}
     });
   }

@@ -42,9 +42,11 @@ class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps`,
+      headers,
       data
     });
   }
@@ -58,9 +60,11 @@ class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/authenticate`,
+      headers,
       data
     });
   }
@@ -74,9 +78,11 @@ class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   recoveryCodes(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/recovery_codes`,
+      headers,
       data
     });
   }
@@ -90,9 +96,11 @@ class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   recover(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/recover`,
+      headers,
       data
     });
   }

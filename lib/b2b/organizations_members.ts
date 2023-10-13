@@ -362,6 +362,38 @@ export interface B2BOrganizationsMembersUpdateResponse {
   status_code: number;
 }
 
+export interface B2BOrganizationsMembersUpdateRequestOptions {
+  // Optional authorization object.
+  // Pass in an active Stytch Member session token or session JWT and the request will be ran using that member's permissions.
+  authorization?: {
+    // A secret token for a given Stytch Session.
+    session_token?: string;
+    // The JSON Web Token (JWT) for a given Stytch Session.
+    session_jwt?: string;
+  };
+}
+export interface B2BOrganizationsMembersDeleteRequestOptions {
+  // Optional authorization object.
+  // Pass in an active Stytch Member session token or session JWT and the request will be ran using that member's permissions.
+  authorization?: {
+    // A secret token for a given Stytch Session.
+    session_token?: string;
+    // The JSON Web Token (JWT) for a given Stytch Session.
+    session_jwt?: string;
+  };
+}
+
+export interface B2BOrganizationsMembersSearchRequestOptions {
+  // Optional authorization object.
+  // Pass in an active Stytch Member session token or session JWT and the request will be ran using that member's permissions.
+  authorization?: {
+    // A secret token for a given Stytch Session.
+    session_token?: string;
+    // The JSON Web Token (JWT) for a given Stytch Session.
+    session_jwt?: string;
+  };
+}
+
 export class Members {
   private fetchConfig: fetchConfig;
 
@@ -372,17 +404,31 @@ export class Members {
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BOrganizationsMembersUpdateRequest
+    data: B2BOrganizationsMembersUpdateRequest,
+    options?: B2BOrganizationsMembersUpdateRequestOptions
   ): Promise<B2BOrganizationsMembersUpdateResponse> {
+    const headers: Record<string, string> = {};
+
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] =
+        options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] =
+        options?.authorization?.session_jwt;
+    }
+
     return request<B2BOrganizationsMembersUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {
         name: data.name,
         trusted_metadata: data.trusted_metadata,
@@ -397,17 +443,31 @@ export class Members {
   /**
    * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BOrganizationsMembersDeleteRequest
+    data: B2BOrganizationsMembersDeleteRequest,
+    options?: B2BOrganizationsMembersDeleteRequestOptions
   ): Promise<B2BOrganizationsMembersDeleteResponse> {
+    const headers: Record<string, string> = {};
+
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] =
+        options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] =
+        options?.authorization?.session_jwt;
+    }
+
     return request<B2BOrganizationsMembersDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {},
     });
   }
@@ -424,11 +484,13 @@ export class Members {
   reactivate(
     data: B2BOrganizationsMembersReactivateRequest
   ): Promise<B2BOrganizationsMembersReactivateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersReactivateResponse>(
       this.fetchConfig,
       {
         method: "PUT",
         url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+        headers,
         data: {},
       }
     );
@@ -454,11 +516,13 @@ export class Members {
   deleteMFAPhoneNumber(
     data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest
   ): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
+        headers,
         data: {},
       }
     );
@@ -470,17 +534,31 @@ export class Members {
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}
+   * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(
-    data: B2BOrganizationsMembersSearchRequest
+    data: B2BOrganizationsMembersSearchRequest,
+    options?: B2BOrganizationsMembersSearchRequestOptions
   ): Promise<B2BOrganizationsMembersSearchResponse> {
+    const headers: Record<string, string> = {};
+
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] =
+        options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] =
+        options?.authorization?.session_jwt;
+    }
+
     return request<B2BOrganizationsMembersSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/members/search`,
+      headers,
       data,
     });
   }
@@ -496,11 +574,13 @@ export class Members {
   deletePassword(
     data: B2BOrganizationsMembersDeletePasswordRequest
   ): Promise<B2BOrganizationsMembersDeletePasswordResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersDeletePasswordResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
+        headers,
         data: {},
       }
     );
@@ -517,9 +597,11 @@ export class Members {
   create(
     data: B2BOrganizationsMembersCreateRequest
   ): Promise<B2BOrganizationsMembersCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/${data.organization_id}/members`,
+      headers,
       data: {
         email_address: data.email_address,
         name: data.name,
@@ -535,7 +617,7 @@ export class Members {
 
   /**
    * Get a Member by `member_id` or `email_address`.
-   * @param data {@link B2BOrganizationsMembersGetRequest}
+   * @param params {@link B2BOrganizationsMembersGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -544,9 +626,11 @@ export class Members {
   get(
     params: B2BOrganizationsMembersGetRequest
   ): Promise<B2BOrganizationsMembersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/member`,
+      headers,
       params: { ...params },
     });
   }

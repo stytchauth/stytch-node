@@ -556,6 +556,27 @@ export interface B2BOrganizationsUpdateResponse {
   status_code: number;
 }
 
+export interface B2BOrganizationsUpdateRequestOptions {
+  // Optional authorization object.
+  // Pass in an active Stytch Member session token or session JWT and the request will be ran using that member's permissions.
+  authorization?: {
+    // A secret token for a given Stytch Session.
+    session_token?: string;
+    // The JSON Web Token (JWT) for a given Stytch Session.
+    session_jwt?: string;
+  };
+}
+export interface B2BOrganizationsDeleteRequestOptions {
+  // Optional authorization object.
+  // Pass in an active Stytch Member session token or session JWT and the request will be ran using that member's permissions.
+  authorization?: {
+    // A secret token for a given Stytch Session.
+    session_token?: string;
+    // The JSON Web Token (JWT) for a given Stytch Session.
+    session_jwt?: string;
+  };
+}
+
 // MANUAL(SearchQueryOperand)(TYPES)
 export type OrganizationSearchOperand =
   | {
@@ -658,16 +679,18 @@ export class Organizations {
   create(
     data: B2BOrganizationsCreateRequest
   ): Promise<B2BOrganizationsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations`,
+      headers,
       data,
     });
   }
 
   /**
    * Returns an Organization specified by `organization_id`.
-   * @param data {@link B2BOrganizationsGetRequest}
+   * @param params {@link B2BOrganizationsGetRequest}
    * @returns {@link B2BOrganizationsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -676,9 +699,11 @@ export class Organizations {
   get(
     params: B2BOrganizationsGetRequest
   ): Promise<B2BOrganizationsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}`,
+      headers,
       params: {},
     });
   }
@@ -691,17 +716,31 @@ export class Organizations {
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
    * @param data {@link B2BOrganizationsUpdateRequest}
+   * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BOrganizationsUpdateRequest
+    data: B2BOrganizationsUpdateRequest,
+    options?: B2BOrganizationsUpdateRequestOptions
   ): Promise<B2BOrganizationsUpdateResponse> {
+    const headers: Record<string, string> = {};
+
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] =
+        options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] =
+        options?.authorization?.session_jwt;
+    }
+
     return request<B2BOrganizationsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {
         organization_name: data.organization_name,
         organization_slug: data.organization_slug,
@@ -725,17 +764,31 @@ export class Organizations {
    * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
    * deleted.
    * @param data {@link B2BOrganizationsDeleteRequest}
+   * @param options {@link B2BOrganizationsDeleteRequestOptions}
    * @returns {@link B2BOrganizationsDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BOrganizationsDeleteRequest
+    data: B2BOrganizationsDeleteRequest,
+    options?: B2BOrganizationsDeleteRequestOptions
   ): Promise<B2BOrganizationsDeleteResponse> {
+    const headers: Record<string, string> = {};
+
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] =
+        options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] =
+        options?.authorization?.session_jwt;
+    }
+
     return request<B2BOrganizationsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {},
     });
   }
@@ -753,9 +806,11 @@ export class Organizations {
   search(
     data: B2BOrganizationsSearchRequest
   ): Promise<B2BOrganizationsSearchResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/search`,
+      headers,
       data,
     });
   }

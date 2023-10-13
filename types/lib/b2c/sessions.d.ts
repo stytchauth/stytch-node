@@ -402,7 +402,7 @@ export declare class Sessions {
     /**
      * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
      * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-     * @param data {@link SessionsGetRequest}
+     * @param params {@link SessionsGetRequest}
      * @returns {@link SessionsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -435,7 +435,7 @@ export declare class Sessions {
     revoke(data: SessionsRevokeRequest): Promise<SessionsRevokeResponse>;
     /**
      * Get the JSON Web Key Set (JWKS) for a Stytch Project.
-     * @param data {@link SessionsGetJWKSRequest}
+     * @param params {@link SessionsGetJWKSRequest}
      * @returns {@link SessionsGetJWKSResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

@@ -132,9 +132,11 @@ export class SAML {
   createConnection(
     data: B2BSSOSAMLCreateConnectionRequest
   ): Promise<B2BSSOSAMLCreateConnectionResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOSAMLCreateConnectionResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/saml/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name,
       },
@@ -158,9 +160,11 @@ export class SAML {
   updateConnection(
     data: B2BSSOSAMLUpdateConnectionRequest
   ): Promise<B2BSSOSAMLUpdateConnectionResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOSAMLUpdateConnectionResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         idp_entity_id: data.idp_entity_id,
         display_name: data.display_name,
@@ -185,11 +189,13 @@ export class SAML {
   deleteVerificationCertificate(
     data: B2BSSOSAMLDeleteVerificationCertificateRequest
   ): Promise<B2BSSOSAMLDeleteVerificationCertificateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOSAMLDeleteVerificationCertificateResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/verification_certificates/${data.certificate_id}`,
+        headers,
         data: {},
       }
     );

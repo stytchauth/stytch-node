@@ -10,13 +10,18 @@ async function request(fetchConfig, requestConfig) {
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) => url.searchParams.append(key, String(value)));
   }
+  const finalHeaders = {
+    ...fetchConfig.headers,
+    ...requestConfig?.headers
+  };
   let response;
   try {
     const body = requestConfig.data ? JSON.stringify(requestConfig.data) : requestConfig.dataRaw;
     response = await fetch(url.toString(), {
+      ...fetchConfig,
       method: requestConfig.method,
       body: body,
-      ...fetchConfig
+      headers: finalHeaders
     });
   } catch (e) {
     const err = e;

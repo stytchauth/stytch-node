@@ -156,11 +156,13 @@ export class IntermediateSessions {
   exchange(
     data: B2BDiscoveryIntermediateSessionsExchangeRequest
   ): Promise<B2BDiscoveryIntermediateSessionsExchangeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BDiscoveryIntermediateSessionsExchangeResponse>(
       this.fetchConfig,
       {
         method: "POST",
         url: `/v1/b2b/discovery/intermediate_sessions/exchange`,
+        headers,
         data,
       }
     );

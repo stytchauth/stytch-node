@@ -185,9 +185,11 @@ export class Email {
   loginOrSignup(
     data: B2BMagicLinksEmailLoginOrSignupRequest
   ): Promise<B2BMagicLinksEmailLoginOrSignupResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksEmailLoginOrSignupResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/login_or_signup`,
+      headers,
       data,
     });
   }
@@ -205,9 +207,11 @@ export class Email {
   invite(
     data: B2BMagicLinksEmailInviteRequest
   ): Promise<B2BMagicLinksEmailInviteResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksEmailInviteResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/invite`,
+      headers,
       data,
     });
   }

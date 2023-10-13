@@ -40,16 +40,18 @@ class Clients {
 
   /**
    * Gets information about an existing M2M Client.
-   * @param data {@link M2MClientsGetRequest}
+   * @param params {@link M2MClientsGetRequest}
    * @returns {@link M2MClientsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/m2m/clients/${params.client_id}`,
+      headers,
       params: {}
     });
   }
@@ -69,9 +71,11 @@ class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/search`,
+      headers,
       data
     });
   }
@@ -92,9 +96,11 @@ class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/m2m/clients/${data.client_id}`,
+      headers,
       data: {
         client_name: data.client_name,
         client_description: data.client_description,
@@ -119,9 +125,11 @@ class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/m2m/clients/${data.client_id}`,
+      headers,
       data: {}
     });
   }
@@ -143,9 +151,11 @@ class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients`,
+      headers,
       data
     });
   }

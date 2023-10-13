@@ -229,9 +229,11 @@ export class Email {
   resetStart(
     data: B2BPasswordsEmailResetStartRequest
   ): Promise<B2BPasswordsEmailResetStartResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsEmailResetStartResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/email/reset/start`,
+      headers,
       data,
     });
   }
@@ -262,9 +264,11 @@ export class Email {
   reset(
     data: B2BPasswordsEmailResetRequest
   ): Promise<B2BPasswordsEmailResetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsEmailResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/email/reset`,
+      headers,
       data,
     });
   }

@@ -123,9 +123,11 @@ export class OIDC {
   createConnection(
     data: B2BSSOOIDCCreateConnectionRequest
   ): Promise<B2BSSOOIDCCreateConnectionResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOOIDCCreateConnectionResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/oidc/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name,
       },
@@ -168,9 +170,11 @@ export class OIDC {
   updateConnection(
     data: B2BSSOOIDCUpdateConnectionRequest
   ): Promise<B2BSSOOIDCUpdateConnectionResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOOIDCUpdateConnectionResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/oidc/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         display_name: data.display_name,
         client_id: data.client_id,

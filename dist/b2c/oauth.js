@@ -42,9 +42,11 @@ class OAuth {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   attach(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/oauth/attach`,
+      headers,
       data
     });
   }
@@ -61,9 +63,11 @@ class OAuth {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/oauth/authenticate`,
+      headers,
       data
     });
   }

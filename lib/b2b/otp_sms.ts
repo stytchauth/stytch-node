@@ -197,9 +197,11 @@ export class Sms {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data: B2BOTPSmsSendRequest): Promise<B2BOTPSmsSendResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOTPSmsSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/otps/sms/send`,
+      headers,
       data,
     });
   }
@@ -241,9 +243,11 @@ export class Sms {
   authenticate(
     data: B2BOTPSmsAuthenticateRequest
   ): Promise<B2BOTPSmsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOTPSmsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/otps/sms/authenticate`,
+      headers,
       data,
     });
   }

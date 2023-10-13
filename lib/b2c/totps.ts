@@ -249,9 +249,11 @@ export class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: TOTPsCreateRequest): Promise<TOTPsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<TOTPsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps`,
+      headers,
       data,
     });
   }
@@ -267,9 +269,11 @@ export class TOTPs {
   authenticate(
     data: TOTPsAuthenticateRequest
   ): Promise<TOTPsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<TOTPsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/authenticate`,
+      headers,
       data,
     });
   }
@@ -285,9 +289,11 @@ export class TOTPs {
   recoveryCodes(
     data: TOTPsRecoveryCodesRequest
   ): Promise<TOTPsRecoveryCodesResponse> {
+    const headers: Record<string, string> = {};
     return request<TOTPsRecoveryCodesResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/recovery_codes`,
+      headers,
       data,
     });
   }
@@ -301,9 +307,11 @@ export class TOTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   recover(data: TOTPsRecoverRequest): Promise<TOTPsRecoverResponse> {
+    const headers: Record<string, string> = {};
     return request<TOTPsRecoverResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/totps/recover`,
+      headers,
       data,
     });
   }

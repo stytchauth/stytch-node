@@ -72,6 +72,24 @@ describe("request", () => {
     });
   });
 
+  test("Merges headers passed through as options", async () => {
+    mockResponse({ key: "value" }, 200);
+    await request(MOCK_FETCH_CONFIG, {
+      url: "http://localhost:8000/hello",
+      method: "POST",
+      headers: {"app-header": "passed through"}
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
+      method: "POST",
+      ...MOCK_FETCH_CONFIG,
+      headers: {
+        ...MOCK_FETCH_CONFIG.headers,
+        "app-header": "passed through",
+      }
+    });
+  });
+
   test("error response throws inspectable error", async () => {
     expect.assertions(2);
 

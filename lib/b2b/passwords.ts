@@ -347,9 +347,11 @@ export class Passwords {
   strengthCheck(
     data: B2BPasswordsStrengthCheckRequest
   ): Promise<B2BPasswordsStrengthCheckResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsStrengthCheckResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/strength_check`,
+      headers,
       data,
     });
   }
@@ -367,9 +369,11 @@ export class Passwords {
   migrate(
     data: B2BPasswordsMigrateRequest
   ): Promise<B2BPasswordsMigrateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsMigrateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/migrate`,
+      headers,
       data,
     });
   }
@@ -403,9 +407,11 @@ export class Passwords {
   authenticate(
     data: B2BPasswordsAuthenticateRequest
   ): Promise<B2BPasswordsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/authenticate`,
+      headers,
       data,
     });
   }

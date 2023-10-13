@@ -228,7 +228,7 @@ export class SSO {
 
   /**
    * Get all SSO Connections owned by the organization.
-   * @param data {@link B2BSSOGetConnectionsRequest}
+   * @param params {@link B2BSSOGetConnectionsRequest}
    * @returns {@link B2BSSOGetConnectionsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -237,9 +237,11 @@ export class SSO {
   getConnections(
     params: B2BSSOGetConnectionsRequest
   ): Promise<B2BSSOGetConnectionsResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOGetConnectionsResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sso/${params.organization_id}`,
+      headers,
       params: {},
     });
   }
@@ -255,9 +257,11 @@ export class SSO {
   deleteConnection(
     data: B2BSSODeleteConnectionRequest
   ): Promise<B2BSSODeleteConnectionResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSODeleteConnectionResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {},
     });
   }
@@ -290,9 +294,11 @@ export class SSO {
   authenticate(
     data: B2BSSOAuthenticateRequest
   ): Promise<B2BSSOAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/authenticate`,
+      headers,
       data,
     });
   }

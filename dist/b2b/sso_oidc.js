@@ -33,9 +33,11 @@ class OIDC {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   createConnection(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/oidc/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name
       }
@@ -76,9 +78,11 @@ class OIDC {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   updateConnection(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/oidc/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         display_name: data.display_name,
         client_id: data.client_id,

@@ -142,9 +142,11 @@ export class CryptoWallets {
   authenticateStart(
     data: CryptoWalletsAuthenticateStartRequest
   ): Promise<CryptoWalletsAuthenticateStartResponse> {
+    const headers: Record<string, string> = {};
     return request<CryptoWalletsAuthenticateStartResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/crypto_wallets/authenticate/start`,
+      headers,
       data,
     });
   }
@@ -160,9 +162,11 @@ export class CryptoWallets {
   authenticate(
     data: CryptoWalletsAuthenticateRequest
   ): Promise<CryptoWalletsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<CryptoWalletsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/crypto_wallets/authenticate`,
+      headers,
       data,
     });
   }

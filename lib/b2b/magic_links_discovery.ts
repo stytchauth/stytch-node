@@ -83,11 +83,13 @@ export class Discovery {
   authenticate(
     data: B2BMagicLinksDiscoveryAuthenticateRequest
   ): Promise<B2BMagicLinksDiscoveryAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksDiscoveryAuthenticateResponse>(
       this.fetchConfig,
       {
         method: "POST",
         url: `/v1/b2b/magic_links/discovery/authenticate`,
+        headers,
         data,
       }
     );

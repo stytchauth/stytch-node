@@ -487,6 +487,18 @@ export interface B2BOrganizationsUpdateResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsUpdateRequestOptions {
+    authorization?: {
+        session_token?: string;
+        session_jwt?: string;
+    };
+}
+export interface B2BOrganizationsDeleteRequestOptions {
+    authorization?: {
+        session_token?: string;
+        session_jwt?: string;
+    };
+}
 export declare type OrganizationSearchOperand = {
     filter_name: "organization_ids";
     filter_value: string[];
@@ -561,7 +573,7 @@ export declare class Organizations {
     create(data: B2BOrganizationsCreateRequest): Promise<B2BOrganizationsCreateResponse>;
     /**
      * Returns an Organization specified by `organization_id`.
-     * @param data {@link B2BOrganizationsGetRequest}
+     * @param params {@link B2BOrganizationsGetRequest}
      * @returns {@link B2BOrganizationsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -576,22 +588,24 @@ export declare class Organizations {
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
      * `sso_jit_provisioning`, etc., and their behaviors.
      * @param data {@link B2BOrganizationsUpdateRequest}
+     * @param options {@link B2BOrganizationsUpdateRequestOptions}
      * @returns {@link B2BOrganizationsUpdateResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    update(data: B2BOrganizationsUpdateRequest): Promise<B2BOrganizationsUpdateResponse>;
+    update(data: B2BOrganizationsUpdateRequest, options?: B2BOrganizationsUpdateRequestOptions): Promise<B2BOrganizationsUpdateResponse>;
     /**
      * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
      * deleted.
      * @param data {@link B2BOrganizationsDeleteRequest}
+     * @param options {@link B2BOrganizationsDeleteRequestOptions}
      * @returns {@link B2BOrganizationsDeleteResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    delete(data: B2BOrganizationsDeleteRequest): Promise<B2BOrganizationsDeleteResponse>;
+    delete(data: B2BOrganizationsDeleteRequest, options?: B2BOrganizationsDeleteRequestOptions): Promise<B2BOrganizationsDeleteResponse>;
     /**
      * Search for Organizations. If you send a request with no body params, no filtering will be applied and
      * the endpoint will return all Organizations. All fuzzy search filters require a minimum of three

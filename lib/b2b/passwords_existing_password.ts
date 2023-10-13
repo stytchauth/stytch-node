@@ -151,11 +151,13 @@ export class ExistingPassword {
   reset(
     data: B2BPasswordsExistingPasswordResetRequest
   ): Promise<B2BPasswordsExistingPasswordResetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsExistingPasswordResetResponse>(
       this.fetchConfig,
       {
         method: "POST",
         url: `/v1/b2b/passwords/existing_password/reset`,
+        headers,
         data,
       }
     );

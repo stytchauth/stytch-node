@@ -37,9 +37,11 @@ class MagicLinks {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/authenticate`,
+      headers,
       data
     });
   }
@@ -60,9 +62,11 @@ class MagicLinks {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links`,
+      headers,
       data
     });
   }

@@ -47,9 +47,11 @@ class Secrets {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotateStart(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/start`,
+      headers,
       data: {}
     });
   }
@@ -67,9 +69,11 @@ class Secrets {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotateCancel(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/cancel`,
+      headers,
       data: {}
     });
   }
@@ -87,9 +91,11 @@ class Secrets {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate`,
+      headers,
       data: {}
     });
   }

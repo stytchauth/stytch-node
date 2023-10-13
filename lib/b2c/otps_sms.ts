@@ -159,9 +159,11 @@ export class Sms {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data: OTPsSmsSendRequest): Promise<OTPsSmsSendResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsSmsSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/sms/send`,
+      headers,
       data,
     });
   }
@@ -188,9 +190,11 @@ export class Sms {
   loginOrCreate(
     data: OTPsSmsLoginOrCreateRequest
   ): Promise<OTPsSmsLoginOrCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsSmsLoginOrCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/sms/login_or_create`,
+      headers,
       data,
     });
   }

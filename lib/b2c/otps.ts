@@ -124,9 +124,11 @@ export class OTPs {
   authenticate(
     data: OTPsAuthenticateRequest
   ): Promise<OTPsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/authenticate`,
+      headers,
       data,
     });
   }

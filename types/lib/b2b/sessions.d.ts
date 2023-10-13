@@ -278,7 +278,7 @@ export declare class Sessions {
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     /**
      * Retrieves all active Sessions for a Member.
-     * @param data {@link B2BSessionsGetRequest}
+     * @param params {@link B2BSessionsGetRequest}
      * @returns {@link B2BSessionsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -343,7 +343,7 @@ export declare class Sessions {
     exchange(data: B2BSessionsExchangeRequest): Promise<B2BSessionsExchangeResponse>;
     /**
      * Get the JSON Web Key Set (JWKS) for a project.
-     * @param data {@link B2BSessionsGetJWKSRequest}
+     * @param params {@link B2BSessionsGetJWKSRequest}
      * @returns {@link B2BSessionsGetJWKSResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

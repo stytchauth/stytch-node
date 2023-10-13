@@ -569,16 +569,18 @@ export class Sessions {
   /**
    * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
    * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-   * @param data {@link SessionsGetRequest}
+   * @param params {@link SessionsGetRequest}
    * @returns {@link SessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: SessionsGetRequest): Promise<SessionsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/sessions`,
+      headers,
       params: { ...params },
     });
   }
@@ -598,9 +600,11 @@ export class Sessions {
   authenticate(
     data: SessionsAuthenticateRequest
   ): Promise<SessionsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/authenticate`,
+      headers,
       data,
     });
   }
@@ -616,25 +620,29 @@ export class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data: SessionsRevokeRequest): Promise<SessionsRevokeResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/revoke`,
+      headers,
       data,
     });
   }
 
   /**
    * Get the JSON Web Key Set (JWKS) for a Stytch Project.
-   * @param data {@link SessionsGetJWKSRequest}
+   * @param params {@link SessionsGetJWKSRequest}
    * @returns {@link SessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   getJWKS(params: SessionsGetJWKSRequest): Promise<SessionsGetJWKSResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/sessions/jwks/${params.project_id}`,
+      headers,
       params: {},
     });
   }

@@ -87,9 +87,11 @@ export class Discovery {
   authenticate(
     data: B2BOAuthDiscoveryAuthenticateRequest
   ): Promise<B2BOAuthDiscoveryAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOAuthDiscoveryAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/discovery/authenticate`,
+      headers,
       data,
     });
   }

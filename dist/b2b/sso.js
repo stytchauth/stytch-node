@@ -34,16 +34,18 @@ class SSO {
 
   /**
    * Get all SSO Connections owned by the organization.
-   * @param data {@link B2BSSOGetConnectionsRequest}
+   * @param params {@link B2BSSOGetConnectionsRequest}
    * @returns {@link B2BSSOGetConnectionsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   getConnections(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sso/${params.organization_id}`,
+      headers,
       params: {}
     });
   }
@@ -57,9 +59,11 @@ class SSO {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteConnection(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {}
     });
   }
@@ -90,9 +94,11 @@ class SSO {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/authenticate`,
+      headers,
       data
     });
   }

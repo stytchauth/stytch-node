@@ -186,9 +186,11 @@ export class Email {
   resetStart(
     data: PasswordsEmailResetStartRequest
   ): Promise<PasswordsEmailResetStartResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsEmailResetStartResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/email/reset/start`,
+      headers,
       data,
     });
   }
@@ -212,9 +214,11 @@ export class Email {
   reset(
     data: PasswordsEmailResetRequest
   ): Promise<PasswordsEmailResetResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsEmailResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/email/reset`,
+      headers,
       data,
     });
   }

@@ -51,15 +51,24 @@ class Members {
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  update(data) {
+  update(data, options) {
+    const headers = {};
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] = options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] = options?.authorization?.session_jwt;
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {
         name: data.name,
         trusted_metadata: data.trusted_metadata,
@@ -74,15 +83,24 @@ class Members {
   /**
    * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  delete(data) {
+  delete(data, options) {
+    const headers = {};
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] = options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] = options?.authorization?.session_jwt;
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {}
     });
   }
@@ -97,9 +115,11 @@ class Members {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   reactivate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+      headers,
       data: {}
     });
   }
@@ -122,9 +142,11 @@ class Members {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteMFAPhoneNumber(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
+      headers,
       data: {}
     });
   }
@@ -135,15 +157,24 @@ class Members {
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}
+   * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  search(data) {
+  search(data, options) {
+    const headers = {};
+    if (options?.authorization?.session_token) {
+      headers["X-Stytch-Member-Session"] = options?.authorization?.session_token;
+    }
+    if (options?.authorization?.session_jwt) {
+      headers["X-Stytch-Member-SessionJWT"] = options?.authorization?.session_jwt;
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/members/search`,
+      headers,
       data
     });
   }
@@ -157,9 +188,11 @@ class Members {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deletePassword(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
+      headers,
       data: {}
     });
   }
@@ -173,9 +206,11 @@ class Members {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/${data.organization_id}/members`,
+      headers,
       data: {
         email_address: data.email_address,
         name: data.name,
@@ -191,16 +226,18 @@ class Members {
 
   /**
    * Get a Member by `member_id` or `email_address`.
-   * @param data {@link B2BOrganizationsMembersGetRequest}
+   * @param params {@link B2BOrganizationsMembersGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/member`,
+      headers,
       params: {
         ...params
       }

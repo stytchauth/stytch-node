@@ -161,9 +161,11 @@ export class MagicLinks {
   authenticate(
     data: MagicLinksAuthenticateRequest
   ): Promise<MagicLinksAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/authenticate`,
+      headers,
       data,
     });
   }
@@ -184,9 +186,11 @@ export class MagicLinks {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: MagicLinksCreateRequest): Promise<MagicLinksCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links`,
+      headers,
       data,
     });
   }

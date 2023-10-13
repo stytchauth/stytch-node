@@ -30,9 +30,11 @@ class Discovery {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/discovery/authenticate`,
+      headers,
       data
     });
   }

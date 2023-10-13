@@ -57,9 +57,11 @@ class Whatsapp {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/send`,
+      headers,
       data
     });
   }
@@ -85,9 +87,11 @@ class Whatsapp {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   loginOrCreate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/login_or_create`,
+      headers,
       data
     });
   }

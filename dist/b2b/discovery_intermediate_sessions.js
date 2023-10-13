@@ -46,9 +46,11 @@ class IntermediateSessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   exchange(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/intermediate_sessions/exchange`,
+      headers,
       data
     });
   }

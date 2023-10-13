@@ -185,7 +185,7 @@ export declare class SSO {
     constructor(fetchConfig: fetchConfig);
     /**
      * Get all SSO Connections owned by the organization.
-     * @param data {@link B2BSSOGetConnectionsRequest}
+     * @param params {@link B2BSSOGetConnectionsRequest}
      * @returns {@link B2BSSOGetConnectionsResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

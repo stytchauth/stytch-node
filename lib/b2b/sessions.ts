@@ -355,16 +355,18 @@ export class Sessions {
 
   /**
    * Retrieves all active Sessions for a Member.
-   * @param data {@link B2BSessionsGetRequest}
+   * @param params {@link B2BSessionsGetRequest}
    * @returns {@link B2BSessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions`,
+      headers,
       params: { ...params },
     });
   }
@@ -386,9 +388,11 @@ export class Sessions {
   authenticate(
     data: B2BSessionsAuthenticateRequest
   ): Promise<B2BSessionsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/authenticate`,
+      headers,
       data,
     });
   }
@@ -404,9 +408,11 @@ export class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,
+      headers,
       data,
     });
   }
@@ -443,16 +449,18 @@ export class Sessions {
   exchange(
     data: B2BSessionsExchangeRequest
   ): Promise<B2BSessionsExchangeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsExchangeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
       data,
     });
   }
 
   /**
    * Get the JSON Web Key Set (JWKS) for a project.
-   * @param data {@link B2BSessionsGetJWKSRequest}
+   * @param params {@link B2BSessionsGetJWKSRequest}
    * @returns {@link B2BSessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -461,9 +469,11 @@ export class Sessions {
   getJWKS(
     params: B2BSessionsGetJWKSRequest
   ): Promise<B2BSessionsGetJWKSResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      headers,
       params: {},
     });
   }

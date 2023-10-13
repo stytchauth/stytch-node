@@ -256,4 +256,6 @@ export type {
   WebAuthnRegisterResponse,
   WebAuthnRegisterStartRequest,
   WebAuthnRegisterStartResponse,
+  WebAuthnUpdateRequest,
+  WebAuthnUpdateResponse,
 } from "./webauthn";

@@ -34,9 +34,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   resetStart(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/email/reset/start`,
+      headers,
       data
     });
   }
@@ -58,9 +60,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   reset(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/email/reset`,
+      headers,
       data
     });
   }

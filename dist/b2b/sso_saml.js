@@ -37,9 +37,11 @@ class SAML {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   createConnection(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/saml/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name
       }
@@ -61,9 +63,11 @@ class SAML {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   updateConnection(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         idp_entity_id: data.idp_entity_id,
         display_name: data.display_name,
@@ -86,9 +90,11 @@ class SAML {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteVerificationCertificate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/verification_certificates/${data.certificate_id}`,
+      headers,
       data: {}
     });
   }

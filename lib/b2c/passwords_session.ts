@@ -101,9 +101,11 @@ export class Sessions {
   reset(
     data: PasswordsSessionResetRequest
   ): Promise<PasswordsSessionResetResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsSessionResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/session/reset`,
+      headers,
       data,
     });
   }

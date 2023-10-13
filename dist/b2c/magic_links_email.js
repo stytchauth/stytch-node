@@ -58,9 +58,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/send`,
+      headers,
       data
     });
   }
@@ -84,9 +86,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   loginOrCreate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/login_or_create`,
+      headers,
       data
     });
   }
@@ -108,9 +112,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   invite(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/invite`,
+      headers,
       data
     });
   }
@@ -124,9 +130,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revokeInvite(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/email/revoke_invite`,
+      headers,
       data
     });
   }

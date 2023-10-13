@@ -55,9 +55,11 @@ class Sms {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/otps/sms/send`,
+      headers,
       data
     });
   }
@@ -97,9 +99,11 @@ class Sms {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/otps/sms/authenticate`,
+      headers,
       data
     });
   }

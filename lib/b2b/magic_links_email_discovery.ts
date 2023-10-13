@@ -77,9 +77,11 @@ export class Discovery {
   send(
     data: B2BMagicLinksEmailDiscoverySendRequest
   ): Promise<B2BMagicLinksEmailDiscoverySendResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksEmailDiscoverySendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/discovery/send`,
+      headers,
       data,
     });
   }

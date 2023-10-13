@@ -288,27 +288,47 @@ export interface B2BOrganizationsMembersUpdateResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersUpdateRequestOptions {
+    authorization?: {
+        session_token?: string;
+        session_jwt?: string;
+    };
+}
+export interface B2BOrganizationsMembersDeleteRequestOptions {
+    authorization?: {
+        session_token?: string;
+        session_jwt?: string;
+    };
+}
+export interface B2BOrganizationsMembersSearchRequestOptions {
+    authorization?: {
+        session_token?: string;
+        session_jwt?: string;
+    };
+}
 export declare class Members {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
      * Updates a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersUpdateRequest}
+     * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
      * @returns {@link B2BOrganizationsMembersUpdateResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    update(data: B2BOrganizationsMembersUpdateRequest): Promise<B2BOrganizationsMembersUpdateResponse>;
+    update(data: B2BOrganizationsMembersUpdateRequest, options?: B2BOrganizationsMembersUpdateRequestOptions): Promise<B2BOrganizationsMembersUpdateResponse>;
     /**
      * Deletes a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersDeleteRequest}
+     * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    delete(data: B2BOrganizationsMembersDeleteRequest): Promise<B2BOrganizationsMembersDeleteResponse>;
+    delete(data: B2BOrganizationsMembersDeleteRequest, options?: B2BOrganizationsMembersDeleteRequestOptions): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
      * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
      * specified by `organization_id` and `member_id`.
@@ -343,12 +363,13 @@ export declare class Members {
      *
      * *All fuzzy search filters require a minimum of three characters.
      * @param data {@link B2BOrganizationsMembersSearchRequest}
+     * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
      * @returns {@link B2BOrganizationsMembersSearchResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    search(data: B2BOrganizationsMembersSearchRequest): Promise<B2BOrganizationsMembersSearchResponse>;
+    search(data: B2BOrganizationsMembersSearchRequest, options?: B2BOrganizationsMembersSearchRequestOptions): Promise<B2BOrganizationsMembersSearchResponse>;
     /**
      * Delete a Member's password.
      * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
@@ -369,7 +390,7 @@ export declare class Members {
     create(data: B2BOrganizationsMembersCreateRequest): Promise<B2BOrganizationsMembersCreateResponse>;
     /**
      * Get a Member by `member_id` or `email_address`.
-     * @param data {@link B2BOrganizationsMembersGetRequest}
+     * @param params {@link B2BOrganizationsMembersGetRequest}
      * @returns {@link B2BOrganizationsMembersGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

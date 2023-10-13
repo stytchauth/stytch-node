@@ -48,9 +48,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/email/send`,
+      headers,
       data
     });
   }
@@ -71,9 +73,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   loginOrCreate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/email/login_or_create`,
+      headers,
       data
     });
   }
