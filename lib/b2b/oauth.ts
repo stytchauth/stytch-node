@@ -109,10 +109,7 @@ export interface B2BOAuthAuthenticateResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to

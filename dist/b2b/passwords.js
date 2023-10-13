@@ -91,21 +91,14 @@ class Passwords {
 
   /**
    * Authenticate a member with their email address and password. This endpoint verifies that the member has
-   * a password currently set, and that the entered password is correct. There are two instances where the
-   * endpoint will return a reset_password error even if they enter their previous password:
-   * * The member’s credentials appeared in the HaveIBeenPwned dataset.
-   *     * We force a password reset to ensure that the member is the legitimate owner of the email address,
-   * and not a malicious actor abusing the compromised credentials.
-   * * A member that has previously authenticated with email/password uses a passwordless authentication
-   * method tied to the same email address (e.g. Magic Links) for the first time. Any subsequent
-   * email/password authentication attempt will result in this error.
-   *     * We force a password reset in this instance in order to safely deduplicate the account by email
-   * address, without introducing the risk of a pre-hijack account takeover attack.
-   *     * Imagine a bad actor creates many accounts using passwords and the known email addresses of their
-   * victims. If a victim comes to the site and logs in for the first time with an email-based passwordless
-   * authentication method then both the victim and the bad actor have credentials to access to the same
-   * account. To prevent this, any further email/password login attempts first require a password reset which
-   * can only be accomplished by someone with access to the underlying email address.
+   * a password currently set, and that the entered password is correct.
+   *
+   * If you have breach detection during authentication enabled in your
+   * [password strength policy](https://stytch.com/docs/b2b/guides/passwords/strength-policies) and the
+   * member's credentials have appeared in the HaveIBeenPwned dataset, this endpoint will return a
+   * `member_reset_password` error even if the member enters a correct password. We force a password reset in
+   * this case to ensure that the member is the legitimate owner of the email address and not a malicious
+   * actor abusing the compromised credentials.
    *
    * If the Member is required to complete MFA to log in to the Organization, the returned value of
    * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.

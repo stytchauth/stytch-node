@@ -31,6 +31,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.get`.
 
+// Request type for `organizations.members.reactivate`.
+
+// Response type for `organizations.members.reactivate`.
+
 // Request type for `organizations.members.search`.
 
 // Response type for `organizations.members.search`.
@@ -84,6 +88,8 @@ class Members {
   }
 
   /**
+   * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+   * specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
    * @async
@@ -125,7 +131,7 @@ class Members {
 
   /**
    * Search for Members within specified Organizations. An array with at least one `organization_id` is
-   * required. Submitting an empty `query` returns all Members within the specified Organizations.
+   * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}

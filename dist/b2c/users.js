@@ -30,6 +30,8 @@ var _shared = require("../shared");
 // Response type for `users.deleteTOTP`.
 // Request type for `users.deleteWebAuthnRegistration`.
 // Response type for `users.deleteWebAuthnRegistration`.
+// Request type for `users.exchangePrimaryFactor`.
+// Response type for `users.exchangePrimaryFactor`.
 // Request type for `users.get`.
 // Response type for `users.get`.
 // Request type for `users.search`.
@@ -134,9 +136,12 @@ class Users {
    *
    * **Note:** In order to add a new email address or phone number to an existing User object, pass the new
    * email address or phone number into the respective `/send` endpoint for the authentication method of your
-   * choice. If you specify the existing User's `user_id` while calling the `/send` endpoint, the new email
-   * address or phone number will be added to the existing User object upon successful authentication. We
-   * require this process to guard against an account takeover vulnerability.
+   * choice. If you specify the existing User's `user_id` while calling the `/send` endpoint, the new,
+   * unverified email address or phone number will be added to the existing User object. If the user
+   * successfully authenticates within 5 minutes of the `/send` request, the new email address or phone
+   * number will be marked as verified and remain permanently on the existing Stytch User. Otherwise, it will
+   * be removed from the User object, and any subsequent login requests using that phone number will create a
+   * new User. We require this process to guard against an account takeover vulnerability.
    * @param data {@link UsersUpdateRequest}
    * @returns {@link UsersUpdateResponse}
    * @async
@@ -157,6 +162,14 @@ class Users {
   }
 
   /**
+   * Exchange a user's email address or phone number for another.
+   *
+   * Must pass either an `email_address` or a `phone_number`.
+   *
+   * This endpoint only works if the user has exactly one factor. You are able to exchange the type of factor
+   * for another as well, i.e. exchange an `email_address` for a `phone_number`.
+   *
+   * Use this endpoint with caution as it performs an admin level action.
    * @param data {@link UsersExchangePrimaryFactorRequest}
    * @returns {@link UsersExchangePrimaryFactorResponse}
    * @async

@@ -91,10 +91,7 @@ export interface B2BOTPSmsAuthenticateResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -151,10 +148,7 @@ export interface B2BOTPSmsSendResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -173,7 +167,7 @@ export class Sms {
   }
 
   /**
-   * Send a one-time passcode (OTP) to a Member's phone number.
+   * Send a One-Time Passcode (OTP) to a Member's phone number.
    *
    * If the Member already has a phone number, the `mfa_phone_number` field is not needed; the endpoint will
    * send an OTP to the number associated with the Member.
@@ -191,6 +185,11 @@ export class Sms {
    * automatically be sent to their phone number. In that case, this endpoint should only be used for
    * subsequent authentication events, such as prompting a Member for an OTP again after a period of
    * inactivity.
+   *
+   * ### Cost to send SMS OTP
+   * Before configuring SMS or WhatsApp OTPs, please review how Stytch
+   * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
+   * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    * @param data {@link B2BOTPSmsSendRequest}
    * @returns {@link B2BOTPSmsSendResponse}
    * @async

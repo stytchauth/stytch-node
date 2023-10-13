@@ -67,10 +67,7 @@ export interface B2BOrganizationsMembersCreateResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -104,10 +101,7 @@ export interface B2BOrganizationsMembersDeleteMFAPhoneNumberResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -138,10 +132,7 @@ export interface B2BOrganizationsMembersDeletePasswordResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -207,10 +198,7 @@ export interface B2BOrganizationsMembersGetResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -221,16 +209,37 @@ export interface B2BOrganizationsMembersGetResponse {
   status_code: number;
 }
 
+// Request type for `organizations.members.reactivate`.
 export interface B2BOrganizationsMembersReactivateRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
   organization_id: string;
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
   member_id: string;
 }
 
+// Response type for `organizations.members.reactivate`.
 export interface B2BOrganizationsMembersReactivateResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
+  // Globally unique UUID that identifies a specific Member.
   member_id: string;
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -342,10 +351,7 @@ export interface B2BOrganizationsMembersUpdateResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
@@ -407,6 +413,8 @@ export class Members {
   }
 
   /**
+   * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+   * specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
    * @async
@@ -458,7 +466,7 @@ export class Members {
 
   /**
    * Search for Members within specified Organizations. An array with at least one `organization_id` is
-   * required. Submitting an empty `query` returns all Members within the specified Organizations.
+   * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}

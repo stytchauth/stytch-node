@@ -88,10 +88,7 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  /**
-   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-   * does not.
-   */
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;

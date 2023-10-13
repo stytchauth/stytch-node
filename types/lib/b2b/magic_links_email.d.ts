@@ -53,10 +53,6 @@ export interface B2BMagicLinksEmailInviteResponse {
      */
     request_id: string;
     member_id: string;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**
@@ -132,10 +128,6 @@ export interface B2BMagicLinksEmailLoginOrSignupResponse {
      * existed.
      */
     member_created: boolean;
-    /**
-     * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-     * does not.
-     */
     member: Member;
     organization: Organization;
     /**

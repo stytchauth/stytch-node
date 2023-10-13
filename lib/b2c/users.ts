@@ -205,9 +205,9 @@ export interface UsersCreateRequest {
   // Provided attributes help with fraud detection.
   attributes?: Attributes;
   /**
-   * The phone number to use for one-time passcodes. The phone number should be in E.164 format. The phone
-   * number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint,
-   * see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+   * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
+   * +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+   * [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
    */
   phone_number?: string;
   /**
@@ -498,16 +498,34 @@ export interface UsersDeleteWebAuthnRegistrationResponse {
   status_code: number;
 }
 
+// Request type for `users.exchangePrimaryFactor`.
 export interface UsersExchangePrimaryFactorRequest {
+  // The unique ID of a specific User.
   user_id: string;
+  // The email address to exchange to.
   email_address?: string;
+  // The phone number to exchange to. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX).
   phone_number?: string;
 }
 
+// Response type for `users.exchangePrimaryFactor`.
 export interface UsersExchangePrimaryFactorResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
+  // The unique ID of the affected User.
   user_id: string;
+  /**
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -872,9 +890,12 @@ export class Users {
    *
    * **Note:** In order to add a new email address or phone number to an existing User object, pass the new
    * email address or phone number into the respective `/send` endpoint for the authentication method of your
-   * choice. If you specify the existing User's `user_id` while calling the `/send` endpoint, the new email
-   * address or phone number will be added to the existing User object upon successful authentication. We
-   * require this process to guard against an account takeover vulnerability.
+   * choice. If you specify the existing User's `user_id` while calling the `/send` endpoint, the new,
+   * unverified email address or phone number will be added to the existing User object. If the user
+   * successfully authenticates within 5 minutes of the `/send` request, the new email address or phone
+   * number will be marked as verified and remain permanently on the existing Stytch User. Otherwise, it will
+   * be removed from the User object, and any subsequent login requests using that phone number will create a
+   * new User. We require this process to guard against an account takeover vulnerability.
    * @param data {@link UsersUpdateRequest}
    * @returns {@link UsersUpdateResponse}
    * @async
@@ -895,6 +916,14 @@ export class Users {
   }
 
   /**
+   * Exchange a user's email address or phone number for another.
+   *
+   * Must pass either an `email_address` or a `phone_number`.
+   *
+   * This endpoint only works if the user has exactly one factor. You are able to exchange the type of factor
+   * for another as well, i.e. exchange an `email_address` for a `phone_number`.
+   *
+   * Use this endpoint with caution as it performs an admin level action.
    * @param data {@link UsersExchangePrimaryFactorRequest}
    * @returns {@link UsersExchangePrimaryFactorResponse}
    * @async
