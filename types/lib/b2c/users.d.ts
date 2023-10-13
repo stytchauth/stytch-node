@@ -144,6 +144,7 @@ export interface WebAuthnRegistration {
      * created without an authenticator type preference.
      */
     authenticator_type: string;
+    name: string;
 }
 export interface UsersCreateRequest {
     email?: string;
