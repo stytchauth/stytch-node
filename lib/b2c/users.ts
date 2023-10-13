@@ -193,6 +193,7 @@ export interface WebAuthnRegistration {
    * created without an authenticator type preference.
    */
   authenticator_type: string;
+  name: string;
 }
 
 // Request type for `users.create`.
