@@ -20,15 +20,7 @@ export interface Options {
 
 // Request type for `magicLinks.authenticate`.
 export interface MagicLinksAuthenticateRequest {
-  /**
-   * The Magic Link `token` from the `?token=` query parameter in the URL.
-   *
-   *       The redirect URL will look like
-   * `https://example.com/authenticate?stytch_token_type=magic_links&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
-   *
-   *       In the redirect URL, the `stytch_token_type` will be `magic_link`. See
-   * [here](https://stytch.com/docs/guides/dashboard/redirect-urls) for more detail.
-   */
+  // The token to authenticate.
   token: string;
   // Provided attributes help with fraud detection.
   attributes?: Attributes;

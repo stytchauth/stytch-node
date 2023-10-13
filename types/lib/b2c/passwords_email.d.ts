@@ -4,14 +4,6 @@ import { Options } from "./magic_links";
 import { Session } from "./sessions";
 import { User } from "./users";
 export interface PasswordsEmailResetRequest {
-    /**
-     * The Passwords `token` from the `?token=` query parameter in the URL.
-     *
-     *       In the redirect URL, the `stytch_token_type` will be `login` or `reset_password`.
-     *
-     *       See examples and read more about redirect URLs
-     * [here](https://stytch.com/docs/guides/dashboard/redirect-urls).
-     */
     token: string;
     password: string;
     session_token?: string;
@@ -159,8 +151,6 @@ export declare class Email {
      * The provided password needs to meet our password strength requirements, which can be checked in advance
      * with the password strength endpoint. If the token and password are accepted, the password is securely
      * stored for future authentication and the user is authenticated.
-     *
-     * Note that a successful password reset by email will revoke all active sessions for the `user_id`.
      * @param data {@link PasswordsEmailResetRequest}
      * @returns {@link PasswordsEmailResetResponse}
      * @async

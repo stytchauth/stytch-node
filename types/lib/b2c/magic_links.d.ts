@@ -8,15 +8,6 @@ export interface Options {
     user_agent_match_required: boolean;
 }
 export interface MagicLinksAuthenticateRequest {
-    /**
-     * The Magic Link `token` from the `?token=` query parameter in the URL.
-     *
-     *       The redirect URL will look like
-     * `https://example.com/authenticate?stytch_token_type=magic_links&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
-     *
-     *       In the redirect URL, the `stytch_token_type` will be `magic_link`. See
-     * [here](https://stytch.com/docs/guides/dashboard/redirect-urls) for more detail.
-     */
     token: string;
     attributes?: Attributes;
     options?: Options;

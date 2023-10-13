@@ -25,10 +25,6 @@ export interface AppleOAuthFactor {
 }
 
 export interface AuthenticationFactor {
-  /**
-   * The type of authentication factor. The possible values are: `magic_link`, `otp`,
-   *        `oauth`, `password`, or `sso`.
-   */
   type:
     | "magic_link"
     | "otp"
@@ -40,20 +36,6 @@ export interface AuthenticationFactor {
     | "signature_challenge"
     | "sso"
     | string;
-  /**
-   * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
-   *
-   *       `magic_link` – Only `email`.
-   *
-   *       `otp` – Only `sms`.
-   *
-   *       `oauth` – Either `oauth_google` or `oauth_microsoft`.
-   *
-   *       `password` – Only `knowledge`.
-   *
-   *       `sso` – Either `sso_saml` or `sso_oidc`.
-   *
-   */
   delivery_method:
     | "email"
     | "sms"
@@ -91,19 +73,12 @@ export interface AuthenticationFactor {
     | "oauth_salesforce"
     | "oauth_yahoo"
     | string;
-  // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
-  // The timestamp when the factor was initially authenticated.
   created_at?: string;
-  // The timestamp when the factor was last updated.
   updated_at?: string;
-  // Information about the email factor, if one is present.
   email_factor?: EmailFactor;
-  // Information about the phone number factor, if one is present.
   phone_number_factor?: PhoneNumberFactor;
-  // Information about the Google OAuth factor, if one is present.
   google_oauth_factor?: GoogleOAuthFactor;
-  // Information about the Microsoft OAuth factor, if one is present.
   microsoft_oauth_factor?: MicrosoftOAuthFactor;
   apple_oauth_factor?: AppleOAuthFactor;
   webauthn_factor?: WebAuthnFactor;
@@ -130,9 +105,7 @@ export interface AuthenticationFactor {
   twitter_oauth_factor?: TwitterOAuthFactor;
   embeddable_magic_link_factor?: EmbeddableMagicLinkFactor;
   biometric_factor?: BiometricFactor;
-  // Information about the SAML SSO factor, if one is present.
   saml_sso_factor?: SAMLSSOFactor;
-  // Information about the OIDC SSO factor, if one is present.
   oidc_sso_factor?: OIDCSSOFactor;
   salesforce_oauth_factor?: SalesforceOAuthFactor;
   yahoo_oauth_factor?: YahooOAuthFactor;
@@ -171,9 +144,7 @@ export interface DiscordOAuthFactor {
 }
 
 export interface EmailFactor {
-  // The globally unique UUID of the Member's email.
   email_id: string;
-  // The email address of the Member.
   email_address: string;
 }
 
@@ -206,14 +177,8 @@ export interface GithubOAuthFactor {
 }
 
 export interface GoogleOAuthFactor {
-  // The unique ID of an OAuth registration.
   id: string;
-  // The globally unique UUID of the Member's email.
   email_id: string;
-  /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
   provider_subject: string;
 }
 
@@ -242,30 +207,19 @@ export interface LinkedInOAuthFactor {
 }
 
 export interface MicrosoftOAuthFactor {
-  // The unique ID of an OAuth registration.
   id: string;
-  // The globally unique UUID of the Member's email.
   email_id: string;
-  /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
   provider_subject: string;
 }
 
 export interface OIDCSSOFactor {
-  // The unique ID of an SSO Registration.
   id: string;
-  // Globally unique UUID that identifies a specific OIDC Connection.
   provider_id: string;
-  // The ID of the member given by the identity provider.
   external_id: string;
 }
 
 export interface PhoneNumberFactor {
-  // The globally unique UUID of the Member's phone number.
   phone_id: string;
-  // The phone number of the Member.
   phone_number: string;
 }
 
@@ -274,11 +228,8 @@ export interface RecoveryCodeFactor {
 }
 
 export interface SAMLSSOFactor {
-  // The unique ID of an SSO Registration.
   id: string;
-  // Globally unique UUID that identifies a specific SAML Connection.
   provider_id: string;
-  // The ID of the member given by the identity provider.
   external_id: string;
 }
 
@@ -293,7 +244,7 @@ export interface Session {
   session_id: string;
   // The unique ID of the affected User.
   user_id: string;
-  // An array of different authentication factors that comprise a Session.
+  // An array of different authentication factors that have initiated a Session.
   authentication_factors: AuthenticationFactor[];
   /**
    * The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in
