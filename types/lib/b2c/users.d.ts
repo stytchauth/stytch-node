@@ -135,6 +135,7 @@ export interface WebAuthnRegistration {
     user_agent: string;
     verified: boolean;
     authenticator_type: string;
+    name: string;
 }
 export interface UsersCreateRequest {
     email?: string;
