@@ -183,6 +183,7 @@ export interface WebAuthnRegistration {
   user_agent: string;
   verified: boolean;
   authenticator_type: string;
+  name: string;
 }
 
 // Request type for `users.create`.
