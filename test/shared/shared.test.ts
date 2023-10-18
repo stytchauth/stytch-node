@@ -28,6 +28,7 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
+      cache: "no-store",
       ...MOCK_FETCH_CONFIG,
     });
   });
@@ -37,6 +38,7 @@ describe("request", () => {
     await request(MOCK_FETCH_CONFIG, {
       url: "http://localhost:8000/hello",
       method: "GET",
+      cache: "no-store",
       params: {
         string: "here",
         number: 1234,
@@ -47,6 +49,7 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith(expectedURL, {
       method: "GET",
+      cache: "no-store",
       ...MOCK_FETCH_CONFIG,
     });
   });
@@ -67,6 +70,7 @@ describe("request", () => {
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/hello", {
       method: "GET",
+      cache: "no-store",
       body: `{"string":"here","number":1234,"deep":{"array":[123]}}`,
       ...MOCK_FETCH_CONFIG,
     });

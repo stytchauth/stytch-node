@@ -16,6 +16,7 @@ async function request(fetchConfig, requestConfig) {
     response = await fetch(url.toString(), {
       method: requestConfig.method,
       body: body,
+      cache: "no-store",
       ...fetchConfig
     });
   } catch (e) {
