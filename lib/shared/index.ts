@@ -36,6 +36,7 @@ export async function request<T>(
     response = await fetch(url.toString(), {
       method: requestConfig.method,
       body: body,
+      cache: "no-store",
       ...fetchConfig,
     });
   } catch (e) {
