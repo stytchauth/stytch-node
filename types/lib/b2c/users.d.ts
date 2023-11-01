@@ -133,7 +133,16 @@ export interface WebAuthnRegistration {
     webauthn_registration_id: string;
     domain: string;
     user_agent: string;
+    /**
+     * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+     * has been successfully authenticated by the User.
+     */
     verified: boolean;
+    /**
+     * The `authenticator_type` string displays the requested authenticator type of the WebAuthn device. The
+     * two valid types are "platform" and "cross-platform". If no value is present, the WebAuthn device was
+     * created without an authenticator type preference.
+     */
     authenticator_type: string;
     name: string;
 }
