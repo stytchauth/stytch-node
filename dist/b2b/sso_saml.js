@@ -19,9 +19,11 @@ var _shared = require("../shared");
 
 // Response type for `sso.saml.deleteVerificationCertificate`.
 
-// Request type for `sso.saml.updateConnection`.
+// Request type for `sso.saml.updateByURL`.
 
-// Response type for `sso.saml.updateConnection`.
+// Response type for `sso.saml.updateByURL`.
+
+// Request type for `sso.saml.updateConnection`.
 
 class SAML {
   constructor(fetchConfig) {
@@ -55,7 +57,7 @@ class SAML {
    * * `idp_entity_id`
    * * `x509_certificate`
    * @param data {@link B2BSSOSAMLUpdateConnectionRequest}
-   * @returns {@link B2BSSOSAMLUpdateConnectionResponse}
+   * @returns {@link B2BSSOSAMLUpdateByURLResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -70,6 +72,30 @@ class SAML {
         attribute_mapping: data.attribute_mapping,
         x509_certificate: data.x509_certificate,
         idp_sso_url: data.idp_sso_url
+      }
+    });
+  }
+
+  /**
+   * Used to update an existing SAML connection using an IDP metadata URL.
+   *
+   * A newly created connection will not become active until all the following are provided:
+   * * `idp_sso_url`
+   * * `idp_entity_id`
+   * * `x509_certificate`
+   * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
+   * @param data {@link B2BSSOSAMLUpdateByURLRequest}
+   * @returns {@link B2BSSOSAMLUpdateByURLResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  updateByURL(data) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/url`,
+      data: {
+        metadata_url: data.metadata_url
       }
     });
   }
