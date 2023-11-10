@@ -177,6 +177,7 @@ export type {
   B2BSSOSAMLCreateConnectionResponse,
   B2BSSOSAMLDeleteVerificationCertificateRequest,
   B2BSSOSAMLDeleteVerificationCertificateResponse,
+  B2BSSOSAMLUpdateByURLRequest,
+  B2BSSOSAMLUpdateByURLResponse,
   B2BSSOSAMLUpdateConnectionRequest,
-  B2BSSOSAMLUpdateConnectionResponse,
 } from "./sso_saml";
