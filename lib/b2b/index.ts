@@ -37,6 +37,7 @@ export type {
 export type {
   B2BOrganizationsMembersCreateRequest,
   B2BOrganizationsMembersCreateResponse,
+  B2BOrganizationsMembersDangerouslyGetRequest,
   B2BOrganizationsMembersDeleteMFAPhoneNumberRequest,
   B2BOrganizationsMembersDeleteMFAPhoneNumberResponse,
   B2BOrganizationsMembersDeletePasswordRequest,
@@ -177,6 +178,8 @@ export type {
   B2BSSOSAMLCreateConnectionResponse,
   B2BSSOSAMLDeleteVerificationCertificateRequest,
   B2BSSOSAMLDeleteVerificationCertificateResponse,
+  B2BSSOSAMLUpdateByURLRequest,
+  B2BSSOSAMLUpdateByURLResponse,
   B2BSSOSAMLUpdateConnectionRequest,
   B2BSSOSAMLUpdateConnectionResponse,
 } from "./sso_saml";

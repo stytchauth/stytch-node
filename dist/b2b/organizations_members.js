@@ -15,6 +15,8 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.create`.
 
+// Request type for `organizations.members.dangerouslyGet`.
+
 // Request type for `organizations.members.deleteMFAPhoneNumber`.
 
 // Response type for `organizations.members.deleteMFAPhoneNumber`.
@@ -161,6 +163,25 @@ class Members {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
       data: {}
+    });
+  }
+
+  /**
+   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, so you can use it to
+   * get members across organizations. This is a dangerous operation. Incorrect use may open you up to
+   * indirect object reference (IDOR) attacks. We recommend using the
+   * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
+   * @param data {@link B2BOrganizationsMembersDangerouslyGetRequest}
+   * @returns {@link B2BOrganizationsMembersGetResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  dangerouslyGet(params) {
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
+      params: {}
     });
   }
 

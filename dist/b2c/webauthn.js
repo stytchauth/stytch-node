@@ -27,6 +27,10 @@ var _shared = require("../shared");
 
 // Response type for `webauthn.registerStart`.
 
+// Request type for `webauthn.update`.
+
+// Response type for `webauthn.update`.
+
 class WebAuthn {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
@@ -134,6 +138,7 @@ class WebAuthn {
   }
 
   /**
+   * Updates a WebAuthn registration.
    * @param data {@link WebAuthnUpdateRequest}
    * @returns {@link WebAuthnUpdateResponse}
    * @async

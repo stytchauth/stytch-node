@@ -65,6 +65,39 @@ export interface B2BSSOSAMLDeleteVerificationCertificateResponse {
   status_code: number;
 }
 
+// Request type for `sso.saml.updateByURL`.
+export interface B2BSSOSAMLUpdateByURLRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
+  organization_id: string;
+  // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+  connection_id: string;
+  // A URL that points to the IdP metadata. This will be provided by the IdP.
+  metadata_url: string;
+}
+
+// Response type for `sso.saml.updateByURL`.
+export interface B2BSSOSAMLUpdateByURLResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
+  status_code: number;
+  /**
+   * The `SAML Connection` object affected by this API call. See the
+   * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
+   * field details.
+   */
+  connection?: SAMLConnection;
+}
+
 // Request type for `sso.saml.updateConnection`.
 export interface B2BSSOSAMLUpdateConnectionRequest {
   /**
@@ -92,6 +125,11 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
   x509_certificate?: string;
   // The URL for which assertions for login requests will be sent. This will be provided by the IdP.
   idp_sso_url?: string;
+  /**
+   * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
+   * an existing SAML integration to Stytch with zero downtime.
+   */
+  alternative_audience_uri?: string;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -167,6 +205,33 @@ export class SAML {
         attribute_mapping: data.attribute_mapping,
         x509_certificate: data.x509_certificate,
         idp_sso_url: data.idp_sso_url,
+        alternative_audience_uri: data.alternative_audience_uri,
+      },
+    });
+  }
+
+  /**
+   * Used to update an existing SAML connection using an IDP metadata URL.
+   *
+   * A newly created connection will not become active until all the following are provided:
+   * * `idp_sso_url`
+   * * `idp_entity_id`
+   * * `x509_certificate`
+   * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
+   * @param data {@link B2BSSOSAMLUpdateByURLRequest}
+   * @returns {@link B2BSSOSAMLUpdateByURLResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  updateByURL(
+    data: B2BSSOSAMLUpdateByURLRequest
+  ): Promise<B2BSSOSAMLUpdateByURLResponse> {
+    return request<B2BSSOSAMLUpdateByURLResponse>(this.fetchConfig, {
+      method: "PUT",
+      url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/url`,
+      data: {
+        metadata_url: data.metadata_url,
       },
     });
   }

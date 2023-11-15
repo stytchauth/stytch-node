@@ -176,13 +176,24 @@ export interface UsersResultsMetadata {
 }
 
 export interface WebAuthnRegistration {
+  // The unique ID for the WebAuthn registration.
   webauthn_registration_id: string;
   // The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
   domain: string;
   // The user agent of the User.
   user_agent: string;
+  /**
+   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+   * has been successfully authenticated by the User.
+   */
   verified: boolean;
+  /**
+   * The `authenticator_type` string displays the requested authenticator type of the WebAuthn device. The
+   * two valid types are "platform" and "cross-platform". If no value is present, the WebAuthn device was
+   * created without an authenticator type preference.
+   */
   authenticator_type: string;
+  // The `name` of the WebAuthn registration.
   name: string;
 }
 
