@@ -78,6 +78,15 @@ export interface B2BOrganizationsMembersCreateResponse {
   status_code: number;
 }
 
+// Request type for `organizations.members.dangerouslyGet`.
+export interface B2BOrganizationsMembersDangerouslyGetRequest {
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
+  member_id: string;
+}
+
 // Request type for `organizations.members.deleteMFAPhoneNumber`.
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
   /**
@@ -504,6 +513,27 @@ export class Members {
         data: {},
       }
     );
+  }
+
+  /**
+   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, so you can use it to
+   * get members across organizations. This is a dangerous operation. Incorrect use may open you up to
+   * indirect object reference (IDOR) attacks. We recommend using the
+   * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
+   * @param data {@link B2BOrganizationsMembersDangerouslyGetRequest}
+   * @returns {@link B2BOrganizationsMembersGetResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  dangerouslyGet(
+    params: B2BOrganizationsMembersDangerouslyGetRequest
+  ): Promise<B2BOrganizationsMembersGetResponse> {
+    return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
+      params: {},
+    });
   }
 
   /**

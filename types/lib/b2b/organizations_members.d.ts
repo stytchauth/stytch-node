@@ -54,6 +54,13 @@ export interface B2BOrganizationsMembersCreateResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersDangerouslyGetRequest {
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
+    member_id: string;
+}
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -358,6 +365,18 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     deletePassword(data: B2BOrganizationsMembersDeletePasswordRequest): Promise<B2BOrganizationsMembersDeletePasswordResponse>;
+    /**
+     * Get a Member by `member_id`. This endpoint does not require an `organization_id`, so you can use it to
+     * get members across organizations. This is a dangerous operation. Incorrect use may open you up to
+     * indirect object reference (IDOR) attacks. We recommend using the
+     * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
+     * @param data {@link B2BOrganizationsMembersDangerouslyGetRequest}
+     * @returns {@link B2BOrganizationsMembersGetResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    dangerouslyGet(params: B2BOrganizationsMembersDangerouslyGetRequest): Promise<B2BOrganizationsMembersGetResponse>;
     /**
      * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}

@@ -29,6 +29,7 @@ export interface SAMLConnection {
     audience_uri: string;
     signing_certificates: X509Certificate[];
     verification_certificates: X509Certificate[];
+    alternative_audience_uri: string;
     attribute_mapping?: Record<string, any>;
 }
 export interface X509Certificate {

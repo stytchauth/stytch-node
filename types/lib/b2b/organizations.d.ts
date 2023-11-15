@@ -91,8 +91,8 @@ export interface Organization {
     organization_name: string;
     organization_logo_url: string;
     /**
-     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
+     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
      */
     organization_slug: string;
     /**
@@ -193,8 +193,8 @@ export interface SearchQuery {
 export interface B2BOrganizationsCreateRequest {
     organization_name: string;
     /**
-     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
+     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
      */
     organization_slug?: string;
     organization_logo_url?: string;
@@ -382,8 +382,8 @@ export interface B2BOrganizationsUpdateRequest {
     organization_id: string;
     organization_name?: string;
     /**
-     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
+     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
      */
     organization_slug?: string;
     organization_logo_url?: string;
@@ -570,7 +570,7 @@ export declare class Organizations {
     get(params: B2BOrganizationsGetRequest): Promise<B2BOrganizationsGetResponse>;
     /**
      * Updates an Organization specified by `organization_id`. An Organization must always have at least one
-     * auth setting set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members. test
+     * auth setting set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members.
      *
      * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
