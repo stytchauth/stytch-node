@@ -2,7 +2,7 @@
 
 The Stytch Node library makes it easy to use the Stytch user infrastructure API in server-side JavaScript applications.
 
-It pairs well with the Stytch [Web SDK](https://www.npmjs.com/package/@stytch/stytch-js) or your own custom authentication flow.
+It pairs well with the Stytch [Web SDK](https://www.npmjs.com/package/@stytch/vanilla-js) or your own custom authentication flow.
 
 This library is tested with all current LTS versions of Node - **18**, and **20**.
 
