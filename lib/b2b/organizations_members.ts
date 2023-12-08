@@ -5,6 +5,10 @@
 // !!!
 
 import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
+import {
   B2BOrganizationsResultsMetadata,
   Member,
   Organization,
@@ -12,6 +16,69 @@ import {
 } from "./organizations";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
+
+export interface B2BOrganizationsMembersCreateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeletePasswordRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersReactivateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersSearchRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersUpdateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
 
 // Request type for `organizations.members.create`.
 export interface B2BOrganizationsMembersCreateRequest {
@@ -78,12 +145,7 @@ export interface B2BOrganizationsMembersCreateResponse {
   status_code: number;
 }
 
-// Request type for `organizations.members.dangerouslyGet`.
 export interface B2BOrganizationsMembersDangerouslyGetRequest {
-  /**
-   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
-   */
   member_id: string;
 }
 
@@ -381,17 +443,24 @@ export class Members {
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BOrganizationsMembersUpdateRequest
+    data: B2BOrganizationsMembersUpdateRequest,
+    options?: B2BOrganizationsMembersUpdateRequestOptions
   ): Promise<B2BOrganizationsMembersUpdateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {
         name: data.name,
         trusted_metadata: data.trusted_metadata,
@@ -406,17 +475,24 @@ export class Members {
   /**
    * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BOrganizationsMembersDeleteRequest
+    data: B2BOrganizationsMembersDeleteRequest,
+    options?: B2BOrganizationsMembersDeleteRequestOptions
   ): Promise<B2BOrganizationsMembersDeleteResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {},
     });
   }
@@ -425,19 +501,26 @@ export class Members {
    * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
    * specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
+   * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   reactivate(
-    data: B2BOrganizationsMembersReactivateRequest
+    data: B2BOrganizationsMembersReactivateRequest,
+    options?: B2BOrganizationsMembersReactivateRequestOptions
   ): Promise<B2BOrganizationsMembersReactivateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersReactivateResponse>(
       this.fetchConfig,
       {
         method: "PUT",
         url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+        headers,
         data: {},
       }
     );
@@ -455,19 +538,26 @@ export class Members {
    * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
    * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteMFAPhoneNumber(
-    data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest
+    data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest,
+    options?: B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions
   ): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
+        headers,
         data: {},
       }
     );
@@ -479,17 +569,24 @@ export class Members {
    *
    * *All fuzzy search filters require a minimum of three characters.
    * @param data {@link B2BOrganizationsMembersSearchRequest}
+   * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(
-    data: B2BOrganizationsMembersSearchRequest
+    data: B2BOrganizationsMembersSearchRequest,
+    options?: B2BOrganizationsMembersSearchRequestOptions
   ): Promise<B2BOrganizationsMembersSearchResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/members/search`,
+      headers,
       data,
     });
   }
@@ -497,30 +594,33 @@ export class Members {
   /**
    * Delete a Member's password.
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
+   * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deletePassword(
-    data: B2BOrganizationsMembersDeletePasswordRequest
+    data: B2BOrganizationsMembersDeletePasswordRequest,
+    options?: B2BOrganizationsMembersDeletePasswordRequestOptions
   ): Promise<B2BOrganizationsMembersDeletePasswordResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeletePasswordResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
+        headers,
         data: {},
       }
     );
   }
 
   /**
-   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, so you can use it to
-   * get members across organizations. This is a dangerous operation. Incorrect use may open you up to
-   * indirect object reference (IDOR) attacks. We recommend using the
-   * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
-   * @param data {@link B2BOrganizationsMembersDangerouslyGetRequest}
+   * @param params {@link B2BOrganizationsMembersDangerouslyGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -529,9 +629,11 @@ export class Members {
   dangerouslyGet(
     params: B2BOrganizationsMembersDangerouslyGetRequest
   ): Promise<B2BOrganizationsMembersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
+      headers,
       params: {},
     });
   }
@@ -539,17 +641,24 @@ export class Members {
   /**
    * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
+   * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
    * @returns {@link B2BOrganizationsMembersCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(
-    data: B2BOrganizationsMembersCreateRequest
+    data: B2BOrganizationsMembersCreateRequest,
+    options?: B2BOrganizationsMembersCreateRequestOptions
   ): Promise<B2BOrganizationsMembersCreateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/${data.organization_id}/members`,
+      headers,
       data: {
         email_address: data.email_address,
         name: data.name,
@@ -565,7 +674,7 @@ export class Members {
 
   /**
    * Get a Member by `member_id` or `email_address`.
-   * @param data {@link B2BOrganizationsMembersGetRequest}
+   * @param params {@link B2BOrganizationsMembersGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -574,9 +683,11 @@ export class Members {
   get(
     params: B2BOrganizationsMembersGetRequest
   ): Promise<B2BOrganizationsMembersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/member`,
+      headers,
       params: { ...params },
     });
   }

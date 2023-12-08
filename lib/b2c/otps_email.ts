@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -172,9 +173,11 @@ export class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data: OTPsEmailSendRequest): Promise<OTPsEmailSendResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsEmailSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/email/send`,
+      headers,
       data,
     });
   }
@@ -197,9 +200,11 @@ export class Email {
   loginOrCreate(
     data: OTPsEmailLoginOrCreateRequest
   ): Promise<OTPsEmailLoginOrCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsEmailLoginOrCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/email/login_or_create`,
+      headers,
       data,
     });
   }

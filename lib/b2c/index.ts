@@ -83,6 +83,7 @@ export type {
   GitLabOAuthFactor,
   GithubOAuthFactor,
   GoogleOAuthFactor,
+  HubspotOAuthFactor,
   InstagramOAuthFactor,
   JWK,
   LinkedInOAuthFactor,

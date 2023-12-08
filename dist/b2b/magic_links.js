@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MagicLinks = void 0;
+require("../shared/method_options");
 var _magic_links_discovery = require("./magic_links_discovery");
 var _magic_links_email = require("./magic_links_email");
 var _shared = require("../shared");
@@ -51,9 +52,11 @@ class MagicLinks {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/authenticate`,
+      headers,
       data
     });
   }

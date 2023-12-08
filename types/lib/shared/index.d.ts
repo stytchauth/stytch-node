@@ -11,5 +11,6 @@ export declare type requestConfig = {
     params?: Record<string, string | number>;
     data?: unknown;
     dataRaw?: BodyInit;
+    headers?: Record<string, string>;
 };
 export declare function request<T>(fetchConfig: fetchConfig, requestConfig: requestConfig): Promise<T>;

@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Discovery } from "./magic_links_discovery";
 import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
@@ -179,9 +180,11 @@ export class MagicLinks {
   authenticate(
     data: B2BMagicLinksAuthenticateRequest
   ): Promise<B2BMagicLinksAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/authenticate`,
+      headers,
       data,
     });
   }

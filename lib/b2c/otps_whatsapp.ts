@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -159,9 +160,11 @@ export class Whatsapp {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   send(data: OTPsWhatsappSendRequest): Promise<OTPsWhatsappSendResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsWhatsappSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/send`,
+      headers,
       data,
     });
   }
@@ -189,9 +192,11 @@ export class Whatsapp {
   loginOrCreate(
     data: OTPsWhatsappLoginOrCreateRequest
   ): Promise<OTPsWhatsappLoginOrCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsWhatsappLoginOrCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/login_or_create`,
+      headers,
       data,
     });
   }

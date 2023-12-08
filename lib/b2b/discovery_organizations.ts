@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { DiscoveredOrganization } from "./discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
@@ -298,9 +299,11 @@ export class Organizations {
   create(
     data: B2BDiscoveryOrganizationsCreateRequest
   ): Promise<B2BDiscoveryOrganizationsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BDiscoveryOrganizationsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations/create`,
+      headers,
       data,
     });
   }
@@ -334,9 +337,11 @@ export class Organizations {
   list(
     data: B2BDiscoveryOrganizationsListRequest
   ): Promise<B2BDiscoveryOrganizationsListResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BDiscoveryOrganizationsListResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations`,
+      headers,
       data,
     });
   }

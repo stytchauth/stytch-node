@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SSO = void 0;
+var _method_options = require("../shared/method_options");
 var _sso_oidc = require("./sso_oidc");
 var _shared = require("../shared");
 var _sso_saml = require("./sso_saml");
@@ -34,16 +35,22 @@ class SSO {
 
   /**
    * Get all SSO Connections owned by the organization.
-   * @param data {@link B2BSSOGetConnectionsRequest}
+   * @param params {@link B2BSSOGetConnectionsRequest}
+   * @param options {@link B2BSSOGetConnectionsRequestOptions}
    * @returns {@link B2BSSOGetConnectionsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  getConnections(params) {
+  getConnections(params, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sso/${params.organization_id}`,
+      headers,
       params: {}
     });
   }
@@ -51,15 +58,21 @@ class SSO {
   /**
    * Delete an existing SSO connection.
    * @param data {@link B2BSSODeleteConnectionRequest}
+   * @param options {@link B2BSSODeleteConnectionRequestOptions}
    * @returns {@link B2BSSODeleteConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  deleteConnection(data) {
+  deleteConnection(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {}
     });
   }
@@ -90,9 +103,11 @@ class SSO {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/authenticate`,
+      headers,
       data
     });
   }

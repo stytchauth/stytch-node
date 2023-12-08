@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Sms } from "./otp_sms";
 

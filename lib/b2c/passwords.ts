@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
@@ -424,9 +425,11 @@ export class Passwords {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: PasswordsCreateRequest): Promise<PasswordsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords`,
+      headers,
       data,
     });
   }
@@ -460,9 +463,11 @@ export class Passwords {
   authenticate(
     data: PasswordsAuthenticateRequest
   ): Promise<PasswordsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/authenticate`,
+      headers,
       data,
     });
   }
@@ -500,9 +505,11 @@ export class Passwords {
   strengthCheck(
     data: PasswordsStrengthCheckRequest
   ): Promise<PasswordsStrengthCheckResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsStrengthCheckResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/strength_check`,
+      headers,
       data,
     });
   }
@@ -518,9 +525,11 @@ export class Passwords {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   migrate(data: PasswordsMigrateRequest): Promise<PasswordsMigrateResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsMigrateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/migrate`,
+      headers,
       data,
     });
   }

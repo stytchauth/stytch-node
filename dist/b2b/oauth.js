@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.OAuth = void 0;
+require("../shared/method_options");
 var _oauth_discovery = require("./oauth_discovery");
 var _shared = require("../shared");
 // !!!
@@ -48,9 +49,11 @@ class OAuth {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/authenticate`,
+      headers,
       data
     });
   }

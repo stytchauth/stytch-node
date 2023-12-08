@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
 

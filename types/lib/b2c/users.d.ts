@@ -627,7 +627,7 @@ export declare class Users {
     create(data: UsersCreateRequest): Promise<UsersCreateResponse>;
     /**
      * Get information about a specific User.
-     * @param data {@link UsersGetRequest}
+     * @param params {@link UsersGetRequest}
      * @returns {@link UsersGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

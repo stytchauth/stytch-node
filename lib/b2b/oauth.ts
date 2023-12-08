@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Discovery } from "./oauth_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
@@ -194,9 +195,11 @@ export class OAuth {
   authenticate(
     data: B2BOAuthAuthenticateRequest
   ): Promise<B2BOAuthAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOAuthAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/authenticate`,
+      headers,
       data,
     });
   }

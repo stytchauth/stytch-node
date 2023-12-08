@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Organizations = void 0;
+var _method_options = require("../shared/method_options");
 var _organizations_members = require("./organizations_members");
 var _shared = require("../shared");
 // !!!
@@ -59,25 +60,29 @@ class Organizations {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations`,
+      headers,
       data
     });
   }
 
   /**
    * Returns an Organization specified by `organization_id`.
-   * @param data {@link B2BOrganizationsGetRequest}
+   * @param params {@link B2BOrganizationsGetRequest}
    * @returns {@link B2BOrganizationsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}`,
+      headers,
       params: {}
     });
   }
@@ -90,15 +95,21 @@ class Organizations {
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
    * @param data {@link B2BOrganizationsUpdateRequest}
+   * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  update(data) {
+  update(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {
         organization_name: data.organization_name,
         organization_slug: data.organization_slug,
@@ -121,15 +132,21 @@ class Organizations {
    * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
    * deleted.
    * @param data {@link B2BOrganizationsDeleteRequest}
+   * @param options {@link B2BOrganizationsDeleteRequestOptions}
    * @returns {@link B2BOrganizationsDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  delete(data) {
+  delete(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {}
     });
   }
@@ -145,9 +162,11 @@ class Organizations {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/search`,
+      headers,
       data
     });
   }

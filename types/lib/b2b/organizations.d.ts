@@ -1,8 +1,17 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 export interface ActiveSSOConnection {
     connection_id: string;
     display_name: string;
+}
+export interface B2BOrganizationsDeleteRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
 }
 export interface B2BOrganizationsResultsMetadata {
     total: number;
@@ -11,6 +20,14 @@ export interface B2BOrganizationsResultsMetadata {
      * This value is passed into your next search call in the `cursor` field.
      */
     next_cursor?: string;
+}
+export interface B2BOrganizationsUpdateRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
 }
 export interface Member {
     /**
@@ -91,8 +108,8 @@ export interface Organization {
     organization_name: string;
     organization_logo_url: string;
     /**
-     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
      */
     organization_slug: string;
     /**
@@ -193,8 +210,8 @@ export interface SearchQuery {
 export interface B2BOrganizationsCreateRequest {
     organization_name: string;
     /**
-     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
      */
     organization_slug?: string;
     organization_logo_url?: string;
@@ -382,8 +399,8 @@ export interface B2BOrganizationsUpdateRequest {
     organization_id: string;
     organization_name?: string;
     /**
-     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+     * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
      */
     organization_slug?: string;
     organization_logo_url?: string;
@@ -561,7 +578,7 @@ export declare class Organizations {
     create(data: B2BOrganizationsCreateRequest): Promise<B2BOrganizationsCreateResponse>;
     /**
      * Returns an Organization specified by `organization_id`.
-     * @param data {@link B2BOrganizationsGetRequest}
+     * @param params {@link B2BOrganizationsGetRequest}
      * @returns {@link B2BOrganizationsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -576,22 +593,24 @@ export declare class Organizations {
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
      * `sso_jit_provisioning`, etc., and their behaviors.
      * @param data {@link B2BOrganizationsUpdateRequest}
+     * @param options {@link B2BOrganizationsUpdateRequestOptions}
      * @returns {@link B2BOrganizationsUpdateResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    update(data: B2BOrganizationsUpdateRequest): Promise<B2BOrganizationsUpdateResponse>;
+    update(data: B2BOrganizationsUpdateRequest, options?: B2BOrganizationsUpdateRequestOptions): Promise<B2BOrganizationsUpdateResponse>;
     /**
      * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
      * deleted.
      * @param data {@link B2BOrganizationsDeleteRequest}
+     * @param options {@link B2BOrganizationsDeleteRequestOptions}
      * @returns {@link B2BOrganizationsDeleteResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    delete(data: B2BOrganizationsDeleteRequest): Promise<B2BOrganizationsDeleteResponse>;
+    delete(data: B2BOrganizationsDeleteRequest, options?: B2BOrganizationsDeleteRequestOptions): Promise<B2BOrganizationsDeleteResponse>;
     /**
      * Search for Organizations. If you send a request with no body params, no filtering will be applied and
      * the endpoint will return all Organizations. All fuzzy search filters require a minimum of three

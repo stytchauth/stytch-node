@@ -138,7 +138,7 @@ export declare class Clients {
     constructor(fetchConfig: fetchConfig);
     /**
      * Gets information about an existing M2M Client.
-     * @param data {@link M2MClientsGetRequest}
+     * @param params {@link M2MClientsGetRequest}
      * @returns {@link M2MClientsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
