@@ -138,6 +138,11 @@ export interface HubspotOAuthFactor {
     email_id: string;
     provider_subject: string;
 }
+export interface HubspotOAuthFactor {
+    id: string;
+    email_id: string;
+    provider_subject: string;
+}
 export interface InstagramOAuthFactor {
     id: string;
     email_id: string;

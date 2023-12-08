@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Sessions = void 0;
-require("../shared/method_options");
 var _shared = require("../shared");
 var _sessions = require("../shared/sessions");
 // !!!
@@ -144,7 +143,6 @@ class Sessions {
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *

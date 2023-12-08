@@ -4,11 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
+import * as jose from "jose";
 import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
 
-import * as jose from "jose";
 import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
 import { ClientError } from "../shared/errors";
 import { request } from "../shared";
@@ -171,6 +170,7 @@ export class M2M {
   constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
     this.fetchConfig = fetchConfig;
     this.clients = new Clients(this.fetchConfig);
+
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
@@ -233,7 +233,6 @@ export class M2M {
   // ENDMANUAL(token)
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
   // ADDIMPORT: import { ClientError } from "../shared/errors";
   // ADDIMPORT: import { request } from "../shared";

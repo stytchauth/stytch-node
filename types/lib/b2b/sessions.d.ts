@@ -2,7 +2,13 @@ import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
+import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
+export interface AuthorizationCheck {
+    organization_id: string;
+    resource_id: string;
+    action: string;
+}
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
@@ -63,6 +69,7 @@ export interface B2BSessionsAuthenticateRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    authorization_check?: AuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
     /**
@@ -244,6 +251,7 @@ export interface B2BSessionsAuthenticateJwtRequest {
      * return a new JWT.
      */
     session_jwt: string;
+    authorization_check?: AuthorizationCheck;
     /**
      * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
@@ -255,6 +263,7 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
      * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
      */
     session_jwt: string;
+    authorization_check?: AuthorizationCheck;
     /**
      * The maximum allowable difference when comparing timestamps.
      * It defaults to zero.
@@ -275,7 +284,8 @@ export declare class Sessions {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
-    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
+    private policyCache;
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     /**
      * Retrieves all active Sessions for a Member.
      * @param params {@link B2BSessionsGetRequest}
