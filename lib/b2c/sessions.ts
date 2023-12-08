@@ -4,13 +4,12 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
+import * as jose from "jose";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { User } from "./users";
 
-import * as jose from "jose";
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
 export interface AmazonOAuthFactor {
@@ -218,6 +217,12 @@ export interface GoogleOAuthFactor {
   provider_subject: string;
   // The globally unique UUID of the Member's email.
   email_id?: string;
+}
+
+export interface HubspotOAuthFactor {
+  id: string;
+  email_id: string;
+  provider_subject: string;
 }
 
 export interface HubspotOAuthFactor {
@@ -567,6 +572,7 @@ export class Sessions {
 
   constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
     this.fetchConfig = fetchConfig;
+
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
@@ -671,7 +677,6 @@ export class Sessions {
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *

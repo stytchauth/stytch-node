@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.M2M = void 0;
-require("../shared/method_options");
 var _m2m_clients = require("./m2m_clients");
 var _sessions = require("../shared/sessions");
 var _errors = require("../shared/errors");
@@ -91,7 +90,6 @@ class M2M {
   // ENDMANUAL(token)
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
   // ADDIMPORT: import { ClientError } from "../shared/errors";
   // ADDIMPORT: import { request } from "../shared";

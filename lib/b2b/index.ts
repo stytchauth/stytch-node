@@ -10,7 +10,16 @@ export type {
   B2BSessionsAuthenticateJwtRequest,
   B2BSessionsAuthenticateJwtLocalRequest,
 } from "./sessions";
+export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
 // ENDMANUAL(exports)
+
+export type {
+  Policy,
+  PolicyResource,
+  PolicyRole,
+  PolicyRolePermission,
+  B2BRBACPolicyResponse,
+} from "./rbac";
 
 export type { MemberOptions, MfaRequired } from "./mfa";
 
@@ -64,6 +73,7 @@ export type {
 } from "./organizations_members";
 
 export type {
+  AuthorizationCheck,
   MemberSession,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,

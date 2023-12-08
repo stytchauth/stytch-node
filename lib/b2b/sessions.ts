@@ -4,15 +4,22 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
+import * as jose from "jose";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
+import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
 
-import * as jose from "jose";
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+import { performAuthorizationCheck } from "./rbac_local";
+
+export interface AuthorizationCheck {
+  organization_id: string;
+  resource_id: string;
+  action: string;
+}
 
 export interface MemberSession {
   // Globally unique UUID that identifies a specific Session.
@@ -81,6 +88,7 @@ export interface B2BSessionsAuthenticateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  authorization_check?: AuthorizationCheck;
 }
 
 // Response type for `sessions.authenticate`.
@@ -303,6 +311,7 @@ export interface B2BSessionsAuthenticateJwtRequest {
    * return a new JWT.
    */
   session_jwt: string;
+  authorization_check?: AuthorizationCheck;
 
   /**
    * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
@@ -317,6 +326,7 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
    * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
    */
   session_jwt: string;
+  authorization_check?: AuthorizationCheck;
 
   /**
    * The maximum allowable difference when comparing timestamps.
@@ -343,15 +353,22 @@ export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
+  private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
+
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,
       typ: "JWT",
     };
+    this.policyCache = policyCache;
   }
 
   /**
@@ -494,8 +511,8 @@ export class Sessions {
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+  // ADDIMPORT: import { performAuthorizationCheck } from "./rbac_local";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -515,7 +532,10 @@ export class Sessions {
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
-      return this.authenticate({ session_jwt: params.session_jwt });
+      return this.authenticate({
+        session_jwt: params.session_jwt,
+        authorization_check: params.authorization_check,
+      });
     }
   }
 
@@ -548,10 +568,25 @@ export class Sessions {
     );
 
     const organizationClaim = "https://stytch.com/organization";
-    const { [organizationClaim]: orgClaimUntyped, ...claims } =
-      sess.custom_claims;
+    const rolesClaim = "https://stytch.com/roles";
+    const {
+      [organizationClaim]: orgClaimUntyped,
+      [rolesClaim]: rolesClaimUntyped,
+      ...claims
+    } = sess.custom_claims;
 
     const orgClaim = orgClaimUntyped as { organization_id: string };
+    const roleClaim = rolesClaimUntyped as string[];
+
+    if (params.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      await performAuthorizationCheck({
+        policy,
+        subjectRoles: roleClaim,
+        subjectOrgID: orgClaim.organization_id,
+        authorizationCheck: params.authorization_check,
+      });
+    }
 
     return {
       member_session_id: sess.session_id,
