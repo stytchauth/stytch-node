@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
@@ -77,9 +78,11 @@ export class Discovery {
   send(
     data: B2BMagicLinksEmailDiscoverySendRequest
   ): Promise<B2BMagicLinksEmailDiscoverySendResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BMagicLinksEmailDiscoverySendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/discovery/send`,
+      headers,
       data,
     });
   }

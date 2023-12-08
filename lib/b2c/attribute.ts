@@ -4,6 +4,8 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
+
 export interface Attributes {
   // The IP address of the user.
   ip_address?: string;

@@ -278,7 +278,7 @@ export declare class Sessions {
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     /**
      * Retrieves all active Sessions for a Member.
-     * @param data {@link B2BSessionsGetRequest}
+     * @param params {@link B2BSessionsGetRequest}
      * @returns {@link B2BSessionsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -357,7 +357,7 @@ export declare class Sessions {
      * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
      * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
      * for validation by inspecting the `kid` value.
-     * @param data {@link B2BSessionsGetJWKSRequest}
+     * @param params {@link B2BSessionsGetJWKSRequest}
      * @returns {@link B2BSessionsGetJWKSResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

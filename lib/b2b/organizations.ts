@@ -4,6 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 import { request } from "../shared";
@@ -15,6 +19,15 @@ export interface ActiveSSOConnection {
   display_name: string;
 }
 
+export interface B2BOrganizationsDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
 export interface B2BOrganizationsResultsMetadata {
   // The total number of results returned by your search query.
   total: number;
@@ -23,6 +36,15 @@ export interface B2BOrganizationsResultsMetadata {
    * This value is passed into your next search call in the `cursor` field.
    */
   next_cursor?: string;
+}
+
+export interface B2BOrganizationsUpdateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
 }
 
 export interface Member {
@@ -113,13 +135,13 @@ export interface Organization {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // The name of the Organization. Must be between 1 and 128 characters in length.
+  // The name of the Organization.
   organization_name: string;
   // The image URL of the Organization logo.
   organization_logo_url: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
    */
   organization_slug: string;
   /**
@@ -230,11 +252,11 @@ export interface SearchQuery {
 
 // Request type for `organizations.create`.
 export interface B2BOrganizationsCreateRequest {
-  // The name of the Organization. Must be between 1 and 128 characters in length.
+  // The name of the Organization.
   organization_name: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
    */
   organization_slug?: string;
   // The image URL of the Organization logo.
@@ -441,11 +463,11 @@ export interface B2BOrganizationsUpdateRequest {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // The name of the Organization. Must be between 1 and 128 characters in length.
+  // The name of the Organization.
   organization_name?: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`.
    */
   organization_slug?: string;
   // The image URL of the Organization logo.
@@ -658,16 +680,18 @@ export class Organizations {
   create(
     data: B2BOrganizationsCreateRequest
   ): Promise<B2BOrganizationsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations`,
+      headers,
       data,
     });
   }
 
   /**
    * Returns an Organization specified by `organization_id`.
-   * @param data {@link B2BOrganizationsGetRequest}
+   * @param params {@link B2BOrganizationsGetRequest}
    * @returns {@link B2BOrganizationsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -676,9 +700,11 @@ export class Organizations {
   get(
     params: B2BOrganizationsGetRequest
   ): Promise<B2BOrganizationsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}`,
+      headers,
       params: {},
     });
   }
@@ -691,17 +717,24 @@ export class Organizations {
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
    * @param data {@link B2BOrganizationsUpdateRequest}
+   * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BOrganizationsUpdateRequest
+    data: B2BOrganizationsUpdateRequest,
+    options?: B2BOrganizationsUpdateRequestOptions
   ): Promise<B2BOrganizationsUpdateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {
         organization_name: data.organization_name,
         organization_slug: data.organization_slug,
@@ -725,17 +758,24 @@ export class Organizations {
    * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
    * deleted.
    * @param data {@link B2BOrganizationsDeleteRequest}
+   * @param options {@link B2BOrganizationsDeleteRequestOptions}
    * @returns {@link B2BOrganizationsDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BOrganizationsDeleteRequest
+    data: B2BOrganizationsDeleteRequest,
+    options?: B2BOrganizationsDeleteRequestOptions
   ): Promise<B2BOrganizationsDeleteResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}`,
+      headers,
       data: {},
     });
   }
@@ -753,9 +793,11 @@ export class Organizations {
   search(
     data: B2BOrganizationsSearchRequest
   ): Promise<B2BOrganizationsSearchResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/search`,
+      headers,
       data,
     });
   }

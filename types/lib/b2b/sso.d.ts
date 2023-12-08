@@ -1,9 +1,26 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { OIDC } from "./sso_oidc";
 import { SAML } from "./sso_saml";
+export interface B2BSSODeleteConnectionRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSSOGetConnectionsRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface OIDCConnection {
     organization_id: string;
     connection_id: string;
@@ -186,22 +203,24 @@ export declare class SSO {
     constructor(fetchConfig: fetchConfig);
     /**
      * Get all SSO Connections owned by the organization.
-     * @param data {@link B2BSSOGetConnectionsRequest}
+     * @param params {@link B2BSSOGetConnectionsRequest}
+     * @param options {@link B2BSSOGetConnectionsRequestOptions}
      * @returns {@link B2BSSOGetConnectionsResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    getConnections(params: B2BSSOGetConnectionsRequest): Promise<B2BSSOGetConnectionsResponse>;
+    getConnections(params: B2BSSOGetConnectionsRequest, options?: B2BSSOGetConnectionsRequestOptions): Promise<B2BSSOGetConnectionsResponse>;
     /**
      * Delete an existing SSO connection.
      * @param data {@link B2BSSODeleteConnectionRequest}
+     * @param options {@link B2BSSODeleteConnectionRequestOptions}
      * @returns {@link B2BSSODeleteConnectionResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    deleteConnection(data: B2BSSODeleteConnectionRequest): Promise<B2BSSODeleteConnectionResponse>;
+    deleteConnection(data: B2BSSODeleteConnectionRequest, options?: B2BSSODeleteConnectionRequestOptions): Promise<B2BSSODeleteConnectionResponse>;
     /**
      * Authenticate a user given a token.
      * This endpoint verifies that the user completed the SSO Authentication flow by verifying that the token

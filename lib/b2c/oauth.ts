@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { Session } from "./sessions";
@@ -204,9 +205,11 @@ export class OAuth {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   attach(data: OAuthAttachRequest): Promise<OAuthAttachResponse> {
+    const headers: Record<string, string> = {};
     return request<OAuthAttachResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/oauth/attach`,
+      headers,
       data,
     });
   }
@@ -225,9 +228,11 @@ export class OAuth {
   authenticate(
     data: OAuthAuthenticateRequest
   ): Promise<OAuthAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<OAuthAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/oauth/authenticate`,
+      headers,
       data,
     });
   }

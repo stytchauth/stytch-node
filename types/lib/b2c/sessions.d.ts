@@ -32,7 +32,7 @@ export interface AuthenticationFactor {
      *       `sso` – Either `sso_saml` or `sso_oidc`.
      *
      */
-    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | string;
+    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | string;
     last_authenticated_at?: string;
     created_at?: string;
     updated_at?: string;
@@ -69,6 +69,7 @@ export interface AuthenticationFactor {
     oidc_sso_factor?: OIDCSSOFactor;
     salesforce_oauth_factor?: SalesforceOAuthFactor;
     yahoo_oauth_factor?: YahooOAuthFactor;
+    hubspot_oauth_factor?: HubspotOAuthFactor;
 }
 export interface AuthenticatorAppFactor {
     totp_id: string;
@@ -125,11 +126,16 @@ export interface GithubOAuthFactor {
 }
 export interface GoogleOAuthFactor {
     id: string;
-    email_id: string;
     /**
      * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
      * "Subject field" in OAuth protocols.
      */
+    provider_subject: string;
+    email_id?: string;
+}
+export interface HubspotOAuthFactor {
+    id: string;
+    email_id: string;
     provider_subject: string;
 }
 export interface InstagramOAuthFactor {
@@ -402,7 +408,7 @@ export declare class Sessions {
     /**
      * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
      * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-     * @param data {@link SessionsGetRequest}
+     * @param params {@link SessionsGetRequest}
      * @returns {@link SessionsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -449,7 +455,7 @@ export declare class Sessions {
      * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
      * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
      * for validation by inspecting the `kid` value.
-     * @param data {@link SessionsGetJWKSRequest}
+     * @param params {@link SessionsGetJWKSRequest}
      * @returns {@link SessionsGetJWKSResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

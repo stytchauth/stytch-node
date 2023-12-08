@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Passwords = void 0;
+require("../shared/method_options");
 var _passwords_email = require("./passwords_email");
 var _passwords_existing_password = require("./passwords_existing_password");
 var _shared = require("../shared");
@@ -64,9 +65,11 @@ class Passwords {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   strengthCheck(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/strength_check`,
+      headers,
       data
     });
   }
@@ -82,9 +85,11 @@ class Passwords {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   migrate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/migrate`,
+      headers,
       data
     });
   }
@@ -116,9 +121,11 @@ class Passwords {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/authenticate`,
+      headers,
       data
     });
   }

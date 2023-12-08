@@ -4,6 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -11,6 +15,24 @@ import { MfaRequired } from "./mfa";
 import { OIDC } from "./sso_oidc";
 import { request } from "../shared";
 import { SAML } from "./sso_saml";
+
+export interface B2BSSODeleteConnectionRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSSOGetConnectionsRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
 
 export interface OIDCConnection {
   organization_id: string;
@@ -229,18 +251,25 @@ export class SSO {
 
   /**
    * Get all SSO Connections owned by the organization.
-   * @param data {@link B2BSSOGetConnectionsRequest}
+   * @param params {@link B2BSSOGetConnectionsRequest}
+   * @param options {@link B2BSSOGetConnectionsRequestOptions}
    * @returns {@link B2BSSOGetConnectionsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   getConnections(
-    params: B2BSSOGetConnectionsRequest
+    params: B2BSSOGetConnectionsRequest,
+    options?: B2BSSOGetConnectionsRequestOptions
   ): Promise<B2BSSOGetConnectionsResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOGetConnectionsResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sso/${params.organization_id}`,
+      headers,
       params: {},
     });
   }
@@ -248,17 +277,24 @@ export class SSO {
   /**
    * Delete an existing SSO connection.
    * @param data {@link B2BSSODeleteConnectionRequest}
+   * @param options {@link B2BSSODeleteConnectionRequestOptions}
    * @returns {@link B2BSSODeleteConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteConnection(
-    data: B2BSSODeleteConnectionRequest
+    data: B2BSSODeleteConnectionRequest,
+    options?: B2BSSODeleteConnectionRequestOptions
   ): Promise<B2BSSODeleteConnectionResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSODeleteConnectionResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {},
     });
   }
@@ -291,9 +327,11 @@ export class SSO {
   authenticate(
     data: B2BSSOAuthenticateRequest
   ): Promise<B2BSSOAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSSOAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/authenticate`,
+      headers,
       data,
     });
   }

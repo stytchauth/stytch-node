@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import {
   M2MClient,
@@ -191,16 +192,18 @@ export class Clients {
 
   /**
    * Gets information about an existing M2M Client.
-   * @param data {@link M2MClientsGetRequest}
+   * @param params {@link M2MClientsGetRequest}
    * @returns {@link M2MClientsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: M2MClientsGetRequest): Promise<M2MClientsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/m2m/clients/${params.client_id}`,
+      headers,
       params: {},
     });
   }
@@ -220,9 +223,11 @@ export class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(data: M2MClientsSearchRequest): Promise<M2MClientsSearchResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/search`,
+      headers,
       data,
     });
   }
@@ -243,9 +248,11 @@ export class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(data: M2MClientsUpdateRequest): Promise<M2MClientsUpdateResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/m2m/clients/${data.client_id}`,
+      headers,
       data: {
         client_name: data.client_name,
         client_description: data.client_description,
@@ -270,9 +277,11 @@ export class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(data: M2MClientsDeleteRequest): Promise<M2MClientsDeleteResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/m2m/clients/${data.client_id}`,
+      headers,
       data: {},
     });
   }
@@ -294,9 +303,11 @@ export class Clients {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: M2MClientsCreateRequest): Promise<M2MClientsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients`,
+      headers,
       data,
     });
   }

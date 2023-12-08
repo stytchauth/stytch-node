@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { M2MClient, M2MClientWithNextClientSecret } from "./m2m";
 import { request } from "../shared";
@@ -102,9 +103,11 @@ export class Secrets {
   rotateStart(
     data: M2MClientsSecretsRotateStartRequest
   ): Promise<M2MClientsSecretsRotateStartResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateStartResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/start`,
+      headers,
       data: {},
     });
   }
@@ -124,9 +127,11 @@ export class Secrets {
   rotateCancel(
     data: M2MClientsSecretsRotateCancelRequest
   ): Promise<M2MClientsSecretsRotateCancelResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateCancelResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/cancel`,
+      headers,
       data: {},
     });
   }
@@ -146,9 +151,11 @@ export class Secrets {
   rotate(
     data: M2MClientsSecretsRotateRequest
   ): Promise<M2MClientsSecretsRotateResponse> {
+    const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/m2m/clients/${data.client_id}/secrets/rotate`,
+      headers,
       data: {},
     });
   }

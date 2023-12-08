@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { Email } from "./otps_email";
 import { fetchConfig } from "../shared";
@@ -124,9 +125,11 @@ export class OTPs {
   authenticate(
     data: OTPsAuthenticateRequest
   ): Promise<OTPsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<OTPsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/authenticate`,
+      headers,
       data,
     });
   }

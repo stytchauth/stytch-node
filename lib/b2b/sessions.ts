@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
@@ -355,16 +356,18 @@ export class Sessions {
 
   /**
    * Retrieves all active Sessions for a Member.
-   * @param data {@link B2BSessionsGetRequest}
+   * @param params {@link B2BSessionsGetRequest}
    * @returns {@link B2BSessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions`,
+      headers,
       params: { ...params },
     });
   }
@@ -386,9 +389,11 @@ export class Sessions {
   authenticate(
     data: B2BSessionsAuthenticateRequest
   ): Promise<B2BSessionsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/authenticate`,
+      headers,
       data,
     });
   }
@@ -404,9 +409,11 @@ export class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,
+      headers,
       data,
     });
   }
@@ -443,9 +450,11 @@ export class Sessions {
   exchange(
     data: B2BSessionsExchangeRequest
   ): Promise<B2BSessionsExchangeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsExchangeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
       data,
     });
   }
@@ -466,7 +475,7 @@ export class Sessions {
    * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
    * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
    * for validation by inspecting the `kid` value.
-   * @param data {@link B2BSessionsGetJWKSRequest}
+   * @param params {@link B2BSessionsGetJWKSRequest}
    * @returns {@link B2BSessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -475,9 +484,11 @@ export class Sessions {
   getJWKS(
     params: B2BSessionsGetJWKSRequest
   ): Promise<B2BSessionsGetJWKSResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      headers,
       params: {},
     });
   }

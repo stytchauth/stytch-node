@@ -4,9 +4,31 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { OIDCConnection } from "./sso";
 import { request } from "../shared";
+
+export interface B2BSSOOIDCCreateConnectionRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSSOOIDCUpdateConnectionRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
 
 // Request type for `sso.oidc.createConnection`.
 export interface B2BSSOOIDCCreateConnectionRequest {
@@ -115,17 +137,24 @@ export class OIDC {
   /**
    * Create a new OIDC Connection.
    * @param data {@link B2BSSOOIDCCreateConnectionRequest}
+   * @param options {@link B2BSSOOIDCCreateConnectionRequestOptions}
    * @returns {@link B2BSSOOIDCCreateConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   createConnection(
-    data: B2BSSOOIDCCreateConnectionRequest
+    data: B2BSSOOIDCCreateConnectionRequest,
+    options?: B2BSSOOIDCCreateConnectionRequestOptions
   ): Promise<B2BSSOOIDCCreateConnectionResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOOIDCCreateConnectionResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/oidc/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name,
       },
@@ -160,17 +189,24 @@ export class OIDC {
    * * `userinfo_url`
    * * `jwks_url`
    * @param data {@link B2BSSOOIDCUpdateConnectionRequest}
+   * @param options {@link B2BSSOOIDCUpdateConnectionRequestOptions}
    * @returns {@link B2BSSOOIDCUpdateConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   updateConnection(
-    data: B2BSSOOIDCUpdateConnectionRequest
+    data: B2BSSOOIDCUpdateConnectionRequest,
+    options?: B2BSSOOIDCUpdateConnectionRequestOptions
   ): Promise<B2BSSOOIDCUpdateConnectionResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOOIDCUpdateConnectionResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/oidc/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         display_name: data.display_name,
         client_id: data.client_id,
