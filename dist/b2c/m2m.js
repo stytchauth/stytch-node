@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.M2M = void 0;
+require("../shared/method_options");
 var _m2m_clients = require("./m2m_clients");
 var _sessions = require("../shared/sessions");
 var _errors = require("../shared/errors");

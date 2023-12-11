@@ -16,6 +16,8 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.create`.
 
+// Request type for `organizations.members.dangerouslyGet`.
+
 // Request type for `organizations.members.deleteMFAPhoneNumber`.
 
 // Response type for `organizations.members.deleteMFAPhoneNumber`.
@@ -30,7 +32,7 @@ var _shared = require("../shared");
 
 // Request type for `organizations.members.get`.
 
-// Response type for `organizations.members.get`.
+// Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
 
 // Request type for `organizations.members.reactivate`.
 
@@ -73,7 +75,8 @@ class Members {
         untrusted_metadata: data.untrusted_metadata,
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
-        mfa_enrolled: data.mfa_enrolled
+        mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles
       }
     });
   }
@@ -202,6 +205,10 @@ class Members {
   }
 
   /**
+   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, enabling you to get
+   * members across organizations. This is a dangerous operation. Incorrect use may open you up to indirect
+   * object reference (IDOR) attacks. We recommend using the
+   * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
    * @param params {@link B2BOrganizationsMembersDangerouslyGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
@@ -238,6 +245,7 @@ class Members {
       headers,
       data: {
         email_address: data.email_address,
+        roles: data.roles,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,

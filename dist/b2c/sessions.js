@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Sessions = void 0;
+require("../shared/method_options");
 var _shared = require("../shared");
 var _sessions = require("../shared/sessions");
 // !!!

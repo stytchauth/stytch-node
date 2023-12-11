@@ -126,6 +126,10 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      */
     x509_certificate?: string;
     idp_sso_url?: string;
+    /**
+     * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
+     * an existing SAML integration to Stytch with zero downtime.
+     */
     alternative_audience_uri?: string;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {

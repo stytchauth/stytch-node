@@ -133,7 +133,10 @@ export interface User {
   status: string;
   // An array of phone number objects linked to the User.
   phone_numbers: PhoneNumber[];
-  // An array that contains a list of all WebAuthn registrations for a given User in the Stytch API.
+  /**
+   * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+   * API.
+   */
   webauthn_registrations: WebAuthnRegistration[];
   // An array of OAuth `provider` objects linked to the User.
   providers: OAuthProvider[];
@@ -177,9 +180,9 @@ export interface UsersResultsMetadata {
 }
 
 export interface WebAuthnRegistration {
-  // The unique ID for the WebAuthn registration.
+  // The unique ID for the Passkey or WebAuthn registration.
   webauthn_registration_id: string;
-  // The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
+  // The `domain` on which Passkey or WebAuthn registration was started. This will be the domain of your app.
   domain: string;
   // The user agent of the User.
   user_agent: string;
@@ -189,11 +192,12 @@ export interface WebAuthnRegistration {
    */
   verified: boolean;
   /**
-   * The `authenticator_type` string displays the requested authenticator type of the WebAuthn device. The
-   * two valid types are "platform" and "cross-platform". If no value is present, the WebAuthn device was
-   * created without an authenticator type preference.
+   * The `authenticator_type` string displays the requested authenticator type of the Passkey or WebAuthn
+   * device. The two valid types are "platform" and "cross-platform". If no value is present, the Passkey or
+   * WebAuthn device was created without an authenticator type preference.
    */
   authenticator_type: string;
+  // The `name` of the Passkey or WebAuthn registration.
   name: string;
 }
 
@@ -551,7 +555,10 @@ export interface UsersGetResponse {
   status: string;
   // An array of phone number objects linked to the User.
   phone_numbers: PhoneNumber[];
-  // An array that contains a list of all WebAuthn registrations for a given User in the Stytch API.
+  /**
+   * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+   * API.
+   */
   webauthn_registrations: WebAuthnRegistration[];
   // An array of OAuth `provider` objects linked to the User.
   providers: OAuthProvider[];

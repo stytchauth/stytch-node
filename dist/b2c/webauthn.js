@@ -28,14 +28,21 @@ var _shared = require("../shared");
 
 // Response type for `webauthn.registerStart`.
 
+// Request type for `webauthn.update`.
+
+// Response type for `webauthn.update`.
+
 class WebAuthn {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
   /**
-   * Initiate the process of creating a new WebAuthn registration. After calling this endpoint, the browser
-   * will need to call
+   * Initiate the process of creating a new Passkey or WebAuthn registration.
+   *
+   * To optimize for Passkeys, set the `return_passkey_credential_options` field to `true`.
+   *
+   * After calling this endpoint, the browser will need to call
    * [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential) with the data
    * from
    * [public_key_credential_creation_options](https://w3c.github.io/webauthn/#dictionary-makecredentialoptions)
@@ -91,9 +98,13 @@ class WebAuthn {
   }
 
   /**
-   * Initiate the authentication of a WebAuthn registration. After calling this endpoint, the browser will
-   * need to call [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) with the
-   * data from `public_key_credential_request_options` passed to the
+   * Initiate the authentication of a Passkey or WebAuthn registration.
+   *
+   * To optimize for Passkeys, set the `return_passkey_credential_options` field to `true`.
+   *
+   * After calling this endpoint, the browser will need to call
+   * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) with the data from
+   * `public_key_credential_request_options` passed to the
    * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) request via the
    * public key argument. We recommend using the `get()` wrapper provided by the webauthn-json library.
    *
@@ -117,7 +128,7 @@ class WebAuthn {
   }
 
   /**
-   * Complete the authentication of a WebAuthn registration by passing the response from the
+   * Complete the authentication of a Passkey or WebAuthn registration by passing the response from the
    * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) request to the
    * authenticate endpoint.
    *
@@ -143,6 +154,7 @@ class WebAuthn {
   }
 
   /**
+   * Updates a Passkey or WebAuthn registration.
    * @param data {@link WebAuthnUpdateRequest}
    * @returns {@link WebAuthnUpdateResponse}
    * @async

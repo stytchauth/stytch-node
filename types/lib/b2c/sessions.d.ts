@@ -126,16 +126,11 @@ export interface GithubOAuthFactor {
 }
 export interface GoogleOAuthFactor {
     id: string;
+    email_id: string;
     /**
      * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
      * "Subject field" in OAuth protocols.
      */
-    provider_subject: string;
-    email_id?: string;
-}
-export interface HubspotOAuthFactor {
-    id: string;
-    email_id: string;
     provider_subject: string;
 }
 export interface HubspotOAuthFactor {

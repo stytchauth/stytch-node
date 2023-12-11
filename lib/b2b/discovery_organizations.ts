@@ -99,12 +99,12 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
   email_allowed_domains?: string[];
   /**
    * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-   * Magic Link. The accepted values are:
+   * Magic Link or OAuth. The accepted values are:
    *
    *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * provisioned upon authentication via Email Magic Link.
+   * provisioned upon authentication via Email Magic Link or OAuth.
    *
-   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
    *
    */
   email_jit_provisioning?: string;
@@ -144,7 +144,8 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
    *
    *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-   * they wish to log in.
+   * they wish to log in. However, any active Session that existed prior to this setting change will remain
+   * valid.
    *
    *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
    * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.

@@ -5,7 +5,28 @@ import { MfaRequired } from "./mfa";
 import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
 export interface AuthorizationCheck {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
     organization_id: string;
+    /**
+     * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
+     *
+     *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+     * default Resources with reserved  `resource_id`s. These include:
+     *
+     *   * `stytch.organization`
+     *   * `stytch.member`
+     *   * `stytch.sso`
+     *   * `stytch.self`
+     *
+     *   Check out the
+     * [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for a more
+     * detailed explanation.
+     *
+     *
+     */
     resource_id: string;
     action: string;
 }
@@ -69,6 +90,13 @@ export interface B2BSessionsAuthenticateRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * If an authorization_check object is passed in, this method will also check if the Member who holds the
+     * Session being authenticated is authorized to perform the given Action on the given Resource.
+     * A Member is authorized if they are assigned to a Role,
+     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+     * permissions.
+     */
     authorization_check?: AuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
@@ -303,6 +331,12 @@ export declare class Sessions {
      *
      * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
      * will be returned if both the signature and the underlying Session are still valid.
+     *
+     * If an authorization_check object is passed in, this method will also check if the Member who holds the
+     * Session being authenticated is authorized to perform the given Action on the given Resource. A Member is
+     * authorized if they are assigned to a Role,
+     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+     * permissions.
      * @param data {@link B2BSessionsAuthenticateRequest}
      * @returns {@link B2BSessionsAuthenticateResponse}
      * @async

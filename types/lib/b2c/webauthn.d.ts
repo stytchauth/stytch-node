@@ -67,6 +67,11 @@ export interface WebAuthnAuthenticateResponse {
 export interface WebAuthnAuthenticateStartRequest {
     domain: string;
     user_id?: string;
+    /**
+     * If true, the `public_key_credential_creation_options` returned will be optimized for Passkeys with
+     * `userVerification` set to `"preferred"`.
+     *
+     */
     return_passkey_credential_options?: boolean;
 }
 export interface WebAuthnAuthenticateStartResponse {
@@ -148,10 +153,15 @@ export interface WebAuthnRegisterStartRequest {
     domain: string;
     user_agent?: string;
     /**
-     * The requested authenticator type of the WebAuthn device. The two valid value are platform and
-     * cross-platform. If no value passed, we assume both values are allowed.
+     * The requested authenticator type of the Passkey or WebAuthn device. The two valid values are platform
+     * and cross-platform. If no value passed, we assume both values are allowed.
      */
     authenticator_type?: string;
+    /**
+     * If true, the `public_key_credential_creation_options` returned will be optimized for Passkeys with
+     * `residentKey` set to `"required"` and `userVerification` set to `"preferred"`.
+     *
+     */
     return_passkey_credential_options?: boolean;
 }
 export interface WebAuthnRegisterStartResponse {
@@ -169,11 +179,23 @@ export interface WebAuthnRegisterStartResponse {
     status_code: number;
 }
 export interface WebAuthnUpdateRequest {
+    /**
+     * Globally unique UUID that identifies a Passkey or WebAuthn registration in the Stytch API. The
+     * `webautn_registration_id` is used when you need to operate on a specific User's WebAuthn registartion.
+     */
     webauthn_registration_id: string;
     name: string;
 }
 export interface WebAuthnUpdateResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
     request_id: string;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
     webauthn_registration?: WebAuthnRegistration;
 }
@@ -181,8 +203,11 @@ export declare class WebAuthn {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Initiate the process of creating a new WebAuthn registration. After calling this endpoint, the browser
-     * will need to call
+     * Initiate the process of creating a new Passkey or WebAuthn registration.
+     *
+     * To optimize for Passkeys, set the `return_passkey_credential_options` field to `true`.
+     *
+     * After calling this endpoint, the browser will need to call
      * [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential) with the data
      * from
      * [public_key_credential_creation_options](https://w3c.github.io/webauthn/#dictionary-makecredentialoptions)
@@ -220,9 +245,13 @@ export declare class WebAuthn {
      */
     register(data: WebAuthnRegisterRequest): Promise<WebAuthnRegisterResponse>;
     /**
-     * Initiate the authentication of a WebAuthn registration. After calling this endpoint, the browser will
-     * need to call [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) with the
-     * data from `public_key_credential_request_options` passed to the
+     * Initiate the authentication of a Passkey or WebAuthn registration.
+     *
+     * To optimize for Passkeys, set the `return_passkey_credential_options` field to `true`.
+     *
+     * After calling this endpoint, the browser will need to call
+     * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) with the data from
+     * `public_key_credential_request_options` passed to the
      * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) request via the
      * public key argument. We recommend using the `get()` wrapper provided by the webauthn-json library.
      *
@@ -237,7 +266,7 @@ export declare class WebAuthn {
      */
     authenticateStart(data: WebAuthnAuthenticateStartRequest): Promise<WebAuthnAuthenticateStartResponse>;
     /**
-     * Complete the authentication of a WebAuthn registration by passing the response from the
+     * Complete the authentication of a Passkey or WebAuthn registration by passing the response from the
      * [navigator.credentials.get()](https://www.w3.org/TR/webauthn-2/#sctn-getAssertion) request to the
      * authenticate endpoint.
      *
@@ -254,6 +283,7 @@ export declare class WebAuthn {
      */
     authenticate(data: WebAuthnAuthenticateRequest): Promise<WebAuthnAuthenticateResponse>;
     /**
+     * Updates a Passkey or WebAuthn registration.
      * @param data {@link WebAuthnUpdateRequest}
      * @returns {@link WebAuthnUpdateResponse}
      * @async

@@ -89,6 +89,8 @@ export interface B2BOrganizationsMembersCreateRequest {
   organization_id: string;
   // The email address of the Member.
   email_address: string;
+  // Directly assigns role to Member being created
+  roles: string[];
   // The name of the Member.
   name?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
@@ -145,7 +147,12 @@ export interface B2BOrganizationsMembersCreateResponse {
   status_code: number;
 }
 
+// Request type for `organizations.members.dangerouslyGet`.
 export interface B2BOrganizationsMembersDangerouslyGetRequest {
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
   member_id: string;
 }
 
@@ -260,7 +267,7 @@ export interface B2BOrganizationsMembersGetRequest {
   email_address?: string;
 }
 
-// Response type for `organizations.members.get`.
+// Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
 export interface B2BOrganizationsMembersGetResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -411,6 +418,8 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled?: boolean;
+  // Directly assigns role to Member being updated. Will completely replace any existing roles.
+  roles?: string[];
 }
 
 // Response type for `organizations.members.update`.
@@ -468,6 +477,7 @@ export class Members {
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles,
       },
     });
   }
@@ -620,6 +630,10 @@ export class Members {
   }
 
   /**
+   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, enabling you to get
+   * members across organizations. This is a dangerous operation. Incorrect use may open you up to indirect
+   * object reference (IDOR) attacks. We recommend using the
+   * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
    * @param params {@link B2BOrganizationsMembersDangerouslyGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
@@ -661,6 +675,7 @@ export class Members {
       headers,
       data: {
         email_address: data.email_address,
+        roles: data.roles,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,

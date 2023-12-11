@@ -64,6 +64,7 @@ export interface B2BOrganizationsMembersCreateRequest {
      */
     organization_id: string;
     email_address: string;
+    roles: string[];
     name?: string;
     trusted_metadata?: Record<string, any>;
     /**
@@ -112,6 +113,10 @@ export interface B2BOrganizationsMembersCreateResponse {
     status_code: number;
 }
 export interface B2BOrganizationsMembersDangerouslyGetRequest {
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id: string;
 }
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
@@ -332,6 +337,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled?: boolean;
+    roles?: string[];
 }
 export interface B2BOrganizationsMembersUpdateResponse {
     /**
@@ -425,6 +431,10 @@ export declare class Members {
      */
     deletePassword(data: B2BOrganizationsMembersDeletePasswordRequest, options?: B2BOrganizationsMembersDeletePasswordRequestOptions): Promise<B2BOrganizationsMembersDeletePasswordResponse>;
     /**
+     * Get a Member by `member_id`. This endpoint does not require an `organization_id`, enabling you to get
+     * members across organizations. This is a dangerous operation. Incorrect use may open you up to indirect
+     * object reference (IDOR) attacks. We recommend using the
+     * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
      * @param params {@link B2BOrganizationsMembersDangerouslyGetRequest}
      * @returns {@link B2BOrganizationsMembersGetResponse}
      * @async

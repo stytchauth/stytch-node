@@ -42,6 +42,10 @@ class OAuth {
    *
    * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
    * MFA step.
+   *
+   * We’re actively accepting requests for new OAuth providers! Please [email us](mailto:support@stytch.com)
+   * or [post in our community](https://stytch.com/docs/b2b/resources) if you are looking for an OAuth
+   * provider that is not currently supported.
    * @param data {@link B2BOAuthAuthenticateRequest}
    * @returns {@link B2BOAuthAuthenticateResponse}
    * @async

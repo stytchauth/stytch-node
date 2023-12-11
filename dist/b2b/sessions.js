@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Sessions = void 0;
+require("../shared/method_options");
 var _shared = require("../shared");
 var _sessions = require("../shared/sessions");
 var _rbac_local = require("./rbac_local");
@@ -81,6 +82,12 @@ class Sessions {
    *
    * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
    * will be returned if both the signature and the underlying Session are still valid.
+   *
+   * If an authorization_check object is passed in, this method will also check if the Member who holds the
+   * Session being authenticated is authorized to perform the given Action on the given Resource. A Member is
+   * authorized if they are assigned to a Role,
+   * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+   * permissions.
    * @param data {@link B2BSessionsAuthenticateRequest}
    * @returns {@link B2BSessionsAuthenticateResponse}
    * @async
@@ -236,19 +243,16 @@ class Sessions {
       current_date: params.current_date
     });
     const organizationClaim = "https://stytch.com/organization";
-    const rolesClaim = "https://stytch.com/roles";
     const {
       [organizationClaim]: orgClaimUntyped,
-      [rolesClaim]: rolesClaimUntyped,
       ...claims
     } = sess.custom_claims;
     const orgClaim = orgClaimUntyped;
-    const roleClaim = rolesClaimUntyped;
     if (params.authorization_check) {
       const policy = await this.policyCache.getPolicy();
       await (0, _rbac_local.performAuthorizationCheck)({
         policy,
-        subjectRoles: roleClaim,
+        subjectRoles: sess.roles,
         subjectOrgID: orgClaim.organization_id,
         authorizationCheck: params.authorization_check
       });

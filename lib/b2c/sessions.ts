@@ -5,6 +5,7 @@
 // !!!
 
 import * as jose from "jose";
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -210,18 +211,12 @@ export interface GithubOAuthFactor {
 export interface GoogleOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
+  // The globally unique UUID of the Member's email.
+  email_id: string;
   /**
    * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
    * "Subject field" in OAuth protocols.
    */
-  provider_subject: string;
-  // The globally unique UUID of the Member's email.
-  email_id?: string;
-}
-
-export interface HubspotOAuthFactor {
-  id: string;
-  email_id: string;
   provider_subject: string;
 }
 

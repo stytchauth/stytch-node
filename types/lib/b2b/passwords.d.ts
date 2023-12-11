@@ -162,6 +162,7 @@ export interface B2BPasswordsMigrateRequest {
      *   for complete field behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    roles?: string[];
 }
 export interface B2BPasswordsMigrateResponse {
     /**

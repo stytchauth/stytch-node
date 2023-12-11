@@ -215,6 +215,8 @@ export interface B2BPasswordsMigrateRequest {
    *   for complete field behavior details.
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  // Directly assigns role to Member being updated. Will completely replace any existing roles.
+  roles?: string[];
 }
 
 // Response type for `passwords.migrate`.
