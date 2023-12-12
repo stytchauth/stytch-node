@@ -93,6 +93,7 @@ export interface Member {
   mfa_enrolled: boolean;
   // The Member's phone number. A Member may only have one phone number.
   mfa_phone_number: string;
+  roles: MemberRole[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -102,6 +103,16 @@ export interface Member {
    *   for complete field behavior details.
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface MemberRole {
+  role_id: string;
+  sources: MemberRoleSource[];
+}
+
+export interface MemberRoleSource {
+  type: string;
+  details?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface OAuthRegistration {

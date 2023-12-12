@@ -31,7 +31,6 @@ export interface B2BMagicLinksEmailInviteRequest {
   organization_id: string;
   // The email address of the Member.
   email_address: string;
-  roles: string[];
   /**
    * The URL that the Member clicks from the invite Email Magic Link. This URL should be an endpoint in the
    * backend server that verifies
@@ -72,6 +71,7 @@ export interface B2BMagicLinksEmailInviteRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  roles?: string[];
 }
 
 // Response type for `magicLinks.email.invite`.

@@ -54,6 +54,7 @@ export interface MemberSession {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    roles: string[];
     /**
      * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
      * call.

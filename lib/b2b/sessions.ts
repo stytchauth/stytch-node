@@ -71,6 +71,7 @@ export interface MemberSession {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
+  roles: string[];
   /**
    * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
    * call.
@@ -629,6 +630,7 @@ export class Sessions {
       last_accessed_at: sess.last_accessed_at,
       expires_at: sess.expires_at,
       custom_claims: claims,
+      roles: sess.roles,
     };
   }
 

@@ -265,7 +265,8 @@ class Sessions {
       started_at: sess.started_at,
       last_accessed_at: sess.last_accessed_at,
       expires_at: sess.expires_at,
-      custom_claims: claims
+      custom_claims: claims,
+      roles: sess.roles
     };
   }
 

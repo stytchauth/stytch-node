@@ -89,8 +89,6 @@ export interface B2BOrganizationsMembersCreateRequest {
   organization_id: string;
   // The email address of the Member.
   email_address: string;
-  // Directly assigns role to Member being created
-  roles: string[];
   // The name of the Member.
   name?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
@@ -125,6 +123,8 @@ export interface B2BOrganizationsMembersCreateRequest {
    * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled?: boolean;
+  // Directly assigns role to Member being created
+  roles?: string[];
 }
 
 // Response type for `organizations.members.create`.
@@ -675,7 +675,6 @@ export class Members {
       headers,
       data: {
         email_address: data.email_address,
-        roles: data.roles,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
@@ -683,6 +682,7 @@ export class Members {
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles,
       },
     });
   }

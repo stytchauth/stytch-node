@@ -245,14 +245,14 @@ class Members {
       headers,
       data: {
         email_address: data.email_address,
-        roles: data.roles,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
         create_member_as_pending: data.create_member_as_pending,
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
-        mfa_enrolled: data.mfa_enrolled
+        mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles
       }
     });
   }

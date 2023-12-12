@@ -64,7 +64,6 @@ export interface B2BOrganizationsMembersCreateRequest {
      */
     organization_id: string;
     email_address: string;
-    roles: string[];
     name?: string;
     trusted_metadata?: Record<string, any>;
     /**
@@ -96,6 +95,7 @@ export interface B2BOrganizationsMembersCreateRequest {
      * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled?: boolean;
+    roles?: string[];
 }
 export interface B2BOrganizationsMembersCreateResponse {
     /**

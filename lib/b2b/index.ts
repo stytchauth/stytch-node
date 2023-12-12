@@ -26,6 +26,8 @@ export type { MemberOptions, MfaRequired } from "./mfa";
 export type {
   ActiveSSOConnection,
   Member,
+  MemberRole,
+  MemberRoleSource,
   OAuthRegistration,
   Organization,
   B2BOrganizationsResultsMetadata,

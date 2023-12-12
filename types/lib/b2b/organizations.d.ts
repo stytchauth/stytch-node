@@ -67,6 +67,7 @@ export interface Member {
      */
     mfa_enrolled: boolean;
     mfa_phone_number: string;
+    roles: MemberRole[];
     trusted_metadata?: Record<string, any>;
     /**
      * An arbitrary JSON object of application-specific data. These fields can be edited directly by the
@@ -75,6 +76,14 @@ export interface Member {
      *   for complete field behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+}
+export interface MemberRole {
+    role_id: string;
+    sources: MemberRoleSource[];
+}
+export interface MemberRoleSource {
+    type: string;
+    details?: Record<string, any>;
 }
 export interface OAuthRegistration {
     /**
