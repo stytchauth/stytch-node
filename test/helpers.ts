@@ -1,5 +1,5 @@
-import { request, requestConfig } from "../lib/shared";
-import * as http from "http";
+import { request, fetchConfig, requestConfig } from "../lib/shared";
+import * as undici from "undici";
 
 export type Response = {
   status: number;
@@ -13,13 +13,13 @@ export type Request = {
   data?: unknown;
 };
 
-export const MOCK_FETCH_CONFIG = {
+export const MOCK_FETCH_CONFIG: fetchConfig = {
   baseURL: "https://example.net",
   headers: {
     "User-Agent": `Stytch Node vTEST`,
   },
   timeout: 100,
-  agent: { mock: "agent" } as unknown as http.Agent,
+  dispatcher: { mock: "agent" } as unknown as undici.Dispatcher,
 };
 
 export function mockRequest(

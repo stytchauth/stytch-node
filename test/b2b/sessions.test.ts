@@ -2,6 +2,7 @@ import { Sessions } from "../../lib/b2b/sessions";
 import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 import * as jose from "jose";
 import { ClientError } from "../../lib";
+import { MOCK_RBAC_POLICY } from "./rbac_policy";
 
 jest.mock("../../lib/shared");
 

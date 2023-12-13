@@ -12,6 +12,7 @@ declare type IntermediateSession = {
     last_accessed_at: string;
     expires_at: string;
     custom_claims: Record<string, any>;
+    roles: string[];
 };
 export declare function authenticateJwtLocal(jwksClient: jose.JWTVerifyGetKey, jwtOptions: jose.JWTVerifyOptions, jwt: string, options?: {
     clock_tolerance_seconds?: number;

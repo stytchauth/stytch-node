@@ -4,14 +4,50 @@
 // or your changes may be overwritten later!
 // !!!
 
+import * as jose from "jose";
+import {} from "../shared/method_options";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
+import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
 
-import * as jose from "jose";
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+import { performAuthorizationCheck } from "./rbac_local";
+
+export interface AuthorizationCheck {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
+  organization_id: string;
+  /**
+   * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
+   *
+   *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+   * default Resources with reserved  `resource_id`s. These include:
+   *
+   *   * `stytch.organization`
+   *   * `stytch.member`
+   *   * `stytch.sso`
+   *   * `stytch.self`
+   *
+   *   Check out the
+   * [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for a more
+   * detailed explanation.
+   *
+   *
+   */
+  resource_id: string;
+  // An action to take on a Resource.
+  action: string;
+}
+
+export interface AuthorizationVerdict {
+  authorized: boolean;
+  granting_roles: string[];
+}
 
 export interface MemberSession {
   // Globally unique UUID that identifies a specific Session.
@@ -40,6 +76,7 @@ export interface MemberSession {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
+  roles: string[];
   /**
    * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
    * call.
@@ -80,6 +117,28 @@ export interface B2BSessionsAuthenticateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * (Coming Soon) If an `authorization_check` object is passed in, this endpoint will also check if the
+   * Member is
+   *   authorized to perform the given action on the given Resource in the specified Organization. A Member
+   * is authorized if
+   *   their Member Session contains a Role, assigned
+   *   [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+   * permissions.
+   *   In addition, the `organization_id` passed in the authorization check must match the Member's
+   * Organization.
+   *
+   *   The Roles on the Member Session may differ from the Roles you see on the Member object - Roles that
+   * are implicitly
+   *   assigned by SSO connection or SSO group will only be valid for a Member Session if there is at least
+   * one authentication
+   *   factor on the Member Session from the specified SSO connection.
+   *
+   *   If the Member is not authorized to perform the specified action on the specified Resource, or if the
+   *   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+   *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
+   */
+  authorization_check?: AuthorizationCheck;
 }
 
 // Response type for `sessions.authenticate`.
@@ -104,6 +163,13 @@ export interface B2BSessionsAuthenticateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  /**
+   * (Coming Soon) If an `authorization_check` is provided in the request and the check succeeds, this field
+   * will return
+   *   the complete list of Roles that gave the Member permission to perform the specified action on the
+   * specified Resource.
+   */
+  verdict?: AuthorizationVerdict;
 }
 
 // Request type for `sessions.exchange`.
@@ -302,6 +368,7 @@ export interface B2BSessionsAuthenticateJwtRequest {
    * return a new JWT.
    */
   session_jwt: string;
+  authorization_check?: AuthorizationCheck;
 
   /**
    * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
@@ -316,6 +383,7 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
    * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
    */
   session_jwt: string;
+  authorization_check?: AuthorizationCheck;
 
   /**
    * The maximum allowable difference when comparing timestamps.
@@ -342,29 +410,38 @@ export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
+  private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
+
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
       issuer: `stytch.com/${jwtConfig.projectID}`,
       typ: "JWT",
     };
+    this.policyCache = policyCache;
   }
 
   /**
    * Retrieves all active Sessions for a Member.
-   * @param data {@link B2BSessionsGetRequest}
+   * @param params {@link B2BSessionsGetRequest}
    * @returns {@link B2BSessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: B2BSessionsGetRequest): Promise<B2BSessionsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions`,
+      headers,
       params: { ...params },
     });
   }
@@ -377,6 +454,18 @@ export class Sessions {
    *
    * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
    * will be returned if both the signature and the underlying Session are still valid.
+   *
+   * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
+   * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+   * if their Member Session contains a Role, assigned
+   * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+   * permissions.
+   * In addition, the `organization_id` passed in the authorization check must match the Member's
+   * Organization.
+   *
+   * If the Member is not authorized to perform the specified action on the specified Resource, or if the
+   * `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+   * Otherwise, the response will contain a list of Roles that satisfied the authorization check.
    * @param data {@link B2BSessionsAuthenticateRequest}
    * @returns {@link B2BSessionsAuthenticateResponse}
    * @async
@@ -386,9 +475,11 @@ export class Sessions {
   authenticate(
     data: B2BSessionsAuthenticateRequest
   ): Promise<B2BSessionsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/authenticate`,
+      headers,
       data,
     });
   }
@@ -404,9 +495,11 @@ export class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,
+      headers,
       data,
     });
   }
@@ -443,9 +536,11 @@ export class Sessions {
   exchange(
     data: B2BSessionsExchangeRequest
   ): Promise<B2BSessionsExchangeResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsExchangeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
       data,
     });
   }
@@ -466,7 +561,7 @@ export class Sessions {
    * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
    * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
    * for validation by inspecting the `kid` value.
-   * @param data {@link B2BSessionsGetJWKSRequest}
+   * @param params {@link B2BSessionsGetJWKSRequest}
    * @returns {@link B2BSessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -475,16 +570,18 @@ export class Sessions {
   getJWKS(
     params: B2BSessionsGetJWKSRequest
   ): Promise<B2BSessionsGetJWKSResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BSessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      headers,
       params: {},
     });
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+  // ADDIMPORT: import { performAuthorizationCheck } from "./rbac_local";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -504,7 +601,10 @@ export class Sessions {
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
-      return this.authenticate({ session_jwt: params.session_jwt });
+      return this.authenticate({
+        session_jwt: params.session_jwt,
+        authorization_check: params.authorization_check,
+      });
     }
   }
 
@@ -542,6 +642,16 @@ export class Sessions {
 
     const orgClaim = orgClaimUntyped as { organization_id: string };
 
+    if (params.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      await performAuthorizationCheck({
+        policy,
+        subjectRoles: sess.roles,
+        subjectOrgID: orgClaim.organization_id,
+        authorizationCheck: params.authorization_check,
+      });
+    }
+
     return {
       member_session_id: sess.session_id,
       member_id: sess.sub,
@@ -552,6 +662,7 @@ export class Sessions {
       last_accessed_at: sess.last_accessed_at,
       expires_at: sess.expires_at,
       custom_claims: claims,
+      roles: sess.roles,
     };
   }
 

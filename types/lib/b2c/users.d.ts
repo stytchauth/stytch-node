@@ -96,6 +96,10 @@ export interface User {
     emails: Email[];
     status: string;
     phone_numbers: PhoneNumber[];
+    /**
+     * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+     * API.
+     */
     webauthn_registrations: WebAuthnRegistration[];
     providers: OAuthProvider[];
     totps: TOTP[];
@@ -139,9 +143,9 @@ export interface WebAuthnRegistration {
      */
     verified: boolean;
     /**
-     * The `authenticator_type` string displays the requested authenticator type of the WebAuthn device. The
-     * two valid types are "platform" and "cross-platform". If no value is present, the WebAuthn device was
-     * created without an authenticator type preference.
+     * The `authenticator_type` string displays the requested authenticator type of the Passkey or WebAuthn
+     * device. The two valid types are "platform" and "cross-platform". If no value is present, the Passkey or
+     * WebAuthn device was created without an authenticator type preference.
      */
     authenticator_type: string;
     name: string;
@@ -419,6 +423,10 @@ export interface UsersGetResponse {
     emails: Email[];
     status: string;
     phone_numbers: PhoneNumber[];
+    /**
+     * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+     * API.
+     */
     webauthn_registrations: WebAuthnRegistration[];
     providers: OAuthProvider[];
     totps: TOTP[];
@@ -627,7 +635,7 @@ export declare class Users {
     create(data: UsersCreateRequest): Promise<UsersCreateResponse>;
     /**
      * Get information about a specific User.
-     * @param data {@link UsersGetRequest}
+     * @param params {@link UsersGetRequest}
      * @returns {@link UsersGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

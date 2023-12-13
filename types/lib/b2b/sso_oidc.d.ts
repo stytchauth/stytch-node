@@ -1,5 +1,22 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { OIDCConnection } from "./sso";
+export interface B2BSSOOIDCCreateConnectionRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSSOOIDCUpdateConnectionRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BSSOOIDCCreateConnectionRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -87,14 +104,15 @@ export declare class OIDC {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Create a new OIDC Connection.
+     * Create a new OIDC Connection. /%}
      * @param data {@link B2BSSOOIDCCreateConnectionRequest}
+     * @param options {@link B2BSSOOIDCCreateConnectionRequestOptions}
      * @returns {@link B2BSSOOIDCCreateConnectionResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    createConnection(data: B2BSSOOIDCCreateConnectionRequest): Promise<B2BSSOOIDCCreateConnectionResponse>;
+    createConnection(data: B2BSSOOIDCCreateConnectionRequest, options?: B2BSSOOIDCCreateConnectionRequestOptions): Promise<B2BSSOOIDCCreateConnectionResponse>;
     /**
      * Updates an existing OIDC connection.
      *
@@ -122,11 +140,13 @@ export declare class OIDC {
      * * `token_url`
      * * `userinfo_url`
      * * `jwks_url`
+     *  /%}
      * @param data {@link B2BSSOOIDCUpdateConnectionRequest}
+     * @param options {@link B2BSSOOIDCUpdateConnectionRequestOptions}
      * @returns {@link B2BSSOOIDCUpdateConnectionResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    updateConnection(data: B2BSSOOIDCUpdateConnectionRequest): Promise<B2BSSOOIDCUpdateConnectionResponse>;
+    updateConnection(data: B2BSSOOIDCUpdateConnectionRequest, options?: B2BSSOOIDCUpdateConnectionRequestOptions): Promise<B2BSSOOIDCUpdateConnectionResponse>;
 }

@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -132,7 +133,10 @@ export interface User {
   status: string;
   // An array of phone number objects linked to the User.
   phone_numbers: PhoneNumber[];
-  // An array that contains a list of all WebAuthn registrations for a given User in the Stytch API.
+  /**
+   * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+   * API.
+   */
   webauthn_registrations: WebAuthnRegistration[];
   // An array of OAuth `provider` objects linked to the User.
   providers: OAuthProvider[];
@@ -176,9 +180,9 @@ export interface UsersResultsMetadata {
 }
 
 export interface WebAuthnRegistration {
-  // The unique ID for the WebAuthn registration.
+  // The unique ID for the Passkey or WebAuthn registration.
   webauthn_registration_id: string;
-  // The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
+  // The `domain` on which Passkey or WebAuthn registration was started. This will be the domain of your app.
   domain: string;
   // The user agent of the User.
   user_agent: string;
@@ -188,12 +192,12 @@ export interface WebAuthnRegistration {
    */
   verified: boolean;
   /**
-   * The `authenticator_type` string displays the requested authenticator type of the WebAuthn device. The
-   * two valid types are "platform" and "cross-platform". If no value is present, the WebAuthn device was
-   * created without an authenticator type preference.
+   * The `authenticator_type` string displays the requested authenticator type of the Passkey or WebAuthn
+   * device. The two valid types are "platform" and "cross-platform". If no value is present, the Passkey or
+   * WebAuthn device was created without an authenticator type preference.
    */
   authenticator_type: string;
-  // The `name` of the WebAuthn registration.
+  // The `name` of the Passkey or WebAuthn registration.
   name: string;
 }
 
@@ -551,7 +555,10 @@ export interface UsersGetResponse {
   status: string;
   // An array of phone number objects linked to the User.
   phone_numbers: PhoneNumber[];
-  // An array that contains a list of all WebAuthn registrations for a given User in the Stytch API.
+  /**
+   * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
+   * API.
+   */
   webauthn_registrations: WebAuthnRegistration[];
   // An array of OAuth `provider` objects linked to the User.
   providers: OAuthProvider[];
@@ -847,25 +854,29 @@ export class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: UsersCreateRequest): Promise<UsersCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/users`,
+      headers,
       data,
     });
   }
 
   /**
    * Get information about a specific User.
-   * @param data {@link UsersGetRequest}
+   * @param params {@link UsersGetRequest}
    * @returns {@link UsersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: UsersGetRequest): Promise<UsersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/users/${params.user_id}`,
+      headers,
       params: {},
     });
   }
@@ -879,9 +890,11 @@ export class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(data: UsersSearchRequest): Promise<UsersSearchResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/users/search`,
+      headers,
       data,
     });
   }
@@ -904,9 +917,11 @@ export class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(data: UsersUpdateRequest): Promise<UsersUpdateResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/users/${data.user_id}`,
+      headers,
       data: {
         name: data.name,
         attributes: data.attributes,
@@ -934,9 +949,11 @@ export class Users {
   exchangePrimaryFactor(
     data: UsersExchangePrimaryFactorRequest
   ): Promise<UsersExchangePrimaryFactorResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersExchangePrimaryFactorResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/users/${data.user_id}/exchange_primary_factor`,
+      headers,
       data: {
         email_address: data.email_address,
         phone_number: data.phone_number,
@@ -953,9 +970,11 @@ export class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(data: UsersDeleteRequest): Promise<UsersDeleteResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/${data.user_id}`,
+      headers,
       data: {},
     });
   }
@@ -971,9 +990,11 @@ export class Users {
   deleteEmail(
     data: UsersDeleteEmailRequest
   ): Promise<UsersDeleteEmailResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteEmailResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/emails/${data.email_id}`,
+      headers,
       data: {},
     });
   }
@@ -989,9 +1010,11 @@ export class Users {
   deletePhoneNumber(
     data: UsersDeletePhoneNumberRequest
   ): Promise<UsersDeletePhoneNumberResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeletePhoneNumberResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/phone_numbers/${data.phone_id}`,
+      headers,
       data: {},
     });
   }
@@ -1007,9 +1030,11 @@ export class Users {
   deleteWebAuthnRegistration(
     data: UsersDeleteWebAuthnRegistrationRequest
   ): Promise<UsersDeleteWebAuthnRegistrationResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteWebAuthnRegistrationResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/webauthn_registrations/${data.webauthn_registration_id}`,
+      headers,
       data: {},
     });
   }
@@ -1025,9 +1050,11 @@ export class Users {
   deleteBiometricRegistration(
     data: UsersDeleteBiometricRegistrationRequest
   ): Promise<UsersDeleteBiometricRegistrationResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteBiometricRegistrationResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/biometric_registrations/${data.biometric_registration_id}`,
+      headers,
       data: {},
     });
   }
@@ -1041,9 +1068,11 @@ export class Users {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteTOTP(data: UsersDeleteTOTPRequest): Promise<UsersDeleteTOTPResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteTOTPResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/totps/${data.totp_id}`,
+      headers,
       data: {},
     });
   }
@@ -1059,9 +1088,11 @@ export class Users {
   deleteCryptoWallet(
     data: UsersDeleteCryptoWalletRequest
   ): Promise<UsersDeleteCryptoWalletResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteCryptoWalletResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/crypto_wallets/${data.crypto_wallet_id}`,
+      headers,
       data: {},
     });
   }
@@ -1077,9 +1108,11 @@ export class Users {
   deletePassword(
     data: UsersDeletePasswordRequest
   ): Promise<UsersDeletePasswordResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeletePasswordResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/passwords/${data.password_id}`,
+      headers,
       data: {},
     });
   }
@@ -1095,9 +1128,11 @@ export class Users {
   deleteOAuthRegistration(
     data: UsersDeleteOAuthRegistrationRequest
   ): Promise<UsersDeleteOAuthRegistrationResponse> {
+    const headers: Record<string, string> = {};
     return request<UsersDeleteOAuthRegistrationResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
+      headers,
       data: {},
     });
   }

@@ -104,6 +104,7 @@ async function authenticateSessionJwtLocal(jwksClient, jwtOptions, jwt, options)
     last_accessed_at: claim.last_accessed_at,
     // For JWTs that include it, prefer the inner expires_at claim.
     expires_at: new Date(claim.expires_at || (payload.exp || 0) * 1000).toISOString(),
-    custom_claims: customClaims
+    custom_claims: customClaims,
+    roles: claim.roles
   };
 }

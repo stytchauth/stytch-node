@@ -4,9 +4,49 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { SAMLConnection } from "./sso";
+
+export interface B2BSSOSAMLCreateConnectionRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSSOSAMLDeleteVerificationCertificateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSSOSAMLUpdateByURLRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSSOSAMLUpdateConnectionRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
 
 // Request type for `sso.saml.createConnection`.
 export interface B2BSSOSAMLCreateConnectionRequest {
@@ -126,6 +166,25 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
   // The URL for which assertions for login requests will be sent. This will be provided by the IdP.
   idp_sso_url?: string;
   /**
+   * (Coming Soon) All Members who log in with this SAML connection will implicitly receive the specified
+   * Roles. See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more
+   * information about role assignment.
+   */
+  saml_connection_implicit_role_assignments?: string[];
+  /**
+   * (Coming Soon) Defines the names of the SAML groups
+   *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+   * connection and
+   *  belongs to the specified SAML group, they will be granted the associated Role. See the
+   *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+   * assignment.
+   *          Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+   * connection's
+   *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
+   * information.
+   */
+  saml_group_implicit_role_assignments?: string[];
+  /**
    * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
    * an existing SAML integration to Stytch with zero downtime.
    */
@@ -160,19 +219,26 @@ export class SAML {
   }
 
   /**
-   * Create a new SAML Connection.
+   * Create a new SAML Connection. /%}
    * @param data {@link B2BSSOSAMLCreateConnectionRequest}
+   * @param options {@link B2BSSOSAMLCreateConnectionRequestOptions}
    * @returns {@link B2BSSOSAMLCreateConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   createConnection(
-    data: B2BSSOSAMLCreateConnectionRequest
+    data: B2BSSOSAMLCreateConnectionRequest,
+    options?: B2BSSOSAMLCreateConnectionRequestOptions
   ): Promise<B2BSSOSAMLCreateConnectionResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOSAMLCreateConnectionResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sso/saml/${data.organization_id}`,
+      headers,
       data: {
         display_name: data.display_name,
       },
@@ -187,24 +253,36 @@ export class SAML {
    * * `attribute_mapping`
    * * `idp_entity_id`
    * * `x509_certificate`
+   *  /%}
    * @param data {@link B2BSSOSAMLUpdateConnectionRequest}
+   * @param options {@link B2BSSOSAMLUpdateConnectionRequestOptions}
    * @returns {@link B2BSSOSAMLUpdateConnectionResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   updateConnection(
-    data: B2BSSOSAMLUpdateConnectionRequest
+    data: B2BSSOSAMLUpdateConnectionRequest,
+    options?: B2BSSOSAMLUpdateConnectionRequestOptions
   ): Promise<B2BSSOSAMLUpdateConnectionResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOSAMLUpdateConnectionResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}`,
+      headers,
       data: {
         idp_entity_id: data.idp_entity_id,
         display_name: data.display_name,
         attribute_mapping: data.attribute_mapping,
         x509_certificate: data.x509_certificate,
         idp_sso_url: data.idp_sso_url,
+        saml_connection_implicit_role_assignments:
+          data.saml_connection_implicit_role_assignments,
+        saml_group_implicit_role_assignments:
+          data.saml_group_implicit_role_assignments,
         alternative_audience_uri: data.alternative_audience_uri,
       },
     });
@@ -218,18 +296,26 @@ export class SAML {
    * * `idp_entity_id`
    * * `x509_certificate`
    * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
+   *  /%}
    * @param data {@link B2BSSOSAMLUpdateByURLRequest}
+   * @param options {@link B2BSSOSAMLUpdateByURLRequestOptions}
    * @returns {@link B2BSSOSAMLUpdateByURLResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   updateByURL(
-    data: B2BSSOSAMLUpdateByURLRequest
+    data: B2BSSOSAMLUpdateByURLRequest,
+    options?: B2BSSOSAMLUpdateByURLRequestOptions
   ): Promise<B2BSSOSAMLUpdateByURLResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOSAMLUpdateByURLResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/url`,
+      headers,
       data: {
         metadata_url: data.metadata_url,
       },
@@ -241,20 +327,28 @@ export class SAML {
    *
    * You may need to do this when rotating certificates from your IdP, since Stytch allows a maximum of 5
    * certificates per connection. There must always be at least one certificate per active connection.
+   *  /%}
    * @param data {@link B2BSSOSAMLDeleteVerificationCertificateRequest}
+   * @param options {@link B2BSSOSAMLDeleteVerificationCertificateRequestOptions}
    * @returns {@link B2BSSOSAMLDeleteVerificationCertificateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteVerificationCertificate(
-    data: B2BSSOSAMLDeleteVerificationCertificateRequest
+    data: B2BSSOSAMLDeleteVerificationCertificateRequest,
+    options?: B2BSSOSAMLDeleteVerificationCertificateRequestOptions
   ): Promise<B2BSSOSAMLDeleteVerificationCertificateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSSOSAMLDeleteVerificationCertificateResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/verification_certificates/${data.certificate_id}`,
+        headers,
         data: {},
       }
     );

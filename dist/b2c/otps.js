@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.OTPs = void 0;
+require("../shared/method_options");
 var _otps_email = require("./otps_email");
 var _shared = require("../shared");
 var _otps_sms = require("./otps_sms");
@@ -39,9 +40,11 @@ class OTPs {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/authenticate`,
+      headers,
       data
     });
   }

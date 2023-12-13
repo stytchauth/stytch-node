@@ -15,6 +15,7 @@ type SessionClaim = {
   expires_at: string;
   attributes: unknown;
   authentication_factors: unknown;
+  roles: string[];
 };
 
 // An IntermediateSession can be either a MemberSession or a UserSession
@@ -28,6 +29,7 @@ type IntermediateSession = {
   last_accessed_at: string;
   expires_at: string;
   custom_claims: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  roles: string[];
 };
 
 export async function authenticateJwtLocal(
@@ -167,5 +169,6 @@ export async function authenticateSessionJwtLocal(
     ).toISOString(),
 
     custom_claims: customClaims,
+    roles: claim.roles,
   };
 }

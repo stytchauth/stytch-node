@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Email = void 0;
+var _method_options = require("../shared/method_options");
 var _magic_links_email_discovery = require("./magic_links_email_discovery");
 var _shared = require("../shared");
 // !!!
@@ -37,9 +38,11 @@ class Email {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   loginOrSignup(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/login_or_signup`,
+      headers,
       data
     });
   }
@@ -47,17 +50,23 @@ class Email {
   /**
    * Send an invite email to a new Member to join an Organization. The Member will be created with an
    * `invited` status until they successfully authenticate. Sending invites to `pending` Members will update
-   * their status to `invited`. Sending invites to already `active` Members will return an error.
+   * their status to `invited`. Sending invites to already `active` Members will return an error. /%}
    * @param data {@link B2BMagicLinksEmailInviteRequest}
+   * @param options {@link B2BMagicLinksEmailInviteRequestOptions}
    * @returns {@link B2BMagicLinksEmailInviteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  invite(data) {
+  invite(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/magic_links/email/invite`,
+      headers,
       data
     });
   }

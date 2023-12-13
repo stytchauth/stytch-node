@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { Session } from "./sessions";
@@ -101,9 +102,11 @@ export class Sessions {
   reset(
     data: PasswordsSessionResetRequest
   ): Promise<PasswordsSessionResetResponse> {
+    const headers: Record<string, string> = {};
     return request<PasswordsSessionResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/passwords/session/reset`,
+      headers,
       data,
     });
   }

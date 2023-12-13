@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -151,11 +152,13 @@ export class ExistingPassword {
   reset(
     data: B2BPasswordsExistingPasswordResetRequest
   ): Promise<B2BPasswordsExistingPasswordResetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsExistingPasswordResetResponse>(
       this.fetchConfig,
       {
         method: "POST",
         url: `/v1/b2b/passwords/existing_password/reset`,
+        headers,
         data,
       }
     );

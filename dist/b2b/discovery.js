@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Discovery = void 0;
+require("../shared/method_options");
 var _discovery_intermediate_sessions = require("./discovery_intermediate_sessions");
 var _discovery_organizations = require("./discovery_organizations");
 // !!!

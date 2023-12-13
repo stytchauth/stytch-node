@@ -4,9 +4,14 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { DiscoveredOrganization } from "./discovery";
+import {
+  EmailImplicitRoleAssignment,
+  Member,
+  Organization,
+} from "./organizations";
 import { fetchConfig } from "../shared";
-import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
@@ -98,12 +103,12 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
   email_allowed_domains?: string[];
   /**
    * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-   * Magic Link. The accepted values are:
+   * Magic Link or OAuth. The accepted values are:
    *
    *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * provisioned upon authentication via Email Magic Link.
+   * provisioned upon authentication via Email Magic Link or OAuth.
    *
-   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
    *
    */
   email_jit_provisioning?: string;
@@ -132,8 +137,7 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   auth_methods?: string;
   /**
-   *
-   *   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+   * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
    * `RESTRICTED`.
    *   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
    *
@@ -143,13 +147,23 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
    *
    *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-   * they wish to log in.
+   * they wish to log in. However, any active Session that existed prior to this setting change will remain
+   * valid.
    *
    *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
    * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
    *
    */
   mfa_policy?: string;
+  /**
+   * (Coming Soon) Implicit role assignments based off of email domains.
+   *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+   * granted the
+   *   associated Role, regardless of their login method. See the
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+   *   for more information about role assignment.
+   */
+  rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
 }
 
 // Response type for `discovery.organizations.create`.
@@ -269,14 +283,17 @@ export class Organizations {
   }
 
   /**
-   * If an end user does not want to join any already-existing organization, or has no possible organizations
+   * If an end user does not want to join any already-existing Organization, or has no possible Organizations
    * to join, this endpoint can be used to create a new
    * [Organization](https://stytch.com/docs/b2b/api/organization-object) and
    * [Member](https://stytch.com/docs/b2b/api/member-object).
    *
    * This operation consumes the Intermediate Session.
    *
-   * This endpoint can also be used to start an initial session for the newly created member and organization.
+   * This endpoint will also create an initial Member Session for the newly created Member.
+   *
+   * The Member created by this endpoint will automatically be granted the `stytch_admin` Role. See the
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
    *
    * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member
    * will need to complete an MFA step to log in to the Organization.
@@ -298,9 +315,11 @@ export class Organizations {
   create(
     data: B2BDiscoveryOrganizationsCreateRequest
   ): Promise<B2BDiscoveryOrganizationsCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BDiscoveryOrganizationsCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations/create`,
+      headers,
       data,
     });
   }
@@ -334,9 +353,11 @@ export class Organizations {
   list(
     data: B2BDiscoveryOrganizationsListRequest
   ): Promise<B2BDiscoveryOrganizationsListResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BDiscoveryOrganizationsListResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/discovery/organizations`,
+      headers,
       data,
     });
   }

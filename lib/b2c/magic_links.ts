@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
@@ -161,9 +162,11 @@ export class MagicLinks {
   authenticate(
     data: MagicLinksAuthenticateRequest
   ): Promise<MagicLinksAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links/authenticate`,
+      headers,
       data,
     });
   }
@@ -184,9 +187,11 @@ export class MagicLinks {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(data: MagicLinksCreateRequest): Promise<MagicLinksCreateResponse> {
+    const headers: Record<string, string> = {};
     return request<MagicLinksCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/magic_links`,
+      headers,
       data,
     });
   }

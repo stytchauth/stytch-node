@@ -2,7 +2,38 @@ import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
+import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
+export interface AuthorizationCheck {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    /**
+     * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
+     *
+     *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+     * default Resources with reserved  `resource_id`s. These include:
+     *
+     *   * `stytch.organization`
+     *   * `stytch.member`
+     *   * `stytch.sso`
+     *   * `stytch.self`
+     *
+     *   Check out the
+     * [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for a more
+     * detailed explanation.
+     *
+     *
+     */
+    resource_id: string;
+    action: string;
+}
+export interface AuthorizationVerdict {
+    authorized: boolean;
+    granting_roles: string[];
+}
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
@@ -27,6 +58,7 @@ export interface MemberSession {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    roles: string[];
     /**
      * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
      * call.
@@ -63,6 +95,28 @@ export interface B2BSessionsAuthenticateRequest {
      *   Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * (Coming Soon) If an `authorization_check` object is passed in, this endpoint will also check if the
+     * Member is
+     *   authorized to perform the given action on the given Resource in the specified Organization. A Member
+     * is authorized if
+     *   their Member Session contains a Role, assigned
+     *   [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+     * permissions.
+     *   In addition, the `organization_id` passed in the authorization check must match the Member's
+     * Organization.
+     *
+     *   The Roles on the Member Session may differ from the Roles you see on the Member object - Roles that
+     * are implicitly
+     *   assigned by SSO connection or SSO group will only be valid for a Member Session if there is at least
+     * one authentication
+     *   factor on the Member Session from the specified SSO connection.
+     *
+     *   If the Member is not authorized to perform the specified action on the specified Resource, or if the
+     *   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+     *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
+     */
+    authorization_check?: AuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
     /**
@@ -80,6 +134,13 @@ export interface B2BSessionsAuthenticateResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * (Coming Soon) If an `authorization_check` is provided in the request and the check succeeds, this field
+     * will return
+     *   the complete list of Roles that gave the Member permission to perform the specified action on the
+     * specified Resource.
+     */
+    verdict?: AuthorizationVerdict;
 }
 export interface B2BSessionsExchangeRequest {
     /**
@@ -244,6 +305,7 @@ export interface B2BSessionsAuthenticateJwtRequest {
      * return a new JWT.
      */
     session_jwt: string;
+    authorization_check?: AuthorizationCheck;
     /**
      * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
@@ -255,6 +317,7 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
      * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
      */
     session_jwt: string;
+    authorization_check?: AuthorizationCheck;
     /**
      * The maximum allowable difference when comparing timestamps.
      * It defaults to zero.
@@ -275,10 +338,11 @@ export declare class Sessions {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
-    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
+    private policyCache;
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     /**
      * Retrieves all active Sessions for a Member.
-     * @param data {@link B2BSessionsGetRequest}
+     * @param params {@link B2BSessionsGetRequest}
      * @returns {@link B2BSessionsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -293,6 +357,18 @@ export declare class Sessions {
      *
      * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
      * will be returned if both the signature and the underlying Session are still valid.
+     *
+     * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
+     * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+     * if their Member Session contains a Role, assigned
+     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+     * permissions.
+     * In addition, the `organization_id` passed in the authorization check must match the Member's
+     * Organization.
+     *
+     * If the Member is not authorized to perform the specified action on the specified Resource, or if the
+     * `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+     * Otherwise, the response will contain a list of Roles that satisfied the authorization check.
      * @param data {@link B2BSessionsAuthenticateRequest}
      * @returns {@link B2BSessionsAuthenticateResponse}
      * @async
@@ -357,7 +433,7 @@ export declare class Sessions {
      * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
      * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
      * for validation by inspecting the `kid` value.
-     * @param data {@link B2BSessionsGetJWKSRequest}
+     * @param params {@link B2BSessionsGetJWKSRequest}
      * @returns {@link B2BSessionsGetJWKSResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API

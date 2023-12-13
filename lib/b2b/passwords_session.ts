@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -130,9 +131,11 @@ export class Sessions {
   reset(
     data: B2BPasswordsSessionResetRequest
   ): Promise<B2BPasswordsSessionResetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BPasswordsSessionResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/session/reset`,
+      headers,
       data,
     });
   }

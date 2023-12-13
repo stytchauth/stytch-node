@@ -10,6 +10,10 @@ async function request(fetchConfig, requestConfig) {
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) => url.searchParams.append(key, String(value)));
   }
+  const finalHeaders = {
+    ...fetchConfig.headers,
+    ...requestConfig.headers
+  };
   let response;
   try {
     const body = requestConfig.data ? JSON.stringify(requestConfig.data) : requestConfig.dataRaw;
@@ -17,7 +21,8 @@ async function request(fetchConfig, requestConfig) {
       method: requestConfig.method,
       body: body,
       cache: "no-store",
-      ...fetchConfig
+      ...fetchConfig,
+      headers: finalHeaders
     });
   } catch (e) {
     const err = e;

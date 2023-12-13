@@ -1,6 +1,15 @@
+import { Authorization } from "../shared/method_options";
 import { Discovery } from "./magic_links_email_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
+export interface B2BMagicLinksEmailInviteRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BMagicLinksEmailInviteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -45,6 +54,12 @@ export interface B2BMagicLinksEmailInviteRequest {
      *
      */
     locale?: "en" | "es" | "pt-br" | string;
+    /**
+     * (Coming Soon) Roles to explicitly assign to this Member. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+     *    for more information about role assignment.
+     */
+    roles?: string[];
 }
 export interface B2BMagicLinksEmailInviteResponse {
     /**
@@ -154,12 +169,13 @@ export declare class Email {
     /**
      * Send an invite email to a new Member to join an Organization. The Member will be created with an
      * `invited` status until they successfully authenticate. Sending invites to `pending` Members will update
-     * their status to `invited`. Sending invites to already `active` Members will return an error.
+     * their status to `invited`. Sending invites to already `active` Members will return an error. /%}
      * @param data {@link B2BMagicLinksEmailInviteRequest}
+     * @param options {@link B2BMagicLinksEmailInviteRequestOptions}
      * @returns {@link B2BMagicLinksEmailInviteResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    invite(data: B2BMagicLinksEmailInviteRequest): Promise<B2BMagicLinksEmailInviteResponse>;
+    invite(data: B2BMagicLinksEmailInviteRequest, options?: B2BMagicLinksEmailInviteRequestOptions): Promise<B2BMagicLinksEmailInviteResponse>;
 }

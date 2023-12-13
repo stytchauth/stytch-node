@@ -4,12 +4,13 @@
 // or your changes may be overwritten later!
 // !!!
 
+import * as jose from "jose";
+import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { User } from "./users";
 
-import * as jose from "jose";
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
 export interface AmazonOAuthFactor {
@@ -90,6 +91,7 @@ export interface AuthenticationFactor {
     | "sso_oidc"
     | "oauth_salesforce"
     | "oauth_yahoo"
+    | "oauth_hubspot"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -136,6 +138,7 @@ export interface AuthenticationFactor {
   oidc_sso_factor?: OIDCSSOFactor;
   salesforce_oauth_factor?: SalesforceOAuthFactor;
   yahoo_oauth_factor?: YahooOAuthFactor;
+  hubspot_oauth_factor?: HubspotOAuthFactor;
 }
 
 export interface AuthenticatorAppFactor {
@@ -214,6 +217,12 @@ export interface GoogleOAuthFactor {
    * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
    * "Subject field" in OAuth protocols.
    */
+  provider_subject: string;
+}
+
+export interface HubspotOAuthFactor {
+  id: string;
+  email_id: string;
   provider_subject: string;
 }
 
@@ -558,6 +567,7 @@ export class Sessions {
 
   constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
     this.fetchConfig = fetchConfig;
+
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
@@ -569,16 +579,18 @@ export class Sessions {
   /**
    * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
    * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-   * @param data {@link SessionsGetRequest}
+   * @param params {@link SessionsGetRequest}
    * @returns {@link SessionsGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(params: SessionsGetRequest): Promise<SessionsGetResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/sessions`,
+      headers,
       params: { ...params },
     });
   }
@@ -598,9 +610,11 @@ export class Sessions {
   authenticate(
     data: SessionsAuthenticateRequest
   ): Promise<SessionsAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/authenticate`,
+      headers,
       data,
     });
   }
@@ -616,9 +630,11 @@ export class Sessions {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   revoke(data: SessionsRevokeRequest): Promise<SessionsRevokeResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/revoke`,
+      headers,
       data,
     });
   }
@@ -639,22 +655,23 @@ export class Sessions {
    * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
    * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
    * for validation by inspecting the `kid` value.
-   * @param data {@link SessionsGetJWKSRequest}
+   * @param params {@link SessionsGetJWKSRequest}
    * @returns {@link SessionsGetJWKSResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   getJWKS(params: SessionsGetJWKSRequest): Promise<SessionsGetJWKSResponse> {
+    const headers: Record<string, string> = {};
     return request<SessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/sessions/jwks/${params.project_id}`,
+      headers,
       params: {},
     });
   }
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
-  // ADDIMPORT: import * as jose from "jose";
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *

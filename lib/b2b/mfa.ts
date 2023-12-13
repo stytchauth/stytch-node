@@ -4,6 +4,8 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
+
 export interface MemberOptions {
   // The Member's MFA phone number.
   mfa_phone_number: string;

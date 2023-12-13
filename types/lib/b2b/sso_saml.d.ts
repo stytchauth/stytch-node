@@ -1,5 +1,38 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { SAMLConnection } from "./sso";
+export interface B2BSSOSAMLCreateConnectionRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSSOSAMLDeleteVerificationCertificateRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSSOSAMLUpdateByURLRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSSOSAMLUpdateConnectionRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BSSOSAMLCreateConnectionRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -94,6 +127,25 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     x509_certificate?: string;
     idp_sso_url?: string;
     /**
+     * (Coming Soon) All Members who log in with this SAML connection will implicitly receive the specified
+     * Roles. See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more
+     * information about role assignment.
+     */
+    saml_connection_implicit_role_assignments?: string[];
+    /**
+     * (Coming Soon) Defines the names of the SAML groups
+     *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+     * connection and
+     *  belongs to the specified SAML group, they will be granted the associated Role. See the
+     *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     *          Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+     * connection's
+     *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
+     * information.
+     */
+    saml_group_implicit_role_assignments?: string[];
+    /**
      * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
      * an existing SAML integration to Stytch with zero downtime.
      */
@@ -121,14 +173,15 @@ export declare class SAML {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Create a new SAML Connection.
+     * Create a new SAML Connection. /%}
      * @param data {@link B2BSSOSAMLCreateConnectionRequest}
+     * @param options {@link B2BSSOSAMLCreateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLCreateConnectionResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    createConnection(data: B2BSSOSAMLCreateConnectionRequest): Promise<B2BSSOSAMLCreateConnectionResponse>;
+    createConnection(data: B2BSSOSAMLCreateConnectionRequest, options?: B2BSSOSAMLCreateConnectionRequestOptions): Promise<B2BSSOSAMLCreateConnectionResponse>;
     /**
      * Updates an existing SAML connection.
      *
@@ -137,13 +190,15 @@ export declare class SAML {
      * * `attribute_mapping`
      * * `idp_entity_id`
      * * `x509_certificate`
+     *  /%}
      * @param data {@link B2BSSOSAMLUpdateConnectionRequest}
+     * @param options {@link B2BSSOSAMLUpdateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateConnectionResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    updateConnection(data: B2BSSOSAMLUpdateConnectionRequest): Promise<B2BSSOSAMLUpdateConnectionResponse>;
+    updateConnection(data: B2BSSOSAMLUpdateConnectionRequest, options?: B2BSSOSAMLUpdateConnectionRequestOptions): Promise<B2BSSOSAMLUpdateConnectionResponse>;
     /**
      * Used to update an existing SAML connection using an IDP metadata URL.
      *
@@ -152,23 +207,27 @@ export declare class SAML {
      * * `idp_entity_id`
      * * `x509_certificate`
      * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
+     *  /%}
      * @param data {@link B2BSSOSAMLUpdateByURLRequest}
+     * @param options {@link B2BSSOSAMLUpdateByURLRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateByURLResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    updateByURL(data: B2BSSOSAMLUpdateByURLRequest): Promise<B2BSSOSAMLUpdateByURLResponse>;
+    updateByURL(data: B2BSSOSAMLUpdateByURLRequest, options?: B2BSSOSAMLUpdateByURLRequestOptions): Promise<B2BSSOSAMLUpdateByURLResponse>;
     /**
      * Delete a SAML verification certificate.
      *
      * You may need to do this when rotating certificates from your IdP, since Stytch allows a maximum of 5
      * certificates per connection. There must always be at least one certificate per active connection.
+     *  /%}
      * @param data {@link B2BSSOSAMLDeleteVerificationCertificateRequest}
+     * @param options {@link B2BSSOSAMLDeleteVerificationCertificateRequestOptions}
      * @returns {@link B2BSSOSAMLDeleteVerificationCertificateResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    deleteVerificationCertificate(data: B2BSSOSAMLDeleteVerificationCertificateRequest): Promise<B2BSSOSAMLDeleteVerificationCertificateResponse>;
+    deleteVerificationCertificate(data: B2BSSOSAMLDeleteVerificationCertificateRequest, options?: B2BSSOSAMLDeleteVerificationCertificateRequestOptions): Promise<B2BSSOSAMLDeleteVerificationCertificateResponse>;
 }

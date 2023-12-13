@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+import {} from "../shared/method_options";
 import { DiscoveredOrganization } from "./discovery";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -61,6 +62,8 @@ export interface B2BOAuthDiscoveryAuthenticateResponse {
    * domain as the end user (to prevent phishing attacks).
    */
   discovered_organizations: DiscoveredOrganization[];
+  provider_type: string;
+  provider_tenant_id: string;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -87,9 +90,11 @@ export class Discovery {
   authenticate(
     data: B2BOAuthDiscoveryAuthenticateRequest
   ): Promise<B2BOAuthDiscoveryAuthenticateResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOAuthDiscoveryAuthenticateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/discovery/authenticate`,
+      headers,
       data,
     });
   }

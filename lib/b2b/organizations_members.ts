@@ -5,6 +5,10 @@
 // !!!
 
 import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
+import {
   B2BOrganizationsResultsMetadata,
   Member,
   Organization,
@@ -12,6 +16,69 @@ import {
 } from "./organizations";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
+
+export interface B2BOrganizationsMembersCreateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeletePasswordRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersReactivateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersSearchRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsMembersUpdateRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
 
 // Request type for `organizations.members.create`.
 export interface B2BOrganizationsMembersCreateRequest {
@@ -56,6 +123,12 @@ export interface B2BOrganizationsMembersCreateRequest {
    * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
    */
   mfa_enrolled?: boolean;
+  /**
+   * (Coming Soon) Roles to explicitly assign to this Member. See the
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+   *    for more information about role assignment.
+   */
+  roles?: string[];
 }
 
 // Response type for `organizations.members.create`.
@@ -198,7 +271,7 @@ export interface B2BOrganizationsMembersGetRequest {
   email_address?: string;
 }
 
-// Response type for `organizations.members.get`.
+// Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
 export interface B2BOrganizationsMembersGetResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -317,15 +390,42 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * operations on a Member, so be sure to preserve this value.
    */
   member_id: string;
-  // The name of the Member.
+  /**
+   * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
+   * implicitly assigned
+   *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
+   * SSO
+   *   authentication factors with the affected SSO connection IDs will be revoked.
+   */
+  preserve_existing_sessions: boolean;
+  /**
+   * The name of the Member.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.info.name` action on the `stytch.member` Resource.
+   *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+   * request, the authorization check will also allow a Member Session that has permission to perform the
+   * `update.info.name` action on the `stytch.self` Resource.
+   */
   name?: string;
-  // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
+  /**
+   * An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
+   *           If a session header is passed into the request, this field may **not** be passed into the
+   * request. You cannot
+   *           update trusted metadata when acting as a Member.
+   */
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
    * An arbitrary JSON object of application-specific data. These fields can be edited directly by the
    *   frontend SDK, and should not be used to store critical information. See the
    * [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
    *   for complete field behavior details.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.info.untrusted-metadata` action on the `stytch.member` Resource.
+   *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+   * request, the authorization check will also allow a Member Session that has permission to perform the
+   * `update.info.untrusted-metadata` action on the `stytch.self` Resource.
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -334,6 +434,9 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * emergency purposes to gain access outside of normal authentication procedures. Refer to the
    * [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
    * more details.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.info.is-breakglass` action on the `stytch.member` Resource.
    */
   is_breakglass?: boolean;
   /**
@@ -341,14 +444,43 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * Member's phone number, use the
    * [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-mfa-phone-number) to
    * delete the Member's existing phone number first.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource.
+   *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+   * request, the authorization check will also allow a Member Session that has permission to perform the
+   * `update.info.mfa-phone` action on the `stytch.self` Resource.
    */
   mfa_phone_number?: string;
   /**
    * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
    * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
    * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.settings.mfa-enrolled` action on the `stytch.member` Resource.
+   *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+   * request, the authorization check will also allow a Member Session that has permission to perform the
+   * `update.settings.mfa-enrolled` action on the `stytch.self` Resource.
    */
   mfa_enrolled?: boolean;
+  /**
+   * (Coming Soon) Roles to explicitly assign to this Member.
+   *  Will completely replace any existing explicitly assigned roles. See the
+   *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+   * assignment.
+   *
+   *    If a Role is removed from a Member, and the Member is also implicitly assigned this Role from an SSO
+   * connection
+   *    or an SSO group, we will by default revoke any existing sessions for the Member that contain any SSO
+   *    authentication factors with the affected connection ID. You can preserve these sessions by passing in
+   * the
+   *    `preserve_existing_sessions` parameter with a value of `true`.
+   *
+   * If this field is provided, the logged-in Member must have permission to perform the
+   * `update.settings.roles` action on the `stytch.member` Resource.
+   */
+  roles?: string[];
 }
 
 // Response type for `organizations.members.update`.
@@ -380,64 +512,106 @@ export class Members {
 
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
+   *
+   * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
+   * endpoint. If you pass in
+   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
+   * that the
+   * Member Session has the necessary permissions. The specific permissions needed depend on which of the
+   * optional fields
+   * are passed in the request. For example, if the `organization_name` argument is provided, the Member
+   * Session must have
+   * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
+   *
+   * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
+   * Member's Organization
+   * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
+   * request will
+   * proceed as normal.
+   *
+   * To learn more about our RBAC implementation, see our
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BOrganizationsMembersUpdateRequest
+    data: B2BOrganizationsMembersUpdateRequest,
+    options?: B2BOrganizationsMembersUpdateRequestOptions
   ): Promise<B2BOrganizationsMembersUpdateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {
+        preserve_existing_sessions: data.preserve_existing_sessions,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles,
       },
     });
   }
 
   /**
-   * Deletes a Member specified by `organization_id` and `member_id`.
+   * Deletes a Member specified by `organization_id` and `member_id`. /%}
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BOrganizationsMembersDeleteRequest
+    data: B2BOrganizationsMembersDeleteRequest,
+    options?: B2BOrganizationsMembersDeleteRequestOptions
   ): Promise<B2BOrganizationsMembersDeleteResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      headers,
       data: {},
     });
   }
 
   /**
    * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
-   * specified by `organization_id` and `member_id`.
+   * specified by `organization_id` and `member_id`. /%}
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
+   * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   reactivate(
-    data: B2BOrganizationsMembersReactivateRequest
+    data: B2BOrganizationsMembersReactivateRequest,
+    options?: B2BOrganizationsMembersReactivateRequestOptions
   ): Promise<B2BOrganizationsMembersReactivateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersReactivateResponse>(
       this.fetchConfig,
       {
         method: "PUT",
         url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+        headers,
         data: {},
       }
     );
@@ -454,20 +628,28 @@ export class Members {
    * Member to enter a new phone number
    * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
    * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
+   *  /%}
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deleteMFAPhoneNumber(
-    data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest
+    data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest,
+    options?: B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions
   ): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
+        headers,
         data: {},
       }
     );
@@ -478,49 +660,83 @@ export class Members {
    * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
+   *
+   * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
+   * endpoint. If you pass in
+   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
+   * that the
+   * Member Session has permission to perform the `search` action on the `stytch.member` Resource. In
+   * addition, enforcing
+   * RBAC on this endpoint means that you may only search for Members within the calling Member's
+   * Organization, so the
+   * `organization_ids` argument may only contain the `organization_id` of the Member Session passed in the
+   * header.
+   *
+   * If the Member Session does not contain a Role that satisfies the requested permission, or if the
+   * `organization_ids`
+   * argument contains an `organization_id` that the Member Session does not belong to, a 403 error will be
+   * thrown.
+   * Otherwise, the request will proceed as normal.
+   *
+   * To learn more about our RBAC implementation, see our
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
    * @param data {@link B2BOrganizationsMembersSearchRequest}
+   * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   search(
-    data: B2BOrganizationsMembersSearchRequest
+    data: B2BOrganizationsMembersSearchRequest,
+    options?: B2BOrganizationsMembersSearchRequestOptions
   ): Promise<B2BOrganizationsMembersSearchResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersSearchResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/members/search`,
+      headers,
       data,
     });
   }
 
   /**
-   * Delete a Member's password.
+   * Delete a Member's password. /%}
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
+   * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   deletePassword(
-    data: B2BOrganizationsMembersDeletePasswordRequest
+    data: B2BOrganizationsMembersDeletePasswordRequest,
+    options?: B2BOrganizationsMembersDeletePasswordRequestOptions
   ): Promise<B2BOrganizationsMembersDeletePasswordResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersDeletePasswordResponse>(
       this.fetchConfig,
       {
         method: "DELETE",
         url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
+        headers,
         data: {},
       }
     );
   }
 
   /**
-   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, so you can use it to
-   * get members across organizations. This is a dangerous operation. Incorrect use may open you up to
-   * indirect object reference (IDOR) attacks. We recommend using the
+   * Get a Member by `member_id`. This endpoint does not require an `organization_id`, enabling you to get
+   * members across organizations. This is a dangerous operation. Incorrect use may open you up to indirect
+   * object reference (IDOR) attacks. We recommend using the
    * [Get Member](https://stytch.com/docs/b2b/api/get-member) API instead.
-   * @param data {@link B2BOrganizationsMembersDangerouslyGetRequest}
+   * @param params {@link B2BOrganizationsMembersDangerouslyGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -529,27 +745,36 @@ export class Members {
   dangerouslyGet(
     params: B2BOrganizationsMembersDangerouslyGetRequest
   ): Promise<B2BOrganizationsMembersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
+      headers,
       params: {},
     });
   }
 
   /**
-   * Creates a Member. An `organization_id` and `email_address` are required.
+   * Creates a Member. An `organization_id` and `email_address` are required. /%}
    * @param data {@link B2BOrganizationsMembersCreateRequest}
+   * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
    * @returns {@link B2BOrganizationsMembersCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(
-    data: B2BOrganizationsMembersCreateRequest
+    data: B2BOrganizationsMembersCreateRequest,
+    options?: B2BOrganizationsMembersCreateRequestOptions
   ): Promise<B2BOrganizationsMembersCreateResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BOrganizationsMembersCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/organizations/${data.organization_id}/members`,
+      headers,
       data: {
         email_address: data.email_address,
         name: data.name,
@@ -559,13 +784,14 @@ export class Members {
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
+        roles: data.roles,
       },
     });
   }
 
   /**
    * Get a Member by `member_id` or `email_address`.
-   * @param data {@link B2BOrganizationsMembersGetRequest}
+   * @param params {@link B2BOrganizationsMembersGetRequest}
    * @returns {@link B2BOrganizationsMembersGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -574,9 +800,11 @@ export class Members {
   get(
     params: B2BOrganizationsMembersGetRequest
   ): Promise<B2BOrganizationsMembersGetResponse> {
+    const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersGetResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/member`,
+      headers,
       params: { ...params },
     });
   }

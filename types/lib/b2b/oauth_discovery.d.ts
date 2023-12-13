@@ -47,6 +47,8 @@ export interface B2BOAuthDiscoveryAuthenticateResponse {
      * domain as the end user (to prevent phishing attacks).
      */
     discovered_organizations: DiscoveredOrganization[];
+    provider_type: string;
+    provider_tenant_id: string;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.

@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.OAuth = void 0;
+require("../shared/method_options");
 var _oauth_discovery = require("./oauth_discovery");
 var _shared = require("../shared");
 // !!!
@@ -41,6 +42,10 @@ class OAuth {
    *
    * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
    * MFA step.
+   *
+   * We’re actively accepting requests for new OAuth providers! Please [email us](mailto:support@stytch.com)
+   * or [post in our community](https://stytch.com/docs/b2b/resources) if you are looking for an OAuth
+   * provider that is not currently supported.
    * @param data {@link B2BOAuthAuthenticateRequest}
    * @returns {@link B2BOAuthAuthenticateResponse}
    * @async
@@ -48,9 +53,11 @@ class OAuth {
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   authenticate(data) {
+    const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/oauth/authenticate`,
+      headers,
       data
     });
   }

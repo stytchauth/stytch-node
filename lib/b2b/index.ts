@@ -10,13 +10,25 @@ export type {
   B2BSessionsAuthenticateJwtRequest,
   B2BSessionsAuthenticateJwtLocalRequest,
 } from "./sessions";
+export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
 // ENDMANUAL(exports)
+
+export type {
+  Policy,
+  PolicyResource,
+  PolicyRole,
+  PolicyRolePermission,
+  B2BRBACPolicyResponse,
+} from "./rbac";
 
 export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {
   ActiveSSOConnection,
+  EmailImplicitRoleAssignment,
   Member,
+  MemberRole,
+  MemberRoleSource,
   OAuthRegistration,
   Organization,
   B2BOrganizationsResultsMetadata,
@@ -32,6 +44,8 @@ export type {
   B2BOrganizationsSearchResponse,
   B2BOrganizationsUpdateRequest,
   B2BOrganizationsUpdateResponse,
+  B2BOrganizationsUpdateRequestOptions,
+  B2BOrganizationsDeleteRequestOptions,
 } from "./organizations";
 
 export type {
@@ -52,9 +66,18 @@ export type {
   B2BOrganizationsMembersSearchResponse,
   B2BOrganizationsMembersUpdateRequest,
   B2BOrganizationsMembersUpdateResponse,
+  B2BOrganizationsMembersUpdateRequestOptions,
+  B2BOrganizationsMembersDeleteRequestOptions,
+  B2BOrganizationsMembersReactivateRequestOptions,
+  B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions,
+  B2BOrganizationsMembersSearchRequestOptions,
+  B2BOrganizationsMembersDeletePasswordRequestOptions,
+  B2BOrganizationsMembersCreateRequestOptions,
 } from "./organizations_members";
 
 export type {
+  AuthorizationCheck,
+  AuthorizationVerdict,
   MemberSession,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
@@ -96,6 +119,7 @@ export type {
   B2BMagicLinksEmailInviteResponse,
   B2BMagicLinksEmailLoginOrSignupRequest,
   B2BMagicLinksEmailLoginOrSignupResponse,
+  B2BMagicLinksEmailInviteRequestOptions,
 } from "./magic_links_email";
 
 export type {
@@ -157,6 +181,8 @@ export type {
 export type {
   OIDCConnection,
   SAMLConnection,
+  SAMLConnectionImplicitRoleAssignment,
+  SAMLGroupImplicitRoleAssignment,
   X509Certificate,
   B2BSSOAuthenticateRequest,
   B2BSSOAuthenticateResponse,
@@ -164,6 +190,8 @@ export type {
   B2BSSODeleteConnectionResponse,
   B2BSSOGetConnectionsRequest,
   B2BSSOGetConnectionsResponse,
+  B2BSSOGetConnectionsRequestOptions,
+  B2BSSODeleteConnectionRequestOptions,
 } from "./sso";
 
 export type {
@@ -171,6 +199,8 @@ export type {
   B2BSSOOIDCCreateConnectionResponse,
   B2BSSOOIDCUpdateConnectionRequest,
   B2BSSOOIDCUpdateConnectionResponse,
+  B2BSSOOIDCCreateConnectionRequestOptions,
+  B2BSSOOIDCUpdateConnectionRequestOptions,
 } from "./sso_oidc";
 
 export type {
@@ -182,4 +212,8 @@ export type {
   B2BSSOSAMLUpdateByURLResponse,
   B2BSSOSAMLUpdateConnectionRequest,
   B2BSSOSAMLUpdateConnectionResponse,
+  B2BSSOSAMLCreateConnectionRequestOptions,
+  B2BSSOSAMLUpdateConnectionRequestOptions,
+  B2BSSOSAMLUpdateByURLRequestOptions,
+  B2BSSOSAMLDeleteVerificationCertificateRequestOptions,
 } from "./sso_saml";

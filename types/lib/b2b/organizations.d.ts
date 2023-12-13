@@ -1,8 +1,17 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 export interface ActiveSSOConnection {
     connection_id: string;
     display_name: string;
+}
+export interface B2BOrganizationsDeleteRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
 }
 export interface B2BOrganizationsResultsMetadata {
     total: number;
@@ -11,6 +20,31 @@ export interface B2BOrganizationsResultsMetadata {
      * This value is passed into your next search call in the `cursor` field.
      */
     next_cursor?: string;
+}
+export interface B2BOrganizationsUpdateRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface EmailImplicitRoleAssignment {
+    domain: string;
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     * for a more detailed explanation.
+     *
+     *
+     */
+    role_id: string;
 }
 export interface Member {
     /**
@@ -44,12 +78,27 @@ export interface Member {
     email_address_verified: boolean;
     mfa_phone_number_verified: boolean;
     /**
+     * (Coming Soon) Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted
+     * to Members
+     *   who create an Organization through the
+     * [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
+     *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
+     */
+    is_admin: boolean;
+    /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
      * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
      * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled: boolean;
     mfa_phone_number: string;
+    /**
+     * (Coming Soon) Explicit or implicit Roles assigned to this Member, along with details about the role
+     * assignment source.
+     *    See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information
+     * about role assignment.
+     */
+    roles: MemberRole[];
     trusted_metadata?: Record<string, any>;
     /**
      * An arbitrary JSON object of application-specific data. These fields can be edited directly by the
@@ -58,6 +107,95 @@ export interface Member {
      *   for complete field behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+}
+export interface MemberRole {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     * for a more detailed explanation.
+     *
+     *
+     */
+    role_id: string;
+    /**
+     * A list of sources for this role assignment. A role assignment can come from multiple sources - for
+     * example, the Role could be both explicitly assigned and implicitly granted from the Member's email
+     * domain.
+     */
+    sources: MemberRoleSource[];
+}
+export interface MemberRoleSource {
+    /**
+     * The type of role assignment. The possible values are:
+     *
+     *   `direct_assignment` – an explicitly assigned Role.
+     *
+     *   Directly assigned roles can be updated by passing in the `roles` argument to the
+     *   [Update Member](https://stytch.com/docs/b2b/api/update-member) endpoint.
+     *
+     *   `email_assignment` – an implicit Role granted by the Member's email domain, regardless of their login
+     * method.
+     *
+     *   Email implicit role assignments can be updated by passing in the
+     * `rbac_email_implicit_role_assignments` argument to
+     *   the [Update Organization](https://stytch.com/docs/b2b/api/update-organization) endpoint.
+     *
+     *   `sso_connection` – an implicit Role granted by the Member's SSO connection. This is currently only
+     * available
+     *   for SAML connections and not for OIDC. If the Member has a SAML Member registration with the given
+     * connection, this
+     *   role assignment will appear in the list. However, for authorization check purposes (in
+     *   [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint that
+     * enforces RBAC with session
+     *   headers), the Member will only be granted the Role if their session contains an authentication factor
+     * with the
+     *   specified SAML connection.
+     *
+     *   SAML connection implicit role assignments can be updated by passing in the
+     *   `saml_connection_implicit_role_assignments` argument to the
+     *   [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection) endpoint.
+     *
+     *   `sso_connection_group` – an implicit Role granted by the Member's SSO connection and group. This is
+     * currently only
+     *   available for SAML connections and not for OIDC. If the Member has a SAML Member registration with the
+     * given
+     *   connection, and belongs to a specific group within the IdP, this role assignment will appear in the
+     * list. However,
+     *   for authorization check purposes (in
+     * [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint
+     *   that enforces RBAC with session headers), the Member will only be granted the role if their session
+     * contains an
+     *   authentication factor with the specified SAML connection.
+     *
+     *   SAML group implicit role assignments can be updated by passing in the
+     * `saml_group_implicit_role_assignments`
+     *   argument to the [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection)
+     * endpoint.
+     *
+     */
+    type: string;
+    /**
+     * An object containing additional metadata about the source assignment. The fields will vary depending
+     *   on the role assignment type as follows:
+     *
+     *   `direct_assignment` – no additional details.
+     *
+     *   `email_assignment` – will contain the email domain that granted the assignment.
+     *
+     *   `sso_connection` – will contain the `connection_id` of the SAML connection that granted the assignment.
+     *
+     *   `sso_connection_group` – will contain the `connection_id` of the SAML connection and the name of the
+     * `group`
+     *   that granted the assignment.
+     *
+     */
+    details?: Record<string, any>;
 }
 export interface OAuthRegistration {
     /**
@@ -128,12 +266,12 @@ export interface Organization {
     email_allowed_domains: string[];
     /**
      * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-     * Magic Link. The accepted values are:
+     * Magic Link or OAuth. The accepted values are:
      *
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-     * provisioned upon authentication via Email Magic Link.
+     * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
      *
      */
     email_jit_provisioning: string;
@@ -162,14 +300,22 @@ export interface Organization {
      */
     auth_methods: string;
     /**
-     *
-     *   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+     * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
      * `RESTRICTED`.
      *   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
      *
      */
     allowed_auth_methods: string[];
     mfa_policy: string;
+    /**
+     * (Coming Soon) Implicit role assignments based off of email domains.
+     *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+     * granted the
+     *   associated Role, regardless of their login method. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+     *   for more information about role assignment.
+     */
+    rbac_email_implicit_role_assignments: EmailImplicitRoleAssignment[];
     trusted_metadata?: Record<string, any>;
     sso_default_connection_id?: string;
 }
@@ -224,12 +370,12 @@ export interface B2BOrganizationsCreateRequest {
     email_allowed_domains?: string[];
     /**
      * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-     * Magic Link. The accepted values are:
+     * Magic Link or OAuth. The accepted values are:
      *
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-     * provisioned upon authentication via Email Magic Link.
+     * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
      *
      */
     email_jit_provisioning?: string;
@@ -258,8 +404,7 @@ export interface B2BOrganizationsCreateRequest {
      */
     auth_methods?: string;
     /**
-     *
-     *   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+     * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
      * `RESTRICTED`.
      *   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
      *
@@ -269,13 +414,23 @@ export interface B2BOrganizationsCreateRequest {
      * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
      *
      *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-     * they wish to log in.
+     * they wish to log in. However, any active Session that existed prior to this setting change will remain
+     * valid.
      *
      *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
      * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
      *
      */
     mfa_policy?: string;
+    /**
+     * (Coming Soon) Implicit role assignments based off of email domains.
+     *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+     * granted the
+     *   associated Role, regardless of their login method. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+     *   for more information about role assignment.
+     */
+    rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
 }
 export interface B2BOrganizationsCreateResponse {
     /**
@@ -380,14 +535,42 @@ export interface B2BOrganizationsUpdateRequest {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * The name of the Organization. Must be between 1 and 128 characters in length.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
+     */
     organization_name?: string;
     /**
      * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
      * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.info.slug` action on the `stytch.organization` Resource.
      */
     organization_slug?: string;
+    /**
+     * The image URL of the Organization logo.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.info.logo-url` action on the `stytch.organization` Resource.
+     */
     organization_logo_url?: string;
+    /**
+     * An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
+     *           If a session header is passed into the request, this field may **not** be passed into the
+     * request. You cannot
+     *           update trusted metadata when acting as a Member.
+     */
     trusted_metadata?: Record<string, any>;
+    /**
+     * The default connection used for SSO when there are multiple active connections.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.default-sso-connection` action on the `stytch.organization`
+     * Resource.
+     */
     sso_default_connection_id?: string;
     /**
      * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
@@ -401,6 +584,10 @@ export interface B2BOrganizationsUpdateRequest {
      *
      *   `NOT_ALLOWED` – disable JIT provisioning via SSO.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
+     * Resource.
      */
     sso_jit_provisioning?: string;
     /**
@@ -408,6 +595,10 @@ export interface B2BOrganizationsUpdateRequest {
      * [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
      *   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
      * set to `RESTRICTED`.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
+     * Resource.
      */
     sso_jit_provisioning_allowed_connections?: string[];
     /**
@@ -417,17 +608,24 @@ export interface B2BOrganizationsUpdateRequest {
      *
      *     Common domains such as `gmail.com` are not allowed. See the
      * [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.allowed-domains` action on the `stytch.organization` Resource.
      */
     email_allowed_domains?: string[];
     /**
      * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-     * Magic Link. The accepted values are:
+     * Magic Link or OAuth. The accepted values are:
      *
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-     * provisioned upon authentication via Email Magic Link.
+     * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.email-jit-provisioning` action on the `stytch.organization`
+     * Resource.
      */
     email_jit_provisioning?: string;
     /**
@@ -441,6 +639,9 @@ export interface B2BOrganizationsUpdateRequest {
      *
      *   `NOT_ALLOWED` – disable email invites.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.email-invites` action on the `stytch.organization` Resource.
      */
     email_invites?: string;
     /**
@@ -452,27 +653,50 @@ export interface B2BOrganizationsUpdateRequest {
      *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
      * This setting does not apply to Members with `is_breakglass` set to `true`.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
+     * Resource.
      */
     auth_methods?: string;
     /**
-     *
-     *   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+     * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
      * `RESTRICTED`.
      *   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
+     * Resource.
      */
     allowed_auth_methods?: string[];
     /**
      * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
      *
      *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-     * they wish to log in.
+     * they wish to log in. However, any active Session that existed prior to this setting change will remain
+     * valid.
      *
      *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
      * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
      *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.mfa-policy` action on the `stytch.organization` Resource.
      */
     mfa_policy?: string;
+    /**
+     * (Coming Soon) Implicit role assignments based off of email domains.
+     *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+     * granted the
+     *   associated Role, regardless of their login method. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+     *   for more information about role assignment.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
+     */
+    rbac_email_implicit_role_assignments?: string[];
 }
 export interface B2BOrganizationsUpdateResponse {
     /**
@@ -561,7 +785,7 @@ export declare class Organizations {
     create(data: B2BOrganizationsCreateRequest): Promise<B2BOrganizationsCreateResponse>;
     /**
      * Returns an Organization specified by `organization_id`.
-     * @param data {@link B2BOrganizationsGetRequest}
+     * @param params {@link B2BOrganizationsGetRequest}
      * @returns {@link B2BOrganizationsGetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -575,23 +799,44 @@ export declare class Organizations {
      * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
      * `sso_jit_provisioning`, etc., and their behaviors.
+     *
+     * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
+     * endpoint. If you pass in
+     * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
+     * that the
+     * Member Session has the necessary permissions. The specific permissions needed depend on which of the
+     * optional fields
+     * are passed in the request. For example, if the `organization_name` argument is provided, the Member
+     * Session must have
+     * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
+     *
+     * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
+     * Member's Organization
+     * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
+     * request will
+     * proceed as normal.
+     *
+     * To learn more about our RBAC implementation, see our
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
      * @param data {@link B2BOrganizationsUpdateRequest}
+     * @param options {@link B2BOrganizationsUpdateRequestOptions}
      * @returns {@link B2BOrganizationsUpdateResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    update(data: B2BOrganizationsUpdateRequest): Promise<B2BOrganizationsUpdateResponse>;
+    update(data: B2BOrganizationsUpdateRequest, options?: B2BOrganizationsUpdateRequestOptions): Promise<B2BOrganizationsUpdateResponse>;
     /**
      * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
-     * deleted.
+     * deleted. /%}
      * @param data {@link B2BOrganizationsDeleteRequest}
+     * @param options {@link B2BOrganizationsDeleteRequestOptions}
      * @returns {@link B2BOrganizationsDeleteResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    delete(data: B2BOrganizationsDeleteRequest): Promise<B2BOrganizationsDeleteResponse>;
+    delete(data: B2BOrganizationsDeleteRequest, options?: B2BOrganizationsDeleteRequestOptions): Promise<B2BOrganizationsDeleteResponse>;
     /**
      * Search for Organizations. If you send a request with no body params, no filtering will be applied and
      * the endpoint will return all Organizations. All fuzzy search filters require a minimum of three
