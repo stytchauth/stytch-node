@@ -60,8 +60,19 @@ export interface SAMLConnection {
   audience_uri: string;
   signing_certificates: X509Certificate[];
   verification_certificates: X509Certificate[];
+  saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
+  saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
   alternative_audience_uri: string;
   attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface SAMLConnectionImplicitRoleAssignment {
+  role_id: string;
+}
+
+export interface SAMLGroupImplicitRoleAssignment {
+  role_id: string;
+  group: string;
 }
 
 export interface X509Certificate {
@@ -250,7 +261,7 @@ export class SSO {
   }
 
   /**
-   * Get all SSO Connections owned by the organization.
+   * Get all SSO Connections owned by the organization. /%}
    * @param params {@link B2BSSOGetConnectionsRequest}
    * @param options {@link B2BSSOGetConnectionsRequestOptions}
    * @returns {@link B2BSSOGetConnectionsResponse}
@@ -275,7 +286,7 @@ export class SSO {
   }
 
   /**
-   * Delete an existing SSO connection.
+   * Delete an existing SSO connection. /%}
    * @param data {@link B2BSSODeleteConnectionRequest}
    * @param options {@link B2BSSODeleteConnectionRequestOptions}
    * @returns {@link B2BSSODeleteConnectionResponse}

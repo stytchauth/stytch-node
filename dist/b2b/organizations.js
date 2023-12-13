@@ -94,6 +94,25 @@ class Organizations {
    * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
+   *
+   * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
+   * endpoint. If you pass in
+   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
+   * that the
+   * Member Session has the necessary permissions. The specific permissions needed depend on which of the
+   * optional fields
+   * are passed in the request. For example, if the `organization_name` argument is provided, the Member
+   * Session must have
+   * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
+   *
+   * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
+   * Member's Organization
+   * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
+   * request will
+   * proceed as normal.
+   *
+   * To learn more about our RBAC implementation, see our
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
    * @param data {@link B2BOrganizationsUpdateRequest}
    * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
@@ -123,14 +142,15 @@ class Organizations {
         email_invites: data.email_invites,
         auth_methods: data.auth_methods,
         allowed_auth_methods: data.allowed_auth_methods,
-        mfa_policy: data.mfa_policy
+        mfa_policy: data.mfa_policy,
+        rbac_email_implicit_role_assignments: data.rbac_email_implicit_role_assignments
       }
     });
   }
 
   /**
    * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
-   * deleted.
+   * deleted. /%}
    * @param data {@link B2BOrganizationsDeleteRequest}
    * @param options {@link B2BOrganizationsDeleteRequestOptions}
    * @returns {@link B2BOrganizationsDeleteResponse}

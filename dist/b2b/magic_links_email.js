@@ -50,7 +50,7 @@ class Email {
   /**
    * Send an invite email to a new Member to join an Organization. The Member will be created with an
    * `invited` status until they successfully authenticate. Sending invites to `pending` Members will update
-   * their status to `invited`. Sending invites to already `active` Members will return an error.
+   * their status to `invited`. Sending invites to already `active` Members will return an error. /%}
    * @param data {@link B2BMagicLinksEmailInviteRequest}
    * @param options {@link B2BMagicLinksEmailInviteRequestOptions}
    * @returns {@link B2BMagicLinksEmailInviteResponse}

@@ -83,11 +83,17 @@ class Sessions {
    * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
    * will be returned if both the signature and the underlying Session are still valid.
    *
-   * If an authorization_check object is passed in, this method will also check if the Member who holds the
-   * Session being authenticated is authorized to perform the given Action on the given Resource. A Member is
-   * authorized if they are assigned to a Role,
-   * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+   * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
+   * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+   * if their Member Session contains a Role, assigned
+   * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
    * permissions.
+   * In addition, the `organization_id` passed in the authorization check must match the Member's
+   * Organization.
+   *
+   * If the Member is not authorized to perform the specified action on the specified Resource, or if the
+   * `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+   * Otherwise, the response will contain a list of Roles that satisfied the authorization check.
    * @param data {@link B2BSessionsAuthenticateRequest}
    * @returns {@link B2BSessionsAuthenticateResponse}
    * @async

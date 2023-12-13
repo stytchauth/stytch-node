@@ -144,6 +144,14 @@ export interface B2BPasswordsMigrateRequest {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
+    /**
+     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
+     * implicitly assigned
+     *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
+     * SSO
+     *   authentication factors with the affected SSO connection IDs will be revoked.
+     */
+    preserve_existing_sessions: boolean;
     md_5_config?: MD5Config;
     argon_2_config?: Argon2Config;
     sha_1_config?: SHA1Config;
@@ -162,6 +170,19 @@ export interface B2BPasswordsMigrateRequest {
      *   for complete field behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    /**
+     * (Coming Soon) Roles to explicitly assign to this Member.
+     *  Will completely replace any existing explicitly assigned roles. See the
+     *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     *
+     *    If a Role is removed from a Member, and the Member is also implicitly assigned this Role from an SSO
+     * connection
+     *    or an SSO group, we will by default revoke any existing sessions for the Member that contain any SSO
+     *    authentication factors with the affected connection ID. You can preserve these sessions by passing in
+     * the
+     *    `preserve_existing_sessions` parameter with a value of `true`.
+     */
     roles?: string[];
 }
 export interface B2BPasswordsMigrateResponse {

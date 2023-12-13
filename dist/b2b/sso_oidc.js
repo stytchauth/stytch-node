@@ -26,7 +26,7 @@ class OIDC {
   }
 
   /**
-   * Create a new OIDC Connection.
+   * Create a new OIDC Connection. /%}
    * @param data {@link B2BSSOOIDCCreateConnectionRequest}
    * @param options {@link B2BSSOOIDCCreateConnectionRequestOptions}
    * @returns {@link B2BSSOOIDCCreateConnectionResponse}
@@ -76,6 +76,7 @@ class OIDC {
    * * `token_url`
    * * `userinfo_url`
    * * `jwks_url`
+   *  /%}
    * @param data {@link B2BSSOOIDCUpdateConnectionRequest}
    * @param options {@link B2BSSOOIDCUpdateConnectionRequestOptions}
    * @returns {@link B2BSSOOIDCUpdateConnectionResponse}

@@ -127,6 +127,25 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     x509_certificate?: string;
     idp_sso_url?: string;
     /**
+     * (Coming Soon) All Members who log in with this SAML connection will implicitly receive the specified
+     * Roles. See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more
+     * information about role assignment.
+     */
+    saml_connection_implicit_role_assignments?: string[];
+    /**
+     * (Coming Soon) Defines the names of the SAML groups
+     *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+     * connection and
+     *  belongs to the specified SAML group, they will be granted the associated Role. See the
+     *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     *          Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+     * connection's
+     *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
+     * information.
+     */
+    saml_group_implicit_role_assignments?: string[];
+    /**
      * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
      * an existing SAML integration to Stytch with zero downtime.
      */
@@ -154,7 +173,7 @@ export declare class SAML {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Create a new SAML Connection.
+     * Create a new SAML Connection. /%}
      * @param data {@link B2BSSOSAMLCreateConnectionRequest}
      * @param options {@link B2BSSOSAMLCreateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLCreateConnectionResponse}
@@ -171,6 +190,7 @@ export declare class SAML {
      * * `attribute_mapping`
      * * `idp_entity_id`
      * * `x509_certificate`
+     *  /%}
      * @param data {@link B2BSSOSAMLUpdateConnectionRequest}
      * @param options {@link B2BSSOSAMLUpdateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateConnectionResponse}
@@ -187,6 +207,7 @@ export declare class SAML {
      * * `idp_entity_id`
      * * `x509_certificate`
      * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
+     *  /%}
      * @param data {@link B2BSSOSAMLUpdateByURLRequest}
      * @param options {@link B2BSSOSAMLUpdateByURLRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateByURLResponse}
@@ -200,6 +221,7 @@ export declare class SAML {
      *
      * You may need to do this when rotating certificates from your IdP, since Stytch allows a maximum of 5
      * certificates per connection. There must always be at least one certificate per active connection.
+     *  /%}
      * @param data {@link B2BSSOSAMLDeleteVerificationCertificateRequest}
      * @param options {@link B2BSSOSAMLDeleteVerificationCertificateRequestOptions}
      * @returns {@link B2BSSOSAMLDeleteVerificationCertificateResponse}

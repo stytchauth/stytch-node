@@ -30,6 +30,10 @@ export interface AuthorizationCheck {
     resource_id: string;
     action: string;
 }
+export interface AuthorizationVerdict {
+    authorized: boolean;
+    granting_roles: string[];
+}
 export interface MemberSession {
     member_session_id: string;
     member_id: string;
@@ -92,11 +96,25 @@ export interface B2BSessionsAuthenticateRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If an authorization_check object is passed in, this method will also check if the Member who holds the
-     * Session being authenticated is authorized to perform the given Action on the given Resource.
-     * A Member is authorized if they are assigned to a Role,
-     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+     * (Coming Soon) If an `authorization_check` object is passed in, this endpoint will also check if the
+     * Member is
+     *   authorized to perform the given action on the given Resource in the specified Organization. A Member
+     * is authorized if
+     *   their Member Session contains a Role, assigned
+     *   [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
      * permissions.
+     *   In addition, the `organization_id` passed in the authorization check must match the Member's
+     * Organization.
+     *
+     *   The Roles on the Member Session may differ from the Roles you see on the Member object - Roles that
+     * are implicitly
+     *   assigned by SSO connection or SSO group will only be valid for a Member Session if there is at least
+     * one authentication
+     *   factor on the Member Session from the specified SSO connection.
+     *
+     *   If the Member is not authorized to perform the specified action on the specified Resource, or if the
+     *   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+     *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
      */
     authorization_check?: AuthorizationCheck;
 }
@@ -116,6 +134,13 @@ export interface B2BSessionsAuthenticateResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * (Coming Soon) If an `authorization_check` is provided in the request and the check succeeds, this field
+     * will return
+     *   the complete list of Roles that gave the Member permission to perform the specified action on the
+     * specified Resource.
+     */
+    verdict?: AuthorizationVerdict;
 }
 export interface B2BSessionsExchangeRequest {
     /**
@@ -333,11 +358,17 @@ export declare class Sessions {
      * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
      * will be returned if both the signature and the underlying Session are still valid.
      *
-     * If an authorization_check object is passed in, this method will also check if the Member who holds the
-     * Session being authenticated is authorized to perform the given Action on the given Resource. A Member is
-     * authorized if they are assigned to a Role,
-     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with the adequate
+     * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
+     * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+     * if their Member Session contains a Role, assigned
+     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
      * permissions.
+     * In addition, the `organization_id` passed in the authorization check must match the Member's
+     * Organization.
+     *
+     * If the Member is not authorized to perform the specified action on the specified Resource, or if the
+     * `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+     * Otherwise, the response will contain a list of Roles that satisfied the authorization check.
      * @param data {@link B2BSessionsAuthenticateRequest}
      * @returns {@link B2BSessionsAuthenticateResponse}
      * @async

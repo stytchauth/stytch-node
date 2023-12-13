@@ -25,6 +25,7 @@ export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {
   ActiveSSOConnection,
+  EmailImplicitRoleAssignment,
   Member,
   MemberRole,
   MemberRoleSource,
@@ -76,6 +77,7 @@ export type {
 
 export type {
   AuthorizationCheck,
+  AuthorizationVerdict,
   MemberSession,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
@@ -179,6 +181,8 @@ export type {
 export type {
   OIDCConnection,
   SAMLConnection,
+  SAMLConnectionImplicitRoleAssignment,
+  SAMLGroupImplicitRoleAssignment,
   X509Certificate,
   B2BSSOAuthenticateRequest,
   B2BSSOAuthenticateResponse,

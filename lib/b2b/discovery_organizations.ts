@@ -6,8 +6,12 @@
 
 import {} from "../shared/method_options";
 import { DiscoveredOrganization } from "./discovery";
+import {
+  EmailImplicitRoleAssignment,
+  Member,
+  Organization,
+} from "./organizations";
 import { fetchConfig } from "../shared";
-import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
@@ -133,8 +137,7 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   auth_methods?: string;
   /**
-   *
-   *   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+   * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
    * `RESTRICTED`.
    *   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
    *
@@ -152,6 +155,15 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    *
    */
   mfa_policy?: string;
+  /**
+   * (Coming Soon) Implicit role assignments based off of email domains.
+   *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+   * granted the
+   *   associated Role, regardless of their login method. See the
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+   *   for more information about role assignment.
+   */
+  rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
 }
 
 // Response type for `discovery.organizations.create`.
@@ -271,14 +283,17 @@ export class Organizations {
   }
 
   /**
-   * If an end user does not want to join any already-existing organization, or has no possible organizations
+   * If an end user does not want to join any already-existing Organization, or has no possible Organizations
    * to join, this endpoint can be used to create a new
    * [Organization](https://stytch.com/docs/b2b/api/organization-object) and
    * [Member](https://stytch.com/docs/b2b/api/member-object).
    *
    * This operation consumes the Intermediate Session.
    *
-   * This endpoint can also be used to start an initial session for the newly created member and organization.
+   * This endpoint will also create an initial Member Session for the newly created Member.
+   *
+   * The Member created by this endpoint will automatically be granted the `stytch_admin` Role. See the
+   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
    *
    * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member
    * will need to complete an MFA step to log in to the Organization.
