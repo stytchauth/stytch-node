@@ -144,14 +144,6 @@ export interface B2BPasswordsMigrateRequest {
      * perform operations on an Organization, so be sure to preserve this value.
      */
     organization_id: string;
-    /**
-     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
-     * implicitly assigned
-     *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
-     * SSO
-     *   authentication factors with the affected SSO connection IDs will be revoked.
-     */
-    preserve_existing_sessions: boolean;
     md_5_config?: MD5Config;
     argon_2_config?: Argon2Config;
     sha_1_config?: SHA1Config;
@@ -184,6 +176,14 @@ export interface B2BPasswordsMigrateRequest {
      *    `preserve_existing_sessions` parameter with a value of `true`.
      */
     roles?: string[];
+    /**
+     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
+     * implicitly assigned
+     *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
+     * SSO
+     *   authentication factors with the affected SSO connection IDs will be revoked.
+     */
+    preserve_existing_sessions?: boolean;
 }
 export interface B2BPasswordsMigrateResponse {
     /**

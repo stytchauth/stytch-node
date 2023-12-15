@@ -313,14 +313,6 @@ export interface B2BOrganizationsMembersUpdateRequest {
      */
     member_id: string;
     /**
-     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
-     * implicitly assigned
-     *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
-     * SSO
-     *   authentication factors with the affected SSO connection IDs will be revoked.
-     */
-    preserve_existing_sessions: boolean;
-    /**
      * The name of the Member.
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
@@ -399,10 +391,18 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * the
      *    `preserve_existing_sessions` parameter with a value of `true`.
      *
-     * If this field is provided, the logged-in Member must have permission to perform the
-     * `update.settings.roles` action on the `stytch.member` Resource.
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.roles` action on the `stytch.member` Resource.
      */
     roles?: string[];
+    /**
+     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
+     * implicitly assigned
+     *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
+     * SSO
+     *   authentication factors with the affected SSO connection IDs will be revoked.
+     */
+    preserve_existing_sessions?: boolean;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
     /**

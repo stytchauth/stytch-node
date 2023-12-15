@@ -89,14 +89,14 @@ class Members {
       url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
       headers,
       data: {
-        preserve_existing_sessions: data.preserve_existing_sessions,
         name: data.name,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
-        roles: data.roles
+        roles: data.roles,
+        preserve_existing_sessions: data.preserve_existing_sessions
       }
     });
   }
