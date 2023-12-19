@@ -221,6 +221,8 @@ class Sessions {
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
+      console.log("Failed to verify JWT locally");
+      console.trace(err);
       return this.authenticate({
         session_jwt: params.session_jwt,
         authorization_check: params.authorization_check
