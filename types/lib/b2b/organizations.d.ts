@@ -78,8 +78,7 @@ export interface Member {
     email_address_verified: boolean;
     mfa_phone_number_verified: boolean;
     /**
-     * (Coming Soon) Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted
-     * to Members
+     * Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted to Members
      *   who create an Organization through the
      * [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
      *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
@@ -92,9 +91,9 @@ export interface Member {
      */
     mfa_enrolled: boolean;
     mfa_phone_number: string;
+    default_mfa_method: string;
     /**
-     * (Coming Soon) Explicit or implicit Roles assigned to this Member, along with details about the role
-     * assignment source.
+     * Explicit or implicit Roles assigned to this Member, along with details about the role assignment source.
      *    See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information
      * about role assignment.
      */
@@ -308,7 +307,7 @@ export interface Organization {
     allowed_auth_methods: string[];
     mfa_policy: string;
     /**
-     * (Coming Soon) Implicit role assignments based off of email domains.
+     * Implicit role assignments based off of email domains.
      *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
      * granted the
      *   associated Role, regardless of their login method. See the
@@ -316,6 +315,24 @@ export interface Organization {
      *   for more information about role assignment.
      */
     rbac_email_implicit_role_assignments: EmailImplicitRoleAssignment[];
+    /**
+     * The setting that controls which mfa methods can be used by Members of an Organization. The accepted
+     * values are:
+     *
+     *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+     *
+     *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+     * This setting does not apply to Members with `is_breakglass` set to `true`.
+     *
+     */
+    mfa_methods: string;
+    /**
+     * An array of allowed mfa authentication methods. This list is enforced when `mfa_methods` is set to
+     * `RESTRICTED`.
+     *   The list's accepted values are: `sms_otp` and `totp`.
+     *
+     */
+    allowed_mfa_methods: string[];
     trusted_metadata?: Record<string, any>;
     sso_default_connection_id?: string;
 }
@@ -423,7 +440,7 @@ export interface B2BOrganizationsCreateRequest {
      */
     mfa_policy?: string;
     /**
-     * (Coming Soon) Implicit role assignments based off of email domains.
+     * Implicit role assignments based off of email domains.
      *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
      * granted the
      *   associated Role, regardless of their login method. See the
@@ -431,6 +448,8 @@ export interface B2BOrganizationsCreateRequest {
      *   for more information about role assignment.
      */
     rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
+    mfa_methods?: string;
+    allowed_mfa_methods?: string[];
 }
 export interface B2BOrganizationsCreateResponse {
     /**
@@ -686,7 +705,7 @@ export interface B2BOrganizationsUpdateRequest {
      */
     mfa_policy?: string;
     /**
-     * (Coming Soon) Implicit role assignments based off of email domains.
+     * Implicit role assignments based off of email domains.
      *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
      * granted the
      *   associated Role, regardless of their login method. See the
@@ -697,6 +716,8 @@ export interface B2BOrganizationsUpdateRequest {
      * permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
      */
     rbac_email_implicit_role_assignments?: string[];
+    mfa_methods?: string;
+    allowed_mfa_methods?: string[];
 }
 export interface B2BOrganizationsUpdateResponse {
     /**
@@ -800,8 +821,8 @@ export declare class Organizations {
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
      * `sso_jit_provisioning`, etc., and their behaviors.
      *
-     * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
-     * endpoint. If you pass in
+     * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
+     * pass in
      * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
      * that the
      * Member Session has the necessary permissions. The specific permissions needed depend on which of the

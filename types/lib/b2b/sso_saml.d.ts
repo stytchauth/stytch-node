@@ -127,13 +127,13 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     x509_certificate?: string;
     idp_sso_url?: string;
     /**
-     * (Coming Soon) All Members who log in with this SAML connection will implicitly receive the specified
-     * Roles. See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more
-     * information about role assignment.
+     * All Members who log in with this SAML connection will implicitly receive the specified Roles. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
      */
     saml_connection_implicit_role_assignments?: string[];
     /**
-     * (Coming Soon) Defines the names of the SAML groups
+     * Defines the names of the SAML groups
      *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
      * connection and
      *  belongs to the specified SAML group, they will be granted the associated Role. See the

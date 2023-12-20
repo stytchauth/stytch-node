@@ -118,8 +118,7 @@ export interface B2BSessionsAuthenticateRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * (Coming Soon) If an `authorization_check` object is passed in, this endpoint will also check if the
-   * Member is
+   * If an `authorization_check` object is passed in, this endpoint will also check if the Member is
    *   authorized to perform the given action on the given Resource in the specified Organization. A Member
    * is authorized if
    *   their Member Session contains a Role, assigned
@@ -164,8 +163,7 @@ export interface B2BSessionsAuthenticateResponse {
    */
   status_code: number;
   /**
-   * (Coming Soon) If an `authorization_check` is provided in the request and the check succeeds, this field
-   * will return
+   * If an `authorization_check` is provided in the request and the check succeeds, this field will return
    *   the complete list of Roles that gave the Member permission to perform the specified action on the
    * specified Resource.
    */

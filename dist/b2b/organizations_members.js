@@ -54,8 +54,8 @@ class Members {
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
    *
-   * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
-   * endpoint. If you pass in
+   * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
+   * pass in
    * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
    * that the
    * Member Session has the necessary permissions. The specific permissions needed depend on which of the
@@ -96,7 +96,8 @@ class Members {
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
         roles: data.roles,
-        preserve_existing_sessions: data.preserve_existing_sessions
+        preserve_existing_sessions: data.preserve_existing_sessions,
+        default_mfa_method: data.default_mfa_method
       }
     });
   }
@@ -184,8 +185,8 @@ class Members {
    *
    * *All fuzzy search filters require a minimum of three characters.
    *
-   * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
-   * endpoint. If you pass in
+   * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
+   * pass in
    * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
    * that the
    * Member Session has permission to perform the `search` action on the `stytch.member` Resource. In

@@ -81,6 +81,7 @@ export interface B2BOTPSmsAuthenticateRequest {
    *
    */
   set_mfa_enrollment?: string;
+  set_default_mfa?: boolean;
 }
 
 // Response type for `otps.sms.authenticate`.
