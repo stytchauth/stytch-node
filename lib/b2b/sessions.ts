@@ -421,9 +421,9 @@ export class Sessions {
 
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
-      audience: jwtConfig.projectID,
-      issuer: `stytch.com/${jwtConfig.projectID}`,
-      typ: "JWT",
+//      audience: jwtConfig.projectID,
+      issuer: "Stytch",
+//      typ: "JWT",
     };
     this.policyCache = policyCache;
   }
