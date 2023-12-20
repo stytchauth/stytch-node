@@ -39,12 +39,15 @@ This client library supports all of Stytch's live products:
 
 - [x] [Organizations](https://stytch.com/docs/b2b/api/organization-object)
 - [x] [Members](https://stytch.com/docs/b2b/api/member-object)
+- [x] [RBAC](https://stytch.com/docs/b2b/api/rbac-resource-object)
 - [x] [Email Magic Links](https://stytch.com/docs/b2b/api/send-login-signup-email)
 - [x] [OAuth logins](https://stytch.com/docs/b2b/api/oauth-google-start)
 - [x] [Session Management](https://stytch.com/docs/b2b/api/session-object)
 - [x] [Single-Sign On](https://stytch.com/docs/b2b/api/sso-authenticate-start)
 - [x] [Discovery](https://stytch.com/docs/b2b/api/discovered-organization-object)
 - [x] [Passwords](https://stytch.com/docs/b2b/api/passwords-authenticate)
+- [x] [SMS OTP (MFA)](https://stytch.com/docs/b2b/api/otp-sms-send)
+- [x] [M2M](https://stytch.com/docs/b2b/api/m2m-client)
 
 **Shared**
 
@@ -119,7 +122,7 @@ Log the first user into the organization
 
 ```javascript
 client.magicLinks.loginOrSignup({
-  organization_id: "organization-id-from-create-response-..."
+  organization_id: "organization-id-from-create-response-...",
   email_address: "admin@acme.co"
 })
   .then((res) => console.log(res))
