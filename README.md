@@ -121,10 +121,11 @@ client.organizations
 Log the first user into the organization
 
 ```javascript
-client.magicLinks.loginOrSignup({
-  organization_id: "organization-id-from-create-response-...",
-  email_address: "admin@acme.co"
-})
+client.magicLinks
+  .loginOrSignup({
+    organization_id: "organization-id-from-create-response-...",
+    email_address: "admin@acme.co",
+  })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
