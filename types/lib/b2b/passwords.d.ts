@@ -163,7 +163,7 @@ export interface B2BPasswordsMigrateRequest {
      */
     untrusted_metadata?: Record<string, any>;
     /**
-     * (Coming Soon) Roles to explicitly assign to this Member.
+     * Roles to explicitly assign to this Member.
      *  Will completely replace any existing explicitly assigned roles. See the
      *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
      * assignment.
@@ -177,8 +177,7 @@ export interface B2BPasswordsMigrateRequest {
      */
     roles?: string[];
     /**
-     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
-     * implicitly assigned
+     * Whether to preserve existing sessions when explicit Roles that are revoked are also implicitly assigned
      *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
      * SSO
      *   authentication factors with the affected SSO connection IDs will be revoked.

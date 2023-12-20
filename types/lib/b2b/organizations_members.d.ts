@@ -96,7 +96,7 @@ export interface B2BOrganizationsMembersCreateRequest {
      */
     mfa_enrolled?: boolean;
     /**
-     * (Coming Soon) Roles to explicitly assign to this Member. See the
+     * Roles to explicitly assign to this Member. See the
      * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
      *    for more information about role assignment.
      */
@@ -379,7 +379,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      */
     mfa_enrolled?: boolean;
     /**
-     * (Coming Soon) Roles to explicitly assign to this Member.
+     * Roles to explicitly assign to this Member.
      *  Will completely replace any existing explicitly assigned roles. See the
      *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
      * assignment.
@@ -396,13 +396,13 @@ export interface B2BOrganizationsMembersUpdateRequest {
      */
     roles?: string[];
     /**
-     * (Coming Soon) Whether to preserve existing sessions when explicit Roles that are revoked are also
-     * implicitly assigned
+     * Whether to preserve existing sessions when explicit Roles that are revoked are also implicitly assigned
      *   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
      * SSO
      *   authentication factors with the affected SSO connection IDs will be revoked.
      */
     preserve_existing_sessions?: boolean;
+    default_mfa_method?: string;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
     /**
@@ -425,8 +425,8 @@ export declare class Members {
     /**
      * Updates a Member specified by `organization_id` and `member_id`.
      *
-     * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
-     * endpoint. If you pass in
+     * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
+     * pass in
      * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
      * that the
      * Member Session has the necessary permissions. The specific permissions needed depend on which of the
@@ -498,8 +498,8 @@ export declare class Members {
      *
      * *All fuzzy search filters require a minimum of three characters.
      *
-     * (Coming Soon) Our RBAC implementation offers out-of-the-box handling of authorization checks for this
-     * endpoint. If you pass in
+     * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
+     * pass in
      * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
      * that the
      * Member Session has permission to perform the `search` action on the `stytch.member` Resource. In

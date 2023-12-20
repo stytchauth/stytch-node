@@ -17,6 +17,7 @@ var _rbac_local = require("./rbac_local");
 var _rbac = require("./rbac");
 var _sessions = require("./sessions");
 var _sso = require("./sso");
+var _totps = require("./totps");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 class B2BClient extends _client.BaseClient {
@@ -39,6 +40,7 @@ class B2BClient extends _client.BaseClient {
     this.rbac = new _rbac.RBAC(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
+    this.totps = new _totps.TOTPs(this.fetchConfig);
   }
 }
 exports.B2BClient = B2BClient;

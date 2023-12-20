@@ -12,6 +12,7 @@ import { PolicyCache } from "./rbac_local";
 import { RBAC } from "./rbac";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
+import { TOTPs } from "./totps";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -25,6 +26,7 @@ export class B2BClient extends BaseClient {
   rbac: RBAC;
   sso: SSO;
   sessions: Sessions;
+  totps: TOTPs;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -53,5 +55,6 @@ export class B2BClient extends BaseClient {
     this.rbac = new RBAC(this.fetchConfig);
     this.sso = new SSO(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
+    this.totps = new TOTPs(this.fetchConfig);
   }
 }

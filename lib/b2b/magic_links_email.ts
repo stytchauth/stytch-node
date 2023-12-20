@@ -72,7 +72,7 @@ export interface B2BMagicLinksEmailInviteRequest {
    */
   locale?: "en" | "es" | "pt-br" | string;
   /**
-   * (Coming Soon) Roles to explicitly assign to this Member. See the
+   * Roles to explicitly assign to this Member. See the
    * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
    *    for more information about role assignment.
    */

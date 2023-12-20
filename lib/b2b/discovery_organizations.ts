@@ -156,7 +156,7 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   mfa_policy?: string;
   /**
-   * (Coming Soon) Implicit role assignments based off of email domains.
+   * Implicit role assignments based off of email domains.
    *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
    * granted the
    *   associated Role, regardless of their login method. See the

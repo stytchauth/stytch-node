@@ -92,6 +92,15 @@ export type {
 } from "./sessions";
 
 export type {
+  B2BTOTPsAuthenticateRequest,
+  B2BTOTPsAuthenticateResponse,
+  B2BTOTPsCreateRequest,
+  B2BTOTPsCreateResponse,
+  B2BTOTPsMigrateRequest,
+  B2BTOTPsMigrateResponse,
+} from "./totps";
+
+export type {
   DiscoveredOrganization,
   Membership,
   PrimaryRequired,

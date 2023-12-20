@@ -51,8 +51,7 @@ export declare class RBAC {
      *
      *
      * Check out the [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview) to learn more about
-     * Stytch's RBAC permissioning model or
-     * [contact us](https://share.hsforms.com/1qkU__-1CT1--lnqRDxphXgd4bkb) to request early access.
+     * Stytch's RBAC permissioning model.
      * @param params {@link B2BRBACPolicyRequest}
      * @returns {@link B2BRBACPolicyResponse}
      * @async
