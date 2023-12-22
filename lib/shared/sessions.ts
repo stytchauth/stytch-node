@@ -172,3 +172,48 @@ export async function authenticateSessionJwtLocal(
     roles: claim.roles,
   };
 }
+
+import { fetchConfig, request } from "../shared";
+import { importJWK, JWTHeaderParameters, KeyLike } from "jose";
+
+
+// We want to refresh if the policy is more than 5 minutes old
+const MAX_AGE_MS = 1000 * 60 * 5;
+
+type JWK = KeyLike & {kid: string};
+
+export class JWKSCache {
+  private _timestamp?: number;
+  private jwks?: JWK[];
+  private importCache: Record<string, KeyLike | Uint8Array>
+
+  constructor(private jwksURL: string, private fetchConfig: fetchConfig) {
+    this.importCache = {}
+  }
+
+  private fresh(): boolean {
+    return !!this._timestamp && Date.now() < this._timestamp + MAX_AGE_MS;
+  }
+
+  private async reload() {
+    const response = await  request<{ keys: JWK[] }>(this.fetchConfig, {
+      method: "GET",
+      url: this.jwksURL,
+      params: {},
+    });
+    this.jwks = response.keys;
+    this._timestamp = Date.now();
+  }
+
+  getKey = async (params: JWTHeaderParameters): Promise<KeyLike | Uint8Array>  => {
+    if (!this.jwks || !this.fresh()) {
+      await this.reload();
+    }
+    const key = this.jwks?.find(key => key.kid === params.kid)
+    if(!key) {
+      throw new Error('No matching key')
+    }
+    this.importCache[key.kid] = this.importCache[key.kid] || importJWK({ ...key })
+    return this.importCache[key.kid]
+  }
+}

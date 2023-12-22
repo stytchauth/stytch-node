@@ -1,7 +1,6 @@
-import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
 import { CryptoWallets } from "./crypto_wallets";
-import { JwtConfig } from "../shared/sessions";
+import { JWKSCache, JwtConfig } from "../shared/sessions";
 import { M2M } from "./m2m";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -28,16 +27,13 @@ export class Client extends BaseClient {
   constructor(config: ClientConfig) {
     super(config);
 
+    const jwksCache = new JWKSCache(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig)
+
     this.jwtConfig = {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(
-        new URL(
-          `/v1/sessions/jwks/${config.project_id}`,
-          this.fetchConfig.baseURL
-        )
-      ),
+      jwks: jwksCache.getKey,
     };
 
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);

@@ -165,6 +165,28 @@ describeIf(
         });
       });
 
+      test("success - local auth", async () => {
+        // Make sure there's a key that can be used to sign the sandbox JWT.
+        const jwks = await client.sessions.getJWKS({
+          project_id: env("PROJECT_ID"),
+        });
+        expect(jwks.keys.length).toBeGreaterThan(0);
+
+        const resp = await client.sessions.authenticate({
+          session_token: "WJtR5BCy38Szd5AfoDpf0iqFKEt4EE5JhjlWUY7l3FtY",
+        })
+
+        expect(resp.session_jwt).toBeDefined();
+
+        await expect(
+          client.sessions.authenticateJwtLocal({
+            session_jwt: resp.session_jwt
+          })
+        ).resolves.toMatchObject({
+          user_id: "user-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        })
+      });
+
       test("error: not found", () => {
         return expect(
           client.sessions.authenticate({

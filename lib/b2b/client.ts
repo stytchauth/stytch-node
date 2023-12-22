@@ -1,7 +1,6 @@
-import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
 import { Discovery } from "./discovery";
-import { JwtConfig } from "../shared/sessions";
+import { JWKSCache, JwtConfig } from "../shared/sessions";
 import { M2M } from "../b2c/m2m";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -10,9 +9,10 @@ import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
 import { PolicyCache } from "./rbac_local";
 import { RBAC } from "./rbac";
-import { Sessions } from "./sessions";
+import {  Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
+
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -31,16 +31,13 @@ export class B2BClient extends BaseClient {
   constructor(config: ClientConfig) {
     super(config);
 
+    const jwksCache = new JWKSCache(`/v1/b2b/sessions/jwks/${config.project_id}`, this.fetchConfig)
+
     this.jwtConfig = {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(
-        new URL(
-          `/v1/b2b/sessions/jwks/${config.project_id}`,
-          this.fetchConfig.baseURL
-        )
-      ),
+      jwks: jwksCache.getKey
     };
 
     const policyCache = new PolicyCache(new RBAC(this.fetchConfig));
