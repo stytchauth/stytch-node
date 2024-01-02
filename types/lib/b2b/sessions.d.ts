@@ -100,7 +100,7 @@ export interface B2BSessionsAuthenticateRequest {
      *   authorized to perform the given action on the given Resource in the specified Organization. A Member
      * is authorized if
      *   their Member Session contains a Role, assigned
-     *   [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+     *   [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
      * permissions.
      *   In addition, the `organization_id` passed in the authorization check must match the Member's
      * Organization.
@@ -359,7 +359,7 @@ export declare class Sessions {
      * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
      * to perform the given action on the given Resource in the specified Organization. A Member is authorized
      * if their Member Session contains a Role, assigned
-     * [explicitly or implicitly](https://github.com/docs/b2b/guides/rbac/role-assignment), with adequate
+     * [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
      * permissions.
      * In addition, the `organization_id` passed in the authorization check must match the Member's
      * Organization.
