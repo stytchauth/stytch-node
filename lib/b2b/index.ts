@@ -92,6 +92,15 @@ export type {
 } from "./sessions";
 
 export type {
+  B2BRecoveryCodesGetRequest,
+  B2BRecoveryCodesGetResponse,
+  B2BRecoveryCodesRecoverRequest,
+  B2BRecoveryCodesRecoverResponse,
+  B2BRecoveryCodesRotateRequest,
+  B2BRecoveryCodesRotateResponse,
+} from "./recovery_codes";
+
+export type {
   B2BTOTPsAuthenticateRequest,
   B2BTOTPsAuthenticateResponse,
   B2BTOTPsCreateRequest,
