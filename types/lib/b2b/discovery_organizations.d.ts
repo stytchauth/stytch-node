@@ -148,6 +148,24 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
      *   for more information about role assignment.
      */
     rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
+    /**
+     * The setting that controls which mfa methods can be used by Members of an Organization. The accepted
+     * values are:
+     *
+     *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+     *
+     *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+     * This setting does not apply to Members with `is_breakglass` set to `true`.
+     *
+     */
+    mfa_methods?: string;
+    /**
+     * An array of allowed mfa authentication methods. This list is enforced when `mfa_methods` is set to
+     * `RESTRICTED`.
+     *   The list's accepted values are: `sms_otp` and `totp`.
+     *
+     */
+    allowed_mfa_methods?: string[];
 }
 export interface B2BDiscoveryOrganizationsCreateResponse {
     /**
