@@ -12,12 +12,26 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `totps.authenticate`.
+
+// Response type for `totps.authenticate`.
+
+// Request type for `totps.create`.
+
+// Response type for `totps.create`.
+
+// Request type for `totps.migrate`.
+
+// Response type for `totps.migrate`.
+
 class TOTPs {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
   /**
+   * Create a new TOTP instance for a Member. The Member can use the authenticator application of their
+   * choice to scan the QR code or enter the secret.
    * @param data {@link B2BTOTPsCreateRequest}
    * @returns {@link B2BTOTPsCreateResponse}
    * @async
@@ -35,6 +49,7 @@ class TOTPs {
   }
 
   /**
+   * Authenticate a Member provided TOTP.
    * @param data {@link B2BTOTPsAuthenticateRequest}
    * @returns {@link B2BTOTPsAuthenticateResponse}
    * @async
@@ -52,6 +67,8 @@ class TOTPs {
   }
 
   /**
+   * Migrate an existing TOTP instance for a Member. Recovery codes are not required and will be minted for
+   * the Member if not provided.
    * @param data {@link B2BTOTPsMigrateRequest}
    * @returns {@link B2BTOTPsMigrateResponse}
    * @async
