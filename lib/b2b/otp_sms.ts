@@ -139,6 +139,9 @@ export interface B2BOTPSmsSendRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
+  session_token?: string;
+  session_jwt?: string;
 }
 
 // Response type for `otps.sms.send`.
@@ -192,6 +195,9 @@ export class Sms {
    * Before configuring SMS or WhatsApp OTPs, please review how Stytch
    * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your
    * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
+   *
+   * Even when international SMS is enabled, we do not support sending SMS to countries on our
+   * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).
    *
    * __Note:__ SMS to phone numbers outside of the US and Canada is disabled by default for customers who did
    * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
