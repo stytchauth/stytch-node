@@ -32,6 +32,9 @@ class TOTPs {
   /**
    * Create a new TOTP instance for a Member. The Member can use the authenticator application of their
    * choice to scan the QR code or enter the secret.
+   *
+   * Passing an intermediate session token, session token, or session JWT is not required, but if passed must
+   * match the Member ID passed.
    * @param data {@link B2BTOTPsCreateRequest}
    * @returns {@link B2BTOTPsCreateResponse}
    * @async

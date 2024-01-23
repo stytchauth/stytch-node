@@ -133,8 +133,22 @@ export interface B2BTOTPsCreateRequest {
    * with a minimum of 5 and a maximum of 1440.
    */
   expiration_minutes?: number;
+  /**
+   * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
+   * Member, but represents a bag of factors that may be converted to a member session.
+   *     The token can be used with the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
+   * flow;
+   *     the
+   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+   * to join a specific Organization that allows the factors represented by the intermediate session token;
+   *     or the
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
+   */
   intermediate_session_token?: string;
+  // A secret token for a given Stytch Session.
   session_token?: string;
+  // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt?: string;
 }
 
@@ -221,6 +235,9 @@ export class TOTPs {
   /**
    * Create a new TOTP instance for a Member. The Member can use the authenticator application of their
    * choice to scan the QR code or enter the secret.
+   *
+   * Passing an intermediate session token, session token, or session JWT is not required, but if passed must
+   * match the Member ID passed.
    * @param data {@link B2BTOTPsCreateRequest}
    * @returns {@link B2BTOTPsCreateResponse}
    * @async

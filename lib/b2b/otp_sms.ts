@@ -139,8 +139,22 @@ export interface B2BOTPSmsSendRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  /**
+   * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
+   * Member, but represents a bag of factors that may be converted to a member session.
+   *     The token can be used with the
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
+   * flow;
+   *     the
+   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
+   * to join a specific Organization that allows the factors represented by the intermediate session token;
+   *     or the
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
+   */
   intermediate_session_token?: string;
+  // A secret token for a given Stytch Session.
   session_token?: string;
+  // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt?: string;
 }
 
@@ -190,6 +204,9 @@ export class Sms {
    * automatically be sent to their phone number. In that case, this endpoint should only be used for
    * subsequent authentication events, such as prompting a Member for an OTP again after a period of
    * inactivity.
+   *
+   * Passing an intermediate session token, session token, or session JWT is not required, but if passed must
+   * match the Member ID passed.
    *
    * ### Cost to send SMS OTP
    * Before configuring SMS or WhatsApp OTPs, please review how Stytch

@@ -164,6 +164,7 @@ export interface B2BPasswordsEmailResetStartResponse {
     request_id: string;
     member_id: string;
     member_email_id: string;
+    member: Member;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.

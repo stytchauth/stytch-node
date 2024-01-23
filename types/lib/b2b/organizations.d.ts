@@ -84,6 +84,7 @@ export interface Member {
      *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
      */
     is_admin: boolean;
+    totp_registration_id: string;
     /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
      * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the

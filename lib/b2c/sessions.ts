@@ -40,6 +40,8 @@ export interface AuthenticationFactor {
     | "password"
     | "signature_challenge"
     | "sso"
+    | "imported"
+    | "recovery_codes"
     | string;
   /**
    * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
@@ -92,6 +94,7 @@ export interface AuthenticationFactor {
     | "oauth_salesforce"
     | "oauth_yahoo"
     | "oauth_hubspot"
+    | "imported_auth0"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -379,7 +382,7 @@ export interface TwitterOAuthFactor {
 export interface WebAuthnFactor {
   webauthn_registration_id: string;
   domain: string;
-  user_agent: string;
+  user_agent?: string;
 }
 
 export interface YahooOAuthFactor {
