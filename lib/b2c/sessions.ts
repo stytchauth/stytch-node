@@ -382,7 +382,7 @@ export interface TwitterOAuthFactor {
 export interface WebAuthnFactor {
   webauthn_registration_id: string;
   domain: string;
-  user_agent: string;
+  user_agent?: string;
 }
 
 export interface YahooOAuthFactor {

@@ -180,14 +180,14 @@ class Members {
   }
 
   /**
-   * @param data {@link B2BOrganizationsMembersTOTPRequest}
-   * @param options {@link B2BOrganizationsMembersTOTPRequestOptions}
-   * @returns {@link B2BOrganizationsMembersTOTPResponse}
+   * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
+   * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  totp(data, options) {
+  deleteTOTP(data, options) {
     const headers = {};
     if (options?.authorization) {
       (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);

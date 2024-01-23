@@ -33,6 +33,14 @@ export interface B2BOrganizationsMembersDeleteRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsMembersDeleteTOTPRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsMembersReactivateRequestOptions {
     /**
      * Optional authorization object.
@@ -42,14 +50,6 @@ export interface B2BOrganizationsMembersReactivateRequestOptions {
     authorization?: Authorization;
 }
 export interface B2BOrganizationsMembersSearchRequestOptions {
-    /**
-     * Optional authorization object.
-     * Pass in an active Stytch Member session token or session JWT and the request
-     * will be run using that member's permissions.
-     */
-    authorization?: Authorization;
-}
-export interface B2BOrganizationsMembersTOTPRequestOptions {
     /**
      * Optional authorization object.
      * Pass in an active Stytch Member session token or session JWT and the request
@@ -207,6 +207,17 @@ export interface B2BOrganizationsMembersDeleteResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersDeleteTOTPRequest {
+    organization_id: string;
+    member_id: string;
+}
+export interface B2BOrganizationsMembersDeleteTOTPResponse {
+    request_id: string;
+    member_id: string;
+    member: Member;
+    organization: Organization;
+    status_code: number;
+}
 export interface B2BOrganizationsMembersGetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -307,17 +318,6 @@ export interface B2BOrganizationsMembersSearchResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
-    status_code: number;
-}
-export interface B2BOrganizationsMembersTOTPRequest {
-    organization_id: string;
-    member_id: string;
-}
-export interface B2BOrganizationsMembersTOTPResponse {
-    request_id: string;
-    member_id: string;
-    member: Member;
-    organization: Organization;
     status_code: number;
 }
 export interface B2BOrganizationsMembersUpdateRequest {
@@ -517,14 +517,14 @@ export declare class Members {
      */
     deleteMFAPhoneNumber(data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest, options?: B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>;
     /**
-     * @param data {@link B2BOrganizationsMembersTOTPRequest}
-     * @param options {@link B2BOrganizationsMembersTOTPRequestOptions}
-     * @returns {@link B2BOrganizationsMembersTOTPResponse}
+     * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
+     * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
+     * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    totp(data: B2BOrganizationsMembersTOTPRequest, options?: B2BOrganizationsMembersTOTPRequestOptions): Promise<B2BOrganizationsMembersTOTPResponse>;
+    deleteTOTP(data: B2BOrganizationsMembersDeleteTOTPRequest, options?: B2BOrganizationsMembersDeleteTOTPRequestOptions): Promise<B2BOrganizationsMembersDeleteTOTPResponse>;
     /**
      * Search for Members within specified Organizations. An array with at least one `organization_id` is
      * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
