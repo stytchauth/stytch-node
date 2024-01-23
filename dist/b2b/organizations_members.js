@@ -180,6 +180,27 @@ class Members {
   }
 
   /**
+   * @param data {@link B2BOrganizationsMembersTOTPRequest}
+   * @param options {@link B2BOrganizationsMembersTOTPRequestOptions}
+   * @returns {@link B2BOrganizationsMembersTOTPResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  totp(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/totp`,
+      headers,
+      data: {}
+    });
+  }
+
+  /**
    * Search for Members within specified Organizations. An array with at least one `organization_id` is
    * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *

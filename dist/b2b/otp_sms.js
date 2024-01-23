@@ -45,6 +45,9 @@ class Sms {
    * subsequent authentication events, such as prompting a Member for an OTP again after a period of
    * inactivity.
    *
+   * Passing an intermediate session token, session token, or session JWT is not required, but if passed must
+   * match the Member ID passed.
+   *
    * ### Cost to send SMS OTP
    * Before configuring SMS or WhatsApp OTPs, please review how Stytch
    * [bills the costs of international OTPs](https://stytch.com/pricing) and understand how to protect your

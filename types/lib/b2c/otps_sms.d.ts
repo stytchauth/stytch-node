@@ -112,6 +112,9 @@ export declare class Sms {
      * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
      * to [support@stytch.com](mailto:support@stytch.com?subject=Enable%20international%20SMS).
      *
+     * Even when international SMS is enabled, we do not support sending SMS to countries on our
+     * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).
+     *
      * ### Add a phone number to an existing user
      *
      * This endpoint also allows you to add a new phone number to an existing Stytch User. Including a
@@ -145,6 +148,9 @@ export declare class Sms {
      * __Note:__ SMS to phone numbers outside of the US and Canada is disabled by default for customers who did
      * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
      * to [support@stytch.com](mailto:support@stytch.com?subject=Enable%20international%20SMS).
+     *
+     * Even when international SMS is enabled, we do not support sending SMS to countries on our
+     * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).
      *
      * ### Next steps
      *

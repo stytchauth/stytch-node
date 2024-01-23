@@ -49,6 +49,14 @@ export interface B2BOrganizationsMembersSearchRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsMembersTOTPRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsMembersUpdateRequestOptions {
     /**
      * Optional authorization object.
@@ -301,6 +309,17 @@ export interface B2BOrganizationsMembersSearchResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersTOTPRequest {
+    organization_id: string;
+    member_id: string;
+}
+export interface B2BOrganizationsMembersTOTPResponse {
+    request_id: string;
+    member_id: string;
+    member: Member;
+    organization: Organization;
+    status_code: number;
+}
 export interface B2BOrganizationsMembersUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -402,6 +421,11 @@ export interface B2BOrganizationsMembersUpdateRequest {
      *   authentication factors with the affected SSO connection IDs will be revoked.
      */
     preserve_existing_sessions?: boolean;
+    /**
+     * The Member's default MFA method. This value is used to determine which secondary MFA method to use in
+     * the case of multiple methods registered for a Member. The current possible values are `sms_otp` and
+     * `totp`.
+     */
     default_mfa_method?: string;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
@@ -492,6 +516,15 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     deleteMFAPhoneNumber(data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest, options?: B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>;
+    /**
+     * @param data {@link B2BOrganizationsMembersTOTPRequest}
+     * @param options {@link B2BOrganizationsMembersTOTPRequestOptions}
+     * @returns {@link B2BOrganizationsMembersTOTPResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    totp(data: B2BOrganizationsMembersTOTPRequest, options?: B2BOrganizationsMembersTOTPRequestOptions): Promise<B2BOrganizationsMembersTOTPResponse>;
     /**
      * Search for Members within specified Organizations. An array with at least one `organization_id` is
      * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.

@@ -12,12 +12,26 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `recoveryCodes.get`.
+
+// Response type for `recoveryCodes.get`.
+
+// Request type for `recoveryCodes.recover`.
+
+// Response type for `recoveryCodes.recover`.
+
+// Request type for `recoveryCodes.rotate`.
+
+// Response type for `recoveryCodes.rotate`.
+
 class RecoveryCodes {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
   /**
+   * Allows a Member to complete an MFA flow by consuming a recovery code. This consumes the recovery code
+   * and returns a session token that can be used to authenticate the Member.
    * @param data {@link B2BRecoveryCodesRecoverRequest}
    * @returns {@link B2BRecoveryCodesRecoverResponse}
    * @async
@@ -35,6 +49,7 @@ class RecoveryCodes {
   }
 
   /**
+   * Returns a Member's full set of active recovery codes.
    * @param params {@link B2BRecoveryCodesGetRequest}
    * @returns {@link B2BRecoveryCodesGetResponse}
    * @async
@@ -45,15 +60,15 @@ class RecoveryCodes {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/recovery_codes`,
+      url: `/v1/b2b/recovery_codes/${params.organization_id}/${params.member_id}`,
       headers,
-      params: {
-        ...params
-      }
+      params: {}
     });
   }
 
   /**
+   * Rotate a Member's recovery codes. This invalidates all existing recovery codes and generates a new set
+   * of recovery codes.
    * @param data {@link B2BRecoveryCodesRotateRequest}
    * @returns {@link B2BRecoveryCodesRotateResponse}
    * @async
