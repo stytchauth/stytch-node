@@ -450,7 +450,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * more details.
    *
    * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.info.is-breakglass` action on the `stytch.member` Resource.
+   * permission to perform the `update.settings.is-breakglass` action on the `stytch.member` Resource.
    */
   is_breakglass?: boolean;
   /**
