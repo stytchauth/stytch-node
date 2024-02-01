@@ -234,6 +234,15 @@ export interface PasswordsMigrateRequest {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    /**
+     * Whether to set the user's email as verified. This is a dangerous field. Incorrect use may lead to users
+     * getting erroneously
+     *                 deduplicated into one user object. This flag should only be set if you can attest that
+     * the user owns the email address in question.
+     *                 Access to this field is restricted. To enable it, please send us a note at
+     * support@stytch.com.
+     */
+    set_email_verified?: boolean;
     name?: Name;
 }
 export interface PasswordsMigrateResponse {
