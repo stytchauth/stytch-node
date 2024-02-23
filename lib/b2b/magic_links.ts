@@ -117,8 +117,10 @@ export interface B2BMagicLinksAuthenticateResponse {
    * The returned Intermediate Session Token contains an Email Magic Link factor associated with the Member's
    * email address.
    *       The token can be used with the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA flow and log in to the Organization.
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+   * complete the MFA flow and log in to the Organization.
    *       It can also be used with the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * to join a different existing Organization that allows login with Email Magic Links,
@@ -161,8 +163,10 @@ export class MagicLinks {
    * If the Member is required to complete MFA to log in to the Organization, the returned value of
    * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA step and acquire a full member session.
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   * or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
+   * the MFA step and acquire a full member session.
    * The `intermediate_session_token` can also be used with the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * or the

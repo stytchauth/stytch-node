@@ -7,8 +7,10 @@ export interface B2BDiscoveryIntermediateSessionsExchangeRequest {
      * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
      * Member, but represents a bag of factors that may be converted to a member session.
      *     The token can be used with the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
-     * flow;
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+     *     or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+     * complete an MFA flow;
      *     the
      * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
      * to join a specific Organization that allows the factors represented by the intermediate session token;
@@ -85,8 +87,10 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
      * The returned Intermediate Session Token is identical to the one that was originally passed in to the
      * request.
      *       The token can be used with the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-     * MFA flow and log in to the Organization.
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+     *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+     * complete the MFA flow and log in to the Organization.
      *       It can also be used with the
      * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
      * to join a different existing Organization,

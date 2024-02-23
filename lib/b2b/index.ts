@@ -79,6 +79,12 @@ export type {
 } from "./organizations_members";
 
 export type {
+  B2BOrganizationsMembersOAuthProvidersGoogleResponse,
+  B2BOrganizationsMembersOAuthProvidersMicrosoftRequest,
+  B2BOrganizationsMembersOAuthProvidersMicrosoftResponse,
+} from "./organizations_members_oauth_providers";
+
+export type {
   AuthorizationCheck,
   AuthorizationVerdict,
   MemberSession,

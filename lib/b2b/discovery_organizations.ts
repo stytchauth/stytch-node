@@ -22,8 +22,10 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
    * Member, but represents a bag of factors that may be converted to a member session.
    *     The token can be used with the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
-   * flow;
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   *     or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+   * complete an MFA flow;
    *     the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * to join a specific Organization that allows the factors represented by the intermediate session token;
@@ -165,18 +167,18 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
   /**
-   * The setting that controls which mfa methods can be used by Members of an Organization. The accepted
+   * The setting that controls which MFA methods can be used by Members of an Organization. The accepted
    * values are:
    *
    *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
    *
-   *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+   *   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
    * This setting does not apply to Members with `is_breakglass` set to `true`.
    *
    */
   mfa_methods?: string;
   /**
-   * An array of allowed mfa authentication methods. This list is enforced when `mfa_methods` is set to
+   * An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
    * `RESTRICTED`.
    *   The list's accepted values are: `sms_otp` and `totp`.
    *
@@ -208,8 +210,10 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
    * The returned Intermediate Session Token is identical to the one that was originally passed in to the
    * request.
    *       The token can be used with the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA flow and log in to the Organization.
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+   * complete the MFA flow and log in to the Organization.
    *       It can also be used with the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * to join a different existing Organization,
@@ -236,8 +240,10 @@ export interface B2BDiscoveryOrganizationsListRequest {
    * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
    * Member, but represents a bag of factors that may be converted to a member session.
    *     The token can be used with the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
-   * flow;
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   *     or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+   * complete an MFA flow;
    *     the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * to join a specific Organization that allows the factors represented by the intermediate session token;

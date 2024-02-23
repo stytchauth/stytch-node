@@ -140,8 +140,10 @@ export interface B2BSSOAuthenticateResponse {
     /**
      * The returned Intermediate Session Token contains an SSO factor associated with the Member.
      *       The token can be used with the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-     * MFA flow and log in to the Organization.
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+     *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+     * complete the MFA flow and log in to the Organization.
      *       SSO factors are not transferable between Organizations, so the intermediate session token is not
      * valid for use with discovery endpoints.
      */
@@ -243,8 +245,10 @@ export declare class SSO {
      * If the Member is required to complete MFA to log in to the Organization, the returned value of
      * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
      * The `intermediate_session_token` can be passed into the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-     * MFA step and acquire a full member session.
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+     * or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
+     * the MFA step and acquire a full member session.
      * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
      *
      * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an

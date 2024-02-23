@@ -229,7 +229,7 @@ export interface WebAuthnRegisterStartResponse {
 export interface WebAuthnUpdateRequest {
   /**
    * Globally unique UUID that identifies a Passkey or WebAuthn registration in the Stytch API. The
-   * `webautn_registration_id` is used when you need to operate on a specific User's WebAuthn registartion.
+   * `webauthn_registration_id` is used when you need to operate on a specific User's WebAuthn registration.
    */
   webauthn_registration_id: string;
   // The `name` of the WebAuthn registration or Passkey.
