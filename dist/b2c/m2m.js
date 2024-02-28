@@ -88,6 +88,7 @@ class M2M {
       dataRaw: new URLSearchParams(params)
     });
   }
+
   // ENDMANUAL(token)
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
@@ -114,8 +115,22 @@ class M2M {
       max_token_age_seconds: data.max_token_age_seconds
     });
     const scopes = scope.split(" ");
+
+    // Wildcard matching allows the character `*` in a client scope to match one or more alphanumeric characters
+    // in a required scope. All non-alphanumeric characters (e.g. : - _ etc.) must match exactly
+    const wildcardMatch = (requiredScope, clientScope) => {
+      // We expressly DO NOT allow the universal scope - scopes must be namespaced appropriately
+      if (clientScope === "*") {
+        return clientScope === requiredScope;
+      }
+      const escapeRegex = str => str.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+      const escaped = clientScope.split("*").map(escapeRegex).join("[a-zA-Z0-9]{1,}");
+      return new RegExp(`^${escaped}$`).test(requiredScope);
+    };
+    const exactMatch = (requiredScope, clientScope) => requiredScope === clientScope;
     if (data.required_scopes && data.required_scopes.length > 0) {
-      const missingScopes = data.required_scopes.filter(scope => !scopes.includes(scope));
+      const scopeComparisonFn = data.permit_wildcard_matching ? wildcardMatch : exactMatch;
+      const missingScopes = data.required_scopes.filter(requiredScope => !scopes.some(clientScope => scopeComparisonFn(requiredScope, clientScope)));
       if (missingScopes.length > 0) {
         throw new _errors.ClientError("missing_scopes", "Missing required scopes", missingScopes);
       }
@@ -126,6 +141,7 @@ class M2M {
       custom_claims
     };
   }
+
   // ENDMANUAL(authenticateToken)
 }
 exports.M2M = M2M;

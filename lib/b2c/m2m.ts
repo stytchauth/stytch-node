@@ -127,8 +127,34 @@ export type M2MSearchQueryOperand =
 
 // MANUAL(AuthenticateToken)(TYPES)
 export interface AuthenticateTokenRequest {
+  /**
+   * The access token granted to the client. Access tokens are JWTs signed with the project's JWKs.
+   */
   access_token: string;
+  /**
+   * The set of scopes this token is expected to contain. If the token is missing any of the scopes passed in, an error is returned.
+   */
   required_scopes?: string[];
+  /**
+   * Whether to perform wildcard matching in the required scope calculations.
+   * Defaults to false.
+   *
+   * If true, then `*` characters in the client's scopes will match any alphabetic characters in the `required_scopes` params.
+   * A universal scope `*` is not allowed.
+   *
+   *   ```
+   *   Client Scope | Required Scope | Outcome
+   *   read:*       | read:users     | MATCH
+   *   read_*       | read_books     | MATCH
+   *   read:*       | write:books    | NO MATCH
+   *   read:*       | read-users     | NO MATCH
+   *   *            | admin          | NO MATCH
+   *   ```
+   */
+  permit_wildcard_matching?: boolean;
+  /**
+   * The maximum allowed age of the JWT. M2M tokens are valid for one hour by default, but you can require a more-recent JWT on sensitive routes.
+   */
   max_token_age_seconds?: number;
 }
 
@@ -231,6 +257,7 @@ export class M2M {
       dataRaw: new URLSearchParams(params),
     });
   }
+
   // ENDMANUAL(token)
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
@@ -259,9 +286,33 @@ export class M2M {
     );
     const scopes = scope.split(" ");
 
+    // Wildcard matching allows the character `*` in a client scope to match one or more alphanumeric characters
+    // in a required scope. All non-alphanumeric characters (e.g. : - _ etc.) must match exactly
+    const wildcardMatch = (requiredScope: string, clientScope: string) => {
+      // We expressly DO NOT allow the universal scope - scopes must be namespaced appropriately
+      if (clientScope === "*") {
+        return clientScope === requiredScope;
+      }
+      const escapeRegex = (str: string) =>
+        str.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+      const escaped = clientScope
+        .split("*")
+        .map(escapeRegex)
+        .join("[a-zA-Z0-9]{1,}");
+      return new RegExp(`^${escaped}$`).test(requiredScope);
+    };
+    const exactMatch = (requiredScope: string, clientScope: string) =>
+      requiredScope === clientScope;
+
     if (data.required_scopes && data.required_scopes.length > 0) {
+      const scopeComparisonFn = data.permit_wildcard_matching
+        ? wildcardMatch
+        : exactMatch;
       const missingScopes = data.required_scopes.filter(
-        (scope) => !scopes.includes(scope)
+        (requiredScope) =>
+          !scopes.some((clientScope) =>
+            scopeComparisonFn(requiredScope, clientScope)
+          )
       );
 
       if (missingScopes.length > 0) {
@@ -279,5 +330,6 @@ export class M2M {
       custom_claims,
     };
   }
+
   // ENDMANUAL(authenticateToken)
 }
