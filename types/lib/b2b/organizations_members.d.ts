@@ -427,6 +427,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * `totp`.
      */
     default_mfa_method?: string;
+    email_address?: string;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
     /**

@@ -97,7 +97,8 @@ class Members {
         mfa_enrolled: data.mfa_enrolled,
         roles: data.roles,
         preserve_existing_sessions: data.preserve_existing_sessions,
-        default_mfa_method: data.default_mfa_method
+        default_mfa_method: data.default_mfa_method,
+        email_address: data.email_address
       }
     });
   }
