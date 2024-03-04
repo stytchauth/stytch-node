@@ -1,5 +1,6 @@
 export interface MemberOptions {
     mfa_phone_number: string;
+    totp_registration_id: string;
 }
 export interface MfaRequired {
     member_options?: MemberOptions;

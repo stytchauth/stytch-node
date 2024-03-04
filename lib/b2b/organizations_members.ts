@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  Authorization,
   addAuthorizationHeaders,
+  Authorization,
 } from "../shared/method_options";
 import {
   B2BOrganizationsResultsMetadata,
@@ -15,6 +15,7 @@ import {
   SearchQuery,
 } from "./organizations";
 import { fetchConfig } from "../shared";
+import { OAuthProviders } from "./organizations_members_oauth_providers";
 import { request } from "../shared";
 
 export interface B2BOrganizationsMembersCreateRequestOptions {
@@ -503,9 +504,15 @@ export interface B2BOrganizationsMembersUpdateRequest {
    */
   preserve_existing_sessions?: boolean;
   /**
-   * The Member's default MFA method. This value is used to determine which secondary MFA method to use in
-   * the case of multiple methods registered for a Member. The current possible values are `sms_otp` and
-   * `totp`.
+   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   *
+   * If this field is provided and a session header is passed into the request, the Member Session must have
+   * permission to perform the `update.settings.default-mfa-method` action on the `stytch.member` Resource.
+   *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+   * request, the authorization check will also allow a Member Session that has permission to perform the
+   * `update.settings.default-mfa-method` action on the `stytch.self` Resource.
    */
   default_mfa_method?: string;
 }
@@ -532,9 +539,11 @@ export interface B2BOrganizationsMembersUpdateResponse {
 
 export class Members {
   private fetchConfig: fetchConfig;
+  oauthProviders: OAuthProviders;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
+    this.oauthProviders = new OAuthProviders(this.fetchConfig);
   }
 
   /**
