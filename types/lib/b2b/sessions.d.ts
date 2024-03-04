@@ -213,8 +213,10 @@ export interface B2BSessionsExchangeResponse {
      * The returned Intermediate Session Token contains any Email Magic Link or OAuth factors from the original
      * member session that are valid for the target Organization.
      *       The token can be used with the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-     * MFA flow and log in to the target Organization.
+     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+     *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+     * complete the MFA flow and log in to the target Organization.
      *       It can also be used with the
      * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
      * to join a different existing Organization,

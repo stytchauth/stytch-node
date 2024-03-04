@@ -129,8 +129,10 @@ export interface B2BOAuthAuthenticateResponse {
    * The returned Intermediate Session Token contains an OAuth factor associated with the Member's email
    * address.
    *       The token can be used with the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA flow and log in to the Organization.
+   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+   * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+   *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
+   * complete the MFA flow and log in to the Organization.
    *       It can also be used with the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * to join a different existing Organization that allows login with OAuth,

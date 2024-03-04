@@ -41,7 +41,7 @@ class Email {
    * ### Next steps
    * Collect the OTP which was delivered to the user. Call
    * [Authenticate OTP](https://stytch.com/docs/api/authenticate-otp) using the OTP `code` along with the
-   * `phone_id` found in the response as the `method_id`.
+   * `email_id` found in the response as the `method_id`.
    * @param data {@link OTPsEmailSendRequest}
    * @returns {@link OTPsEmailSendResponse}
    * @async

@@ -112,6 +112,7 @@ export interface AuthenticationFactor {
   microsoft_oauth_factor?: MicrosoftOAuthFactor;
   apple_oauth_factor?: AppleOAuthFactor;
   webauthn_factor?: WebAuthnFactor;
+  // Information about the TOTP-backed Authenticator App factor, if one is present.
   authenticator_app_factor?: AuthenticatorAppFactor;
   github_oauth_factor?: GithubOAuthFactor;
   recovery_code_factor?: RecoveryCodeFactor;
@@ -145,6 +146,7 @@ export interface AuthenticationFactor {
 }
 
 export interface AuthenticatorAppFactor {
+  // Globally unique UUID that identifies a TOTP instance.
   totp_id: string;
 }
 
