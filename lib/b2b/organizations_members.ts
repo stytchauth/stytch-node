@@ -515,6 +515,8 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * `update.settings.default-mfa-method` action on the `stytch.self` Resource.
    */
   default_mfa_method?: string;
+  // Updates the Member's `email_address`, if provided.
+  email_address?: string;
 }
 
 // Response type for `organizations.members.update`.
@@ -596,6 +598,7 @@ export class Members {
         roles: data.roles,
         preserve_existing_sessions: data.preserve_existing_sessions,
         default_mfa_method: data.default_mfa_method,
+        email_address: data.email_address,
       },
     });
   }

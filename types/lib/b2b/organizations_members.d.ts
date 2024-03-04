@@ -434,6 +434,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * `update.settings.default-mfa-method` action on the `stytch.self` Resource.
      */
     default_mfa_method?: string;
+    email_address?: string;
 }
 export interface B2BOrganizationsMembersUpdateResponse {
     /**
