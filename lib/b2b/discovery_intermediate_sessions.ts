@@ -7,7 +7,7 @@
 import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
@@ -124,6 +124,7 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  primary_required?: PrimaryRequired;
 }
 
 export class IntermediateSessions {

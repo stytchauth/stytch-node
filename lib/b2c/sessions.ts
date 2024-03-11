@@ -95,6 +95,8 @@ export interface AuthenticationFactor {
     | "oauth_yahoo"
     | "oauth_hubspot"
     | "imported_auth0"
+    | "oauth_exchange_slack"
+    | "oauth_exchange_hubspot"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;

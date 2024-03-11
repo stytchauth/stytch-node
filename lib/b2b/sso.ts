@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  addAuthorizationHeaders,
   Authorization,
+  addAuthorizationHeaders,
 } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
@@ -136,6 +136,7 @@ export interface B2BSSOAuthenticateRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
 }
 
 // Response type for `sso.authenticate`.

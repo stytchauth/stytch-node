@@ -1,6 +1,6 @@
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BDiscoveryIntermediateSessionsExchangeRequest {
     /**
@@ -105,6 +105,7 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export declare class IntermediateSessions {
     private fetchConfig;
