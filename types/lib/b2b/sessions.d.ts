@@ -65,6 +65,16 @@ export interface MemberSession {
      */
     custom_claims?: Record<string, any>;
 }
+export interface PrimaryRequired {
+    /**
+     * If non-empty, indicates that the Organization restricts the authentication methods it allows for login
+     * (such as `sso` or `password`), and the end user must complete one of those authentication methods to log
+     * in. If empty, indicates that the Organization does not restrict the authentication method it allows for
+     * login, but the end user does not have any transferrable primary factors. Only email magic link and OAuth
+     * factors can be transferred between Organizations.
+     */
+    allowed_auth_methods: string[];
+}
 export interface B2BSessionsAuthenticateRequest {
     session_token?: string;
     /**
@@ -230,6 +240,7 @@ export interface B2BSessionsExchangeResponse {
      */
     status_code: number;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export interface B2BSessionsGetJWKSRequest {
     project_id: string;
@@ -397,6 +408,7 @@ export declare class Sessions {
      *
      * Only Email Magic Link, OAuth, and SMS OTP factors can be transferred between sessions. Other
      * authentication factors, such as password factors, will not be transferred to the new session.
+     * Any OAuth Tokens owned by the Member will not be transferred to the new Organization.
      * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
      * and target Member have the same phone number and the phone number is verified for both Members.
      *

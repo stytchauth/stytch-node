@@ -10,6 +10,7 @@ import { IntermediateSessions } from "./discovery_intermediate_sessions";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
 import { Organizations } from "./discovery_organizations";
+import { PrimaryRequired } from "./sessions";
 
 export interface DiscoveredOrganization {
   /**
@@ -38,17 +39,6 @@ export interface Membership {
    * does not.
    */
   member?: Member;
-}
-
-export interface PrimaryRequired {
-  /**
-   * If non-empty, indicates that the Organization restricts the authentication methods it allows for login
-   * (such as `sso` or `password`), and the end user must complete one of those authentication methods to log
-   * in. If empty, indicates that the Organization does not restrict the authentication method it allows for
-   * login, but the end user does not have any transferrable primary factors. Only email magic link and OAuth
-   * factors can be transferred between Organizations.
-   */
-  allowed_auth_methods: string[];
 }
 
 export class Discovery {

@@ -32,7 +32,7 @@ export interface AuthenticationFactor {
      *       `sso` – Either `sso_saml` or `sso_oidc`.
      *
      */
-    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | string;
+    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | string;
     last_authenticated_at?: string;
     created_at?: string;
     updated_at?: string;
@@ -70,6 +70,8 @@ export interface AuthenticationFactor {
     salesforce_oauth_factor?: SalesforceOAuthFactor;
     yahoo_oauth_factor?: YahooOAuthFactor;
     hubspot_oauth_factor?: HubspotOAuthFactor;
+    slack_oauth_exchange_factor?: SlackOAuthExchangeFactor;
+    hubspot_oauth_exchange_factor?: HubspotOAuthExchangeFactor;
 }
 export interface AuthenticatorAppFactor {
     totp_id: string;
@@ -132,6 +134,9 @@ export interface GoogleOAuthFactor {
      * "Subject field" in OAuth protocols.
      */
     provider_subject: string;
+}
+export interface HubspotOAuthExchangeFactor {
+    email_id: string;
 }
 export interface HubspotOAuthFactor {
     id: string;
@@ -220,6 +225,9 @@ export interface ShopifyOAuthFactor {
     id: string;
     email_id: string;
     provider_subject: string;
+}
+export interface SlackOAuthExchangeFactor {
+    email_id: string;
 }
 export interface SlackOAuthFactor {
     id: string;

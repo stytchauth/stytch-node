@@ -88,6 +88,7 @@ export type {
   AuthorizationCheck,
   AuthorizationVerdict,
   MemberSession,
+  PrimaryRequired,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
   B2BSessionsExchangeRequest,
@@ -118,11 +119,7 @@ export type {
   B2BTOTPsMigrateResponse,
 } from "./totps";
 
-export type {
-  DiscoveredOrganization,
-  Membership,
-  PrimaryRequired,
-} from "./discovery";
+export type { DiscoveredOrganization, Membership } from "./discovery";
 
 export type {
   B2BDiscoveryIntermediateSessionsExchangeRequest,

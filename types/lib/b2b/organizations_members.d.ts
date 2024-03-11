@@ -434,6 +434,16 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * `update.settings.default-mfa-method` action on the `stytch.self` Resource.
      */
     default_mfa_method?: string;
+    /**
+     * Updates the Member's `email_address`, if provided.
+     *         If a Member's email address is changed, other Members in the same Organization cannot use the
+     * old email address, although the Member may update back to their old email address.
+     *         A Member's email address can only be useable again by other Members if the Member is deleted.
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.info.email` action on the `stytch.member` Resource. Members cannot
+     * update their own email address.
+     */
     email_address?: string;
 }
 export interface B2BOrganizationsMembersUpdateResponse {

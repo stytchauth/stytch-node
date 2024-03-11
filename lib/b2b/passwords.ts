@@ -117,6 +117,7 @@ export interface B2BPasswordsAuthenticateRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
 }
 
 // Response type for `passwords.authenticate`.

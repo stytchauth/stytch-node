@@ -140,6 +140,7 @@ class Sessions {
    *
    * Only Email Magic Link, OAuth, and SMS OTP factors can be transferred between sessions. Other
    * authentication factors, such as password factors, will not be transferred to the new session.
+   * Any OAuth Tokens owned by the Member will not be transferred to the new Organization.
    * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
    * and target Member have the same phone number and the phone number is verified for both Members.
    *

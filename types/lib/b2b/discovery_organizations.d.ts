@@ -1,7 +1,7 @@
 import { DiscoveredOrganization } from "./discovery";
 import { EmailImplicitRoleAssignment, Member, Organization } from "./organizations";
 import { fetchConfig } from "../shared";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BDiscoveryOrganizationsCreateRequest {
     /**
@@ -207,6 +207,7 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
     member_session?: MemberSession;
     organization?: Organization;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export interface B2BDiscoveryOrganizationsListRequest {
     /**
