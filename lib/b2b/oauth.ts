@@ -8,7 +8,7 @@ import {} from "../shared/method_options";
 import { Discovery } from "./oauth_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
@@ -85,6 +85,7 @@ export interface B2BOAuthAuthenticateRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
 }
 
 // Response type for `oauth.authenticate`.
@@ -158,6 +159,7 @@ export interface B2BOAuthAuthenticateResponse {
   provider_values?: B2BOAuthProviderValues;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  primary_required?: PrimaryRequired;
 }
 
 export class OAuth {

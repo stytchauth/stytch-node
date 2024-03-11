@@ -66,6 +66,7 @@ export interface B2BMagicLinksAuthenticateRequest {
      *
      */
     locale?: "en" | "es" | "pt-br" | string;
+    intermediate_session_token?: string;
 }
 export interface B2BMagicLinksAuthenticateResponse {
     /**
