@@ -46,6 +46,7 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  refresh_token?: string;
 }
 
 /**
@@ -63,6 +64,7 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftRequest {
    * operations on a Member, so be sure to preserve this value.
    */
   member_id: string;
+  include_refresh_token?: boolean;
 }
 
 // Response type for `organizations.members.oauthProviders.microsoft`.
@@ -103,6 +105,7 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  refresh_token?: string;
 }
 
 export class OAuthProviders {
@@ -138,7 +141,9 @@ export class OAuthProviders {
         method: "GET",
         url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/google`,
         headers,
-        params: {},
+        params: {
+          include_refresh_token: params.include_refresh_token,
+        },
       }
     );
   }
@@ -165,7 +170,9 @@ export class OAuthProviders {
         method: "GET",
         url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/microsoft`,
         headers,
-        params: {},
+        params: {
+          include_refresh_token: params.include_refresh_token,
+        },
       }
     );
   }

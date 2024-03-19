@@ -78,6 +78,7 @@ export interface B2BPasswordsEmailResetRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
 }
 
 // Response type for `passwords.email.reset`.

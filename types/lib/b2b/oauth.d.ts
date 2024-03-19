@@ -1,7 +1,7 @@
 import { Discovery } from "./oauth_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BOAuthProviderValues {
     access_token: string;
@@ -68,6 +68,7 @@ export interface B2BOAuthAuthenticateRequest {
      *
      */
     locale?: "en" | "es" | "pt-br" | string;
+    intermediate_session_token?: string;
 }
 export interface B2BOAuthAuthenticateResponse {
     /**
@@ -132,6 +133,7 @@ export interface B2BOAuthAuthenticateResponse {
      */
     provider_values?: B2BOAuthProviderValues;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export declare class OAuth {
     private fetchConfig;

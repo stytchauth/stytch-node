@@ -48,7 +48,9 @@ class OAuthProviders {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/google`,
       headers,
-      params: {}
+      params: {
+        include_refresh_token: params.include_refresh_token
+      }
     });
   }
 
@@ -70,7 +72,9 @@ class OAuthProviders {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/microsoft`,
       headers,
-      params: {}
+      params: {
+        include_refresh_token: params.include_refresh_token
+      }
     });
   }
 }

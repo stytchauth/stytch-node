@@ -136,6 +136,7 @@ export interface B2BSSOAuthenticateRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | string;
+  intermediate_session_token?: string;
 }
 
 // Response type for `sso.authenticate`.

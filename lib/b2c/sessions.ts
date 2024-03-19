@@ -95,6 +95,8 @@ export interface AuthenticationFactor {
     | "oauth_yahoo"
     | "oauth_hubspot"
     | "imported_auth0"
+    | "oauth_exchange_slack"
+    | "oauth_exchange_hubspot"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -143,6 +145,8 @@ export interface AuthenticationFactor {
   salesforce_oauth_factor?: SalesforceOAuthFactor;
   yahoo_oauth_factor?: YahooOAuthFactor;
   hubspot_oauth_factor?: HubspotOAuthFactor;
+  slack_oauth_exchange_factor?: SlackOAuthExchangeFactor;
+  hubspot_oauth_exchange_factor?: HubspotOAuthExchangeFactor;
 }
 
 export interface AuthenticatorAppFactor {
@@ -223,6 +227,10 @@ export interface GoogleOAuthFactor {
    * "Subject field" in OAuth protocols.
    */
   provider_subject: string;
+}
+
+export interface HubspotOAuthExchangeFactor {
+  email_id: string;
 }
 
 export interface HubspotOAuthFactor {
@@ -337,6 +345,10 @@ export interface ShopifyOAuthFactor {
   id: string;
   email_id: string;
   provider_subject: string;
+}
+
+export interface SlackOAuthExchangeFactor {
+  email_id: string;
 }
 
 export interface SlackOAuthFactor {
