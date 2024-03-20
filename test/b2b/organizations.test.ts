@@ -171,6 +171,33 @@ describe("organizations.update", () => {
       },
     });
   });
+
+  test("rbac_email_implicit_role_assignments", () => {
+    return expect(
+      organizations.update({
+        organization_id: "organization-id-1234",
+        email_allowed_domains: ["stytch.co", "example.io"],
+        rbac_email_implicit_role_assignments: [
+          {
+            domain: "stytch.co",
+            role_id: "stytch_admin",
+          },
+        ],
+      })
+    ).resolves.toMatchObject({
+      method: "PUT",
+      path: "/v1/b2b/organizations/organization-id-1234",
+      data: {
+        rbac_email_implicit_role_assignments: [
+          {
+            domain: "stytch.co",
+            role_id: "stytch_admin",
+          },
+        ],
+        email_allowed_domains: ["stytch.co", "example.io"],
+      },
+    });
+  });
 });
 
 describe("organizations.delete", () => {
