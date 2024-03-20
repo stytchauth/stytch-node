@@ -34,6 +34,7 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    refresh_token?: string;
 }
 /**
  * Request type for `organizations.members.oauthProviders.google`,
@@ -50,6 +51,7 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftRequest {
      * operations on a Member, so be sure to preserve this value.
      */
     member_id: string;
+    include_refresh_token?: boolean;
 }
 export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
     /**
@@ -86,6 +88,7 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    refresh_token?: string;
 }
 export declare class OAuthProviders {
     private fetchConfig;

@@ -52,9 +52,35 @@ export interface SAMLConnection {
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnectionImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
 }
 export interface SAMLGroupImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
     group: string;
 }

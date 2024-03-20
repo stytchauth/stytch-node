@@ -802,7 +802,7 @@ export interface B2BOrganizationsUpdateRequest {
    * If this field is provided and a session header is passed into the request, the Member Session must have
    * permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
    */
-  rbac_email_implicit_role_assignments?: string[];
+  rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
   /**
    * The setting that controls which MFA methods can be used by Members of an Organization. The accepted
    * values are:

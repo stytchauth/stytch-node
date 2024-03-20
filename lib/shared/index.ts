@@ -11,7 +11,7 @@ export interface fetchConfig {
 export type requestConfig = {
   url: string;
   method: "GET" | "DELETE" | "POST" | "PUT";
-  params?: Record<string, string | number>;
+  params?: Record<string, string | number | boolean | undefined>;
   data?: unknown;
   dataRaw?: BodyInit;
   headers?: Record<string, string>;
@@ -23,9 +23,11 @@ export async function request<T>(
 ): Promise<T> {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
-    Object.entries(requestConfig.params).forEach(([key, value]) =>
-      url.searchParams.append(key, String(value))
-    );
+    Object.entries(requestConfig.params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        url.searchParams.append(key, String(value));
+      }
+    });
   }
 
   const finalHeaders = { ...fetchConfig.headers, ...requestConfig.headers };
