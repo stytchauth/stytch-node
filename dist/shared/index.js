@@ -8,7 +8,11 @@ var _errors = require("./errors");
 async function request(fetchConfig, requestConfig) {
   const url = new URL(requestConfig.url, fetchConfig.baseURL);
   if (requestConfig.params) {
-    Object.entries(requestConfig.params).forEach(([key, value]) => url.searchParams.append(key, String(value)));
+    Object.entries(requestConfig.params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        url.searchParams.append(key, String(value));
+      }
+    });
   }
   const finalHeaders = {
     ...fetchConfig.headers,

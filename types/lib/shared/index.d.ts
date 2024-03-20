@@ -8,7 +8,7 @@ export interface fetchConfig {
 export declare type requestConfig = {
     url: string;
     method: "GET" | "DELETE" | "POST" | "PUT";
-    params?: Record<string, string | number>;
+    params?: Record<string, string | number | boolean | undefined>;
     data?: unknown;
     dataRaw?: BodyInit;
     headers?: Record<string, string>;

@@ -1,6 +1,6 @@
 import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { SAMLConnection } from "./sso";
+import { SAMLConnection, SAMLConnectionImplicitRoleAssignment, SAMLGroupImplicitRoleAssignment } from "./sso";
 export interface B2BSSOSAMLCreateConnectionRequestOptions {
     /**
      * Optional authorization object.
@@ -131,7 +131,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
      * assignment.
      */
-    saml_connection_implicit_role_assignments?: string[];
+    saml_connection_implicit_role_assignments?: SAMLConnectionImplicitRoleAssignment[];
     /**
      * Defines the names of the SAML groups
      *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
@@ -144,7 +144,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
      * information.
      */
-    saml_group_implicit_role_assignments?: string[];
+    saml_group_implicit_role_assignments?: SAMLGroupImplicitRoleAssignment[];
     /**
      * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
      * an existing SAML integration to Stytch with zero downtime.
