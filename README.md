@@ -184,7 +184,7 @@ Follow one of the [integration guides](https://stytch.com/docs/guides) or start 
 
 If you've found a bug, [open an issue](https://github.com/stytchauth/stytch-node/issues/new)!
 
-If you have questions or want help troubleshooting, join us in [Slack](https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg) or email support@stytch.com.
+If you have questions or want help troubleshooting, join us in [Slack](https://stytch.slack.com/join/shared_invite/zt-2f0fi1ruu-ub~HGouWRmPARM1MTwPESA) or email support@stytch.com.
 
 If you've found a security vulnerability, please follow our [responsible disclosure instructions](https://stytch.com/docs/resources/security-and-trust/security#:~:text=Responsible%20disclosure%20program).
 
