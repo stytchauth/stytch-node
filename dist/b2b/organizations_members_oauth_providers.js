@@ -21,6 +21,13 @@ var _shared = require("../shared");
  * `organizations.members.oauthProviders.microsoft`.
  */
 
+// MANUAL(ProviderInformationRequest)(TYPES)
+/**
+ * @deprecated Since version 10.11.0. Please use B2BOrganizationsMembersOAuthProvidersProviderInformationRequest instead.
+ */
+
+// ENDMANUAL(ProviderInformationRequest)
+
 class OAuthProviders {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;

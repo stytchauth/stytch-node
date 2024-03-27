@@ -125,7 +125,8 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
 /**
  * @deprecated Since version 10.11.0. Please use B2BOrganizationsMembersOAuthProvidersProviderInformationRequest instead.
  */
-export type B2BOrganizationsMembersOAuthProvidersMicrosoftRequest = B2BOrganizationsMembersOAuthProvidersProviderInformationRequest;
+export type B2BOrganizationsMembersOAuthProvidersMicrosoftRequest =
+  B2BOrganizationsMembersOAuthProvidersProviderInformationRequest;
 // ENDMANUAL(ProviderInformationRequest)
 
 export class OAuthProviders {
