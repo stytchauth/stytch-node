@@ -15,14 +15,14 @@ import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 
 export interface AmazonOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface AppleOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface AuthenticationFactor {
@@ -160,14 +160,14 @@ export interface BiometricFactor {
 
 export interface BitbucketOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface CoinbaseOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface CryptoWalletFactor {
@@ -178,8 +178,8 @@ export interface CryptoWalletFactor {
 
 export interface DiscordOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface EmailFactor {
@@ -195,38 +195,38 @@ export interface EmbeddableMagicLinkFactor {
 
 export interface FacebookOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface FigmaOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface GitLabOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface GithubOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface GoogleOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
-  // The globally unique UUID of the Member's email.
-  email_id: string;
   /**
    * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
    * "Subject field" in OAuth protocols.
    */
   provider_subject: string;
+  // The globally unique UUID of the Member's email.
+  email_id?: string;
 }
 
 export interface HubspotOAuthExchangeFactor {
@@ -235,14 +235,14 @@ export interface HubspotOAuthExchangeFactor {
 
 export interface HubspotOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface InstagramOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface JWK {
@@ -259,20 +259,20 @@ export interface JWK {
 
 export interface LinkedInOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface MicrosoftOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
-  // The globally unique UUID of the Member's email.
-  email_id: string;
   /**
    * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
    * "Subject field" in OAuth protocols.
    */
   provider_subject: string;
+  // The globally unique UUID of the Member's email.
+  email_id?: string;
 }
 
 export interface OIDCSSOFactor {
@@ -306,8 +306,8 @@ export interface SAMLSSOFactor {
 
 export interface SalesforceOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface Session {
@@ -343,8 +343,8 @@ export interface Session {
 
 export interface ShopifyOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface SlackOAuthExchangeFactor {
@@ -353,44 +353,44 @@ export interface SlackOAuthExchangeFactor {
 
 export interface SlackOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface SnapchatOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface SpotifyOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface SteamOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface TikTokOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface TwitchOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface TwitterOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 export interface WebAuthnFactor {
@@ -401,8 +401,8 @@ export interface WebAuthnFactor {
 
 export interface YahooOAuthFactor {
   id: string;
-  email_id: string;
   provider_subject: string;
+  email_id?: string;
 }
 
 // Request type for `sessions.authenticate`.

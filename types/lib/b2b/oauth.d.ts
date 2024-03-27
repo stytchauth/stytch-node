@@ -10,6 +10,10 @@ export interface B2BOAuthProviderValues {
      * are included by default and how to add custom scopes.
      */
     scopes: string[];
+    /**
+     * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+     * API.
+     */
     refresh_token?: string;
     expires_at?: string;
     /**
@@ -68,6 +72,12 @@ export interface B2BOAuthAuthenticateRequest {
      *
      */
     locale?: "en" | "es" | "pt-br" | string;
+    /**
+     * Adds this primary authentication factor to the intermediate session token. If the resulting set of
+     * factors satisfies the organization's primary authentication requirements and MFA requirements, the
+     * intermediate session token will be consumed and converted to a member session. If not, the same
+     * intermediate session token will be returned.
+     */
     intermediate_session_token?: string;
 }
 export interface B2BOAuthAuthenticateResponse {
@@ -104,17 +114,16 @@ export interface B2BOAuthAuthenticateResponse {
     member_authenticated: boolean;
     /**
      * The returned Intermediate Session Token contains an OAuth factor associated with the Member's email
-     * address.
-     *       The token can be used with the
+     * address. If this value is non-empty, the member must complete an MFA step to finish logging in to the
+     * Organization. The token can be used with the
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-     *       or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to
-     * complete the MFA flow and log in to the Organization.
-     *       It can also be used with the
+     * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+     * [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+     * MFA flow and log in to the Organization. It can also be used with the
      * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
-     * to join a different existing Organization that allows login with OAuth,
-     *       or the
-     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
+     * to join a specific Organization that allows the factors represented by the intermediate session token;
+     * or the
+     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
      */
     intermediate_session_token: string;
     /**

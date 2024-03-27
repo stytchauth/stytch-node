@@ -13,7 +13,10 @@ import { User } from "./users";
 export interface OAuthProviderValues {
   // The `access_token` that you may use to access the User's data in the provider's API.
   access_token: string;
-  // The `refresh_token` that you may use to refresh a User's session within the provider's API.
+  /**
+   * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+   * API.
+   */
   refresh_token: string;
   /**
    * The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured information
