@@ -336,9 +336,9 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * The name of the Member.
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
-     * permission to perform the `update.info.name` action on the `stytch.member` Resource.
-     *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
-     * request, the authorization check will also allow a Member Session that has permission to perform the
+     * permission to perform the `update.info.name` action on the `stytch.member` Resource. Alternatively, if
+     * the Member Session matches the Member associated with the `member_id` passed in the request, the
+     * authorization check will also allow a Member Session that has permission to perform the
      * `update.info.name` action on the `stytch.self` Resource.
      */
     name?: string;
@@ -357,7 +357,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
      * permission to perform the `update.info.untrusted-metadata` action on the `stytch.member` Resource.
-     *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+     * Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
      * request, the authorization check will also allow a Member Session that has permission to perform the
      * `update.info.untrusted-metadata` action on the `stytch.self` Resource.
      */
@@ -380,9 +380,9 @@ export interface B2BOrganizationsMembersUpdateRequest {
      * delete the Member's existing phone number first.
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
-     * permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource.
-     *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
-     * request, the authorization check will also allow a Member Session that has permission to perform the
+     * permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource. Alternatively,
+     * if the Member Session matches the Member associated with the `member_id` passed in the request, the
+     * authorization check will also allow a Member Session that has permission to perform the
      * `update.info.mfa-phone` action on the `stytch.self` Resource.
      */
     mfa_phone_number?: string;
@@ -393,7 +393,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
      * permission to perform the `update.settings.mfa-enrolled` action on the `stytch.member` Resource.
-     *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+     * Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
      * request, the authorization check will also allow a Member Session that has permission to perform the
      * `update.settings.mfa-enrolled` action on the `stytch.self` Resource.
      */
@@ -429,7 +429,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
      * permission to perform the `update.settings.default-mfa-method` action on the `stytch.member` Resource.
-     *   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+     * Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
      * request, the authorization check will also allow a Member Session that has permission to perform the
      * `update.settings.default-mfa-method` action on the `stytch.self` Resource.
      */

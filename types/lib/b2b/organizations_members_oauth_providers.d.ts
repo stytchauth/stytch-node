@@ -34,6 +34,10 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+     * API.
+     */
     refresh_token?: string;
 }
 /**
@@ -51,6 +55,11 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftRequest {
      * operations on a Member, so be sure to preserve this value.
      */
     member_id: string;
+    /**
+     * Whether to return the refresh token Stytch has stored for the OAuth Provider. Defaults to false.
+     * **Important:** If your application exchanges the refresh token, Stytch may not be able to automatically
+     * refresh access tokens in the future.
+     */
     include_refresh_token?: boolean;
 }
 export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
@@ -88,6 +97,10 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+     * API.
+     */
     refresh_token?: string;
 }
 export declare class OAuthProviders {
