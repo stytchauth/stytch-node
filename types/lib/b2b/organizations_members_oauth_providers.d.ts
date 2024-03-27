@@ -104,7 +104,7 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
     include_refresh_token?: boolean;
 }
 /**
- * @deprecated Since version 10.11.0. Please use B2BOrganizationsMembersOAuthProvidersProviderInformationRequest instead.
+ * @deprecated Since version 10.11.0. Please use {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest} instead.
  */
 export declare type B2BOrganizationsMembersOAuthProvidersMicrosoftRequest = B2BOrganizationsMembersOAuthProvidersProviderInformationRequest;
 export declare class OAuthProviders {

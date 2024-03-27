@@ -23,7 +23,7 @@ var _shared = require("../shared");
 
 // MANUAL(ProviderInformationRequest)(TYPES)
 /**
- * @deprecated Since version 10.11.0. Please use B2BOrganizationsMembersOAuthProvidersProviderInformationRequest instead.
+ * @deprecated Since version 10.11.0. Please use {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest} instead.
  */
 
 // ENDMANUAL(ProviderInformationRequest)

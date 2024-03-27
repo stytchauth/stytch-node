@@ -1,4 +1,5 @@
 export type { SearchQueryOperand } from "./organizations";
+export type { B2BOrganizationsMembersOAuthProvidersMicrosoftRequest } from "./organizations_members_oauth_providers";
 export type { B2BSessionsAuthenticateJwtRequest, B2BSessionsAuthenticateJwtLocalRequest, } from "./sessions";
 export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
 export type { Policy, PolicyResource, PolicyRole, PolicyRolePermission, B2BRBACPolicyResponse, } from "./rbac";

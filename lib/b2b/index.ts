@@ -6,6 +6,7 @@
 
 // MANUAL(exports)(TYPES)
 export type { SearchQueryOperand } from "./organizations";
+export type { B2BOrganizationsMembersOAuthProvidersMicrosoftRequest } from "./organizations_members_oauth_providers";
 export type {
   B2BSessionsAuthenticateJwtRequest,
   B2BSessionsAuthenticateJwtLocalRequest,
