@@ -66,6 +66,7 @@ describe("m2m.token", () => {
 describe("m2m.authenticateToken", () => {
   let accessToken: string;
   let m2m: M2M;
+  let createJWT: (payload: Record<string, unknown>) => Promise<string>;
 
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
@@ -81,24 +82,29 @@ describe("m2m.authenticateToken", () => {
       jwks,
     });
 
+    createJWT = (payload: Record<string, unknown>) =>
+      new jose.SignJWT({
+        sub: CLIENT_ID,
+        ...payload,
+      })
+        .setProtectedHeader({
+          alg: "RS256",
+          kid: keyID,
+          typ: "JWT",
+        })
+        .setIssuedAt(nowEpoch)
+        .setNotBefore(nowEpoch)
+        .setExpirationTime(nowEpoch + 60 * 60) // one hour
+        .setIssuer(`stytch.com/${PROJECT_ID}`)
+        .setAudience([PROJECT_ID])
+        .sign(privateKey);
+
     // And now sign the JWTs.
-    accessToken = await new jose.SignJWT({
-      sub: CLIENT_ID,
+    accessToken = await createJWT({
       scope: "read:users read:books write:penguins",
       // Include some custom claims
       "custom key": "custom value",
-    })
-      .setProtectedHeader({
-        alg: "RS256",
-        kid: keyID,
-        typ: "JWT",
-      })
-      .setIssuedAt(nowEpoch)
-      .setNotBefore(nowEpoch)
-      .setExpirationTime(nowEpoch + 60 * 60) // one hour
-      .setIssuer(`stytch.com/${PROJECT_ID}`)
-      .setAudience([PROJECT_ID])
-      .sign(privateKey);
+    });
   });
 
   it("success", async () => {
@@ -154,5 +160,103 @@ describe("m2m.authenticateToken", () => {
         max_token_age_seconds: 0,
       })
     ).rejects.toThrow(/jwt_too_old/);
+  });
+
+  describe("scope wildcard matching", () => {
+    const testCases = [
+      {
+        name: "wildcard match succeeds when enabled",
+        client_scopes: ["read:*"],
+        required_scopes: ["read:books"],
+        permit_wildcard_matching: true,
+        result: true,
+      },
+      {
+        name: "wildcard match succeeds with arbitrary delimiter: _",
+        client_scopes: ["read_*"],
+        required_scopes: ["read_books"],
+        permit_wildcard_matching: true,
+        result: true,
+      },
+      {
+        name: "wildcard match succeeds with no delimiter",
+        client_scopes: ["read*"],
+        required_scopes: ["readbooks"],
+        permit_wildcard_matching: true,
+        result: true,
+      },
+      {
+        name: "wildcard match succeeds with multiple delimiters",
+        client_scopes: ["read_*_*"],
+        required_scopes: ["read_books_topsecret"],
+        permit_wildcard_matching: true,
+        result: true,
+      },
+      {
+        name: "wildcard match fails with universal scope",
+        client_scopes: ["*"],
+        required_scopes: ["read"],
+        permit_wildcard_matching: true,
+        result: false,
+      },
+      {
+        name: "universal scope still can match itself",
+        client_scopes: ["*"],
+        required_scopes: ["*"],
+        permit_wildcard_matching: true,
+        result: true,
+      },
+      {
+        name: "wildcard match fails when wildcard hits delimiter boundary",
+        client_scopes: ["read_*"],
+        required_scopes: ["read_books_topsecret"],
+        permit_wildcard_matching: true,
+        result: false,
+      },
+      {
+        name: "wildcard match fails when rest of word does not match",
+        client_scopes: ["read:*"],
+        required_scopes: ["write:books"],
+        permit_wildcard_matching: false,
+        result: false,
+      },
+      {
+        name: "wildcard match fails when delimiter does not match",
+        client_scopes: ["read_*"],
+        required_scopes: ["read:books"],
+        permit_wildcard_matching: false,
+        result: false,
+      },
+      {
+        name: "wildcard match fails when disabled",
+        client_scopes: ["read:*"],
+        required_scopes: ["read:books"],
+        permit_wildcard_matching: false,
+        result: false,
+      },
+    ];
+
+    testCases.forEach((tc) => {
+      it(tc.name, async () => {
+        const accessToken = await createJWT({
+          scope: tc.client_scopes.join(" "),
+        });
+        const res = m2m.authenticateToken({
+          access_token: accessToken,
+          required_scopes: tc.required_scopes,
+          permit_wildcard_matching: tc.permit_wildcard_matching,
+        });
+
+        if (tc.result) {
+          await expect(res).resolves.toEqual({
+            client_id: CLIENT_ID,
+            custom_claims: {},
+            scopes: tc.client_scopes,
+          });
+        } else {
+          await expect(res).rejects.toThrow(/missing_scopes/);
+        }
+      });
+    });
   });
 });

@@ -78,8 +78,34 @@ export declare type M2MSearchQueryOperand = {
     filter_value: string[];
 };
 export interface AuthenticateTokenRequest {
+    /**
+     * The access token granted to the client. Access tokens are JWTs signed with the project's JWKs.
+     */
     access_token: string;
+    /**
+     * The set of scopes this token is expected to contain. If the token is missing any of the scopes passed in, an error is returned.
+     */
     required_scopes?: string[];
+    /**
+     * Whether to perform wildcard matching in the required scope calculations.
+     * Defaults to false.
+     *
+     * If true, then `*` characters in the client's scopes will match any alphabetic characters in the `required_scopes` params.
+     * A universal scope `*` is not allowed.
+     *
+     *   ```
+     *   Client Scope | Required Scope | Outcome
+     *   read:*       | read:users     | MATCH
+     *   read_*       | read_books     | MATCH
+     *   read:*       | write:books    | NO MATCH
+     *   read:*       | read-users     | NO MATCH
+     *   *            | admin          | NO MATCH
+     *   ```
+     */
+    permit_wildcard_matching?: boolean;
+    /**
+     * The maximum allowed age of the JWT. M2M tokens are valid for one hour by default, but you can require a more-recent JWT on sensitive routes.
+     */
     max_token_age_seconds?: number;
 }
 export interface AuthenticateTokenResponse {
