@@ -80,8 +80,8 @@ export type {
 
 export type {
   B2BOrganizationsMembersOAuthProvidersGoogleResponse,
-  B2BOrganizationsMembersOAuthProvidersMicrosoftRequest,
   B2BOrganizationsMembersOAuthProvidersMicrosoftResponse,
+  B2BOrganizationsMembersOAuthProvidersProviderInformationRequest,
 } from "./organizations_members_oauth_providers";
 
 export type {

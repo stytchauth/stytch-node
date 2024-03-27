@@ -14,12 +14,12 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.oauthProviders.google`.
 
+// Response type for `organizations.members.oauthProviders.microsoft`.
+
 /**
  * Request type for `organizations.members.oauthProviders.google`,
  * `organizations.members.oauthProviders.microsoft`.
  */
-
-// Response type for `organizations.members.oauthProviders.microsoft`.
 
 class OAuthProviders {
   constructor(fetchConfig) {
@@ -36,7 +36,7 @@ class OAuthProviders {
    * __Note:__ Google does not issue a refresh token on every login, and refresh tokens may expire if unused.
    * To force a refresh token to be issued, pass the `?provider_prompt=consent` query param into the
    * [Start Google OAuth flow](https://stytch.com/docs/b2b/api/oauth-google-start) endpoint.
-   * @param params {@link B2BOrganizationsMembersOAuthProvidersMicrosoftRequest}
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
    * @returns {@link B2BOrganizationsMembersOAuthProvidersGoogleResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
@@ -60,7 +60,7 @@ class OAuthProviders {
    * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
    * will refresh the
    * access token automatically.
-   * @param params {@link B2BOrganizationsMembersOAuthProvidersMicrosoftRequest}
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
    * @returns {@link B2BOrganizationsMembersOAuthProvidersMicrosoftResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API

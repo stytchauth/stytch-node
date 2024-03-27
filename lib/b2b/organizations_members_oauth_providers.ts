@@ -53,29 +53,6 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
   refresh_token?: string;
 }
 
-/**
- * Request type for `organizations.members.oauthProviders.google`,
- * `organizations.members.oauthProviders.microsoft`.
- */
-export interface B2BOrganizationsMembersOAuthProvidersMicrosoftRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
-  organization_id: string;
-  /**
-   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
-   */
-  member_id: string;
-  /**
-   * Whether to return the refresh token Stytch has stored for the OAuth Provider. Defaults to false.
-   * **Important:** If your application exchanges the refresh token, Stytch may not be able to automatically
-   * refresh access tokens in the future.
-   */
-  include_refresh_token?: boolean;
-}
-
 // Response type for `organizations.members.oauthProviders.microsoft`.
 export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
   /**
@@ -121,6 +98,29 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
   refresh_token?: string;
 }
 
+/**
+ * Request type for `organizations.members.oauthProviders.google`,
+ * `organizations.members.oauthProviders.microsoft`.
+ */
+export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
+  organization_id: string;
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
+  member_id: string;
+  /**
+   * Whether to return the refresh token Stytch has stored for the OAuth Provider. Defaults to false.
+   * **Important:** If your application exchanges the refresh token, Stytch may not be able to automatically
+   * refresh access tokens in the future.
+   */
+  include_refresh_token?: boolean;
+}
+
 export class OAuthProviders {
   private fetchConfig: fetchConfig;
 
@@ -138,14 +138,14 @@ export class OAuthProviders {
    * __Note:__ Google does not issue a refresh token on every login, and refresh tokens may expire if unused.
    * To force a refresh token to be issued, pass the `?provider_prompt=consent` query param into the
    * [Start Google OAuth flow](https://stytch.com/docs/b2b/api/oauth-google-start) endpoint.
-   * @param params {@link B2BOrganizationsMembersOAuthProvidersMicrosoftRequest}
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
    * @returns {@link B2BOrganizationsMembersOAuthProvidersGoogleResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   google(
-    params: B2BOrganizationsMembersOAuthProvidersMicrosoftRequest
+    params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
   ): Promise<B2BOrganizationsMembersOAuthProvidersGoogleResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersOAuthProvidersGoogleResponse>(
@@ -167,14 +167,14 @@ export class OAuthProviders {
    * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
    * will refresh the
    * access token automatically.
-   * @param params {@link B2BOrganizationsMembersOAuthProvidersMicrosoftRequest}
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
    * @returns {@link B2BOrganizationsMembersOAuthProvidersMicrosoftResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   microsoft(
-    params: B2BOrganizationsMembersOAuthProvidersMicrosoftRequest
+    params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
   ): Promise<B2BOrganizationsMembersOAuthProvidersMicrosoftResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsMembersOAuthProvidersMicrosoftResponse>(
