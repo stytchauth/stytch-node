@@ -16,6 +16,7 @@ var _passwords = require("./passwords");
 var _rbac_local = require("./rbac_local");
 var _rbac = require("./rbac");
 var _recovery_codes = require("./recovery_codes");
+var _scim = require("./scim");
 var _sessions = require("./sessions");
 var _sso = require("./sso");
 var _totps = require("./totps");
@@ -40,6 +41,7 @@ class B2BClient extends _client.BaseClient {
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.rbac = new _rbac.RBAC(this.fetchConfig);
     this.recoveryCodes = new _recovery_codes.RecoveryCodes(this.fetchConfig);
+    this.scim = new _scim.SCIM(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);

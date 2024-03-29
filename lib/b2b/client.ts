@@ -11,6 +11,7 @@ import { Passwords } from "./passwords";
 import { PolicyCache } from "./rbac_local";
 import { RBAC } from "./rbac";
 import { RecoveryCodes } from "./recovery_codes";
+import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
@@ -26,6 +27,7 @@ export class B2BClient extends BaseClient {
   passwords: Passwords;
   rbac: RBAC;
   recoveryCodes: RecoveryCodes;
+  scim: SCIM;
   sso: SSO;
   sessions: Sessions;
   totps: TOTPs;
@@ -56,6 +58,7 @@ export class B2BClient extends BaseClient {
     this.passwords = new Passwords(this.fetchConfig);
     this.rbac = new RBAC(this.fetchConfig);
     this.recoveryCodes = new RecoveryCodes(this.fetchConfig);
+    this.scim = new SCIM(this.fetchConfig);
     this.sso = new SSO(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
