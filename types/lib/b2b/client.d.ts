@@ -9,6 +9,7 @@ import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
 import { RBAC } from "./rbac";
 import { RecoveryCodes } from "./recovery_codes";
+import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
@@ -23,6 +24,7 @@ export declare class B2BClient extends BaseClient {
     passwords: Passwords;
     rbac: RBAC;
     recoveryCodes: RecoveryCodes;
+    scim: SCIM;
     sso: SSO;
     sessions: Sessions;
     totps: TOTPs;

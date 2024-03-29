@@ -112,6 +112,30 @@ export type {
 } from "./recovery_codes";
 
 export type {
+  SCIMConnection,
+  SCIMConnectionWithNextToken,
+  SCIMConnectionWithToken,
+  SCIMGroupImplicitRoleAssignments,
+} from "./scim";
+
+export type {
+  B2BSCIMConnectionsCreateRequest,
+  B2BSCIMConnectionsCreateResponse,
+  B2BSCIMConnectionsDeleteRequest,
+  B2BSCIMConnectionsDeleteResponse,
+  B2BSCIMConnectionsGetRequest,
+  B2BSCIMConnectionsGetResponse,
+  B2BSCIMConnectionsRotateCancelRequest,
+  B2BSCIMConnectionsRotateCancelResponse,
+  B2BSCIMConnectionsRotateCompleteRequest,
+  B2BSCIMConnectionsRotateCompleteResponse,
+  B2BSCIMConnectionsRotateStartRequest,
+  B2BSCIMConnectionsRotateStartResponse,
+  B2BSCIMConnectionsUpdateRequest,
+  B2BSCIMConnectionsUpdateResponse,
+} from "./scim_connections";
+
+export type {
   B2BTOTPsAuthenticateRequest,
   B2BTOTPsAuthenticateResponse,
   B2BTOTPsCreateRequest,
