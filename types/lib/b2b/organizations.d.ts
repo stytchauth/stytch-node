@@ -525,6 +525,14 @@ export interface B2BOrganizationsGetResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMetricsRequest {
+    organization_id: string;
+}
+export interface B2BOrganizationsMetricsResponse {
+    request_id: string;
+    member_count: number;
+    status_code: number;
+}
 export interface B2BOrganizationsSearchRequest {
     /**
      * The `cursor` field allows you to paginate through your results. Each result array is limited to 1000
@@ -910,4 +918,12 @@ export declare class Organizations {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     search(data: B2BOrganizationsSearchRequest): Promise<B2BOrganizationsSearchResponse>;
+    /**
+     * @param params {@link B2BOrganizationsMetricsRequest}
+     * @returns {@link B2BOrganizationsMetricsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    metrics(params: B2BOrganizationsMetricsRequest): Promise<B2BOrganizationsMetricsResponse>;
 }

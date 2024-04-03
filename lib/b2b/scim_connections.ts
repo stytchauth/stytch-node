@@ -23,7 +23,16 @@ export interface B2BSCIMConnectionsCreateRequest {
   organization_id: string;
   // A human-readable display name for the connection.
   display_name?: string;
-  identity_provider?: "unknown" | "okta" | "microsoft-entra" | string;
+  identity_provider?:
+    | "unknown"
+    | "okta"
+    | "microsoft-entra"
+    | "cyberark"
+    | "jumpcloud"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | string;
 }
 
 // Response type for `scim.connections.create`.

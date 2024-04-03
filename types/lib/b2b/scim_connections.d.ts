@@ -7,7 +7,7 @@ export interface B2BSCIMConnectionsCreateRequest {
      */
     organization_id: string;
     display_name?: string;
-    identity_provider?: "unknown" | "okta" | "microsoft-entra" | string;
+    identity_provider?: "unknown" | "okta" | "microsoft-entra" | "cyberark" | "jumpcloud" | "onelogin" | "pingfederate" | "rippling" | string;
 }
 export interface B2BSCIMConnectionsCreateResponse {
     /**

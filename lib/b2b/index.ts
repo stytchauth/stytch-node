@@ -41,6 +41,8 @@ export type {
   B2BOrganizationsDeleteResponse,
   B2BOrganizationsGetRequest,
   B2BOrganizationsGetResponse,
+  B2BOrganizationsMetricsRequest,
+  B2BOrganizationsMetricsResponse,
   B2BOrganizationsSearchRequest,
   B2BOrganizationsSearchResponse,
   B2BOrganizationsUpdateRequest,
