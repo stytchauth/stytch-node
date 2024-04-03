@@ -12,6 +12,7 @@ var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
 var _otps = require("./otps");
 var _passwords = require("./passwords");
+var _project = require("./project");
 var _sessions = require("./sessions");
 var _totps = require("./totps");
 var _users = require("./users");
@@ -33,6 +34,7 @@ class Client extends _client.BaseClient {
     this.oauth = new _oauth.OAuth(this.fetchConfig);
     this.otps = new _otps.OTPs(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.project = new _project.Project(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);

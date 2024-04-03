@@ -238,6 +238,8 @@ export type {
   OTPsEmailSendResponse,
 } from "./otps_email";
 
+export type { ProjectMetric, ProjectMetricsResponse } from "./project";
+
 export type {
   TOTPWithRecoveryCodes,
   TOTPsAuthenticateRequest,

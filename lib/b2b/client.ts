@@ -9,6 +9,7 @@ import { Organizations } from "./organizations";
 import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
 import { PolicyCache } from "./rbac_local";
+import { Project } from "../b2c/project";
 import { RBAC } from "./rbac";
 import { RecoveryCodes } from "./recovery_codes";
 import { SCIM } from "./scim";
@@ -25,6 +26,7 @@ export class B2BClient extends BaseClient {
   otps: OTPs;
   organizations: Organizations;
   passwords: Passwords;
+  project: Project;
   rbac: RBAC;
   recoveryCodes: RecoveryCodes;
   scim: SCIM;
@@ -56,6 +58,7 @@ export class B2BClient extends BaseClient {
     this.otps = new OTPs(this.fetchConfig);
     this.organizations = new Organizations(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
+    this.project = new Project(this.fetchConfig);
     this.rbac = new RBAC(this.fetchConfig);
     this.recoveryCodes = new RecoveryCodes(this.fetchConfig);
     this.scim = new SCIM(this.fetchConfig);

@@ -7,6 +7,7 @@ import { OAuth } from "./oauth";
 import { Organizations } from "./organizations";
 import { OTPs } from "./otp";
 import { Passwords } from "./passwords";
+import { Project } from "../b2c/project";
 import { RBAC } from "./rbac";
 import { RecoveryCodes } from "./recovery_codes";
 import { SCIM } from "./scim";
@@ -22,6 +23,7 @@ export declare class B2BClient extends BaseClient {
     otps: OTPs;
     organizations: Organizations;
     passwords: Passwords;
+    project: Project;
     rbac: RBAC;
     recoveryCodes: RecoveryCodes;
     scim: SCIM;

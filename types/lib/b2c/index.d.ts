@@ -19,5 +19,6 @@ export type { OTPsAuthenticateRequest, OTPsAuthenticateResponse } from "./otps";
 export type { OTPsSmsLoginOrCreateRequest, OTPsSmsLoginOrCreateResponse, OTPsSmsSendRequest, OTPsSmsSendResponse, } from "./otps_sms";
 export type { OTPsWhatsappLoginOrCreateRequest, OTPsWhatsappLoginOrCreateResponse, OTPsWhatsappSendRequest, OTPsWhatsappSendResponse, } from "./otps_whatsapp";
 export type { OTPsEmailLoginOrCreateRequest, OTPsEmailLoginOrCreateResponse, OTPsEmailSendRequest, OTPsEmailSendResponse, } from "./otps_email";
+export type { ProjectMetric, ProjectMetricsResponse } from "./project";
 export type { TOTPWithRecoveryCodes, TOTPsAuthenticateRequest, TOTPsAuthenticateResponse, TOTPsCreateRequest, TOTPsCreateResponse, TOTPsRecoverRequest, TOTPsRecoverResponse, TOTPsRecoveryCodesRequest, TOTPsRecoveryCodesResponse, } from "./totps";
 export type { WebAuthnAuthenticateRequest, WebAuthnAuthenticateResponse, WebAuthnAuthenticateStartRequest, WebAuthnAuthenticateStartResponse, WebAuthnRegisterRequest, WebAuthnRegisterResponse, WebAuthnRegisterStartRequest, WebAuthnRegisterStartResponse, WebAuthnUpdateRequest, WebAuthnUpdateResponse, } from "./webauthn";

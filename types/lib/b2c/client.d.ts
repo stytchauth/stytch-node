@@ -6,6 +6,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
+import { Project } from "./project";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -18,6 +19,7 @@ export declare class Client extends BaseClient {
     oauth: OAuth;
     otps: OTPs;
     passwords: Passwords;
+    project: Project;
     sessions: Sessions;
     totps: TOTPs;
     users: Users;
