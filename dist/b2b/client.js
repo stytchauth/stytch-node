@@ -14,6 +14,7 @@ var _organizations = require("./organizations");
 var _otp = require("./otp");
 var _passwords = require("./passwords");
 var _rbac_local = require("./rbac_local");
+var _project = require("../b2c/project");
 var _rbac = require("./rbac");
 var _recovery_codes = require("./recovery_codes");
 var _scim = require("./scim");
@@ -39,6 +40,7 @@ class B2BClient extends _client.BaseClient {
     this.otps = new _otp.OTPs(this.fetchConfig);
     this.organizations = new _organizations.Organizations(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
+    this.project = new _project.Project(this.fetchConfig);
     this.rbac = new _rbac.RBAC(this.fetchConfig);
     this.recoveryCodes = new _recovery_codes.RecoveryCodes(this.fetchConfig);
     this.scim = new _scim.SCIM(this.fetchConfig);

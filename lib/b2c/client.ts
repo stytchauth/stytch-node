@@ -7,6 +7,7 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
+import { Project } from "./project";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -20,6 +21,7 @@ export class Client extends BaseClient {
   oauth: OAuth;
   otps: OTPs;
   passwords: Passwords;
+  project: Project;
   sessions: Sessions;
   totps: TOTPs;
   users: Users;
@@ -46,6 +48,7 @@ export class Client extends BaseClient {
     this.oauth = new OAuth(this.fetchConfig);
     this.otps = new OTPs(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
+    this.project = new Project(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
     this.totps = new TOTPs(this.fetchConfig);
     this.users = new Users(this.fetchConfig);

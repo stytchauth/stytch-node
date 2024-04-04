@@ -589,6 +589,16 @@ export interface B2BOrganizationsGetResponse {
   status_code: number;
 }
 
+export interface B2BOrganizationsMetricsRequest {
+  organization_id: string;
+}
+
+export interface B2BOrganizationsMetricsResponse {
+  request_id: string;
+  member_count: number;
+  status_code: number;
+}
+
 // Request type for `organizations.search`.
 export interface B2BOrganizationsSearchRequest {
   /**
@@ -1091,6 +1101,25 @@ export class Organizations {
       url: `/v1/b2b/organizations/search`,
       headers,
       data,
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsMetricsRequest}
+   * @returns {@link B2BOrganizationsMetricsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  metrics(
+    params: B2BOrganizationsMetricsRequest
+  ): Promise<B2BOrganizationsMetricsResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BOrganizationsMetricsResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/metrics`,
+      headers,
+      params: {},
     });
   }
 }
