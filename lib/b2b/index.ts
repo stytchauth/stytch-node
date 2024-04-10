@@ -25,6 +25,7 @@ export type {
 export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {
+  ActiveSCIMConnection,
   ActiveSSOConnection,
   EmailImplicitRoleAssignment,
   Member,
@@ -100,6 +101,8 @@ export type {
   B2BSessionsGetJWKSResponse,
   B2BSessionsGetRequest,
   B2BSessionsGetResponse,
+  B2BSessionsMigrateRequest,
+  B2BSessionsMigrateResponse,
   B2BSessionsRevokeRequest,
   B2BSessionsRevokeResponse,
 } from "./sessions";
@@ -135,6 +138,13 @@ export type {
   B2BSCIMConnectionsRotateStartResponse,
   B2BSCIMConnectionsUpdateRequest,
   B2BSCIMConnectionsUpdateResponse,
+  B2BSCIMConnectionsUpdateRequestOptions,
+  B2BSCIMConnectionsDeleteRequestOptions,
+  B2BSCIMConnectionsRotateStartRequestOptions,
+  B2BSCIMConnectionsRotateCompleteRequestOptions,
+  B2BSCIMConnectionsRotateCancelRequestOptions,
+  B2BSCIMConnectionsCreateRequestOptions,
+  B2BSCIMConnectionsGetRequestOptions,
 } from "./scim_connections";
 
 export type {
