@@ -1,6 +1,12 @@
 import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
+export interface ActiveSCIMConnection {
+    connection_id: string;
+    display_name: string;
+    bearer_token_last_four: string;
+    bearer_token_expires_at?: string;
+}
 export interface ActiveSSOConnection {
     connection_id: string;
     display_name: string;
@@ -334,6 +340,7 @@ export interface Organization {
      *
      */
     allowed_mfa_methods: string[];
+    scim_active_connections: ActiveSCIMConnection[];
     trusted_metadata?: Record<string, any>;
     sso_default_connection_id?: string;
 }

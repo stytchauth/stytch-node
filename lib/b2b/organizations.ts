@@ -12,6 +12,13 @@ import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 import { request } from "../shared";
 
+export interface ActiveSCIMConnection {
+  connection_id: string;
+  display_name: string;
+  bearer_token_last_four: string;
+  bearer_token_expires_at?: string;
+}
+
 export interface ActiveSSOConnection {
   // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
   connection_id: string;
@@ -371,6 +378,7 @@ export interface Organization {
    *
    */
   allowed_mfa_methods: string[];
+  scim_active_connections: ActiveSCIMConnection[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // The default connection used for SSO when there are multiple active connections.

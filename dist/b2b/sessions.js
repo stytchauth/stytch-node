@@ -30,6 +30,10 @@ var _rbac_local = require("./rbac_local");
 
 // Response type for `sessions.get`.
 
+// Request type for `sessions.migrate`.
+
+// Response type for `sessions.migrate`.
+
 // Request type for `sessions.revoke`.
 
 // Response type for `sessions.revoke`.
@@ -165,6 +169,27 @@ class Sessions {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
+      data
+    });
+  }
+
+  /**
+   * Migrate a session from an external endpoint. Stytch will call the UserInfo endpoint specified in your
+   * project settings, performing a lookup using the session token passed in. If the endpoint repsonds and
+   * the response contains a valid email, Stytch will attempt to match that email with a member in your
+   * organization, and create a Stytch Session for you.
+   * @param data {@link B2BSessionsMigrateRequest}
+   * @returns {@link B2BSessionsMigrateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  migrate(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/sessions/migrate`,
       headers,
       data
     });
