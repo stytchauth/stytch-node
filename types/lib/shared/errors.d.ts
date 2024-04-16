@@ -6,13 +6,20 @@ export interface StytchErrorJSON {
     error_message: string;
     error_url: string;
 }
+export interface OAuth2ErrorJSON {
+    status_code: number;
+    request_id: string;
+    error: string;
+    error_description: string;
+    error_uri: string;
+}
 export declare class StytchError extends Error {
     status_code: number;
     request_id: string;
     error_type: string;
     error_message: string;
     error_url: string;
-    constructor(data: StytchErrorJSON);
+    constructor(data: StytchErrorJSON | OAuth2ErrorJSON);
 }
 export declare class RequestError extends Error {
     request: requestConfig;
