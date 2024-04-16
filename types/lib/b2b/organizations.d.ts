@@ -67,8 +67,8 @@ export interface Member {
     status: string;
     name: string;
     /**
-     * An array of registered [SAML Connection](saml-connection-object) objects the Member has authenticated
-     * with.
+     * An array of registered [SAML Connection](saml-connection-object) or
+     * [OIDC Connection](oidc-connection-object) objects the Member has authenticated with.
      */
     sso_registrations: SSORegistration[];
     /**
@@ -91,6 +91,11 @@ export interface Member {
      */
     is_admin: boolean;
     totp_registration_id: string;
+    /**
+     * An array of scim member registrations, each one referencing a [SCIM Connection](scim-connection-object)
+     * object in use for the Member creation.
+     */
+    scim_registrations: SCIMRegistration[];
     /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
      * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
@@ -260,6 +265,10 @@ export interface Organization {
      * set to `RESTRICTED`.
      */
     sso_jit_provisioning_allowed_connections: string[];
+    /**
+     * An array of active [SAML Connection references](https://stytch.com/docs/b2b/api/saml-connection-object)
+     * or [OIDC Connection references](https://stytch.com/docs/b2b/api/oidc-connection-object).
+     */
     sso_active_connections: ActiveSSOConnection[];
     /**
      * An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
@@ -343,6 +352,12 @@ export interface Organization {
     scim_active_connections: ActiveSCIMConnection[];
     trusted_metadata?: Record<string, any>;
     sso_default_connection_id?: string;
+}
+export interface SCIMRegistration {
+    connection_id: string;
+    registration_id: string;
+    external_id?: string;
+    scim_attributes?: Record<string, any>;
 }
 export interface SSORegistration {
     connection_id: string;
