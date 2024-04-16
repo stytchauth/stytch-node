@@ -34,6 +34,7 @@ export type {
   OAuthRegistration,
   Organization,
   B2BOrganizationsResultsMetadata,
+  SCIMRegistration,
   SSORegistration,
   SearchQuery,
   B2BOrganizationsCreateRequest,
