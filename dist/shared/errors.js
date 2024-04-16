@@ -7,11 +7,19 @@ exports.StytchError = exports.RequestError = exports.ClientError = void 0;
 class StytchError extends Error {
   constructor(data) {
     super(JSON.stringify(data));
-    this.status_code = data.status_code;
-    this.request_id = data.request_id;
-    this.error_type = data.error_type;
-    this.error_message = data.error_message;
-    this.error_url = data.error_url;
+    if ("error" in data) {
+      this.status_code = data.status_code;
+      this.request_id = data.request_id;
+      this.error_type = data.error;
+      this.error_message = data.error_description;
+      this.error_url = data.error_uri;
+    } else {
+      this.status_code = data.status_code;
+      this.request_id = data.request_id;
+      this.error_type = data.error_type;
+      this.error_message = data.error_message;
+      this.error_url = data.error_url;
+    }
   }
 }
 exports.StytchError = StytchError;
