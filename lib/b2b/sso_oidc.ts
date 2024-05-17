@@ -39,6 +39,12 @@ export interface B2BSSOOIDCCreateConnectionRequest {
   organization_id: string;
   // A human-readable display name for the connection.
   display_name?: string;
+  identity_provider?:
+    | "generic"
+    | "okta"
+    | "microsoft-entra"
+    | "google-workspace"
+    | string;
 }
 
 // Response type for `sso.oidc.createConnection`.
@@ -99,6 +105,12 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
    * provided by the IdP.
    */
   jwks_url?: string;
+  identity_provider?:
+    | "generic"
+    | "okta"
+    | "microsoft-entra"
+    | "google-workspace"
+    | string;
 }
 
 // Response type for `sso.oidc.updateConnection`.
@@ -157,6 +169,7 @@ export class OIDC {
       headers,
       data: {
         display_name: data.display_name,
+        identity_provider: data.identity_provider,
       },
     });
   }
@@ -217,6 +230,7 @@ export class OIDC {
         token_url: data.token_url,
         userinfo_url: data.userinfo_url,
         jwks_url: data.jwks_url,
+        identity_provider: data.identity_provider,
       },
     });
   }

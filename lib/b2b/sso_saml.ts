@@ -61,6 +61,12 @@ export interface B2BSSOSAMLCreateConnectionRequest {
   organization_id: string;
   // A human-readable display name for the connection.
   display_name?: string;
+  identity_provider?:
+    | "generic"
+    | "okta"
+    | "microsoft-entra"
+    | "google-workspace"
+    | string;
 }
 
 // Response type for `sso.saml.createConnection`.
@@ -193,6 +199,12 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * an existing SAML integration to Stytch with zero downtime.
    */
   alternative_audience_uri?: string;
+  identity_provider?:
+    | "generic"
+    | "okta"
+    | "microsoft-entra"
+    | "google-workspace"
+    | string;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -245,6 +257,7 @@ export class SAML {
       headers,
       data: {
         display_name: data.display_name,
+        identity_provider: data.identity_provider,
       },
     });
   }
@@ -288,6 +301,7 @@ export class SAML {
         saml_group_implicit_role_assignments:
           data.saml_group_implicit_role_assignments,
         alternative_audience_uri: data.alternative_audience_uri,
+        identity_provider: data.identity_provider,
       },
     });
   }

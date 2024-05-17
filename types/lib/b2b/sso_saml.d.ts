@@ -40,6 +40,7 @@ export interface B2BSSOSAMLCreateConnectionRequest {
      */
     organization_id: string;
     display_name?: string;
+    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
 }
 export interface B2BSSOSAMLCreateConnectionResponse {
     /**
@@ -150,6 +151,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * an existing SAML integration to Stytch with zero downtime.
      */
     alternative_audience_uri?: string;
+    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {
     /**

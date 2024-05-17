@@ -31,6 +31,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.delete`.
 
+// Request type for `organizations.members.deleteTOTP`.
+
+// Response type for `organizations.members.deleteTOTP`.
+
 // Request type for `organizations.members.get`.
 
 // Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
@@ -183,6 +187,14 @@ class Members {
   }
 
   /**
+   * Delete a Member's MFA TOTP registration.
+   *
+   * To mint a new registration for a Member, you must first call this endpoint to delete the existing
+   * registration.
+   *
+   * Existing Member Sessions that include the TOTP authentication factor will not be revoked if the
+   * registration is deleted, and MFA will not be enforced until the Member logs in again.
+   *  /%}
    * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
    * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}

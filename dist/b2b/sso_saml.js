@@ -52,7 +52,8 @@ class SAML {
       url: `/v1/b2b/sso/saml/${data.organization_id}`,
       headers,
       data: {
-        display_name: data.display_name
+        display_name: data.display_name,
+        identity_provider: data.identity_provider
       }
     });
   }
@@ -90,7 +91,8 @@ class SAML {
         idp_sso_url: data.idp_sso_url,
         saml_connection_implicit_role_assignments: data.saml_connection_implicit_role_assignments,
         saml_group_implicit_role_assignments: data.saml_group_implicit_role_assignments,
-        alternative_audience_uri: data.alternative_audience_uri
+        alternative_audience_uri: data.alternative_audience_uri,
+        identity_provider: data.identity_provider
       }
     });
   }

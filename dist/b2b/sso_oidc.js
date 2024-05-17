@@ -44,7 +44,8 @@ class OIDC {
       url: `/v1/b2b/sso/oidc/${data.organization_id}`,
       headers,
       data: {
-        display_name: data.display_name
+        display_name: data.display_name,
+        identity_provider: data.identity_provider
       }
     });
   }
@@ -101,7 +102,8 @@ class OIDC {
         authorization_url: data.authorization_url,
         token_url: data.token_url,
         userinfo_url: data.userinfo_url,
-        jwks_url: data.jwks_url
+        jwks_url: data.jwks_url,
+        identity_provider: data.identity_provider
       }
     });
   }

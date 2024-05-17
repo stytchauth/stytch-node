@@ -47,6 +47,7 @@ export interface OIDCConnection {
   token_url: string;
   userinfo_url: string;
   jwks_url: string;
+  identity_provider: string;
 }
 
 export interface SAMLConnection {
@@ -63,6 +64,7 @@ export interface SAMLConnection {
   saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
   saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
   alternative_audience_uri: string;
+  identity_provider: string;
   attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -75,7 +77,7 @@ export interface SAMLConnectionImplicitRoleAssignment {
    *   * `stytch_member`
    *   * `stytch_admin`
    *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
    * for a more detailed explanation.
    *
    *
@@ -92,7 +94,7 @@ export interface SAMLGroupImplicitRoleAssignment {
    *   * `stytch_member`
    *   * `stytch_admin`
    *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
    * for a more detailed explanation.
    *
    *

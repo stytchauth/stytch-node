@@ -24,6 +24,7 @@ export interface B2BSSOOIDCCreateConnectionRequest {
      */
     organization_id: string;
     display_name?: string;
+    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
 }
 export interface B2BSSOOIDCCreateConnectionResponse {
     /**
@@ -75,6 +76,7 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
      * provided by the IdP.
      */
     jwks_url?: string;
+    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
 }
 export interface B2BSSOOIDCUpdateConnectionResponse {
     /**
