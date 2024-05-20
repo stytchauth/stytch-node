@@ -45,7 +45,7 @@ export interface EmailImplicitRoleAssignment {
      *   * `stytch_member`
      *   * `stytch_admin`
      *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
      * for a more detailed explanation.
      *
      *
@@ -87,7 +87,7 @@ export interface Member {
      * Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted to Members
      *   who create an Organization through the
      * [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
-     *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
+     *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
      */
     is_admin: boolean;
     totp_registration_id: string;
@@ -128,7 +128,7 @@ export interface MemberRole {
      *   * `stytch_member`
      *   * `stytch_admin`
      *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
      * for a more detailed explanation.
      *
      *

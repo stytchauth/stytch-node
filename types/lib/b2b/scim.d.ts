@@ -9,7 +9,9 @@ export interface SCIMConnection {
     base_url: string;
     bearer_token_last_four: string;
     scim_group_implicit_role_assignments: SCIMGroupImplicitRoleAssignments[];
+    next_bearer_token_last_four: string;
     bearer_token_expires_at?: string;
+    next_bearer_token_expires_at?: string;
 }
 export interface SCIMConnectionWithNextToken {
     organization_id: string;

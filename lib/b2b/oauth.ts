@@ -13,13 +13,13 @@ import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
 export interface B2BOAuthProviderValues {
-  // The `access_token` that you may use to access the User's data in the provider's API.
-  access_token: string;
   /**
    * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
    * are included by default and how to add custom scopes.
    */
   scopes: string[];
+  // The `access_token` that you may use to access the User's data in the provider's API.
+  access_token?: string;
   /**
    * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
    * API.
@@ -162,7 +162,7 @@ export interface B2BOAuthAuthenticateResponse {
    * provider's API for a given user.
    *
    *   Note that these values will vary based on the OAuth provider in question, e.g. `id_token` is only
-   * returned by Microsoft.
+   * returned by Microsoft. Google One Tap does not return access tokens or refresh tokens.
    */
   provider_values?: B2BOAuthProviderValues;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.

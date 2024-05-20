@@ -15,8 +15,6 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
      * "Subject field" in OAuth protocols.
      */
     provider_subject: string;
-    access_token: string;
-    access_token_expires_in: number;
     /**
      * The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured information
      * about a user. The exact content of each ID Token varies from provider to provider. ID Tokens are
@@ -34,6 +32,8 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    access_token?: string;
+    access_token_expires_in?: number;
     /**
      * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
      * API.
@@ -116,6 +116,9 @@ export declare class OAuthProviders {
      * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
      * will refresh the
      * access token automatically.
+     *
+     * Google One Tap does not return access tokens. If the member has only authenticated through Google One
+     * Tap and not through a regular Google OAuth flow, this endpoint will not return any tokens.
      *
      * __Note:__ Google does not issue a refresh token on every login, and refresh tokens may expire if unused.
      * To force a refresh token to be issued, pass the `?provider_prompt=consent` query param into the

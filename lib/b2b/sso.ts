@@ -34,6 +34,15 @@ export interface B2BSSOGetConnectionsRequestOptions {
   authorization?: Authorization;
 }
 
+export interface Connection {
+  organization_id: string;
+  connection_id: string;
+  external_organization_id: string;
+  external_connection_id: string;
+  display_name: string;
+  status: string;
+}
+
 export interface OIDCConnection {
   organization_id: string;
   connection_id: string;
@@ -47,6 +56,7 @@ export interface OIDCConnection {
   token_url: string;
   userinfo_url: string;
   jwks_url: string;
+  identity_provider: string;
 }
 
 export interface SAMLConnection {
@@ -63,6 +73,7 @@ export interface SAMLConnection {
   saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
   saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
   alternative_audience_uri: string;
+  identity_provider: string;
   attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -75,7 +86,7 @@ export interface SAMLConnectionImplicitRoleAssignment {
    *   * `stytch_member`
    *   * `stytch_admin`
    *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
    * for a more detailed explanation.
    *
    *
@@ -92,7 +103,7 @@ export interface SAMLGroupImplicitRoleAssignment {
    *   * `stytch_member`
    *   * `stytch_admin`
    *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
    * for a more detailed explanation.
    *
    *
@@ -278,6 +289,7 @@ export interface B2BSSOGetConnectionsResponse {
    * organization.
    */
   oidc_connections: OIDCConnection[];
+  external_connections: Connection[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.

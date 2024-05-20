@@ -209,14 +209,30 @@ export interface B2BOrganizationsMembersDeleteResponse {
     status_code: number;
 }
 export interface B2BOrganizationsMembersDeleteTOTPRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
     organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id: string;
 }
 export interface B2BOrganizationsMembersDeleteTOTPResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
     request_id: string;
     member_id: string;
     member: Member;
     organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
 }
 export interface B2BOrganizationsMembersGetRequest {
@@ -536,6 +552,14 @@ export declare class Members {
      */
     deleteMFAPhoneNumber(data: B2BOrganizationsMembersDeleteMFAPhoneNumberRequest, options?: B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions): Promise<B2BOrganizationsMembersDeleteMFAPhoneNumberResponse>;
     /**
+     * Delete a Member's MFA TOTP registration.
+     *
+     * To mint a new registration for a Member, you must first call this endpoint to delete the existing
+     * registration.
+     *
+     * Existing Member Sessions that include the TOTP authentication factor will not be revoked if the
+     * registration is deleted, and MFA will not be enforced until the Member logs in again.
+     *  /%}
      * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
      * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
