@@ -61,6 +61,11 @@ export interface B2BSSOSAMLCreateConnectionRequest {
   organization_id: string;
   // A human-readable display name for the connection.
   display_name?: string;
+  /**
+   * The identity provider of this connection. For OIDC, the accepted values are `generic`, `okta`, and
+   * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
+   * `google-workspace`.
+   */
   identity_provider?:
     | "generic"
     | "okta"
@@ -199,6 +204,11 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * an existing SAML integration to Stytch with zero downtime.
    */
   alternative_audience_uri?: string;
+  /**
+   * The identity provider of this connection. For OIDC, the accepted values are `generic`, `okta`, and
+   * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
+   * `google-workspace`.
+   */
   identity_provider?:
     | "generic"
     | "okta"

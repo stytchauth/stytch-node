@@ -241,6 +241,7 @@ export type {
 } from "./passwords_existing_password";
 
 export type {
+  Connection,
   OIDCConnection,
   SAMLConnection,
   SAMLConnectionImplicitRoleAssignment,

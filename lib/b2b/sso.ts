@@ -34,6 +34,15 @@ export interface B2BSSOGetConnectionsRequestOptions {
   authorization?: Authorization;
 }
 
+export interface Connection {
+  organization_id: string;
+  connection_id: string;
+  external_organization_id: string;
+  external_connection_id: string;
+  display_name: string;
+  status: string;
+}
+
 export interface OIDCConnection {
   organization_id: string;
   connection_id: string;
@@ -280,6 +289,7 @@ export interface B2BSSOGetConnectionsResponse {
    * organization.
    */
   oidc_connections: OIDCConnection[];
+  external_connections: Connection[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
