@@ -124,8 +124,8 @@ export interface Member {
      */
     updated_at?: string;
     /**
-     * An array of scim member registrations, each one referencing a [SCIM Connection](scim-connection-object)
-     * object in use for the Member creation.
+     * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
+     * the Member creation.
      */
     scim_registration?: SCIMRegistration;
 }

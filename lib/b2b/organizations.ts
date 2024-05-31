@@ -156,8 +156,8 @@ export interface Member {
    */
   updated_at?: string;
   /**
-   * An array of scim member registrations, each one referencing a [SCIM Connection](scim-connection-object)
-   * object in use for the Member creation.
+   * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
+   * the Member creation.
    */
   scim_registration?: SCIMRegistration;
 }
@@ -412,7 +412,7 @@ export interface Organization {
   updated_at?: string;
   // The default connection used for SSO when there are multiple active connections.
   sso_default_connection_id?: string;
-  // An array of active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
+  // An active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
   scim_active_connection?: ActiveSCIMConnection;
 }
 
