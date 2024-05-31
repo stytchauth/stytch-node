@@ -5,7 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
-import { Connections } from "./scim_connections";
+import { Connection } from "./scim_connection";
 import { fetchConfig } from "../shared";
 
 export interface SCIMConnection {
@@ -56,10 +56,10 @@ export interface SCIMGroupImplicitRoleAssignments {
 
 export class SCIM {
   private fetchConfig: fetchConfig;
-  connections: Connections;
+  connection: Connection;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
-    this.connections = new Connections(this.fetchConfig);
+    this.connection = new Connection(this.fetchConfig);
   }
 }

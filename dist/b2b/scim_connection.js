@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Connections = void 0;
+exports.Connection = void 0;
 var _method_options = require("../shared/method_options");
 var _shared = require("../shared");
 // !!!
@@ -12,44 +12,44 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
-// Request type for `scim.connections.create`.
+// Request type for `scim.connection.create`.
 
-// Response type for `scim.connections.create`.
+// Response type for `scim.connection.create`.
 
-// Request type for `scim.connections.delete`.
+// Request type for `scim.connection.delete`.
 
-// Response type for `scim.connections.delete`.
+// Response type for `scim.connection.delete`.
 
-// Request type for `scim.connections.get`.
+// Request type for `scim.connection.get`.
 
-// Response type for `scim.connections.get`.
+// Response type for `scim.connection.get`.
 
-// Request type for `scim.connections.rotateCancel`.
+// Request type for `scim.connection.rotateCancel`.
 
-// Response type for `scim.connections.rotateCancel`.
+// Response type for `scim.connection.rotateCancel`.
 
-// Request type for `scim.connections.rotateComplete`.
+// Request type for `scim.connection.rotateComplete`.
 
-// Response type for `scim.connections.rotateComplete`.
+// Response type for `scim.connection.rotateComplete`.
 
-// Request type for `scim.connections.rotateStart`.
+// Request type for `scim.connection.rotateStart`.
 
-// Response type for `scim.connections.rotateStart`.
+// Response type for `scim.connection.rotateStart`.
 
-// Request type for `scim.connections.update`.
+// Request type for `scim.connection.update`.
 
-// Response type for `scim.connections.update`.
+// Response type for `scim.connection.update`.
 
-class Connections {
+class Connection {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
   /**
    * Update a SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsUpdateRequest}
-   * @param options {@link B2BSCIMConnectionsUpdateRequestOptions}
-   * @returns {@link B2BSCIMConnectionsUpdateResponse}
+   * @param data {@link B2BSCIMConnectionUpdateRequest}
+   * @param options {@link B2BSCIMConnectionUpdateRequestOptions}
+   * @returns {@link B2BSCIMConnectionUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -61,7 +61,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -73,9 +73,9 @@ class Connections {
 
   /**
    * Deletes a SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsDeleteRequest}
-   * @param options {@link B2BSCIMConnectionsDeleteRequestOptions}
-   * @returns {@link B2BSCIMConnectionsDeleteResponse}
+   * @param data {@link B2BSCIMConnectionDeleteRequest}
+   * @param options {@link B2BSCIMConnectionDeleteRequestOptions}
+   * @returns {@link B2BSCIMConnectionDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -87,7 +87,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
       headers,
       data: {}
     });
@@ -95,9 +95,9 @@ class Connections {
 
   /**
    * Start a SCIM token rotation. /%}
-   * @param data {@link B2BSCIMConnectionsRotateStartRequest}
-   * @param options {@link B2BSCIMConnectionsRotateStartRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateStartResponse}
+   * @param data {@link B2BSCIMConnectionRotateStartRequest}
+   * @param options {@link B2BSCIMConnectionRotateStartRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateStartResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -109,7 +109,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/start`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/start`,
       headers,
       data: {}
     });
@@ -119,9 +119,9 @@ class Connections {
    * Completes a SCIM token rotation. This will complete the current token rotation process and update the
    * active token to be the new token supplied in the
    * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response. /%}
-   * @param data {@link B2BSCIMConnectionsRotateCompleteRequest}
-   * @param options {@link B2BSCIMConnectionsRotateCompleteRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateCompleteResponse}
+   * @param data {@link B2BSCIMConnectionRotateCompleteRequest}
+   * @param options {@link B2BSCIMConnectionRotateCompleteRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateCompleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -133,7 +133,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/complete`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/complete`,
       headers,
       data: {}
     });
@@ -142,9 +142,9 @@ class Connections {
   /**
    * Cancel a SCIM token rotation. This will cancel the current token rotation process, keeping the original
    * token active. /%}
-   * @param data {@link B2BSCIMConnectionsRotateCancelRequest}
-   * @param options {@link B2BSCIMConnectionsRotateCancelRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateCancelResponse}
+   * @param data {@link B2BSCIMConnectionRotateCancelRequest}
+   * @param options {@link B2BSCIMConnectionRotateCancelRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateCancelResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -156,7 +156,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/cancel`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
       headers,
       data: {}
     });
@@ -164,9 +164,9 @@ class Connections {
 
   /**
    * Create a new SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsCreateRequest}
-   * @param options {@link B2BSCIMConnectionsCreateRequestOptions}
-   * @returns {@link B2BSCIMConnectionsCreateResponse}
+   * @param data {@link B2BSCIMConnectionCreateRequest}
+   * @param options {@link B2BSCIMConnectionCreateRequestOptions}
+   * @returns {@link B2BSCIMConnectionCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -178,7 +178,7 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection`,
       headers,
       data: {
         display_name: data.display_name,
@@ -189,9 +189,9 @@ class Connections {
 
   /**
    * Get SCIM Connections. /%}
-   * @param params {@link B2BSCIMConnectionsGetRequest}
-   * @param options {@link B2BSCIMConnectionsGetRequestOptions}
-   * @returns {@link B2BSCIMConnectionsGetResponse}
+   * @param params {@link B2BSCIMConnectionGetRequest}
+   * @param options {@link B2BSCIMConnectionGetRequestOptions}
+   * @returns {@link B2BSCIMConnectionGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -203,10 +203,10 @@ class Connections {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connections`,
+      url: `/v1/b2b/scim/${params.organization_id}/connection`,
       headers,
       params: {}
     });
   }
 }
-exports.Connections = Connections;
+exports.Connection = Connection;

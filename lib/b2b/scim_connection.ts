@@ -17,7 +17,7 @@ import {
   SCIMGroupImplicitRoleAssignments,
 } from "./scim";
 
-export interface B2BSCIMConnectionsCreateRequestOptions {
+export interface B2BSCIMConnectionCreateRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -26,7 +26,7 @@ export interface B2BSCIMConnectionsCreateRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsDeleteRequestOptions {
+export interface B2BSCIMConnectionDeleteRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -35,7 +35,7 @@ export interface B2BSCIMConnectionsDeleteRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsGetRequestOptions {
+export interface B2BSCIMConnectionGetRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -44,7 +44,7 @@ export interface B2BSCIMConnectionsGetRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsRotateCancelRequestOptions {
+export interface B2BSCIMConnectionRotateCancelRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -53,7 +53,7 @@ export interface B2BSCIMConnectionsRotateCancelRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsRotateCompleteRequestOptions {
+export interface B2BSCIMConnectionRotateCompleteRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -62,7 +62,7 @@ export interface B2BSCIMConnectionsRotateCompleteRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsRotateStartRequestOptions {
+export interface B2BSCIMConnectionRotateStartRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -71,7 +71,7 @@ export interface B2BSCIMConnectionsRotateStartRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSCIMConnectionsUpdateRequestOptions {
+export interface B2BSCIMConnectionUpdateRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -80,8 +80,8 @@ export interface B2BSCIMConnectionsUpdateRequestOptions {
   authorization?: Authorization;
 }
 
-// Request type for `scim.connections.create`.
-export interface B2BSCIMConnectionsCreateRequest {
+// Request type for `scim.connection.create`.
+export interface B2BSCIMConnectionCreateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -90,7 +90,7 @@ export interface B2BSCIMConnectionsCreateRequest {
   // A human-readable display name for the connection.
   display_name?: string;
   identity_provider?:
-    | "unknown"
+    | "generic"
     | "okta"
     | "microsoft-entra"
     | "cyberark"
@@ -101,8 +101,8 @@ export interface B2BSCIMConnectionsCreateRequest {
     | string;
 }
 
-// Response type for `scim.connections.create`.
-export interface B2BSCIMConnectionsCreateResponse {
+// Response type for `scim.connection.create`.
+export interface B2BSCIMConnectionCreateResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -121,8 +121,8 @@ export interface B2BSCIMConnectionsCreateResponse {
   connection?: SCIMConnectionWithToken;
 }
 
-// Request type for `scim.connections.delete`.
-export interface B2BSCIMConnectionsDeleteRequest {
+// Request type for `scim.connection.delete`.
+export interface B2BSCIMConnectionDeleteRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -132,8 +132,8 @@ export interface B2BSCIMConnectionsDeleteRequest {
   connection_id: string;
 }
 
-// Response type for `scim.connections.delete`.
-export interface B2BSCIMConnectionsDeleteResponse {
+// Response type for `scim.connection.delete`.
+export interface B2BSCIMConnectionDeleteResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -148,8 +148,8 @@ export interface B2BSCIMConnectionsDeleteResponse {
   status_code: number;
 }
 
-// Request type for `scim.connections.get`.
-export interface B2BSCIMConnectionsGetRequest {
+// Request type for `scim.connection.get`.
+export interface B2BSCIMConnectionGetRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -157,23 +157,23 @@ export interface B2BSCIMConnectionsGetRequest {
   organization_id: string;
 }
 
-// Response type for `scim.connections.get`.
-export interface B2BSCIMConnectionsGetResponse {
+// Response type for `scim.connection.get`.
+export interface B2BSCIMConnectionGetResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
-  connections: SCIMConnection[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  connection?: SCIMConnection;
 }
 
-// Request type for `scim.connections.rotateCancel`.
-export interface B2BSCIMConnectionsRotateCancelRequest {
+// Request type for `scim.connection.rotateCancel`.
+export interface B2BSCIMConnectionRotateCancelRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -183,8 +183,8 @@ export interface B2BSCIMConnectionsRotateCancelRequest {
   connection_id: string;
 }
 
-// Response type for `scim.connections.rotateCancel`.
-export interface B2BSCIMConnectionsRotateCancelResponse {
+// Response type for `scim.connection.rotateCancel`.
+export interface B2BSCIMConnectionRotateCancelResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -203,8 +203,8 @@ export interface B2BSCIMConnectionsRotateCancelResponse {
   connection?: SCIMConnection;
 }
 
-// Request type for `scim.connections.rotateComplete`.
-export interface B2BSCIMConnectionsRotateCompleteRequest {
+// Request type for `scim.connection.rotateComplete`.
+export interface B2BSCIMConnectionRotateCompleteRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -214,8 +214,8 @@ export interface B2BSCIMConnectionsRotateCompleteRequest {
   connection_id: string;
 }
 
-// Response type for `scim.connections.rotateComplete`.
-export interface B2BSCIMConnectionsRotateCompleteResponse {
+// Response type for `scim.connection.rotateComplete`.
+export interface B2BSCIMConnectionRotateCompleteResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -234,8 +234,8 @@ export interface B2BSCIMConnectionsRotateCompleteResponse {
   connection?: SCIMConnection;
 }
 
-// Request type for `scim.connections.rotateStart`.
-export interface B2BSCIMConnectionsRotateStartRequest {
+// Request type for `scim.connection.rotateStart`.
+export interface B2BSCIMConnectionRotateStartRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -245,8 +245,8 @@ export interface B2BSCIMConnectionsRotateStartRequest {
   connection_id: string;
 }
 
-// Response type for `scim.connections.rotateStart`.
-export interface B2BSCIMConnectionsRotateStartResponse {
+// Response type for `scim.connection.rotateStart`.
+export interface B2BSCIMConnectionRotateStartResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -265,8 +265,8 @@ export interface B2BSCIMConnectionsRotateStartResponse {
   connection?: SCIMConnectionWithNextToken;
 }
 
-// Request type for `scim.connections.update`.
-export interface B2BSCIMConnectionsUpdateRequest {
+// Request type for `scim.connection.update`.
+export interface B2BSCIMConnectionUpdateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value.
@@ -276,12 +276,21 @@ export interface B2BSCIMConnectionsUpdateRequest {
   connection_id: string;
   // A human-readable display name for the connection.
   display_name?: string;
-  identity_provider?: "unknown" | "okta" | "microsoft-entra" | string;
+  identity_provider?:
+    | "generic"
+    | "okta"
+    | "microsoft-entra"
+    | "cyberark"
+    | "jumpcloud"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | string;
   scim_group_implicit_role_assignments?: SCIMGroupImplicitRoleAssignments[];
 }
 
-// Response type for `scim.connections.update`.
-export interface B2BSCIMConnectionsUpdateResponse {
+// Response type for `scim.connection.update`.
+export interface B2BSCIMConnectionUpdateResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -300,7 +309,7 @@ export interface B2BSCIMConnectionsUpdateResponse {
   connection?: SCIMConnection;
 }
 
-export class Connections {
+export class Connection {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
@@ -309,24 +318,24 @@ export class Connections {
 
   /**
    * Update a SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsUpdateRequest}
-   * @param options {@link B2BSCIMConnectionsUpdateRequestOptions}
-   * @returns {@link B2BSCIMConnectionsUpdateResponse}
+   * @param data {@link B2BSCIMConnectionUpdateRequest}
+   * @param options {@link B2BSCIMConnectionUpdateRequestOptions}
+   * @returns {@link B2BSCIMConnectionUpdateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   update(
-    data: B2BSCIMConnectionsUpdateRequest,
-    options?: B2BSCIMConnectionsUpdateRequestOptions
-  ): Promise<B2BSCIMConnectionsUpdateResponse> {
+    data: B2BSCIMConnectionUpdateRequest,
+    options?: B2BSCIMConnectionUpdateRequestOptions
+  ): Promise<B2BSCIMConnectionUpdateResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsUpdateResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionUpdateResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -339,24 +348,24 @@ export class Connections {
 
   /**
    * Deletes a SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsDeleteRequest}
-   * @param options {@link B2BSCIMConnectionsDeleteRequestOptions}
-   * @returns {@link B2BSCIMConnectionsDeleteResponse}
+   * @param data {@link B2BSCIMConnectionDeleteRequest}
+   * @param options {@link B2BSCIMConnectionDeleteRequestOptions}
+   * @returns {@link B2BSCIMConnectionDeleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   delete(
-    data: B2BSCIMConnectionsDeleteRequest,
-    options?: B2BSCIMConnectionsDeleteRequestOptions
-  ): Promise<B2BSCIMConnectionsDeleteResponse> {
+    data: B2BSCIMConnectionDeleteRequest,
+    options?: B2BSCIMConnectionDeleteRequestOptions
+  ): Promise<B2BSCIMConnectionDeleteResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsDeleteResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
       headers,
       data: {},
     });
@@ -364,24 +373,24 @@ export class Connections {
 
   /**
    * Start a SCIM token rotation. /%}
-   * @param data {@link B2BSCIMConnectionsRotateStartRequest}
-   * @param options {@link B2BSCIMConnectionsRotateStartRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateStartResponse}
+   * @param data {@link B2BSCIMConnectionRotateStartRequest}
+   * @param options {@link B2BSCIMConnectionRotateStartRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateStartResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotateStart(
-    data: B2BSCIMConnectionsRotateStartRequest,
-    options?: B2BSCIMConnectionsRotateStartRequestOptions
-  ): Promise<B2BSCIMConnectionsRotateStartResponse> {
+    data: B2BSCIMConnectionRotateStartRequest,
+    options?: B2BSCIMConnectionRotateStartRequestOptions
+  ): Promise<B2BSCIMConnectionRotateStartResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsRotateStartResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionRotateStartResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/start`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/start`,
       headers,
       data: {},
     });
@@ -391,24 +400,24 @@ export class Connections {
    * Completes a SCIM token rotation. This will complete the current token rotation process and update the
    * active token to be the new token supplied in the
    * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response. /%}
-   * @param data {@link B2BSCIMConnectionsRotateCompleteRequest}
-   * @param options {@link B2BSCIMConnectionsRotateCompleteRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateCompleteResponse}
+   * @param data {@link B2BSCIMConnectionRotateCompleteRequest}
+   * @param options {@link B2BSCIMConnectionRotateCompleteRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateCompleteResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotateComplete(
-    data: B2BSCIMConnectionsRotateCompleteRequest,
-    options?: B2BSCIMConnectionsRotateCompleteRequestOptions
-  ): Promise<B2BSCIMConnectionsRotateCompleteResponse> {
+    data: B2BSCIMConnectionRotateCompleteRequest,
+    options?: B2BSCIMConnectionRotateCompleteRequestOptions
+  ): Promise<B2BSCIMConnectionRotateCompleteResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsRotateCompleteResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionRotateCompleteResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/complete`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/complete`,
       headers,
       data: {},
     });
@@ -417,24 +426,24 @@ export class Connections {
   /**
    * Cancel a SCIM token rotation. This will cancel the current token rotation process, keeping the original
    * token active. /%}
-   * @param data {@link B2BSCIMConnectionsRotateCancelRequest}
-   * @param options {@link B2BSCIMConnectionsRotateCancelRequestOptions}
-   * @returns {@link B2BSCIMConnectionsRotateCancelResponse}
+   * @param data {@link B2BSCIMConnectionRotateCancelRequest}
+   * @param options {@link B2BSCIMConnectionRotateCancelRequestOptions}
+   * @returns {@link B2BSCIMConnectionRotateCancelResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   rotateCancel(
-    data: B2BSCIMConnectionsRotateCancelRequest,
-    options?: B2BSCIMConnectionsRotateCancelRequestOptions
-  ): Promise<B2BSCIMConnectionsRotateCancelResponse> {
+    data: B2BSCIMConnectionRotateCancelRequest,
+    options?: B2BSCIMConnectionRotateCancelRequestOptions
+  ): Promise<B2BSCIMConnectionRotateCancelResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsRotateCancelResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionRotateCancelResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections/${data.connection_id}/rotate/cancel`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
       headers,
       data: {},
     });
@@ -442,24 +451,24 @@ export class Connections {
 
   /**
    * Create a new SCIM Connection. /%}
-   * @param data {@link B2BSCIMConnectionsCreateRequest}
-   * @param options {@link B2BSCIMConnectionsCreateRequestOptions}
-   * @returns {@link B2BSCIMConnectionsCreateResponse}
+   * @param data {@link B2BSCIMConnectionCreateRequest}
+   * @param options {@link B2BSCIMConnectionCreateRequestOptions}
+   * @returns {@link B2BSCIMConnectionCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   create(
-    data: B2BSCIMConnectionsCreateRequest,
-    options?: B2BSCIMConnectionsCreateRequestOptions
-  ): Promise<B2BSCIMConnectionsCreateResponse> {
+    data: B2BSCIMConnectionCreateRequest,
+    options?: B2BSCIMConnectionCreateRequestOptions
+  ): Promise<B2BSCIMConnectionCreateResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsCreateResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionCreateResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connections`,
+      url: `/v1/b2b/scim/${data.organization_id}/connection`,
       headers,
       data: {
         display_name: data.display_name,
@@ -470,24 +479,24 @@ export class Connections {
 
   /**
    * Get SCIM Connections. /%}
-   * @param params {@link B2BSCIMConnectionsGetRequest}
-   * @param options {@link B2BSCIMConnectionsGetRequestOptions}
-   * @returns {@link B2BSCIMConnectionsGetResponse}
+   * @param params {@link B2BSCIMConnectionGetRequest}
+   * @param options {@link B2BSCIMConnectionGetRequestOptions}
+   * @returns {@link B2BSCIMConnectionGetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   get(
-    params: B2BSCIMConnectionsGetRequest,
-    options?: B2BSCIMConnectionsGetRequestOptions
-  ): Promise<B2BSCIMConnectionsGetResponse> {
+    params: B2BSCIMConnectionGetRequest,
+    options?: B2BSCIMConnectionGetRequestOptions
+  ): Promise<B2BSCIMConnectionGetResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
       addAuthorizationHeaders(headers, options.authorization);
     }
-    return request<B2BSCIMConnectionsGetResponse>(this.fetchConfig, {
+    return request<B2BSCIMConnectionGetResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connections`,
+      url: `/v1/b2b/scim/${params.organization_id}/connection`,
       headers,
       params: {},
     });
