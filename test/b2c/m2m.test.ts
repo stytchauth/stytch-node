@@ -2,6 +2,8 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 import { M2M } from "../../lib/b2c/m2m";
 import * as jose from "jose";
+import { performAuthorizationCheck } from "../../lib/b2c/m2m_local";
+import { ClientError } from "../../lib/shared/errors";
 
 jest.mock("../../lib/shared");
 
@@ -142,9 +144,7 @@ describe("m2m.authenticateToken", () => {
         access_token: accessToken,
         required_scopes: ["write:giraffes"],
       })
-    ).rejects.toThrow(
-      "missing_scopes: Missing required scopes: write:giraffes"
-    );
+    ).rejects.toThrow(ClientError);
   });
 
   it("fails when stale", async () => {
@@ -154,5 +154,65 @@ describe("m2m.authenticateToken", () => {
         max_token_age_seconds: 0,
       })
     ).rejects.toThrow(/jwt_too_old/);
+  });
+});
+
+describe("performAuthorizationCheck", () => {
+  test("basic", () => {
+    const has = ["read:users", "write:users"];
+    const needs = ["read:users"];
+
+    // Assertion is just that no exception is raised
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).not.toThrow();
+  });
+
+  test("multiple required scopes", () => {
+    const has = ["read:users", "write:users", "read:books"];
+    const needs = ["read:users", "read:books"];
+
+    // Assertion is just that no exception is raised
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).not.toThrow();
+  });
+
+  test("simple scopes", () => {
+    const has = ["read_users", "write_users"];
+    const needs = ["read_users"];
+
+    // Assertion is just that no exception is raised
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).not.toThrow();
+  });
+
+  test("wildcard resource", () => {
+    const has = ["read:*", "write:*"];
+    const needs = ["read:users"];
+
+    // Assertion is just that no exception is raised
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).not.toThrow();
+  });
+
+  test("missing required scope", () => {
+    const has = ["read:users"];
+    const needs = ["write:users"];
+
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).toThrow(ClientError);
+  });
+
+  test("missing required scope with wildcard", () => {
+    const has = ["read:users", "write:*"];
+    const needs = ["delete:books"];
+
+    expect(() =>
+      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
+    ).toThrow(ClientError);
   });
 });

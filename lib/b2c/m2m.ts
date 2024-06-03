@@ -8,9 +8,9 @@ import * as jose from "jose";
 import {} from "../shared/method_options";
 import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
+import { performAuthorizationCheck } from "./m2m_local";
 
 import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
-import { ClientError } from "../shared/errors";
 import { request } from "../shared";
 
 export interface M2MClient {
@@ -235,8 +235,8 @@ export class M2M {
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
   // ADDIMPORT: import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
-  // ADDIMPORT: import { ClientError } from "../shared/errors";
   // ADDIMPORT: import { request } from "../shared";
+  // ADDIMPORT: import { performAuthorizationCheck } from "./m2m_local";
   // I do not know why, but it only works if we add the ADDIMPORT here, not on the ^ manual section
   /**
    * Authenticate an access token issued by Stytch from the Token endpoint.
@@ -260,17 +260,10 @@ export class M2M {
     const scopes = scope.split(" ");
 
     if (data.required_scopes && data.required_scopes.length > 0) {
-      const missingScopes = data.required_scopes.filter(
-        (scope) => !scopes.includes(scope)
-      );
-
-      if (missingScopes.length > 0) {
-        throw new ClientError(
-          "missing_scopes",
-          "Missing required scopes",
-          missingScopes
-        );
-      }
+      performAuthorizationCheck({
+        hasScopes: scopes,
+        requiredScopes: data.required_scopes,
+      });
     }
 
     return {
