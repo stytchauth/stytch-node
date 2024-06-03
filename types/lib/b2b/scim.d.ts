@@ -1,4 +1,4 @@
-import { Connections } from "./scim_connections";
+import { Connection } from "./scim_connection";
 import { fetchConfig } from "../shared";
 export interface SCIMConnection {
     organization_id: string;
@@ -44,6 +44,6 @@ export interface SCIMGroupImplicitRoleAssignments {
 }
 export declare class SCIM {
     private fetchConfig;
-    connections: Connections;
+    connection: Connection;
     constructor(fetchConfig: fetchConfig);
 }

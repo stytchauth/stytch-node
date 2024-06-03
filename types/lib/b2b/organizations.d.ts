@@ -92,11 +92,6 @@ export interface Member {
     is_admin: boolean;
     totp_registration_id: string;
     /**
-     * An array of scim member registrations, each one referencing a [SCIM Connection](scim-connection-object)
-     * object in use for the Member creation.
-     */
-    scim_registrations: SCIMRegistration[];
-    /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
      * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
      * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -118,6 +113,21 @@ export interface Member {
      *   for complete field behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    /**
+     * The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are expressed in
+     * UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
+    created_at?: string;
+    /**
+     * The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard and are
+     * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
+    updated_at?: string;
+    /**
+     * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
+     * the Member creation.
+     */
+    scim_registration?: SCIMRegistration;
 }
 export interface MemberRole {
     /**
@@ -349,9 +359,19 @@ export interface Organization {
      *
      */
     allowed_mfa_methods: string[];
-    scim_active_connections: ActiveSCIMConnection[];
     trusted_metadata?: Record<string, any>;
+    /**
+     * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
+     * in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
+    created_at?: string;
+    /**
+     * The timestamp of when the Organization was last updated. Values conform to the RFC 3339 standard and are
+     * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
+    updated_at?: string;
     sso_default_connection_id?: string;
+    scim_active_connection?: ActiveSCIMConnection;
 }
 export interface SCIMRegistration {
     connection_id: string;
