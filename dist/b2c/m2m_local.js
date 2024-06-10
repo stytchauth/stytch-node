@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.performAuthorizationCheck = performAuthorizationCheck;
-var _errors = require("../shared/errors");
 function performAuthorizationCheck({
   hasScopes,
   requiredScopes
@@ -12,7 +11,7 @@ function performAuthorizationCheck({
   const clientScopes = {};
   hasScopes.forEach(scope => {
     let action = scope;
-    let resource = "*";
+    let resource = "-";
     if (scope.includes(":")) {
       [action, resource] = scope.split(":");
     }
@@ -21,20 +20,20 @@ function performAuthorizationCheck({
     }
     clientScopes[action].add(resource);
   });
-  requiredScopes.forEach(requiredScope => {
+  for (const requiredScope of requiredScopes) {
     let requiredAction = requiredScope;
-    let requiredResource = "*";
+    let requiredResource = "-";
     if (requiredScope.includes(":")) {
       [requiredAction, requiredResource] = requiredScope.split(":");
     }
     if (!clientScopes[requiredAction]) {
-      throw new _errors.ClientError("missing_scopes", "Missing required action", requiredAction);
+      return false;
     }
     const resources = clientScopes[requiredAction];
-
     // The client can either have a wildcard resource or the specific resource
     if (!resources.has("*") && !resources.has(requiredResource)) {
-      throw new _errors.ClientError("missing_scopes", "Missing required scope", requiredResource);
+      return false;
     }
-  });
+  }
+  return true;
 }

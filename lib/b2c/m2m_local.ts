@@ -1,4 +1,10 @@
-import { ClientError } from "../shared/errors";
+export type ScopeAuthorizationFunc = ({
+  hasScopes,
+  requiredScopes,
+}: {
+  hasScopes: string[];
+  requiredScopes: string[];
+}) => boolean;
 
 export function performAuthorizationCheck({
   hasScopes,
@@ -6,11 +12,11 @@ export function performAuthorizationCheck({
 }: {
   hasScopes: string[];
   requiredScopes: string[];
-}): void {
+}): boolean {
   const clientScopes: { [key: string]: Set<string> } = {};
   hasScopes.forEach((scope) => {
     let action = scope;
-    let resource = "*";
+    let resource = "-";
     if (scope.includes(":")) {
       [action, resource] = scope.split(":");
     }
@@ -20,28 +26,20 @@ export function performAuthorizationCheck({
     clientScopes[action].add(resource);
   });
 
-  requiredScopes.forEach((requiredScope) => {
+  for (const requiredScope of requiredScopes) {
     let requiredAction = requiredScope;
-    let requiredResource = "*";
+    let requiredResource = "-";
     if (requiredScope.includes(":")) {
       [requiredAction, requiredResource] = requiredScope.split(":");
     }
     if (!clientScopes[requiredAction]) {
-      throw new ClientError(
-        "missing_scopes",
-        "Missing required action",
-        requiredAction
-      );
+      return false;
     }
     const resources = clientScopes[requiredAction];
-
     // The client can either have a wildcard resource or the specific resource
     if (!resources.has("*") && !resources.has(requiredResource)) {
-      throw new ClientError(
-        "missing_scopes",
-        "Missing required scope",
-        requiredResource
-      );
+      return false;
     }
-  });
+  }
+  return true;
 }

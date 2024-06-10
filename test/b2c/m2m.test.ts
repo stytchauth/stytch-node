@@ -162,57 +162,84 @@ describe("performAuthorizationCheck", () => {
     const has = ["read:users", "write:users"];
     const needs = ["read:users"];
 
-    // Assertion is just that no exception is raised
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).not.toThrow();
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
   });
 
   test("multiple required scopes", () => {
     const has = ["read:users", "write:users", "read:books"];
     const needs = ["read:users", "read:books"];
 
-    // Assertion is just that no exception is raised
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).not.toThrow();
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
   });
 
   test("simple scopes", () => {
     const has = ["read_users", "write_users"];
     const needs = ["read_users"];
 
-    // Assertion is just that no exception is raised
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).not.toThrow();
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
   });
 
   test("wildcard resource", () => {
     const has = ["read:*", "write:*"];
     const needs = ["read:users"];
 
-    // Assertion is just that no exception is raised
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).not.toThrow();
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
   });
 
   test("missing required scope", () => {
     const has = ["read:users"];
     const needs = ["write:users"];
 
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).toThrow(ClientError);
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(false);
   });
 
   test("missing required scope with wildcard", () => {
     const has = ["read:users", "write:*"];
     const needs = ["delete:books"];
 
-    expect(() =>
-      performAuthorizationCheck({ hasScopes: has, requiredScopes: needs })
-    ).toThrow(ClientError);
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(false);
+  });
+  test("has simple scope and wants specific scope", () => {
+    const params = {
+      hasScopes: ["read"],
+      requiredScopes: ["read:users"],
+    };
+
+    const res = performAuthorizationCheck(params);
+    expect(res).toEqual(false);
+  });
+
+  test("has specific scope and wants simple scope", () => {
+    const params = {
+      hasScopes: ["read:users"],
+      requiredScopes: ["read"],
+    };
+
+    const res = performAuthorizationCheck(params);
+    expect(res).toEqual(false);
   });
 });
