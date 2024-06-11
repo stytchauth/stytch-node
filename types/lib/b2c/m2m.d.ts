@@ -1,5 +1,6 @@
 import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
+import { ScopeAuthorizationFunc } from "./m2m_local";
 import { JwtConfig } from "../shared/sessions";
 export interface M2MClient {
     client_id: string;
@@ -134,11 +135,15 @@ export declare class M2M {
      * Authenticate an access token issued by Stytch from the Token endpoint.
      * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
      * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
+     * You may also override the default scope authorization function to implement custom authorization logic.
      *
      * @param data {@link AuthenticateTokenRequest}
+     * @param scopeAuthorizationFunc {@link ScopeAuthorizationFunc} - A function that checks if the token has the required scopes.
+       The default function assumes scopes are either direct string matches or written in the form "action:resource". See the
+       documentation for {@link performAuthorizationCheck} for more information.
      * @async
      * @returns {@link AuthenticateTokenResponse}
      * @throws {ClientError} when token can not be authenticated
      */
-    authenticateToken(data: AuthenticateTokenRequest): Promise<AuthenticateTokenResponse>;
+    authenticateToken(data: AuthenticateTokenRequest, scopeAuthorizationFunc?: ScopeAuthorizationFunc): Promise<AuthenticateTokenResponse>;
 }

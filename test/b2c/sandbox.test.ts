@@ -236,7 +236,7 @@ describeIf(
             access_token,
             required_scopes: ["pet:dogs"],
           })
-        ).rejects.toThrow("Missing required scopes");
+        ).rejects.toThrow("missing_scopes");
       });
     });
   }

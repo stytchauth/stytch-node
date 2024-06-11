@@ -8,10 +8,11 @@ import * as jose from "jose";
 import {} from "../shared/method_options";
 import { Clients } from "./m2m_clients";
 import { fetchConfig } from "../shared";
+import { performAuthorizationCheck, ScopeAuthorizationFunc } from "./m2m_local";
 
 import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
-import { ClientError } from "../shared/errors";
 import { request } from "../shared";
+import { ClientError } from "../shared/errors";
 
 export interface M2MClient {
   // The ID of the client.
@@ -235,21 +236,26 @@ export class M2M {
 
   // MANUAL(authenticateToken)(SERVICE_METHOD)
   // ADDIMPORT: import { authenticateM2MJwtLocal, JwtConfig } from "../shared/sessions";
-  // ADDIMPORT: import { ClientError } from "../shared/errors";
   // ADDIMPORT: import { request } from "../shared";
-  // I do not know why, but it only works if we add the ADDIMPORT here, not on the ^ manual section
+  // ADDIMPORT: import { performAuthorizationCheck, ScopeAuthorizationFunc } from "./m2m_local";
+  // ADDIMPORT: import { ClientError } from "../shared/errors";
   /**
    * Authenticate an access token issued by Stytch from the Token endpoint.
    * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
    * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
+   * You may also override the default scope authorization function to implement custom authorization logic.
    *
    * @param data {@link AuthenticateTokenRequest}
+   * @param scopeAuthorizationFunc {@link ScopeAuthorizationFunc} - A function that checks if the token has the required scopes. 
+     The default function assumes scopes are either direct string matches or written in the form "action:resource". See the 
+     documentation for {@link performAuthorizationCheck} for more information.
    * @async
    * @returns {@link AuthenticateTokenResponse}
    * @throws {ClientError} when token can not be authenticated
    */
   async authenticateToken(
-    data: AuthenticateTokenRequest
+    data: AuthenticateTokenRequest,
+    scopeAuthorizationFunc: ScopeAuthorizationFunc = performAuthorizationCheck
   ): Promise<AuthenticateTokenResponse> {
     const { sub, scope, custom_claims } = await authenticateM2MJwtLocal(
       this.jwksClient,
@@ -260,15 +266,15 @@ export class M2M {
     const scopes = scope.split(" ");
 
     if (data.required_scopes && data.required_scopes.length > 0) {
-      const missingScopes = data.required_scopes.filter(
-        (scope) => !scopes.includes(scope)
-      );
-
-      if (missingScopes.length > 0) {
+      const isAuthorized = scopeAuthorizationFunc({
+        hasScopes: scopes,
+        requiredScopes: data.required_scopes,
+      });
+      if (!isAuthorized) {
         throw new ClientError(
           "missing_scopes",
-          "Missing required scopes",
-          missingScopes
+          "Missing at least one required scope",
+          data.required_scopes
         );
       }
     }

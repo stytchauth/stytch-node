@@ -2,6 +2,8 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { request } from "../../lib/shared";
 import { M2M } from "../../lib/b2c/m2m";
 import * as jose from "jose";
+import { performAuthorizationCheck } from "../../lib/b2c/m2m_local";
+import { ClientError } from "../../lib/shared/errors";
 
 jest.mock("../../lib/shared");
 
@@ -142,9 +144,7 @@ describe("m2m.authenticateToken", () => {
         access_token: accessToken,
         required_scopes: ["write:giraffes"],
       })
-    ).rejects.toThrow(
-      "missing_scopes: Missing required scopes: write:giraffes"
-    );
+    ).rejects.toThrow(ClientError);
   });
 
   it("fails when stale", async () => {
@@ -154,5 +154,92 @@ describe("m2m.authenticateToken", () => {
         max_token_age_seconds: 0,
       })
     ).rejects.toThrow(/jwt_too_old/);
+  });
+});
+
+describe("performAuthorizationCheck", () => {
+  test("basic", () => {
+    const has = ["read:users", "write:users"];
+    const needs = ["read:users"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
+  });
+
+  test("multiple required scopes", () => {
+    const has = ["read:users", "write:users", "read:books"];
+    const needs = ["read:users", "read:books"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
+  });
+
+  test("simple scopes", () => {
+    const has = ["read_users", "write_users"];
+    const needs = ["read_users"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
+  });
+
+  test("wildcard resource", () => {
+    const has = ["read:*", "write:*"];
+    const needs = ["read:users"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(true);
+  });
+
+  test("missing required scope", () => {
+    const has = ["read:users"];
+    const needs = ["write:users"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(false);
+  });
+
+  test("missing required scope with wildcard", () => {
+    const has = ["read:users", "write:*"];
+    const needs = ["delete:books"];
+
+    const res = performAuthorizationCheck({
+      hasScopes: has,
+      requiredScopes: needs,
+    });
+    expect(res).toEqual(false);
+  });
+  test("has simple scope and wants specific scope", () => {
+    const params = {
+      hasScopes: ["read"],
+      requiredScopes: ["read:users"],
+    };
+
+    const res = performAuthorizationCheck(params);
+    expect(res).toEqual(false);
+  });
+
+  test("has specific scope and wants simple scope", () => {
+    const params = {
+      hasScopes: ["read:users"],
+      requiredScopes: ["read"],
+    };
+
+    const res = performAuthorizationCheck(params);
+    expect(res).toEqual(false);
   });
 });
