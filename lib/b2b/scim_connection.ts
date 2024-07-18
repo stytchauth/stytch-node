@@ -14,6 +14,7 @@ import {
   SCIMConnection,
   SCIMConnectionWithNextToken,
   SCIMConnectionWithToken,
+  SCIMGroup,
   SCIMGroupImplicitRoleAssignments,
 } from "./scim";
 
@@ -27,6 +28,15 @@ export interface B2BSCIMConnectionCreateRequestOptions {
 }
 
 export interface B2BSCIMConnectionDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSCIMConnectionGetGroupsRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -80,14 +90,8 @@ export interface B2BSCIMConnectionUpdateRequestOptions {
   authorization?: Authorization;
 }
 
-// Request type for `scim.connection.create`.
 export interface B2BSCIMConnectionCreateRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // A human-readable display name for the connection.
   display_name?: string;
   identity_provider?:
     | "generic"
@@ -101,180 +105,82 @@ export interface B2BSCIMConnectionCreateRequest {
     | string;
 }
 
-// Response type for `scim.connection.create`.
 export interface B2BSCIMConnectionCreateResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
   connection?: SCIMConnectionWithToken;
 }
 
-// Request type for `scim.connection.delete`.
 export interface B2BSCIMConnectionDeleteRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // The ID of the SCIM connection.
   connection_id: string;
 }
 
-// Response type for `scim.connection.delete`.
 export interface B2BSCIMConnectionDeleteResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  // The `connection_id` that was deleted as part of the delete request.
   connection_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
 }
 
-// Request type for `scim.connection.get`.
+export interface B2BSCIMConnectionGetGroupsRequest {
+  organization_id: string;
+  connection_id: string;
+  cursor?: string;
+  limit?: number;
+}
+
+export interface B2BSCIMConnectionGetGroupsResponse {
+  scim_groups: SCIMGroup[];
+  status_code: number;
+  next_cursor?: string;
+}
+
 export interface B2BSCIMConnectionGetRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
 }
 
-// Response type for `scim.connection.get`.
 export interface B2BSCIMConnectionGetResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
   connection?: SCIMConnection;
 }
 
-// Request type for `scim.connection.rotateCancel`.
 export interface B2BSCIMConnectionRotateCancelRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // The ID of the SCIM connection.
   connection_id: string;
 }
 
-// Response type for `scim.connection.rotateCancel`.
 export interface B2BSCIMConnectionRotateCancelResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
   connection?: SCIMConnection;
 }
 
-// Request type for `scim.connection.rotateComplete`.
 export interface B2BSCIMConnectionRotateCompleteRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // The ID of the SCIM connection.
   connection_id: string;
 }
 
-// Response type for `scim.connection.rotateComplete`.
 export interface B2BSCIMConnectionRotateCompleteResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
   connection?: SCIMConnection;
 }
 
-// Request type for `scim.connection.rotateStart`.
 export interface B2BSCIMConnectionRotateStartRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // The ID of the SCIM connection.
   connection_id: string;
 }
 
-// Response type for `scim.connection.rotateStart`.
 export interface B2BSCIMConnectionRotateStartResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
   connection?: SCIMConnectionWithNextToken;
 }
 
-// Request type for `scim.connection.update`.
 export interface B2BSCIMConnectionUpdateRequest {
-  /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
   organization_id: string;
-  // The ID of the SCIM connection.
   connection_id: string;
-  // A human-readable display name for the connection.
   display_name?: string;
   identity_provider?:
     | "generic"
@@ -289,23 +195,9 @@ export interface B2BSCIMConnectionUpdateRequest {
   scim_group_implicit_role_assignments?: SCIMGroupImplicitRoleAssignments[];
 }
 
-// Response type for `scim.connection.update`.
 export interface B2BSCIMConnectionUpdateResponse {
-  /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
   request_id: string;
-  /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
   status_code: number;
-  /**
-   * The `SAML Connection` object affected by this API call. See the
-   * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-   * field details.
-   */
   connection?: SCIMConnection;
 }
 
@@ -317,7 +209,6 @@ export class Connection {
   }
 
   /**
-   * Update a SCIM Connection. /%}
    * @param data {@link B2BSCIMConnectionUpdateRequest}
    * @param options {@link B2BSCIMConnectionUpdateRequestOptions}
    * @returns {@link B2BSCIMConnectionUpdateResponse}
@@ -347,7 +238,6 @@ export class Connection {
   }
 
   /**
-   * Deletes a SCIM Connection. /%}
    * @param data {@link B2BSCIMConnectionDeleteRequest}
    * @param options {@link B2BSCIMConnectionDeleteRequestOptions}
    * @returns {@link B2BSCIMConnectionDeleteResponse}
@@ -372,7 +262,6 @@ export class Connection {
   }
 
   /**
-   * Start a SCIM token rotation. /%}
    * @param data {@link B2BSCIMConnectionRotateStartRequest}
    * @param options {@link B2BSCIMConnectionRotateStartRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateStartResponse}
@@ -397,9 +286,6 @@ export class Connection {
   }
 
   /**
-   * Completes a SCIM token rotation. This will complete the current token rotation process and update the
-   * active token to be the new token supplied in the
-   * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response. /%}
    * @param data {@link B2BSCIMConnectionRotateCompleteRequest}
    * @param options {@link B2BSCIMConnectionRotateCompleteRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateCompleteResponse}
@@ -424,8 +310,6 @@ export class Connection {
   }
 
   /**
-   * Cancel a SCIM token rotation. This will cancel the current token rotation process, keeping the original
-   * token active. /%}
    * @param data {@link B2BSCIMConnectionRotateCancelRequest}
    * @param options {@link B2BSCIMConnectionRotateCancelRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateCancelResponse}
@@ -450,7 +334,33 @@ export class Connection {
   }
 
   /**
-   * Create a new SCIM Connection. /%}
+   * @param params {@link B2BSCIMConnectionGetGroupsRequest}
+   * @param options {@link B2BSCIMConnectionGetGroupsRequestOptions}
+   * @returns {@link B2BSCIMConnectionGetGroupsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getGroups(
+    params: B2BSCIMConnectionGetGroupsRequest,
+    options?: B2BSCIMConnectionGetGroupsRequestOptions
+  ): Promise<B2BSCIMConnectionGetGroupsResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BSCIMConnectionGetGroupsResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/scim/${params.organization_id}/connection/${params.connection_id}`,
+      headers,
+      params: {
+        cursor: params.cursor,
+        limit: params.limit,
+      },
+    });
+  }
+
+  /**
    * @param data {@link B2BSCIMConnectionCreateRequest}
    * @param options {@link B2BSCIMConnectionCreateRequestOptions}
    * @returns {@link B2BSCIMConnectionCreateResponse}
@@ -478,7 +388,6 @@ export class Connection {
   }
 
   /**
-   * Get SCIM Connections. /%}
    * @param params {@link B2BSCIMConnectionGetRequest}
    * @param options {@link B2BSCIMConnectionGetRequestOptions}
    * @returns {@link B2BSCIMConnectionGetResponse}

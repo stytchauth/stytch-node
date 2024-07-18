@@ -1,9 +1,9 @@
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
-import { Name, User } from "./users";
 import { Session } from "./sessions";
 import { Sessions } from "./passwords_session";
+import { User, UsersName } from "./users";
 export interface Argon2Config {
     salt: string;
     iteration_amount: number;
@@ -174,7 +174,7 @@ export interface PasswordsCreateRequest {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
-    name?: Name;
+    name?: UsersName;
 }
 export interface PasswordsCreateResponse {
     /**
@@ -243,7 +243,7 @@ export interface PasswordsMigrateRequest {
      * support@stytch.com.
      */
     set_email_verified?: boolean;
-    name?: Name;
+    name?: UsersName;
 }
 export interface PasswordsMigrateResponse {
     /**

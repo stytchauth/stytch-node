@@ -5,8 +5,11 @@
 // !!!
 
 import * as jose from "jose";
-import {} from "../shared/method_options";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -47,6 +50,15 @@ export interface AuthorizationCheck {
 export interface AuthorizationVerdict {
   authorized: boolean;
   granting_roles: string[];
+}
+
+export interface B2BSessionsRevokeRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
 }
 
 export interface MemberSession {
@@ -562,13 +574,20 @@ export class Sessions {
    * the `member_session_id`, `session_token`, or `session_jwt`. To revoke all Sessions for a Member, pass
    * the `member_id`.
    * @param data {@link B2BSessionsRevokeRequest}
+   * @param options {@link B2BSessionsRevokeRequestOptions}
    * @returns {@link B2BSessionsRevokeResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse> {
+  revoke(
+    data: B2BSessionsRevokeRequest,
+    options?: B2BSessionsRevokeRequestOptions
+  ): Promise<B2BSessionsRevokeResponse> {
     const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
     return request<B2BSessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,

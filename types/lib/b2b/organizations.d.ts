@@ -1,6 +1,7 @@
 import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
+import { SCIMAttributes } from "./scim";
 export interface ActiveSCIMConnection {
     connection_id: string;
     display_name: string;
@@ -123,10 +124,6 @@ export interface Member {
      * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
      */
     updated_at?: string;
-    /**
-     * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
-     * the Member creation.
-     */
     scim_registration?: SCIMRegistration;
 }
 export interface MemberRole {
@@ -359,6 +356,7 @@ export interface Organization {
      *
      */
     allowed_mfa_methods: string[];
+    oauth_tenant_jit_provisioning: string;
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -377,7 +375,7 @@ export interface SCIMRegistration {
     connection_id: string;
     registration_id: string;
     external_id?: string;
-    scim_attributes?: Record<string, any>;
+    scim_attributes?: SCIMAttributes;
 }
 export interface SSORegistration {
     connection_id: string;
@@ -809,6 +807,8 @@ export interface B2BOrganizationsUpdateRequest {
      * Resource.
      */
     allowed_mfa_methods?: string[];
+    oauth_tenant_jit_provisioning?: string;
+    allowed_oauth_tenants?: Record<string, any>;
 }
 export interface B2BOrganizationsUpdateResponse {
     /**

@@ -11,11 +11,10 @@ import {
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 import { request } from "../shared";
+import { SCIMAttributes } from "./scim";
 
 export interface ActiveSCIMConnection {
-  // The ID of the SCIM connection.
   connection_id: string;
-  // A human-readable display name for the connection.
   display_name: string;
   bearer_token_last_four: string;
   bearer_token_expires_at?: string;
@@ -155,10 +154,6 @@ export interface Member {
    * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
    */
   updated_at?: string;
-  /**
-   * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
-   * the Member creation.
-   */
   scim_registration?: SCIMRegistration;
 }
 
@@ -398,6 +393,7 @@ export interface Organization {
    *
    */
   allowed_mfa_methods: string[];
+  oauth_tenant_jit_provisioning: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -412,19 +408,14 @@ export interface Organization {
   updated_at?: string;
   // The default connection used for SSO when there are multiple active connections.
   sso_default_connection_id?: string;
-  // An active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
   scim_active_connection?: ActiveSCIMConnection;
 }
 
 export interface SCIMRegistration {
-  // The ID of the SCIM connection.
   connection_id: string;
-  // The unique ID of a SCIM Registration.
   registration_id: string;
-  // The ID of the member given by the identity provider.
   external_id?: string;
-  // An object for storing SCIM attributes brought over from the identity provider.
-  scim_attributes?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  scim_attributes?: SCIMAttributes;
 }
 
 export interface SSORegistration {
@@ -889,6 +880,8 @@ export interface B2BOrganizationsUpdateRequest {
    * Resource.
    */
   allowed_mfa_methods?: string[];
+  oauth_tenant_jit_provisioning?: string;
+  allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `organizations.update`.
@@ -1102,6 +1095,8 @@ export class Organizations {
           data.rbac_email_implicit_role_assignments,
         mfa_methods: data.mfa_methods,
         allowed_mfa_methods: data.allowed_mfa_methods,
+        oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
+        allowed_oauth_tenants: data.allowed_oauth_tenants,
       },
     });
   }

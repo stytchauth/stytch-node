@@ -8,10 +8,10 @@ import {} from "../shared/method_options";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
-import { Name, User } from "./users";
 import { request } from "../shared";
 import { Session } from "./sessions";
 import { Sessions } from "./passwords_session";
+import { User, UsersName } from "./users";
 
 export interface Argon2Config {
   // The salt value.
@@ -224,7 +224,7 @@ export interface PasswordsCreateRequest {
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
 }
 
 // Response type for `passwords.create`.
@@ -317,7 +317,7 @@ export interface PasswordsMigrateRequest {
    */
   set_email_verified?: boolean;
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
 }
 
 // Response type for `passwords.migrate`.

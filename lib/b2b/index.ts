@@ -25,6 +25,49 @@ export type {
 export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {
+  Address,
+  B2BSCIMEmail,
+  EnterpriseExtension,
+  Group,
+  Manager,
+  B2BSCIMName,
+  B2BSCIMPhoneNumber,
+  SCIMAttributes,
+  SCIMConnection,
+  SCIMConnectionWithNextToken,
+  SCIMConnectionWithToken,
+  SCIMGroup,
+  SCIMGroupImplicitRoleAssignments,
+} from "./scim";
+
+export type {
+  B2BSCIMConnectionCreateRequest,
+  B2BSCIMConnectionCreateResponse,
+  B2BSCIMConnectionDeleteRequest,
+  B2BSCIMConnectionDeleteResponse,
+  B2BSCIMConnectionGetGroupsRequest,
+  B2BSCIMConnectionGetGroupsResponse,
+  B2BSCIMConnectionGetRequest,
+  B2BSCIMConnectionGetResponse,
+  B2BSCIMConnectionRotateCancelRequest,
+  B2BSCIMConnectionRotateCancelResponse,
+  B2BSCIMConnectionRotateCompleteRequest,
+  B2BSCIMConnectionRotateCompleteResponse,
+  B2BSCIMConnectionRotateStartRequest,
+  B2BSCIMConnectionRotateStartResponse,
+  B2BSCIMConnectionUpdateRequest,
+  B2BSCIMConnectionUpdateResponse,
+  B2BSCIMConnectionUpdateRequestOptions,
+  B2BSCIMConnectionDeleteRequestOptions,
+  B2BSCIMConnectionRotateStartRequestOptions,
+  B2BSCIMConnectionRotateCompleteRequestOptions,
+  B2BSCIMConnectionRotateCancelRequestOptions,
+  B2BSCIMConnectionGetGroupsRequestOptions,
+  B2BSCIMConnectionCreateRequestOptions,
+  B2BSCIMConnectionGetRequestOptions,
+} from "./scim_connection";
+
+export type {
   ActiveSCIMConnection,
   ActiveSSOConnection,
   EmailImplicitRoleAssignment,
@@ -106,6 +149,7 @@ export type {
   B2BSessionsMigrateResponse,
   B2BSessionsRevokeRequest,
   B2BSessionsRevokeResponse,
+  B2BSessionsRevokeRequestOptions,
 } from "./sessions";
 
 export type {
@@ -116,37 +160,6 @@ export type {
   B2BRecoveryCodesRotateRequest,
   B2BRecoveryCodesRotateResponse,
 } from "./recovery_codes";
-
-export type {
-  SCIMConnection,
-  SCIMConnectionWithNextToken,
-  SCIMConnectionWithToken,
-  SCIMGroupImplicitRoleAssignments,
-} from "./scim";
-
-export type {
-  B2BSCIMConnectionCreateRequest,
-  B2BSCIMConnectionCreateResponse,
-  B2BSCIMConnectionDeleteRequest,
-  B2BSCIMConnectionDeleteResponse,
-  B2BSCIMConnectionGetRequest,
-  B2BSCIMConnectionGetResponse,
-  B2BSCIMConnectionRotateCancelRequest,
-  B2BSCIMConnectionRotateCancelResponse,
-  B2BSCIMConnectionRotateCompleteRequest,
-  B2BSCIMConnectionRotateCompleteResponse,
-  B2BSCIMConnectionRotateStartRequest,
-  B2BSCIMConnectionRotateStartResponse,
-  B2BSCIMConnectionUpdateRequest,
-  B2BSCIMConnectionUpdateResponse,
-  B2BSCIMConnectionUpdateRequestOptions,
-  B2BSCIMConnectionDeleteRequestOptions,
-  B2BSCIMConnectionRotateStartRequestOptions,
-  B2BSCIMConnectionRotateCompleteRequestOptions,
-  B2BSCIMConnectionRotateCancelRequestOptions,
-  B2BSCIMConnectionCreateRequestOptions,
-  B2BSCIMConnectionGetRequestOptions,
-} from "./scim_connection";
 
 export type {
   B2BTOTPsAuthenticateRequest,
