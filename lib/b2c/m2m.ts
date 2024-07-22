@@ -262,7 +262,10 @@ export class M2M {
       this.jwksClient,
       this.jwtOptions,
       data.access_token,
-      { max_token_age_seconds: data.max_token_age_seconds, clock_tolerance_seconds: data.clock_tolerance_seconds }
+      {
+        max_token_age_seconds: data.max_token_age_seconds,
+        clock_tolerance_seconds: data.clock_tolerance_seconds,
+      }
     );
     const scopes = scope.split(" ");
 
