@@ -82,6 +82,7 @@ export interface AuthenticateTokenRequest {
     access_token: string;
     required_scopes?: string[];
     max_token_age_seconds?: number;
+    clock_tolerance_seconds?: number;
 }
 export interface AuthenticateTokenResponse {
     client_id: string;

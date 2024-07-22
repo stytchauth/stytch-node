@@ -116,7 +116,8 @@ class M2M {
       scope,
       custom_claims
     } = await (0, _sessions.authenticateM2MJwtLocal)(this.jwksClient, this.jwtOptions, data.access_token, {
-      max_token_age_seconds: data.max_token_age_seconds
+      max_token_age_seconds: data.max_token_age_seconds,
+      clock_tolerance_seconds: data.clock_tolerance_seconds
     });
     const scopes = scope.split(" ");
     if (data.required_scopes && data.required_scopes.length > 0) {

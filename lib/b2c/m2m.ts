@@ -131,6 +131,7 @@ export interface AuthenticateTokenRequest {
   access_token: string;
   required_scopes?: string[];
   max_token_age_seconds?: number;
+  clock_tolerance_seconds?: number;
 }
 
 export interface AuthenticateTokenResponse {
@@ -261,7 +262,10 @@ export class M2M {
       this.jwksClient,
       this.jwtOptions,
       data.access_token,
-      { max_token_age_seconds: data.max_token_age_seconds }
+      {
+        max_token_age_seconds: data.max_token_age_seconds,
+        clock_tolerance_seconds: data.clock_tolerance_seconds,
+      }
     );
     const scopes = scope.split(" ");
 
