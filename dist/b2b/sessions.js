@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Sessions = void 0;
-require("../shared/method_options");
+var _method_options = require("../shared/method_options");
 var _shared = require("../shared");
 var _sessions = require("../shared/sessions");
 var _rbac_local = require("./rbac_local");
@@ -121,13 +121,17 @@ class Sessions {
    * the `member_session_id`, `session_token`, or `session_jwt`. To revoke all Sessions for a Member, pass
    * the `member_id`.
    * @param data {@link B2BSessionsRevokeRequest}
+   * @param options {@link B2BSessionsRevokeRequestOptions}
    * @returns {@link B2BSessionsRevokeResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  revoke(data) {
+  revoke(data, options) {
     const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/revoke`,
