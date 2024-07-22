@@ -1,4 +1,5 @@
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -33,6 +34,14 @@ export interface AuthorizationCheck {
 export interface AuthorizationVerdict {
     authorized: boolean;
     granting_roles: string[];
+}
+export interface B2BSessionsRevokeRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
 }
 export interface MemberSession {
     member_session_id: string;
@@ -442,12 +451,13 @@ export declare class Sessions {
      * the `member_session_id`, `session_token`, or `session_jwt`. To revoke all Sessions for a Member, pass
      * the `member_id`.
      * @param data {@link B2BSessionsRevokeRequest}
+     * @param options {@link B2BSessionsRevokeRequestOptions}
      * @returns {@link B2BSessionsRevokeResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    revoke(data: B2BSessionsRevokeRequest): Promise<B2BSessionsRevokeResponse>;
+    revoke(data: B2BSessionsRevokeRequest, options?: B2BSessionsRevokeRequestOptions): Promise<B2BSessionsRevokeResponse>;
     /**
      * Use this endpoint to exchange a Member's existing session for another session in a different
      * Organization. This can be used to accept an invite, but not to create a new member via domain matching.
