@@ -127,9 +127,7 @@ class Organizations {
         mfa_policy: data.mfa_policy,
         rbac_email_implicit_role_assignments: data.rbac_email_implicit_role_assignments,
         mfa_methods: data.mfa_methods,
-        allowed_mfa_methods: data.allowed_mfa_methods,
-        oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
-        allowed_oauth_tenants: data.allowed_oauth_tenants
+        allowed_mfa_methods: data.allowed_mfa_methods
       }
     });
   }

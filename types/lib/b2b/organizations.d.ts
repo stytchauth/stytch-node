@@ -360,7 +360,6 @@ export interface Organization {
      *
      */
     allowed_mfa_methods: string[];
-    oauth_tenant_jit_provisioning: string;
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -811,8 +810,6 @@ export interface B2BOrganizationsUpdateRequest {
      * Resource.
      */
     allowed_mfa_methods?: string[];
-    oauth_tenant_jit_provisioning?: string;
-    allowed_oauth_tenants?: Record<string, any>;
 }
 export interface B2BOrganizationsUpdateResponse {
     /**

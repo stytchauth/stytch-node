@@ -399,7 +399,6 @@ export interface Organization {
    *
    */
   allowed_mfa_methods: string[];
-  oauth_tenant_jit_provisioning: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -891,8 +890,6 @@ export interface B2BOrganizationsUpdateRequest {
    * Resource.
    */
   allowed_mfa_methods?: string[];
-  oauth_tenant_jit_provisioning?: string;
-  allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `organizations.update`.
@@ -1088,8 +1085,6 @@ export class Organizations {
           data.rbac_email_implicit_role_assignments,
         mfa_methods: data.mfa_methods,
         allowed_mfa_methods: data.allowed_mfa_methods,
-        oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
-        allowed_oauth_tenants: data.allowed_oauth_tenants,
       },
     });
   }
