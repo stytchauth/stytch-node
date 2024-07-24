@@ -185,7 +185,7 @@ export declare class SAML {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Create a new SAML Connection. /%}
+     * Create a new SAML Connection.
      * @param data {@link B2BSSOSAMLCreateConnectionRequest}
      * @param options {@link B2BSSOSAMLCreateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLCreateConnectionResponse}
@@ -202,7 +202,6 @@ export declare class SAML {
      * * `attribute_mapping`
      * * `idp_entity_id`
      * * `x509_certificate`
-     *  /%}
      * @param data {@link B2BSSOSAMLUpdateConnectionRequest}
      * @param options {@link B2BSSOSAMLUpdateConnectionRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateConnectionResponse}
@@ -219,7 +218,6 @@ export declare class SAML {
      * * `idp_entity_id`
      * * `x509_certificate`
      * * `attribute_mapping` (must be supplied using [Update SAML Connection](update-saml-connection))
-     *  /%}
      * @param data {@link B2BSSOSAMLUpdateByURLRequest}
      * @param options {@link B2BSSOSAMLUpdateByURLRequestOptions}
      * @returns {@link B2BSSOSAMLUpdateByURLResponse}
@@ -233,7 +231,6 @@ export declare class SAML {
      *
      * You may need to do this when rotating certificates from your IdP, since Stytch allows a maximum of 5
      * certificates per connection. There must always be at least one certificate per active connection.
-     *  /%}
      * @param data {@link B2BSSOSAMLDeleteVerificationCertificateRequest}
      * @param options {@link B2BSSOSAMLDeleteVerificationCertificateRequestOptions}
      * @returns {@link B2BSSOSAMLDeleteVerificationCertificateResponse}

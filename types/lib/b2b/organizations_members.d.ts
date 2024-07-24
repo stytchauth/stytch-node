@@ -525,7 +525,6 @@ export declare class Members {
     constructor(fetchConfig: fetchConfig);
     /**
      * Updates a Member specified by `organization_id` and `member_id`.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersUpdateRequest}
      * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
      * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -535,7 +534,7 @@ export declare class Members {
      */
     update(data: B2BOrganizationsMembersUpdateRequest, options?: B2BOrganizationsMembersUpdateRequestOptions): Promise<B2BOrganizationsMembersUpdateResponse>;
     /**
-     * Deletes a Member specified by `organization_id` and `member_id`. /%}
+     * Deletes a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersDeleteRequest}
      * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -546,7 +545,7 @@ export declare class Members {
     delete(data: B2BOrganizationsMembersDeleteRequest, options?: B2BOrganizationsMembersDeleteRequestOptions): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
      * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
-     * specified by `organization_id` and `member_id`. /%}
+     * specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersReactivateRequest}
      * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
      * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -566,7 +565,6 @@ export declare class Members {
      * Member to enter a new phone number
      * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
      * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
      * @param options {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
@@ -583,7 +581,6 @@ export declare class Members {
      *
      * Existing Member Sessions that include the TOTP authentication factor will not be revoked if the
      * registration is deleted, and MFA will not be enforced until the Member logs in again.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
      * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
@@ -597,7 +594,6 @@ export declare class Members {
      * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
      *
      * *All fuzzy search filters require a minimum of three characters.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersSearchRequest}
      * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
      * @returns {@link B2BOrganizationsMembersSearchResponse}
@@ -607,7 +603,7 @@ export declare class Members {
      */
     search(data: B2BOrganizationsMembersSearchRequest, options?: B2BOrganizationsMembersSearchRequestOptions): Promise<B2BOrganizationsMembersSearchResponse>;
     /**
-     * Delete a Member's password. /%}
+     * Delete a Member's password.
      * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
      * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -657,7 +653,7 @@ export declare class Members {
      */
     unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
     /**
-     * Creates a Member. An `organization_id` and `email_address` are required. /%}
+     * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}
      * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
      * @returns {@link B2BOrganizationsMembersCreateResponse}

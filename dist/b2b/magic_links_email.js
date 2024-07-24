@@ -55,7 +55,6 @@ class Email {
    * their status to `invited`. Sending invites to already `active` Members will return an error.
    *
    * The magic link invite will be valid for 1 week.
-   *  /%}
    * @param data {@link B2BMagicLinksEmailInviteRequest}
    * @param options {@link B2BMagicLinksEmailInviteRequestOptions}
    * @returns {@link B2BMagicLinksEmailInviteResponse}

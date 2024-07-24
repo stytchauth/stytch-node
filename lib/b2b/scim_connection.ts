@@ -364,7 +364,7 @@ export class Connection {
   }
 
   /**
-   * Update a SCIM Connection. /%}
+   * Update a SCIM Connection.
    * @param data {@link B2BSCIMConnectionUpdateRequest}
    * @param options {@link B2BSCIMConnectionUpdateRequestOptions}
    * @returns {@link B2BSCIMConnectionUpdateResponse}
@@ -394,7 +394,7 @@ export class Connection {
   }
 
   /**
-   * Deletes a SCIM Connection. /%}
+   * Deletes a SCIM Connection.
    * @param data {@link B2BSCIMConnectionDeleteRequest}
    * @param options {@link B2BSCIMConnectionDeleteRequestOptions}
    * @returns {@link B2BSCIMConnectionDeleteResponse}
@@ -419,7 +419,7 @@ export class Connection {
   }
 
   /**
-   * Start a SCIM token rotation. /%}
+   * Start a SCIM token rotation.
    * @param data {@link B2BSCIMConnectionRotateStartRequest}
    * @param options {@link B2BSCIMConnectionRotateStartRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateStartResponse}
@@ -446,7 +446,7 @@ export class Connection {
   /**
    * Completes a SCIM token rotation. This will complete the current token rotation process and update the
    * active token to be the new token supplied in the
-   * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response. /%}
+   * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response.
    * @param data {@link B2BSCIMConnectionRotateCompleteRequest}
    * @param options {@link B2BSCIMConnectionRotateCompleteRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateCompleteResponse}
@@ -472,7 +472,7 @@ export class Connection {
 
   /**
    * Cancel a SCIM token rotation. This will cancel the current token rotation process, keeping the original
-   * token active. /%}
+   * token active.
    * @param data {@link B2BSCIMConnectionRotateCancelRequest}
    * @param options {@link B2BSCIMConnectionRotateCancelRequestOptions}
    * @returns {@link B2BSCIMConnectionRotateCancelResponse}
@@ -525,7 +525,7 @@ export class Connection {
   }
 
   /**
-   * Create a new SCIM Connection. /%}
+   * Create a new SCIM Connection.
    * @param data {@link B2BSCIMConnectionCreateRequest}
    * @param options {@link B2BSCIMConnectionCreateRequestOptions}
    * @returns {@link B2BSCIMConnectionCreateResponse}
@@ -553,7 +553,7 @@ export class Connection {
   }
 
   /**
-   * Get SCIM Connections. /%}
+   * Get SCIM Connections.
    * @param params {@link B2BSCIMConnectionGetRequest}
    * @param options {@link B2BSCIMConnectionGetRequestOptions}
    * @returns {@link B2BSCIMConnectionGetResponse}

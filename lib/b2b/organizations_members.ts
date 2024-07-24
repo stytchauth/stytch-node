@@ -632,7 +632,6 @@ export class Members {
 
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
-   *  /%}
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
    * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -668,7 +667,7 @@ export class Members {
   }
 
   /**
-   * Deletes a Member specified by `organization_id` and `member_id`. /%}
+   * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
    * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -694,7 +693,7 @@ export class Members {
 
   /**
    * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
-   * specified by `organization_id` and `member_id`. /%}
+   * specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -732,7 +731,6 @@ export class Members {
    * Member to enter a new phone number
    * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
    * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
-   *  /%}
    * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
    * @param options {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
@@ -767,7 +765,6 @@ export class Members {
    *
    * Existing Member Sessions that include the TOTP authentication factor will not be revoked if the
    * registration is deleted, and MFA will not be enforced until the Member logs in again.
-   *  /%}
    * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
    * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
@@ -799,7 +796,6 @@ export class Members {
    * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
-   *  /%}
    * @param data {@link B2BOrganizationsMembersSearchRequest}
    * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
@@ -824,7 +820,7 @@ export class Members {
   }
 
   /**
-   * Delete a Member's password. /%}
+   * Delete a Member's password.
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
    * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -924,7 +920,7 @@ export class Members {
   }
 
   /**
-   * Creates a Member. An `organization_id` and `email_address` are required. /%}
+   * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
    * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
    * @returns {@link B2BOrganizationsMembersCreateResponse}

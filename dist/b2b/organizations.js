@@ -94,7 +94,6 @@ class Organizations {
    * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
-   *  /%}
    * @param data {@link B2BOrganizationsUpdateRequest}
    * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
@@ -134,7 +133,7 @@ class Organizations {
 
   /**
    * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
-   * deleted. /%}
+   * deleted.
    * @param data {@link B2BOrganizationsDeleteRequest}
    * @param options {@link B2BOrganizationsDeleteRequestOptions}
    * @returns {@link B2BOrganizationsDeleteResponse}
