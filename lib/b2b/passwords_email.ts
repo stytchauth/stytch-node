@@ -15,7 +15,10 @@ import { request } from "../shared";
 export interface B2BPasswordsEmailResetRequest {
   // The password reset token to authenticate.
   password_reset_token: string;
-  // The password to reset.
+  /**
+   * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
+   * spaces, emojis, non-English characers, etc.
+   */
   password: string;
   /**
    * Reuse an existing session instead of creating a new one. If you provide a `session_token`, Stytch will
@@ -267,6 +270,8 @@ export class Email {
    *
    * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
    * MFA step.
+   *
+   * Note that a successful password reset by email will revoke all active sessions for the `member_id`.
    * @param data {@link B2BPasswordsEmailResetRequest}
    * @returns {@link B2BPasswordsEmailResetResponse}
    * @async

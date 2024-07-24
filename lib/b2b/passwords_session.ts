@@ -18,7 +18,10 @@ export interface B2BPasswordsSessionResetRequest {
    * perform operations on an Organization, so be sure to preserve this value.
    */
   organization_id: string;
-  // The password to authenticate.
+  /**
+   * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
+   * spaces, emojis, non-English characers, etc.
+   */
   password: string;
   // A secret token for a given Stytch Session.
   session_token?: string;
@@ -122,6 +125,9 @@ export class Sessions {
    * Reset the Member's password using their existing session. The endpoint will error if the session does
    * not contain an authentication factor that has been issued within the last 5 minutes. Either
    * `session_token` or `session_jwt` should be provided.
+   *
+   * Note that a successful password reset via an existing session will revoke all active sessions for the
+   * `member_id`, except for the one used during the reset flow.
    * @param data {@link B2BPasswordsSessionResetRequest}
    * @returns {@link B2BPasswordsSessionResetResponse}
    * @async

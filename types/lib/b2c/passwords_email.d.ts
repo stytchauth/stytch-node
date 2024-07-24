@@ -13,6 +13,10 @@ export interface PasswordsEmailResetRequest {
      * [here](https://stytch.com/docs/guides/dashboard/redirect-urls).
      */
     token: string;
+    /**
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * etc.
+     */
     password: string;
     session_token?: string;
     /**

@@ -7,8 +7,8 @@
 import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
-import { Name } from "./users";
 import { request } from "../shared";
+import { UsersName } from "./users";
 
 // Request type for `magicLinks.email.invite`.
 export interface MagicLinksEmailInviteRequest {
@@ -23,7 +23,7 @@ export interface MagicLinksEmailInviteRequest {
   // Provided attributes help with fraud detection.
   attributes?: Attributes;
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
   /**
    * The URL the end user clicks from the Email Magic Link. This should be a URL that your app receives and
    * parses and subsequently sends an API request to authenticate the Magic Link and log in the User. If this

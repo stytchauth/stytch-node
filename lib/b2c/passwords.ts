@@ -8,10 +8,10 @@ import {} from "../shared/method_options";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
-import { Name, User } from "./users";
 import { request } from "../shared";
 import { Session } from "./sessions";
 import { Sessions } from "./passwords_session";
+import { User, UsersName } from "./users";
 
 export interface Argon2Config {
   // The salt value.
@@ -98,7 +98,7 @@ export interface ScryptConfig {
   /**
    * The N value, also known as the iterations count. It must be a power of two greater than 1 and less than
    * 262,145.
-   *       If your applicaiton's N parameter is larger than 262,144, please reach out to
+   *       If your application's N parameter is larger than 262,144, please reach out to
    * [support@stytch.com](mailto:support@stytch.com)
    */
   n_parameter: number;
@@ -114,7 +114,10 @@ export interface ScryptConfig {
 export interface PasswordsAuthenticateRequest {
   // The email address of the end user.
   email: string;
-  // The password of the user
+  /**
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * etc.
+   */
   password: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;
@@ -184,7 +187,10 @@ export interface PasswordsAuthenticateResponse {
 export interface PasswordsCreateRequest {
   // The email address of the end user.
   email: string;
-  // The password of the user
+  /**
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * etc.
+   */
   password: string;
   /**
    * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
@@ -224,7 +230,7 @@ export interface PasswordsCreateRequest {
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
 }
 
 // Response type for `passwords.create`.
@@ -317,7 +323,7 @@ export interface PasswordsMigrateRequest {
    */
   set_email_verified?: boolean;
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
 }
 
 // Response type for `passwords.migrate`.
@@ -347,7 +353,10 @@ export interface PasswordsMigrateResponse {
 
 // Request type for `passwords.strengthCheck`.
 export interface PasswordsStrengthCheckRequest {
-  // The password of the user
+  /**
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * etc.
+   */
   password: string;
   // The email address of the end user.
   email?: string;

@@ -116,6 +116,9 @@ export declare class ExistingPassword {
      *
      * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
      * MFA step.
+     *
+     * Note that a successful password reset via an existing password will revoke all active sessions for the
+     * `member_id`.
      * @param data {@link B2BPasswordsExistingPasswordResetRequest}
      * @returns {@link B2BPasswordsExistingPasswordResetResponse}
      * @async

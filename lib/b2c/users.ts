@@ -33,27 +33,6 @@ export interface CryptoWallet {
   verified: boolean;
 }
 
-export interface Email {
-  // The unique ID of a specific email address.
-  email_id: string;
-  // The email address.
-  email: string;
-  /**
-   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
-   * has been successfully authenticated by the User.
-   */
-  verified: boolean;
-}
-
-export interface Name {
-  // The first name of the user.
-  first_name?: string;
-  // The middle name(s) of the user.
-  middle_name?: string;
-  // The last name of the user.
-  last_name?: string;
-}
-
 export interface OAuthProvider {
   /**
    * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Facebook, GitHub
@@ -86,18 +65,6 @@ export interface Password {
   requires_reset: boolean;
 }
 
-export interface PhoneNumber {
-  // The unique ID for the phone number.
-  phone_id: string;
-  // The phone number.
-  phone_number: string;
-  /**
-   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
-   * has been successfully authenticated by the User.
-   */
-  verified: boolean;
-}
-
 export interface SearchUsersQuery {
   /**
    * The action to perform on the operands. The accepted value are:
@@ -128,11 +95,11 @@ export interface User {
   // The unique ID of the affected User.
   user_id: string;
   // An array of email objects for the User.
-  emails: Email[];
+  emails: UsersEmail[];
   // The status of the User. The possible values are `pending` and `active`.
   status: string;
   // An array of phone number objects linked to the User.
-  phone_numbers: PhoneNumber[];
+  phone_numbers: UsersPhoneNumber[];
   /**
    * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
    * API.
@@ -147,7 +114,7 @@ export interface User {
   // An array that contains a list of all biometric registrations for a given User in the Stytch API.
   biometric_registrations: BiometricRegistration[];
   // The name of the User. Each field in the `name` object is optional.
-  name?: Name;
+  name?: UsersName;
   /**
    * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
    * e.g. `2021-12-29T12:33:09Z`.
@@ -167,6 +134,39 @@ export interface User {
    * behavior details.
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface UsersEmail {
+  // The unique ID of a specific email address.
+  email_id: string;
+  // The email address.
+  email: string;
+  /**
+   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+   * has been successfully authenticated by the User.
+   */
+  verified: boolean;
+}
+
+export interface UsersName {
+  // The first name of the user.
+  first_name?: string;
+  // The middle name(s) of the user.
+  middle_name?: string;
+  // The last name of the user.
+  last_name?: string;
+}
+
+export interface UsersPhoneNumber {
+  // The unique ID for the phone number.
+  phone_id: string;
+  // The phone number.
+  phone_number: string;
+  /**
+   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+   * has been successfully authenticated by the User.
+   */
+  verified: boolean;
 }
 
 export interface UsersResultsMetadata {
@@ -206,7 +206,7 @@ export interface UsersCreateRequest {
   // The email address of the end user.
   email?: string;
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
   // Provided attributes help with fraud detection.
   attributes?: Attributes;
   /**
@@ -550,11 +550,11 @@ export interface UsersGetResponse {
   // The unique ID of the returned User.
   user_id: string;
   // An array of email objects for the User.
-  emails: Email[];
+  emails: UsersEmail[];
   // The status of the User. The possible values are `pending` and `active`.
   status: string;
   // An array of phone number objects linked to the User.
-  phone_numbers: PhoneNumber[];
+  phone_numbers: UsersPhoneNumber[];
   /**
    * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
    * API.
@@ -574,7 +574,7 @@ export interface UsersGetResponse {
    */
   status_code: number;
   // The name of the User. Each field in the `name` object is optional.
-  name?: Name;
+  name?: UsersName;
   /**
    * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
    * e.g. `2021-12-29T12:33:09Z`.
@@ -646,7 +646,7 @@ export interface UsersUpdateRequest {
   // The unique ID of a specific User.
   user_id: string;
   // The name of the user. Each field in the name object is optional.
-  name?: Name;
+  name?: UsersName;
   // Provided attributes help with fraud detection.
   attributes?: Attributes;
   /**
@@ -673,9 +673,9 @@ export interface UsersUpdateResponse {
   // The unique ID of the updated User.
   user_id: string;
   // An array of email objects for the User.
-  emails: Email[];
+  emails: UsersEmail[];
   // An array of phone number objects linked to the User.
-  phone_numbers: PhoneNumber[];
+  phone_numbers: UsersPhoneNumber[];
   // An array contains a list of all crypto wallets for a given User in the Stytch API.
   crypto_wallets: CryptoWallet[];
   /**

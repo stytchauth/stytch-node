@@ -195,6 +195,8 @@ export class Email {
    * Send either a login or signup magic link to a Member. A new, pending, or invited Member will receive a
    * signup Email Magic Link. Members will have a `pending` status until they successfully authenticate. An
    * active Member will receive a login Email Magic Link.
+   *
+   * The magic link is valid for 60 minutes.
    * @param data {@link B2BMagicLinksEmailLoginOrSignupRequest}
    * @returns {@link B2BMagicLinksEmailLoginOrSignupResponse}
    * @async
@@ -216,7 +218,10 @@ export class Email {
   /**
    * Send an invite email to a new Member to join an Organization. The Member will be created with an
    * `invited` status until they successfully authenticate. Sending invites to `pending` Members will update
-   * their status to `invited`. Sending invites to already `active` Members will return an error. /%}
+   * their status to `invited`. Sending invites to already `active` Members will return an error.
+   *
+   * The magic link invite will be valid for 1 week.
+   *  /%}
    * @param data {@link B2BMagicLinksEmailInviteRequest}
    * @param options {@link B2BMagicLinksEmailInviteRequestOptions}
    * @returns {@link B2BMagicLinksEmailInviteResponse}

@@ -14,6 +14,7 @@ import {
   SCIMConnection,
   SCIMConnectionWithNextToken,
   SCIMConnectionWithToken,
+  SCIMGroup,
   SCIMGroupImplicitRoleAssignments,
 } from "./scim";
 
@@ -27,6 +28,15 @@ export interface B2BSCIMConnectionCreateRequestOptions {
 }
 
 export interface B2BSCIMConnectionDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BSCIMConnectionGetGroupsRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -146,6 +156,43 @@ export interface B2BSCIMConnectionDeleteResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+}
+
+// Request type for `scim.connection.getGroups`.
+export interface B2BSCIMConnectionGetGroupsRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
+  organization_id: string;
+  // The ID of the SCIM connection.
+  connection_id: string;
+  /**
+   * The `cursor` field allows you to paginate through your results. Each result array is limited to 1000
+   * results. If your query returns more than 1000 results, you will need to paginate the responses using the
+   * `cursor`. If you receive a response that includes a non-null `next_cursor` in the `results_metadata`
+   * object, repeat the search call with the `next_cursor` value set to the `cursor` field to retrieve the
+   * next page of results. Continue to make search calls until the `next_cursor` in the response is null.
+   */
+  cursor?: string;
+  /**
+   * The number of search results to return per page. The default limit is 100. A maximum of 1000 results can
+   * be returned by a single search request. If the total size of your result set is greater than one page
+   * size, you must paginate the response. See the `cursor` field.
+   */
+  limit?: number;
+}
+
+// Response type for `scim.connection.getGroups`.
+export interface B2BSCIMConnectionGetGroupsResponse {
+  // A list of SCIM Connection Groups belonging to the connection.
+  scim_groups: SCIMGroup[];
+  status_code: number;
+  /**
+   * The `next_cursor` string is returned when your search result contains more than one page of results.
+   * This value is passed into your next search call in the `cursor` field.
+   */
+  next_cursor?: string;
 }
 
 // Request type for `scim.connection.get`.
@@ -446,6 +493,34 @@ export class Connection {
       url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
       headers,
       data: {},
+    });
+  }
+
+  /**
+   * Gets a paginated list of all SCIM Groups associated with a given Connection.
+   * @param params {@link B2BSCIMConnectionGetGroupsRequest}
+   * @param options {@link B2BSCIMConnectionGetGroupsRequestOptions}
+   * @returns {@link B2BSCIMConnectionGetGroupsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getGroups(
+    params: B2BSCIMConnectionGetGroupsRequest,
+    options?: B2BSCIMConnectionGetGroupsRequestOptions
+  ): Promise<B2BSCIMConnectionGetGroupsResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BSCIMConnectionGetGroupsResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/scim/${params.organization_id}/connection/${params.connection_id}`,
+      headers,
+      params: {
+        cursor: params.cursor,
+        limit: params.limit,
+      },
     });
   }
 

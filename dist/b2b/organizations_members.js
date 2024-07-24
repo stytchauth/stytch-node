@@ -47,6 +47,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.search`.
 
+// Request type for `organizations.members.unlinkRetiredEmail`.
+
+// Response type for `organizations.members.unlinkRetiredEmail`.
+
 // Request type for `organizations.members.update`.
 
 // Response type for `organizations.members.update`.
@@ -59,25 +63,7 @@ class Members {
 
   /**
    * Updates a Member specified by `organization_id` and `member_id`.
-   *
-   * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
-   * pass in
-   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
-   * that the
-   * Member Session has the necessary permissions. The specific permissions needed depend on which of the
-   * optional fields
-   * are passed in the request. For example, if the `organization_name` argument is provided, the Member
-   * Session must have
-   * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
-   *
-   * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
-   * Member's Organization
-   * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
-   * request will
-   * proceed as normal.
-   *
-   * To learn more about our RBAC implementation, see our
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
+   *  /%}
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
    * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -220,26 +206,7 @@ class Members {
    * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
    *
    * *All fuzzy search filters require a minimum of three characters.
-   *
-   * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
-   * pass in
-   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
-   * that the
-   * Member Session has permission to perform the `search` action on the `stytch.member` Resource. In
-   * addition, enforcing
-   * RBAC on this endpoint means that you may only search for Members within the calling Member's
-   * Organization, so the
-   * `organization_ids` argument may only contain the `organization_id` of the Member Session passed in the
-   * header.
-   *
-   * If the Member Session does not contain a Role that satisfies the requested permission, or if the
-   * `organization_ids`
-   * argument contains an `organization_id` that the Member Session does not belong to, a 403 error will be
-   * thrown.
-   * Otherwise, the request will proceed as normal.
-   *
-   * To learn more about our RBAC implementation, see our
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
+   *  /%}
    * @param data {@link B2BOrganizationsMembersSearchRequest}
    * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
    * @returns {@link B2BOrganizationsMembersSearchResponse}
@@ -300,6 +267,49 @@ class Members {
       url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
       headers,
       params: {}
+    });
+  }
+
+  /**
+   * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+   * email address
+   * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
+   * both. If using
+   * both identifiers they must refer to the same email.
+   *
+   * A previously active email address can be marked as retired in one of two ways:
+   *
+   * - It's replaced with a new primary email address during an explicit Member update.
+   * - A new email address is surfaced by an OAuth, SAML or OIDC provider. In this case the new email address
+   * becomes the
+   *   Member's primary email address and the old primary email address is retired.
+   *
+   * A retired email address cannot be used by other Members in the same Organization. However, unlinking
+   * retired email
+   * addresses allows then to be subsequently re-used by other Organization Members. Retired email addresses
+   * can be viewed
+   * on the [Member object](https://stytch.com/docs/b2b/api/member-object).
+   *  %}
+   * @param data {@link B2BOrganizationsMembersUnlinkRetiredEmailRequest}
+   * @param options {@link B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions}
+   * @returns {@link B2BOrganizationsMembersUnlinkRetiredEmailResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  unlinkRetiredEmail(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/unlink_retired_email`,
+      headers,
+      data: {
+        email_id: data.email_id,
+        email_address: data.email_address
+      }
     });
   }
 

@@ -11,6 +11,7 @@ import {
 import { fetchConfig } from "../shared";
 import { Members } from "./organizations_members";
 import { request } from "../shared";
+import { SCIMAttributes } from "./scim";
 
 export interface ActiveSCIMConnection {
   // The ID of the SCIM connection.
@@ -398,6 +399,7 @@ export interface Organization {
    *
    */
   allowed_mfa_methods: string[];
+  oauth_tenant_jit_provisioning: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -424,7 +426,7 @@ export interface SCIMRegistration {
   // The ID of the member given by the identity provider.
   external_id?: string;
   // An object for storing SCIM attributes brought over from the identity provider.
-  scim_attributes?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  scim_attributes?: SCIMAttributes;
 }
 
 export interface SSORegistration {
@@ -889,6 +891,8 @@ export interface B2BOrganizationsUpdateRequest {
    * Resource.
    */
   allowed_mfa_methods?: string[];
+  oauth_tenant_jit_provisioning?: string;
+  allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `organizations.update`.
@@ -1045,25 +1049,7 @@ export class Organizations {
    * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
    * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
    * `sso_jit_provisioning`, etc., and their behaviors.
-   *
-   * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
-   * pass in
-   * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
-   * that the
-   * Member Session has the necessary permissions. The specific permissions needed depend on which of the
-   * optional fields
-   * are passed in the request. For example, if the `organization_name` argument is provided, the Member
-   * Session must have
-   * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
-   *
-   * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
-   * Member's Organization
-   * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
-   * request will
-   * proceed as normal.
-   *
-   * To learn more about our RBAC implementation, see our
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
+   *  /%}
    * @param data {@link B2BOrganizationsUpdateRequest}
    * @param options {@link B2BOrganizationsUpdateRequestOptions}
    * @returns {@link B2BOrganizationsUpdateResponse}
@@ -1102,6 +1088,8 @@ export class Organizations {
           data.rbac_email_implicit_role_assignments,
         mfa_methods: data.mfa_methods,
         allowed_mfa_methods: data.allowed_mfa_methods,
+        oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
+        allowed_oauth_tenants: data.allowed_oauth_tenants,
       },
     });
   }

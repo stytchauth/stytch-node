@@ -20,6 +20,10 @@ var _shared = require("../shared");
 
 // Response type for `scim.connection.delete`.
 
+// Request type for `scim.connection.getGroups`.
+
+// Response type for `scim.connection.getGroups`.
+
 // Request type for `scim.connection.get`.
 
 // Response type for `scim.connection.get`.
@@ -159,6 +163,31 @@ class Connection {
       url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
       headers,
       data: {}
+    });
+  }
+
+  /**
+   * Gets a paginated list of all SCIM Groups associated with a given Connection.
+   * @param params {@link B2BSCIMConnectionGetGroupsRequest}
+   * @param options {@link B2BSCIMConnectionGetGroupsRequestOptions}
+   * @returns {@link B2BSCIMConnectionGetGroupsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getGroups(params, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/scim/${params.organization_id}/connection/${params.connection_id}`,
+      headers,
+      params: {
+        cursor: params.cursor,
+        limit: params.limit
+      }
     });
   }
 

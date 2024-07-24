@@ -78,6 +78,8 @@ class Passwords {
    * Adds an existing password to a member's email that doesn't have a password yet. We support migrating
    * members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2. This endpoint has a
    * rate limit of 100 requests per second.
+   *
+   * The member's email will be marked as verified when you use this endpoint.
    * @param data {@link B2BPasswordsMigrateRequest}
    * @returns {@link B2BPasswordsMigrateResponse}
    * @async

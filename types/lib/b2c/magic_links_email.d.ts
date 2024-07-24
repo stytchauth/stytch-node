@@ -1,6 +1,6 @@
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
-import { Name } from "./users";
+import { UsersName } from "./users";
 export interface MagicLinksEmailInviteRequest {
     email: string;
     /**
@@ -10,7 +10,7 @@ export interface MagicLinksEmailInviteRequest {
      */
     invite_template_id?: string;
     attributes?: Attributes;
-    name?: Name;
+    name?: UsersName;
     /**
      * The URL the end user clicks from the Email Magic Link. This should be a URL that your app receives and
      * parses and subsequently sends an API request to authenticate the Magic Link and log in the User. If this
