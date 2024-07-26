@@ -507,22 +507,6 @@ export interface SessionsGetResponse {
   status_code: number;
 }
 
-export interface SessionsMigrateRequest {
-  session_token: string;
-  session_duration_minutes?: number;
-  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-export interface SessionsMigrateResponse {
-  request_id: string;
-  user_id: string;
-  session_token: string;
-  session_jwt: string;
-  user: User;
-  status_code: number;
-  session?: Session;
-}
-
 // Request type for `sessions.revoke`.
 export interface SessionsRevokeRequest {
   // The `session_id` to revoke.
@@ -672,23 +656,6 @@ export class Sessions {
     return request<SessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/revoke`,
-      headers,
-      data,
-    });
-  }
-
-  /**
-   * @param data {@link SessionsMigrateRequest}
-   * @returns {@link SessionsMigrateResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
-  migrate(data: SessionsMigrateRequest): Promise<SessionsMigrateResponse> {
-    const headers: Record<string, string> = {};
-    return request<SessionsMigrateResponse>(this.fetchConfig, {
-      method: "POST",
-      url: `/v1/sessions/migrate`,
       headers,
       data,
     });
