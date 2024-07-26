@@ -58,6 +58,14 @@ export interface B2BOrganizationsMembersSearchRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsMembersUpdateRequestOptions {
     /**
      * Optional authorization object.
@@ -337,6 +345,40 @@ export interface B2BOrganizationsMembersSearchResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersUnlinkRetiredEmailRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
+    member_id: string;
+    email_id?: string;
+    email_address?: string;
+}
+export interface B2BOrganizationsMembersUnlinkRetiredEmailResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    member_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    member: Member;
+    organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
+}
 export interface B2BOrganizationsMembersUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -483,25 +525,6 @@ export declare class Members {
     constructor(fetchConfig: fetchConfig);
     /**
      * Updates a Member specified by `organization_id` and `member_id`.
-     *
-     * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
-     * pass in
-     * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
-     * that the
-     * Member Session has the necessary permissions. The specific permissions needed depend on which of the
-     * optional fields
-     * are passed in the request. For example, if the `organization_name` argument is provided, the Member
-     * Session must have
-     * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
-     *
-     * If the Member Session does not contain a Role that satisfies the requested permissions, or if the
-     * Member's Organization
-     * does not match the `organization_id` passed in the request, a 403 error will be thrown. Otherwise, the
-     * request will
-     * proceed as normal.
-     *
-     * To learn more about our RBAC implementation, see our
-     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
      * @param data {@link B2BOrganizationsMembersUpdateRequest}
      * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
      * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -511,7 +534,7 @@ export declare class Members {
      */
     update(data: B2BOrganizationsMembersUpdateRequest, options?: B2BOrganizationsMembersUpdateRequestOptions): Promise<B2BOrganizationsMembersUpdateResponse>;
     /**
-     * Deletes a Member specified by `organization_id` and `member_id`. /%}
+     * Deletes a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersDeleteRequest}
      * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -522,7 +545,7 @@ export declare class Members {
     delete(data: B2BOrganizationsMembersDeleteRequest, options?: B2BOrganizationsMembersDeleteRequestOptions): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
      * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
-     * specified by `organization_id` and `member_id`. /%}
+     * specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersReactivateRequest}
      * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
      * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -542,7 +565,6 @@ export declare class Members {
      * Member to enter a new phone number
      * and calling the [OTP SMS send](https://stytch.com/docs/b2b/api/otp-sms-send) endpoint, then calling the
      * [OTP SMS Authenticate](https://stytch.com/docs/b2b/api/authenticate-otp-sms) endpoint.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequest}
      * @param options {@link B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteMFAPhoneNumberResponse}
@@ -559,7 +581,6 @@ export declare class Members {
      *
      * Existing Member Sessions that include the TOTP authentication factor will not be revoked if the
      * registration is deleted, and MFA will not be enforced until the Member logs in again.
-     *  /%}
      * @param data {@link B2BOrganizationsMembersDeleteTOTPRequest}
      * @param options {@link B2BOrganizationsMembersDeleteTOTPRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteTOTPResponse}
@@ -573,26 +594,6 @@ export declare class Members {
      * required. Submitting an empty `query` returns all non-deleted Members within the specified Organizations.
      *
      * *All fuzzy search filters require a minimum of three characters.
-     *
-     * Our RBAC implementation offers out-of-the-box handling of authorization checks for this endpoint. If you
-     * pass in
-     * a header containing a `session_token` or a `session_jwt` for an unexpired Member Session, we will check
-     * that the
-     * Member Session has permission to perform the `search` action on the `stytch.member` Resource. In
-     * addition, enforcing
-     * RBAC on this endpoint means that you may only search for Members within the calling Member's
-     * Organization, so the
-     * `organization_ids` argument may only contain the `organization_id` of the Member Session passed in the
-     * header.
-     *
-     * If the Member Session does not contain a Role that satisfies the requested permission, or if the
-     * `organization_ids`
-     * argument contains an `organization_id` that the Member Session does not belong to, a 403 error will be
-     * thrown.
-     * Otherwise, the request will proceed as normal.
-     *
-     * To learn more about our RBAC implementation, see our
-     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/overview).
      * @param data {@link B2BOrganizationsMembersSearchRequest}
      * @param options {@link B2BOrganizationsMembersSearchRequestOptions}
      * @returns {@link B2BOrganizationsMembersSearchResponse}
@@ -602,7 +603,7 @@ export declare class Members {
      */
     search(data: B2BOrganizationsMembersSearchRequest, options?: B2BOrganizationsMembersSearchRequestOptions): Promise<B2BOrganizationsMembersSearchResponse>;
     /**
-     * Delete a Member's password. /%}
+     * Delete a Member's password.
      * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
      * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -624,7 +625,35 @@ export declare class Members {
      */
     dangerouslyGet(params: B2BOrganizationsMembersDangerouslyGetRequest): Promise<B2BOrganizationsMembersGetResponse>;
     /**
-     * Creates a Member. An `organization_id` and `email_address` are required. /%}
+     * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+     * email address
+     * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
+     * both. If using
+     * both identifiers they must refer to the same email.
+     *
+     * A previously active email address can be marked as retired in one of two ways:
+     *
+     * - It's replaced with a new primary email address during an explicit Member update.
+     * - A new email address is surfaced by an OAuth, SAML or OIDC provider. In this case the new email address
+     * becomes the
+     *   Member's primary email address and the old primary email address is retired.
+     *
+     * A retired email address cannot be used by other Members in the same Organization. However, unlinking
+     * retired email
+     * addresses allows then to be subsequently re-used by other Organization Members. Retired email addresses
+     * can be viewed
+     * on the [Member object](https://stytch.com/docs/b2b/api/member-object).
+     *  %}
+     * @param data {@link B2BOrganizationsMembersUnlinkRetiredEmailRequest}
+     * @param options {@link B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions}
+     * @returns {@link B2BOrganizationsMembersUnlinkRetiredEmailResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
+    /**
+     * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}
      * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
      * @returns {@link B2BOrganizationsMembersCreateResponse}

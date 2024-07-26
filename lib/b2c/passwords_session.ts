@@ -12,7 +12,10 @@ import { User } from "./users";
 
 // Request type for `passwords.sessions.reset`.
 export interface PasswordsSessionResetRequest {
-  // The password of the user
+  /**
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * etc.
+   */
   password: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;

@@ -257,7 +257,7 @@ export declare class SSO {
     saml: SAML;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Get all SSO Connections owned by the organization. /%}
+     * Get all SSO Connections owned by the organization.
      * @param params {@link B2BSSOGetConnectionsRequest}
      * @param options {@link B2BSSOGetConnectionsRequestOptions}
      * @returns {@link B2BSSOGetConnectionsResponse}
@@ -267,7 +267,7 @@ export declare class SSO {
      */
     getConnections(params: B2BSSOGetConnectionsRequest, options?: B2BSSOGetConnectionsRequestOptions): Promise<B2BSSOGetConnectionsResponse>;
     /**
-     * Delete an existing SSO connection. /%}
+     * Delete an existing SSO connection.
      * @param data {@link B2BSSODeleteConnectionRequest}
      * @param options {@link B2BSSODeleteConnectionRequestOptions}
      * @returns {@link B2BSSODeleteConnectionResponse}

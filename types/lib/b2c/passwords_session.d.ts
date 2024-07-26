@@ -2,6 +2,10 @@ import { fetchConfig } from "../shared";
 import { Session } from "./sessions";
 import { User } from "./users";
 export interface PasswordsSessionResetRequest {
+    /**
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * etc.
+     */
     password: string;
     session_token?: string;
     session_jwt?: string;

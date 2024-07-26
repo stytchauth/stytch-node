@@ -1,6 +1,6 @@
 import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { SCIMConnection, SCIMConnectionWithNextToken, SCIMConnectionWithToken, SCIMGroupImplicitRoleAssignments } from "./scim";
+import { SCIMConnection, SCIMConnectionWithNextToken, SCIMConnectionWithToken, SCIMGroup, SCIMGroupImplicitRoleAssignments } from "./scim";
 export interface B2BSCIMConnectionCreateRequestOptions {
     /**
      * Optional authorization object.
@@ -10,6 +10,14 @@ export interface B2BSCIMConnectionCreateRequestOptions {
     authorization?: Authorization;
 }
 export interface B2BSCIMConnectionDeleteRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BSCIMConnectionGetGroupsRequestOptions {
     /**
      * Optional authorization object.
      * Pass in an active Stytch Member session token or session JWT and the request
@@ -104,6 +112,37 @@ export interface B2BSCIMConnectionDeleteResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+}
+export interface B2BSCIMConnectionGetGroupsRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    connection_id: string;
+    /**
+     * The `cursor` field allows you to paginate through your results. Each result array is limited to 1000
+     * results. If your query returns more than 1000 results, you will need to paginate the responses using the
+     * `cursor`. If you receive a response that includes a non-null `next_cursor` in the `results_metadata`
+     * object, repeat the search call with the `next_cursor` value set to the `cursor` field to retrieve the
+     * next page of results. Continue to make search calls until the `next_cursor` in the response is null.
+     */
+    cursor?: string;
+    /**
+     * The number of search results to return per page. The default limit is 100. A maximum of 1000 results can
+     * be returned by a single search request. If the total size of your result set is greater than one page
+     * size, you must paginate the response. See the `cursor` field.
+     */
+    limit?: number;
+}
+export interface B2BSCIMConnectionGetGroupsResponse {
+    scim_groups: SCIMGroup[];
+    status_code: number;
+    /**
+     * The `next_cursor` string is returned when your search result contains more than one page of results.
+     * This value is passed into your next search call in the `cursor` field.
+     */
+    next_cursor?: string;
 }
 export interface B2BSCIMConnectionGetRequest {
     /**
@@ -236,7 +275,7 @@ export declare class Connection {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Update a SCIM Connection. /%}
+     * Update a SCIM Connection.
      * @param data {@link B2BSCIMConnectionUpdateRequest}
      * @param options {@link B2BSCIMConnectionUpdateRequestOptions}
      * @returns {@link B2BSCIMConnectionUpdateResponse}
@@ -246,7 +285,7 @@ export declare class Connection {
      */
     update(data: B2BSCIMConnectionUpdateRequest, options?: B2BSCIMConnectionUpdateRequestOptions): Promise<B2BSCIMConnectionUpdateResponse>;
     /**
-     * Deletes a SCIM Connection. /%}
+     * Deletes a SCIM Connection.
      * @param data {@link B2BSCIMConnectionDeleteRequest}
      * @param options {@link B2BSCIMConnectionDeleteRequestOptions}
      * @returns {@link B2BSCIMConnectionDeleteResponse}
@@ -256,7 +295,7 @@ export declare class Connection {
      */
     delete(data: B2BSCIMConnectionDeleteRequest, options?: B2BSCIMConnectionDeleteRequestOptions): Promise<B2BSCIMConnectionDeleteResponse>;
     /**
-     * Start a SCIM token rotation. /%}
+     * Start a SCIM token rotation.
      * @param data {@link B2BSCIMConnectionRotateStartRequest}
      * @param options {@link B2BSCIMConnectionRotateStartRequestOptions}
      * @returns {@link B2BSCIMConnectionRotateStartResponse}
@@ -268,7 +307,7 @@ export declare class Connection {
     /**
      * Completes a SCIM token rotation. This will complete the current token rotation process and update the
      * active token to be the new token supplied in the
-     * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response. /%}
+     * [start SCIM token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start) response.
      * @param data {@link B2BSCIMConnectionRotateCompleteRequest}
      * @param options {@link B2BSCIMConnectionRotateCompleteRequestOptions}
      * @returns {@link B2BSCIMConnectionRotateCompleteResponse}
@@ -279,7 +318,7 @@ export declare class Connection {
     rotateComplete(data: B2BSCIMConnectionRotateCompleteRequest, options?: B2BSCIMConnectionRotateCompleteRequestOptions): Promise<B2BSCIMConnectionRotateCompleteResponse>;
     /**
      * Cancel a SCIM token rotation. This will cancel the current token rotation process, keeping the original
-     * token active. /%}
+     * token active.
      * @param data {@link B2BSCIMConnectionRotateCancelRequest}
      * @param options {@link B2BSCIMConnectionRotateCancelRequestOptions}
      * @returns {@link B2BSCIMConnectionRotateCancelResponse}
@@ -289,7 +328,17 @@ export declare class Connection {
      */
     rotateCancel(data: B2BSCIMConnectionRotateCancelRequest, options?: B2BSCIMConnectionRotateCancelRequestOptions): Promise<B2BSCIMConnectionRotateCancelResponse>;
     /**
-     * Create a new SCIM Connection. /%}
+     * Gets a paginated list of all SCIM Groups associated with a given Connection.
+     * @param params {@link B2BSCIMConnectionGetGroupsRequest}
+     * @param options {@link B2BSCIMConnectionGetGroupsRequestOptions}
+     * @returns {@link B2BSCIMConnectionGetGroupsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    getGroups(params: B2BSCIMConnectionGetGroupsRequest, options?: B2BSCIMConnectionGetGroupsRequestOptions): Promise<B2BSCIMConnectionGetGroupsResponse>;
+    /**
+     * Create a new SCIM Connection.
      * @param data {@link B2BSCIMConnectionCreateRequest}
      * @param options {@link B2BSCIMConnectionCreateRequestOptions}
      * @returns {@link B2BSCIMConnectionCreateResponse}
@@ -299,7 +348,7 @@ export declare class Connection {
      */
     create(data: B2BSCIMConnectionCreateRequest, options?: B2BSCIMConnectionCreateRequestOptions): Promise<B2BSCIMConnectionCreateResponse>;
     /**
-     * Get SCIM Connections. /%}
+     * Get SCIM Connections.
      * @param params {@link B2BSCIMConnectionGetRequest}
      * @param options {@link B2BSCIMConnectionGetRequestOptions}
      * @returns {@link B2BSCIMConnectionGetResponse}

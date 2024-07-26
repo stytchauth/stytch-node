@@ -15,9 +15,9 @@ import { request } from "../shared";
 export interface B2BPasswordsExistingPasswordResetRequest {
   // The email address of the Member.
   email_address: string;
-  // The member's current password that they supplied.
+  // The Member's current password that they supplied.
   existing_password: string;
-  // The member's elected new password.
+  // The Member's elected new password.
   new_password: string;
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -145,6 +145,9 @@ export class ExistingPassword {
    *
    * If a valid `session_token` or `session_jwt` is passed in, the Member will not be required to complete an
    * MFA step.
+   *
+   * Note that a successful password reset via an existing password will revoke all active sessions for the
+   * `member_id`.
    * @param data {@link B2BPasswordsExistingPasswordResetRequest}
    * @returns {@link B2BPasswordsExistingPasswordResetResponse}
    * @async

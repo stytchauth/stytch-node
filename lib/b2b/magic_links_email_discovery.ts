@@ -68,7 +68,7 @@ export class Discovery {
   }
 
   /**
-   * Send a discovery magic link to an email address.
+   * Send a discovery magic link to an email address. The magic link is valid for 60 minutes.
    * @param data {@link B2BMagicLinksEmailDiscoverySendRequest}
    * @returns {@link B2BMagicLinksEmailDiscoverySendResponse}
    * @async

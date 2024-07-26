@@ -68,7 +68,10 @@ export interface B2BPasswordsAuthenticateRequest {
   organization_id: string;
   // The email address of the Member.
   email_address: string;
-  // The password to authenticate.
+  /**
+   * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
+   * spaces, emojis, non-English characers, etc.
+   */
   password: string;
   // A secret token for a given Stytch Session.
   session_token?: string;
@@ -274,7 +277,10 @@ export interface B2BPasswordsMigrateResponse {
 
 // Request type for `passwords.strengthCheck`.
 export interface B2BPasswordsStrengthCheckRequest {
-  // The password to authenticate.
+  /**
+   * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
+   * spaces, emojis, non-English characers, etc.
+   */
   password: string;
   // The email address of the Member.
   email_address?: string;
@@ -391,6 +397,8 @@ export class Passwords {
    * Adds an existing password to a member's email that doesn't have a password yet. We support migrating
    * members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2. This endpoint has a
    * rate limit of 100 requests per second.
+   *
+   * The member's email will be marked as verified when you use this endpoint.
    * @param data {@link B2BPasswordsMigrateRequest}
    * @returns {@link B2BPasswordsMigrateResponse}
    * @async

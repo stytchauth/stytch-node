@@ -537,8 +537,8 @@ export class Sessions {
    *
    * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
    * will be returned if both the signature and the underlying Session are still valid. See our
-   * [How to use Stytch Session JWTs](https://stytch.com/docs/b2b/guides/sessions/using-jwts) guide for more
-   * information.
+   * [How to use Stytch Session JWTs](https://stytch.com/docs/b2b/guides/sessions/resources/using-jwts) guide
+   * for more information.
    *
    * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
    * to perform the given action on the given Resource in the specified Organization. A Member is authorized
@@ -679,7 +679,8 @@ export class Sessions {
    * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
    * for validation by inspecting the `kid` value.
    *
-   * See our [How to use Stytch Session JWTs](https://stytch.com/docs/b2b/guides/sessions/using-jwts) guide
+   * See our
+   * [How to use Stytch Session JWTs](https://stytch.com/docs/b2b/guides/sessions/resources/using-jwts) guide
    * for more information.
    * @param params {@link B2BSessionsGetJWKSRequest}
    * @returns {@link B2BSessionsGetJWKSResponse}

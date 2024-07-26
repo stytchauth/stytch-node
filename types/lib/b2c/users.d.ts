@@ -18,20 +18,6 @@ export interface CryptoWallet {
      */
     verified: boolean;
 }
-export interface Email {
-    email_id: string;
-    email: string;
-    /**
-     * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
-     * has been successfully authenticated by the User.
-     */
-    verified: boolean;
-}
-export interface Name {
-    first_name?: string;
-    middle_name?: string;
-    last_name?: string;
-}
 export interface OAuthProvider {
     /**
      * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Facebook, GitHub
@@ -59,15 +45,6 @@ export interface Password {
     password_id: string;
     requires_reset: boolean;
 }
-export interface PhoneNumber {
-    phone_id: string;
-    phone_number: string;
-    /**
-     * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
-     * has been successfully authenticated by the User.
-     */
-    verified: boolean;
-}
 export interface SearchUsersQuery {
     /**
      * The action to perform on the operands. The accepted value are:
@@ -93,9 +70,9 @@ export interface TOTP {
 }
 export interface User {
     user_id: string;
-    emails: Email[];
+    emails: UsersEmail[];
     status: string;
-    phone_numbers: PhoneNumber[];
+    phone_numbers: UsersPhoneNumber[];
     /**
      * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
      * API.
@@ -105,7 +82,7 @@ export interface User {
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
     biometric_registrations: BiometricRegistration[];
-    name?: Name;
+    name?: UsersName;
     /**
      * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
      * e.g. `2021-12-29T12:33:09Z`.
@@ -124,6 +101,29 @@ export interface User {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+}
+export interface UsersEmail {
+    email_id: string;
+    email: string;
+    /**
+     * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+     * has been successfully authenticated by the User.
+     */
+    verified: boolean;
+}
+export interface UsersName {
+    first_name?: string;
+    middle_name?: string;
+    last_name?: string;
+}
+export interface UsersPhoneNumber {
+    phone_id: string;
+    phone_number: string;
+    /**
+     * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+     * has been successfully authenticated by the User.
+     */
+    verified: boolean;
 }
 export interface UsersResultsMetadata {
     total: number;
@@ -152,7 +152,7 @@ export interface WebAuthnRegistration {
 }
 export interface UsersCreateRequest {
     email?: string;
-    name?: Name;
+    name?: UsersName;
     attributes?: Attributes;
     /**
      * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
@@ -420,9 +420,9 @@ export interface UsersGetResponse {
      */
     request_id: string;
     user_id: string;
-    emails: Email[];
+    emails: UsersEmail[];
     status: string;
-    phone_numbers: PhoneNumber[];
+    phone_numbers: UsersPhoneNumber[];
     /**
      * An array that contains a list of all Passkey or WebAuthn registrations for a given User in the Stytch
      * API.
@@ -437,7 +437,7 @@ export interface UsersGetResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    name?: Name;
+    name?: UsersName;
     /**
      * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
      * e.g. `2021-12-29T12:33:09Z`.
@@ -499,7 +499,7 @@ export interface UsersSearchResponse {
 }
 export interface UsersUpdateRequest {
     user_id: string;
-    name?: Name;
+    name?: UsersName;
     attributes?: Attributes;
     /**
      * The `trusted_metadata` field contains an arbitrary JSON object of application-specific data. See the
@@ -521,8 +521,8 @@ export interface UsersUpdateResponse {
      */
     request_id: string;
     user_id: string;
-    emails: Email[];
-    phone_numbers: PhoneNumber[];
+    emails: UsersEmail[];
+    phone_numbers: UsersPhoneNumber[];
     crypto_wallets: CryptoWallet[];
     /**
      * The `user` object affected by this API call. See the

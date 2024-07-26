@@ -1,9 +1,9 @@
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
-import { Name, User } from "./users";
 import { Session } from "./sessions";
 import { Sessions } from "./passwords_session";
+import { User, UsersName } from "./users";
 export interface Argon2Config {
     salt: string;
     iteration_amount: number;
@@ -67,7 +67,7 @@ export interface ScryptConfig {
     /**
      * The N value, also known as the iterations count. It must be a power of two greater than 1 and less than
      * 262,145.
-     *       If your applicaiton's N parameter is larger than 262,144, please reach out to
+     *       If your application's N parameter is larger than 262,144, please reach out to
      * [support@stytch.com](mailto:support@stytch.com)
      */
     n_parameter: number;
@@ -77,6 +77,10 @@ export interface ScryptConfig {
 }
 export interface PasswordsAuthenticateRequest {
     email: string;
+    /**
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * etc.
+     */
     password: string;
     session_token?: string;
     /**
@@ -136,6 +140,10 @@ export interface PasswordsAuthenticateResponse {
 }
 export interface PasswordsCreateRequest {
     email: string;
+    /**
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * etc.
+     */
     password: string;
     /**
      * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
@@ -174,7 +182,7 @@ export interface PasswordsCreateRequest {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
-    name?: Name;
+    name?: UsersName;
 }
 export interface PasswordsCreateResponse {
     /**
@@ -243,7 +251,7 @@ export interface PasswordsMigrateRequest {
      * support@stytch.com.
      */
     set_email_verified?: boolean;
-    name?: Name;
+    name?: UsersName;
 }
 export interface PasswordsMigrateResponse {
     /**
@@ -266,6 +274,10 @@ export interface PasswordsMigrateResponse {
     status_code: number;
 }
 export interface PasswordsStrengthCheckRequest {
+    /**
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * etc.
+     */
     password: string;
     email?: string;
 }
