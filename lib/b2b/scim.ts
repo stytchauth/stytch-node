@@ -136,7 +136,6 @@ export interface SCIMGroup {
 }
 
 export interface SCIMGroupImplicitRoleAssignments {
-  // The ID of the role.
   role_id: string;
   group_id: string;
   group_name: string;

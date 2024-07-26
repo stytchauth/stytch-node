@@ -251,10 +251,6 @@ export interface B2BSCIMConnectionUpdateRequest {
     connection_id: string;
     display_name?: string;
     identity_provider?: "generic" | "okta" | "microsoft-entra" | "cyberark" | "jumpcloud" | "onelogin" | "pingfederate" | "rippling" | string;
-    /**
-     * An array of SCIM group implicit role assignments. Each object in the array must contain a `group` and a
-     * `role_id`.
-     */
     scim_group_implicit_role_assignments?: SCIMGroupImplicitRoleAssignments[];
 }
 export interface B2BSCIMConnectionUpdateResponse {
