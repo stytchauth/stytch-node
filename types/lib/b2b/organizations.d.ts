@@ -92,6 +92,7 @@ export interface Member {
      */
     is_admin: boolean;
     totp_registration_id: string;
+    retired_email_addresses: RetiredEmail[];
     /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
      * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
@@ -373,6 +374,10 @@ export interface Organization {
     updated_at?: string;
     sso_default_connection_id?: string;
     scim_active_connection?: ActiveSCIMConnection;
+}
+export interface RetiredEmail {
+    email_id: string;
+    email_address: string;
 }
 export interface SCIMRegistration {
     connection_id: string;

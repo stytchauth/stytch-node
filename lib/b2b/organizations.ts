@@ -122,6 +122,7 @@ export interface Member {
    */
   is_admin: boolean;
   totp_registration_id: string;
+  retired_email_addresses: RetiredEmail[];
   /**
    * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
    * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
@@ -415,6 +416,11 @@ export interface Organization {
   sso_default_connection_id?: string;
   // An active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
   scim_active_connection?: ActiveSCIMConnection;
+}
+
+export interface RetiredEmail {
+  email_id: string;
+  email_address: string;
 }
 
 export interface SCIMRegistration {

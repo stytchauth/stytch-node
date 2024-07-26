@@ -77,6 +77,7 @@ export type {
   OAuthRegistration,
   Organization,
   B2BOrganizationsResultsMetadata,
+  RetiredEmail,
   SCIMRegistration,
   SSORegistration,
   SearchQuery,
