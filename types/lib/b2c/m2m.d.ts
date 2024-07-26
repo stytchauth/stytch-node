@@ -133,18 +133,18 @@ export declare class M2M {
      */
     token(data: TokenRequest): Promise<TokenResponse>;
     /**
-             * Authenticate an access token issued by Stytch from the Token endpoint.
-             * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
-             * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
-             * You may also override the default scope authorization function to implement custom authorization logic.
-             *
-             * @param data {@link AuthenticateTokenRequest}
-             * @param scopeAuthorizationFunc {@link ScopeAuthorizationFunc} - A function that checks if the token has the required scopes.
-               The default function assumes scopes are either direct string matches or written in the form "action:resource". See the
-               documentation for {@link performAuthorizationCheck} for more information.
-             * @async
-             * @returns {@link AuthenticateTokenResponse}
-             * @throws {ClientError} when token can not be authenticated
-             */
+               * Authenticate an access token issued by Stytch from the Token endpoint.
+               * M2M access tokens are JWTs signed with the project's JWKs, and can be validated locally using any Stytch client library.
+               * You may pass in an optional set of scopes that the JWT must contain in order to enforce permissions.
+               * You may also override the default scope authorization function to implement custom authorization logic.
+               *
+               * @param data {@link AuthenticateTokenRequest}
+               * @param scopeAuthorizationFunc {@link ScopeAuthorizationFunc} - A function that checks if the token has the required scopes.
+                 The default function assumes scopes are either direct string matches or written in the form "action:resource". See the
+                 documentation for {@link performAuthorizationCheck} for more information.
+               * @async
+               * @returns {@link AuthenticateTokenResponse}
+               * @throws {ClientError} when token can not be authenticated
+               */
     authenticateToken(data: AuthenticateTokenRequest, scopeAuthorizationFunc?: ScopeAuthorizationFunc): Promise<AuthenticateTokenResponse>;
 }
