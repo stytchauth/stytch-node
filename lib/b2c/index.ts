@@ -112,6 +112,8 @@ export type {
   SessionsGetJWKSResponse,
   SessionsGetRequest,
   SessionsGetResponse,
+  SessionsMigrateRequest,
+  SessionsMigrateResponse,
   SessionsRevokeRequest,
   SessionsRevokeResponse,
 } from "./sessions";
