@@ -10,6 +10,41 @@ import { request } from "../shared";
 import { Session } from "./sessions";
 import { User } from "./users";
 
+export interface SIWEParams {
+  /**
+   * Only required if `siwe_params` is passed. The domain that is requesting the crypto wallet signature.
+   * Must be an RFC 3986 authority.
+   */
+  domain: string;
+  /**
+   * Only required if `siwe_params` is passed. An RFC 3986 URI referring to the resource that is the subject
+   * of the signing.
+   */
+  uri: string;
+  /**
+   *  A list of information or references to information the user wishes to have resolved as part of
+   * authentication. Every resource must be an RFC 3986 URI.
+   */
+  resources: string[];
+  // The EIP-155 Chain ID to which the session is bound. Defaults to 1.
+  chain_id?: number;
+  // A human-readable ASCII assertion that the user will sign.
+  statement?: string;
+  /**
+   * The time when the message was generated. Defaults to the current time. All timestamps in our API conform
+   * to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
+  issued_at?: string;
+  /**
+   * The time when the signed authentication message will become valid. Defaults to the current time. All
+   * timestamps in our API conform to the RFC 3339 standard and are expressed in UTC, e.g.
+   * `2021-12-29T12:33:09Z`.
+   */
+  not_before?: string;
+  // A system-specific identifier that may be used to uniquely refer to the sign-in request.
+  message_request_id?: string;
+}
+
 // Request type for `cryptoWallets.authenticate`.
 export interface CryptoWalletsAuthenticateRequest {
   /**
@@ -84,6 +119,8 @@ export interface CryptoWalletsAuthenticateResponse {
    *
    */
   session?: Session;
+  // The parameters of the Sign In With Ethereum (SIWE) message that was signed.
+  siwe_params?: CryptoWalletsSIWEParamsResponse;
 }
 
 // Request type for `cryptoWallets.authenticateStart`.
@@ -102,6 +139,11 @@ export interface CryptoWalletsAuthenticateStartRequest {
   session_token?: string;
   // The `session_jwt` associated with a User's existing Session.
   session_jwt?: string;
+  /**
+   * The parameters for a Sign In With Ethereum (SIWE) message. May only be passed if the
+   * `crypto_wallet_type` is `ethereum`.
+   */
+  siwe_params?: SIWEParams;
 }
 
 // Response type for `cryptoWallets.authenticateStart`.
@@ -124,6 +166,28 @@ export interface CryptoWalletsAuthenticateStartResponse {
   status_code: number;
 }
 
+export interface CryptoWalletsSIWEParamsResponse {
+  // The domain that requested the crypto wallet signature.
+  domain: string;
+  // An RFC 3986 URI referring to the resource that is the subject of the signing.
+  uri: string;
+  // The EIP-155 Chain ID to which the session is bound.
+  chain_id: number;
+  /**
+   *  A list of information or references to information the user wishes to have resolved as part of
+   * authentication. Every resource must be an RFC 3986 URI.
+   */
+  resources: string[];
+  status_code: number;
+  /**
+   * The time when the message was generated. All timestamps in our API conform to the RFC 3339 standard and
+   * are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
+  issued_at?: string;
+  // A system-specific identifier that may be used to uniquely refer to the sign-in request.
+  message_request_id?: string;
+}
+
 export class CryptoWallets {
   private fetchConfig: fetchConfig;
 
@@ -133,7 +197,14 @@ export class CryptoWallets {
 
   /**
    * Initiate the authentication of a crypto wallet. After calling this endpoint, the user will need to sign
-   * a message containing only the returned `challenge` field.
+   * a message containing the returned `challenge` field.
+   *
+   * For Ethereum crypto wallets, you can optionally use the Sign In With Ethereum (SIWE) protocol for the
+   * message by passing in the `siwe_params`. The only required fields are `domain` and `uri`.
+   * If the crypto wallet detects that the domain in the message does not match the website's domain, it will
+   * display a warning to the user.
+   *
+   * If not using the SIWE protocol, the message will simply consist of the project name and a random string.
    * @param data {@link CryptoWalletsAuthenticateStartRequest}
    * @returns {@link CryptoWalletsAuthenticateStartResponse}
    * @async
