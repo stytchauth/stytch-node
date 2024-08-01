@@ -25,6 +25,10 @@ var _sessions = require("../shared/sessions");
 
 // Response type for `sessions.get`.
 
+// Request type for `sessions.migrate`.
+
+// Response type for `sessions.migrate`.
+
 // Request type for `sessions.revoke`.
 
 // Response type for `sessions.revoke`.
@@ -117,6 +121,11 @@ class Sessions {
   }
 
   /**
+   * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
+   * endpoint defined in your Stytch Project settings in the [Dashboard](/dashboard), and then perform a
+   * lookup using the `session_token`. If the response contains a valid email address, Stytch will attempt to
+   * match that email address with an existing User and create a Stytch Session. You will need to create the
+   * user before using this endpoint.
    * @param data {@link SessionsMigrateRequest}
    * @returns {@link SessionsMigrateResponse}
    * @async

@@ -119,10 +119,12 @@ export type {
 } from "./sessions";
 
 export type {
+  SIWEParams,
   CryptoWalletsAuthenticateRequest,
   CryptoWalletsAuthenticateResponse,
   CryptoWalletsAuthenticateStartRequest,
   CryptoWalletsAuthenticateStartResponse,
+  CryptoWalletsSIWEParamsResponse,
 } from "./crypto_wallets";
 
 export type {
