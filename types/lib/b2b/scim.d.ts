@@ -40,6 +40,10 @@ export interface Group {
     value: string;
     display: string;
 }
+export interface IMs {
+    value: string;
+    type: string;
+}
 export interface Manager {
     value: string;
     ref: string;
@@ -62,6 +66,7 @@ export interface SCIMAttributes {
     emails: B2BSCIMEmail[];
     phone_numbers: B2BSCIMPhoneNumber[];
     addresses: Address[];
+    ims: IMs[];
     name?: B2BSCIMName;
     enterprise_extension?: EnterpriseExtension;
 }

@@ -54,6 +54,11 @@ export interface Group {
   display: string;
 }
 
+export interface IMs {
+  value: string;
+  type: string;
+}
+
 export interface Manager {
   value: string;
   ref: string;
@@ -77,6 +82,7 @@ export interface SCIMAttributes {
   emails: B2BSCIMEmail[];
   phone_numbers: B2BSCIMPhoneNumber[];
   addresses: Address[];
+  ims: IMs[];
   name?: B2BSCIMName;
   enterprise_extension?: EnterpriseExtension;
 }
@@ -138,6 +144,7 @@ export interface SCIMGroup {
 export interface SCIMGroupImplicitRoleAssignments {
   // The ID of the role.
   role_id: string;
+  // The ID of the group.
   group_id: string;
   group_name: string;
 }

@@ -26,9 +26,16 @@ export interface SIWEParams {
    * authentication. Every resource must be an RFC 3986 URI.
    */
   resources: string[];
-  // The EIP-155 Chain ID to which the session is bound. Defaults to 1.
-  chain_id?: number;
-  // A human-readable ASCII assertion that the user will sign.
+  /**
+   * The EIP-155 Chain ID to which the session is bound. Defaults to 1. Must be the string representation of
+   * an integer between 1 and 9,223,372,036,854,775,771, inclusive.
+   */
+  chain_id?: string;
+  /**
+   * A human-readable ASCII assertion that the user will sign. The statement may only include reserved,
+   * unreserved, or space characters according to RFC 3986 definitions, and must not contain other forms of
+   * whitespace such as newlines, tabs, and carriage returns.
+   */
   statement?: string;
   /**
    * The time when the message was generated. Defaults to the current time. All timestamps in our API conform
@@ -41,7 +48,10 @@ export interface SIWEParams {
    * `2021-12-29T12:33:09Z`.
    */
   not_before?: string;
-  // A system-specific identifier that may be used to uniquely refer to the sign-in request.
+  /**
+   * A system-specific identifier that may be used to uniquely refer to the sign-in request. The
+   * `message_request_id` must be a valid pchar according to RFC 3986 definitions.
+   */
   message_request_id?: string;
 }
 
@@ -172,7 +182,7 @@ export interface CryptoWalletsSIWEParamsResponse {
   // An RFC 3986 URI referring to the resource that is the subject of the signing.
   uri: string;
   // The EIP-155 Chain ID to which the session is bound.
-  chain_id: number;
+  chain_id: string;
   /**
    *  A list of information or references to information the user wishes to have resolved as part of
    * authentication. Every resource must be an RFC 3986 URI.
