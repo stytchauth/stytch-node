@@ -29,6 +29,7 @@ export type {
   B2BSCIMEmail,
   EnterpriseExtension,
   Group,
+  IMs,
   Manager,
   B2BSCIMName,
   B2BSCIMPhoneNumber,

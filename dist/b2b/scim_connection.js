@@ -217,7 +217,7 @@ class Connection {
   }
 
   /**
-   * Get SCIM Connections.
+   * Get SCIM Connection.
    * @param params {@link B2BSCIMConnectionGetRequest}
    * @param options {@link B2BSCIMConnectionGetRequestOptions}
    * @returns {@link B2BSCIMConnectionGetResponse}

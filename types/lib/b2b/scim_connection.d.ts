@@ -252,8 +252,8 @@ export interface B2BSCIMConnectionUpdateRequest {
     display_name?: string;
     identity_provider?: "generic" | "okta" | "microsoft-entra" | "cyberark" | "jumpcloud" | "onelogin" | "pingfederate" | "rippling" | string;
     /**
-     * An array of SCIM group implicit role assignments. Each object in the array must contain a `group` and a
-     * `role_id`.
+     * An array of SCIM group implicit role assignments. Each object in the array must contain a `group_id` and
+     * a `role_id`.
      */
     scim_group_implicit_role_assignments?: SCIMGroupImplicitRoleAssignments[];
 }
@@ -352,7 +352,7 @@ export declare class Connection {
      */
     create(data: B2BSCIMConnectionCreateRequest, options?: B2BSCIMConnectionCreateRequestOptions): Promise<B2BSCIMConnectionCreateResponse>;
     /**
-     * Get SCIM Connections.
+     * Get SCIM Connection.
      * @param params {@link B2BSCIMConnectionGetRequest}
      * @param options {@link B2BSCIMConnectionGetRequestOptions}
      * @returns {@link B2BSCIMConnectionGetResponse}
