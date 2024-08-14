@@ -390,6 +390,16 @@ export interface Organization {
      *
      */
     allowed_mfa_methods: string[];
+    /**
+     * The authentication setting that controls how a new Member can JIT provision into an organization by
+     * tenant. The accepted values are:
+     *
+     *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+     *
+     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *
+     */
+    oauth_tenant_jit_provisioning: string;
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -403,6 +413,11 @@ export interface Organization {
     updated_at?: string;
     sso_default_connection_id?: string;
     scim_active_connection?: ActiveSCIMConnection;
+    /**
+     * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+     * provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+     */
+    allowed_oauth_tenants?: Record<string, any>;
 }
 export interface RetiredEmail {
     email_id: string;
@@ -544,6 +559,21 @@ export interface B2BOrganizationsCreateRequest {
      *
      */
     allowed_mfa_methods?: string[];
+    /**
+     * The authentication setting that controls how a new Member can JIT provision into an organization by
+     * tenant. The accepted values are:
+     *
+     *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+     *
+     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *
+     */
+    oauth_tenant_jit_provisioning?: string;
+    /**
+     * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+     * provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+     */
+    allowed_oauth_tenants?: Record<string, any>;
 }
 export interface B2BOrganizationsCreateResponse {
     /**
@@ -844,6 +874,29 @@ export interface B2BOrganizationsUpdateRequest {
      * Resource.
      */
     allowed_mfa_methods?: string[];
+    /**
+     * The authentication setting that controls how a new Member can JIT provision into an organization by
+     * tenant. The accepted values are:
+     *
+     *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+     *
+     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.oauth-tenant-jit-provisioning` action on the
+     * `stytch.organization` Resource.
+     */
+    oauth_tenant_jit_provisioning?: string;
+    /**
+     * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+     * provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+     *
+     * If this field is provided and a session header is passed into the request, the Member Session must have
+     * permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
+     * Resource.
+     */
+    allowed_oauth_tenants?: Record<string, any>;
 }
 export interface B2BOrganizationsUpdateResponse {
     /**
