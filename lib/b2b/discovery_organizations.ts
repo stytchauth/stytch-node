@@ -182,6 +182,21 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    *
    */
   allowed_mfa_methods?: string[];
+  /**
+   * The authentication setting that controls how a new Member can JIT provision into an organization by
+   * tenant. The accepted values are:
+   *
+   *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+   *
+   *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+   *
+   */
+  oauth_tenant_jit_provisioning?: string;
+  /**
+   * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+   * provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+   */
+  allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `discovery.organizations.create`.
