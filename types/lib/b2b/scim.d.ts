@@ -28,6 +28,11 @@ export interface B2BSCIMPhoneNumber {
     type: string;
     primary: boolean;
 }
+export interface B2BSCIMX509Certificate {
+    value: string;
+    type: string;
+    primary: boolean;
+}
 export interface EnterpriseExtension {
     employee_number: string;
     cost_center: string;
@@ -36,6 +41,11 @@ export interface EnterpriseExtension {
     organization: string;
     manager?: Manager;
 }
+export interface Entitlement {
+    value: string;
+    type: string;
+    primary: boolean;
+}
 export interface Group {
     value: string;
     display: string;
@@ -43,11 +53,22 @@ export interface Group {
 export interface IMs {
     value: string;
     type: string;
+    primary: boolean;
 }
 export interface Manager {
     value: string;
     ref: string;
     display_name: string;
+}
+export interface Photo {
+    value: string;
+    type: string;
+    primary: boolean;
+}
+export interface Role {
+    value: string;
+    type: string;
+    primary: boolean;
 }
 export interface SCIMAttributes {
     user_name: string;
@@ -67,6 +88,10 @@ export interface SCIMAttributes {
     phone_numbers: B2BSCIMPhoneNumber[];
     addresses: Address[];
     ims: IMs[];
+    photos: Photo[];
+    entitlements: Entitlement[];
+    roles: Role[];
+    x509certificates: B2BSCIMX509Certificate[];
     name?: B2BSCIMName;
     enterprise_extension?: EnterpriseExtension;
 }

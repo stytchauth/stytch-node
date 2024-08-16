@@ -28,17 +28,21 @@ export type {
   Address,
   B2BSCIMEmail,
   EnterpriseExtension,
+  Entitlement,
   Group,
   IMs,
   Manager,
   B2BSCIMName,
   B2BSCIMPhoneNumber,
+  Photo,
+  Role,
   SCIMAttributes,
   SCIMConnection,
   SCIMConnectionWithNextToken,
   SCIMConnectionWithToken,
   SCIMGroup,
   SCIMGroupImplicitRoleAssignments,
+  B2BSCIMX509Certificate,
 } from "./scim";
 
 export type {
