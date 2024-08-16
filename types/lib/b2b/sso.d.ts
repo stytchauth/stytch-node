@@ -21,13 +21,6 @@ export interface B2BSSOGetConnectionsRequestOptions {
      */
     authorization?: Authorization;
 }
-export interface B2BSSOX509Certificate {
-    certificate_id: string;
-    certificate: string;
-    issuer: string;
-    created_at?: string;
-    expires_at?: string;
-}
 export interface Connection {
     organization_id: string;
     connection_id: string;
@@ -60,8 +53,8 @@ export interface SAMLConnection {
     idp_sso_url: string;
     acs_url: string;
     audience_uri: string;
-    signing_certificates: B2BSSOX509Certificate[];
-    verification_certificates: B2BSSOX509Certificate[];
+    signing_certificates: X509Certificate[];
+    verification_certificates: X509Certificate[];
     saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
     saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
     alternative_audience_uri: string;
@@ -100,6 +93,13 @@ export interface SAMLGroupImplicitRoleAssignment {
      */
     role_id: string;
     group: string;
+}
+export interface X509Certificate {
+    certificate_id: string;
+    certificate: string;
+    issuer: string;
+    created_at?: string;
+    expires_at?: string;
 }
 export interface B2BSSOAuthenticateRequest {
     sso_token: string;

@@ -268,7 +268,7 @@ export type {
   SAMLConnection,
   SAMLConnectionImplicitRoleAssignment,
   SAMLGroupImplicitRoleAssignment,
-  B2BSSOX509Certificate,
+  X509Certificate,
   B2BSSOAuthenticateRequest,
   B2BSSOAuthenticateResponse,
   B2BSSODeleteConnectionRequest,
