@@ -41,10 +41,8 @@ export async function request<T>(
     response = await fetch(url.toString(), {
       method: requestConfig.method,
       body: body,
-      // [AUTH-2047] things fail catastrophically when using the NextJS fetch-cache
-      // so we need to explicitly opt out of it using the "no-store" tag
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error [AUTH-2047] things fail catastrophically when using the NextJS fetch-cache
+      // so we need to explicitly opt out of it using the "no-store" tag - which isn't part of the core Node fetch API
       cache: "no-store",
       ...fetchConfig,
       headers: finalHeaders,
