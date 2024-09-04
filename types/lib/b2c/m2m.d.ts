@@ -68,7 +68,7 @@ export interface M2MSearchQuery {
      */
     operands: M2MSearchQueryOperand[];
 }
-export declare type M2MSearchQueryOperand = {
+export type M2MSearchQueryOperand = {
     filter_name: "client_id";
     filter_value: string[];
 } | {

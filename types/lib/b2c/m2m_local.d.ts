@@ -1,4 +1,4 @@
-export declare type ScopeAuthorizationFunc = ({ hasScopes, requiredScopes, }: {
+export type ScopeAuthorizationFunc = ({ hasScopes, requiredScopes, }: {
     hasScopes: string[];
     requiredScopes: string[];
 }) => boolean;

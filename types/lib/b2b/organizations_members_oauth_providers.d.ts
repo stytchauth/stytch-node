@@ -106,7 +106,7 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
 /**
  * @deprecated Since version 10.11.0. Please use {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest} instead.
  */
-export declare type B2BOrganizationsMembersOAuthProvidersMicrosoftRequest = B2BOrganizationsMembersOAuthProvidersProviderInformationRequest;
+export type B2BOrganizationsMembersOAuthProvidersMicrosoftRequest = B2BOrganizationsMembersOAuthProvidersProviderInformationRequest;
 export declare class OAuthProviders {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
