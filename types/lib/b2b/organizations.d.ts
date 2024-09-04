@@ -911,7 +911,7 @@ export interface B2BOrganizationsUpdateResponse {
      */
     status_code: number;
 }
-export declare type OrganizationSearchOperand = {
+export type OrganizationSearchOperand = {
     filter_name: "organization_ids";
     filter_value: string[];
 } | {
@@ -936,7 +936,7 @@ export declare type OrganizationSearchOperand = {
     filter_name: "allowed_domain_fuzzy";
     filter_value: string;
 };
-export declare type MemberSearchOperand = {
+export type MemberSearchOperand = {
     filter_name: "member_ids";
     filter_value: string[];
 } | {
@@ -958,7 +958,7 @@ export declare type MemberSearchOperand = {
     filter_name: "member_phone_number_fuzzy";
     filter_value: string;
 };
-export declare type SearchQueryOperand = OrganizationSearchOperand | MemberSearchOperand | {
+export type SearchQueryOperand = OrganizationSearchOperand | MemberSearchOperand | {
     filter_name: string;
     [key: string]: unknown;
 };

@@ -535,7 +535,7 @@ export interface UsersUpdateResponse {
      */
     status_code: number;
 }
-export declare type SearchUsersQueryOperand = {
+export type SearchUsersQueryOperand = {
     filter_name: "created_at_greater_than";
     filter_value: string;
 } | {

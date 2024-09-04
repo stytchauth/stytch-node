@@ -3,7 +3,7 @@ export interface JwtConfig {
     projectID: string;
     jwks: jose.JWTVerifyGetKey;
 }
-declare type IntermediateSession = {
+type IntermediateSession = {
     sub: string;
     session_id: string;
     attributes: unknown;

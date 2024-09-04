@@ -1,11 +1,11 @@
-import type { Dispatcher } from "undici";
+import type { Dispatcher, BodyInit } from "undici";
 export interface fetchConfig {
     baseURL: string;
     headers: Record<string, string>;
     timeout: number;
     dispatcher?: Dispatcher;
 }
-export declare type requestConfig = {
+export type requestConfig = {
     url: string;
     method: "GET" | "DELETE" | "POST" | "PUT";
     params?: Record<string, string | number | boolean | undefined>;
