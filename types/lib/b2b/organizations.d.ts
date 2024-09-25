@@ -967,7 +967,7 @@ export declare class Organizations {
     members: Members;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Creates an Organization. An `organization_name` and a unique `organization_slug` are required.
+     * Creates an. An `organization_name` and a unique `organization_slug` are required.
      *
      * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED`, and `mfa_policy`
      * will be set to `OPTIONAL` if no Organization authentication settings are explicitly defined in the
@@ -984,7 +984,7 @@ export declare class Organizations {
      */
     create(data: B2BOrganizationsCreateRequest): Promise<B2BOrganizationsCreateResponse>;
     /**
-     * Returns an Organization specified by `organization_id`.
+     * Returns an specified by `organization_id`.
      * @param params {@link B2BOrganizationsGetRequest}
      * @returns {@link B2BOrganizationsGetResponse}
      * @async
@@ -993,8 +993,8 @@ export declare class Organizations {
      */
     get(params: B2BOrganizationsGetRequest): Promise<B2BOrganizationsGetResponse>;
     /**
-     * Updates an Organization specified by `organization_id`. An Organization must always have at least one
-     * auth setting set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members.
+     * Updates an specified by `organization_id`. An Organization must always have at least one auth setting
+     * set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members.
      *
      * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
@@ -1008,8 +1008,7 @@ export declare class Organizations {
      */
     update(data: B2BOrganizationsUpdateRequest, options?: B2BOrganizationsUpdateRequestOptions): Promise<B2BOrganizationsUpdateResponse>;
     /**
-     * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
-     * deleted.
+     * Deletes an specified by `organization_id`. All Members of the Organization will also be deleted.
      * @param data {@link B2BOrganizationsDeleteRequest}
      * @param options {@link B2BOrganizationsDeleteRequestOptions}
      * @returns {@link B2BOrganizationsDeleteResponse}
