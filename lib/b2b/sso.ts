@@ -34,14 +34,6 @@ export interface B2BSSOGetConnectionsRequestOptions {
   authorization?: Authorization;
 }
 
-export interface B2BSSOX509Certificate {
-  certificate_id: string;
-  certificate: string;
-  issuer: string;
-  created_at?: string;
-  expires_at?: string;
-}
-
 export interface Connection {
   organization_id: string;
   connection_id: string;
@@ -49,17 +41,6 @@ export interface Connection {
   external_connection_id: string;
   display_name: string;
   status: string;
-  external_connection_implicit_role_assignments: ConnectionImplicitRoleAssignment[];
-  external_group_implicit_role_assignments: GroupImplicitRoleAssignment[];
-}
-
-export interface ConnectionImplicitRoleAssignment {
-  role_id: string;
-}
-
-export interface GroupImplicitRoleAssignment {
-  role_id: string;
-  group: string;
 }
 
 export interface OIDCConnection {
@@ -87,8 +68,8 @@ export interface SAMLConnection {
   idp_sso_url: string;
   acs_url: string;
   audience_uri: string;
-  signing_certificates: B2BSSOX509Certificate[];
-  verification_certificates: B2BSSOX509Certificate[];
+  signing_certificates: X509Certificate[];
+  verification_certificates: X509Certificate[];
   saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
   saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
   alternative_audience_uri: string;
@@ -132,6 +113,14 @@ export interface SAMLGroupImplicitRoleAssignment {
   group: string;
 }
 
+export interface X509Certificate {
+  certificate_id: string;
+  certificate: string;
+  issuer: string;
+  created_at?: string;
+  expires_at?: string;
+}
+
 // Request type for `sso.authenticate`.
 export interface B2BSSOAuthenticateRequest {
   // The token to authenticate.
@@ -170,7 +159,7 @@ export interface B2BSSOAuthenticateRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
    * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
    * used to determine which language to use when sending the passcode.
    *
@@ -379,8 +368,8 @@ export class SSO {
    * To link this authentication event to an existing Stytch session, include either the `session_token` or
    * `session_jwt` param.
    *
-   * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
-   * be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
    * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),

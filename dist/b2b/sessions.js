@@ -90,8 +90,8 @@ class Sessions {
    * for more information.
    *
    * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
-   * to perform the given action on the given Resource in the specified. A is authorized if their Member
-   * Session contains a Role, assigned
+   * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+   * if their Member Session contains a Role, assigned
    * [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
    * permissions.
    * In addition, the `organization_id` passed in the authorization check must match the Member's
@@ -141,8 +141,8 @@ class Sessions {
   }
 
   /**
-   * Use this endpoint to exchange a's existing session for another session in a different. This can be used
-   * to accept an invite, but not to create a new member via domain matching.
+   * Use this endpoint to exchange a Member's existing session for another session in a different
+   * Organization. This can be used to accept an invite, but not to create a new member via domain matching.
    *
    * To create a new member via domain matching, use the
    * [Exchange Intermediate Session](https://stytch.com/docs/b2b/api/exchange-intermediate-session) flow
@@ -153,8 +153,6 @@ class Sessions {
    * Any OAuth Tokens owned by the Member will not be transferred to the new Organization.
    * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
    * and target Member have the same phone number and the phone number is verified for both Members.
-   * HubSpot and Slack OAuth registrations will not be transferred between sessions. Instead, you will
-   * receive a corresponding factor with type `"oauth_exchange_slack"` or `"oauth_exchange_hubspot"`
    *
    * If the Member is required to complete MFA to log in to the Organization, the returned value of
    * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
@@ -186,8 +184,8 @@ class Sessions {
    * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
    * endpoint defined in your Stytch Project settings in the [Dashboard](/dashboard), and then perform a
    * lookup using the `session_token`. If the response contains a valid email address, Stytch will attempt to
-   * match that email address with an existing in your and create a Stytch Session. You will need to create
-   * the member before using this endpoint.
+   * match that email address with an existing Member in your Organization and create a Stytch Session. You
+   * will need to create the member before using this endpoint.
    * @param data {@link B2BSessionsMigrateRequest}
    * @returns {@link B2BSessionsMigrateResponse}
    * @async

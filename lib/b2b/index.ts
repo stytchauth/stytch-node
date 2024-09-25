@@ -246,8 +246,6 @@ export type {
 } from "./passwords";
 
 export type {
-  B2BPasswordsEmailDeleteRequest,
-  B2BPasswordsEmailDeleteResponse,
   B2BPasswordsEmailResetRequest,
   B2BPasswordsEmailResetResponse,
   B2BPasswordsEmailResetStartRequest,
@@ -266,13 +264,11 @@ export type {
 
 export type {
   Connection,
-  ConnectionImplicitRoleAssignment,
-  GroupImplicitRoleAssignment,
   OIDCConnection,
   SAMLConnection,
   SAMLConnectionImplicitRoleAssignment,
   SAMLGroupImplicitRoleAssignment,
-  B2BSSOX509Certificate,
+  X509Certificate,
   B2BSSOAuthenticateRequest,
   B2BSSOAuthenticateResponse,
   B2BSSODeleteConnectionRequest,

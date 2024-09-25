@@ -244,7 +244,6 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   organization?: Organization;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
-  // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
 }
 
@@ -319,8 +318,8 @@ export class Organizations {
   }
 
   /**
-   * If an end user does not want to join any already-existing, or has no possible Organizations to join,
-   * this endpoint can be used to create a new
+   * If an end user does not want to join any already-existing Organization, or has no possible Organizations
+   * to join, this endpoint can be used to create a new
    * [Organization](https://stytch.com/docs/b2b/api/organization-object) and
    * [Member](https://stytch.com/docs/b2b/api/member-object).
    *
@@ -328,7 +327,7 @@ export class Organizations {
    *
    * This endpoint will also create an initial Member Session for the newly created Member.
    *
-   * The created by this endpoint will automatically be granted the `stytch_admin` Role. See the
+   * The Member created by this endpoint will automatically be granted the `stytch_admin` Role. See the
    * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
    *
    * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member

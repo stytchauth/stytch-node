@@ -76,10 +76,11 @@ export interface MemberSession {
 }
 export interface PrimaryRequired {
     /**
-     * Details the auth method that the member must also complete to fulfill the primary authentication
-     * requirements of the Organization. For example, a value of `[magic_link]` indicates that the Member must
-     * also complete a magic link authentication step. If you have an intermediate session token, you must pass
-     * it into that primary authentication step.
+     * If non-empty, indicates that the Organization restricts the authentication methods it allows for login
+     * (such as `sso` or `password`), and the end user must complete one of those authentication methods to log
+     * in. If empty, indicates that the Organization does not restrict the authentication method it allows for
+     * login, but the end user does not have any transferrable primary factors. Only email magic link and OAuth
+     * factors can be transferred between Organizations.
      */
     allowed_auth_methods: string[];
 }
@@ -194,7 +195,7 @@ export interface B2BSessionsExchangeRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
@@ -428,8 +429,8 @@ export declare class Sessions {
      * for more information.
      *
      * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
-     * to perform the given action on the given Resource in the specified. A is authorized if their Member
-     * Session contains a Role, assigned
+     * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+     * if their Member Session contains a Role, assigned
      * [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
      * permissions.
      * In addition, the `organization_id` passed in the authorization check must match the Member's
@@ -458,8 +459,8 @@ export declare class Sessions {
      */
     revoke(data: B2BSessionsRevokeRequest, options?: B2BSessionsRevokeRequestOptions): Promise<B2BSessionsRevokeResponse>;
     /**
-     * Use this endpoint to exchange a's existing session for another session in a different. This can be used
-     * to accept an invite, but not to create a new member via domain matching.
+     * Use this endpoint to exchange a Member's existing session for another session in a different
+     * Organization. This can be used to accept an invite, but not to create a new member via domain matching.
      *
      * To create a new member via domain matching, use the
      * [Exchange Intermediate Session](https://stytch.com/docs/b2b/api/exchange-intermediate-session) flow
@@ -470,8 +471,6 @@ export declare class Sessions {
      * Any OAuth Tokens owned by the Member will not be transferred to the new Organization.
      * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
      * and target Member have the same phone number and the phone number is verified for both Members.
-     * HubSpot and Slack OAuth registrations will not be transferred between sessions. Instead, you will
-     * receive a corresponding factor with type `"oauth_exchange_slack"` or `"oauth_exchange_hubspot"`
      *
      * If the Member is required to complete MFA to log in to the Organization, the returned value of
      * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
@@ -494,8 +493,8 @@ export declare class Sessions {
      * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
      * endpoint defined in your Stytch Project settings in the [Dashboard](/dashboard), and then perform a
      * lookup using the `session_token`. If the response contains a valid email address, Stytch will attempt to
-     * match that email address with an existing in your and create a Stytch Session. You will need to create
-     * the member before using this endpoint.
+     * match that email address with an existing Member in your Organization and create a Stytch Session. You
+     * will need to create the member before using this endpoint.
      * @param data {@link B2BSessionsMigrateRequest}
      * @returns {@link B2BSessionsMigrateResponse}
      * @async

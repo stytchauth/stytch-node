@@ -524,7 +524,7 @@ export declare class Members {
     oauthProviders: OAuthProviders;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Updates a specified by `organization_id` and `member_id`.
+     * Updates a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersUpdateRequest}
      * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
      * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -534,7 +534,7 @@ export declare class Members {
      */
     update(data: B2BOrganizationsMembersUpdateRequest, options?: B2BOrganizationsMembersUpdateRequestOptions): Promise<B2BOrganizationsMembersUpdateResponse>;
     /**
-     * Deletes a specified by `organization_id` and `member_id`.
+     * Deletes a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersDeleteRequest}
      * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -544,9 +544,8 @@ export declare class Members {
      */
     delete(data: B2BOrganizationsMembersDeleteRequest, options?: B2BOrganizationsMembersDeleteRequestOptions): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
-     * Reactivates a deleted's status and its associated email status (if applicable) to active, specified by
-     * `organization_id` and `member_id`. This endpoint will only work for Members with at least one verified
-     * email where their `email_address_verified` is `true`.
+     * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+     * specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersReactivateRequest}
      * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
      * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -556,7 +555,7 @@ export declare class Members {
      */
     reactivate(data: B2BOrganizationsMembersReactivateRequest, options?: B2BOrganizationsMembersReactivateRequestOptions): Promise<B2BOrganizationsMembersReactivateResponse>;
     /**
-     * Delete a's MFA phone number.
+     * Delete a Member's MFA phone number.
      *
      * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
      *
@@ -604,7 +603,7 @@ export declare class Members {
      */
     search(data: B2BOrganizationsMembersSearchRequest, options?: B2BOrganizationsMembersSearchRequestOptions): Promise<B2BOrganizationsMembersSearchResponse>;
     /**
-     * Delete a's password.
+     * Delete a Member's password.
      * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
      * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -626,8 +625,8 @@ export declare class Members {
      */
     dangerouslyGet(params: B2BOrganizationsMembersDangerouslyGetRequest): Promise<B2BOrganizationsMembersGetResponse>;
     /**
-     * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
-     * address
+     * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+     * email address
      * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
      * both. If using
      * both identifiers they must refer to the same email.
@@ -654,7 +653,7 @@ export declare class Members {
      */
     unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
     /**
-     * Creates a. An `organization_id` and `email_address` are required.
+     * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}
      * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
      * @returns {@link B2BOrganizationsMembersCreateResponse}

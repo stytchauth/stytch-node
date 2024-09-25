@@ -139,8 +139,8 @@ export declare class RecoveryCodes {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Allows a to complete an MFA flow by consuming a recovery code. This consumes the recovery code and
-     * returns a session token that can be used to authenticate the Member.
+     * Allows a Member to complete an MFA flow by consuming a recovery code. This consumes the recovery code
+     * and returns a session token that can be used to authenticate the Member.
      * @param data {@link B2BRecoveryCodesRecoverRequest}
      * @returns {@link B2BRecoveryCodesRecoverResponse}
      * @async
@@ -149,7 +149,7 @@ export declare class RecoveryCodes {
      */
     recover(data: B2BRecoveryCodesRecoverRequest): Promise<B2BRecoveryCodesRecoverResponse>;
     /**
-     * Returns a's full set of active recovery codes.
+     * Returns a Member's full set of active recovery codes.
      * @param params {@link B2BRecoveryCodesGetRequest}
      * @returns {@link B2BRecoveryCodesGetResponse}
      * @async
@@ -158,8 +158,8 @@ export declare class RecoveryCodes {
      */
     get(params: B2BRecoveryCodesGetRequest): Promise<B2BRecoveryCodesGetResponse>;
     /**
-     * Rotate a's recovery codes. This invalidates all existing recovery codes and generates a new set of
-     * recovery codes.
+     * Rotate a Member's recovery codes. This invalidates all existing recovery codes and generates a new set
+     * of recovery codes.
      * @param data {@link B2BRecoveryCodesRotateRequest}
      * @returns {@link B2BRecoveryCodesRotateResponse}
      * @async

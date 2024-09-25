@@ -59,7 +59,7 @@ export interface B2BDiscoveryIntermediateSessionsExchangeRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
    * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
    * used to determine which language to use when sending the passcode.
    *
@@ -121,7 +121,6 @@ export interface B2BDiscoveryIntermediateSessionsExchangeResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
-  // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
 }
 
@@ -140,8 +139,8 @@ export class IntermediateSessions {
    *
    * This endpoint can be used to accept invites and create new members via domain matching.
    *
-   * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
-   * be `false`.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`.
    * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
@@ -151,13 +150,6 @@ export class IntermediateSessions {
    * or the
    * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
    * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
-   *
-   * If the Member is logging in via an OAuth provider that does not fully verify the email, the returned
-   * value of `member_authenticated` will be `false`.
-   * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
-   * The `primary_required` field details the authentication flow the Member must perform in order to
-   * [complete a step-up authentication](https://stytch.com/docs/b2b/guides/oauth/auth-flows) into the
-   * organization. The `intermediate_session_token` must be passed into that authentication flow.
    * @param data {@link B2BDiscoveryIntermediateSessionsExchangeRequest}
    * @returns {@link B2BDiscoveryIntermediateSessionsExchangeResponse}
    * @async

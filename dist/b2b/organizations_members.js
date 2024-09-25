@@ -62,7 +62,7 @@ class Members {
   }
 
   /**
-   * Updates a specified by `organization_id` and `member_id`.
+   * Updates a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
    * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -95,7 +95,7 @@ class Members {
   }
 
   /**
-   * Deletes a specified by `organization_id` and `member_id`.
+   * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
    * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -117,9 +117,8 @@ class Members {
   }
 
   /**
-   * Reactivates a deleted's status and its associated email status (if applicable) to active, specified by
-   * `organization_id` and `member_id`. This endpoint will only work for Members with at least one verified
-   * email where their `email_address_verified` is `true`.
+   * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+   * specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -141,7 +140,7 @@ class Members {
   }
 
   /**
-   * Delete a's MFA phone number.
+   * Delete a Member's MFA phone number.
    *
    * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
    *
@@ -225,7 +224,7 @@ class Members {
   }
 
   /**
-   * Delete a's password.
+   * Delete a Member's password.
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
    * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -268,8 +267,8 @@ class Members {
   }
 
   /**
-   * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
-   * address
+   * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+   * email address
    * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
    * both. If using
    * both identifiers they must refer to the same email.
@@ -311,7 +310,7 @@ class Members {
   }
 
   /**
-   * Creates a. An `organization_id` and `email_address` are required.
+   * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
    * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
    * @returns {@link B2BOrganizationsMembersCreateResponse}
