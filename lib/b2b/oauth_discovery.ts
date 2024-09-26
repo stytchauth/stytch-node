@@ -79,7 +79,7 @@ export class Discovery {
   }
 
   /**
-   * Authenticates the Discovery OAuth token and exchanges it for an Intermediate Session Token. Intermediate
+   * Authenticates the Discovery token and exchanges it for an Intermediate Session Token. Intermediate
    * Session Tokens can be used for various Discovery login flows and are valid for 10 minutes.
    * @param data {@link B2BOAuthDiscoveryAuthenticateRequest}
    * @returns {@link B2BOAuthDiscoveryAuthenticateResponse}

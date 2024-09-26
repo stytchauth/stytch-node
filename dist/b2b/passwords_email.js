@@ -54,8 +54,8 @@ class Email {
   }
 
   /**
-   * Reset the member's password and authenticate them. This endpoint checks that the password reset token is
-   * valid, hasn’t expired, or already been used.
+   * Reset the's password and authenticate them. This endpoint checks that the password reset token is valid,
+   * hasn’t expired, or already been used.
    *
    * The provided password needs to meet our password strength requirements, which can be checked in advance
    * with the password strength endpoint. If the token and password are accepted, the password is securely
@@ -83,6 +83,23 @@ class Email {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/email/reset`,
+      headers,
+      data
+    });
+  }
+
+  /**
+   * @param data {@link B2BPasswordsEmailDeleteRequest}
+   * @returns {@link B2BPasswordsEmailDeleteResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  delete(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/passwords/email/delete`,
       headers,
       data
     });

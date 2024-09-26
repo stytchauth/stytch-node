@@ -28,6 +28,15 @@ export interface Connection {
     external_connection_id: string;
     display_name: string;
     status: string;
+    external_connection_implicit_role_assignments: ConnectionImplicitRoleAssignment[];
+    external_group_implicit_role_assignments: GroupImplicitRoleAssignment[];
+}
+export interface ConnectionImplicitRoleAssignment {
+    role_id: string;
+}
+export interface GroupImplicitRoleAssignment {
+    role_id: string;
+    group: string;
 }
 export interface OIDCConnection {
     organization_id: string;
@@ -134,7 +143,7 @@ export interface B2BSSOAuthenticateRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
@@ -286,8 +295,8 @@ export declare class SSO {
      * To link this authentication event to an existing Stytch session, include either the `session_token` or
      * `session_jwt` param.
      *
-     * If the Member is required to complete MFA to log in to the Organization, the returned value of
-     * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
+     * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
+     * be `false`, and an `intermediate_session_token` will be returned.
      * The `intermediate_session_token` can be passed into the
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
      * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),

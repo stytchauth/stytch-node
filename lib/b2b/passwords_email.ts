@@ -11,6 +11,19 @@ import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
+export interface B2BPasswordsEmailDeleteRequest {
+  email_address: string;
+  organization_id?: string;
+  member_id?: string;
+}
+
+export interface B2BPasswordsEmailDeleteResponse {
+  member: Member;
+  organization: Organization;
+  status_code: number;
+  member_id?: string;
+}
+
 // Request type for `passwords.email.reset`.
 export interface B2BPasswordsEmailResetRequest {
   // The password reset token to authenticate.
@@ -66,7 +79,7 @@ export interface B2BPasswordsEmailResetRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
    * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
    * used to determine which language to use when sending the passcode.
    *
@@ -254,8 +267,8 @@ export class Email {
   }
 
   /**
-   * Reset the member's password and authenticate them. This endpoint checks that the password reset token is
-   * valid, hasn’t expired, or already been used.
+   * Reset the's password and authenticate them. This endpoint checks that the password reset token is valid,
+   * hasn’t expired, or already been used.
    *
    * The provided password needs to meet our password strength requirements, which can be checked in advance
    * with the password strength endpoint. If the token and password are accepted, the password is securely
@@ -285,6 +298,25 @@ export class Email {
     return request<B2BPasswordsEmailResetResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/passwords/email/reset`,
+      headers,
+      data,
+    });
+  }
+
+  /**
+   * @param data {@link B2BPasswordsEmailDeleteRequest}
+   * @returns {@link B2BPasswordsEmailDeleteResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  delete(
+    data: B2BPasswordsEmailDeleteRequest
+  ): Promise<B2BPasswordsEmailDeleteResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BPasswordsEmailDeleteResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/passwords/email/delete`,
       headers,
       data,
     });
