@@ -121,6 +121,8 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
     | "microsoft-entra"
     | "google-workspace"
     | string;
+  custom_scopes?: string;
+  attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `sso.oidc.updateConnection`.
@@ -240,6 +242,8 @@ export class OIDC {
         userinfo_url: data.userinfo_url,
         jwks_url: data.jwks_url,
         identity_provider: data.identity_provider,
+        custom_scopes: data.custom_scopes,
+        attribute_mapping: data.attribute_mapping,
       },
     });
   }

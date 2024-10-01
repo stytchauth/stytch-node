@@ -8,6 +8,7 @@ import {
   Authorization,
   addAuthorizationHeaders,
 } from "../shared/method_options";
+import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -68,6 +69,8 @@ export interface OIDCConnection {
   userinfo_url: string;
   jwks_url: string;
   identity_provider: string;
+  custom_scopes: string;
+  attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface SAMLConnection {
@@ -312,11 +315,13 @@ export class SSO {
   private fetchConfig: fetchConfig;
   oidc: OIDC;
   saml: SAML;
+  external: External;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.oidc = new OIDC(this.fetchConfig);
     this.saml = new SAML(this.fetchConfig);
+    this.external = new External(this.fetchConfig);
   }
 
   /**

@@ -87,6 +87,8 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
      * `google-workspace`.
      */
     identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    custom_scopes?: string;
+    attribute_mapping?: Record<string, any>;
 }
 export interface B2BSSOOIDCUpdateConnectionResponse {
     /**

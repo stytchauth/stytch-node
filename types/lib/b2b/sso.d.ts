@@ -1,4 +1,5 @@
 import { Authorization } from "../shared/method_options";
+import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -52,6 +53,8 @@ export interface OIDCConnection {
     userinfo_url: string;
     jwks_url: string;
     identity_provider: string;
+    custom_scopes: string;
+    attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnection {
     organization_id: string;
@@ -264,6 +267,7 @@ export declare class SSO {
     private fetchConfig;
     oidc: OIDC;
     saml: SAML;
+    external: External;
     constructor(fetchConfig: fetchConfig);
     /**
      * Get all SSO Connections owned by the organization.
