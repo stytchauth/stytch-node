@@ -1,5 +1,5 @@
 import { Authorization } from "../shared/method_options";
-import { B2BOrganizationsResultsMetadata, Member, Organization, SearchQuery } from "./organizations";
+import { B2BOrganizationsResultsMetadata, Member, OIDCProviderInfo, Organization, SearchQuery } from "./organizations";
 import { fetchConfig } from "../shared";
 import { OAuthProviders } from "./organizations_members_oauth_providers";
 export interface B2BOrganizationsMembersCreateRequestOptions {
@@ -269,6 +269,16 @@ export interface B2BOrganizationsMembersGetResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface B2BOrganizationsMembersOIDCProviderInformationRequest {
+    organization_id: string;
+    member_id: string;
+    include_refresh_token?: boolean;
+}
+export interface B2BOrganizationsMembersOIDCProvidersResponse {
+    request_id: string;
+    registrations: OIDCProviderInfo[];
     status_code: number;
 }
 export interface B2BOrganizationsMembersReactivateRequest {
@@ -625,6 +635,14 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     dangerouslyGet(params: B2BOrganizationsMembersDangerouslyGetRequest): Promise<B2BOrganizationsMembersGetResponse>;
+    /**
+     * @param params {@link B2BOrganizationsMembersOIDCProviderInformationRequest}
+     * @returns {@link B2BOrganizationsMembersOIDCProvidersResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    oidcProviders(params: B2BOrganizationsMembersOIDCProviderInformationRequest): Promise<B2BOrganizationsMembersOIDCProvidersResponse>;
     /**
      * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
      * address

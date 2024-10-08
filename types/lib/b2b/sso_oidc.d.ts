@@ -87,6 +87,16 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
      * `google-workspace`.
      */
     identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    /**
+     * Include a space-separated list of custom scopes that you'd like to include. Note that this list must be
+     * URL encoded, e.g. the spaces must be expressed as %20.
+     */
+    custom_scopes?: string;
+    /**
+     * An object that represents the attributes used to identify a Member. This object will map the IdP-defined
+     * User attributes to Stytch-specific values, which will appear on the member's Trusted Metadata.
+     */
+    attribute_mapping?: Record<string, any>;
 }
 export interface B2BSSOOIDCUpdateConnectionResponse {
     /**

@@ -121,6 +121,16 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
     | "microsoft-entra"
     | "google-workspace"
     | string;
+  /**
+   * Include a space-separated list of custom scopes that you'd like to include. Note that this list must be
+   * URL encoded, e.g. the spaces must be expressed as %20.
+   */
+  custom_scopes?: string;
+  /**
+   * An object that represents the attributes used to identify a Member. This object will map the IdP-defined
+   * User attributes to Stytch-specific values, which will appear on the member's Trusted Metadata.
+   */
+  attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `sso.oidc.updateConnection`.
@@ -240,6 +250,8 @@ export class OIDC {
         userinfo_url: data.userinfo_url,
         jwks_url: data.jwks_url,
         identity_provider: data.identity_provider,
+        custom_scopes: data.custom_scopes,
+        attribute_mapping: data.attribute_mapping,
       },
     });
   }
