@@ -11,6 +11,7 @@ import {
 import {
   B2BOrganizationsResultsMetadata,
   Member,
+  OIDCProviderInfo,
   Organization,
   SearchQuery,
 } from "./organizations";
@@ -341,6 +342,18 @@ export interface B2BOrganizationsMembersGetResponse {
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
+  status_code: number;
+}
+
+export interface B2BOrganizationsMembersOIDCProviderInformationRequest {
+  organization_id: string;
+  member_id: string;
+  include_refresh_token?: boolean;
+}
+
+export interface B2BOrganizationsMembersOIDCProvidersResponse {
+  request_id: string;
+  registrations: OIDCProviderInfo[];
   status_code: number;
 }
 
@@ -869,6 +882,30 @@ export class Members {
       headers,
       params: {},
     });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsMembersOIDCProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOIDCProvidersResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  oidcProviders(
+    params: B2BOrganizationsMembersOIDCProviderInformationRequest
+  ): Promise<B2BOrganizationsMembersOIDCProvidersResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BOrganizationsMembersOIDCProvidersResponse>(
+      this.fetchConfig,
+      {
+        method: "GET",
+        url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oidc_providers`,
+        headers,
+        params: {
+          include_refresh_token: params.include_refresh_token,
+        },
+      }
+    );
   }
 
   /**

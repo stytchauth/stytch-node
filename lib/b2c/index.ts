@@ -81,6 +81,7 @@ export type {
   FacebookOAuthFactor,
   FigmaOAuthFactor,
   GitLabOAuthFactor,
+  GithubOAuthExchangeFactor,
   GithubOAuthFactor,
   GoogleOAuthFactor,
   HubspotOAuthExchangeFactor,

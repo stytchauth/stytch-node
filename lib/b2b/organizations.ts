@@ -309,6 +309,16 @@ export interface OAuthRegistration {
   locale?: string;
 }
 
+export interface OIDCProviderInfo {
+  provider_subject: string;
+  id_token: string;
+  access_token: string;
+  access_token_expires_in: number;
+  scopes: string[];
+  connection_id: string;
+  refresh_token?: string;
+}
+
 export interface Organization {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to

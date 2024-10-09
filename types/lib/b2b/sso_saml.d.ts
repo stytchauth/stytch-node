@@ -153,7 +153,9 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     saml_group_implicit_role_assignments?: SAMLGroupImplicitRoleAssignment[];
     /**
      * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
-     * an existing SAML integration to Stytch with zero downtime.
+     * an existing SAML integration to Stytch with zero downtime. Read our
+     * [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+     * for more info.
      */
     alternative_audience_uri?: string;
     /**

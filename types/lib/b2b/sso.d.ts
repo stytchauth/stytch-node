@@ -52,6 +52,8 @@ export interface OIDCConnection {
     userinfo_url: string;
     jwks_url: string;
     identity_provider: string;
+    custom_scopes: string;
+    attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnection {
     organization_id: string;

@@ -97,6 +97,7 @@ export interface AuthenticationFactor {
     | "imported_auth0"
     | "oauth_exchange_slack"
     | "oauth_exchange_hubspot"
+    | "oauth_exchange_github"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -147,6 +148,7 @@ export interface AuthenticationFactor {
   hubspot_oauth_factor?: HubspotOAuthFactor;
   slack_oauth_exchange_factor?: SlackOAuthExchangeFactor;
   hubspot_oauth_exchange_factor?: HubspotOAuthExchangeFactor;
+  github_oauth_exchange_factor?: GithubOAuthExchangeFactor;
 }
 
 export interface AuthenticatorAppFactor {
@@ -209,6 +211,10 @@ export interface GitLabOAuthFactor {
   id: string;
   provider_subject: string;
   email_id?: string;
+}
+
+export interface GithubOAuthExchangeFactor {
+  email_id: string;
 }
 
 export interface GithubOAuthFactor {

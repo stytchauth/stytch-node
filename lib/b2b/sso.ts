@@ -68,6 +68,8 @@ export interface OIDCConnection {
   userinfo_url: string;
   jwks_url: string;
   identity_provider: string;
+  custom_scopes: string;
+  attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface SAMLConnection {

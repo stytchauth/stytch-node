@@ -102,7 +102,9 @@ class OIDC {
         token_url: data.token_url,
         userinfo_url: data.userinfo_url,
         jwks_url: data.jwks_url,
-        identity_provider: data.identity_provider
+        identity_provider: data.identity_provider,
+        custom_scopes: data.custom_scopes,
+        attribute_mapping: data.attribute_mapping
       }
     });
   }

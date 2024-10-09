@@ -268,6 +268,25 @@ class Members {
   }
 
   /**
+   * @param params {@link B2BOrganizationsMembersOIDCProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOIDCProvidersResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  oidcProviders(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oidc_providers`,
+      headers,
+      params: {
+        include_refresh_token: params.include_refresh_token
+      }
+    });
+  }
+
+  /**
    * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
    * address
    * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
