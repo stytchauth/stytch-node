@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SSO = void 0;
 var _method_options = require("../shared/method_options");
+var _sso_external = require("./sso_external");
 var _sso_oidc = require("./sso_oidc");
 var _shared = require("../shared");
 var _sso_saml = require("./sso_saml");
@@ -31,6 +32,7 @@ class SSO {
     this.fetchConfig = fetchConfig;
     this.oidc = new _sso_oidc.OIDC(this.fetchConfig);
     this.saml = new _sso_saml.SAML(this.fetchConfig);
+    this.external = new _sso_external.External(this.fetchConfig);
   }
 
   /**

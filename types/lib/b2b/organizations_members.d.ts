@@ -140,6 +140,7 @@ export interface B2BOrganizationsMembersDangerouslyGetRequest {
      * operations on a Member, so be sure to preserve this value.
      */
     member_id: string;
+    include_deleted?: boolean;
 }
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
     /**

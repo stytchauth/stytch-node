@@ -178,6 +178,8 @@ export interface B2BOrganizationsMembersDangerouslyGetRequest {
    * operations on a Member, so be sure to preserve this value.
    */
   member_id: string;
+  // Whether to include deleted Members in the response. Defaults to false.
+  include_deleted?: boolean;
 }
 
 // Request type for `organizations.members.deleteMFAPhoneNumber`.
@@ -880,7 +882,9 @@ export class Members {
       method: "GET",
       url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
       headers,
-      params: {},
+      params: {
+        include_deleted: params.include_deleted,
+      },
     });
   }
 

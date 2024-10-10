@@ -263,7 +263,9 @@ class Members {
       method: "GET",
       url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
       headers,
-      params: {}
+      params: {
+        include_deleted: params.include_deleted
+      }
     });
   }
 

@@ -1,4 +1,5 @@
 import { Authorization } from "../shared/method_options";
+import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -32,9 +33,35 @@ export interface Connection {
     external_group_implicit_role_assignments: GroupImplicitRoleAssignment[];
 }
 export interface ConnectionImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
 }
 export interface GroupImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
     group: string;
 }
@@ -255,6 +282,10 @@ export interface B2BSSOGetConnectionsResponse {
      * organization.
      */
     oidc_connections: OIDCConnection[];
+    /**
+     * The list of [External Connections](https://stytch.com/docs/b2b/api/external-connection-object) owned by
+     * this organization.
+     */
     external_connections: Connection[];
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
@@ -266,6 +297,7 @@ export declare class SSO {
     private fetchConfig;
     oidc: OIDC;
     saml: SAML;
+    external: External;
     constructor(fetchConfig: fetchConfig);
     /**
      * Get all SSO Connections owned by the organization.

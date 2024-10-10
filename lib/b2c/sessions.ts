@@ -515,7 +515,7 @@ export interface SessionsGetResponse {
 
 // Request type for `sessions.migrate`.
 export interface SessionsMigrateRequest {
-  // The `session_token` associated with a User's existing Session.
+  // The authorization token Stytch will pass in to the external userinfo endpoint.
   session_token: string;
   /**
    * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
