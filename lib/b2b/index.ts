@@ -309,3 +309,12 @@ export type {
   B2BSSOSAMLUpdateByURLRequestOptions,
   B2BSSOSAMLDeleteVerificationCertificateRequestOptions,
 } from "./sso_saml";
+
+export type {
+  B2BSSOExternalCreateConnectionRequest,
+  B2BSSOExternalCreateConnectionResponse,
+  B2BSSOExternalUpdateConnectionRequest,
+  B2BSSOExternalUpdateConnectionResponse,
+  B2BSSOExternalCreateConnectionRequestOptions,
+  B2BSSOExternalUpdateConnectionRequestOptions,
+} from "./sso_external";

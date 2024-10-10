@@ -8,6 +8,7 @@ import {
   Authorization,
   addAuthorizationHeaders,
 } from "../shared/method_options";
+import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -46,11 +47,38 @@ export interface Connection {
 }
 
 export interface ConnectionImplicitRoleAssignment {
+  /**
+   * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+   *
+   *   Reserved `role_id`s that are predefined by Stytch include:
+   *
+   *   * `stytch_member`
+   *   * `stytch_admin`
+   *
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+   * for a more detailed explanation.
+   *
+   *
+   */
   role_id: string;
 }
 
 export interface GroupImplicitRoleAssignment {
+  /**
+   * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+   *
+   *   Reserved `role_id`s that are predefined by Stytch include:
+   *
+   *   * `stytch_member`
+   *   * `stytch_admin`
+   *
+   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+   * for a more detailed explanation.
+   *
+   *
+   */
   role_id: string;
+  // The name of the group that grants the specified role assignment.
   group: string;
 }
 
@@ -122,7 +150,7 @@ export interface SAMLGroupImplicitRoleAssignment {
    *
    */
   role_id: string;
-  // The name of the SAML group that grants the specified role assignment.
+  // The name of the group that grants the specified role assignment.
   group: string;
 }
 
@@ -256,7 +284,7 @@ export interface B2BSSOAuthenticateResponse {
 export interface B2BSSODeleteConnectionRequest {
   // The organization ID that the SSO connection belongs to.
   organization_id: string;
-  // The ID of the SSO connection. Both SAML and OIDC connection IDs can be provided.
+  // The ID of the SSO connection. SAML, OIDC, and External connection IDs can be provided.
   connection_id: string;
 }
 
@@ -302,6 +330,10 @@ export interface B2BSSOGetConnectionsResponse {
    * organization.
    */
   oidc_connections: OIDCConnection[];
+  /**
+   * The list of [External Connections](https://stytch.com/docs/b2b/api/external-connection-object) owned by
+   * this organization.
+   */
   external_connections: Connection[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
@@ -314,11 +346,13 @@ export class SSO {
   private fetchConfig: fetchConfig;
   oidc: OIDC;
   saml: SAML;
+  external: External;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.oidc = new OIDC(this.fetchConfig);
     this.saml = new SAML(this.fetchConfig);
+    this.external = new External(this.fetchConfig);
   }
 
   /**
