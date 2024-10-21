@@ -196,7 +196,8 @@ export class Sms {
    * An error will be thrown if the Member already has a phone number and the provided `mfa_phone_number`
    * does not match the existing one.
    *
-   * Note that sending another OTP code before the first has expired will invalidate the first code.
+   * OTP codes expire after two minutes. Note that sending another OTP code before the first has expired will
+   * invalidate the first code.
    *
    * If a Member has a phone number and is enrolled in MFA, then after a successful primary authentication
    * event (e.g. [email magic link](https://stytch.com/docs/b2b/api/authenticate-magic-link) or
@@ -240,8 +241,10 @@ export class Sms {
    * requirement, or they can be used as a step-up factor to be added to an existing session.
    *
    * This endpoint verifies that the one-time passcode (OTP) is valid and hasn't expired or been previously
-   * used. A given Member may only have a single active OTP code at any given time. If a Member requests
-   * another OTP code before the first one has expired, the first one will be invalidated.
+   * used. OTP codes expire after two minutes.
+   *
+   * A given Member may only have a single active OTP code at any given time. If a Member requests another
+   * OTP code before the first one has expired, the first one will be invalidated.
    *
    * Exactly one of `intermediate_session_token`, `session_token`, or `session_jwt` must be provided in the
    * request.

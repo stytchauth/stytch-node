@@ -249,12 +249,13 @@ export type {
 } from "./passwords";
 
 export type {
-  B2BPasswordsEmailDeleteRequest,
-  B2BPasswordsEmailDeleteResponse,
+  B2BPasswordsEmailRequireResetRequest,
+  B2BPasswordsEmailRequireResetResponse,
   B2BPasswordsEmailResetRequest,
   B2BPasswordsEmailResetResponse,
   B2BPasswordsEmailResetStartRequest,
   B2BPasswordsEmailResetStartResponse,
+  B2BPasswordsEmailRequireResetRequestOptions,
 } from "./passwords_email";
 
 export type {
@@ -266,6 +267,18 @@ export type {
   B2BPasswordsExistingPasswordResetRequest,
   B2BPasswordsExistingPasswordResetResponse,
 } from "./passwords_existing_password";
+
+export type {
+  B2BPasswordsDiscoveryAuthenticateRequest,
+  B2BPasswordsDiscoveryAuthenticateResponse,
+} from "./passwords_discovery";
+
+export type {
+  B2BPasswordsDiscoveryEmailResetRequest,
+  B2BPasswordsDiscoveryEmailResetResponse,
+  B2BPasswordsDiscoveryEmailResetStartRequest,
+  B2BPasswordsDiscoveryEmailResetStartResponse,
+} from "./passwords_discovery_email";
 
 export type {
   Connection,

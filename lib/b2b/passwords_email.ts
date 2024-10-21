@@ -4,20 +4,32 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
-export interface B2BPasswordsEmailDeleteRequest {
+export interface B2BPasswordsEmailRequireResetRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BPasswordsEmailRequireResetRequest {
   email_address: string;
   organization_id?: string;
   member_id?: string;
 }
 
-export interface B2BPasswordsEmailDeleteResponse {
+export interface B2BPasswordsEmailRequireResetResponse {
   member: Member;
   organization: Organization;
   status_code: number;
@@ -304,19 +316,24 @@ export class Email {
   }
 
   /**
-   * @param data {@link B2BPasswordsEmailDeleteRequest}
-   * @returns {@link B2BPasswordsEmailDeleteResponse}
+   * @param data {@link B2BPasswordsEmailRequireResetRequest}
+   * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
+   * @returns {@link B2BPasswordsEmailRequireResetResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  delete(
-    data: B2BPasswordsEmailDeleteRequest
-  ): Promise<B2BPasswordsEmailDeleteResponse> {
+  requireReset(
+    data: B2BPasswordsEmailRequireResetRequest,
+    options?: B2BPasswordsEmailRequireResetRequestOptions
+  ): Promise<B2BPasswordsEmailRequireResetResponse> {
     const headers: Record<string, string> = {};
-    return request<B2BPasswordsEmailDeleteResponse>(this.fetchConfig, {
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BPasswordsEmailRequireResetResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/passwords/email/delete`,
+      url: `/v1/b2b/passwords/email/require_reset`,
       headers,
       data,
     });

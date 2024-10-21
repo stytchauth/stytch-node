@@ -163,6 +163,9 @@ export interface WebAuthnRegisterStartRequest {
      *
      */
     return_passkey_credential_options?: boolean;
+    override_id?: string;
+    override_name?: string;
+    override_display_name?: string;
 }
 export interface WebAuthnRegisterStartResponse {
     /**

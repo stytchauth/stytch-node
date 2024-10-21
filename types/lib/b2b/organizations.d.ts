@@ -273,12 +273,30 @@ export interface OAuthRegistration {
     locale?: string;
 }
 export interface OIDCProviderInfo {
+    /**
+     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+     * "Subject field" in OAuth protocols.
+     */
     provider_subject: string;
+    /**
+     * The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured information
+     * about a user. The exact content of each ID Token varies from provider to provider. ID Tokens are
+     * returned from OAuth providers that conform to the [OpenID Connect](https://openid.net/foundation/)
+     * specification, which is based on OAuth.
+     */
     id_token: string;
     access_token: string;
     access_token_expires_in: number;
+    /**
+     * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+     * are included by default and how to add custom scopes.
+     */
     scopes: string[];
     connection_id: string;
+    /**
+     * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+     * API.
+     */
     refresh_token?: string;
 }
 export interface Organization {
