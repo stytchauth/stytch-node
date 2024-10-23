@@ -13,12 +13,24 @@ export interface B2BPasswordsEmailRequireResetRequestOptions {
 }
 export interface B2BPasswordsEmailRequireResetRequest {
     email_address: string;
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
     organization_id?: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id?: string;
 }
 export interface B2BPasswordsEmailRequireResetResponse {
     member: Member;
     organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
     member_id?: string;
 }
@@ -253,6 +265,8 @@ export declare class Email {
      */
     reset(data: B2BPasswordsEmailResetRequest): Promise<B2BPasswordsEmailResetResponse>;
     /**
+     * Require a password be reset by the associated email address. This endpoint is only functional for
+     * cross-org password use cases.
      * @param data {@link B2BPasswordsEmailRequireResetRequest}
      * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
      * @returns {@link B2BPasswordsEmailRequireResetResponse}

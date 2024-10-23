@@ -76,6 +76,40 @@ export interface EmailImplicitRoleAssignment {
   role_id: string;
 }
 
+export interface GithubProviderInfo {
+  provider_subject: string;
+  provider_tenant_ids: string[];
+  access_token: string;
+  scopes: string[];
+}
+
+export interface HubspOTPRoviderInfo {
+  /**
+   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+   * "Subject field" in OAuth protocols.
+   */
+  provider_subject: string;
+  /**
+   * The tenant ID returned by the OAuth provider. This is typically used to identify the organization. For
+   * example, in HubSpot, this is the Hub ID, and for Slack, this is the Workspace ID.
+   */
+  provider_tenant_id: string;
+  // The `access_token` that you may use to access the User's data in the provider's API.
+  access_token: string;
+  // The number of seconds until the access token expires.
+  access_token_expires_in: number;
+  /**
+   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+   * are included by default and how to add custom scopes.
+   */
+  scopes: string[];
+  /**
+   * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+   * API.
+   */
+  refresh_token?: string;
+}
+
 export interface Member {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -533,6 +567,33 @@ export interface SearchQuery {
   operator: "OR" | "AND" | string;
   // An array of operand objects that contains all of the filters and values to apply to your search query.
   operands: SearchQueryOperand[];
+}
+
+export interface SlackProviderInfo {
+  /**
+   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+   * "Subject field" in OAuth protocols.
+   */
+  provider_subject: string;
+  /**
+   * The tenant ID returned by the OAuth provider. This is typically used to identify the organization. For
+   * example, in HubSpot, this is the Hub ID, and for Slack, this is the Workspace ID.
+   */
+  provider_tenant_id: string;
+  // The `access_token` that you may use to access the User's data in the provider's API.
+  access_token: string;
+  /**
+   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+   * are included by default and how to add custom scopes.
+   */
+  scopes: string[];
+  /**
+   * The `access_token` that you may use to access data as a bot application in Slack. Use in conjunction
+   * with `bot_scopes`.
+   */
+  bot_access_token: string;
+  // The scopes that the bot application has access to in Slack.
+  bot_scopes: string[];
 }
 
 // Request type for `organizations.create`.

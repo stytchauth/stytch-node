@@ -12,6 +12,10 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `passwords.email.requireReset`.
+
+// Response type for `passwords.email.requireReset`.
+
 // Request type for `passwords.email.reset`.
 
 // Response type for `passwords.email.reset`.
@@ -89,6 +93,8 @@ class Email {
   }
 
   /**
+   * Require a password be reset by the associated email address. This endpoint is only functional for
+   * cross-org password use cases.
    * @param data {@link B2BPasswordsEmailRequireResetRequest}
    * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
    * @returns {@link B2BPasswordsEmailRequireResetResponse}

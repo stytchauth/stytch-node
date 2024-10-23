@@ -1,4 +1,11 @@
 import { fetchConfig } from "../shared";
+import { GithubProviderInfo, HubspOTPRoviderInfo, SlackProviderInfo } from "./organizations";
+export interface B2BOrganizationsMembersOAuthProvidersGithubResponse {
+    request_id: string;
+    provider_type: string;
+    registrations: GithubProviderInfo[];
+    status_code: number;
+}
 export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
     /**
      * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -39,6 +46,24 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
      * API.
      */
     refresh_token?: string;
+}
+export interface B2BOrganizationsMembersOAuthProvidersHubspotResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    /**
+     * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+     * etc.
+     */
+    provider_type: string;
+    registrations: HubspOTPRoviderInfo[];
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
 }
 export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
     /**
@@ -83,7 +108,7 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
 }
 /**
  * Request type for `organizations.members.oauthProviders.google`,
- * `organizations.members.oauthProviders.microsoft`.
+ * `organizations.members.oauthProviders.hubspot`, `organizations.members.oauthProviders.microsoft`.
  */
 export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest {
     /**
@@ -102,6 +127,36 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
      * refresh access tokens in the future.
      */
     include_refresh_token?: boolean;
+}
+export interface B2BOrganizationsMembersOAuthProvidersSlackRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
+    organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
+    member_id: string;
+}
+export interface B2BOrganizationsMembersOAuthProvidersSlackResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    /**
+     * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+     * etc.
+     */
+    provider_type: string;
+    registrations: SlackProviderInfo[];
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
 }
 /**
  * @deprecated Since version 10.11.0. Please use {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest} instead.
@@ -143,4 +198,36 @@ export declare class OAuthProviders {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     microsoft(params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest): Promise<B2BOrganizationsMembersOAuthProvidersMicrosoftResponse>;
+    /**
+     * Retrieve the saved Slack access token and ID token for a member. After a successful OAuth login, Stytch
+     * will save the
+     * issued access token and ID token from the identity provider.
+     * @param params {@link B2BOrganizationsMembersOAuthProvidersSlackRequest}
+     * @returns {@link B2BOrganizationsMembersOAuthProvidersSlackResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    slack(params: B2BOrganizationsMembersOAuthProvidersSlackRequest): Promise<B2BOrganizationsMembersOAuthProvidersSlackResponse>;
+    /**
+     * Retrieve the saved Hubspot access token and ID token for a member. After a successful OAuth login,
+     * Stytch will save the
+     * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
+     * will refresh the
+     * access token automatically.
+     * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+     * @returns {@link B2BOrganizationsMembersOAuthProvidersHubspotResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    hubspot(params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest): Promise<B2BOrganizationsMembersOAuthProvidersHubspotResponse>;
+    /**
+     * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+     * @returns {@link B2BOrganizationsMembersOAuthProvidersGithubResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    github(params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest): Promise<B2BOrganizationsMembersOAuthProvidersGithubResponse>;
 }

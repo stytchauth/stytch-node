@@ -76,6 +76,8 @@ export type {
   ActiveSCIMConnection,
   ActiveSSOConnection,
   EmailImplicitRoleAssignment,
+  GithubProviderInfo,
+  HubspOTPRoviderInfo,
   Member,
   MemberRole,
   MemberRoleSource,
@@ -87,6 +89,7 @@ export type {
   SCIMRegistration,
   SSORegistration,
   SearchQuery,
+  SlackProviderInfo,
   B2BOrganizationsCreateRequest,
   B2BOrganizationsCreateResponse,
   B2BOrganizationsDeleteRequest,
@@ -139,9 +142,13 @@ export type {
 } from "./organizations_members";
 
 export type {
+  B2BOrganizationsMembersOAuthProvidersGithubResponse,
   B2BOrganizationsMembersOAuthProvidersGoogleResponse,
+  B2BOrganizationsMembersOAuthProvidersHubspotResponse,
   B2BOrganizationsMembersOAuthProvidersMicrosoftResponse,
   B2BOrganizationsMembersOAuthProvidersProviderInformationRequest,
+  B2BOrganizationsMembersOAuthProvidersSlackRequest,
+  B2BOrganizationsMembersOAuthProvidersSlackResponse,
 } from "./organizations_members_oauth_providers";
 
 export type {
