@@ -194,7 +194,7 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
   oauth_tenant_jit_provisioning?: string;
   /**
    * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
-   * provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+   * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
    */
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

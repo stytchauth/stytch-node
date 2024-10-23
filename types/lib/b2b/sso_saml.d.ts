@@ -144,8 +144,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * connection and
      *  belongs to the specified SAML group, they will be granted the associated Role. See the
      *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
-     * assignment.
-     *          Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+     * assignment. Before adding any group implicit role assignments, you must add a "groups" key to your SAML
      * connection's
      *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
      * information.

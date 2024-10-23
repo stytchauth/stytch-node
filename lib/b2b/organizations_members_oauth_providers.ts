@@ -6,7 +6,33 @@
 
 import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
+import {
+  GithubProviderInfo,
+  HubspOTPRoviderInfo,
+  SlackProviderInfo,
+} from "./organizations";
 import { request } from "../shared";
+
+// Response type for `organizations.members.oauthProviders.github`.
+export interface B2BOrganizationsMembersOAuthProvidersGithubResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  /**
+   * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+   * etc.
+   */
+  provider_type: string;
+  // A list of tokens the member is registered with.
+  registrations: GithubProviderInfo[];
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
+  status_code: number;
+}
 
 // Response type for `organizations.members.oauthProviders.google`.
 export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
@@ -51,6 +77,27 @@ export interface B2BOrganizationsMembersOAuthProvidersGoogleResponse {
    * API.
    */
   refresh_token?: string;
+}
+
+// Response type for `organizations.members.oauthProviders.hubspot`.
+export interface B2BOrganizationsMembersOAuthProvidersHubspotResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  /**
+   * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+   * etc.
+   */
+  provider_type: string;
+  // A list of tokens the member is registered with.
+  registrations: HubspOTPRoviderInfo[];
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
+  status_code: number;
 }
 
 // Response type for `organizations.members.oauthProviders.microsoft`.
@@ -99,7 +146,8 @@ export interface B2BOrganizationsMembersOAuthProvidersMicrosoftResponse {
 }
 
 /**
- * Request type for `organizations.members.oauthProviders.google`,
+ * Request type for `organizations.members.oauthProviders.github`,
+ * `organizations.members.oauthProviders.google`, `organizations.members.oauthProviders.hubspot`,
  * `organizations.members.oauthProviders.microsoft`.
  */
 export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest {
@@ -119,6 +167,41 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
    * refresh access tokens in the future.
    */
   include_refresh_token?: boolean;
+}
+
+// Request type for `organizations.members.oauthProviders.slack`.
+export interface B2BOrganizationsMembersOAuthProvidersSlackRequest {
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
+  organization_id: string;
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
+  member_id: string;
+}
+
+// Response type for `organizations.members.oauthProviders.slack`.
+export interface B2BOrganizationsMembersOAuthProvidersSlackResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  /**
+   * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+   * etc.
+   */
+  provider_type: string;
+  // A list of tokens the member is registered with.
+  registrations: SlackProviderInfo[];
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
+  status_code: number;
 }
 
 // MANUAL(ProviderInformationRequest)(TYPES)
@@ -193,6 +276,89 @@ export class OAuthProviders {
       {
         method: "GET",
         url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/microsoft`,
+        headers,
+        params: {
+          include_refresh_token: params.include_refresh_token,
+        },
+      }
+    );
+  }
+
+  /**
+   * Retrieve the saved Slack access token and ID token for a member. After a successful OAuth login, Stytch
+   * will save the
+   * issued access token and ID token from the identity provider.
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersSlackRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersSlackResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  slack(
+    params: B2BOrganizationsMembersOAuthProvidersSlackRequest
+  ): Promise<B2BOrganizationsMembersOAuthProvidersSlackResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BOrganizationsMembersOAuthProvidersSlackResponse>(
+      this.fetchConfig,
+      {
+        method: "GET",
+        url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/slack`,
+        headers,
+        params: {},
+      }
+    );
+  }
+
+  /**
+   * Retrieve the saved Hubspot access token and ID token for a member. After a successful OAuth login,
+   * Stytch will save the
+   * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
+   * will refresh the
+   * access token automatically.
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersHubspotResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  hubspot(
+    params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
+  ): Promise<B2BOrganizationsMembersOAuthProvidersHubspotResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BOrganizationsMembersOAuthProvidersHubspotResponse>(
+      this.fetchConfig,
+      {
+        method: "GET",
+        url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/hubspot`,
+        headers,
+        params: {
+          include_refresh_token: params.include_refresh_token,
+        },
+      }
+    );
+  }
+
+  /**
+   * Retrieve the saved GitHub access token for a Member. After a successful OAuth login, Stytch will save
+   * the
+   * issued access token from the identity provider. GitHub does not issue refresh tokens, but will
+   * invalidate access
+   * tokens after very long periods of inactivity.
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersGithubResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  github(
+    params: B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
+  ): Promise<B2BOrganizationsMembersOAuthProvidersGithubResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BOrganizationsMembersOAuthProvidersGithubResponse>(
+      this.fetchConfig,
+      {
+        method: "GET",
+        url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/github`,
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,

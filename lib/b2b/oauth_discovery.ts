@@ -62,8 +62,19 @@ export interface B2BOAuthDiscoveryAuthenticateResponse {
    * domain as the end user (to prevent phishing attacks).
    */
   discovered_organizations: DiscoveredOrganization[];
+  /**
+   * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+   * etc.
+   */
   provider_type: string;
+  /**
+   * The tenant ID returned by the OAuth provider. This is typically used to identify the organization. For
+   * example, for HubSpot this is the Hub ID, for Slack, this is the Workspace ID, and for GitHub this is an
+   * organization ID.
+   */
   provider_tenant_id: string;
+  // The IDs of tenants returned from a completed OAuth authentication. Some providers do not return tenants.
+  provider_tenant_ids: string[];
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -79,8 +90,9 @@ export class Discovery {
   }
 
   /**
-   * Authenticates the Discovery token and exchanges it for an Intermediate Session Token. Intermediate
-   * Session Tokens can be used for various Discovery login flows and are valid for 10 minutes.
+   * Authenticates the Discovery token and exchanges it for an Intermediate
+   * Session Token. Intermediate Session Tokens can be used for various Discovery login flows and are valid
+   * for 10 minutes.
    * @param data {@link B2BOAuthDiscoveryAuthenticateRequest}
    * @returns {@link B2BOAuthDiscoveryAuthenticateResponse}
    * @async
