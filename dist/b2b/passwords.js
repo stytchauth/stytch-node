@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Passwords = void 0;
 require("../shared/method_options");
+var _passwords_discovery = require("./passwords_discovery");
 var _passwords_email = require("./passwords_email");
 var _passwords_existing_password = require("./passwords_existing_password");
 var _shared = require("../shared");
@@ -33,6 +34,7 @@ class Passwords {
     this.email = new _passwords_email.Email(this.fetchConfig);
     this.sessions = new _passwords_session.Sessions(this.fetchConfig);
     this.existingPassword = new _passwords_existing_password.ExistingPassword(this.fetchConfig);
+    this.discovery = new _passwords_discovery.Discovery(this.fetchConfig);
   }
 
   /**

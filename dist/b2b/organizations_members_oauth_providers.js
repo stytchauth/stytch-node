@@ -14,12 +14,18 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.oauthProviders.google`.
 
+// Response type for `organizations.members.oauthProviders.hubspot`.
+
 // Response type for `organizations.members.oauthProviders.microsoft`.
 
 /**
  * Request type for `organizations.members.oauthProviders.google`,
- * `organizations.members.oauthProviders.microsoft`.
+ * `organizations.members.oauthProviders.hubspot`, `organizations.members.oauthProviders.microsoft`.
  */
+
+// Request type for `organizations.members.oauthProviders.slack`.
+
+// Response type for `organizations.members.oauthProviders.slack`.
 
 // MANUAL(ProviderInformationRequest)(TYPES)
 /**
@@ -81,6 +87,69 @@ class OAuthProviders {
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/microsoft`,
+      headers,
+      params: {
+        include_refresh_token: params.include_refresh_token
+      }
+    });
+  }
+
+  /**
+   * Retrieve the saved Slack access token and ID token for a member. After a successful OAuth login, Stytch
+   * will save the
+   * issued access token and ID token from the identity provider.
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersSlackRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersSlackResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  slack(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/slack`,
+      headers,
+      params: {}
+    });
+  }
+
+  /**
+   * Retrieve the saved Hubspot access token and ID token for a member. After a successful OAuth login,
+   * Stytch will save the
+   * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
+   * will refresh the
+   * access token automatically.
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersHubspotResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  hubspot(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/hubspot`,
+      headers,
+      params: {
+        include_refresh_token: params.include_refresh_token
+      }
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsMembersOAuthProvidersProviderInformationRequest}
+   * @returns {@link B2BOrganizationsMembersOAuthProvidersGithubResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  github(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/github`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token

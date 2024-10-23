@@ -1,4 +1,5 @@
 import { Argon2Config, MD5Config, PBKDF2Config, SHA1Config, ScryptConfig } from "../b2c/passwords";
+import { Discovery } from "./passwords_discovery";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
@@ -280,6 +281,7 @@ export declare class Passwords {
     email: Email;
     sessions: Sessions;
     existingPassword: ExistingPassword;
+    discovery: Discovery;
     constructor(fetchConfig: fetchConfig);
     /**
      * This API allows you to check whether the user’s provided password is valid, and to provide feedback to

@@ -1,15 +1,36 @@
+import { Authorization } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
 import { MfaRequired } from "./mfa";
-export interface B2BPasswordsEmailDeleteRequest {
+export interface B2BPasswordsEmailRequireResetRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BPasswordsEmailRequireResetRequest {
     email_address: string;
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value.
+     */
     organization_id?: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value.
+     */
     member_id?: string;
 }
-export interface B2BPasswordsEmailDeleteResponse {
+export interface B2BPasswordsEmailRequireResetResponse {
     member: Member;
     organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
     member_id?: string;
 }
@@ -244,11 +265,14 @@ export declare class Email {
      */
     reset(data: B2BPasswordsEmailResetRequest): Promise<B2BPasswordsEmailResetResponse>;
     /**
-     * @param data {@link B2BPasswordsEmailDeleteRequest}
-     * @returns {@link B2BPasswordsEmailDeleteResponse}
+     * Require a password be reset by the associated email address. This endpoint is only functional for
+     * cross-org password use cases.
+     * @param data {@link B2BPasswordsEmailRequireResetRequest}
+     * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
+     * @returns {@link B2BPasswordsEmailRequireResetResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    delete(data: B2BPasswordsEmailDeleteRequest): Promise<B2BPasswordsEmailDeleteResponse>;
+    requireReset(data: B2BPasswordsEmailRequireResetRequest, options?: B2BPasswordsEmailRequireResetRequestOptions): Promise<B2BPasswordsEmailRequireResetResponse>;
 }
