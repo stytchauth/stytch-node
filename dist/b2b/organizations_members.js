@@ -39,6 +39,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
 
+// Request type for `organizations.members.oidcProviders`.
+
+// Response type for `organizations.members.oidcProviders`.
+
 // Request type for `organizations.members.reactivate`.
 
 // Response type for `organizations.members.reactivate`.
@@ -270,6 +274,11 @@ class Members {
   }
 
   /**
+   * Retrieve the saved OIDC access tokens and ID tokens for a member. After a successful OIDC login, Stytch
+   * will save the
+   * issued access token and ID token from the identity provider. If a refresh token has been issued, Stytch
+   * will refresh the
+   * access token automatically.
    * @param params {@link B2BOrganizationsMembersOIDCProviderInformationRequest}
    * @returns {@link B2BOrganizationsMembersOIDCProvidersResponse}
    * @async
