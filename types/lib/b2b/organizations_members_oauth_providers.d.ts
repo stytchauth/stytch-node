@@ -1,5 +1,5 @@
 import { fetchConfig } from "../shared";
-import { GithubProviderInfo, HubspOTPRoviderInfo, SlackProviderInfo } from "./organizations";
+import { GithubProviderInfo, HubspotProviderInfo, SlackProviderInfo } from "./organizations";
 export interface B2BOrganizationsMembersOAuthProvidersGithubResponse {
     /**
      * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -70,7 +70,7 @@ export interface B2BOrganizationsMembersOAuthProvidersHubspotResponse {
      * etc.
      */
     provider_type: string;
-    registrations: HubspOTPRoviderInfo[];
+    registrations: HubspotProviderInfo[];
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.

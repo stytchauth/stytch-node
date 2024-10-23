@@ -75,7 +75,7 @@ export interface GithubProviderInfo {
      */
     scopes: string[];
 }
-export interface HubspOTPRoviderInfo {
+export interface HubspotProviderInfo {
     /**
      * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
      * "Subject field" in OAuth protocols.

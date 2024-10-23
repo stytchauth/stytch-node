@@ -77,7 +77,7 @@ export type {
   ActiveSSOConnection,
   EmailImplicitRoleAssignment,
   GithubProviderInfo,
-  HubspOTPRoviderInfo,
+  HubspotProviderInfo,
   Member,
   MemberRole,
   MemberRoleSource,
