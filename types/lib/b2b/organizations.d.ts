@@ -59,6 +59,14 @@ export interface GithubProviderInfo {
      * "Subject field" in OAuth protocols.
      */
     provider_subject: string;
+    /**
+     * All tenant IDs returned by the OAuth provider. These is typically used to identify organizations or
+     * groups within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+     * Workspace ID, and in GitHub this is an organization ID. Some OAuth providers do not return tenant IDs,
+     * some providers are guaranteed to return one, and some may return multiple. This field will always be
+     * populated if at least one tenant ID was returned from the OAuth provider and developers should prefer
+     * this field over `provider_tenant_id`.
+     */
     provider_tenant_ids: string[];
     access_token: string;
     /**
@@ -74,9 +82,12 @@ export interface HubspOTPRoviderInfo {
      */
     provider_subject: string;
     /**
-     * The tenant ID returned by the OAuth provider. This is typically used to identify the organization. For
-     * example, for HubSpot this is the Hub ID, for Slack, this is the Workspace ID, and for GitHub this is an
-     * organization ID.
+     * The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
+     * group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+     * Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
+     * tenant ID is returned from a successful OAuth authentication and developers should prefer
+     * `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+     * multiple tenant IDs.
      */
     provider_tenant_id: string;
     access_token: string;
@@ -519,9 +530,12 @@ export interface SlackProviderInfo {
      */
     provider_subject: string;
     /**
-     * The tenant ID returned by the OAuth provider. This is typically used to identify the organization. For
-     * example, for HubSpot this is the Hub ID, for Slack, this is the Workspace ID, and for GitHub this is an
-     * organization ID.
+     * The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
+     * group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+     * Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
+     * tenant ID is returned from a successful OAuth authentication and developers should prefer
+     * `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+     * multiple tenant IDs.
      */
     provider_tenant_id: string;
     access_token: string;
