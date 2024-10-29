@@ -67,10 +67,21 @@ export interface B2BSSOSAMLCreateConnectionRequest {
    * `google-workspace`.
    */
   identity_provider?:
+    | "classlink"
+    | "cyberark"
+    | "duo"
     | "generic"
-    | "okta"
-    | "microsoft-entra"
     | "google-workspace"
+    | "jumpcloud"
+    | "keycloak"
+    | "miniorange"
+    | "microsoft-entra"
+    | "okta"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | "salesforce"
+    | "shibboleth"
     | string;
 }
 
@@ -211,10 +222,21 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * `google-workspace`.
    */
   identity_provider?:
+    | "classlink"
+    | "cyberark"
+    | "duo"
     | "generic"
-    | "okta"
-    | "microsoft-entra"
     | "google-workspace"
+    | "jumpcloud"
+    | "keycloak"
+    | "miniorange"
+    | "microsoft-entra"
+    | "okta"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | "salesforce"
+    | "shibboleth"
     | string;
 }
 

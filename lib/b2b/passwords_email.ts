@@ -23,16 +23,34 @@ export interface B2BPasswordsEmailRequireResetRequestOptions {
   authorization?: Authorization;
 }
 
+// Request type for `passwords.email.requireReset`.
 export interface B2BPasswordsEmailRequireResetRequest {
+  // The email address of the Member to start the email reset process for.
   email_address: string;
+  /**
+   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+   * perform operations on an Organization, so be sure to preserve this value.
+   */
   organization_id?: string;
+  /**
+   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+   * operations on a Member, so be sure to preserve this value.
+   */
   member_id?: string;
 }
 
+// Response type for `passwords.email.requireReset`.
 export interface B2BPasswordsEmailRequireResetResponse {
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
+  // Globally unique UUID that identifies a specific Member.
   member_id?: string;
 }
 
@@ -316,6 +334,8 @@ export class Email {
   }
 
   /**
+   * Require a password be reset by the associated email address. This endpoint is only functional for
+   * cross-org password use cases.
    * @param data {@link B2BPasswordsEmailRequireResetRequest}
    * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
    * @returns {@link B2BPasswordsEmailRequireResetResponse}

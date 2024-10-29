@@ -45,10 +45,21 @@ export interface B2BSSOOIDCCreateConnectionRequest {
    * `google-workspace`.
    */
   identity_provider?:
+    | "classlink"
+    | "cyberark"
+    | "duo"
     | "generic"
-    | "okta"
-    | "microsoft-entra"
     | "google-workspace"
+    | "jumpcloud"
+    | "keycloak"
+    | "miniorange"
+    | "microsoft-entra"
+    | "okta"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | "salesforce"
+    | "shibboleth"
     | string;
 }
 
@@ -116,10 +127,21 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
    * `google-workspace`.
    */
   identity_provider?:
+    | "classlink"
+    | "cyberark"
+    | "duo"
     | "generic"
-    | "okta"
-    | "microsoft-entra"
     | "google-workspace"
+    | "jumpcloud"
+    | "keycloak"
+    | "miniorange"
+    | "microsoft-entra"
+    | "okta"
+    | "onelogin"
+    | "pingfederate"
+    | "rippling"
+    | "salesforce"
+    | "shibboleth"
     | string;
   /**
    * Include a space-separated list of custom scopes that you'd like to include. Note that this list must be
