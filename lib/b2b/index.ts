@@ -76,6 +76,8 @@ export type {
   ActiveSCIMConnection,
   ActiveSSOConnection,
   EmailImplicitRoleAssignment,
+  GithubProviderInfo,
+  HubspotProviderInfo,
   Member,
   MemberRole,
   MemberRoleSource,
@@ -87,6 +89,7 @@ export type {
   SCIMRegistration,
   SSORegistration,
   SearchQuery,
+  SlackProviderInfo,
   B2BOrganizationsCreateRequest,
   B2BOrganizationsCreateResponse,
   B2BOrganizationsDeleteRequest,
@@ -139,9 +142,13 @@ export type {
 } from "./organizations_members";
 
 export type {
+  B2BOrganizationsMembersOAuthProvidersGithubResponse,
   B2BOrganizationsMembersOAuthProvidersGoogleResponse,
+  B2BOrganizationsMembersOAuthProvidersHubspotResponse,
   B2BOrganizationsMembersOAuthProvidersMicrosoftResponse,
   B2BOrganizationsMembersOAuthProvidersProviderInformationRequest,
+  B2BOrganizationsMembersOAuthProvidersSlackRequest,
+  B2BOrganizationsMembersOAuthProvidersSlackResponse,
 } from "./organizations_members_oauth_providers";
 
 export type {
@@ -249,12 +256,13 @@ export type {
 } from "./passwords";
 
 export type {
-  B2BPasswordsEmailDeleteRequest,
-  B2BPasswordsEmailDeleteResponse,
+  B2BPasswordsEmailRequireResetRequest,
+  B2BPasswordsEmailRequireResetResponse,
   B2BPasswordsEmailResetRequest,
   B2BPasswordsEmailResetResponse,
   B2BPasswordsEmailResetStartRequest,
   B2BPasswordsEmailResetStartResponse,
+  B2BPasswordsEmailRequireResetRequestOptions,
 } from "./passwords_email";
 
 export type {
@@ -266,6 +274,18 @@ export type {
   B2BPasswordsExistingPasswordResetRequest,
   B2BPasswordsExistingPasswordResetResponse,
 } from "./passwords_existing_password";
+
+export type {
+  B2BPasswordsDiscoveryAuthenticateRequest,
+  B2BPasswordsDiscoveryAuthenticateResponse,
+} from "./passwords_discovery";
+
+export type {
+  B2BPasswordsDiscoveryEmailResetRequest,
+  B2BPasswordsDiscoveryEmailResetResponse,
+  B2BPasswordsDiscoveryEmailResetStartRequest,
+  B2BPasswordsDiscoveryEmailResetStartResponse,
+} from "./passwords_discovery_email";
 
 export type {
   Connection,

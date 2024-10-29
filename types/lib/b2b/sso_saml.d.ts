@@ -45,7 +45,7 @@ export interface B2BSSOSAMLCreateConnectionRequest {
      * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
      * `google-workspace`.
      */
-    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
 }
 export interface B2BSSOSAMLCreateConnectionResponse {
     /**
@@ -144,8 +144,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * connection and
      *  belongs to the specified SAML group, they will be granted the associated Role. See the
      *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
-     * assignment.
-     *          Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+     * assignment. Before adding any group implicit role assignments, you must add a "groups" key to your SAML
      * connection's
      *          `attribute_mapping`. Make sure that your IdP is configured to correctly send the group
      * information.
@@ -163,7 +162,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
      * `google-workspace`.
      */
-    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {
     /**

@@ -12,6 +12,7 @@ import {
   SHA1Config,
   ScryptConfig,
 } from "../b2c/passwords";
+import { Discovery } from "./passwords_discovery";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
@@ -344,12 +345,14 @@ export class Passwords {
   email: Email;
   sessions: Sessions;
   existingPassword: ExistingPassword;
+  discovery: Discovery;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.email = new Email(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig);
     this.existingPassword = new ExistingPassword(this.fetchConfig);
+    this.discovery = new Discovery(this.fetchConfig);
   }
 
   /**

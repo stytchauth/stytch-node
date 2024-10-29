@@ -29,7 +29,7 @@ export interface B2BSSOOIDCCreateConnectionRequest {
      * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
      * `google-workspace`.
      */
-    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
 }
 export interface B2BSSOOIDCCreateConnectionResponse {
     /**
@@ -86,7 +86,7 @@ export interface B2BSSOOIDCUpdateConnectionRequest {
      * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
      * `google-workspace`.
      */
-    identity_provider?: "generic" | "okta" | "microsoft-entra" | "google-workspace" | string;
+    identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
     /**
      * Include a space-separated list of custom scopes that you'd like to include. Note that this list must be
      * URL encoded, e.g. the spaces must be expressed as %20.
