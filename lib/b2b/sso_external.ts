@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  addAuthorizationHeaders,
   Authorization,
+  addAuthorizationHeaders,
 } from "../shared/method_options";
 import {
   Connection,

@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  addAuthorizationHeaders,
   Authorization,
+  addAuthorizationHeaders,
 } from "../shared/method_options";
 import { Discovery } from "./magic_links_email_discovery";
 import { fetchConfig } from "../shared";

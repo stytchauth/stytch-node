@@ -5,11 +5,11 @@
 // !!!
 
 import * as jose from "jose";
-import {
-  addAuthorizationHeaders,
-  Authorization,
-} from "../shared/method_options";
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
+import {
+  Authorization,
+  addAuthorizationHeaders,
+} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";

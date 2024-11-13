@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  addAuthorizationHeaders,
   Authorization,
+  addAuthorizationHeaders,
 } from "../shared/method_options";
 import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
