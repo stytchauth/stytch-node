@@ -90,14 +90,12 @@ export interface OTPsEmailSendRequest {
     session_jwt?: string;
     /**
      * Use a custom template for login emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Login.
+     * template must be a template using our built-in customizations or a custom HTML email for OTP - Login.
      */
     login_template_id?: string;
     /**
      * Use a custom template for sign-up emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Sign-up.
+     * template must be a template using our built-in customizations or a custom HTML email for OTP - Sign-up.
      */
     signup_template_id?: string;
 }

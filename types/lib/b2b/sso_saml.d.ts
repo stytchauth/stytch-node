@@ -41,9 +41,11 @@ export interface B2BSSOSAMLCreateConnectionRequest {
     organization_id: string;
     display_name?: string;
     /**
-     * The identity provider of this connection. For OIDC, the accepted values are `generic`, `okta`, and
-     * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
-     * `google-workspace`.
+     * Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`, `google-workspace`,
+     * `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`, `pingfederate`,
+     * `rippling`, `salesforce`, `shibboleth`, or `generic`.
+     *
+     * Specifying a known provider allows Stytch to handle any provider-specific logic.
      */
     identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
 }
@@ -158,9 +160,11 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      */
     alternative_audience_uri?: string;
     /**
-     * The identity provider of this connection. For OIDC, the accepted values are `generic`, `okta`, and
-     * `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`, `microsoft-entra`, and
-     * `google-workspace`.
+     * Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`, `google-workspace`,
+     * `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`, `pingfederate`,
+     * `rippling`, `salesforce`, `shibboleth`, or `generic`.
+     *
+     * Specifying a known provider allows Stytch to handle any provider-specific logic.
      */
     identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
 }

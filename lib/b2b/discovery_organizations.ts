@@ -32,22 +32,6 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    */
   intermediate_session_token: string;
   /**
-   * The name of the Organization. If the name is not specified, a default name will be created based on the
-   * email used to initiate the discovery flow. If the email domain is a common email provider such as
-   * gmail.com, or if the email is a .edu email, the organization name will be generated based on the name
-   * portion of the email. Otherwise, the organization name will be generated based on the email domain.
-   */
-  organization_name: string;
-  /**
-   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
-   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`. If the slug is not
-   * specified, a default slug will be created based on the email used to initiate the discovery flow. If the
-   * email domain is a common email provider such as gmail.com, or if the email is a .edu email, the
-   * organization slug will be generated based on the name portion of the email. Otherwise, the organization
-   * slug will be generated based on the email domain.
-   */
-  organization_slug: string;
-  /**
    * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
    * already exist,
    *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
@@ -74,6 +58,22 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * The name of the Organization. If the name is not specified, a default name will be created based on the
+   * email used to initiate the discovery flow. If the email domain is a common email provider such as
+   * gmail.com, or if the email is a .edu email, the organization name will be generated based on the name
+   * portion of the email. Otherwise, the organization name will be generated based on the email domain.
+   */
+  organization_name?: string;
+  /**
+   * The unique URL slug of the Organization. A minimum of two characters is required. The slug only accepts
+   * alphanumeric characters and the following reserved characters: `-` `.` `_` `~`. If the slug is not
+   * specified, a default slug will be created based on the email used to initiate the discovery flow. If the
+   * email domain is a common email provider such as gmail.com, or if the email is a .edu email, the
+   * organization slug will be generated based on the name portion of the email. Otherwise, the organization
+   * slug will be generated based on the email domain.
+   */
+  organization_slug?: string;
   // The image URL of the Organization logo.
   organization_logo_url?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.

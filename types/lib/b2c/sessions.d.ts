@@ -15,15 +15,15 @@ export interface AppleOAuthFactor {
 export interface AuthenticationFactor {
     /**
      * The type of authentication factor. The possible values are: `magic_link`, `otp`,
-     *        `oauth`, `password`, or `sso`.
+     *        `oauth`, `password`, `email_otp`, or `sso` .
      */
-    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | "imported" | "recovery_codes" | string;
+    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | "imported" | "recovery_codes" | "email_otp" | string;
     /**
      * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
      *
      *       `magic_link` – Only `email`.
      *
-     *       `otp` – Only `sms`.
+     *       `otp` –  Either `sms` or `email` .
      *
      *       `oauth` – Either `oauth_google` or `oauth_microsoft`.
      *
