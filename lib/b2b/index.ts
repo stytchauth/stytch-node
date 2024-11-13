@@ -245,6 +245,20 @@ export type {
 } from "./otp_sms";
 
 export type {
+  B2BOTPEmailAuthenticateRequest,
+  B2BOTPEmailAuthenticateResponse,
+  B2BOTPEmailLoginOrSignupRequest,
+  B2BOTPEmailLoginOrSignupResponse,
+} from "./otp_email";
+
+export type {
+  B2BOTPEmailDiscoveryAuthenticateRequest,
+  B2BOTPEmailDiscoveryAuthenticateResponse,
+  B2BOTPEmailDiscoverySendRequest,
+  B2BOTPEmailDiscoverySendResponse,
+} from "./otp_email_discovery";
+
+export type {
   LudsFeedback,
   ZxcvbnFeedback,
   B2BPasswordsAuthenticateRequest,

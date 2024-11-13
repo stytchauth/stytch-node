@@ -22,6 +22,8 @@ export type { B2BMagicLinksDiscoveryAuthenticateRequest, B2BMagicLinksDiscoveryA
 export type { B2BOAuthProviderValues, B2BOAuthAuthenticateRequest, B2BOAuthAuthenticateResponse, } from "./oauth";
 export type { B2BOAuthDiscoveryAuthenticateRequest, B2BOAuthDiscoveryAuthenticateResponse, } from "./oauth_discovery";
 export type { B2BOTPSmsAuthenticateRequest, B2BOTPSmsAuthenticateResponse, B2BOTPSmsSendRequest, B2BOTPSmsSendResponse, } from "./otp_sms";
+export type { B2BOTPEmailAuthenticateRequest, B2BOTPEmailAuthenticateResponse, B2BOTPEmailLoginOrSignupRequest, B2BOTPEmailLoginOrSignupResponse, } from "./otp_email";
+export type { B2BOTPEmailDiscoveryAuthenticateRequest, B2BOTPEmailDiscoveryAuthenticateResponse, B2BOTPEmailDiscoverySendRequest, B2BOTPEmailDiscoverySendResponse, } from "./otp_email_discovery";
 export type { LudsFeedback, ZxcvbnFeedback, B2BPasswordsAuthenticateRequest, B2BPasswordsAuthenticateResponse, B2BPasswordsMigrateRequest, B2BPasswordsMigrateResponse, B2BPasswordsStrengthCheckRequest, B2BPasswordsStrengthCheckResponse, } from "./passwords";
 export type { B2BPasswordsEmailRequireResetRequest, B2BPasswordsEmailRequireResetResponse, B2BPasswordsEmailResetRequest, B2BPasswordsEmailResetResponse, B2BPasswordsEmailResetStartRequest, B2BPasswordsEmailResetStartResponse, B2BPasswordsEmailRequireResetRequestOptions, } from "./passwords_email";
 export type { B2BPasswordsSessionResetRequest, B2BPasswordsSessionResetResponse, } from "./passwords_session";
