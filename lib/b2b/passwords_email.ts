@@ -5,8 +5,8 @@
 // !!!
 
 import {
-  Authorization,
   addAuthorizationHeaders,
+  Authorization,
 } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";

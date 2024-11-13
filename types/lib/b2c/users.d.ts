@@ -643,7 +643,17 @@ export declare class Users {
      */
     get(params: UsersGetRequest): Promise<UsersGetResponse>;
     /**
-     * Search for Users within your Stytch Project. Submit an empty `query` in the request to return all Users.
+     * Search for Users within your Stytch Project.
+     *
+     * Use the `query` object to filter by different fields. See the `query.operands.filter_value`
+     * documentation below for a list of available filters.
+     *
+     * ### Export all User data
+     *
+     * Submit an empty `query` in your Search Users request to return all of your Stytch Project's Users.
+     *
+     * [This Github repository](https://github.com/stytchauth/stytch-node-export-users) contains a utility that
+     * leverages the Search Users endpoint to export all of your User data to a CSV or JSON file.
      * @param data {@link UsersSearchRequest}
      * @returns {@link UsersSearchResponse}
      * @async
