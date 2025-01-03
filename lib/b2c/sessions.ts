@@ -43,6 +43,7 @@ export interface AuthenticationFactor {
     | "imported"
     | "recovery_codes"
     | "email_otp"
+    | "impersonated"
     | string;
   /**
    * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
@@ -99,6 +100,8 @@ export interface AuthenticationFactor {
     | "oauth_exchange_slack"
     | "oauth_exchange_hubspot"
     | "oauth_exchange_github"
+    | "oauth_exchange_google"
+    | "impersonation"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -150,6 +153,8 @@ export interface AuthenticationFactor {
   slack_oauth_exchange_factor?: SlackOAuthExchangeFactor;
   hubspot_oauth_exchange_factor?: HubspotOAuthExchangeFactor;
   github_oauth_exchange_factor?: GithubOAuthExchangeFactor;
+  google_oauth_exchange_factor?: GoogleOAuthExchangeFactor;
+  impersonated_factor?: ImpersonatedFactor;
 }
 
 export interface AuthenticatorAppFactor {
@@ -224,6 +229,10 @@ export interface GithubOAuthFactor {
   email_id?: string;
 }
 
+export interface GoogleOAuthExchangeFactor {
+  email_id: string;
+}
+
 export interface GoogleOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
@@ -244,6 +253,11 @@ export interface HubspotOAuthFactor {
   id: string;
   provider_subject: string;
   email_id?: string;
+}
+
+export interface ImpersonatedFactor {
+  impersonator_id: string;
+  impersonator_email_address: string;
 }
 
 export interface InstagramOAuthFactor {

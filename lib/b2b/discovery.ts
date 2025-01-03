@@ -30,7 +30,10 @@ export interface DiscoveredOrganization {
 }
 
 export interface Membership {
-  // Either `active_member`, `pending_member`, `invited_member`, or `eligible_to_join_by_email_domain`
+  /**
+   * Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`, or
+   * `eligible_to_join_by_oauth_tenant`
+   */
   type: string;
   // An object containing additional metadata about the membership, if available.
   details?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any

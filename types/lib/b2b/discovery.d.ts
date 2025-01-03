@@ -17,6 +17,10 @@ export interface DiscoveredOrganization {
     mfa_required?: MfaRequired;
 }
 export interface Membership {
+    /**
+     * Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`, or
+     * `eligible_to_join_by_oauth_tenant`
+     */
     type: string;
     details?: Record<string, any>;
     /**

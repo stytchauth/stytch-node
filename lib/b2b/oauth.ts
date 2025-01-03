@@ -129,6 +129,7 @@ export interface B2BOAuthAuthenticateResponse {
   organization_id: string;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
+  // This field is deprecated.
   reset_sessions: boolean;
   /**
    * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
