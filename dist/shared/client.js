@@ -29,6 +29,9 @@ class BaseClient {
         config.env = envs.test;
       }
     }
+    if (!config.fraud_env) {
+      config.fraud_env = envs.fraud;
+    }
     if (config.env != envs.test && config.env != envs.live) {
       // TODO: warn about non-production configuration
     }
@@ -39,6 +42,7 @@ class BaseClient {
     };
     this.fetchConfig = {
       baseURL: config.env,
+      fraudBaseURL: config.fraud_env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
       dispatcher: config.dispatcher
