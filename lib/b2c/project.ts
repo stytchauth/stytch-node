@@ -9,14 +9,14 @@ import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
 export interface ProjectMetric {
-  count: number;
-  metric_type?:
+  metric_type:
     | "UNKNOWN"
     | "USER_COUNT"
     | "ORGANIZATION_COUNT"
     | "MEMBER_COUNT"
     | "M2M_CLIENT_COUNT"
     | string;
+  count: number;
 }
 
 export interface ProjectMetricsResponse {
