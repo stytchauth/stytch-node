@@ -12,6 +12,7 @@ export interface ClientConfig {
   env?: string;
   timeout?: number;
   dispatcher?: Dispatcher;
+  fraud_env?: string;
 }
 
 export class BaseClient {
@@ -41,6 +42,10 @@ export class BaseClient {
       }
     }
 
+    if (!config.fraud_env) {
+      config.fraud_env = envs.fraud;
+    }
+
     if (config.env != envs.test && config.env != envs.live) {
       // TODO: warn about non-production configuration
     }
@@ -54,6 +59,7 @@ export class BaseClient {
 
     this.fetchConfig = {
       baseURL: config.env,
+      fraudBaseURL: config.fraud_env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
       dispatcher: config.dispatcher,
