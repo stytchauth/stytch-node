@@ -162,6 +162,10 @@ export interface B2BSCIMConnectionGetResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * A [SCIM Connection](https://stytch.com/docs/b2b/api/scim-connection-object) connection belonging to the
+     * organization (currently limited to one).
+     */
     connection?: SCIMConnection;
 }
 export interface B2BSCIMConnectionRotateCancelRequest {

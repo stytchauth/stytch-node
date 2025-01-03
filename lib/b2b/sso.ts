@@ -244,12 +244,7 @@ export interface B2BSSOAuthenticateResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  /**
-   * Indicates if all Sessions linked to the Member need to be reset. You should check this field if you
-   * aren't using
-   *     Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
-   * Sessions for you.
-   */
+  // This field is deprecated.
   reset_session: boolean;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;

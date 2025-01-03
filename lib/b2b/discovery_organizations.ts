@@ -371,7 +371,7 @@ export class Organizations {
    *
    * When an Intermediate Session is passed in, all relationship types - `active_member`, `pending_member`,
    * `invited_member`,
-   * and `eligible_to_join_by_email_domain` - will be returned,
+   * `eligible_to_join_by_email_domain`, and `eligible_to_join_by_oauth_tenant` - will be returned,
    * and any membership can be assumed by calling the
    * [Exchange Intermediate Session](https://stytch.com/docs/b2b/api/exchange-intermediate-session) endpoint.
    *

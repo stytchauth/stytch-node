@@ -98,12 +98,7 @@ export interface B2BMagicLinksAuthenticateResponse {
   member_id: string;
   // The email or device involved in the authentication.
   method_id: string;
-  /**
-   * Indicates if all Sessions linked to the Member need to be reset. You should check this field if you
-   * aren't using
-   *     Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
-   * Sessions for you.
-   */
+  // This field is deprecated.
   reset_sessions: boolean;
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to

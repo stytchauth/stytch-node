@@ -210,12 +210,6 @@ export interface B2BSSOAuthenticateResponse {
     member: Member;
     session_token: string;
     session_jwt: string;
-    /**
-     * Indicates if all Sessions linked to the Member need to be reset. You should check this field if you
-     * aren't using
-     *     Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
-     * Sessions for you.
-     */
     reset_session: boolean;
     organization: Organization;
     /**

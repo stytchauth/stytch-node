@@ -85,7 +85,10 @@ export interface M2MClientWithNextClientSecret {
 }
 
 export interface M2MResultsMetadata {
-  // The total number of results returned by your search query.
+  /**
+   * The total number of results returned by your search query. If totals have been disabled for your Stytch
+   * Workspace to improve search performance, the value will always be -1.
+   */
   total: number;
   /**
    * The `next_cursor` string is returned when your search result contains more than one page of results.
