@@ -131,6 +131,27 @@ export type {
 } from "./crypto_wallets";
 
 export type {
+  ASNProperties,
+  BrowserProperties,
+  Fingerprints,
+  IPGeoProperties,
+  Metadata,
+  NetworkProperties,
+  Properties,
+  Verdict,
+} from "./fraud";
+
+export type {
+  FraudFingerprintLookupRequest,
+  FraudFingerprintLookupResponse,
+} from "./fraud_fingerprint";
+
+export type {
+  FraudRulesSetRequest,
+  FraudRulesSetResponse,
+} from "./fraud_rules";
+
+export type {
   M2MClient,
   M2MClientWithClientSecret,
   M2MClientWithNextClientSecret,

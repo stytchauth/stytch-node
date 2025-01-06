@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.request = request;
 var _errors = require("./errors");
 async function request(fetchConfig, requestConfig) {
-  const url = new URL(requestConfig.url, fetchConfig.baseURL);
+  const baseURL = requestConfig.baseURLType == "FRAUD" ? fetchConfig.fraudBaseURL : fetchConfig.baseURL;
+  const url = new URL(requestConfig.url, baseURL);
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) => {
       if (value !== undefined) {

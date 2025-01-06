@@ -7,6 +7,7 @@ exports.B2BClient = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _discovery = require("./discovery");
+var _fraud = require("../b2c/fraud");
 var _m2m = require("../b2c/m2m");
 var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
@@ -34,6 +35,7 @@ class B2BClient extends _client.BaseClient {
     };
     const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.discovery = new _discovery.Discovery(this.fetchConfig);
+    this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);

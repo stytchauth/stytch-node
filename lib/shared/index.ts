@@ -3,6 +3,7 @@ import { RequestError, StytchError, StytchErrorJSON } from "./errors";
 
 export interface fetchConfig {
   baseURL: string;
+  fraudBaseURL: string;
   headers: Record<string, string>;
   timeout: number;
   dispatcher?: Dispatcher;
@@ -15,13 +16,18 @@ export type requestConfig = {
   data?: unknown;
   dataRaw?: BodyInit;
   headers?: Record<string, string>;
+  baseURLType?: "AUTH" | "FRAUD";
 };
 
 export async function request<T>(
   fetchConfig: fetchConfig,
   requestConfig: requestConfig
 ): Promise<T> {
-  const url = new URL(requestConfig.url, fetchConfig.baseURL);
+  const baseURL =
+    requestConfig.baseURLType == "FRAUD"
+      ? fetchConfig.fraudBaseURL
+      : fetchConfig.baseURL;
+  const url = new URL(requestConfig.url, baseURL);
   if (requestConfig.params) {
     Object.entries(requestConfig.params).forEach(([key, value]) => {
       if (value !== undefined) {

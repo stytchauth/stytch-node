@@ -57,7 +57,7 @@ export interface OAuthAuthenticateRequest {
      * `https://example.com/authenticate?stytch_token_type=oauth&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
      *
      *       In the redirect URL, the `stytch_token_type` will be `oauth`. See
-     * [here](/workspace-management/redirect-urls) for more detail.
+     * [here](https://stytch.com/docs/workspace-management/redirect-urls) for more detail.
      */
     token: string;
     /**
