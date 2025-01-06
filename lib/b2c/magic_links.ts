@@ -28,7 +28,7 @@ export interface MagicLinksAuthenticateRequest {
    * `https://example.com/authenticate?stytch_token_type=magic_links&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
    *
    *       In the redirect URL, the `stytch_token_type` will be `magic_link`. See
-   * [here](/workspace-management/redirect-urls) for more detail.
+   * [here](https://stytch.com/docs/workspace-management/redirect-urls) for more detail.
    */
   token: string;
   // Provided attributes help with fraud detection.
