@@ -24,7 +24,7 @@ export async function request<T>(
   requestConfig: requestConfig
 ): Promise<T> {
   const baseURL =
-    requestConfig.baseURLType && requestConfig.baseURLType == "FRAUD"
+    requestConfig.baseURLType == "FRAUD"
       ? fetchConfig.fraudBaseURL
       : fetchConfig.baseURL;
   const url = new URL(requestConfig.url, baseURL);
