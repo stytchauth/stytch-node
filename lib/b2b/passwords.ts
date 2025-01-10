@@ -249,6 +249,8 @@ export interface B2BPasswordsMigrateRequest {
    *   authentication factors with the affected SSO connection IDs will be revoked.
    */
   preserve_existing_sessions?: boolean;
+  mfa_phone_number?: string;
+  set_phone_number_verified?: boolean;
 }
 
 // Response type for `passwords.migrate`.

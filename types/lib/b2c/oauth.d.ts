@@ -166,9 +166,13 @@ export declare class OAuth {
      * Exactly one of `user_id`, `session_token`, or `session_jwt` must be provided to identify the target
      * Stytch User.
      *
-     * This is an optional step in the OAuth flow. Stytch can often determine whether to create a new user or
-     * log in an existing one based on verified identity provider information. This endpoint is useful for
-     * cases where we can't, such as missing or unverified provider information.
+     * **Note**: This is an optional step in the OAuth flow. Stytch can often determine whether to associate a
+     * new OAuth login with an existing User based on verified information (such as an email address) from the
+     * identity provider. This endpoint is useful for cases where we can't, such as missing or unverified
+     * provider information.
+     *
+     * See our [OAuth email address behavior](https://stytch.com/docs/guides/oauth/email-behavior) resource for
+     * additional information.
      * @param data {@link OAuthAttachRequest}
      * @returns {@link OAuthAttachResponse}
      * @async
