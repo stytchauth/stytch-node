@@ -178,6 +178,11 @@ export type {
 } from "./discovery_organizations";
 
 export type {
+  B2BImpersonationAuthenticateRequest,
+  B2BImpersonationAuthenticateResponse,
+} from "./impersonation";
+
+export type {
   Policy,
   PolicyResource,
   PolicyRole,

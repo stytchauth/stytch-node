@@ -1,6 +1,7 @@
 import { BaseClient, ClientConfig } from "../shared/client";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
+import { Impersonation } from "./impersonation";
 import { JwtConfig } from "../shared/sessions";
 import { M2M } from "../b2c/m2m";
 import { MagicLinks } from "./magic_links";
@@ -19,6 +20,7 @@ export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     discovery: Discovery;
     fraud: Fraud;
+    impersonation: Impersonation;
     m2m: M2M;
     magicLinks: MagicLinks;
     oauth: OAuth;
