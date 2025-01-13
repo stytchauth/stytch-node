@@ -12,6 +12,7 @@ export type { AuthorizationCheck, AuthorizationVerdict, MemberSession, PrimaryRe
 export type { DiscoveredOrganization, Membership } from "./discovery";
 export type { B2BDiscoveryIntermediateSessionsExchangeRequest, B2BDiscoveryIntermediateSessionsExchangeResponse, } from "./discovery_intermediate_sessions";
 export type { B2BDiscoveryOrganizationsCreateRequest, B2BDiscoveryOrganizationsCreateResponse, B2BDiscoveryOrganizationsListRequest, B2BDiscoveryOrganizationsListResponse, } from "./discovery_organizations";
+export type { B2BImpersonationAuthenticateRequest, B2BImpersonationAuthenticateResponse, } from "./impersonation";
 export type { Policy, PolicyResource, PolicyRole, PolicyRolePermission, B2BRBACPolicyResponse, } from "./rbac";
 export type { B2BRecoveryCodesGetRequest, B2BRecoveryCodesGetResponse, B2BRecoveryCodesRecoverRequest, B2BRecoveryCodesRecoverResponse, B2BRecoveryCodesRotateRequest, B2BRecoveryCodesRotateResponse, } from "./recovery_codes";
 export type { B2BTOTPsAuthenticateRequest, B2BTOTPsAuthenticateResponse, B2BTOTPsCreateRequest, B2BTOTPsCreateResponse, B2BTOTPsMigrateRequest, B2BTOTPsMigrateResponse, } from "./totps";
