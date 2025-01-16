@@ -12,12 +12,20 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `impersonation.authenticate`.
+
+// Response type for `impersonation.authenticate`.
+
 class Impersonation {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
 
   /**
+   * Authenticate an impersonation token to impersonate a. This endpoint requires an impersonation token that
+   * is not expired or previously used.
+   * A Stytch session will be created for the impersonated member with a 60 minute duration. Impersonated
+   * sessions cannot be extended.
    * @param data {@link B2BImpersonationAuthenticateRequest}
    * @returns {@link B2BImpersonationAuthenticateResponse}
    * @async
