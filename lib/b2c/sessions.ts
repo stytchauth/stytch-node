@@ -154,6 +154,7 @@ export interface AuthenticationFactor {
   hubspot_oauth_exchange_factor?: HubspotOAuthExchangeFactor;
   github_oauth_exchange_factor?: GithubOAuthExchangeFactor;
   google_oauth_exchange_factor?: GoogleOAuthExchangeFactor;
+  // Information about the impersonated factor, if one is present.
   impersonated_factor?: ImpersonatedFactor;
 }
 
@@ -256,7 +257,12 @@ export interface HubspotOAuthFactor {
 }
 
 export interface ImpersonatedFactor {
+  /**
+   * The unique UUID of the impersonator. For impersonation sessions initiated via the Stytch dashboard, the
+   * `impersonator_id` will be the impersonator's Stytch workspace id.
+   */
   impersonator_id: string;
+  // The email address of the impersonator.
   impersonator_email_address: string;
 }
 

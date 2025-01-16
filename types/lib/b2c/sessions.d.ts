@@ -153,6 +153,10 @@ export interface HubspotOAuthFactor {
     email_id?: string;
 }
 export interface ImpersonatedFactor {
+    /**
+     * The unique UUID of the impersonator. For impersonation sessions initiated via the Stytch dashboard, the
+     * `impersonator_id` will be the impersonator's Stytch workspace id.
+     */
     impersonator_id: string;
     impersonator_email_address: string;
 }
