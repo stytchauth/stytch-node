@@ -16,13 +16,7 @@ class IDP {
     this.fetchConfig = fetchConfig;
     this.jwtConfig = jwtConfig;
     this.jwksClient = jwtConfig.jwks;
-    // this.jwtOptions = {
-    //   audience: jwtConfig.projectID,
-    //   issuer: `https://stytch.com/${jwtConfig.projectID}`,
-    //   typ: "JWT",
-    // };
   }
-
   async introspectTokenNetwork(data) {
     const fetchConfig = {
       ...this.fetchConfig,
@@ -62,8 +56,11 @@ class IDP {
         token_type: _token_type,
         client_id: _client_id,
         /* eslint-enable @typescript-eslint/no-unused-vars */
-        ...custom_claims
+        ...customClaims
       } = response;
+      if (!_active) {
+        throw new _errors.ClientError("token_invalid", "Token was not active", null);
+      }
       return {
         subject: _sub,
         scope: _scope,
@@ -72,7 +69,7 @@ class IDP {
         issued_at: _iat,
         issuer: _iss,
         not_before: _nbf,
-        custom_claims,
+        custom_claims: customClaims,
         token_type: _token_type
       };
     } catch (err) {
@@ -102,7 +99,7 @@ class IDP {
     }
 
     // The custom claim set is all the claims in the payload except for the standard claims and
-    // the Stytch session claim. The cleanest way to collect those seems to be naming what we want
+    // the scope and token_type claims. The cleanest way to collect those seems to be naming what we want
     // to omit and using ...rest for to collect the custom claims.
     const {
       /* eslint-disable @typescript-eslint/no-unused-vars */
