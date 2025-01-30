@@ -135,8 +135,6 @@ export class IDP {
         ...jwtOptions,
         clockTolerance: options?.clock_tolerance_seconds,
         currentDate: now,
-        // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
-        // We want zero to mean "every token is stale" and force remote verification.
       });
       payload = token.payload;
     } catch (err) {
@@ -156,7 +154,6 @@ export class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
-      token_type: _token_type,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -168,7 +165,7 @@ export class IDP {
       issuer: _iss as string,
       not_before: _nbf as number,
       scope: _scope as string,
-      token_type: _token_type as string,
+      token_type: 'access_token',
       custom_claims,
     };
   }
