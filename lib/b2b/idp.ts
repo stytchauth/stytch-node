@@ -165,7 +165,7 @@ export class IDP {
       issuer: _iss as string,
       not_before: _nbf as number,
       scope: _scope as string,
-      token_type: 'access_token',
+      token_type: "access_token",
       custom_claims,
     };
   }
