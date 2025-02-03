@@ -87,7 +87,7 @@ export interface B2BOAuthAuthenticateRequest {
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br" | string;
+  locale?: "en" | "es" | "pt-br" | "fr" | "it" | string;
   /**
    * Adds this primary authentication factor to the intermediate session token. If the resulting set of
    * factors satisfies the organization's primary authentication requirements and MFA requirements, the

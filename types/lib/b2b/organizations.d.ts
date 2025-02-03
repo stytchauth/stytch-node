@@ -11,6 +11,7 @@ export interface ActiveSCIMConnection {
 export interface ActiveSSOConnection {
     connection_id: string;
     display_name: string;
+    identity_provider: string;
 }
 export interface B2BOrganizationsDeleteRequestOptions {
     /**

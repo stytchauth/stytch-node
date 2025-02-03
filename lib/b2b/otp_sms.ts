@@ -138,7 +138,7 @@ export interface B2BOTPSmsSendRequest {
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br" | string;
+  locale?: "en" | "es" | "pt-br" | "fr" | "it" | string;
   /**
    * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
    * Member, but represents a bag of factors that may be converted to a member session. The token can be used
