@@ -85,16 +85,16 @@ export function performScopeAuthorizationCheck({
   authorizationCheck: AuthorizationCheck;
 }): void {
   const hasPermission = policy.scopes
-  .filter((scope) => tokenScopes.includes(scope.scope))
-  .flatMap((scope) => scope.permissions)
-  .some((permission) => {
-    const hasMatchingAction =
-      permission.actions.includes(authorizationCheck.action) ||
-      permission.actions.includes("*");
-    const hasMatchingResource =
-      authorizationCheck.resource_id === permission.resource_id;
-    return hasMatchingAction && hasMatchingResource;
-  });
+    .filter((scope) => tokenScopes.includes(scope.scope))
+    .flatMap((scope) => scope.permissions)
+    .some((permission) => {
+      const hasMatchingAction =
+        permission.actions.includes(authorizationCheck.action) ||
+        permission.actions.includes("*");
+      const hasMatchingResource =
+        authorizationCheck.resource_id === permission.resource_id;
+      return hasMatchingAction && hasMatchingResource;
+    });
 
   if (!hasPermission) {
     throw new ClientError(

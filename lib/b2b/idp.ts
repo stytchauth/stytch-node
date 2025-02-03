@@ -58,7 +58,10 @@ export class IDP {
   }
 
   async introspectTokenNetwork(
-    data: IntrospectTokenRequest
+    data: IntrospectTokenRequest,
+    options?: {
+      authorization_check?: AuthorizationCheck;
+    }
   ): Promise<IntrospectTokenClaims> {
     const fetchConfig: fetchConfig = {
       ...this.fetchConfig,
@@ -109,6 +112,15 @@ export class IDP {
         throw new ClientError("token_invalid", "Token was not active", null);
       }
 
+      if (options?.authorization_check) {
+        const policy = await this.policyCache.getPolicy();
+        performScopeAuthorizationCheck({
+          policy,
+          tokenScopes: (_scope as string).trim().split(" "),
+          authorizationCheck: options.authorization_check,
+        });
+      }
+
       return {
         subject: _sub as string,
         scope: _scope as string,
@@ -130,8 +142,8 @@ export class IDP {
     options?: {
       clock_tolerance_seconds?: number;
       current_date?: Date;
-    },
-    authorization_check?: AuthorizationCheck
+      authorization_check?: AuthorizationCheck;
+    }
   ): Promise<IntrospectTokenClaims> {
     const jwtOptions = {
       audience: data.client_id,
@@ -168,12 +180,12 @@ export class IDP {
       ...custom_claims
     } = payload;
 
-    if (authorization_check) {
+    if (options?.authorization_check) {
       const policy = await this.policyCache.getPolicy();
-      await performScopeAuthorizationCheck({
+      performScopeAuthorizationCheck({
         policy,
         tokenScopes: (_scope as string).trim().split(" "),
-        authorizationCheck: authorization_check,
+        authorizationCheck: options.authorization_check,
       });
     }
 
