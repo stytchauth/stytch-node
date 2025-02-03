@@ -236,7 +236,6 @@ describe("performScopeAuthorizationCheck", () => {
     },
   ];
 
-
   testCases.forEach((tc) =>
     it(tc.name, () => {
       const fn = () =>
