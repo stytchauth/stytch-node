@@ -1,6 +1,8 @@
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig, request } from "../shared";
+import { Policy, RBAC } from "./rbac";
+import { AuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
 export interface IntrospectTokenRequest {

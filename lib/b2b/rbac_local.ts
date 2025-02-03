@@ -74,3 +74,15 @@ export function performAuthorizationCheck({
     );
   }
 }
+
+export function performScopeAuthorizationCheck({
+  policy,
+  subjectScopes,
+  authorizationCheck,
+}: {
+  policy: Policy;
+  subjectScopes: string[];
+  authorizationCheck: AuthorizationCheck;
+}): void {
+  
+}
