@@ -1,5 +1,6 @@
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig } from "../shared";
+import { AuthorizationCheck } from "./sessions";
 import { PolicyCache } from "./rbac_local";
 export interface IntrospectTokenRequest {
     token: string;
@@ -22,10 +23,14 @@ export declare class IDP {
     private fetchConfig;
     private jwtConfig;
     private jwksClient;
+    private policyCache;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
-    introspectTokenNetwork(data: IntrospectTokenRequest): Promise<IntrospectTokenClaims>;
+    introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
+        authorization_check?: AuthorizationCheck;
+    }): Promise<IntrospectTokenClaims>;
     introspectTokenLocal(data: IntrospectTokenRequest, options?: {
         clock_tolerance_seconds?: number;
         current_date?: Date;
+        authorization_check?: AuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
 }

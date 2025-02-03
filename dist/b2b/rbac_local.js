@@ -56,6 +56,15 @@ function performAuthorizationCheck({
 }
 function performScopeAuthorizationCheck({
   policy,
-  subjectScopes,
+  tokenScopes,
   authorizationCheck
-}) {}
+}) {
+  const hasPermission = policy.scopes.filter(scope => tokenScopes.includes(scope.scope)).flatMap(scope => scope.permissions).some(permission => {
+    const hasMatchingAction = permission.actions.includes(authorizationCheck.action) || permission.actions.includes("*");
+    const hasMatchingResource = authorizationCheck.resource_id === permission.resource_id;
+    return hasMatchingAction && hasMatchingResource;
+  });
+  if (!hasPermission) {
+    throw new _errors.ClientError("invalid_permissions", "Member does not have permission to perform the requested action");
+  }
+}

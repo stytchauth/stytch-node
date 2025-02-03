@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.IDP = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _shared = require("../shared");
+var _rbac_local = require("./rbac_local");
 var _errors = require("../shared/errors");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -14,8 +15,9 @@ class IDP {
     this.fetchConfig = fetchConfig;
     this.jwtConfig = jwtConfig;
     this.jwksClient = jwtConfig.jwks;
+    this.policyCache = policyCache;
   }
-  async introspectTokenNetwork(data) {
+  async introspectTokenNetwork(data, options) {
     const fetchConfig = {
       ...this.fetchConfig,
       headers: {
@@ -58,6 +60,14 @@ class IDP {
       } = response;
       if (!_active) {
         throw new _errors.ClientError("token_invalid", "Token was not active", null);
+      }
+      if (options?.authorization_check) {
+        const policy = await this.policyCache.getPolicy();
+        (0, _rbac_local.performScopeAuthorizationCheck)({
+          policy,
+          tokenScopes: _scope.trim().split(" "),
+          authorizationCheck: options.authorization_check
+        });
       }
       return {
         subject: _sub,
@@ -109,6 +119,14 @@ class IDP {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
+    if (options?.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      (0, _rbac_local.performScopeAuthorizationCheck)({
+        policy,
+        tokenScopes: _scope.trim().split(" "),
+        authorizationCheck: options.authorization_check
+      });
+    }
     return {
       subject: _sub,
       expires_at: _exp,
