@@ -83,6 +83,4 @@ export function performScopeAuthorizationCheck({
   policy: Policy;
   subjectScopes: string[];
   authorizationCheck: AuthorizationCheck;
-}): void {
-  
-}
+}): void {}
