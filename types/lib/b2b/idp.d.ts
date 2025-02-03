@@ -1,5 +1,6 @@
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig } from "../shared";
+import { PolicyCache } from "./rbac_local";
 export interface IntrospectTokenRequest {
     token: string;
     client_id: string;
@@ -21,7 +22,7 @@ export declare class IDP {
     private fetchConfig;
     private jwtConfig;
     private jwksClient;
-    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     introspectTokenNetwork(data: IntrospectTokenRequest): Promise<IntrospectTokenClaims>;
     introspectTokenLocal(data: IntrospectTokenRequest, options?: {
         clock_tolerance_seconds?: number;

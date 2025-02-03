@@ -73,6 +73,6 @@ export class B2BClient extends BaseClient {
     this.sso = new SSO(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
-    this.idp = new IDP(this.fetchConfig, this.jwtConfig);
+    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }

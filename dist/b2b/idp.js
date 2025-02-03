@@ -10,7 +10,7 @@ var _errors = require("../shared/errors");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 class IDP {
-  constructor(fetchConfig, jwtConfig) {
+  constructor(fetchConfig, jwtConfig, policyCache) {
     this.fetchConfig = fetchConfig;
     this.jwtConfig = jwtConfig;
     this.jwksClient = jwtConfig.jwks;
@@ -87,10 +87,7 @@ class IDP {
         ...jwtOptions,
         clockTolerance: options?.clock_tolerance_seconds,
         currentDate: now
-        // Don't pass maxTokenAge directly to jwtVerify because it interprets zero as "infinity".
-        // We want zero to mean "every token is stale" and force remote verification.
       });
-
       payload = token.payload;
     } catch (err) {
       throw new _errors.ClientError("jwt_invalid", "Could not verify JWT", err);
@@ -109,7 +106,6 @@ class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
-      token_type: _token_type,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -121,7 +117,7 @@ class IDP {
       issuer: _iss,
       not_before: _nbf,
       scope: _scope,
-      token_type: _token_type,
+      token_type: "access_token",
       custom_claims
     };
   }

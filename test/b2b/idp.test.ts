@@ -6,7 +6,7 @@ jest.mock("../../lib/shared");
 
 const PROJECT_ID = "project-test-00000000-0000-4000-8000-000000000000";
 const CLIENT_ID = "idp-client-test-00000000-0000-4000-8000-000000000000";
-const USER_ID = "user-test-00000000-0000-4000-8000-000000000000";
+const MEMBER_ID = "member-test-00000000-0000-4000-8000-000000000000";
 
 describe("idp.introspectTokenLocal", () => {
   let accessToken: string;
@@ -27,7 +27,7 @@ describe("idp.introspectTokenLocal", () => {
     });
 
     accessToken = await new jose.SignJWT({
-      sub: USER_ID,
+      sub: MEMBER_ID,
       scope:
         "openid email profile phone full_access offline_access read:users read:books write:penguins",
       // Include some custom claims
@@ -52,7 +52,7 @@ describe("idp.introspectTokenLocal", () => {
       client_id: CLIENT_ID,
     });
     expect(res).toEqual({
-      subject: USER_ID,
+      subject: MEMBER_ID,
       expires_at: nowEpoch + 60 * 60,
       audience: [CLIENT_ID],
       issued_at: nowEpoch,

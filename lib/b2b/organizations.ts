@@ -27,6 +27,7 @@ export interface ActiveSSOConnection {
   connection_id: string;
   // A human-readable display name for the connection.
   display_name: string;
+  identity_provider: string;
 }
 
 export interface B2BOrganizationsDeleteRequestOptions {

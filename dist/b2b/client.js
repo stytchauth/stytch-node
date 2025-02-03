@@ -52,7 +52,7 @@ class B2BClient extends _client.BaseClient {
     this.sso = new _sso.SSO(this.fetchConfig);
     this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
-    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig);
+    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }
 exports.B2BClient = B2BClient;

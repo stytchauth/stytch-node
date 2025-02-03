@@ -187,6 +187,8 @@ export type {
   PolicyResource,
   PolicyRole,
   PolicyRolePermission,
+  PolicyScope,
+  PolicyScopePermission,
   B2BRBACPolicyResponse,
 } from "./rbac";
 

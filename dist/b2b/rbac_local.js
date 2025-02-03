@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PolicyCache = void 0;
 exports.performAuthorizationCheck = performAuthorizationCheck;
+exports.performScopeAuthorizationCheck = performScopeAuthorizationCheck;
 var _errors = require("../shared/errors");
 // We want to refresh if the policy is more than 5 minutes old
 const MAX_AGE_MS = 1000 * 60 * 5;
@@ -53,3 +54,8 @@ function performAuthorizationCheck({
     throw new _errors.ClientError("invalid_permissions", "Member does not have permission to perform the requested action");
   }
 }
+function performScopeAuthorizationCheck({
+  policy,
+  subjectScopes,
+  authorizationCheck
+}) {}

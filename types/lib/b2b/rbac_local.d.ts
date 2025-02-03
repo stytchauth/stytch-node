@@ -15,3 +15,8 @@ export declare function performAuthorizationCheck({ policy, subjectRoles, subjec
     subjectOrgID: string;
     authorizationCheck: AuthorizationCheck;
 }): void;
+export declare function performScopeAuthorizationCheck({ policy, subjectScopes, authorizationCheck, }: {
+    policy: Policy;
+    subjectScopes: string[];
+    authorizationCheck: AuthorizationCheck;
+}): void;
