@@ -72,8 +72,8 @@ export class IDP {
       params.token_type_hint = data.token_type_hint;
     }
 
+    let response;
     try {
-      var response: IntrospectTokenResponse;
       response = await request<IntrospectTokenResponse>(fetchConfig, {
         method: "POST",
         url: `/v1/public/${this.jwtConfig.projectID}/oauth2/introspect`,

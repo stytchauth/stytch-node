@@ -35,8 +35,8 @@ class IDP {
     if (data.token_type_hint && data.token_type_hint.length > 0) {
       params.token_type_hint = data.token_type_hint;
     }
+    let response;
     try {
-      var response;
       response = await (0, _shared.request)(fetchConfig, {
         method: "POST",
         url: `/v1/public/${this.jwtConfig.projectID}/oauth2/introspect`,
