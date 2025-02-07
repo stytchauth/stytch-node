@@ -34,45 +34,46 @@ class IDP {
       params.token_type_hint = data.token_type_hint;
     }
     try {
-      const response = await (0, _shared.request)(fetchConfig, {
+      var response;
+      response = await (0, _shared.request)(fetchConfig, {
         method: "POST",
         url: `/v1/public/${this.jwtConfig.projectID}/oauth2/introspect`,
         dataRaw: new URLSearchParams(params)
       });
-      const {
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        aud: _aud,
-        exp: _exp,
-        iat: _iat,
-        iss: _iss,
-        nbf: _nbf,
-        sub: _sub,
-        status_code: _status_code,
-        scope: _scope,
-        active: _active,
-        request_id: _request_id,
-        token_type: _token_type,
-        client_id: _client_id,
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        ...customClaims
-      } = response;
-      if (!_active) {
-        throw new _errors.ClientError("token_invalid", "Token was not active", null);
-      }
-      return {
-        subject: _sub,
-        scope: _scope,
-        audience: _aud,
-        expires_at: _exp,
-        issued_at: _iat,
-        issuer: _iss,
-        not_before: _nbf,
-        custom_claims: customClaims,
-        token_type: _token_type
-      };
     } catch (err) {
       throw new _errors.ClientError("token_invalid", "Could not introspect token", err);
     }
+    const {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      aud: _aud,
+      exp: _exp,
+      iat: _iat,
+      iss: _iss,
+      nbf: _nbf,
+      sub: _sub,
+      status_code: _status_code,
+      scope: _scope,
+      active: _active,
+      request_id: _request_id,
+      token_type: _token_type,
+      client_id: _client_id,
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      ...customClaims
+    } = response;
+    if (!_active) {
+      throw new _errors.ClientError("token_invalid", "Token was not active", null);
+    }
+    return {
+      subject: _sub,
+      scope: _scope,
+      audience: _aud,
+      expires_at: _exp,
+      issued_at: _iat,
+      issuer: _iss,
+      not_before: _nbf,
+      custom_claims: customClaims,
+      token_type: _token_type
+    };
   }
   async introspectTokenLocal(data, options) {
     const jwtOptions = {
