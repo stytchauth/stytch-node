@@ -85,56 +85,57 @@ export class IDP {
     }
 
     try {
-      const response = await request<IntrospectTokenResponse>(fetchConfig, {
+      var response: IntrospectTokenResponse;
+      response = await request<IntrospectTokenResponse>(fetchConfig, {
         method: "POST",
         url: `/v1/public/${this.jwtConfig.projectID}/oauth2/introspect`,
         dataRaw: new URLSearchParams(params),
       });
-      const {
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        aud: _aud,
-        exp: _exp,
-        iat: _iat,
-        iss: _iss,
-        nbf: _nbf,
-        sub: _sub,
-        status_code: _status_code,
-        scope: _scope,
-        active: _active,
-        request_id: _request_id,
-        token_type: _token_type,
-        client_id: _client_id,
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        ...customClaims
-      } = response;
-
-      if (!_active) {
-        throw new ClientError("token_invalid", "Token was not active", null);
-      }
-
-      if (options?.authorization_check) {
-        const policy = await this.policyCache.getPolicy();
-        performScopeAuthorizationCheck({
-          policy,
-          tokenScopes: (_scope as string).trim().split(" "),
-          authorizationCheck: options.authorization_check,
-        });
-      }
-
-      return {
-        subject: _sub as string,
-        scope: _scope as string,
-        audience: _aud as string[],
-        expires_at: _exp as number,
-        issued_at: _iat as number,
-        issuer: _iss as string,
-        not_before: _nbf as number,
-        custom_claims: customClaims,
-        token_type: _token_type as string,
-      };
     } catch (err) {
       throw new ClientError("token_invalid", "Could not introspect token", err);
     }
+    const {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      aud: _aud,
+      exp: _exp,
+      iat: _iat,
+      iss: _iss,
+      nbf: _nbf,
+      sub: _sub,
+      status_code: _status_code,
+      scope: _scope,
+      active: _active,
+      request_id: _request_id,
+      token_type: _token_type,
+      client_id: _client_id,
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      ...customClaims
+    } = response;
+
+    if (!_active) {
+      throw new ClientError("token_invalid", "Token was not active", null);
+    }
+
+    if (options?.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      performScopeAuthorizationCheck({
+        policy,
+        tokenScopes: (_scope as string).trim().split(" "),
+        authorizationCheck: options.authorization_check,
+      });
+    }
+
+    return {
+      subject: _sub as string,
+      scope: _scope as string,
+      audience: _aud as string[],
+      expires_at: _exp as number,
+      issued_at: _iat as number,
+      issuer: _iss as string,
+      not_before: _nbf as number,
+      custom_claims: customClaims,
+      token_type: _token_type as string,
+    };
   }
 
   async introspectTokenLocal(
