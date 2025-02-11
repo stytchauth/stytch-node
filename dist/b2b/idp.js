@@ -87,8 +87,8 @@ class IDP {
   }
   async introspectTokenLocal(data, options) {
     const jwtOptions = {
-      audience: data.client_id,
-      issuer: `https://stytch.com/${this.jwtConfig.projectID}`,
+      audience: this.jwtConfig.projectID,
+      issuer: `stytch.com/${this.jwtConfig.projectID}`,
       typ: "JWT"
     };
     const now = options?.current_date || new Date();
