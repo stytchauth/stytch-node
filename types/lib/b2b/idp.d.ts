@@ -28,7 +28,7 @@ export declare class IDP {
     introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
         authorization_check?: AuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
-    introspectTokenLocal(data: IntrospectTokenRequest, options?: {
+    introspectTokenLocal(tokenJWT: string, options?: {
         clock_tolerance_seconds?: number;
         current_date?: Date;
         authorization_check?: AuthorizationCheck;

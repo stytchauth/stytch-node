@@ -139,7 +139,7 @@ export class IDP {
   }
 
   async introspectTokenLocal(
-    data: IntrospectTokenRequest,
+    tokenJWT: string,
     options?: {
       clock_tolerance_seconds?: number;
       current_date?: Date;
@@ -154,7 +154,7 @@ export class IDP {
     const now = options?.current_date || new Date();
     let payload;
     try {
-      const token = await jose.jwtVerify(data.token, this.jwksClient, {
+      const token = await jose.jwtVerify(tokenJWT, this.jwksClient, {
         ...jwtOptions,
         clockTolerance: options?.clock_tolerance_seconds,
         currentDate: now,

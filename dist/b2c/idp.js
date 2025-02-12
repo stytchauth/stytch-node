@@ -75,7 +75,7 @@ class IDP {
       token_type: _token_type
     };
   }
-  async introspectTokenLocal(data, options) {
+  async introspectTokenLocal(tokenJWT, options) {
     const jwtOptions = {
       audience: this.jwtConfig.projectID,
       issuer: `stytch.com/${this.jwtConfig.projectID}`,
@@ -84,7 +84,7 @@ class IDP {
     const now = options?.current_date || new Date();
     let payload;
     try {
-      const token = await jose.jwtVerify(data.token, this.jwksClient, {
+      const token = await jose.jwtVerify(tokenJWT, this.jwksClient, {
         ...jwtOptions,
         clockTolerance: options?.clock_tolerance_seconds,
         currentDate: now

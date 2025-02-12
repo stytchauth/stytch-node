@@ -41,22 +41,19 @@ describe("idp.introspectTokenLocal", () => {
       .setIssuedAt(nowEpoch)
       .setNotBefore(nowEpoch)
       .setExpirationTime(nowEpoch + 60 * 60) // one hour
-      .setIssuer(`https://stytch.com/${PROJECT_ID}`)
-      .setAudience([CLIENT_ID])
+      .setIssuer(`stytch.com/${PROJECT_ID}`)
+      .setAudience([PROJECT_ID])
       .sign(privateKey);
   });
 
   it("success", async () => {
-    const res = await idp.introspectTokenLocal({
-      token: accessToken,
-      client_id: CLIENT_ID,
-    });
+    const res = await idp.introspectTokenLocal(accessToken);
     expect(res).toEqual({
       subject: USER_ID,
       expires_at: nowEpoch + 60 * 60,
-      audience: [CLIENT_ID],
+      audience: [PROJECT_ID],
       issued_at: nowEpoch,
-      issuer: `https://stytch.com/${PROJECT_ID}`,
+      issuer: `stytch.com/${PROJECT_ID}`,
       not_before: nowEpoch,
       scope:
         "openid email profile phone full_access offline_access read:users read:books write:penguins",

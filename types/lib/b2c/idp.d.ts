@@ -23,7 +23,7 @@ export declare class IDP {
     private jwksClient;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     introspectTokenNetwork(data: IntrospectTokenRequest): Promise<IntrospectTokenClaims>;
-    introspectTokenLocal(data: IntrospectTokenRequest, options?: {
+    introspectTokenLocal(tokenJWT: string, options?: {
         clock_tolerance_seconds?: number;
         current_date?: Date;
     }): Promise<IntrospectTokenClaims>;
