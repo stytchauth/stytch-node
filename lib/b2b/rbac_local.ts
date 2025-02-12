@@ -74,3 +74,32 @@ export function performAuthorizationCheck({
     );
   }
 }
+
+export function performScopeAuthorizationCheck({
+  policy,
+  tokenScopes,
+  authorizationCheck,
+}: {
+  policy: Policy;
+  tokenScopes: string[];
+  authorizationCheck: AuthorizationCheck;
+}): void {
+  const hasPermission = policy.scopes
+    .filter((scope) => tokenScopes.includes(scope.scope))
+    .flatMap((scope) => scope.permissions)
+    .some((permission) => {
+      const hasMatchingAction =
+        permission.actions.includes(authorizationCheck.action) ||
+        permission.actions.includes("*");
+      const hasMatchingResource =
+        authorizationCheck.resource_id === permission.resource_id;
+      return hasMatchingAction && hasMatchingResource;
+    });
+
+  if (!hasPermission) {
+    throw new ClientError(
+      "invalid_permissions",
+      "Member does not have permission to perform the requested action"
+    );
+  }
+}

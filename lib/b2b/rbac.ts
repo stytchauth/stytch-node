@@ -13,6 +13,7 @@ export interface Policy {
   roles: PolicyRole[];
   // An array of [Resource objects](https://stytch.com/docs/b2b/api/rbac-resource-object).
   resources: PolicyResource[];
+  scopes: PolicyScope[];
 }
 
 export interface PolicyResource {
@@ -130,6 +131,17 @@ export interface PolicyRolePermission {
    * A list of permitted actions the Role is authorized to take with the provided Resource. You can use `*`
    * as a wildcard to grant a Role permission to use all possible actions related to the Resource.
    */
+  actions: string[];
+}
+
+export interface PolicyScope {
+  scope: string;
+  description: string;
+  permissions: PolicyScopePermission[];
+}
+
+export interface PolicyScopePermission {
+  resource_id: string;
   actions: string[];
 }
 
