@@ -304,7 +304,7 @@ export interface B2BSessionsGetJWKSRequest {
 
 // Response type for `sessions.getJWKS`.
 export interface B2BSessionsGetJWKSResponse {
-  // The JWK
+  // The list of JWKs associated with the project.
   keys: JWK[];
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -666,14 +666,14 @@ export class Sessions {
   /**
    * Get the JSON Web Key Set (JWKS) for a project.
    *
-   * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key set, and both
-   * key sets will be returned by this endpoint for a period of 1 month.
+   * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both
+   * keys will be returned by this endpoint for a period of 1 month.
    *
    * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
    * by the old JWKS, and some JWTs will be signed by the new JWKS. The correct JWKS to use for validation is
    * determined by matching the `kid` value of the JWT and JWKS.
    *
-   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JWKS roll will be
+   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JWKS rotation will be
    * handled for you.
    *
    * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
