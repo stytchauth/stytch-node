@@ -8,6 +8,7 @@ var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
+var _impersonation = require("./impersonation");
 var _m2m = require("./m2m");
 var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
@@ -31,6 +32,7 @@ class Client extends _client.BaseClient {
     };
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
+    this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
     this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
     this.oauth = new _oauth.OAuth(this.fetchConfig);
