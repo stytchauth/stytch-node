@@ -138,6 +138,7 @@ export interface X509Certificate {
     issuer: string;
     created_at?: string;
     expires_at?: string;
+    updated_at?: string;
 }
 export interface B2BSSOAuthenticateRequest {
     sso_token: string;
