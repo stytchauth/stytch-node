@@ -242,6 +242,12 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     | "salesforce"
     | "shibboleth"
     | string;
+  /**
+   * A PKCS1 format RSA private key used for signing SAML requests. Only PKCS1 format (starting with
+   * "-----BEGIN RSA PRIVATE KEY-----") is supported. When provided, Stytch will generate a new x509
+   * certificate from this key and return it in the signing_certificates array.
+   */
+  signing_private_key?: string;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -338,6 +344,7 @@ export class SAML {
           data.saml_group_implicit_role_assignments,
         alternative_audience_uri: data.alternative_audience_uri,
         identity_provider: data.identity_provider,
+        signing_private_key: data.signing_private_key,
       },
     });
   }
