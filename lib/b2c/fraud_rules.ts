@@ -11,34 +11,22 @@ import { request } from "../shared";
 // Request type for `fraud.rules.set`.
 export interface FraudRulesSetRequest {
   /**
-   * The action that should be returned by a fingerprint lookup for that fingerprint or ID with a
-   * `RULE_MATCH` reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. If a
-   * `NONE` action is specified, it will clear the stored rule.
+   * The action that should be returned by a fingerprint lookup for that identifier with a `RULE_MATCH`
+   * reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. For country codes,
+   * `ALLOW` actions are not allowed. If a `NONE` action is specified, it will clear the stored rule.
    */
   action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
-  // The visitor ID we want to set a rule for. Only one fingerprint or ID can be specified in the request.
+  // The visitor ID we want to set a rule for. Only one identifier can be specified in the request.
   visitor_id?: string;
-  // The browser ID we want to set a rule for. Only one fingerprint or ID can be specified in the request.
+  // The browser ID we want to set a rule for. Only one identifier can be specified in the request.
   browser_id?: string;
-  /**
-   * The visitor fingerprint we want to set a rule for. Only one fingerprint or ID can be specified in the
-   * request.
-   */
+  // The visitor fingerprint we want to set a rule for. Only one identifier can be specified in the request.
   visitor_fingerprint?: string;
-  /**
-   * The browser fingerprint we want to set a rule for. Only one fingerprint or ID can be specified in the
-   * request.
-   */
+  // The browser fingerprint we want to set a rule for. Only one identifier can be specified in the request.
   browser_fingerprint?: string;
-  /**
-   * The hardware fingerprint we want to set a rule for. Only one fingerprint or ID can be specified in the
-   * request.
-   */
+  // The hardware fingerprint we want to set a rule for. Only one identifier can be specified in the request.
   hardware_fingerprint?: string;
-  /**
-   * The network fingerprint we want to set a rule for. Only one fingerprint or ID can be specified in the
-   * request.
-   */
+  // The network fingerprint we want to set a rule for. Only one identifier can be specified in the request.
   network_fingerprint?: string;
   /**
    * The number of minutes until this rule expires. If no `expires_in_minutes` is specified, then the rule is
@@ -47,6 +35,22 @@ export interface FraudRulesSetRequest {
   expires_in_minutes?: number;
   // An optional description for the rule.
   description?: string;
+  /**
+   * The CIDR block we want to set a rule for. You may pass either an IP address or a CIDR block. The CIDR
+   * block prefix must be between 16 and 32, inclusive. If an end user's IP address is within this CIDR
+   * block, this rule will be applied. Only one identifier can be specified in the request.
+   */
+  cidr_block?: string;
+  /**
+   * The country code we want to set a rule for. The country code must be a valid ISO 3166-1 alpha-2 code.
+   * You may not set `ALLOW` rules for country codes. Only one identifier can be specified in the request.
+   */
+  country_code?: string;
+  /**
+   * The ASN we want to set a rule for. The ASN must be the string representation of an integer between 0 and
+   * 4294967295, inclusive. Only one identifier can be specified in the request.
+   */
+  asn?: string;
 }
 
 // Response type for `fraud.rules.set`.
@@ -63,23 +67,32 @@ export interface FraudRulesSetResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  // The cookie stored on the user's device that uniquely identifies them.
+  // The visitor ID that a rule was set for.
   visitor_id?: string;
-  // Combination of VisitorID and NetworkFingerprint to create a clear identifier of a browser.
+  // The browser ID that a rule was set for.
   browser_id?: string;
-  // Cookie-less way of identifying a unique user.
+  // The visitor fingerprint that a rule was set for.
   visitor_fingerprint?: string;
-  // Combination of signals to identify a browser and its specific version.
+  // The browser fingerprint that a rule was set for.
   browser_fingerprint?: string;
-  // Combinations of signals to identify an operating system and architecture.
+  // The hardware fingerprint that a rule was set for.
   hardware_fingerprint?: string;
-  // Combination of signals associated with a specific network commonly known as TLS fingerprinting.
+  // The network fingerprint that a rule was set for.
   network_fingerprint?: string;
   /**
    * The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
    * e.g. `2021-12-29T12:33:09Z`.
    */
   expires_at?: string;
+  /**
+   * The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
+   * will be applied.
+   */
+  cidr_block?: string;
+  // The country code that a rule was set for.
+  country_code?: string;
+  // The ASN that a rule was set for.
+  asn?: string;
 }
 
 export class Rules {
@@ -91,14 +104,25 @@ export class Rules {
 
   /**
    * Set a rule for a particular `visitor_id`, `browser_id`, `visitor_fingerprint`, `browser_fingerprint`,
-   * `hardware_fingerprint`, or `network_fingerprint`. This is helpful in cases where you want to allow or
-   * block a specific user or fingerprint. You should be careful when setting rules for
-   * `browser_fingerprint`, `hardware_fingerprint`, or `network_fingerprint` as they can be shared across
-   * multiple users, and you could affect more users than intended.
+   * `hardware_fingerprint`, `network_fingerprint`, `cidr_block`, `asn`, or `country_code`. This is helpful
+   * in cases where you want to allow or block a specific user or fingerprint. You should be careful when
+   * setting rules for `browser_fingerprint`, `hardware_fingerprint`, or `network_fingerprint` as they can be
+   * shared across multiple users, and you could affect more users than intended.
+   *
+   * You may not set an `ALLOW` rule for a `country_code`.
    *
    * Rules are applied in the order specified above. For example, if an end user has an `ALLOW` rule set for
    * their `visitor_id` but a `BLOCK` rule set for their `hardware_fingerprint`, they will receive an `ALLOW`
    * verdict because the `visitor_id` rule takes precedence.
+   *
+   * If there are conflicts between multiple `cidr_block` rules (for example, if the `ip_address` of the end
+   * user overlaps with multiple CIDR blocks that have rules set), the conflicts are resolved as follows:
+   * - The smallest block size takes precedence. For example, if an `ip_address` overlaps with a `cidr_block`
+   * rule of `ALLOW` for a block with a prefix of `/32` and a `cidr_block` rule of `BLOCK` with a prefix of
+   * `/24`, the rule match verdict will be `ALLOW`.
+   * - Among equivalent size blocks, `BLOCK` takes precedence over `CHALLENGE`, which takes precedence over
+   * `ALLOW`. For example, if an `ip_address` overlaps with two `cidr_block` rules with blocks of the same
+   * size that return `CHALLENGE` and `ALLOW`, the rule match verdict will be `CHALLENGE`.
    * @param data {@link FraudRulesSetRequest}
    * @returns {@link FraudRulesSetResponse}
    * @async
