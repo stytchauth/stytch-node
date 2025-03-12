@@ -8,6 +8,7 @@ export type { SIWEParams, CryptoWalletsAuthenticateRequest, CryptoWalletsAuthent
 export type { ASNProperties, BrowserProperties, Fingerprints, IPGeoProperties, Metadata, NetworkProperties, Properties, Verdict, } from "./fraud";
 export type { FraudFingerprintLookupRequest, FraudFingerprintLookupResponse, } from "./fraud_fingerprint";
 export type { FraudRulesSetRequest, FraudRulesSetResponse, } from "./fraud_rules";
+export type { ImpersonationAuthenticateRequest, ImpersonationAuthenticateResponse, } from "./impersonation";
 export type { M2MClient, M2MClientWithClientSecret, M2MClientWithNextClientSecret, M2MSearchQuery, M2MResultsMetadata, } from "./m2m";
 export type { M2MClientsCreateRequest, M2MClientsCreateResponse, M2MClientsDeleteRequest, M2MClientsDeleteResponse, M2MClientsGetRequest, M2MClientsGetResponse, M2MClientsSearchRequest, M2MClientsSearchResponse, M2MClientsUpdateRequest, M2MClientsUpdateResponse, } from "./m2m_clients";
 export type { M2MClientsSecretsRotateCancelRequest, M2MClientsSecretsRotateCancelResponse, M2MClientsSecretsRotateRequest, M2MClientsSecretsRotateResponse, M2MClientsSecretsRotateStartRequest, M2MClientsSecretsRotateStartResponse, } from "./m2m_clients_secrets";

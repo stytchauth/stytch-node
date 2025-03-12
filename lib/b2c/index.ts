@@ -152,6 +152,11 @@ export type {
 } from "./fraud_rules";
 
 export type {
+  ImpersonationAuthenticateRequest,
+  ImpersonationAuthenticateResponse,
+} from "./impersonation";
+
+export type {
   M2MClient,
   M2MClientWithClientSecret,
   M2MClientWithNextClientSecret,
