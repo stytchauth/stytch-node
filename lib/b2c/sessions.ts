@@ -102,6 +102,7 @@ export interface AuthenticationFactor {
     | "oauth_exchange_github"
     | "oauth_exchange_google"
     | "impersonation"
+    | "oauth_access_token_exchange"
     | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
@@ -156,6 +157,7 @@ export interface AuthenticationFactor {
   google_oauth_exchange_factor?: GoogleOAuthExchangeFactor;
   // Information about the impersonated factor, if one is present.
   impersonated_factor?: ImpersonatedFactor;
+  oauth_access_token_exchange_factor?: OAuthAccessTokenExchangeFactor;
 }
 
 export interface AuthenticatorAppFactor {
@@ -300,6 +302,10 @@ export interface MicrosoftOAuthFactor {
   provider_subject: string;
   // The globally unique UUID of the Member's email.
   email_id?: string;
+}
+
+export interface OAuthAccessTokenExchangeFactor {
+  client_id: string;
 }
 
 export interface OIDCSSOFactor {

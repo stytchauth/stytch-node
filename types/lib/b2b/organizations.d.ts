@@ -483,6 +483,7 @@ export interface Organization {
      *
      */
     oauth_tenant_jit_provisioning: string;
+    claimed_email_domains: string[];
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -559,6 +560,7 @@ export interface SlackProviderInfo {
 }
 export interface B2BOrganizationsCreateRequest {
     organization_name: string;
+    claimed_email_domains: string[];
     /**
      * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
      * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
@@ -1010,6 +1012,7 @@ export interface B2BOrganizationsUpdateRequest {
      * Resource.
      */
     allowed_oauth_tenants?: Record<string, any>;
+    claimed_email_domains?: string[];
 }
 export interface B2BOrganizationsUpdateResponse {
     /**
