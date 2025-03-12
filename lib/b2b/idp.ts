@@ -26,6 +26,7 @@ interface IntrospectTokenResponse {
   nbf?: number;
   client_id?: string;
   token_type?: string;
+  "https://stytch.com/organization"?: Record<string, string>;
 }
 
 export interface IntrospectTokenClaims {
@@ -108,6 +109,7 @@ export class IDP {
       request_id: _request_id,
       token_type: _token_type,
       client_id: _client_id,
+      "https://stytch.com/organization": _organization_claim,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...customClaims
     } = response;
@@ -118,8 +120,12 @@ export class IDP {
 
     if (options?.authorization_check) {
       const policy = await this.policyCache.getPolicy();
+      const organization_id = (_organization_claim as Record<string, string>)[
+        "organization_id"
+      ];
       performScopeAuthorizationCheck({
         policy,
+        subjectOrgID: organization_id,
         tokenScopes: (_scope as string).trim().split(" "),
         authorizationCheck: options.authorization_check,
       });
@@ -177,6 +183,7 @@ export class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
+      "https://stytch.com/organization": _organization_claim,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -185,6 +192,9 @@ export class IDP {
       const policy = await this.policyCache.getPolicy();
       performScopeAuthorizationCheck({
         policy,
+        subjectOrgID: (_organization_claim as Record<string, string>)[
+          "organization_id"
+        ],
         tokenScopes: (_scope as string).trim().split(" "),
         authorizationCheck: options.authorization_check,
       });

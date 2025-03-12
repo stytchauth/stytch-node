@@ -168,6 +168,7 @@ describe("performScopeAuthorizationCheck", () => {
     name: string;
     tokenScopes: string[];
     authorizationCheck: AuthorizationCheck;
+    subjectOrgId: string;
     expectedError?: Error;
   };
 
@@ -180,6 +181,7 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "documents",
         action: "read",
       },
+      subjectOrgId: "organization-123",
     },
     {
       name: "Success case - wildcard match",
@@ -189,6 +191,7 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "documents",
         action: "read",
       },
+      subjectOrgId: "organization-123",
     },
     {
       name: "Success case - multiple matches",
@@ -198,6 +201,7 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "documents",
         action: "read",
       },
+      subjectOrgId: "organization-123",
     },
     {
       name: "Success case - multiple matches II",
@@ -207,6 +211,7 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "images",
         action: "create",
       },
+      subjectOrgId: "organization-123",
     },
     {
       name: "Failure case - invalid action",
@@ -216,6 +221,7 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "documents",
         action: "delete",
       },
+      subjectOrgId: "organization-123",
       expectedError: new ClientError(
         "invalid_permissions",
         "Member does not have permission to perform the requested action"
@@ -229,9 +235,24 @@ describe("performScopeAuthorizationCheck", () => {
         resource_id: "images",
         action: "write",
       },
+      subjectOrgId: "organization-123",
       expectedError: new ClientError(
         "invalid_permissions",
         "Member does not have permission to perform the requested action"
+      ),
+    },
+    {
+      name: "Failure case - invalid tenancy check",
+      tokenScopes: ["crud:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "images",
+        action: "write",
+      },
+      subjectOrgId: "organization-456",
+      expectedError: new ClientError(
+        "tenancy_mismatch",
+        "Member belongs to different organization"
       ),
     },
   ];
@@ -242,6 +263,7 @@ describe("performScopeAuthorizationCheck", () => {
         performScopeAuthorizationCheck({
           policy: MOCK_RBAC_POLICY,
           authorizationCheck: tc.authorizationCheck,
+          subjectOrgID: tc.subjectOrgId,
           tokenScopes: tc.tokenScopes,
         });
 
