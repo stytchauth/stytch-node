@@ -150,6 +150,8 @@ export type {
   PrimaryRequired,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
+  B2BSessionsExchangeAccessTokenRequest,
+  B2BSessionsExchangeAccessTokenResponse,
   B2BSessionsExchangeRequest,
   B2BSessionsExchangeResponse,
   B2BSessionsGetJWKSRequest,

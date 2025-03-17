@@ -92,6 +92,7 @@ export type {
   JWK,
   LinkedInOAuthFactor,
   MicrosoftOAuthFactor,
+  OAuthAccessTokenExchangeFactor,
   OIDCSSOFactor,
   PhoneNumberFactor,
   RecoveryCodeFactor,

@@ -530,6 +530,7 @@ export interface Organization {
    *
    */
   oauth_tenant_jit_provisioning: string;
+  claimed_email_domains: string[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -759,6 +760,8 @@ export interface B2BOrganizationsCreateRequest {
    * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
    */
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  // A list of email domains that are claimed by the Organization.
+  claimed_email_domains?: string[];
 }
 
 // Response type for `organizations.create`.
@@ -1104,6 +1107,8 @@ export interface B2BOrganizationsUpdateRequest {
    * Resource.
    */
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  // A list of email domains that are claimed by the Organization.
+  claimed_email_domains?: string[];
 }
 
 // Response type for `organizations.update`.
@@ -1300,6 +1305,7 @@ export class Organizations {
         allowed_mfa_methods: data.allowed_mfa_methods,
         oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
         allowed_oauth_tenants: data.allowed_oauth_tenants,
+        claimed_email_domains: data.claimed_email_domains,
       },
     });
   }

@@ -61,6 +61,9 @@ export class Impersonation {
    * that is not expired or previously used.
    * A Stytch session will be created for the impersonated user with a 60 minute duration. Impersonated
    * sessions cannot be extended.
+   *
+   * Prior to this step, you can generate an impersonation token by visiting the Stytch dashboard, viewing a
+   * user, and clicking the `Impersonate User` button.
    * @param data {@link ImpersonationAuthenticateRequest}
    * @returns {@link ImpersonationAuthenticateResponse}
    * @async

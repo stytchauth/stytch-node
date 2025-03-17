@@ -483,6 +483,7 @@ export interface Organization {
      *
      */
     oauth_tenant_jit_provisioning: string;
+    claimed_email_domains: string[];
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -686,6 +687,7 @@ export interface B2BOrganizationsCreateRequest {
      * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
      */
     allowed_oauth_tenants?: Record<string, any>;
+    claimed_email_domains?: string[];
 }
 export interface B2BOrganizationsCreateResponse {
     /**
@@ -1010,6 +1012,7 @@ export interface B2BOrganizationsUpdateRequest {
      * Resource.
      */
     allowed_oauth_tenants?: Record<string, any>;
+    claimed_email_domains?: string[];
 }
 export interface B2BOrganizationsUpdateResponse {
     /**
