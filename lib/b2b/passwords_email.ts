@@ -41,10 +41,6 @@ export interface B2BPasswordsEmailRequireResetRequest {
 
 // Response type for `passwords.email.requireReset`.
 export interface B2BPasswordsEmailRequireResetResponse {
-  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
-  member: Member;
-  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
-  organization: Organization;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -52,6 +48,10 @@ export interface B2BPasswordsEmailRequireResetResponse {
   status_code: number;
   // Globally unique UUID that identifies a specific Member.
   member_id?: string;
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
+  member?: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+  organization?: Organization;
 }
 
 // Request type for `passwords.email.reset`.

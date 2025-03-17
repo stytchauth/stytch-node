@@ -18,6 +18,10 @@ var _rbac_local = require("./rbac_local");
 
 // Response type for `sessions.authenticate`.
 
+// Request type for `sessions.exchangeAccessToken`.
+
+// Response type for `sessions.exchangeAccessToken`.
+
 // Request type for `sessions.exchange`.
 
 // Response type for `sessions.exchange`.
@@ -177,6 +181,33 @@ class Sessions {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/b2b/sessions/exchange`,
+      headers,
+      data
+    });
+  }
+
+  /**
+   * Use this endpoint to exchange a Connected Apps Access Token back into a Member Session for the
+   * underlying Member.
+   * This session can be used with the Stytch SDKs and APIs.
+   *
+   * The Access Token must contain the `full_access` scope and must not be more than 5 minutes old. Access
+   * Tokens may only be exchanged a single time.
+   *
+   * Because the Member previously completed MFA and satisfied all Organization authentication requirements
+   * at the time of the original Access Token issuance, this endpoint will never return an
+   * `intermediate_session_token` or require MFA.
+   * @param data {@link B2BSessionsExchangeAccessTokenRequest}
+   * @returns {@link B2BSessionsExchangeAccessTokenResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  exchangeAccessToken(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/sessions/exchange_access_token`,
       headers,
       data
     });
