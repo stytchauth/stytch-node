@@ -1,6 +1,11 @@
 import { fetchConfig } from "../shared";
 import { Session } from "./sessions";
 import { User, WebAuthnRegistration } from "./users";
+export interface WebAuthnCredential {
+    credential_id: string;
+    webauthn_registration_id: string;
+    type: string;
+}
 export interface WebAuthnAuthenticateRequest {
     /**
      * The response of the
@@ -86,6 +91,14 @@ export interface WebAuthnAuthenticateStartResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface WebAuthnCredentialsRequest {
+    user_id: string;
+    domain: string;
+}
+export interface WebAuthnCredentialsResponse {
+    credentials: WebAuthnCredential[];
     status_code: number;
 }
 export interface WebAuthnRegisterRequest {
@@ -294,4 +307,12 @@ export declare class WebAuthn {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     update(data: WebAuthnUpdateRequest): Promise<WebAuthnUpdateResponse>;
+    /**
+     * @param params {@link WebAuthnCredentialsRequest}
+     * @returns {@link WebAuthnCredentialsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    credentials(params: WebAuthnCredentialsRequest): Promise<WebAuthnCredentialsResponse>;
 }
