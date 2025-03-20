@@ -172,5 +172,24 @@ class WebAuthn {
       }
     });
   }
+
+  /**
+   * @param params {@link WebAuthnCredentialsRequest}
+   * @returns {@link WebAuthnCredentialsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  credentials(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/webauthn/credentials`,
+      headers,
+      params: {
+        ...params
+      }
+    });
+  }
 }
 exports.WebAuthn = WebAuthn;

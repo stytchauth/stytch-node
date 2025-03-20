@@ -200,6 +200,7 @@ export interface B2BPasswordsEmailResetStartRequest {
      * - Reset Password.
      */
     reset_password_template_id?: string;
+    verify_email_template_id?: string;
 }
 export interface B2BPasswordsEmailResetStartResponse {
     /**
