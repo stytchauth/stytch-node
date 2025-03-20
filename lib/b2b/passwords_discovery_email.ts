@@ -109,6 +109,7 @@ export interface B2BPasswordsDiscoveryEmailResetStartRequest {
    *
    */
   locale?: string;
+  verify_email_template_id?: string;
 }
 
 // Response type for `passwords.discovery.email.resetStart`.

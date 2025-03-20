@@ -287,10 +287,13 @@ export type {
 } from "./totps";
 
 export type {
+  WebAuthnCredential,
   WebAuthnAuthenticateRequest,
   WebAuthnAuthenticateResponse,
   WebAuthnAuthenticateStartRequest,
   WebAuthnAuthenticateStartResponse,
+  WebAuthnCredentialsRequest,
+  WebAuthnCredentialsResponse,
   WebAuthnRegisterRequest,
   WebAuthnRegisterResponse,
   WebAuthnRegisterStartRequest,
