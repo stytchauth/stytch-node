@@ -59,7 +59,7 @@ class IDP {
       request_id: _request_id,
       token_type: _token_type,
       client_id: _client_id,
-      'https://stytch.com/organization': _organization_claim,
+      "https://stytch.com/organization": _organization_claim,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...customClaims
     } = response;
@@ -68,7 +68,7 @@ class IDP {
     }
     if (options?.authorization_check) {
       const policy = await this.policyCache.getPolicy();
-      const organization_id = _organization_claim['organization_id'];
+      const organization_id = _organization_claim["organization_id"];
       (0, _rbac_local.performScopeAuthorizationCheck)({
         policy,
         subjectOrgID: organization_id,
@@ -120,7 +120,7 @@ class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
-      'https://stytch.com/organization': _organization_claim,
+      "https://stytch.com/organization": _organization_claim,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -128,7 +128,7 @@ class IDP {
       const policy = await this.policyCache.getPolicy();
       (0, _rbac_local.performScopeAuthorizationCheck)({
         policy,
-        subjectOrgID: _organization_claim['organization_id'],
+        subjectOrgID: _organization_claim["organization_id"],
         tokenScopes: _scope.trim().split(" "),
         authorizationCheck: options.authorization_check
       });
