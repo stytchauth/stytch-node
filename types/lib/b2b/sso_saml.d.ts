@@ -167,6 +167,12 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * Specifying a known provider allows Stytch to handle any provider-specific logic.
      */
     identity_provider?: "classlink" | "cyberark" | "duo" | "generic" | "google-workspace" | "jumpcloud" | "keycloak" | "miniorange" | "microsoft-entra" | "okta" | "onelogin" | "pingfederate" | "rippling" | "salesforce" | "shibboleth" | string;
+    /**
+     * A PKCS1 format RSA private key used for signing SAML requests. Only PKCS1 format (starting with
+     * "-----BEGIN RSA PRIVATE KEY-----") is supported. When provided, Stytch will generate a new x509
+     * certificate from this key and return it in the signing_certificates array.
+     */
+    signing_private_key?: string;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {
     /**

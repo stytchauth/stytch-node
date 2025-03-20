@@ -22,15 +22,15 @@ class Impersonation {
   }
 
   /**
-   * Authenticate an impersonation token to impersonate a. This endpoint requires an impersonation token that
-   * is not expired or previously used.
-   * A Stytch session will be created for the impersonated member with a 60 minute duration. Impersonated
+   * Authenticate an impersonation token to impersonate a User. This endpoint requires an impersonation token
+   * that is not expired or previously used.
+   * A Stytch session will be created for the impersonated user with a 60 minute duration. Impersonated
    * sessions cannot be extended.
    *
    * Prior to this step, you can generate an impersonation token by visiting the Stytch dashboard, viewing a
-   * member, and clicking the `Impersonate Member` button.
-   * @param data {@link B2BImpersonationAuthenticateRequest}
-   * @returns {@link B2BImpersonationAuthenticateResponse}
+   * user, and clicking the `Impersonate User` button.
+   * @param data {@link ImpersonationAuthenticateRequest}
+   * @returns {@link ImpersonationAuthenticateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -39,7 +39,7 @@ class Impersonation {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/impersonation/authenticate`,
+      url: `/v1/impersonation/authenticate`,
       headers,
       data
     });

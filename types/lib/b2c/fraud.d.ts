@@ -63,6 +63,16 @@ export interface Verdict {
      * is detected.
      */
     is_authentic_device: boolean;
+    /**
+     * The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will only be present if
+     * there is a `RULE_MATCH` reason in the list of verdict reasons.
+     */
+    rule_match_type?: "VISITOR_ID" | "BROWSER_ID" | "VISITOR_FINGERPRINT" | "BROWSER_FINGERPRINT" | "HARDWARE_FINGERPRINT" | "NETWORK_FINGERPRINT" | "CIDR_BLOCK" | "ASN" | "COUNTRY_CODE" | string;
+    /**
+     * The rule that was applied (e.g. a specific visitor ID value), if any. This field will only be present if
+     * there is a `RULE_MATCH` reason in the list of verdict reasons.
+     */
+    rule_match_identifier?: string;
 }
 export declare class Fraud {
     private fetchConfig;

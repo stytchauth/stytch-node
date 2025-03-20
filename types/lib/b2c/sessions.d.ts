@@ -32,7 +32,7 @@ export interface AuthenticationFactor {
      *       `sso` – Either `sso_saml` or `sso_oidc`.
      *
      */
-    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | "oauth_exchange_github" | "oauth_exchange_google" | "impersonation" | string;
+    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | "oauth_exchange_github" | "oauth_exchange_google" | "impersonation" | "oauth_access_token_exchange" | string;
     last_authenticated_at?: string;
     created_at?: string;
     updated_at?: string;
@@ -75,6 +75,7 @@ export interface AuthenticationFactor {
     github_oauth_exchange_factor?: GithubOAuthExchangeFactor;
     google_oauth_exchange_factor?: GoogleOAuthExchangeFactor;
     impersonated_factor?: ImpersonatedFactor;
+    oauth_access_token_exchange_factor?: OAuthAccessTokenExchangeFactor;
 }
 export interface AuthenticatorAppFactor {
     totp_id: string;
@@ -189,6 +190,9 @@ export interface MicrosoftOAuthFactor {
      */
     provider_subject: string;
     email_id?: string;
+}
+export interface OAuthAccessTokenExchangeFactor {
+    client_id: string;
 }
 export interface OIDCSSOFactor {
     id: string;
@@ -537,15 +541,15 @@ export declare class Sessions {
     /**
      * Get the JSON Web Key Set (JWKS) for a project.
      *
-     * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key set, and both
-     * key sets will be returned by this endpoint for a period of 1 month.
+     * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both
+     * keys will be returned by this endpoint for a period of 1 month.
      *
      * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
      * by the old JWKS, and some JWTs will be signed by the new JWKS. The correct JWKS to use for validation is
      * determined by matching the `kid` value of the JWT and JWKS.
      *
-     * If you're using one of our [backend SDKs](https://stytch.com/docs/sdks), the JWKS roll will be handled
-     * for you.
+     * If you're using one of our [backend SDKs](https://stytch.com/docs/sdks), the JWKS rotation will be
+     * handled for you.
      *
      * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
      * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use

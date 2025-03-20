@@ -192,6 +192,65 @@ export interface B2BSessionsAuthenticateResponse {
   verdict?: AuthorizationVerdict;
 }
 
+// Request type for `sessions.exchangeAccessToken`.
+export interface B2BSessionsExchangeAccessTokenRequest {
+  // The access token to exchange for a Stytch Session. Must be granted the `full_access` scope.
+  access_token: string;
+  /**
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
+   * 60 minute duration. If you don't want
+   *   to use the Stytch session product, you can ignore the session fields in the response.
+   */
+  session_duration_minutes?: number;
+  /**
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in
+   *   `session_duration_minutes`. Claims will be included on the Session object and in the JWT. To update a
+   * key in an existing Session, supply a new value. To
+   *   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
+   * `exp`, `nbf`, `iat`, `jti`) will be ignored.
+   *   Total custom claims size cannot exceed four kilobytes.
+   */
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+// Response type for `sessions.exchangeAccessToken`.
+export interface B2BSessionsExchangeAccessTokenResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  // Globally unique UUID that identifies a specific Member.
+  member_id: string;
+  // A secret token for a given Stytch Session.
+  session_token: string;
+  // The JSON Web Token (JWT) for a given Stytch Session.
+  session_jwt: string;
+  // The [Member object](https://stytch.com/docs/b2b/api/member-object)
+  member: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+  organization: Organization;
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
+  status_code: number;
+  // The [Session object](https://stytch.com/docs/b2b/api/session-object).
+  member_session?: MemberSession;
+}
+
 // Request type for `sessions.exchange`.
 export interface B2BSessionsExchangeRequest {
   /**
@@ -304,7 +363,7 @@ export interface B2BSessionsGetJWKSRequest {
 
 // Response type for `sessions.getJWKS`.
 export interface B2BSessionsGetJWKSResponse {
-  // The JWK
+  // The list of JWKs associated with the project.
   keys: JWK[];
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
@@ -640,6 +699,35 @@ export class Sessions {
   }
 
   /**
+   * Use this endpoint to exchange a Connected Apps Access Token back into a Member Session for the
+   * underlying Member.
+   * This session can be used with the Stytch SDKs and APIs.
+   *
+   * The Access Token must contain the `full_access` scope and must not be more than 5 minutes old. Access
+   * Tokens may only be exchanged a single time.
+   *
+   * Because the Member previously completed MFA and satisfied all Organization authentication requirements
+   * at the time of the original Access Token issuance, this endpoint will never return an
+   * `intermediate_session_token` or require MFA.
+   * @param data {@link B2BSessionsExchangeAccessTokenRequest}
+   * @returns {@link B2BSessionsExchangeAccessTokenResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  exchangeAccessToken(
+    data: B2BSessionsExchangeAccessTokenRequest
+  ): Promise<B2BSessionsExchangeAccessTokenResponse> {
+    const headers: Record<string, string> = {};
+    return request<B2BSessionsExchangeAccessTokenResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/sessions/exchange_access_token`,
+      headers,
+      data,
+    });
+  }
+
+  /**
    * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
    * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
    * and then perform a lookup using the `session_token`. If the response contains a valid email address,
@@ -666,14 +754,14 @@ export class Sessions {
   /**
    * Get the JSON Web Key Set (JWKS) for a project.
    *
-   * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key set, and both
-   * key sets will be returned by this endpoint for a period of 1 month.
+   * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both
+   * keys will be returned by this endpoint for a period of 1 month.
    *
    * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
    * by the old JWKS, and some JWTs will be signed by the new JWKS. The correct JWKS to use for validation is
    * determined by matching the `kid` value of the JWT and JWKS.
    *
-   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JWKS roll will be
+   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JWKS rotation will be
    * handled for you.
    *
    * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and

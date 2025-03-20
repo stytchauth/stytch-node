@@ -150,6 +150,8 @@ export type {
   PrimaryRequired,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
+  B2BSessionsExchangeAccessTokenRequest,
+  B2BSessionsExchangeAccessTokenResponse,
   B2BSessionsExchangeRequest,
   B2BSessionsExchangeResponse,
   B2BSessionsGetJWKSRequest,
@@ -162,20 +164,6 @@ export type {
   B2BSessionsRevokeResponse,
   B2BSessionsRevokeRequestOptions,
 } from "./sessions";
-
-export type { DiscoveredOrganization, Membership } from "./discovery";
-
-export type {
-  B2BDiscoveryIntermediateSessionsExchangeRequest,
-  B2BDiscoveryIntermediateSessionsExchangeResponse,
-} from "./discovery_intermediate_sessions";
-
-export type {
-  B2BDiscoveryOrganizationsCreateRequest,
-  B2BDiscoveryOrganizationsCreateResponse,
-  B2BDiscoveryOrganizationsListRequest,
-  B2BDiscoveryOrganizationsListResponse,
-} from "./discovery_organizations";
 
 export type {
   B2BImpersonationAuthenticateRequest,
@@ -209,6 +197,20 @@ export type {
   B2BTOTPsMigrateRequest,
   B2BTOTPsMigrateResponse,
 } from "./totps";
+
+export type { DiscoveredOrganization, Membership } from "./discovery";
+
+export type {
+  B2BDiscoveryIntermediateSessionsExchangeRequest,
+  B2BDiscoveryIntermediateSessionsExchangeResponse,
+} from "./discovery_intermediate_sessions";
+
+export type {
+  B2BDiscoveryOrganizationsCreateRequest,
+  B2BDiscoveryOrganizationsCreateResponse,
+  B2BDiscoveryOrganizationsListRequest,
+  B2BDiscoveryOrganizationsListResponse,
+} from "./discovery_organizations";
 
 export type {
   B2BMagicLinksAuthenticateRequest,

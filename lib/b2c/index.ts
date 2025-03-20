@@ -92,6 +92,7 @@ export type {
   JWK,
   LinkedInOAuthFactor,
   MicrosoftOAuthFactor,
+  OAuthAccessTokenExchangeFactor,
   OIDCSSOFactor,
   PhoneNumberFactor,
   RecoveryCodeFactor,
@@ -150,6 +151,11 @@ export type {
   FraudRulesSetRequest,
   FraudRulesSetResponse,
 } from "./fraud_rules";
+
+export type {
+  ImpersonationAuthenticateRequest,
+  ImpersonationAuthenticateResponse,
+} from "./impersonation";
 
 export type {
   M2MClient,
@@ -281,10 +287,13 @@ export type {
 } from "./totps";
 
 export type {
+  WebAuthnCredential,
   WebAuthnAuthenticateRequest,
   WebAuthnAuthenticateResponse,
   WebAuthnAuthenticateStartRequest,
   WebAuthnAuthenticateStartResponse,
+  WebAuthnCredentialsRequest,
+  WebAuthnCredentialsResponse,
   WebAuthnRegisterRequest,
   WebAuthnRegisterResponse,
   WebAuthnRegisterStartRequest,
