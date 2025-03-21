@@ -138,9 +138,10 @@ export class IDP {
     }
 
     const organization: OrganizationClaim = {
-      organization_id: (_organization_claim as Record<string, string>).organization_id,
+      organization_id: (_organization_claim as Record<string, string>)
+        .organization_id,
       slug: (_organization_claim as Record<string, string>).slug,
-    }
+    };
 
     return {
       subject: _sub as string,
@@ -213,9 +214,10 @@ export class IDP {
     }
 
     const organization: OrganizationClaim = {
-      organization_id: (_organization_claim as Record<string, string>).organization_id,
+      organization_id: (_organization_claim as Record<string, string>)
+        .organization_id,
       slug: (_organization_claim as Record<string, string>).slug,
-    }
+    };
 
     return {
       subject: _sub as string,
