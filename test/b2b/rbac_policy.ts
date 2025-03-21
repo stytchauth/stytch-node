@@ -62,4 +62,62 @@ export const MOCK_RBAC_POLICY: Policy = {
       ],
     },
   ],
+  scopes: [
+    {
+      scope: "read:data",
+      description: "Reads documents and images",
+      permissions: [
+        {
+          actions: ["read"],
+          resource_id: "documents",
+        },
+        {
+          actions: ["read"],
+          resource_id: "images",
+        },
+      ],
+    },
+    {
+      scope: "write:data",
+      description: "Edits documents and images",
+      permissions: [
+        {
+          actions: ["read", "write"],
+          resource_id: "documents",
+        },
+        {
+          actions: ["create", "read", "delete"],
+          resource_id: "images",
+        },
+      ],
+    },
+    {
+      scope: "crud:data",
+      description: "All CRUD operations on documents and images",
+      permissions: [
+        {
+          actions: ["create", "read", "write", "delete"],
+          resource_id: "documents",
+        },
+        {
+          actions: ["create", "read", "delete"],
+          resource_id: "images",
+        },
+      ],
+    },
+    {
+      scope: "wildcard:data",
+      description: "All CRUD operations on documents and images",
+      permissions: [
+        {
+          actions: ["*"],
+          resource_id: "documents",
+        },
+        {
+          actions: ["*"],
+          resource_id: "images",
+        },
+      ],
+    },
+  ],
 };

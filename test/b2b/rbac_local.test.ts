@@ -1,5 +1,6 @@
 import {
   performAuthorizationCheck,
+  performScopeAuthorizationCheck,
   PolicyCache,
 } from "../../lib/b2b/rbac_local";
 import { AuthorizationCheck, ClientError } from "../../lib";
@@ -151,6 +152,119 @@ describe("performAuthorizationCheck", () => {
           authorizationCheck: tc.authorizationCheck,
           subjectOrgID: tc.subjectOrgID,
           subjectRoles: tc.subjectRoles,
+        });
+
+      if (tc.expectedError) {
+        expect(fn).toThrow(tc.expectedError);
+      } else {
+        expect(fn).not.toThrow();
+      }
+    })
+  );
+});
+
+describe("performScopeAuthorizationCheck", () => {
+  type testcase = {
+    name: string;
+    tokenScopes: string[];
+    authorizationCheck: AuthorizationCheck;
+    subjectOrgId: string;
+    expectedError?: Error;
+  };
+
+  const testCases: testcase[] = [
+    {
+      name: "Success case - exact match",
+      tokenScopes: ["read:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "documents",
+        action: "read",
+      },
+      subjectOrgId: "organization-123",
+    },
+    {
+      name: "Success case - wildcard match",
+      tokenScopes: ["wildcard:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "documents",
+        action: "read",
+      },
+      subjectOrgId: "organization-123",
+    },
+    {
+      name: "Success case - multiple matches",
+      tokenScopes: ["read:data", "write:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "documents",
+        action: "read",
+      },
+      subjectOrgId: "organization-123",
+    },
+    {
+      name: "Success case - multiple matches II",
+      tokenScopes: ["read:data", "write:data", "crud:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "images",
+        action: "create",
+      },
+      subjectOrgId: "organization-123",
+    },
+    {
+      name: "Failure case - invalid action",
+      tokenScopes: ["write:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "documents",
+        action: "delete",
+      },
+      subjectOrgId: "organization-123",
+      expectedError: new ClientError(
+        "invalid_permissions",
+        "Member does not have permission to perform the requested action"
+      ),
+    },
+    {
+      name: "Failure case - invalid resource",
+      tokenScopes: ["crud:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "images",
+        action: "write",
+      },
+      subjectOrgId: "organization-123",
+      expectedError: new ClientError(
+        "invalid_permissions",
+        "Member does not have permission to perform the requested action"
+      ),
+    },
+    {
+      name: "Failure case - invalid tenancy check",
+      tokenScopes: ["crud:data"],
+      authorizationCheck: {
+        organization_id: "organization-123",
+        resource_id: "images",
+        action: "write",
+      },
+      subjectOrgId: "organization-456",
+      expectedError: new ClientError(
+        "tenancy_mismatch",
+        "Member belongs to different organization"
+      ),
+    },
+  ];
+
+  testCases.forEach((tc) =>
+    it(tc.name, () => {
+      const fn = () =>
+        performScopeAuthorizationCheck({
+          policy: MOCK_RBAC_POLICY,
+          authorizationCheck: tc.authorizationCheck,
+          subjectOrgID: tc.subjectOrgId,
+          tokenScopes: tc.tokenScopes,
         });
 
       if (tc.expectedError) {
