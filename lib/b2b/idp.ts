@@ -6,6 +6,11 @@ import { performScopeAuthorizationCheck } from "./rbac_local";
 import { ClientError } from "../shared/errors";
 import { PolicyCache } from "./rbac_local";
 
+interface OrganizationClaim {
+  organization_id: string;
+  slug: string;
+}
+
 export interface IntrospectTokenRequest {
   token: string;
   client_id: string;
@@ -39,6 +44,7 @@ export interface IntrospectTokenClaims {
   issuer: string;
   not_before: number;
   token_type: string;
+  organization: OrganizationClaim;
 }
 
 export class IDP {
@@ -131,6 +137,11 @@ export class IDP {
       });
     }
 
+    const organization: OrganizationClaim = {
+      organization_id: (_organization_claim as Record<string, string>).organization_id,
+      slug: (_organization_claim as Record<string, string>).slug,
+    }
+
     return {
       subject: _sub as string,
       scope: _scope as string,
@@ -139,8 +150,9 @@ export class IDP {
       issued_at: _iat as number,
       issuer: _iss as string,
       not_before: _nbf as number,
-      custom_claims: customClaims,
       token_type: _token_type as string,
+      organization,
+      custom_claims: customClaims,
     };
   }
 
@@ -200,6 +212,11 @@ export class IDP {
       });
     }
 
+    const organization: OrganizationClaim = {
+      organization_id: (_organization_claim as Record<string, string>).organization_id,
+      slug: (_organization_claim as Record<string, string>).slug,
+    }
+
     return {
       subject: _sub as string,
       expires_at: _exp as number,
@@ -209,6 +226,7 @@ export class IDP {
       not_before: _nbf as number,
       scope: _scope as string,
       token_type: "access_token",
+      organization,
       custom_claims,
     };
   }

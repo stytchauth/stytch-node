@@ -2,6 +2,10 @@ import { JwtConfig } from "../shared/sessions";
 import { fetchConfig } from "../shared";
 import { AuthorizationCheck } from "./sessions";
 import { PolicyCache } from "./rbac_local";
+interface OrganizationClaim {
+    organization_id: string;
+    slug: string;
+}
 export interface IntrospectTokenRequest {
     token: string;
     client_id: string;
@@ -18,6 +22,7 @@ export interface IntrospectTokenClaims {
     issuer: string;
     not_before: number;
     token_type: string;
+    organization: OrganizationClaim;
 }
 export declare class IDP {
     private fetchConfig;
@@ -34,3 +39,4 @@ export declare class IDP {
         authorization_check?: AuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
 }
+export {};

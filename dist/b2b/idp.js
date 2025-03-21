@@ -76,6 +76,10 @@ class IDP {
         authorizationCheck: options.authorization_check
       });
     }
+    const organization = {
+      organization_id: _organization_claim.organization_id,
+      slug: _organization_claim.slug
+    };
     return {
       subject: _sub,
       scope: _scope,
@@ -84,8 +88,9 @@ class IDP {
       issued_at: _iat,
       issuer: _iss,
       not_before: _nbf,
-      custom_claims: customClaims,
-      token_type: _token_type
+      token_type: _token_type,
+      organization,
+      custom_claims: customClaims
     };
   }
   async introspectTokenLocal(tokenJWT, options) {
@@ -133,6 +138,10 @@ class IDP {
         authorizationCheck: options.authorization_check
       });
     }
+    const organization = {
+      organization_id: _organization_claim.organization_id,
+      slug: _organization_claim.slug
+    };
     return {
       subject: _sub,
       expires_at: _exp,
@@ -142,6 +151,7 @@ class IDP {
       not_before: _nbf,
       scope: _scope,
       token_type: "access_token",
+      organization,
       custom_claims
     };
   }
