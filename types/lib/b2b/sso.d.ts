@@ -97,6 +97,8 @@ export interface SAMLConnection {
     saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
     alternative_audience_uri: string;
     identity_provider: string;
+    nameid_format: string;
+    alternative_acs_url: string;
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnectionImplicitRoleAssignment {
