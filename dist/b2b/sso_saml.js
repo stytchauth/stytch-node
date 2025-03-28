@@ -92,7 +92,9 @@ class SAML {
         saml_group_implicit_role_assignments: data.saml_group_implicit_role_assignments,
         alternative_audience_uri: data.alternative_audience_uri,
         identity_provider: data.identity_provider,
-        signing_private_key: data.signing_private_key
+        signing_private_key: data.signing_private_key,
+        nameid_format: data.nameid_format,
+        alternative_acs_url: data.alternative_acs_url
       }
     });
   }

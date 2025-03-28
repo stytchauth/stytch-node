@@ -252,6 +252,14 @@ export interface PasswordsMigrateRequest {
      */
     set_email_verified?: boolean;
     name?: UsersName;
+    phone_number?: string;
+    /**
+     * Whether to set the user's phone number as verified. This is a dangerous field. This flag should only be
+     * set if you can attest that
+     *    the user owns the phone number in question. Access to this field is restricted. To enable it, please
+     * send us a note at support@stytch.com.
+     */
+    set_phone_number_verified?: boolean;
 }
 export interface PasswordsMigrateResponse {
     /**

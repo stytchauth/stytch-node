@@ -99,6 +99,10 @@ export interface WebAuthnCredentialsRequest {
 }
 export interface WebAuthnCredentialsResponse {
     credentials: WebAuthnCredential[];
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
     status_code: number;
 }
 export interface WebAuthnRegisterRequest {
@@ -308,6 +312,7 @@ export declare class WebAuthn {
      */
     update(data: WebAuthnUpdateRequest): Promise<WebAuthnUpdateResponse>;
     /**
+     * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
      * @param params {@link WebAuthnCredentialsRequest}
      * @returns {@link WebAuthnCredentialsResponse}
      * @async

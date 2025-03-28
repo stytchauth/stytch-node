@@ -616,9 +616,9 @@ export interface B2BOrganizationsMembersUpdateRequest {
    */
   preserve_existing_sessions?: boolean;
   /**
-   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
-   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
-   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+   * The Member's default MFA method. This value is used to determine which secondary MFA method to use in
+   * the case of multiple methods registered for a Member. The current possible values are `sms_otp` and
+   * `totp`.
    *
    * If this field is provided and a session header is passed into the request, the Member Session must have
    * permission to perform the `update.settings.default-mfa-method` action on the `stytch.member` Resource.
