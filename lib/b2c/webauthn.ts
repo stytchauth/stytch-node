@@ -11,8 +11,11 @@ import { Session } from "./sessions";
 import { User, WebAuthnRegistration } from "./users";
 
 export interface WebAuthnCredential {
+  // The unique, public ID of the WebAuthn credential.
   credential_id: string;
+  // The unique ID for the Passkey or WebAuthn registration.
   webauthn_registration_id: string;
+  // The type of the WebAuthn credential. Examples include `public-key`.
   type: string;
 }
 
@@ -121,13 +124,22 @@ export interface WebAuthnAuthenticateStartResponse {
   status_code: number;
 }
 
+// Request type for `webauthn.credentials`.
 export interface WebAuthnCredentialsRequest {
+  // The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
   user_id: string;
+  // The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
   domain: string;
 }
 
+// Response type for `webauthn.credentials`.
 export interface WebAuthnCredentialsResponse {
+  // A list of WebAuthn credential objects.
   credentials: WebAuthnCredential[];
+  /**
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -421,6 +433,7 @@ export class WebAuthn {
   }
 
   /**
+   * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
    * @param params {@link WebAuthnCredentialsRequest}
    * @returns {@link WebAuthnCredentialsResponse}
    * @async

@@ -248,6 +248,20 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * certificate from this key and return it in the signing_certificates array.
    */
   signing_private_key?: string;
+  /**
+   * The NameID format the SAML Connection expects to use. Defaults to
+   * `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`.
+   */
+  nameid_format?: string;
+  /**
+   * An alternative URL to use for the `AssertionConsumerServiceURL` in SP initiated SAML AuthNRequests. This
+   * value can be used when you wish to migrate an existing SAML integration to Stytch with zero downtime.
+   * Note that you will be responsible for proxying requests sent to the Alternative ACS URL to Stytch. Read
+   * our
+   * [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+   * for more info.
+   */
+  alternative_acs_url?: string;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -345,6 +359,8 @@ export class SAML {
         alternative_audience_uri: data.alternative_audience_uri,
         identity_provider: data.identity_provider,
         signing_private_key: data.signing_private_key,
+        nameid_format: data.nameid_format,
+        alternative_acs_url: data.alternative_acs_url,
       },
     });
   }

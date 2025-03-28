@@ -20,6 +20,10 @@ var _shared = require("../shared");
 
 // Response type for `webauthn.authenticateStart`.
 
+// Request type for `webauthn.credentials`.
+
+// Response type for `webauthn.credentials`.
+
 // Request type for `webauthn.register`.
 
 // Response type for `webauthn.register`.
@@ -174,6 +178,7 @@ class WebAuthn {
   }
 
   /**
+   * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
    * @param params {@link WebAuthnCredentialsRequest}
    * @returns {@link WebAuthnCredentialsResponse}
    * @async

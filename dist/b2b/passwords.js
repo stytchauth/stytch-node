@@ -81,7 +81,9 @@ class Passwords {
    * members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2. This endpoint has a
    * rate limit of 100 requests per second.
    *
-   * The member's email will be marked as verified when you use this endpoint.
+   * The member's email will be marked as verified when you use this endpoint. If you are using
+   * **cross-organization passwords**, call this method separately for each `organization_id` associated with
+   * the given `email_address` to ensure the email is verified across all of their organizations.
    * @param data {@link B2BPasswordsMigrateRequest}
    * @returns {@link B2BPasswordsMigrateResponse}
    * @async
