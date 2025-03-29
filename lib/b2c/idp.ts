@@ -10,8 +10,14 @@ export interface IntrospectTokenRequest {
   token_type_hint?: string;
 }
 
-interface IntrospectTokenResponse {
-  active: boolean;
+interface IntrospectTokenInactiveResponse {
+  active: false;
+  request_id: string;
+  status_code: number;
+}
+
+interface IntrospectTokenActiveResponse {
+  active: true;
   request_id: string;
   status_code: number;
   sub?: string;
@@ -24,6 +30,10 @@ interface IntrospectTokenResponse {
   client_id?: string;
   token_type?: string;
 }
+
+type IntrospectTokenResponse =
+  | IntrospectTokenActiveResponse
+  | IntrospectTokenInactiveResponse;
 
 export interface IntrospectTokenClaims {
   subject: string;
@@ -82,6 +92,9 @@ export class IDP {
     } catch (err) {
       throw new ClientError("token_invalid", "Could not introspect token", err);
     }
+    if (!response.active) {
+      throw new ClientError("token_invalid", "Token was not active", null);
+    }
     const {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       aud: _aud,
@@ -99,10 +112,6 @@ export class IDP {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...customClaims
     } = response;
-
-    if (!_active) {
-      throw new ClientError("token_invalid", "Token was not active", null);
-    }
 
     return {
       subject: _sub as string,

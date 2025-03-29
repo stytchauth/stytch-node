@@ -18,8 +18,14 @@ export interface IntrospectTokenRequest {
   token_type_hint?: string;
 }
 
-interface IntrospectTokenResponse {
-  active: boolean;
+interface IntrospectTokenInactiveResponse {
+  active: false;
+  request_id: string;
+  status_code: number;
+}
+
+interface IntrospectTokenActiveResponse {
+  active: true;
   request_id: string;
   status_code: number;
   sub?: string;
@@ -33,6 +39,10 @@ interface IntrospectTokenResponse {
   token_type?: string;
   "https://stytch.com/organization"?: Record<string, string>;
 }
+
+type IntrospectTokenResponse =
+  | IntrospectTokenActiveResponse
+  | IntrospectTokenInactiveResponse;
 
 export interface IntrospectTokenClaims {
   subject: string;
@@ -101,6 +111,9 @@ export class IDP {
     } catch (err) {
       throw new ClientError("token_invalid", "Could not introspect token", err);
     }
+    if (!response.active) {
+      throw new ClientError("token_invalid", "Token was not active", null);
+    }
     const {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       aud: _aud,
@@ -119,10 +132,6 @@ export class IDP {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...customClaims
     } = response;
-
-    if (!_active) {
-      throw new ClientError("token_invalid", "Token was not active", null);
-    }
 
     if (options?.authorization_check) {
       const policy = await this.policyCache.getPolicy();

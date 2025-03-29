@@ -45,6 +45,9 @@ class IDP {
     } catch (err) {
       throw new _errors.ClientError("token_invalid", "Could not introspect token", err);
     }
+    if (!response.active) {
+      throw new _errors.ClientError("token_invalid", "Token was not active", null);
+    }
     const {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       aud: _aud,
@@ -63,9 +66,6 @@ class IDP {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...customClaims
     } = response;
-    if (!_active) {
-      throw new _errors.ClientError("token_invalid", "Token was not active", null);
-    }
     if (options?.authorization_check) {
       const policy = await this.policyCache.getPolicy();
       const organization_id = _organization_claim["organization_id"];
