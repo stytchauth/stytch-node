@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PolicyCache = void 0;
 exports.performAuthorizationCheck = performAuthorizationCheck;
+exports.performScopeAuthorizationCheck = performScopeAuthorizationCheck;
 var _errors = require("../shared/errors");
 // We want to refresh if the policy is more than 5 minutes old
 const MAX_AGE_MS = 1000 * 60 * 5;
@@ -45,6 +46,24 @@ function performAuthorizationCheck({
     throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
   }
   const hasPermission = policy.roles.filter(role => subjectRoles.includes(role.role_id)).flatMap(role => role.permissions).some(permission => {
+    const hasMatchingAction = permission.actions.includes(authorizationCheck.action) || permission.actions.includes("*");
+    const hasMatchingResource = authorizationCheck.resource_id === permission.resource_id;
+    return hasMatchingAction && hasMatchingResource;
+  });
+  if (!hasPermission) {
+    throw new _errors.ClientError("invalid_permissions", "Member does not have permission to perform the requested action");
+  }
+}
+function performScopeAuthorizationCheck({
+  policy,
+  tokenScopes,
+  subjectOrgID,
+  authorizationCheck
+}) {
+  if (subjectOrgID !== authorizationCheck.organization_id) {
+    throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
+  }
+  const hasPermission = policy.scopes.filter(scope => tokenScopes.includes(scope.scope)).flatMap(scope => scope.permissions).some(permission => {
     const hasMatchingAction = permission.actions.includes(authorizationCheck.action) || permission.actions.includes("*");
     const hasMatchingResource = authorizationCheck.resource_id === permission.resource_id;
     return hasMatchingAction && hasMatchingResource;

@@ -13,6 +13,7 @@ import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
 import { WebAuthn } from "./webauthn";
+import { IDP } from "./idp";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
     cryptoWallets: CryptoWallets;
@@ -28,5 +29,6 @@ export declare class Client extends BaseClient {
     totps: TOTPs;
     users: Users;
     webauthn: WebAuthn;
+    idp: IDP;
     constructor(config: ClientConfig);
 }
