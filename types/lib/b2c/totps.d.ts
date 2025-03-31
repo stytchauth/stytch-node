@@ -11,6 +11,10 @@ export interface TOTPWithRecoveryCodes {
     recovery_codes: string[];
 }
 export interface TOTPsAuthenticateRequest {
+    /**
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
+     * if one is set for the user.
+     */
     user_id: string;
     totp_code: string;
     session_token?: string;
@@ -71,6 +75,10 @@ export interface TOTPsAuthenticateResponse {
     session?: Session;
 }
 export interface TOTPsCreateRequest {
+    /**
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
+     * if one is set for the user.
+     */
     user_id: string;
     /**
      * The expiration for the TOTP instance. If the newly created TOTP is not authenticated within this time
@@ -101,6 +109,10 @@ export interface TOTPsCreateResponse {
     status_code: number;
 }
 export interface TOTPsRecoverRequest {
+    /**
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
+     * if one is set for the user.
+     */
     user_id: string;
     recovery_code: string;
     session_token?: string;
@@ -161,6 +173,10 @@ export interface TOTPsRecoverResponse {
     session?: Session;
 }
 export interface TOTPsRecoveryCodesRequest {
+    /**
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
+     * if one is set for the user.
+     */
     user_id: string;
 }
 export interface TOTPsRecoveryCodesResponse {

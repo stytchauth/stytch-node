@@ -111,12 +111,14 @@ export interface HubspotProviderInfo {
 export interface Member {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
     email_address: string;
@@ -357,14 +359,17 @@ export interface OIDCProviderInfo {
 export interface Organization {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     organization_name: string;
     organization_logo_url: string;
     /**
      * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+     * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+     * convenience.
      */
     organization_slug: string;
     /**
@@ -562,7 +567,9 @@ export interface B2BOrganizationsCreateRequest {
     organization_name: string;
     /**
      * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+     * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+     * convenience.
      */
     organization_slug?: string;
     organization_logo_url?: string;
@@ -705,7 +712,8 @@ export interface B2BOrganizationsCreateResponse {
 export interface B2BOrganizationsDeleteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
 }
@@ -729,7 +737,8 @@ export interface B2BOrganizationsDeleteResponse {
 export interface B2BOrganizationsGetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
 }
@@ -797,7 +806,8 @@ export interface B2BOrganizationsSearchResponse {
 export interface B2BOrganizationsUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
@@ -809,7 +819,9 @@ export interface B2BOrganizationsUpdateRequest {
     organization_name?: string;
     /**
      * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length.
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+     * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+     * convenience.
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
      * permission to perform the `update.info.slug` action on the `stytch.organization` Resource.

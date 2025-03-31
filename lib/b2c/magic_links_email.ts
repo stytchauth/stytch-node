@@ -219,7 +219,7 @@ export interface MagicLinksEmailSendRequest {
    * on the same device.
    */
   code_challenge?: string;
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id?: string;
   // The `session_token` of the user to associate the email with.
   session_token?: string;

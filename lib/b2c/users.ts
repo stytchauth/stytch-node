@@ -432,7 +432,7 @@ export interface UsersDeletePhoneNumberResponse {
 
 // Request type for `users.delete`.
 export interface UsersDeleteRequest {
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id: string;
 }
 
@@ -508,7 +508,7 @@ export interface UsersDeleteWebAuthnRegistrationResponse {
 
 // Request type for `users.exchangePrimaryFactor`.
 export interface UsersExchangePrimaryFactorRequest {
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id: string;
   // The email address to exchange to.
   email_address?: string;
@@ -539,7 +539,7 @@ export interface UsersExchangePrimaryFactorResponse {
 
 // Request type for `users.get`.
 export interface UsersGetRequest {
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id: string;
 }
 
@@ -646,7 +646,7 @@ export interface UsersSearchResponse {
 
 // Request type for `users.update`.
 export interface UsersUpdateRequest {
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id: string;
   // The name of the user. Each field in the name object is optional.
   name?: UsersName;
