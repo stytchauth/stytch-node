@@ -77,7 +77,8 @@ export interface B2BOrganizationsMembersUpdateRequestOptions {
 export interface B2BOrganizationsMembersCreateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     email_address: string;
@@ -145,12 +146,14 @@ export interface B2BOrganizationsMembersDangerouslyGetRequest {
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
 }
@@ -172,7 +175,8 @@ export interface B2BOrganizationsMembersDeleteMFAPhoneNumberResponse {
 export interface B2BOrganizationsMembersDeletePasswordRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     member_password_id: string;
@@ -195,12 +199,14 @@ export interface B2BOrganizationsMembersDeletePasswordResponse {
 export interface B2BOrganizationsMembersDeleteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
 }
@@ -220,12 +226,14 @@ export interface B2BOrganizationsMembersDeleteResponse {
 export interface B2BOrganizationsMembersDeleteTOTPRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
 }
@@ -247,12 +255,14 @@ export interface B2BOrganizationsMembersDeleteTOTPResponse {
 export interface B2BOrganizationsMembersGetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id?: string;
     email_address?: string;
@@ -275,12 +285,14 @@ export interface B2BOrganizationsMembersGetResponse {
 export interface B2BOrganizationsMembersOIDCProviderInformationRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
     /**
@@ -306,12 +318,14 @@ export interface B2BOrganizationsMembersOIDCProvidersResponse {
 export interface B2BOrganizationsMembersReactivateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
 }
@@ -380,12 +394,14 @@ export interface B2BOrganizationsMembersSearchResponse {
 export interface B2BOrganizationsMembersUnlinkRetiredEmailRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
     email_id?: string;
@@ -414,12 +430,14 @@ export interface B2BOrganizationsMembersUnlinkRetiredEmailResponse {
 export interface B2BOrganizationsMembersUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     /**
      * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-     * operations on a Member, so be sure to preserve this value.
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
      */
     member_id: string;
     /**

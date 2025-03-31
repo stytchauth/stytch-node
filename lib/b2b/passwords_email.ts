@@ -29,12 +29,14 @@ export interface B2BPasswordsEmailRequireResetRequest {
   email_address: string;
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id?: string;
   /**
    * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
+   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+   * for the member.
    */
   member_id?: string;
 }
@@ -188,7 +190,8 @@ export interface B2BPasswordsEmailResetResponse {
 export interface B2BPasswordsEmailResetStartRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   // The email address of the Member to start the email reset process for.
