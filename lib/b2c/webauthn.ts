@@ -17,6 +17,8 @@ export interface WebAuthnCredential {
   webauthn_registration_id: string;
   // The type of the WebAuthn credential. Examples include `public-key`.
   type: string;
+  // The public key for the WebAuthn credential in base64 format.
+  public_key: string;
 }
 
 // Request type for `webauthn.authenticate`.
@@ -96,7 +98,10 @@ export interface WebAuthnAuthenticateResponse {
 export interface WebAuthnAuthenticateStartRequest {
   // The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
   domain: string;
-  // The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+  /**
+   * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+   * external_id here if one is set for the user.
+   */
   user_id?: string;
   /**
    * If true, the `public_key_credential_creation_options` returned will be optimized for Passkeys with
@@ -124,18 +129,23 @@ export interface WebAuthnAuthenticateStartResponse {
   status_code: number;
 }
 
-// Request type for `webauthn.credentials`.
-export interface WebAuthnCredentialsRequest {
+// Request type for `webauthn.listCredentials`.
+export interface WebAuthnListCredentialsRequest {
   // The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
   user_id: string;
   // The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
   domain: string;
 }
 
-// Response type for `webauthn.credentials`.
-export interface WebAuthnCredentialsResponse {
+// Response type for `webauthn.listCredentials`.
+export interface WebAuthnListCredentialsResponse {
   // A list of WebAuthn credential objects.
   credentials: WebAuthnCredential[];
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -145,7 +155,10 @@ export interface WebAuthnCredentialsResponse {
 
 // Request type for `webauthn.register`.
 export interface WebAuthnRegisterRequest {
-  // The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+  /**
+   * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+   * external_id here if one is set for the user.
+   */
   user_id: string;
   /**
    * The response of the
@@ -216,7 +229,10 @@ export interface WebAuthnRegisterResponse {
 
 // Request type for `webauthn.registerStart`.
 export interface WebAuthnRegisterStartRequest {
-  // The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+  /**
+   * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+   * external_id here if one is set for the user.
+   */
   user_id: string;
   // The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
   domain: string;
@@ -434,21 +450,21 @@ export class WebAuthn {
 
   /**
    * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
-   * @param params {@link WebAuthnCredentialsRequest}
-   * @returns {@link WebAuthnCredentialsResponse}
+   * @param params {@link WebAuthnListCredentialsRequest}
+   * @returns {@link WebAuthnListCredentialsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  credentials(
-    params: WebAuthnCredentialsRequest
-  ): Promise<WebAuthnCredentialsResponse> {
+  listCredentials(
+    params: WebAuthnListCredentialsRequest
+  ): Promise<WebAuthnListCredentialsResponse> {
     const headers: Record<string, string> = {};
-    return request<WebAuthnCredentialsResponse>(this.fetchConfig, {
+    return request<WebAuthnListCredentialsResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/webauthn/credentials`,
+      url: `/v1/webauthn/credentials/${params.user_id}/${params.domain}`,
       headers,
-      params: { ...params },
+      params: {},
     });
   }
 }

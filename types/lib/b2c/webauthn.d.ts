@@ -5,6 +5,7 @@ export interface WebAuthnCredential {
     credential_id: string;
     webauthn_registration_id: string;
     type: string;
+    public_key: string;
 }
 export interface WebAuthnAuthenticateRequest {
     /**
@@ -71,6 +72,10 @@ export interface WebAuthnAuthenticateResponse {
 }
 export interface WebAuthnAuthenticateStartRequest {
     domain: string;
+    /**
+     * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+     * external_id here if one is set for the user.
+     */
     user_id?: string;
     /**
      * If true, the `public_key_credential_creation_options` returned will be optimized for Passkeys with
@@ -93,12 +98,17 @@ export interface WebAuthnAuthenticateStartResponse {
      */
     status_code: number;
 }
-export interface WebAuthnCredentialsRequest {
+export interface WebAuthnListCredentialsRequest {
     user_id: string;
     domain: string;
 }
-export interface WebAuthnCredentialsResponse {
+export interface WebAuthnListCredentialsResponse {
     credentials: WebAuthnCredential[];
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -106,6 +116,10 @@ export interface WebAuthnCredentialsResponse {
     status_code: number;
 }
 export interface WebAuthnRegisterRequest {
+    /**
+     * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+     * external_id here if one is set for the user.
+     */
     user_id: string;
     /**
      * The response of the
@@ -166,6 +180,10 @@ export interface WebAuthnRegisterResponse {
     session?: Session;
 }
 export interface WebAuthnRegisterStartRequest {
+    /**
+     * The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may use an
+     * external_id here if one is set for the user.
+     */
     user_id: string;
     domain: string;
     user_agent?: string;
@@ -313,11 +331,11 @@ export declare class WebAuthn {
     update(data: WebAuthnUpdateRequest): Promise<WebAuthnUpdateResponse>;
     /**
      * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
-     * @param params {@link WebAuthnCredentialsRequest}
-     * @returns {@link WebAuthnCredentialsResponse}
+     * @param params {@link WebAuthnListCredentialsRequest}
+     * @returns {@link WebAuthnListCredentialsResponse}
      * @async
      * @throws A {@link StytchError} on a non-2xx response from the Stytch API
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
-    credentials(params: WebAuthnCredentialsRequest): Promise<WebAuthnCredentialsResponse>;
+    listCredentials(params: WebAuthnListCredentialsRequest): Promise<WebAuthnListCredentialsResponse>;
 }

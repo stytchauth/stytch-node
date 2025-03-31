@@ -20,9 +20,9 @@ var _shared = require("../shared");
 
 // Response type for `webauthn.authenticateStart`.
 
-// Request type for `webauthn.credentials`.
+// Request type for `webauthn.listCredentials`.
 
-// Response type for `webauthn.credentials`.
+// Response type for `webauthn.listCredentials`.
 
 // Request type for `webauthn.register`.
 
@@ -179,21 +179,19 @@ class WebAuthn {
 
   /**
    * List the public key credentials of the WebAuthn Registrations or Passkeys registered to a specific User.
-   * @param params {@link WebAuthnCredentialsRequest}
-   * @returns {@link WebAuthnCredentialsResponse}
+   * @param params {@link WebAuthnListCredentialsRequest}
+   * @returns {@link WebAuthnListCredentialsResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  credentials(params) {
+  listCredentials(params) {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/webauthn/credentials`,
+      url: `/v1/webauthn/credentials/${params.user_id}/${params.domain}`,
       headers,
-      params: {
-        ...params
-      }
+      params: {}
     });
   }
 }
