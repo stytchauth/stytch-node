@@ -68,7 +68,8 @@ export interface B2BSCIMConnectionUpdateRequestOptions {
 export interface B2BSCIMConnectionCreateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     display_name?: string;
@@ -95,7 +96,8 @@ export interface B2BSCIMConnectionCreateResponse {
 export interface B2BSCIMConnectionDeleteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -116,7 +118,8 @@ export interface B2BSCIMConnectionDeleteResponse {
 export interface B2BSCIMConnectionGetGroupsRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -147,7 +150,8 @@ export interface B2BSCIMConnectionGetGroupsResponse {
 export interface B2BSCIMConnectionGetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
 }
@@ -171,7 +175,8 @@ export interface B2BSCIMConnectionGetResponse {
 export interface B2BSCIMConnectionRotateCancelRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -197,7 +202,8 @@ export interface B2BSCIMConnectionRotateCancelResponse {
 export interface B2BSCIMConnectionRotateCompleteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -223,7 +229,8 @@ export interface B2BSCIMConnectionRotateCompleteResponse {
 export interface B2BSCIMConnectionRotateStartRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -249,7 +256,8 @@ export interface B2BSCIMConnectionRotateStartResponse {
 export interface B2BSCIMConnectionUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     connection_id: string;

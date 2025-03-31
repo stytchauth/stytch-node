@@ -240,6 +240,10 @@ export interface B2BSSOAuthenticateResponse {
     mfa_required?: MfaRequired;
 }
 export interface B2BSSODeleteConnectionRequest {
+    /**
+     * The organization ID that the SSO connection belongs to. You may also use the organization_slug here as a
+     * convenience.
+     */
     organization_id: string;
     connection_id: string;
 }
@@ -259,7 +263,8 @@ export interface B2BSSODeleteConnectionResponse {
 export interface B2BSSOGetConnectionsRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
 }

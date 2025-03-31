@@ -14,12 +14,14 @@ import { request } from "../shared";
 export interface B2BRecoveryCodesGetRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   /**
    * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
+   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+   * for the member.
    */
   member_id: string;
 }
@@ -50,12 +52,14 @@ export interface B2BRecoveryCodesGetResponse {
 export interface B2BRecoveryCodesRecoverRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   /**
    * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
+   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+   * for the member.
    */
   member_id: string;
   /**
@@ -141,12 +145,14 @@ export interface B2BRecoveryCodesRecoverResponse {
 export interface B2BRecoveryCodesRotateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   /**
    * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value.
+   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+   * for the member.
    */
   member_id: string;
 }

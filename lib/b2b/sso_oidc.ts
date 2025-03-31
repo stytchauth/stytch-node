@@ -34,7 +34,8 @@ export interface B2BSSOOIDCUpdateConnectionRequestOptions {
 export interface B2BSSOOIDCCreateConnectionRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   // A human-readable display name for the connection.
@@ -89,7 +90,8 @@ export interface B2BSSOOIDCCreateConnectionResponse {
 export interface B2BSSOOIDCUpdateConnectionRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
+   * perform operations on an Organization, so be sure to preserve this value. You may also use the
+   * organization_slug here as a convenience.
    */
   organization_id: string;
   // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.

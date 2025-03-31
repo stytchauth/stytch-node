@@ -94,7 +94,7 @@ export interface OTPsSmsSendRequest {
    *
    */
   locale?: "en" | "es" | "pt-br" | "fr" | "it" | string;
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id?: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;

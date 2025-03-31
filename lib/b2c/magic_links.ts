@@ -111,7 +111,7 @@ export interface MagicLinksAuthenticateResponse {
 
 // Request type for `magicLinks.create`.
 export interface MagicLinksCreateRequest {
-  // The unique ID of a specific User.
+  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
   user_id: string;
   /**
    * Set the expiration for the Magic Link `token` in minutes. By default, it expires in 1 hour. The minimum

@@ -520,7 +520,7 @@ export interface SessionsGetJWKSResponse {
 
 // Request type for `sessions.get`.
 export interface SessionsGetRequest {
-  // The `user_id` to get active Sessions for.
+  // The `user_id` to get active Sessions for. You may use an external_id here if one is set for the user.
   user_id: string;
 }
 

@@ -43,7 +43,8 @@ export interface ZxcvbnFeedback {
 export interface B2BPasswordsAuthenticateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     email_address: string;
@@ -155,7 +156,8 @@ export interface B2BPasswordsMigrateRequest {
     hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2" | string;
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value.
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
      */
     organization_id: string;
     md_5_config?: MD5Config;
