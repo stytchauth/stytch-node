@@ -60,7 +60,7 @@ export interface FraudRulesSetResponse {
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
-  // The action that will be returned for the specified fingerprint or ID.
+  // The action that will be returned for the specified identifier.
   action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.

@@ -175,7 +175,8 @@ class Users {
         name: data.name,
         attributes: data.attributes,
         trusted_metadata: data.trusted_metadata,
-        untrusted_metadata: data.untrusted_metadata
+        untrusted_metadata: data.untrusted_metadata,
+        external_id: data.external_id
       }
     });
   }
