@@ -101,6 +101,7 @@ export interface User {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    external_id?: string;
 }
 export interface UsersEmail {
     email_id: string;
@@ -460,6 +461,7 @@ export interface UsersGetResponse {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    external_id?: string;
 }
 export interface UsersSearchRequest {
     /**
@@ -517,6 +519,12 @@ export interface UsersUpdateRequest {
      * behavior details.
      */
     untrusted_metadata?: Record<string, any>;
+    /**
+     * An identifier that can be used in API calls wherever a user_id is expected. This is a string consisting
+     * of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters. External IDs must
+     * be unique within an organization, but may be reused across different organizations in the same project.
+     */
+    external_id?: string;
 }
 export interface UsersUpdateResponse {
     /**

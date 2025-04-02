@@ -656,6 +656,13 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * update their own email address.
    */
   email_address?: string;
+  /**
+   * An identifier that can be used in API calls wherever a member_id is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+   * External IDs must be unique within an organization, but may be reused across different organizations in
+   * the same project.
+   */
+  external_id?: string;
 }
 
 // Response type for `organizations.members.update`.
@@ -719,6 +726,7 @@ export class Members {
         preserve_existing_sessions: data.preserve_existing_sessions,
         default_mfa_method: data.default_mfa_method,
         email_address: data.email_address,
+        external_id: data.external_id,
       },
     });
   }

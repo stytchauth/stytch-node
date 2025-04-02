@@ -203,6 +203,7 @@ export interface Member {
      * the Member creation.
      */
     scim_registration?: SCIMRegistration;
+    external_id?: string;
 }
 export interface MemberRole {
     /**
