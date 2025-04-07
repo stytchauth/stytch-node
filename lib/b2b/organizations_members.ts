@@ -150,6 +150,13 @@ export interface B2BOrganizationsMembersCreateRequest {
    *    for more information about role assignment.
    */
   roles?: string[];
+  /**
+   * An identifier that can be used in API calls wherever a member_id is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+   * External IDs must be unique within an organization, but may be reused across different organizations in
+   * the same project.
+   */
+  external_id?: string;
 }
 
 // Response type for `organizations.members.create`.
@@ -1047,6 +1054,7 @@ export class Members {
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
         roles: data.roles,
+        external_id: data.external_id,
       },
     });
   }

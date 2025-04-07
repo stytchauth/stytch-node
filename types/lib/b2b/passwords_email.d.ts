@@ -199,10 +199,16 @@ export interface B2BPasswordsEmailResetStartRequest {
     locale?: "en" | "es" | "pt-br" | string;
     /**
      * Use a custom template for reset password emails. By default, it will use your default email template.
-     * The template must be a template using our built-in customizations or a custom HTML email for Magic Links
-     * - Reset Password.
+     * The template must be a template using our built-in customizations or a custom HTML email for Passwords -
+     * Reset Password.
      */
     reset_password_template_id?: string;
+    /**
+     * Use a custom template for verification emails sent during password reset flows. This template will be
+     * used the first time a user sets a password via a
+     *   password reset flow. By default, it will use your default email template. The template must be a
+     * template using our built-in customizations or a custom HTML email for Passwords - Email Verification.
+     */
     verify_email_template_id?: string;
 }
 export interface B2BPasswordsEmailResetStartResponse {
