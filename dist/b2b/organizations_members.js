@@ -368,7 +368,8 @@ class Members {
         is_breakglass: data.is_breakglass,
         mfa_phone_number: data.mfa_phone_number,
         mfa_enrolled: data.mfa_enrolled,
-        roles: data.roles
+        roles: data.roles,
+        external_id: data.external_id
       }
     });
   }
