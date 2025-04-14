@@ -152,7 +152,7 @@ export interface B2BOrganizationsMembersCreateRequest {
   roles?: string[];
   /**
    * An identifier that can be used in API calls wherever a member_id is expected. This is a string
-   * consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    * External IDs must be unique within an organization, but may be reused across different organizations in
    * the same project.
    */
@@ -665,7 +665,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
   email_address?: string;
   /**
    * An identifier that can be used in API calls wherever a member_id is expected. This is a string
-   * consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    * External IDs must be unique within an organization, but may be reused across different organizations in
    * the same project.
    */

@@ -121,7 +121,7 @@ export interface B2BPasswordsAuthenticateRequest {
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br" | string;
+  locale?: "en" | "es" | "pt-br" | "fr" | string;
   /**
    * Adds this primary authentication factor to the intermediate session token. If the resulting set of
    * factors satisfies the organization's primary authentication requirements and MFA requirements, the
@@ -255,10 +255,10 @@ export interface B2BPasswordsMigrateRequest {
   set_phone_number_verified?: boolean;
   /**
    * If a new member is created, this will set an identifier that can be used in API calls wherever a
-   * member_id is expected. This is a string consisting of alphanumeric, `.`, `_`, or `-` characters with a
-   * maximum length of 128 characters. External IDs must be unique within an organization, but may be reused
-   * across different organizations in the same project. Note that if a member already exists, this field
-   * will be ignored.
+   * member_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters
+   * with a maximum length of 128 characters. External IDs must be unique within an organization, but may be
+   * reused across different organizations in the same project. Note that if a member already exists, this
+   * field will be ignored.
    */
   external_id?: string;
 }

@@ -102,7 +102,7 @@ export interface B2BPasswordsEmailResetRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | string;
     /**
      * Adds this primary authentication factor to the intermediate session token. If the resulting set of
      * factors satisfies the organization's primary authentication requirements and MFA requirements, the
@@ -189,14 +189,14 @@ export interface B2BPasswordsEmailResetStartRequest {
      * Used to determine which language to use when sending the user this delivery method. Parameter is a
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
-     * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-     * (`"pt-br"`); if no value is provided, the copy defaults to English.
+     * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+     * Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
      *
      * Request support for additional languages
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | string;
     /**
      * Use a custom template for reset password emails. By default, it will use your default email template.
      * The template must be a template using our built-in customizations or a custom HTML email for Passwords -
