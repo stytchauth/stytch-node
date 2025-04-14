@@ -60,14 +60,19 @@ export interface B2BOTPEmailDiscoverySendRequest {
      * Used to determine which language to use when sending the user this delivery method. Parameter is a
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
-     * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-     * (`"pt-br"`); if no value is provided, the copy defaults to English.
+     * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+     * Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
      *
      * Request support for additional languages
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | string;
+    /**
+     * The expiration time, in minutes, for a discovery OTP email. If not accepted within this time frame, the
+     * OTP will need to be resent. Defaults to 10 with a minimum of 2 and a maximum of 15.
+     */
+    discovery_expiration_minutes?: number;
 }
 export interface B2BOTPEmailDiscoverySendResponse {
     /**

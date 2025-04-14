@@ -64,20 +64,25 @@ export interface B2BMagicLinksEmailInviteRequest {
    * Used to determine which language to use when sending the user this delivery method. Parameter is a
    * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
    *
-   * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-   * (`"pt-br"`); if no value is provided, the copy defaults to English.
+   * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+   * Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
    *
    * Request support for additional languages
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br" | string;
+  locale?: "en" | "es" | "pt-br" | "fr" | string;
   /**
    * Roles to explicitly assign to this Member. See the
    * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
    *    for more information about role assignment.
    */
   roles?: string[];
+  /**
+   * The expiration time, in minutes, for an invite email. If not accepted within this time frame, the invite
+   * will need to be resent. Defaults to 10080 (1 week) with a minimum of 5 and a maximum of 10080.
+   */
+  invite_expiration_minutes?: number;
 }
 
 // Response type for `magicLinks.email.invite`.
@@ -149,14 +154,26 @@ export interface B2BMagicLinksEmailLoginOrSignupRequest {
    * Used to determine which language to use when sending the user this delivery method. Parameter is a
    * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
    *
-   * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-   * (`"pt-br"`); if no value is provided, the copy defaults to English.
+   * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+   * Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
    *
    * Request support for additional languages
    * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
    *
    */
-  locale?: "en" | "es" | "pt-br" | string;
+  locale?: "en" | "es" | "pt-br" | "fr" | string;
+  /**
+   * The expiration time, in minutes, for a login Email Magic Link. If not authenticated within this time
+   * frame, the email will need to be resent. Defaults to 60 (1 hour) with a minimum of 5 and a maximum of
+   * 10080 (1 week).
+   */
+  login_expiration_minutes?: number;
+  /**
+   * The expiration time, in minutes, for a signup Email Magic Link. If not authenticated within this time
+   * frame, the email will need to be resent. Defaults to 60 (1 hour) with a minimum of 5 and a maximum of
+   * 10080 (1 week).
+   */
+  signup_expiration_minutes?: number;
 }
 
 // Response type for `magicLinks.email.loginOrSignup`.
