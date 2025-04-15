@@ -19,6 +19,7 @@ class StytchError extends Error {
       this.error_type = data.error_type;
       this.error_message = data.error_message;
       this.error_url = data.error_url;
+      this.error_details = data.error_details;
     }
   }
 }

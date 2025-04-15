@@ -6,6 +6,7 @@ export interface StytchErrorJSON {
   error_type: string;
   error_message: string;
   error_url: string;
+  error_details: Map<string, string> | undefined;
 }
 
 export interface OAuth2ErrorJSON {
@@ -22,6 +23,7 @@ export class StytchError extends Error {
   error_type: string;
   error_message: string;
   error_url: string;
+  error_details: Map<string, string> | undefined;
 
   constructor(data: StytchErrorJSON | OAuth2ErrorJSON) {
     super(JSON.stringify(data));
@@ -37,6 +39,7 @@ export class StytchError extends Error {
       this.error_type = data.error_type;
       this.error_message = data.error_message;
       this.error_url = data.error_url;
+      this.error_details = data.error_details;
     }
   }
 }
