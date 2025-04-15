@@ -1064,6 +1064,9 @@ export type OrganizationSearchOperand = {
 } | {
     filter_name: "allowed_domain_fuzzy";
     filter_value: string;
+} | {
+    filter_name: "claimed_email_domains";
+    filter_value: string[];
 };
 export type MemberSearchOperand = {
     filter_name: "member_ids";
