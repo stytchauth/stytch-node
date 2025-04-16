@@ -346,6 +346,20 @@ export interface SessionsAuthenticateResponse {
      */
     status_code: number;
 }
+export interface SessionsExchangeAccessTokenRequest {
+    access_token: string;
+    session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
+}
+export interface SessionsExchangeAccessTokenResponse {
+    request_id: string;
+    user_id: string;
+    session_token: string;
+    session_jwt: string;
+    user: User;
+    status_code: number;
+    session?: Session;
+}
 export interface SessionsGetJWKSRequest {
     project_id: string;
 }
@@ -538,6 +552,14 @@ export declare class Sessions {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     migrate(data: SessionsMigrateRequest): Promise<SessionsMigrateResponse>;
+    /**
+     * @param data {@link SessionsExchangeAccessTokenRequest}
+     * @returns {@link SessionsExchangeAccessTokenResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    exchangeAccessToken(data: SessionsExchangeAccessTokenRequest): Promise<SessionsExchangeAccessTokenResponse>;
     /**
      * Get the JSON Web Key Set (JWKS) for a project.
      *

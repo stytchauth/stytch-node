@@ -143,6 +143,23 @@ class Sessions {
   }
 
   /**
+   * @param data {@link SessionsExchangeAccessTokenRequest}
+   * @returns {@link SessionsExchangeAccessTokenResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  exchangeAccessToken(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/sessions/exchange_access_token`,
+      headers,
+      data
+    });
+  }
+
+  /**
    * Get the JSON Web Key Set (JWKS) for a project.
    *
    * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both

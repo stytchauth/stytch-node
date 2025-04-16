@@ -268,6 +268,11 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * for more info.
    */
   alternative_acs_url?: string;
+  /**
+   * Determines whether IDP initiated auth is allowed for a given SAML connection. Defaults to false (IDP
+   * Initiated Auth is enabled).
+   */
+  idp_initiated_auth_disabled?: boolean;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -367,6 +372,7 @@ export class SAML {
         signing_private_key: data.signing_private_key,
         nameid_format: data.nameid_format,
         alternative_acs_url: data.alternative_acs_url,
+        idp_initiated_auth_disabled: data.idp_initiated_auth_disabled,
       },
     });
   }
