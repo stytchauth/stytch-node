@@ -83,6 +83,11 @@ export interface PBKDF2Config {
   iteration_amount: number;
   // The key length, also known as the hash length.
   key_length: number;
+  /**
+   * The algorithm that was used to generate the HMAC hash. Accepted values are "sha512" and sha256".
+   * Defaults to sha256.
+   */
+  algorithm: string;
 }
 
 export interface SHA1Config {

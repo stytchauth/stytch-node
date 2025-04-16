@@ -239,6 +239,7 @@ export interface Member {
    * the Member creation.
    */
   scim_registration?: SCIMRegistration;
+  // The ID of the member given by the identity provider.
   external_id?: string;
 }
 

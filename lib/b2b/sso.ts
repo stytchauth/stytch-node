@@ -117,6 +117,7 @@ export interface SAMLConnection {
   identity_provider: string;
   nameid_format: string;
   alternative_acs_url: string;
+  idp_initiated_auth_disabled: boolean;
   attribute_mapping?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 

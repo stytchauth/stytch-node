@@ -94,7 +94,8 @@ class SAML {
         identity_provider: data.identity_provider,
         signing_private_key: data.signing_private_key,
         nameid_format: data.nameid_format,
-        alternative_acs_url: data.alternative_acs_url
+        alternative_acs_url: data.alternative_acs_url,
+        idp_initiated_auth_disabled: data.idp_initiated_auth_disabled
       }
     });
   }

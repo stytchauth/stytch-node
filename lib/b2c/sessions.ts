@@ -496,6 +496,22 @@ export interface SessionsAuthenticateResponse {
   status_code: number;
 }
 
+export interface SessionsExchangeAccessTokenRequest {
+  access_token: string;
+  session_duration_minutes?: number;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface SessionsExchangeAccessTokenResponse {
+  request_id: string;
+  user_id: string;
+  session_token: string;
+  session_jwt: string;
+  user: User;
+  status_code: number;
+  session?: Session;
+}
+
 // Request type for `sessions.getJWKS`.
 export interface SessionsGetJWKSRequest {
   // The `project_id` to get the JWKS for.
@@ -771,6 +787,25 @@ export class Sessions {
     return request<SessionsMigrateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/sessions/migrate`,
+      headers,
+      data,
+    });
+  }
+
+  /**
+   * @param data {@link SessionsExchangeAccessTokenRequest}
+   * @returns {@link SessionsExchangeAccessTokenResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  exchangeAccessToken(
+    data: SessionsExchangeAccessTokenRequest
+  ): Promise<SessionsExchangeAccessTokenResponse> {
+    const headers: Record<string, string> = {};
+    return request<SessionsExchangeAccessTokenResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/sessions/exchange_access_token`,
       headers,
       data,
     });

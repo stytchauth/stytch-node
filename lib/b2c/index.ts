@@ -112,6 +112,8 @@ export type {
   YahooOAuthFactor,
   SessionsAuthenticateRequest,
   SessionsAuthenticateResponse,
+  SessionsExchangeAccessTokenRequest,
+  SessionsExchangeAccessTokenResponse,
   SessionsGetJWKSRequest,
   SessionsGetJWKSResponse,
   SessionsGetRequest,
