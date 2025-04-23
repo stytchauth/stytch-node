@@ -15,7 +15,7 @@ export interface JwtConfig {
 // We expect issuers with no trailing slash at the end but store the base URL with one.
 // We use this function to normalize this difference.
 export function trimTrailingSlash(baseURL: string): string {
-  return baseURL.replace(/\/+$/, "")
+  return baseURL.replace(/\/+$/, "");
 }
 
 type SessionClaim = {

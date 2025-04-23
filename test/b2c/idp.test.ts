@@ -2,7 +2,6 @@ import { MOCK_FETCH_CONFIG } from "../helpers";
 import { IDP } from "../../lib/b2c/idp";
 import * as jose from "jose";
 import { KeyLike  } from "node:crypto";
-import {trimTrailingSlash} from "../../lib/shared/sessions";
 
 jest.mock("../../lib/shared");
 

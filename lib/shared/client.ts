@@ -37,7 +37,7 @@ export class BaseClient {
 
     if (config.env && config.base_url) {
       console.warn(
-          `[Stytch] Warning: Both 'env' and 'base_url' were provided in the client config. 'env' will be ignored in favor of 'base_url'.`
+        `[Stytch] Warning: Both 'env' and 'base_url' were provided in the client config. 'env' will be ignored in favor of 'base_url'.`
       );
     }
 
@@ -65,7 +65,6 @@ export class BaseClient {
       Authorization:
         "Basic " + base64Encode(config.project_id + ":" + config.secret),
     };
-
 
     const baseURL = config.base_url ? config.base_url : config.env;
 
