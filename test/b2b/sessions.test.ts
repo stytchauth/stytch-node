@@ -3,13 +3,28 @@ import { MOCK_FETCH_CONFIG, mockRequest } from "../helpers";
 import * as jose from "jose";
 import { ClientError } from "../../lib";
 import { MOCK_RBAC_POLICY } from "./rbac_policy";
+import { PolicyCache } from "../../lib/b2b/rbac_local";
 
 jest.mock("../../lib/shared");
+jest.mock("../../lib/b2b/rbac_local", () => ({
+  PolicyCache: jest.fn().mockImplementation(() => ({
+    getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY)
+  }))
+}));
+
+// Create a mock policy cache that just returns the mock policy
+const mockPolicyCache = { 
+  getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY),
+  rbac: {},
+  reload: jest.fn(),
+  fresh: jest.fn().mockReturnValue(true)
+} as unknown as PolicyCache;
 
 function jwtConfig() {
   return {
     projectID: "project-test-00000000-0000-4000-8000-000000000000",
     jwks: jose.createLocalJWKSet({ keys: [] }),
+    issuers: [`stytch.com/project-test-00000000-0000-4000-8000-000000000000`, MOCK_FETCH_CONFIG.baseURL],
   };
 }
 
@@ -42,7 +57,7 @@ describe("sessions.get", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.get({
@@ -93,7 +108,7 @@ describe("sessions.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.authenticate({
@@ -123,7 +138,7 @@ describe("sessions.revoke", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.revoke({
@@ -149,7 +164,7 @@ describe("sessions.exchange", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.exchange({
@@ -171,7 +186,7 @@ describe("sessions.getJWKS", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.getJWKS({
@@ -207,7 +222,7 @@ describe("sessions.authenticateJwt", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig());
+    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
 
     return expect(
       sessions.authenticateJwt({ session_jwt: "stale_jwt" })
@@ -249,11 +264,13 @@ describe("sessions.authenticateJwtLocal", () => {
   let jwtWithExpiresAt: string;
   let startedAt: Date;
   let expiresAt: Date;
+  let privateKey: jose.KeyLike;
 
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
-    const { publicKey, privateKey } = await jose.generateKeyPair("RS256");
+    const { publicKey, privateKey: generatedPrivateKey } = await jose.generateKeyPair("RS256");
+    privateKey = generatedPrivateKey;
 
     const jwk = await jose.exportJWK(publicKey);
     const jwks = jose.createLocalJWKSet({ keys: [{ ...jwk, kid: keyID }] });
@@ -261,7 +278,8 @@ describe("sessions.authenticateJwtLocal", () => {
     sessions = new Sessions(MOCK_FETCH_CONFIG, {
       jwks,
       projectID,
-    });
+      issuers: [`stytch.com/${projectID}`, MOCK_FETCH_CONFIG.baseURL],
+    }, mockPolicyCache);
 
     // Set up timestamps truncated to second-level precision to match the API. The epoch
     // timestamps are used to create the JWT.
@@ -453,6 +471,78 @@ describe("sessions.authenticateJwtLocal", () => {
           arr: ["nested", { data: "values" }],
         },
       },
+    });
+  });
+
+  test("rejects invalid issuer", async () => {
+    // Create a JWT with an incorrect issuer
+    const invalidIssuerJwt = await new jose.SignJWT({
+      "https://stytch.com/session": {
+        id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
+        started_at: iso(startedAt),
+        last_accessed_at: iso(startedAt),
+        expires_at: iso(expiresAt),
+      },
+      "https://stytch.com/organization": {
+        organization_id: "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        slug: "node",
+      },
+      sub: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: "key0",
+        typ: "JWT",
+      })
+      .setIssuedAt()
+      .setNotBefore(Math.floor(+startedAt / 1000))
+      .setExpirationTime(Math.floor(+expiresAt / 1000))
+      .setIssuer("wrong-issuer.com")  // Wrong issuer
+      .setAudience([projectID])
+      .sign(privateKey);
+
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: invalidIssuerJwt,
+    });
+
+    await expect(promise).rejects.toThrow(ClientError);
+    await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
+    await expect(promise).rejects.toThrow(/unexpected "iss" claim value/);
+  });
+
+  test("works with baseURL issuer", async () => {
+    const validIssuerJWT = await new jose.SignJWT({
+      "https://stytch.com/session": {
+        id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
+        started_at: iso(startedAt),
+        last_accessed_at: iso(startedAt),
+        expires_at: iso(expiresAt),
+      },
+      "https://stytch.com/organization": {
+        organization_id: "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        slug: "node",
+      },
+      sub: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: "key0",
+        typ: "JWT",
+      })
+      .setIssuedAt()
+      .setNotBefore(Math.floor(+startedAt / 1000))
+      .setExpirationTime(Math.floor(+expiresAt / 1000))
+      .setIssuer(MOCK_FETCH_CONFIG.baseURL)  // baseURL issuer
+      .setAudience([projectID])
+      .sign(privateKey);
+
+    const session = await sessions.authenticateJwtLocal({
+      session_jwt: validIssuerJWT,
+    });
+
+    expect(session).toMatchObject({
+      member_id: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+      member_session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555"
     });
   });
 });
