@@ -180,7 +180,7 @@ export class M2M {
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
-      issuer:  jwtConfig.issuers,
+      issuer: jwtConfig.issuers,
       typ: "JWT",
     };
   }

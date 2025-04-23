@@ -29,13 +29,11 @@ describe("config errors", () => {
   });
 });
 
-
 describe("base client config warnings", () => {
   let warnSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {
-    });
+    warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -51,7 +49,7 @@ describe("base client config warnings", () => {
     });
 
     expect(console.warn).toHaveBeenCalledWith(
-        expect.stringContaining("Both 'env' and 'base_url' were provided")
+      expect.stringContaining("Both 'env' and 'base_url' were provided")
     );
   });
 
@@ -63,7 +61,7 @@ describe("base client config warnings", () => {
     });
 
     expect(console.warn).toHaveBeenCalledWith(
-        expect.stringContaining("custom 'env' value")
+      expect.stringContaining("custom 'env' value")
     );
   });
 
@@ -97,7 +95,6 @@ describe("base client config warnings", () => {
     expect(console.warn).not.toHaveBeenCalled();
   });
 
-
   describe("config variables", () => {
     test("custom base_url is used", () => {
       const baseClient = new BaseClient({
@@ -107,7 +104,9 @@ describe("base client config warnings", () => {
       });
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(baseClient.fetchConfig.baseURL).toBe("https://cname.customer.com/");
+      expect(baseClient.fetchConfig.baseURL).toBe(
+        "https://cname.customer.com/"
+      );
     });
-  })
+  });
 });

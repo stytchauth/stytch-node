@@ -8,23 +8,26 @@ import { PolicyCache } from "../../lib/b2b/rbac_local";
 jest.mock("../../lib/shared");
 jest.mock("../../lib/b2b/rbac_local", () => ({
   PolicyCache: jest.fn().mockImplementation(() => ({
-    getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY)
-  }))
+    getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY),
+  })),
 }));
 
 // Create a mock policy cache that just returns the mock policy
-const mockPolicyCache = { 
+const mockPolicyCache = {
   getPolicy: jest.fn().mockResolvedValue(MOCK_RBAC_POLICY),
   rbac: {},
   reload: jest.fn(),
-  fresh: jest.fn().mockReturnValue(true)
+  fresh: jest.fn().mockReturnValue(true),
 } as unknown as PolicyCache;
 
 function jwtConfig() {
   return {
     projectID: "project-test-00000000-0000-4000-8000-000000000000",
     jwks: jose.createLocalJWKSet({ keys: [] }),
-    issuers: [`stytch.com/project-test-00000000-0000-4000-8000-000000000000`, MOCK_FETCH_CONFIG.baseURL],
+    issuers: [
+      `stytch.com/project-test-00000000-0000-4000-8000-000000000000`,
+      MOCK_FETCH_CONFIG.baseURL,
+    ],
   };
 }
 
@@ -57,7 +60,11 @@ describe("sessions.get", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.get({
@@ -108,7 +115,11 @@ describe("sessions.authenticate", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.authenticate({
@@ -138,7 +149,11 @@ describe("sessions.revoke", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.revoke({
@@ -164,7 +179,11 @@ describe("sessions.exchange", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.exchange({
@@ -186,7 +205,11 @@ describe("sessions.getJWKS", () => {
 
       return { status: 200, data: {} };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.getJWKS({
@@ -222,7 +245,11 @@ describe("sessions.authenticateJwt", () => {
       };
       return { status: 200, data };
     });
-    const sessions = new Sessions(MOCK_FETCH_CONFIG, jwtConfig(), mockPolicyCache);
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
 
     return expect(
       sessions.authenticateJwt({ session_jwt: "stale_jwt" })
@@ -269,17 +296,22 @@ describe("sessions.authenticateJwtLocal", () => {
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
-    const { publicKey, privateKey: generatedPrivateKey } = await jose.generateKeyPair("RS256");
+    const { publicKey, privateKey: generatedPrivateKey } =
+      await jose.generateKeyPair("RS256");
     privateKey = generatedPrivateKey;
 
     const jwk = await jose.exportJWK(publicKey);
     const jwks = jose.createLocalJWKSet({ keys: [{ ...jwk, kid: keyID }] });
 
-    sessions = new Sessions(MOCK_FETCH_CONFIG, {
-      jwks,
-      projectID,
-      issuers: [`stytch.com/${projectID}`, MOCK_FETCH_CONFIG.baseURL],
-    }, mockPolicyCache);
+    sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      {
+        jwks,
+        projectID,
+        issuers: [`stytch.com/${projectID}`, MOCK_FETCH_CONFIG.baseURL],
+      },
+      mockPolicyCache
+    );
 
     // Set up timestamps truncated to second-level precision to match the API. The epoch
     // timestamps are used to create the JWT.
@@ -484,7 +516,8 @@ describe("sessions.authenticateJwtLocal", () => {
         expires_at: iso(expiresAt),
       },
       "https://stytch.com/organization": {
-        organization_id: "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        organization_id:
+          "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
         slug: "node",
       },
       sub: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
@@ -497,7 +530,7 @@ describe("sessions.authenticateJwtLocal", () => {
       .setIssuedAt()
       .setNotBefore(Math.floor(+startedAt / 1000))
       .setExpirationTime(Math.floor(+expiresAt / 1000))
-      .setIssuer("wrong-issuer.com")  // Wrong issuer
+      .setIssuer("wrong-issuer.com") // Wrong issuer
       .setAudience([projectID])
       .sign(privateKey);
 
@@ -519,7 +552,8 @@ describe("sessions.authenticateJwtLocal", () => {
         expires_at: iso(expiresAt),
       },
       "https://stytch.com/organization": {
-        organization_id: "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
+        organization_id:
+          "organization-live-bd49f916-180c-46fe-9535-d9acd5e30519",
         slug: "node",
       },
       sub: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
@@ -532,7 +566,7 @@ describe("sessions.authenticateJwtLocal", () => {
       .setIssuedAt()
       .setNotBefore(Math.floor(+startedAt / 1000))
       .setExpirationTime(Math.floor(+expiresAt / 1000))
-      .setIssuer(MOCK_FETCH_CONFIG.baseURL)  // baseURL issuer
+      .setIssuer(MOCK_FETCH_CONFIG.baseURL) // baseURL issuer
       .setAudience([projectID])
       .sign(privateKey);
 
@@ -542,7 +576,7 @@ describe("sessions.authenticateJwtLocal", () => {
 
     expect(session).toMatchObject({
       member_id: "member-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
-      member_session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555"
+      member_session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
     });
   });
 });

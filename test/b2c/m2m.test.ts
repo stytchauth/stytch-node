@@ -74,7 +74,8 @@ describe("m2m.authenticateToken", () => {
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
-    const { publicKey, privateKey: generatedPrivateKey } = await jose.generateKeyPair("RS256");
+    const { publicKey, privateKey: generatedPrivateKey } =
+      await jose.generateKeyPair("RS256");
     privateKey = generatedPrivateKey;
 
     const jwk = await jose.exportJWK(publicKey);
@@ -174,7 +175,7 @@ describe("m2m.authenticateToken", () => {
       .setIssuedAt()
       .setNotBefore(Math.floor(+new Date() / 1000))
       .setExpirationTime(Math.floor(+new Date() / 1000) + 60 * 60)
-      .setIssuer("wrong-issuer.com")  // Wrong issuer
+      .setIssuer("wrong-issuer.com") // Wrong issuer
       .setAudience([PROJECT_ID])
       .sign(privateKey);
 
@@ -199,14 +200,14 @@ describe("m2m.authenticateToken", () => {
       .setIssuedAt()
       .setNotBefore(Math.floor(+new Date() / 1000))
       .setExpirationTime(Math.floor(+new Date() / 1000) + 60 * 60)
-      .setIssuer(MOCK_FETCH_CONFIG.baseURL)  // baseURL issuer
+      .setIssuer(MOCK_FETCH_CONFIG.baseURL) // baseURL issuer
       .setAudience([PROJECT_ID])
       .sign(privateKey);
 
     const res = await m2m.authenticateToken({
       access_token: validIssuerJWT,
     });
-    
+
     expect(res).toEqual({
       client_id: CLIENT_ID,
       custom_claims: {},

@@ -237,7 +237,8 @@ describe("sessions.authenticateJwtLocal", () => {
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
-    const { publicKey, privateKey: generatedPrivateKey } = await jose.generateKeyPair("RS256");
+    const { publicKey, privateKey: generatedPrivateKey } =
+      await jose.generateKeyPair("RS256");
     privateKey = generatedPrivateKey;
 
     const jwk = await jose.exportJWK(publicKey);
@@ -499,7 +500,7 @@ describe("sessions.authenticateJwtLocal", () => {
       .setIssuedAt()
       .setNotBefore(Math.floor(+startedAt / 1000))
       .setExpirationTime(Math.floor(+expiresAt / 1000))
-      .setIssuer("wrong-issuer.com")  // Wrong issuer
+      .setIssuer("wrong-issuer.com") // Wrong issuer
       .setAudience([projectID])
       .sign(privateKey);
 
@@ -522,17 +523,17 @@ describe("sessions.authenticateJwtLocal", () => {
       },
       sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
     })
-        .setProtectedHeader({
-          alg: "RS256",
-          kid: "key0",
-          typ: "JWT",
-        })
-        .setIssuedAt()
-        .setNotBefore(Math.floor(+startedAt / 1000))
-        .setExpirationTime(Math.floor(+expiresAt / 1000))
-        .setIssuer(MOCK_FETCH_CONFIG.baseURL)  // baseURL issuer
-        .setAudience([projectID])
-        .sign(privateKey);
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: "key0",
+        typ: "JWT",
+      })
+      .setIssuedAt()
+      .setNotBefore(Math.floor(+startedAt / 1000))
+      .setExpirationTime(Math.floor(+expiresAt / 1000))
+      .setIssuer(MOCK_FETCH_CONFIG.baseURL) // baseURL issuer
+      .setAudience([projectID])
+      .sign(privateKey);
 
     const promise = sessions.authenticateJwtLocal({
       session_jwt: validIssuerJWT,
@@ -540,7 +541,7 @@ describe("sessions.authenticateJwtLocal", () => {
 
     await expect(promise).resolves.toMatchObject({
       user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
-      session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555"
+      session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
     });
-  })
+  });
 });
