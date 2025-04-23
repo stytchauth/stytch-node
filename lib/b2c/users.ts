@@ -211,7 +211,6 @@ export interface UsersCreateRequest {
   email?: string;
   // The name of the user. Each field in the name object is optional.
   name?: UsersName;
-  // Provided attributes help with fraud detection.
   attributes?: Attributes;
   /**
    * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.

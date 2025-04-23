@@ -1,4 +1,39 @@
 import { fetchConfig } from "../shared";
+import { Rule } from "./fraud";
+export interface FraudRulesListRequest {
+    /**
+     * The `cursor` field allows you to paginate through your results. Each result array is limited to 100
+     * results. If your query returns more than 100 results, you will need to paginate the responses using the
+     * `cursor`. If you receive a response that includes a non-null `next_cursor`, repeat the request with the
+     * `next_cursor` value set to the `cursor` field to retrieve the next page of results. Continue to make
+     * requests until the `next_cursor` in the response is null.
+     */
+    cursor?: string;
+    /**
+     * The number of results to return per page. The default limit is 10. A maximum of 100 results can be
+     * returned by a single get request. If the total size of your result set is greater than one page size,
+     * you must paginate the response. See the `cursor` field.
+     */
+    limit?: number;
+}
+export interface FraudRulesListResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    /**
+     * The `next_cursor` string is returned when your result contains more than one page of results. This value
+     * is passed into your next request in the `cursor` field.
+     */
+    next_cursor: string;
+    rules: Rule[];
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
+}
 export interface FraudRulesSetRequest {
     /**
      * The action that should be returned by a fingerprint lookup for that identifier with a `RULE_MATCH`
@@ -97,4 +132,13 @@ export declare class Rules {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     set(data: FraudRulesSetRequest): Promise<FraudRulesSetResponse>;
+    /**
+     * Get all rules that have been set for your project.
+     * @param data {@link FraudRulesListRequest}
+     * @returns {@link FraudRulesListResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    list(data: FraudRulesListRequest): Promise<FraudRulesListResponse>;
 }

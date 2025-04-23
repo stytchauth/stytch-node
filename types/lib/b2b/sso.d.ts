@@ -223,8 +223,9 @@ export interface B2BSSOAuthenticateResponse {
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
      * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
      * [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
-     * MFA flow and log in to the Organization. SSO factors are not transferable between Organizations, so the
-     * intermediate session token is not valid for use with discovery endpoints.
+     * MFA flow and log in to the Organization. The token has a default expiry of 10 minutes. SSO factors are
+     * not transferable between Organizations, so the intermediate session token is not valid for use with
+     * discovery endpoints.
      */
     intermediate_session_token: string;
     /**

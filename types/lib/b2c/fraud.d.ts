@@ -38,6 +38,44 @@ export interface Properties {
     network_properties: NetworkProperties;
     browser_properties: BrowserProperties;
 }
+export interface Rule {
+    /**
+     * The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
+     * `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
+     * `COUNTRY_CODE`.
+     */
+    rule_type: "VISITOR_ID" | "BROWSER_ID" | "VISITOR_FINGERPRINT" | "BROWSER_FINGERPRINT" | "HARDWARE_FINGERPRINT" | "NETWORK_FINGERPRINT" | "CIDR_BLOCK" | "ASN" | "COUNTRY_CODE" | string;
+    action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
+    /**
+     * The time when the rule was created. Values conform to the RFC 3339 standard and are expressed in UTC,
+     * e.g. `2021-12-29T12:33:09Z`.
+     */
+    created_at: string;
+    visitor_id?: string;
+    browser_id?: string;
+    visitor_fingerprint?: string;
+    browser_fingerprint?: string;
+    hardware_fingerprint?: string;
+    network_fingerprint?: string;
+    /**
+     * The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
+     * will be applied.
+     */
+    cidr_block?: string;
+    country_code?: string;
+    asn?: string;
+    description?: string;
+    /**
+     * The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
+     * e.g. `2021-12-29T12:33:09Z`.
+     */
+    expires_at?: string;
+    /**
+     * The time when the rule was last updated. Will be null if the rule has never been updated. Values conform
+     * to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
+    last_updated_at?: string;
+}
 export interface Verdict {
     /**
      * The suggested action based on the fingerprint review. The available actions are:

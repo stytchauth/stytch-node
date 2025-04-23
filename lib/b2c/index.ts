@@ -141,6 +141,7 @@ export type {
   Metadata,
   NetworkProperties,
   Properties,
+  Rule,
   Verdict,
 } from "./fraud";
 
@@ -150,6 +151,8 @@ export type {
 } from "./fraud_fingerprint";
 
 export type {
+  FraudRulesListRequest,
+  FraudRulesListResponse,
   FraudRulesSetRequest,
   FraudRulesSetResponse,
 } from "./fraud_rules";

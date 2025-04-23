@@ -94,7 +94,8 @@ class Members {
         preserve_existing_sessions: data.preserve_existing_sessions,
         default_mfa_method: data.default_mfa_method,
         email_address: data.email_address,
-        external_id: data.external_id
+        external_id: data.external_id,
+        unlink_email: data.unlink_email
       }
     });
   }
