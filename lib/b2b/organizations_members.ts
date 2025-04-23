@@ -670,6 +670,11 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * the same project.
    */
   external_id?: string;
+  /**
+   * If `unlink_email` is `true` and an `email_address` is provided, the Member's previous email will be
+   * deleted instead of retired. Defaults to `false`.
+   */
+  unlink_email?: boolean;
 }
 
 // Response type for `organizations.members.update`.
@@ -734,6 +739,7 @@ export class Members {
         default_mfa_method: data.default_mfa_method,
         email_address: data.email_address,
         external_id: data.external_id,
+        unlink_email: data.unlink_email,
       },
     });
   }

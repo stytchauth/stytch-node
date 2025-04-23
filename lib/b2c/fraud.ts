@@ -74,6 +74,65 @@ export interface Properties {
   browser_properties: BrowserProperties;
 }
 
+export interface Rule {
+  /**
+   * The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
+   * `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
+   * `COUNTRY_CODE`.
+   */
+  rule_type:
+    | "VISITOR_ID"
+    | "BROWSER_ID"
+    | "VISITOR_FINGERPRINT"
+    | "BROWSER_FINGERPRINT"
+    | "HARDWARE_FINGERPRINT"
+    | "NETWORK_FINGERPRINT"
+    | "CIDR_BLOCK"
+    | "ASN"
+    | "COUNTRY_CODE"
+    | string;
+  // The action (`ALLOW`, `BLOCK`, or `CHALLENGE`) that will be returned for this rule.
+  action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
+  /**
+   * The time when the rule was created. Values conform to the RFC 3339 standard and are expressed in UTC,
+   * e.g. `2021-12-29T12:33:09Z`.
+   */
+  created_at: string;
+  // The visitor ID that a rule was set for.
+  visitor_id?: string;
+  // The browser ID that a rule was set for.
+  browser_id?: string;
+  // The visitor fingerprint that a rule was set for.
+  visitor_fingerprint?: string;
+  // The browser fingerprint that a rule was set for.
+  browser_fingerprint?: string;
+  // The hardware fingerprint that a rule was set for.
+  hardware_fingerprint?: string;
+  // The network fingerprint that a rule was set for.
+  network_fingerprint?: string;
+  /**
+   * The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
+   * will be applied.
+   */
+  cidr_block?: string;
+  // The country code that a rule was set for.
+  country_code?: string;
+  // The ASN that a rule was set for.
+  asn?: string;
+  // A description for the rule.
+  description?: string;
+  /**
+   * The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
+   * e.g. `2021-12-29T12:33:09Z`.
+   */
+  expires_at?: string;
+  /**
+   * The time when the rule was last updated. Will be null if the rule has never been updated. Values conform
+   * to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
+  last_updated_at?: string;
+}
+
 export interface Verdict {
   /**
    * The suggested action based on the fingerprint review. The available actions are:
