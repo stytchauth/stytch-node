@@ -12,6 +12,10 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `fraud.rules.list`.
+
+// Response type for `fraud.rules.list`.
+
 // Request type for `fraud.rules.set`.
 
 // Response type for `fraud.rules.set`.
@@ -53,6 +57,25 @@ class Rules {
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
       url: `/v1/rules/set`,
+      baseURLType: "FRAUD",
+      headers,
+      data
+    });
+  }
+
+  /**
+   * Get all rules that have been set for your project.
+   * @param data {@link FraudRulesListRequest}
+   * @returns {@link FraudRulesListResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  list(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/rules/list`,
       baseURLType: "FRAUD",
       headers,
       data
