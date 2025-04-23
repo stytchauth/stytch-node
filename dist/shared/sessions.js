@@ -15,7 +15,10 @@ const sessionClaim = "https://stytch.com/session";
 // We expect issuers with no trailing slash at the end but store the base URL with one.
 // We use this function to normalize this difference.
 function trimTrailingSlash(baseURL) {
-  return baseURL.replace(/\/+$/, "");
+  while (baseURL.endsWith("/")) {
+    baseURL = baseURL.slice(0, -1);
+  }
+  return baseURL;
 }
 
 // An IntermediateSession can be either a MemberSession or a UserSession

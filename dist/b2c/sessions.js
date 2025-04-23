@@ -17,6 +17,10 @@ var _sessions = require("../shared/sessions");
 
 // Response type for `sessions.authenticate`.
 
+// Request type for `sessions.exchangeAccessToken`.
+
+// Response type for `sessions.exchangeAccessToken`.
+
 // Request type for `sessions.getJWKS`.
 
 // Response type for `sessions.getJWKS`.
@@ -143,6 +147,12 @@ class Sessions {
   }
 
   /**
+   * Use this endpoint to exchange a Connected Apps Access Token back into a Stytch Session for the
+   * underlying User.
+   * This session can be used with the Stytch SDKs and APIs.
+   *
+   * The Access Token must contain the `full_access` scope and must not be more than 5 minutes old. Access
+   * Tokens may only be exchanged a single time.
    * @param data {@link SessionsExchangeAccessTokenRequest}
    * @returns {@link SessionsExchangeAccessTokenResponse}
    * @async
