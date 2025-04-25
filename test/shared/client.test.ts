@@ -104,7 +104,7 @@ describe("base client config warnings", () => {
         secret: "secret-test-11111111-1111-4111-8111-111111111111",
         custom_base_url: "https://cname.customer.com/",
       });
-      expect(baseClient['fetchConfig'].baseURL).toBe(
+      expect(baseClient["fetchConfig"].baseURL).toBe(
         "https://cname.customer.com/"
       );
     });
@@ -117,6 +117,6 @@ describe("base client config warnings", () => {
         secret: "secret-test-123",
         custom_base_url: "cname.customer.com",
       });
-    }).toThrow('custom_base_url must use HTTPS scheme');
+    }).toThrow("custom_base_url must use HTTPS scheme");
   });
 });

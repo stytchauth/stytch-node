@@ -48,7 +48,7 @@ class BaseClient {
       "User-Agent": `Stytch Node v${_package.version}`,
       Authorization: "Basic " + (0, _base.base64Encode)(config.project_id + ":" + config.secret)
     };
-    const baseURL = config.custom_base_url ? config.custom_base_url : config.env;
+    const baseURL = config.custom_base_url || config.env;
     this.fetchConfig = {
       baseURL: baseURL,
       fraudBaseURL: config.fraud_env,
