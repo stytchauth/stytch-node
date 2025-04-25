@@ -104,9 +104,7 @@ describe("base client config warnings", () => {
         secret: "secret-test-11111111-1111-4111-8111-111111111111",
         custom_base_url: "https://cname.customer.com/",
       });
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      expect(baseClient.fetchConfig.baseURL).toBe(
+      expect(baseClient['fetchConfig'].baseURL).toBe(
         "https://cname.customer.com/"
       );
     });
