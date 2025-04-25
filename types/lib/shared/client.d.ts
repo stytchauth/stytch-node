@@ -7,7 +7,7 @@ export interface ClientConfig {
     timeout?: number;
     dispatcher?: Dispatcher;
     fraud_env?: string;
-    base_url?: string;
+    custom_base_url?: string;
 }
 export declare class BaseClient {
     protected fetchConfig: fetchConfig;

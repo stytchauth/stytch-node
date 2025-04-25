@@ -42,8 +42,11 @@ export class BaseClient {
     }
 
     // Validate custom_base_url is using HTTPS
-    if (config.custom_base_url && !config.custom_base_url.startsWith('https://')) {
-      throw new Error('custom_base_url must use HTTPS scheme');
+    if (
+      config.custom_base_url &&
+      !config.custom_base_url.startsWith("https://")
+    ) {
+      throw new Error("custom_base_url must use HTTPS scheme");
     }
 
     if (!config.env) {
@@ -71,7 +74,9 @@ export class BaseClient {
         "Basic " + base64Encode(config.project_id + ":" + config.secret),
     };
 
-    const baseURL = config.custom_base_url ? config.custom_base_url : config.env;
+    const baseURL = config.custom_base_url
+      ? config.custom_base_url
+      : config.env;
 
     this.fetchConfig = {
       baseURL: baseURL,

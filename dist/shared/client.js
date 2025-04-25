@@ -22,8 +22,13 @@ class BaseClient {
     if (!config.secret) {
       throw new Error('Missing "secret" in config');
     }
-    if (config.env && config.base_url) {
+    if (config.env && config.custom_base_url) {
       console.warn(`[Stytch] Warning: Both 'env' and 'base_url' were provided in the client config. 'env' will be ignored in favor of 'base_url'.`);
+    }
+
+    // Validate custom_base_url is using HTTPS
+    if (config.custom_base_url && !config.custom_base_url.startsWith("https://")) {
+      throw new Error("custom_base_url must use HTTPS scheme");
     }
     if (!config.env) {
       if (config.project_id.startsWith("project-live-")) {
@@ -43,7 +48,7 @@ class BaseClient {
       "User-Agent": `Stytch Node v${_package.version}`,
       Authorization: "Basic " + (0, _base.base64Encode)(config.project_id + ":" + config.secret)
     };
-    const baseURL = config.base_url ? config.base_url : config.env;
+    const baseURL = config.custom_base_url ? config.custom_base_url : config.env;
     this.fetchConfig = {
       baseURL: baseURL,
       fraudBaseURL: config.fraud_env,
