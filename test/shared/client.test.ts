@@ -1,5 +1,7 @@
 import * as stytch from "../../lib";
 import { BaseClient } from "../../lib/shared/client";
+import { Client as B2CClient } from "../../lib/b2c/client";
+import { B2BClient } from "../../lib/b2b/client";
 
 describe("config errors", () => {
   test("config is not an object", () => {
@@ -45,7 +47,7 @@ describe("base client config warnings", () => {
       project_id: "project-test-123",
       secret: "supersecret",
       env: "https://test.stytch.com",
-      base_url: "https://override.stytch.com",
+      custom_base_url: "https://override.stytch.com",
     });
 
     expect(console.warn).toHaveBeenCalledWith(
@@ -69,7 +71,7 @@ describe("base client config warnings", () => {
     new BaseClient({
       project_id: "project-test-789",
       secret: "secret",
-      base_url: "https://override.stytch.com",
+      custom_base_url: "https://override.stytch.com",
     });
 
     expect(console.warn).not.toHaveBeenCalled();
@@ -100,7 +102,7 @@ describe("base client config warnings", () => {
       const baseClient = new BaseClient({
         project_id: "project-test-00000000-0000-4000-8000-000000000000",
         secret: "secret-test-11111111-1111-4111-8111-111111111111",
-        base_url: "https://cname.customer.com/",
+        custom_base_url: "https://cname.customer.com/",
       });
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -108,5 +110,15 @@ describe("base client config warnings", () => {
         "https://cname.customer.com/"
       );
     });
+  });
+
+  test("requires https sheme", () => {
+    expect(() => {
+      new BaseClient({
+        project_id: "project-test-00000000-0000-4000-8000-000000000000",
+        secret: "secret-test-123",
+        custom_base_url: "cname.customer.com",
+      });
+    }).toThrow('custom_base_url must use HTTPS scheme');
   });
 });
