@@ -9,6 +9,7 @@ var _client = require("../shared/client");
 var _discovery = require("./discovery");
 var _fraud = require("../b2c/fraud");
 var _impersonation = require("./impersonation");
+var _sessions = require("../shared/sessions");
 var _m2m = require("../b2c/m2m");
 var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
@@ -20,7 +21,7 @@ var _project = require("../b2c/project");
 var _rbac = require("./rbac");
 var _recovery_codes = require("./recovery_codes");
 var _scim = require("./scim");
-var _sessions = require("./sessions");
+var _sessions2 = require("./sessions");
 var _sso = require("./sso");
 var _totps = require("./totps");
 var _idp = require("./idp");
@@ -33,7 +34,8 @@ class B2BClient extends _client.BaseClient {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`/v1/b2b/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`/v1/b2b/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
+      issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
     const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.discovery = new _discovery.Discovery(this.fetchConfig);
@@ -50,7 +52,7 @@ class B2BClient extends _client.BaseClient {
     this.recoveryCodes = new _recovery_codes.RecoveryCodes(this.fetchConfig);
     this.scim = new _scim.SCIM(this.fetchConfig);
     this.sso = new _sso.SSO(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
+    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }

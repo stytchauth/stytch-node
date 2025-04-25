@@ -3,7 +3,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
-import { JwtConfig } from "../shared/sessions";
+import { JwtConfig, trimTrailingSlash } from "../shared/sessions";
 import { M2M } from "./m2m";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -46,6 +46,10 @@ export class Client extends BaseClient {
           this.fetchConfig.baseURL
         )
       ),
+      issuers: [
+        `stytch.com/${config.project_id}`,
+        trimTrailingSlash(this.fetchConfig.baseURL),
+      ],
     };
 
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);

@@ -9,13 +9,14 @@ var _client = require("../shared/client");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
 var _impersonation = require("./impersonation");
+var _sessions = require("../shared/sessions");
 var _m2m = require("./m2m");
 var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
 var _otps = require("./otps");
 var _passwords = require("./passwords");
 var _project = require("./project");
-var _sessions = require("./sessions");
+var _sessions2 = require("./sessions");
 var _totps = require("./totps");
 var _users = require("./users");
 var _webauthn = require("./webauthn");
@@ -29,7 +30,8 @@ class Client extends _client.BaseClient {
       // Only allow JWTs that were meant for this project.
       projectID: config.project_id,
       // Fetch the signature verification keys for this project as needed.
-      jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL))
+      jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
+      issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
@@ -40,7 +42,7 @@ class Client extends _client.BaseClient {
     this.otps = new _otps.OTPs(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.project = new _project.Project(this.fetchConfig);
-    this.sessions = new _sessions.Sessions(this.fetchConfig, this.jwtConfig);
+    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);

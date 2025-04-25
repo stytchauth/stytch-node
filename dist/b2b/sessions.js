@@ -56,7 +56,7 @@ class Sessions {
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,
-      issuer: `stytch.com/${jwtConfig.projectID}`,
+      issuer: jwtConfig.issuers,
       typ: "JWT"
     };
     this.policyCache = policyCache;

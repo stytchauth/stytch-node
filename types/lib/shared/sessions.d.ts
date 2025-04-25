@@ -2,7 +2,9 @@ import * as jose from "jose";
 export interface JwtConfig {
     projectID: string;
     jwks: jose.JWTVerifyGetKey;
+    issuers: string[];
 }
+export declare function trimTrailingSlash(baseURL: string): string;
 type IntermediateSession = {
     sub: string;
     session_id: string;

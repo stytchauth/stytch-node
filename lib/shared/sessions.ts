@@ -6,6 +6,19 @@ const sessionClaim = "https://stytch.com/session";
 export interface JwtConfig {
   projectID: string;
   jwks: jose.JWTVerifyGetKey;
+  // By default, we return the `stytch.com/<project_id>` issuer but when customers use a CNAMEd URL to hit our API we return the second issuer.
+  // The former is how we originally formatted issuers and the latter follows the OIDC spec.
+  // We support multiple issuers to ensure backwards compatibility for customers that rely on the original implementation.
+  issuers: string[];
+}
+
+// We expect issuers with no trailing slash at the end but store the base URL with one.
+// We use this function to normalize this difference.
+export function trimTrailingSlash(baseURL: string): string {
+  while (baseURL.endsWith("/")) {
+    baseURL = baseURL.slice(0, -1);
+  }
+  return baseURL;
 }
 
 type SessionClaim = {

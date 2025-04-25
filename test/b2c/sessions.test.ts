@@ -7,6 +7,7 @@ function jwtConfig(projectID: string) {
   return {
     projectID,
     jwks: jose.createLocalJWKSet({ keys: [] }),
+    issuers: [`stytch.com/${projectID}`, MOCK_FETCH_CONFIG.baseURL],
   };
 }
 
@@ -231,11 +232,14 @@ describe("sessions.authenticateJwtLocal", () => {
   let jwtOld: string;
   let startedAt: Date;
   let expiresAt: Date;
+  let privateKey: jose.KeyLike;
 
   beforeEach(async () => {
     // Generate a new key and add it to a local JWKS.
     const keyID = "key0";
-    const { publicKey, privateKey } = await jose.generateKeyPair("RS256");
+    const { publicKey, privateKey: generatedPrivateKey } =
+      await jose.generateKeyPair("RS256");
+    privateKey = generatedPrivateKey;
 
     const jwk = await jose.exportJWK(publicKey);
     const jwks = jose.createLocalJWKSet({ keys: [{ ...jwk, kid: keyID }] });
@@ -243,6 +247,7 @@ describe("sessions.authenticateJwtLocal", () => {
     sessions = new Sessions(MOCK_FETCH_CONFIG, {
       jwks,
       projectID,
+      issuers: [`stytch.com/${projectID}`, MOCK_FETCH_CONFIG.baseURL],
     });
 
     // Set up timestamps truncated to second-level precision to match the API. The epoch
@@ -473,6 +478,70 @@ describe("sessions.authenticateJwtLocal", () => {
           arr: ["nested", { data: "values" }],
         },
       },
+    });
+  });
+
+  test("rejects invalid issuer", async () => {
+    // Create a JWT with an incorrect issuer
+    const invalidIssuerJwt = await new jose.SignJWT({
+      "https://stytch.com/session": {
+        id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
+        started_at: iso(startedAt),
+        last_accessed_at: iso(startedAt),
+        expires_at: iso(expiresAt),
+      },
+      sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: "key0",
+        typ: "JWT",
+      })
+      .setIssuedAt()
+      .setNotBefore(Math.floor(+startedAt / 1000))
+      .setExpirationTime(Math.floor(+expiresAt / 1000))
+      .setIssuer("wrong-issuer.com") // Wrong issuer
+      .setAudience([projectID])
+      .sign(privateKey);
+
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: invalidIssuerJwt,
+    });
+
+    await expect(promise).rejects.toThrow(ClientError);
+    await expect(promise).rejects.toHaveProperty("code", "jwt_invalid");
+    await expect(promise).rejects.toThrow(/unexpected "iss" claim value/);
+  });
+
+  test("works with baseURL issuer", async () => {
+    const validIssuerJWT = await new jose.SignJWT({
+      "https://stytch.com/session": {
+        id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
+        started_at: iso(startedAt),
+        last_accessed_at: iso(startedAt),
+        expires_at: iso(expiresAt),
+      },
+      sub: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+    })
+      .setProtectedHeader({
+        alg: "RS256",
+        kid: "key0",
+        typ: "JWT",
+      })
+      .setIssuedAt()
+      .setNotBefore(Math.floor(+startedAt / 1000))
+      .setExpirationTime(Math.floor(+expiresAt / 1000))
+      .setIssuer(MOCK_FETCH_CONFIG.baseURL) // baseURL issuer
+      .setAudience([projectID])
+      .sign(privateKey);
+
+    const promise = sessions.authenticateJwtLocal({
+      session_jwt: validIssuerJWT,
+    });
+
+    await expect(promise).resolves.toMatchObject({
+      user_id: "user-live-fde03dd1-fff7-4b3c-9b31-ead3fbc224de",
+      session_id: "session-live-e26a0ccb-0dc0-4edb-a4bb-e70210f43555",
     });
   });
 });

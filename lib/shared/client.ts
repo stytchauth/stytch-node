@@ -13,6 +13,7 @@ export interface ClientConfig {
   timeout?: number;
   dispatcher?: Dispatcher;
   fraud_env?: string;
+  custom_base_url?: string;
 }
 
 export class BaseClient {
@@ -34,6 +35,20 @@ export class BaseClient {
       throw new Error('Missing "secret" in config');
     }
 
+    if (config.env && config.custom_base_url) {
+      console.warn(
+        `[Stytch] Warning: Both 'env' and 'base_url' were provided in the client config. 'env' will be ignored in favor of 'base_url'.`
+      );
+    }
+
+    // Validate custom_base_url is using HTTPS
+    if (
+      config.custom_base_url &&
+      !config.custom_base_url.startsWith("https://")
+    ) {
+      throw new Error("custom_base_url must use HTTPS scheme");
+    }
+
     if (!config.env) {
       if (config.project_id.startsWith("project-live-")) {
         config.env = envs.live;
@@ -47,7 +62,9 @@ export class BaseClient {
     }
 
     if (config.env != envs.test && config.env != envs.live) {
-      // TODO: warn about non-production configuration
+      console.warn(
+        `[Stytch] Warning: Using a custom 'env' value ("${config.env}") instead of 'envs.test' or 'envs.live". If you're attempting to use a custom baseURL consider the base_url parameter.`
+      );
     }
 
     const headers = {
@@ -57,8 +74,9 @@ export class BaseClient {
         "Basic " + base64Encode(config.project_id + ":" + config.secret),
     };
 
+    const baseURL = config.custom_base_url || config.env;
     this.fetchConfig = {
-      baseURL: config.env,
+      baseURL: baseURL,
       fraudBaseURL: config.fraud_env,
       headers,
       timeout: config.timeout || DEFAULT_TIMEOUT,
@@ -66,7 +84,7 @@ export class BaseClient {
     };
 
     // Get a baseURL that ends with a slash to make building route URLs easier.
-    this.baseURL = config.env;
+    this.baseURL = baseURL;
     if (!this.baseURL.endsWith("/")) {
       this.baseURL += "/";
     }

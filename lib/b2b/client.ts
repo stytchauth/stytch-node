@@ -3,7 +3,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
 import { Impersonation } from "./impersonation";
-import { JwtConfig } from "../shared/sessions";
+import { JwtConfig, trimTrailingSlash } from "../shared/sessions";
 import { M2M } from "../b2c/m2m";
 import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
@@ -53,6 +53,10 @@ export class B2BClient extends BaseClient {
           this.fetchConfig.baseURL
         )
       ),
+      issuers: [
+        `stytch.com/${config.project_id}`,
+        trimTrailingSlash(this.fetchConfig.baseURL),
+      ],
     };
 
     const policyCache = new PolicyCache(new RBAC(this.fetchConfig));

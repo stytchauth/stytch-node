@@ -176,7 +176,7 @@ export class IDP {
   ): Promise<IntrospectTokenClaims> {
     const jwtOptions = {
       audience: this.jwtConfig.projectID,
-      issuer: `stytch.com/${this.jwtConfig.projectID}`,
+      issuer: this.jwtConfig.issuers,
       typ: "JWT",
     };
     const now = options?.current_date || new Date();
