@@ -30,7 +30,25 @@ export interface ActiveSSOConnection {
   identity_provider: string;
 }
 
+export interface B2BOrganizationsConnectedAppsRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
 export interface B2BOrganizationsDeleteRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
+export interface B2BOrganizationsGetConnectedAppRequestOptions {
   /**
    * Optional authorization object.
    * Pass in an active Stytch Member session token or session JWT and the request
@@ -200,6 +218,7 @@ export interface Member {
    *
    */
   retired_email_addresses: RetiredEmail[];
+  is_locked: boolean;
   /**
    * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
    * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
@@ -241,6 +260,17 @@ export interface Member {
   scim_registration?: SCIMRegistration;
   // The ID of the member given by the identity provider.
   external_id?: string;
+  lock_created_at?: string;
+  lock_expires_at?: string;
+}
+
+export interface MemberConnectedApp {
+  connected_app_id: string;
+  name: string;
+  description: string;
+  client_type: string;
+  scopes_granted: string;
+  logo_url?: string;
 }
 
 export interface MemberRole {
@@ -538,6 +568,10 @@ export interface Organization {
    */
   oauth_tenant_jit_provisioning: string;
   claimed_email_domains: string[];
+  first_party_connected_apps_allowed_type: string;
+  allowed_first_party_connected_apps: string[];
+  third_party_connected_apps_allowed_type: string;
+  allowed_third_party_connected_apps: string[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -559,6 +593,19 @@ export interface Organization {
    * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
    */
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface OrganizationConnectedApp {
+  connected_app_id: string;
+  name: string;
+  description: string;
+  client_type: string;
+  logo_url?: string;
+}
+
+export interface OrganizationConnectedAppActiveMember {
+  member_id: string;
+  granted_scopes: string[];
 }
 
 export interface RetiredEmail {
@@ -632,6 +679,16 @@ export interface SlackProviderInfo {
   bot_access_token: string;
   // The scopes that the bot application has access to in Slack.
   bot_scopes: string[];
+}
+
+export interface B2BOrganizationsConnectedAppsRequest {
+  organization_id: string;
+}
+
+export interface B2BOrganizationsConnectedAppsResponse {
+  request_id: string;
+  connected_apps: OrganizationConnectedApp[];
+  status_code: number;
 }
 
 // Request type for `organizations.create`.
@@ -771,6 +828,18 @@ export interface B2BOrganizationsCreateRequest {
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
+  first_party_connected_apps_allowed_type?:
+    | "ALL_ALLOWED"
+    | "RESTRICTED"
+    | "NOT_ALLOWED"
+    | string;
+  allowed_first_party_connected_apps?: string[];
+  third_party_connected_apps_allowed_type?:
+    | "ALL_ALLOWED"
+    | "RESTRICTED"
+    | "NOT_ALLOWED"
+    | string;
+  allowed_third_party_connected_apps?: string[];
 }
 
 // Response type for `organizations.create`.
@@ -816,6 +885,21 @@ export interface B2BOrganizationsDeleteResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+}
+
+export interface B2BOrganizationsGetConnectedAppRequest {
+  organization_id: string;
+  connected_app_id: string;
+}
+
+export interface B2BOrganizationsGetConnectedAppResponse {
+  connected_app_id: string;
+  name: string;
+  description: string;
+  client_type: string;
+  active_members: OrganizationConnectedAppActiveMember[];
+  status_code: number;
+  logo_url?: string;
 }
 
 // Request type for `organizations.get`.
@@ -1123,6 +1207,18 @@ export interface B2BOrganizationsUpdateRequest {
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
+  first_party_connected_apps_allowed_type?:
+    | "ALL_ALLOWED"
+    | "RESTRICTED"
+    | "NOT_ALLOWED"
+    | string;
+  allowed_first_party_connected_apps?: string[];
+  third_party_connected_apps_allowed_type?:
+    | "ALL_ALLOWED"
+    | "RESTRICTED"
+    | "NOT_ALLOWED"
+    | string;
+  allowed_third_party_connected_apps?: string[];
 }
 
 // Response type for `organizations.update`.
@@ -1324,6 +1420,14 @@ export class Organizations {
         oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
         allowed_oauth_tenants: data.allowed_oauth_tenants,
         claimed_email_domains: data.claimed_email_domains,
+        first_party_connected_apps_allowed_type:
+          data.first_party_connected_apps_allowed_type,
+        allowed_first_party_connected_apps:
+          data.allowed_first_party_connected_apps,
+        third_party_connected_apps_allowed_type:
+          data.third_party_connected_apps_allowed_type,
+        allowed_third_party_connected_apps:
+          data.allowed_third_party_connected_apps,
       },
     });
   }
@@ -1389,6 +1493,54 @@ export class Organizations {
     return request<B2BOrganizationsMetricsResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/metrics`,
+      headers,
+      params: {},
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsConnectedAppsRequest}
+   * @param options {@link B2BOrganizationsConnectedAppsRequestOptions}
+   * @returns {@link B2BOrganizationsConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  connectedApps(
+    params: B2BOrganizationsConnectedAppsRequest,
+    options?: B2BOrganizationsConnectedAppsRequestOptions
+  ): Promise<B2BOrganizationsConnectedAppsResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BOrganizationsConnectedAppsResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps`,
+      headers,
+      params: {},
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsGetConnectedAppRequest}
+   * @param options {@link B2BOrganizationsGetConnectedAppRequestOptions}
+   * @returns {@link B2BOrganizationsGetConnectedAppResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getConnectedApp(
+    params: B2BOrganizationsGetConnectedAppRequest,
+    options?: B2BOrganizationsGetConnectedAppRequestOptions
+  ): Promise<B2BOrganizationsGetConnectedAppResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BOrganizationsGetConnectedAppResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps/${params.connected_app_id}`,
       headers,
       params: {},
     });

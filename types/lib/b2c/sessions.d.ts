@@ -155,8 +155,8 @@ export interface HubspotOAuthFactor {
 }
 export interface ImpersonatedFactor {
     /**
-     * The unique UUID of the impersonator. For impersonation sessions initiated via the Stytch dashboard, the
-     * `impersonator_id` will be the impersonator's Stytch workspace id.
+     * For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id` will be the
+     * impersonator's Stytch Dashboard `member_id`.
      */
     impersonator_id: string;
     impersonator_email_address: string;
@@ -329,7 +329,7 @@ export interface SessionsAuthenticateResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session: Session;
@@ -397,7 +397,7 @@ export interface SessionsExchangeAccessTokenResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;
@@ -481,7 +481,7 @@ export interface SessionsMigrateResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;

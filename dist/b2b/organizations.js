@@ -129,7 +129,11 @@ class Organizations {
         allowed_mfa_methods: data.allowed_mfa_methods,
         oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
         allowed_oauth_tenants: data.allowed_oauth_tenants,
-        claimed_email_domains: data.claimed_email_domains
+        claimed_email_domains: data.claimed_email_domains,
+        first_party_connected_apps_allowed_type: data.first_party_connected_apps_allowed_type,
+        allowed_first_party_connected_apps: data.allowed_first_party_connected_apps,
+        third_party_connected_apps_allowed_type: data.third_party_connected_apps_allowed_type,
+        allowed_third_party_connected_apps: data.allowed_third_party_connected_apps
       }
     });
   }
@@ -188,6 +192,48 @@ class Organizations {
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
       url: `/v1/b2b/organizations/${params.organization_id}/metrics`,
+      headers,
+      params: {}
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsConnectedAppsRequest}
+   * @param options {@link B2BOrganizationsConnectedAppsRequestOptions}
+   * @returns {@link B2BOrganizationsConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  connectedApps(params, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps`,
+      headers,
+      params: {}
+    });
+  }
+
+  /**
+   * @param params {@link B2BOrganizationsGetConnectedAppRequest}
+   * @param options {@link B2BOrganizationsGetConnectedAppRequestOptions}
+   * @returns {@link B2BOrganizationsGetConnectedAppResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getConnectedApp(params, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps/${params.connected_app_id}`,
       headers,
       params: {}
     });

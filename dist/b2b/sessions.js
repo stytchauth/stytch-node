@@ -148,23 +148,30 @@ class Sessions {
    * Use this endpoint to exchange a's existing session for another session in a different. This can be used
    * to accept an invite, but not to create a new member via domain matching.
    *
-   * To create a new member via domain matching, use the
+   * To create a new member via email domain, use the
    * [Exchange Intermediate Session](https://stytch.com/docs/b2b/api/exchange-intermediate-session) flow
    * instead.
    *
-   * Only Email Magic Link, OAuth, and SMS OTP factors can be transferred between sessions. Other
-   * authentication factors, such as password factors, will not be transferred to the new session.
-   * Any OAuth Tokens owned by the Member will not be transferred to the new Organization.
-   * SMS OTP factors can be used to fulfill MFA requirements for the target Organization if both the original
-   * and target Member have the same phone number and the phone number is verified for both Members.
-   * HubSpot and Slack OAuth registrations will not be transferred between sessions. Instead, you will
-   * receive a corresponding factor with type `"oauth_exchange_slack"` or `"oauth_exchange_hubspot"`
+   * If the user **has** already satisfied the authentication requirements of the Organization they are
+   * trying to switch into, this API will return `member_authenticated: true` and a `session_token` and
+   * `session_jwt`.
    *
-   * If the Member is required to complete MFA to log in to the Organization, the returned value of
-   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
-   * The `intermediate_session_token` can be passed into the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA step and acquire a full member session.
+   * If the user **has not** satisfied the primary or secondary authentication requirements of the
+   * Organization they are attempting to switch into, this API will return `member_authenticated: false` and
+   * an `intermediate_session_token`.
+   *
+   * If `primary_required` is set, prompt the user to fulfill the Organization's auth requirements using the
+   * options returned in `primary_required.allowed_auth_methods`.
+   *
+   * If `primary_required` is null and `mfa_required` is set, check `mfa_required.member_options` to
+   * determine if the Member has SMS OTP or TOTP set up for MFA and prompt accordingly. If the Member has SMS
+   * OTP, check `mfa_required.secondary_auth_initiated` to see if the OTP has already been sent.
+   *
+   * Include the `intermediate_session_token` returned above when calling the `authenticate()` method that
+   * the user needed to perform. Once the user has completed the authentication requirements they were
+   * missing, they will be granted a full `session_token` and `session_jwt` to indicate they have
+   * successfully logged into the Organization.
+   *
    * The `intermediate_session_token` can also be used with the
    * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
    * or the

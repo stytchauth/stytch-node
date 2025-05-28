@@ -371,6 +371,40 @@ class Users {
     });
   }
 
+  /**
+   * @param params {@link UsersConnectedAppsRequest}
+   * @returns {@link UsersConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  connectedApps(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/users/${params.user_id}/connected_apps`,
+      headers,
+      params: {}
+    });
+  }
+
+  /**
+   * @param data {@link UsersRevokeRequest}
+   * @returns {@link UsersRevokeResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  revoke(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/users/${data.user_id}/connected_apps/${data.connected_app_id}/revoke`,
+      headers,
+      data: {}
+    });
+  }
+
   // MANUAL(searchAll)(SERVICE_METHOD)
   // Return an iterator over all search results.  Submit an empty `query` in the request to return all Users.
   searchAll(data) {

@@ -1,5 +1,6 @@
 import { Authorization } from "../shared/method_options";
-import { B2BOrganizationsResultsMetadata, Member, OIDCProviderInfo, Organization, SearchQuery } from "./organizations";
+import { B2BOrganizationsResultsMetadata, Member, MemberConnectedApp, OIDCProviderInfo, Organization, SearchQuery } from "./organizations";
+import { ConnectedApps } from "./organizations_members_connected_apps";
 import { fetchConfig } from "../shared";
 import { OAuthProviders } from "./organizations_members_oauth_providers";
 export interface B2BOrganizationsMembersCreateRequestOptions {
@@ -35,6 +36,14 @@ export interface B2BOrganizationsMembersDeleteRequestOptions {
     authorization?: Authorization;
 }
 export interface B2BOrganizationsMembersDeleteTOTPRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsRequestOptions {
     /**
      * Optional authorization object.
      * Pass in an active Stytch Member session token or session JWT and the request
@@ -257,6 +266,15 @@ export interface B2BOrganizationsMembersDeleteTOTPResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsRequest {
+    organization_id: string;
+    member_id: string;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsResponse {
+    request_id: string;
+    connected_apps: MemberConnectedApp[];
     status_code: number;
 }
 export interface B2BOrganizationsMembersGetRequest {
@@ -591,6 +609,7 @@ export interface B2BOrganizationsMembersUpdateResponse {
 export declare class Members {
     private fetchConfig;
     oauthProviders: OAuthProviders;
+    connectedApps: ConnectedApps;
     constructor(fetchConfig: fetchConfig);
     /**
      * Updates a specified by `organization_id` and `member_id`.
@@ -735,6 +754,15 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
+    /**
+     * @param params {@link B2BOrganizationsMembersGetConnectedAppsRequest}
+     * @param options {@link B2BOrganizationsMembersGetConnectedAppsRequestOptions}
+     * @returns {@link B2BOrganizationsMembersGetConnectedAppsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    getConnectedApps(params: B2BOrganizationsMembersGetConnectedAppsRequest, options?: B2BOrganizationsMembersGetConnectedAppsRequestOptions): Promise<B2BOrganizationsMembersGetConnectedAppsResponse>;
     /**
      * Creates a. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}

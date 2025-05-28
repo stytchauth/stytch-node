@@ -57,7 +57,7 @@ export interface Metadata {
 }
 
 export interface NetworkProperties {
-  // The IP address of the user.
+  // The IP address of the client.
   ip_address: string;
   // Information about the network's ASN (Autonomous System Number).
   asn: ASNProperties;

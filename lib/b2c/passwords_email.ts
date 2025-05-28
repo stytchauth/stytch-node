@@ -59,7 +59,10 @@ export interface PasswordsEmailResetRequest {
    * ignored. Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   // Specify optional security settings.
   options?: Options;
@@ -92,7 +95,7 @@ export interface PasswordsEmailResetResponse {
    * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
    * receive a full Session object in the response.
    *
-   *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
    *
    */
   session?: Session;
@@ -122,7 +125,10 @@ export interface PasswordsEmailResetStartRequest {
    * on the same device.
    */
   code_challenge?: string;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * The URL Stytch redirects to after the OAuth flow is completed for a user that already exists. This URL

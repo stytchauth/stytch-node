@@ -20,7 +20,10 @@ export interface MagicLinksEmailInviteRequest {
    * Invite.
    */
   invite_template_id?: string;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   // The name of the user. Each field in the name object is optional.
   name?: UsersName;
@@ -108,7 +111,10 @@ export interface MagicLinksEmailLoginOrCreateRequest {
    * Sign-up.
    */
   signup_template_id?: string;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * Flag for whether or not to save a user as pending vs active in Stytch. Defaults to false.
@@ -188,7 +194,10 @@ export interface MagicLinksEmailSendRequest {
    * Login.
    */
   login_template_id?: string;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * The URL the end user clicks from the login Email Magic Link. This should be a URL that your app receives
@@ -219,7 +228,7 @@ export interface MagicLinksEmailSendRequest {
    * on the same device.
    */
   code_challenge?: string;
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id?: string;
   // The `session_token` of the user to associate the email with.
   session_token?: string;

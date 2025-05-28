@@ -285,29 +285,38 @@ export declare class Organizations {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * If an end user does not want to join any already-existing, or has no possible Organizations to join,
-     * this endpoint can be used to create a new
+     * This endpoint allows you to exchange the `intermediate_session_token` returned when the user
+     * successfully completes a authentication flow to create a new
      * [Organization](https://stytch.com/docs/b2b/api/organization-object) and
-     * [Member](https://stytch.com/docs/b2b/api/member-object).
-     *
-     * This operation consumes the Intermediate Session.
-     *
-     * This endpoint will also create an initial Member Session for the newly created Member.
-     *
-     * The created by this endpoint will automatically be granted the `stytch_admin` Role. See the
-     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
-     *
-     * If the new Organization is created with a `mfa_policy` of `REQUIRED_FOR_ALL`, the newly created Member
-     * will need to complete an MFA step to log in to the Organization.
-     * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
-     * The `intermediate_session_token` can be passed into the
-     * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-     * MFA step and acquire a full member session.
-     * The `intermediate_session_token` can also be used with the
+     * [Member](https://stytch.com/docs/b2b/api/member-object) and log the user in. If the user wants to log
+     * into an existing Organization, use the
      * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
-     * or the
-     * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
-     * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
+     * instead.
+     *
+     * Stytch **requires that users verify their email address** prior to creating a new Organization in order
+     * to prevent Account Takeover (ATO) attacks and phishing.
+     *
+     * If the user authenticated using a method that **does not** provide real-time email verification
+     * (returning password auth, Github/Slack/Hubspot OAuth) this API will return `member_authenticated: false`
+     * and an `intermediate_session_token` to indicate that the user must perform additional authentication via
+     * one of the options listed in `primary_required.allowed_auth_methods` to finish logging in.
+     *
+     * If you specified an `mfa_policy: REQUIRED_FOR_ALL` in the request, this API will return
+     * `member_authenticated: false`, an `intermediate_session_token`, and `mfa_required` in order to indicate
+     * that you must prompt the user to enroll in MFA.
+     *
+     * Include the `intermediate_session_token` when calling the `authenticate()` method that the user needed
+     * to perform to verify their email or enroll in MFA. Once the user has completed the authentication
+     * requirements they were missing, they will be granted a full `session_token` and `session_jwt` and be
+     * successfully logged in.
+     *
+     * If the user logged in with a method that **does** provide real-time email verification (Email Magic
+     * Links, Email OTP, Google/Microsoft OAuth, initial email verification when creating a new password) this
+     * API will return `member_authenticated: true` and a `session_jwt` and `session_token` to indicate that
+     * the user has successfully logged in.
+     *
+     * The Member created by this endpoint will automatically be granted the `stytch_admin` Role. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
      * @param data {@link B2BDiscoveryOrganizationsCreateRequest}
      * @returns {@link B2BDiscoveryOrganizationsCreateResponse}
      * @async
