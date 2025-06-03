@@ -133,6 +133,11 @@ export interface SCIMConnectionWithToken {
     bearer_token_expires_at?: string;
 }
 export interface SCIMGroup {
+    /**
+     * Stytch-issued, globally unique UUID that identifies a specific SCIM Group. The entity `id` in the SCIM
+     * specification is issued by the Service Provider (SP) and returned to the Identity Provider (IdP) to
+     * store and use for uniquely identify and updating the Group moving forward.
+     */
     group_id: string;
     group_name: string;
     /**

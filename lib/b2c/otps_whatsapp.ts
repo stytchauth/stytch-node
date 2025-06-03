@@ -22,7 +22,10 @@ export interface OTPsWhatsappLoginOrCreateRequest {
    * maximum is 10 minutes. The default expiration is 2 minutes.
    */
   expiration_minutes?: number;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * Flag for whether or not to save a user as pending vs active in Stytch. Defaults to false.
@@ -89,7 +92,10 @@ export interface OTPsWhatsappSendRequest {
    * maximum is 10 minutes. The default expiration is 2 minutes.
    */
   expiration_minutes?: number;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * Used to determine which language to use when sending the user this delivery method. Parameter is a
@@ -112,7 +118,7 @@ export interface OTPsWhatsappSendRequest {
     | "zh-Hans"
     | "ca-ES"
     | string;
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id?: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;

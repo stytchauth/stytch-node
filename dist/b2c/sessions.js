@@ -172,19 +172,19 @@ class Sessions {
   /**
    * Get the JSON Web Key Set (JWKS) for a project.
    *
-   * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both
-   * keys will be returned by this endpoint for a period of 1 month.
+   * Within the JWKS, the JSON Web Keys are rotated every ~6 months. Upon rotation, new JWTs will be signed
+   * using the new key, and both keys will be returned by this endpoint for a period of 1 month.
    *
    * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
-   * by the old JWKS, and some JWTs will be signed by the new JWKS. The correct JWKS to use for validation is
-   * determined by matching the `kid` value of the JWT and JWKS.
+   * by the old keys, and some JWTs will be signed by the new keys. The correct key to use for validation is
+   * determined by matching the `kid` value of the JWT and key.
    *
-   * If you're using one of our [backend SDKs](https://stytch.com/docs/sdks), the JWKS rotation will be
-   * handled for you.
+   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JSON Web Key (JWK)
+   * rotation will be handled for you.
    *
-   * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
-   * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
-   * for validation by inspecting the `kid` value.
+   * If you're using your own JWT validation library, many have built-in support for JWK rotation, and you'll
+   * just need to supply this API endpoint. If not, your application should decide which JWK to use for
+   * validation by inspecting the `kid` value.
    *
    * See our [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for
    * more information.

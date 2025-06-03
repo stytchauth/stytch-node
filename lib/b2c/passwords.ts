@@ -120,7 +120,7 @@ export interface PasswordsAuthenticateRequest {
   // The email address of the end user.
   email: string;
   /**
-   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characters,
    * etc.
    */
   password: string;
@@ -182,7 +182,7 @@ export interface PasswordsAuthenticateResponse {
    * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
    * receive a full Session object in the response.
    *
-   *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
    *
    */
   session?: Session;
@@ -193,7 +193,7 @@ export interface PasswordsCreateRequest {
   // The email address of the end user.
   email: string;
   /**
-   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characters,
    * etc.
    */
   password: string;
@@ -267,7 +267,7 @@ export interface PasswordsCreateResponse {
    * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
    * receive a full Session object in the response.
    *
-   *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
    *
    */
   session?: Session;
@@ -341,9 +341,7 @@ export interface PasswordsMigrateRequest {
   /**
    * If a new user is created, this will set an identifier that can be used in API calls wherever a user_id
    * is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a
-   * maximum length of 128 characters. External IDs must be unique within an organization, but may be reused
-   * across different organizations in the same project. Note that if a user already exists, this field will
-   * be ignored.
+   * maximum length of 128 characters.
    */
   external_id?: string;
 }
@@ -376,7 +374,7 @@ export interface PasswordsMigrateResponse {
 // Request type for `passwords.strengthCheck`.
 export interface PasswordsStrengthCheckRequest {
   /**
-   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+   * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characters,
    * etc.
    */
   password: string;

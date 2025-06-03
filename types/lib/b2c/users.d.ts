@@ -82,6 +82,7 @@ export interface User {
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
     biometric_registrations: BiometricRegistration[];
+    is_locked: boolean;
     name?: UsersName;
     /**
      * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
@@ -102,6 +103,20 @@ export interface User {
      */
     untrusted_metadata?: Record<string, any>;
     external_id?: string;
+    lock_created_at?: string;
+    lock_expires_at?: string;
+}
+export interface UserConnectedApp {
+    connected_app_id: string;
+    name: string;
+    description: string;
+    /**
+     * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+     * `third_party_public`.
+     */
+    client_type: string;
+    scopes_granted: string;
+    logo_url?: string;
 }
 export interface UsersEmail {
     email_id: string;
@@ -155,6 +170,18 @@ export interface WebAuthnRegistration {
     authenticator_type: string;
     name: string;
 }
+export interface UsersConnectedAppsRequest {
+    user_id: string;
+}
+export interface UsersConnectedAppsResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    connected_apps: UserConnectedApp[];
+    status_code: number;
+}
 export interface UsersCreateRequest {
     email?: string;
     name?: UsersName;
@@ -188,9 +215,7 @@ export interface UsersCreateRequest {
     untrusted_metadata?: Record<string, any>;
     /**
      * An identifier that can be used in API calls wherever a user_id is expected. This is a string consisting
-     * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters. External IDs
-     * must be unique within an organization, but may be reused across different organizations in the same
-     * project.
+     * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
      */
     external_id?: string;
 }
@@ -444,6 +469,7 @@ export interface UsersGetResponse {
     totps: TOTP[];
     crypto_wallets: CryptoWallet[];
     biometric_registrations: BiometricRegistration[];
+    is_locked: boolean;
     /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -469,6 +495,20 @@ export interface UsersGetResponse {
      */
     untrusted_metadata?: Record<string, any>;
     external_id?: string;
+    lock_created_at?: string;
+    lock_expires_at?: string;
+}
+export interface UsersRevokeRequest {
+    user_id: string;
+    connected_app_id: string;
+}
+export interface UsersRevokeResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    status_code: number;
 }
 export interface UsersSearchRequest {
     /**
@@ -513,6 +553,10 @@ export interface UsersSearchResponse {
 export interface UsersUpdateRequest {
     user_id: string;
     name?: UsersName;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     /**
      * The `trusted_metadata` field contains an arbitrary JSON object of application-specific data. See the
@@ -528,9 +572,7 @@ export interface UsersUpdateRequest {
     untrusted_metadata?: Record<string, any>;
     /**
      * An identifier that can be used in API calls wherever a user_id is expected. This is a string consisting
-     * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters. External IDs
-     * must be unique within an organization, but may be reused across different organizations in the same
-     * project.
+     * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
      */
     external_id?: string;
 }
@@ -796,5 +838,32 @@ export declare class Users {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     deleteOAuthRegistration(data: UsersDeleteOAuthRegistrationRequest): Promise<UsersDeleteOAuthRegistrationResponse>;
+    /**
+     * User Get Connected Apps retrieves a list of Connected Apps with which the User has successfully
+     * completed an
+     * authorization flow.
+     * If the User revokes a Connected App's access (e.g. via the Revoke Connected App endpoint) then the
+     * Connected App will
+     * no longer be returned in the response.
+     * @param params {@link UsersConnectedAppsRequest}
+     * @returns {@link UsersConnectedAppsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    connectedApps(params: UsersConnectedAppsRequest): Promise<UsersConnectedAppsResponse>;
+    /**
+     * Revoke Connected App revokes a Connected App's access to a User and revokes all active tokens that have
+     * been created
+     * on the User's behalf. New tokens cannot be created until the User completes a new authorization flow
+     * with the
+     * Connected App.
+     * @param data {@link UsersRevokeRequest}
+     * @returns {@link UsersRevokeResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    revoke(data: UsersRevokeRequest): Promise<UsersRevokeResponse>;
     searchAll(data: UsersSearchRequest): UserSearchIterator;
 }
