@@ -31,7 +31,10 @@ export interface MagicLinksAuthenticateRequest {
    * [here](https://stytch.com/docs/workspace-management/redirect-urls) for more detail.
    */
   token: string;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   // Specify optional security settings.
   options?: Options;
@@ -103,7 +106,7 @@ export interface MagicLinksAuthenticateResponse {
    * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
    * receive a full Session object in the response.
    *
-   *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
    *
    */
   session?: Session;
@@ -111,14 +114,17 @@ export interface MagicLinksAuthenticateResponse {
 
 // Request type for `magicLinks.create`.
 export interface MagicLinksCreateRequest {
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id: string;
   /**
    * Set the expiration for the Magic Link `token` in minutes. By default, it expires in 1 hour. The minimum
    * expiration is 5 minutes and the maximum is 7 days (10080 mins).
    */
   expiration_minutes?: number;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
 }
 

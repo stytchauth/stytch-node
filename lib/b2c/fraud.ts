@@ -57,7 +57,7 @@ export interface Metadata {
 }
 
 export interface NetworkProperties {
-  // The IP address of the user.
+  // The IP address of the client.
   ip_address: string;
   // Information about the network's ASN (Autonomous System Number).
   asn: ASNProperties;
@@ -149,7 +149,8 @@ export interface Verdict {
   action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
   /**
    * A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a list of
-   * possible Reasons, please [contact support](mailto:support@stytch.com).
+   * possible Reasons, see
+   * [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
    */
   reasons: string[];
   // The operating system and architecture that took the fingerprint.

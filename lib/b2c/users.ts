@@ -113,6 +113,7 @@ export interface User {
   crypto_wallets: CryptoWallet[];
   // An array that contains a list of all biometric registrations for a given User in the Stytch API.
   biometric_registrations: BiometricRegistration[];
+  is_locked: boolean;
   // The name of the User. Each field in the `name` object is optional.
   name?: UsersName;
   /**
@@ -135,6 +136,26 @@ export interface User {
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   external_id?: string;
+  lock_created_at?: string;
+  lock_expires_at?: string;
+}
+
+export interface UserConnectedApp {
+  // The ID of the Connected App.
+  connected_app_id: string;
+  // The name of the Connected App.
+  name: string;
+  // A description of the Connected App.
+  description: string;
+  /**
+   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+   * `third_party_public`.
+   */
+  client_type: string;
+  // The scopes granted to the Connected App at the completion of the last authorization flow.
+  scopes_granted: string;
+  // The logo URL of the Connected App, if any.
+  logo_url?: string;
 }
 
 export interface UsersEmail {
@@ -205,6 +226,24 @@ export interface WebAuthnRegistration {
   name: string;
 }
 
+// Request type for `users.connectedApps`.
+export interface UsersConnectedAppsRequest {
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
+  user_id: string;
+}
+
+// Response type for `users.connectedApps`.
+export interface UsersConnectedAppsResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  // An array of Connected Apps with which the User has successfully completed an authorization flow.
+  connected_apps: UserConnectedApp[];
+  status_code: number;
+}
+
 // Request type for `users.create`.
 export interface UsersCreateRequest {
   // The email address of the end user.
@@ -241,9 +280,7 @@ export interface UsersCreateRequest {
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
    * An identifier that can be used in API calls wherever a user_id is expected. This is a string consisting
-   * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters. External IDs
-   * must be unique within an organization, but may be reused across different organizations in the same
-   * project.
+   * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    */
   external_id?: string;
 }
@@ -439,7 +476,7 @@ export interface UsersDeletePhoneNumberResponse {
 
 // Request type for `users.delete`.
 export interface UsersDeleteRequest {
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id: string;
 }
 
@@ -515,7 +552,7 @@ export interface UsersDeleteWebAuthnRegistrationResponse {
 
 // Request type for `users.exchangePrimaryFactor`.
 export interface UsersExchangePrimaryFactorRequest {
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id: string;
   // The email address to exchange to.
   email_address?: string;
@@ -546,7 +583,7 @@ export interface UsersExchangePrimaryFactorResponse {
 
 // Request type for `users.get`.
 export interface UsersGetRequest {
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id: string;
 }
 
@@ -578,6 +615,7 @@ export interface UsersGetResponse {
   crypto_wallets: CryptoWallet[];
   // An array that contains a list of all biometric registrations for a given User in the Stytch API.
   biometric_registrations: BiometricRegistration[];
+  is_locked: boolean;
   /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
@@ -605,6 +643,26 @@ export interface UsersGetResponse {
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   external_id?: string;
+  lock_created_at?: string;
+  lock_expires_at?: string;
+}
+
+// Request type for `users.revoke`.
+export interface UsersRevokeRequest {
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
+  user_id: string;
+  // The ID of the Connected App.
+  connected_app_id: string;
+}
+
+// Response type for `users.revoke`.
+export interface UsersRevokeResponse {
+  /**
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
+  request_id: string;
+  status_code: number;
 }
 
 // Request type for `users.search`.
@@ -654,11 +712,14 @@ export interface UsersSearchResponse {
 
 // Request type for `users.update`.
 export interface UsersUpdateRequest {
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id: string;
   // The name of the user. Each field in the name object is optional.
   name?: UsersName;
-  // Provided attributes help with fraud detection.
+  /**
+   * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+   * endpoints by your application.
+   */
   attributes?: Attributes;
   /**
    * The `trusted_metadata` field contains an arbitrary JSON object of application-specific data. See the
@@ -674,9 +735,7 @@ export interface UsersUpdateRequest {
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
    * An identifier that can be used in API calls wherever a user_id is expected. This is a string consisting
-   * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters. External IDs
-   * must be unique within an organization, but may be reused across different organizations in the same
-   * project.
+   * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    */
   external_id?: string;
 }
@@ -1161,6 +1220,53 @@ export class Users {
     return request<UsersDeleteOAuthRegistrationResponse>(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
+      headers,
+      data: {},
+    });
+  }
+
+  /**
+   * User Get Connected Apps retrieves a list of Connected Apps with which the User has successfully
+   * completed an
+   * authorization flow.
+   * If the User revokes a Connected App's access (e.g. via the Revoke Connected App endpoint) then the
+   * Connected App will
+   * no longer be returned in the response.
+   * @param params {@link UsersConnectedAppsRequest}
+   * @returns {@link UsersConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  connectedApps(
+    params: UsersConnectedAppsRequest
+  ): Promise<UsersConnectedAppsResponse> {
+    const headers: Record<string, string> = {};
+    return request<UsersConnectedAppsResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/users/${params.user_id}/connected_apps`,
+      headers,
+      params: {},
+    });
+  }
+
+  /**
+   * Revoke Connected App revokes a Connected App's access to a User and revokes all active tokens that have
+   * been created
+   * on the User's behalf. New tokens cannot be created until the User completes a new authorization flow
+   * with the
+   * Connected App.
+   * @param data {@link UsersRevokeRequest}
+   * @returns {@link UsersRevokeResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  revoke(data: UsersRevokeRequest): Promise<UsersRevokeResponse> {
+    const headers: Record<string, string> = {};
+    return request<UsersRevokeResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/users/${data.user_id}/connected_apps/${data.connected_app_id}/revoke`,
       headers,
       data: {},
     });

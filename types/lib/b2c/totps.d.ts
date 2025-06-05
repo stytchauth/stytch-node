@@ -12,8 +12,8 @@ export interface TOTPWithRecoveryCodes {
 }
 export interface TOTPsAuthenticateRequest {
     /**
-     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
-     * if one is set for the user.
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+     * here if one is set for the user.
      */
     user_id: string;
     totp_code: string;
@@ -69,15 +69,15 @@ export interface TOTPsAuthenticateResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;
 }
 export interface TOTPsCreateRequest {
     /**
-     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
-     * if one is set for the user.
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+     * here if one is set for the user.
      */
     user_id: string;
     /**
@@ -110,8 +110,8 @@ export interface TOTPsCreateResponse {
 }
 export interface TOTPsRecoverRequest {
     /**
-     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
-     * if one is set for the user.
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+     * here if one is set for the user.
      */
     user_id: string;
     recovery_code: string;
@@ -167,15 +167,15 @@ export interface TOTPsRecoverResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;
 }
 export interface TOTPsRecoveryCodesRequest {
     /**
-     * The `user_id` of an active user the TOTP registration should be tied to. You may use an external_id here
-     * if one is set for the user.
+     * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+     * here if one is set for the user.
      */
     user_id: string;
 }

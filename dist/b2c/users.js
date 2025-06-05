@@ -11,6 +11,8 @@ var _shared = require("../shared");
 // Only modify code within MANUAL() sections
 // or your changes may be overwritten later!
 // !!!
+// Request type for `users.connectedApps`.
+// Response type for `users.connectedApps`.
 // Request type for `users.create`.
 // Response type for `users.create`.
 // Request type for `users.deleteBiometricRegistration`.
@@ -35,6 +37,8 @@ var _shared = require("../shared");
 // Response type for `users.exchangePrimaryFactor`.
 // Request type for `users.get`.
 // Response type for `users.get`.
+// Request type for `users.revoke`.
+// Response type for `users.revoke`.
 // Request type for `users.search`.
 // Response type for `users.search`.
 // Request type for `users.update`.
@@ -366,6 +370,51 @@ class Users {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
+      headers,
+      data: {}
+    });
+  }
+
+  /**
+   * User Get Connected Apps retrieves a list of Connected Apps with which the User has successfully
+   * completed an
+   * authorization flow.
+   * If the User revokes a Connected App's access (e.g. via the Revoke Connected App endpoint) then the
+   * Connected App will
+   * no longer be returned in the response.
+   * @param params {@link UsersConnectedAppsRequest}
+   * @returns {@link UsersConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  connectedApps(params) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/users/${params.user_id}/connected_apps`,
+      headers,
+      params: {}
+    });
+  }
+
+  /**
+   * Revoke Connected App revokes a Connected App's access to a User and revokes all active tokens that have
+   * been created
+   * on the User's behalf. New tokens cannot be created until the User completes a new authorization flow
+   * with the
+   * Connected App.
+   * @param data {@link UsersRevokeRequest}
+   * @returns {@link UsersRevokeResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  revoke(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/users/${data.user_id}/connected_apps/${data.connected_app_id}/revoke`,
       headers,
       data: {}
     });

@@ -17,7 +17,7 @@ export interface AuthenticationFactor {
      * The type of authentication factor. The possible values are: `magic_link`, `otp`,
      *        `oauth`, `password`, `email_otp`, or `sso` .
      */
-    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | "imported" | "recovery_codes" | "email_otp" | "impersonated" | string;
+    type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | "imported" | "recovery_codes" | "email_otp" | "impersonated" | "trusted_auth_token" | string;
     /**
      * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
      *
@@ -32,7 +32,7 @@ export interface AuthenticationFactor {
      *       `sso` – Either `sso_saml` or `sso_oidc`.
      *
      */
-    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | "oauth_exchange_github" | "oauth_exchange_google" | "impersonation" | "oauth_access_token_exchange" | string;
+    delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | "oauth_exchange_github" | "oauth_exchange_google" | "impersonation" | "oauth_access_token_exchange" | "trusted_token_exchange" | string;
     last_authenticated_at?: string;
     created_at?: string;
     updated_at?: string;
@@ -76,6 +76,7 @@ export interface AuthenticationFactor {
     google_oauth_exchange_factor?: GoogleOAuthExchangeFactor;
     impersonated_factor?: ImpersonatedFactor;
     oauth_access_token_exchange_factor?: OAuthAccessTokenExchangeFactor;
+    trusted_auth_token_factor?: TrustedAuthTokenFactor;
 }
 export interface AuthenticatorAppFactor {
     totp_id: string;
@@ -155,8 +156,8 @@ export interface HubspotOAuthFactor {
 }
 export interface ImpersonatedFactor {
     /**
-     * The unique UUID of the impersonator. For impersonation sessions initiated via the Stytch dashboard, the
-     * `impersonator_id` will be the impersonator's Stytch workspace id.
+     * For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id` will be the
+     * impersonator's Stytch Dashboard `member_id`.
      */
     impersonator_id: string;
     impersonator_email_address: string;
@@ -275,6 +276,9 @@ export interface TikTokOAuthFactor {
     provider_subject: string;
     email_id?: string;
 }
+export interface TrustedAuthTokenFactor {
+    token_id: string;
+}
 export interface TwitchOAuthFactor {
     id: string;
     provider_subject: string;
@@ -329,7 +333,7 @@ export interface SessionsAuthenticateResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session: Session;
@@ -397,7 +401,7 @@ export interface SessionsExchangeAccessTokenResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;
@@ -481,7 +485,7 @@ export interface SessionsMigrateResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;
@@ -611,19 +615,19 @@ export declare class Sessions {
     /**
      * Get the JSON Web Key Set (JWKS) for a project.
      *
-     * JWKS are rotated every ~6 months. Upon rotation, new JWTs will be signed using the new key, and both
-     * keys will be returned by this endpoint for a period of 1 month.
+     * Within the JWKS, the JSON Web Keys are rotated every ~6 months. Upon rotation, new JWTs will be signed
+     * using the new key, and both keys will be returned by this endpoint for a period of 1 month.
      *
      * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
-     * by the old JWKS, and some JWTs will be signed by the new JWKS. The correct JWKS to use for validation is
-     * determined by matching the `kid` value of the JWT and JWKS.
+     * by the old keys, and some JWTs will be signed by the new keys. The correct key to use for validation is
+     * determined by matching the `kid` value of the JWT and key.
      *
-     * If you're using one of our [backend SDKs](https://stytch.com/docs/sdks), the JWKS rotation will be
-     * handled for you.
+     * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JSON Web Key (JWK)
+     * rotation will be handled for you.
      *
-     * If you're using your own JWT validation library, many have built-in support for JWKS rotation, and
-     * you'll just need to supply this API endpoint. If not, your application should decide which JWKS to use
-     * for validation by inspecting the `kid` value.
+     * If you're using your own JWT validation library, many have built-in support for JWK rotation, and you'll
+     * just need to supply this API endpoint. If not, your application should decide which JWK to use for
+     * validation by inspecting the `kid` value.
      *
      * See our [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for
      * more information.

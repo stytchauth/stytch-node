@@ -41,7 +41,7 @@ export interface OAuthProviderValues {
 export interface OAuthAttachRequest {
   // The OAuth provider's name.
   provider: string;
-  // The unique ID of a specific User. You may use an external_id here if one is set for the user.
+  // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id?: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;
@@ -177,7 +177,7 @@ export interface OAuthAuthenticateResponse {
    * A `Session` object. For backwards compatibility reasons, the session from an OAuth authenticate call is
    * labeled as `user_session`, but is otherwise just a standard stytch `Session` object.
    *
-   *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
    *
    */
   user_session?: Session;

@@ -15,7 +15,7 @@ export interface B2BPasswordsDiscoveryEmailResetRequest {
   password_reset_token: string;
   /**
    * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-   * spaces, emojis, non-English characers, etc.
+   * spaces, emojis, non-English characters, etc.
    */
   password: string;
   pkce_code_verifier?: string;

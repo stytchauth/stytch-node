@@ -92,7 +92,8 @@ export interface Verdict {
     action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
     /**
      * A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a list of
-     * possible Reasons, please [contact support](mailto:support@stytch.com).
+     * possible Reasons, see
+     * [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
      */
     reasons: string[];
     detected_device_type: string;
