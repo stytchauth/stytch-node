@@ -23,30 +23,35 @@ class IntermediateSessions {
 
   /**
    * Exchange an Intermediate Session for a fully realized
-   * [Member Session](https://stytch.com/docs/b2b/api/session-object) in a desired
-   * [Organization](https://stytch.com/docs/b2b/api/organization-object).
-   * This operation consumes the Intermediate Session.
+   * [Member Session](https://stytch.com/docs/b2b/api/session-object) for the
+   * [Organization](https://stytch.com/docs/b2b/api/organization-object) that the user wishes to log into.
    *
-   * This endpoint can be used to accept invites and create new members via domain matching.
+   * This endpoint can be used to accept invites and into a new Organization on the basis of the user's email
+   * domain or OAuth tenant.
    *
-   * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
-   * be `false`.
-   * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
-   * The `intermediate_session_token` can be passed into the
-   * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-   * MFA step and acquire a full member session.
+   * If the user **has** already satisfied the authentication requirements of the Organization they are
+   * trying to exchange into and logged in with a method that verifies their email address, this API will
+   * return `member_authenticated: true` and a `session_token` and `session_jwt`.
+   *
+   * If the user **has not** satisfied the primary or secondary authentication requirements of the
+   * Organization they are attempting to exchange into or is JIT Provisioning but did not log in via a method
+   * that provides email verification, this API will return `member_authenticated: false` and an
+   * `intermediate_session_token`.
+   *
+   * If `primary_required` is returned, prompt the user to fulfill the Organization's auth requirements using
+   * the options returned in `primary_required.allowed_auth_methods`.
+   *
+   * If `primary_required` is null and `mfa_required` is set, check `mfa_required.member_options` to
+   * determine if the Member has SMS OTP or TOTP set up for MFA and prompt accordingly. If the Member has SMS
+   * OTP, check `mfa_required.secondary_auth_initiated` to see if the OTP has already been sent.
+   *
+   * Include the `intermediate_session_token` returned above when calling the `authenticate()` method that
+   * the user needed to perform. Once the user has completed the authentication requirements they were
+   * missing, they will be granted a full `session_token` and `session_jwt` to indicate they have
+   * successfully logged into the Organization.
+   *
    * The `intermediate_session_token` can also be used with the
-   * [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
-   * or the
-   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to join a different Organization or create a new one.
-   * The `session_duration_minutes` and `session_custom_claims` parameters will be ignored.
-   *
-   * If the Member is logging in via an OAuth provider that does not fully verify the email, the returned
-   * value of `member_authenticated` will be `false`.
-   * The `intermediate_session_token` will not be consumed and instead will be returned in the response.
-   * The `primary_required` field details the authentication flow the Member must perform in order to
-   * [complete a step-up authentication](https://stytch.com/docs/b2b/guides/oauth/auth-flows) into the
-   * organization. The `intermediate_session_token` must be passed into that authentication flow.
+   * [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization instead of joining an existing one.
    * @param data {@link B2BDiscoveryIntermediateSessionsExchangeRequest}
    * @returns {@link B2BDiscoveryIntermediateSessionsExchangeResponse}
    * @async

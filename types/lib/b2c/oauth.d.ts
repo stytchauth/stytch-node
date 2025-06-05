@@ -150,7 +150,7 @@ export interface OAuthAuthenticateResponse {
      * A `Session` object. For backwards compatibility reasons, the session from an OAuth authenticate call is
      * labeled as `user_session`, but is otherwise just a standard stytch `Session` object.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     user_session?: Session;

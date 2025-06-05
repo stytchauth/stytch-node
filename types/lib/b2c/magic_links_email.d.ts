@@ -9,6 +9,10 @@ export interface MagicLinksEmailInviteRequest {
      * Invite.
      */
     invite_template_id?: string;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     name?: UsersName;
     /**
@@ -35,6 +39,18 @@ export interface MagicLinksEmailInviteRequest {
      *
      */
     locale?: "en" | "es" | "pt-br" | "fr" | string;
+    /**
+     * The `trusted_metadata` field contains an arbitrary JSON object of application-specific data. See the
+     * [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
+     */
+    trusted_metadata?: Record<string, any>;
+    /**
+     * The `untrusted_metadata` field contains an arbitrary JSON object of application-specific data. Untrusted
+     * metadata can be edited by end users directly via the SDK, and **cannot be used to store critical
+     * information.** See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field
+     * behavior details.
+     */
+    untrusted_metadata?: Record<string, any>;
 }
 export interface MagicLinksEmailInviteResponse {
     /**
@@ -88,6 +104,10 @@ export interface MagicLinksEmailLoginOrCreateRequest {
      * Sign-up.
      */
     signup_template_id?: string;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     /**
      * Flag for whether or not to save a user as pending vs active in Stytch. Defaults to false.
@@ -154,6 +174,10 @@ export interface MagicLinksEmailSendRequest {
      * Login.
      */
     login_template_id?: string;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     /**
      * The URL the end user clicks from the login Email Magic Link. This should be a URL that your app receives

@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Members = void 0;
 var _method_options = require("../shared/method_options");
+var _organizations_members_connected_apps = require("./organizations_members_connected_apps");
 var _organizations_members_oauth_providers = require("./organizations_members_oauth_providers");
 var _shared = require("../shared");
 // !!!
@@ -35,6 +36,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.deleteTOTP`.
 
+// Request type for `organizations.members.getConnectedApps`.
+
+// Response type for `organizations.members.getConnectedApps`.
+
 // Request type for `organizations.members.get`.
 
 // Response type for `organizations.members.dangerouslyGet`, `organizations.members.get`.
@@ -63,6 +68,7 @@ class Members {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.oauthProviders = new _organizations_members_oauth_providers.OAuthProviders(this.fetchConfig);
+    this.connectedApps = new _organizations_members_connected_apps.ConnectedApps(this.fetchConfig);
   }
 
   /**
@@ -339,6 +345,35 @@ class Members {
         email_id: data.email_id,
         email_address: data.email_address
       }
+    });
+  }
+
+  /**
+   * Member Get Connected Apps retrieves a list of Connected Apps with which the Member has successfully
+   * completed an
+   * authorization flow.
+   * If the Member revokes a Connected App's access (e.g. via the Revoke Connected App endpoint) then the
+   * Connected App will
+   * no longer be returned in the response. A Connected App's access may also be revoked if the
+   * Organization's allowed Connected
+   * App policy changes.
+   * @param params {@link B2BOrganizationsMembersGetConnectedAppsRequest}
+   * @param options {@link B2BOrganizationsMembersGetConnectedAppsRequestOptions}
+   * @returns {@link B2BOrganizationsMembersGetConnectedAppsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getConnectedApps(params, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/connected_apps`,
+      headers,
+      params: {}
     });
   }
 

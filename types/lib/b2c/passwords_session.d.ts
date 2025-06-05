@@ -3,7 +3,7 @@ import { Session } from "./sessions";
 import { User } from "./users";
 export interface PasswordsSessionResetRequest {
     /**
-     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characers,
+     * The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English characters,
      * etc.
      */
     password: string;
@@ -58,7 +58,7 @@ export interface PasswordsSessionResetResponse {
      * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
      * receive a full Session object in the response.
      *
-     *   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+     *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
      *
      */
     session?: Session;

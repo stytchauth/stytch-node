@@ -1,5 +1,6 @@
 import { Authorization } from "../shared/method_options";
-import { B2BOrganizationsResultsMetadata, Member, OIDCProviderInfo, Organization, SearchQuery } from "./organizations";
+import { B2BOrganizationsResultsMetadata, Member, MemberConnectedApp, OIDCProviderInfo, Organization, SearchQuery } from "./organizations";
+import { ConnectedApps } from "./organizations_members_connected_apps";
 import { fetchConfig } from "../shared";
 import { OAuthProviders } from "./organizations_members_oauth_providers";
 export interface B2BOrganizationsMembersCreateRequestOptions {
@@ -35,6 +36,14 @@ export interface B2BOrganizationsMembersDeleteRequestOptions {
     authorization?: Authorization;
 }
 export interface B2BOrganizationsMembersDeleteTOTPRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsRequestOptions {
     /**
      * Optional authorization object.
      * Pass in an active Stytch Member session token or session JWT and the request
@@ -257,6 +266,29 @@ export interface B2BOrganizationsMembersDeleteTOTPResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
+     */
+    organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
+     */
+    member_id: string;
+}
+export interface B2BOrganizationsMembersGetConnectedAppsResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    connected_apps: MemberConnectedApp[];
     status_code: number;
 }
 export interface B2BOrganizationsMembersGetRequest {
@@ -591,6 +623,7 @@ export interface B2BOrganizationsMembersUpdateResponse {
 export declare class Members {
     private fetchConfig;
     oauthProviders: OAuthProviders;
+    connectedApps: ConnectedApps;
     constructor(fetchConfig: fetchConfig);
     /**
      * Updates a specified by `organization_id` and `member_id`.
@@ -735,6 +768,23 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
+    /**
+     * Member Get Connected Apps retrieves a list of Connected Apps with which the Member has successfully
+     * completed an
+     * authorization flow.
+     * If the Member revokes a Connected App's access (e.g. via the Revoke Connected App endpoint) then the
+     * Connected App will
+     * no longer be returned in the response. A Connected App's access may also be revoked if the
+     * Organization's allowed Connected
+     * App policy changes.
+     * @param params {@link B2BOrganizationsMembersGetConnectedAppsRequest}
+     * @param options {@link B2BOrganizationsMembersGetConnectedAppsRequestOptions}
+     * @returns {@link B2BOrganizationsMembersGetConnectedAppsResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    getConnectedApps(params: B2BOrganizationsMembersGetConnectedAppsRequest, options?: B2BOrganizationsMembersGetConnectedAppsRequestOptions): Promise<B2BOrganizationsMembersGetConnectedAppsResponse>;
     /**
      * Creates a. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}

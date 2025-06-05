@@ -12,6 +12,10 @@ export interface OTPsSmsLoginOrCreateRequest {
      * maximum is 10 minutes. The default expiration is 2 minutes.
      */
     expiration_minutes?: number;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     /**
      * Flag for whether or not to save a user as pending vs active in Stytch. Defaults to false.
@@ -62,6 +66,10 @@ export interface OTPsSmsSendRequest {
      * maximum is 10 minutes. The default expiration is 2 minutes.
      */
     expiration_minutes?: number;
+    /**
+     * Provided attributes to help with fraud detection. These values are pulled and passed into Stytch
+     * endpoints by your application.
+     */
     attributes?: Attributes;
     /**
      * Used to determine which language to use when sending the user this delivery method. Parameter is a

@@ -72,7 +72,7 @@ export interface B2BPasswordsAuthenticateRequest {
   email_address: string;
   /**
    * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-   * spaces, emojis, non-English characers, etc.
+   * spaces, emojis, non-English characters, etc.
    */
   password: string;
   // A secret token for a given Stytch Session.
@@ -293,7 +293,7 @@ export interface B2BPasswordsMigrateResponse {
 export interface B2BPasswordsStrengthCheckRequest {
   /**
    * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-   * spaces, emojis, non-English characers, etc.
+   * spaces, emojis, non-English characters, etc.
    */
   password: string;
   // The email address of the Member.

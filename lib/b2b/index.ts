@@ -71,21 +71,28 @@ export type {
   GithubProviderInfo,
   HubspotProviderInfo,
   Member,
+  MemberConnectedApp,
   MemberRole,
   MemberRoleSource,
   OAuthRegistration,
   OIDCProviderInfo,
   Organization,
+  OrganizationConnectedApp,
+  OrganizationConnectedAppActiveMember,
   B2BOrganizationsResultsMetadata,
   RetiredEmail,
   SCIMRegistration,
   SSORegistration,
   SearchQuery,
   SlackProviderInfo,
+  B2BOrganizationsConnectedAppsRequest,
+  B2BOrganizationsConnectedAppsResponse,
   B2BOrganizationsCreateRequest,
   B2BOrganizationsCreateResponse,
   B2BOrganizationsDeleteRequest,
   B2BOrganizationsDeleteResponse,
+  B2BOrganizationsGetConnectedAppRequest,
+  B2BOrganizationsGetConnectedAppResponse,
   B2BOrganizationsGetRequest,
   B2BOrganizationsGetResponse,
   B2BOrganizationsMetricsRequest,
@@ -96,6 +103,8 @@ export type {
   B2BOrganizationsUpdateResponse,
   B2BOrganizationsUpdateRequestOptions,
   B2BOrganizationsDeleteRequestOptions,
+  B2BOrganizationsConnectedAppsRequestOptions,
+  B2BOrganizationsGetConnectedAppRequestOptions,
 } from "./organizations";
 
 export type {
@@ -110,6 +119,8 @@ export type {
   B2BOrganizationsMembersDeleteResponse,
   B2BOrganizationsMembersDeleteTOTPRequest,
   B2BOrganizationsMembersDeleteTOTPResponse,
+  B2BOrganizationsMembersGetConnectedAppsRequest,
+  B2BOrganizationsMembersGetConnectedAppsResponse,
   B2BOrganizationsMembersGetRequest,
   B2BOrganizationsMembersGetResponse,
   B2BOrganizationsMembersOIDCProviderInformationRequest,
@@ -130,6 +141,7 @@ export type {
   B2BOrganizationsMembersSearchRequestOptions,
   B2BOrganizationsMembersDeletePasswordRequestOptions,
   B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions,
+  B2BOrganizationsMembersGetConnectedAppsRequestOptions,
   B2BOrganizationsMembersCreateRequestOptions,
 } from "./organizations_members";
 
@@ -142,6 +154,12 @@ export type {
   B2BOrganizationsMembersOAuthProvidersSlackRequest,
   B2BOrganizationsMembersOAuthProvidersSlackResponse,
 } from "./organizations_members_oauth_providers";
+
+export type {
+  B2BOrganizationsMembersConnectedAppsRevokeRequest,
+  B2BOrganizationsMembersConnectedAppsRevokeResponse,
+  B2BOrganizationsMembersConnectedAppsRevokeRequestOptions,
+} from "./organizations_members_connected_apps";
 
 export type {
   AuthorizationCheck,

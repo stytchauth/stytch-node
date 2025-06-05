@@ -11,7 +11,7 @@ export interface B2BPasswordsSessionResetRequest {
     organization_id: string;
     /**
      * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-     * spaces, emojis, non-English characers, etc.
+     * spaces, emojis, non-English characters, etc.
      */
     password: string;
     session_token?: string;

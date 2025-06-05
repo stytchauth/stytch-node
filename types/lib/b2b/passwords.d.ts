@@ -50,7 +50,7 @@ export interface B2BPasswordsAuthenticateRequest {
     email_address: string;
     /**
      * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-     * spaces, emojis, non-English characers, etc.
+     * spaces, emojis, non-English characters, etc.
      */
     password: string;
     session_token?: string;
@@ -234,7 +234,7 @@ export interface B2BPasswordsMigrateResponse {
 export interface B2BPasswordsStrengthCheckRequest {
     /**
      * The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed, e.g.
-     * spaces, emojis, non-English characers, etc.
+     * spaces, emojis, non-English characters, etc.
      */
     password: string;
     email_address?: string;
