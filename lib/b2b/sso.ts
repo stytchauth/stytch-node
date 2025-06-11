@@ -11,7 +11,7 @@ import {
 import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { OIDC } from "./sso_oidc";
 import { request } from "../shared";
@@ -287,6 +287,7 @@ export interface B2BSSOAuthenticateResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  primary_required?: PrimaryRequired;
 }
 
 // Request type for `sso.deleteConnection`.

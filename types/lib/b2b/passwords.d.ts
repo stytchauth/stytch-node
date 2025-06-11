@@ -4,7 +4,7 @@ import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { Sessions } from "./passwords_session";
 export interface LudsFeedback {
@@ -146,6 +146,7 @@ export interface B2BPasswordsAuthenticateResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export interface B2BPasswordsMigrateRequest {
     email_address: string;

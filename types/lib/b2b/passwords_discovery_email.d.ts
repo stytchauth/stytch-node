@@ -93,8 +93,9 @@ export interface B2BPasswordsDiscoveryEmailResetStartRequest {
      */
     locale?: string;
     /**
-     * Use a custom template for verification emails sent during password reset flows. This template will be
-     * used the first time a user sets a password via a
+     * Use a custom template for verification emails sent during password reset flows. When cross-organization
+     * passwords are enabled for your Project, this template will be used the first time a user sets a password
+     * via a
      *   password reset flow. By default, it will use your default email template. The template must be a
      * template using our built-in customizations or a custom HTML email for Passwords - Email Verification.
      */

@@ -2,7 +2,7 @@ import { Discovery } from "./magic_links_discovery";
 import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BMagicLinksAuthenticateRequest {
     magic_links_token: string;
@@ -119,6 +119,7 @@ export interface B2BMagicLinksAuthenticateResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export declare class MagicLinks {
     private fetchConfig;

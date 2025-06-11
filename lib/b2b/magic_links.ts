@@ -9,7 +9,7 @@ import { Discovery } from "./magic_links_discovery";
 import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
@@ -142,6 +142,7 @@ export interface B2BMagicLinksAuthenticateResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  primary_required?: PrimaryRequired;
 }
 
 export class MagicLinks {

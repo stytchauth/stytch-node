@@ -327,8 +327,6 @@ export interface B2BSessionsExchangeResponse {
   request_id: string;
   // Globally unique UUID that identifies a specific Member.
   member_id: string;
-  // The [Session object](https://stytch.com/docs/b2b/api/session-object).
-  member_session: MemberSession;
   // A secret token for a given Stytch Session.
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
@@ -362,6 +360,8 @@ export interface B2BSessionsExchangeResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  // The [Session object](https://stytch.com/docs/b2b/api/session-object).
+  member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
@@ -726,8 +726,11 @@ export class Sessions {
    * underlying Member.
    * This session can be used with the Stytch SDKs and APIs.
    *
-   * The Access Token must contain the `full_access` scope and must not be more than 5 minutes old. Access
-   * Tokens may only be exchanged a single time.
+   * The Access Token must contain the `full_access` scope (only available to First Party clients) and must
+   * not be more than 5 minutes old. Access Tokens may only be exchanged a single time.
+   *
+   * The Member Session returned will be the same Member Session that was active in your application (the
+   * authorizing party) during the initial authorization flow.
    *
    * Because the Member previously completed MFA and satisfied all Organization authentication requirements
    * at the time of the original Access Token issuance, this endpoint will never return an

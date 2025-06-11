@@ -2,7 +2,7 @@ import { Authorization } from "../shared/method_options";
 import { External } from "./sso_external";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { OIDC } from "./sso_oidc";
 import { SAML } from "./sso_saml";
@@ -240,6 +240,7 @@ export interface B2BSSOAuthenticateResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export interface B2BSSODeleteConnectionRequest {
     /**

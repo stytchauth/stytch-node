@@ -8,7 +8,7 @@ import {} from "../shared/method_options";
 import { Discovery } from "./otp_email_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
@@ -105,8 +105,6 @@ export interface B2BOTPEmailAuthenticateResponse {
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
-  // The [Session object](https://stytch.com/docs/b2b/api/session-object).
-  member_session: MemberSession;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
@@ -133,8 +131,11 @@ export interface B2BOTPEmailAuthenticateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  // The [Session object](https://stytch.com/docs/b2b/api/session-object).
+  member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  primary_required?: PrimaryRequired;
 }
 
 // Request type for `otps.email.loginOrSignup`.

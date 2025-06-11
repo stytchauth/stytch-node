@@ -1,7 +1,7 @@
 import { Discovery } from "./otp_email_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BOTPEmailAuthenticateRequest {
     /**
@@ -84,7 +84,6 @@ export interface B2BOTPEmailAuthenticateResponse {
     member: Member;
     session_token: string;
     session_jwt: string;
-    member_session: MemberSession;
     organization: Organization;
     /**
      * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a
@@ -110,7 +109,9 @@ export interface B2BOTPEmailAuthenticateResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export interface B2BOTPEmailLoginOrSignupRequest {
     /**
