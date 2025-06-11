@@ -1,6 +1,6 @@
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 export interface B2BPasswordsExistingPasswordResetRequest {
     email_address: string;
@@ -93,6 +93,7 @@ export interface B2BPasswordsExistingPasswordResetResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    primary_required?: PrimaryRequired;
 }
 export declare class ExistingPassword {
     private fetchConfig;

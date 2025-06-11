@@ -10,7 +10,7 @@ import {
 } from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 
@@ -185,6 +185,8 @@ export interface B2BPasswordsEmailResetResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  // Information about the primary authentication requirements of the Organization.
+  primary_required?: PrimaryRequired;
 }
 
 // Request type for `passwords.email.resetStart`.
@@ -242,8 +244,9 @@ export interface B2BPasswordsEmailResetStartRequest {
    */
   reset_password_template_id?: string;
   /**
-   * Use a custom template for verification emails sent during password reset flows. This template will be
-   * used the first time a user sets a password via a
+   * Use a custom template for verification emails sent during password reset flows. When cross-organization
+   * passwords are enabled for your Project, this template will be used the first time a user sets a password
+   * via a
    *   password reset flow. By default, it will use your default email template. The template must be a
    * template using our built-in customizations or a custom HTML email for Passwords - Email Verification.
    */

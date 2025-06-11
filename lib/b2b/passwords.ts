@@ -17,7 +17,7 @@ import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
-import { MemberSession } from "./sessions";
+import { MemberSession, PrimaryRequired } from "./sessions";
 import { MfaRequired } from "./mfa";
 import { request } from "../shared";
 import { Sessions } from "./passwords_session";
@@ -179,6 +179,8 @@ export interface B2BPasswordsAuthenticateResponse {
   member_session?: MemberSession;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
+  // Information about the primary authentication requirements of the Organization.
+  primary_required?: PrimaryRequired;
 }
 
 // Request type for `passwords.migrate`.
