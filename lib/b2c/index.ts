@@ -149,6 +149,8 @@ export type {
   Properties,
   Rule,
   Verdict,
+  VerdictReasonAction,
+  VerdictReasonOverride,
 } from "./fraud";
 
 export type {
@@ -162,6 +164,13 @@ export type {
   FraudRulesSetRequest,
   FraudRulesSetResponse,
 } from "./fraud_rules";
+
+export type {
+  FraudVerdictReasonsListRequest,
+  FraudVerdictReasonsListResponse,
+  FraudVerdictReasonsOverrideRequest,
+  FraudVerdictReasonsOverrideResponse,
+} from "./fraud_verdict_reasons";
 
 export type {
   ImpersonationAuthenticateRequest,

@@ -8,6 +8,7 @@ import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { Fingerprint } from "./fraud_fingerprint";
 import { Rules } from "./fraud_rules";
+import { VerdictReasons } from "./fraud_verdict_reasons";
 
 export interface ASNProperties {
   // The Autonomous System Number of the user's network.
@@ -160,6 +161,8 @@ export interface Verdict {
    * is detected.
    */
   is_authentic_device: boolean;
+  // A list of verdict reason overrides that were applied, if any.
+  verdict_reason_overrides: VerdictReasonOverride[];
   /**
    * The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will only be present if
    * there is a `RULE_MATCH` reason in the list of verdict reasons.
@@ -182,14 +185,45 @@ export interface Verdict {
   rule_match_identifier?: string;
 }
 
+export interface VerdictReasonAction {
+  // The verdict reason.
+  verdict_reason: string;
+  /**
+   * The default action returned for the specified verdict reason in a fingerprint lookup when no overrides
+   * are specified.
+   */
+  default_action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
+  /**
+   * If not null, this action will be returned for the specified verdict reason in a fingerprint lookup, in
+   * place of the default action.
+   */
+  override_action?: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
+  /**
+   * The time when the override was created, if one exists. Values conform to the RFC 3339 standard and are
+   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
+  override_created_at?: string;
+  // A description of the override, if one exists.
+  override_description?: string;
+}
+
+export interface VerdictReasonOverride {
+  // The verdict reason that was overridden.
+  verdict_reason: string;
+  // The action that was applied for the given verdict reason.
+  override_action?: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
+}
+
 export class Fraud {
   private fetchConfig: fetchConfig;
   fingerprint: Fingerprint;
   rules: Rules;
+  verdictReasons: VerdictReasons;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.fingerprint = new Fingerprint(this.fetchConfig);
     this.rules = new Rules(this.fetchConfig);
+    this.verdictReasons = new VerdictReasons(this.fetchConfig);
   }
 }
