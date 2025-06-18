@@ -882,17 +882,49 @@ export interface B2BOrganizationsCreateRequest {
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
+  /**
+   * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
+   * accepted values are:
+   *
+   *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+   *
+   *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+   * used by Members.
+   *
+   *   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+   *
+   */
   first_party_connected_apps_allowed_type?:
     | "ALL_ALLOWED"
     | "RESTRICTED"
     | "NOT_ALLOWED"
     | string;
+  /**
+   * An array of first party Connected App IDs that are allowed for the Organization. Only used when the
+   * Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
+   */
   allowed_first_party_connected_apps?: string[];
+  /**
+   * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
+   * accepted values are:
+   *
+   *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+   *
+   *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+   * used by Members.
+   *
+   *   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+   *
+   */
   third_party_connected_apps_allowed_type?:
     | "ALL_ALLOWED"
     | "RESTRICTED"
     | "NOT_ALLOWED"
     | string;
+  /**
+   * An array of third party Connected App IDs that are allowed for the Organization. Only used when the
+   * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
+   */
   allowed_third_party_connected_apps?: string[];
 }
 
@@ -1277,17 +1309,49 @@ export interface B2BOrganizationsUpdateRequest {
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
+  /**
+   * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
+   * accepted values are:
+   *
+   *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+   *
+   *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+   * used by Members.
+   *
+   *   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+   *
+   */
   first_party_connected_apps_allowed_type?:
     | "ALL_ALLOWED"
     | "RESTRICTED"
     | "NOT_ALLOWED"
     | string;
+  /**
+   * An array of first party Connected App IDs that are allowed for the Organization. Only used when the
+   * Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
+   */
   allowed_first_party_connected_apps?: string[];
+  /**
+   * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
+   * accepted values are:
+   *
+   *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+   *
+   *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+   * used by Members.
+   *
+   *   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+   *
+   */
   third_party_connected_apps_allowed_type?:
     | "ALL_ALLOWED"
     | "RESTRICTED"
     | "NOT_ALLOWED"
     | string;
+  /**
+   * An array of third party Connected App IDs that are allowed for the Organization. Only used when the
+   * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
+   */
   allowed_third_party_connected_apps?: string[];
 }
 
