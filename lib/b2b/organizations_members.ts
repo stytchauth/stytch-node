@@ -147,7 +147,10 @@ export interface B2BOrganizationsMembersCreateRequest {
    * more details.
    */
   is_breakglass?: boolean;
-  // The Member's phone number. A Member may only have one phone number.
+  /**
+   * The Member's phone number. A Member may only have one phone number. The phone number should be in E.164
+   * format (i.e. +1XXXXXXXXXX).
+   */
   mfa_phone_number?: string;
   /**
    * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they

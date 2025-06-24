@@ -77,13 +77,16 @@ class Passwords {
   }
 
   /**
-   * Adds an existing password to a member's email that doesn't have a password yet. We support migrating
-   * members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2. This endpoint has a
-   * rate limit of 100 requests per second.
+   * Adds an existing password to a Member's email that doesn't have a password yet.
    *
-   * The member's email will be marked as verified when you use this endpoint. If you are using
-   * **cross-organization passwords**, call this method separately for each `organization_id` associated with
-   * the given `email_address` to ensure the email is verified across all of their organizations.
+   * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2.
+   * This endpoint has a rate limit of 100 requests per second.
+   *
+   * The Member's email will be marked as verified when you use this endpoint.
+   *
+   * If you are using **cross-organization passwords**, i.e. allowing an end user to share the same password
+   * across all of their Organizations, call this method separately for each `organization_id` associated
+   * with the given `email_address` to ensure the password is set across all of their Organizations.
    * @param data {@link B2BPasswordsMigrateRequest}
    * @returns {@link B2BPasswordsMigrateResponse}
    * @async
