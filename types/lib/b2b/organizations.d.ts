@@ -189,6 +189,10 @@ export interface Member {
      * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
      */
     mfa_enrolled: boolean;
+    /**
+     * The Member's phone number. A Member may only have one phone number. The phone number should be in E.164
+     * format (i.e. +1XXXXXXXXXX).
+     */
     mfa_phone_number: string;
     default_mfa_method: string;
     /**
