@@ -84,6 +84,25 @@ export interface PrimaryRequired {
      */
     allowed_auth_methods: string[];
 }
+export interface B2BSessionsAttestRequest {
+    organization_id: string;
+    profile_id: string;
+    token: string;
+    session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
+    session_token?: string;
+    session_jwt?: string;
+}
+export interface B2BSessionsAttestResponse {
+    request_id: string;
+    member_id: string;
+    member_session: MemberSession;
+    session_token: string;
+    session_jwt: string;
+    member: Member;
+    organization: Organization;
+    status_code: number;
+}
 export interface B2BSessionsAuthenticateRequest {
     session_token?: string;
     /**
@@ -573,10 +592,20 @@ export declare class Sessions {
      */
     exchangeAccessToken(data: B2BSessionsExchangeAccessTokenRequest): Promise<B2BSessionsExchangeAccessTokenResponse>;
     /**
-     * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
-     * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
-     * and then perform a lookup using the `session_token`. If the response contains a valid email address,
-     * Stytch will attempt to match that email address with an existing in your and create a Stytch Session.
+     * @param data {@link B2BSessionsAttestRequest}
+     * @returns {@link B2BSessionsAttestResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    attest(data: B2BSessionsAttestRequest): Promise<B2BSessionsAttestResponse>;
+    /**
+     * Migrate a session from an external OIDC compliant endpoint.
+     * Stytch will call the external UserInfo endpoint defined in your Stytch Project settings in the
+     * [Dashboard](https://stytch.com/docs/dashboard), and then perform a lookup using the `session_token`.
+     * <!-- FIXME more specific dashboard link-->
+     * If the response contains a valid email address, Stytch will attempt to match that email address with an
+     * existing in your and create a Stytch Session.
      * You will need to create the member before using this endpoint.
      * @param data {@link B2BSessionsMigrateRequest}
      * @returns {@link B2BSessionsMigrateResponse}

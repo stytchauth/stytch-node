@@ -445,6 +445,25 @@ export interface YahooOAuthFactor {
   email_id?: string;
 }
 
+export interface SessionsAttestRequest {
+  profile_id: string;
+  token: string;
+  session_duration_minutes?: number;
+  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  session_token?: string;
+  session_jwt?: string;
+}
+
+export interface SessionsAttestResponse {
+  request_id: string;
+  user_id: string;
+  session_token: string;
+  session_jwt: string;
+  user: User;
+  status_code: number;
+  session?: Session;
+}
+
 // Request type for `sessions.authenticate`.
 export interface SessionsAuthenticateRequest {
   // The session token to authenticate.
@@ -907,6 +926,23 @@ export class Sessions {
       url: `/v1/sessions/jwks/${params.project_id}`,
       headers,
       params: {},
+    });
+  }
+
+  /**
+   * @param data {@link SessionsAttestRequest}
+   * @returns {@link SessionsAttestResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  attest(data: SessionsAttestRequest): Promise<SessionsAttestResponse> {
+    const headers: Record<string, string> = {};
+    return request<SessionsAttestResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/sessions/attest`,
+      headers,
+      data,
     });
   }
 

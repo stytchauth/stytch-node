@@ -319,12 +319,11 @@ export interface PasswordsMigrateRequest {
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * Whether to set the user's email as verified. This is a dangerous field. Incorrect use may lead to users
+   * Whether to set the user's email as verified. This is a dangerous field, incorrect use may lead to users
    * getting erroneously
-   *                 deduplicated into one user object. This flag should only be set if you can attest that
+   *                 deduplicated into one User object. This flag should only be set if you can attest that
    * the user owns the email address in question.
-   *                 Access to this field is restricted. To enable it, please send us a note at
-   * support@stytch.com.
+   *
    */
   set_email_verified?: boolean;
   // The name of the user. Each field in the name object is optional.
@@ -332,10 +331,9 @@ export interface PasswordsMigrateRequest {
   // The phone number of the user. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX).
   phone_number?: string;
   /**
-   * Whether to set the user's phone number as verified. This is a dangerous field. This flag should only be
+   * Whether to set the user's phone number as verified. This is a dangerous field, this flag should only be
    * set if you can attest that
-   *    the user owns the phone number in question. Access to this field is restricted. To enable it, please
-   * send us a note at support@stytch.com.
+   *    the user owns the phone number in question.
    */
   set_phone_number_verified?: boolean;
   /**
@@ -519,7 +517,7 @@ export class Passwords {
    * considered valid if the strength score is >= 3. If you're using
    * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are considered valid if
    * they meet the requirements that you've set with Stytch. You may update your password strength
-   * configuration in the [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
+   * configuration in the [Stytch Dashboard](https://stytch.com/dashboard/password-strength-config).
    *
    *
    * ### Password feedback

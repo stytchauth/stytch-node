@@ -299,6 +299,23 @@ export interface YahooOAuthFactor {
     provider_subject: string;
     email_id?: string;
 }
+export interface SessionsAttestRequest {
+    profile_id: string;
+    token: string;
+    session_duration_minutes?: number;
+    session_custom_claims?: Record<string, any>;
+    session_token?: string;
+    session_jwt?: string;
+}
+export interface SessionsAttestResponse {
+    request_id: string;
+    user_id: string;
+    session_token: string;
+    session_jwt: string;
+    user: User;
+    status_code: number;
+    session?: Session;
+}
 export interface SessionsAuthenticateRequest {
     session_token?: string;
     /**
@@ -641,6 +658,14 @@ export declare class Sessions {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     getJWKS(params: SessionsGetJWKSRequest): Promise<SessionsGetJWKSResponse>;
+    /**
+     * @param data {@link SessionsAttestRequest}
+     * @returns {@link SessionsAttestResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    attest(data: SessionsAttestRequest): Promise<SessionsAttestResponse>;
     /** Parse a JWT and verify the signature, preferring local verification over remote.
      *
      * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at

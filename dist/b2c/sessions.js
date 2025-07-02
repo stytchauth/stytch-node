@@ -207,6 +207,23 @@ class Sessions {
     });
   }
 
+  /**
+   * @param data {@link SessionsAttestRequest}
+   * @returns {@link SessionsAttestResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  attest(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/sessions/attest`,
+      headers,
+      data
+    });
+  }
+
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
   /** Parse a JWT and verify the signature, preferring local verification over remote.

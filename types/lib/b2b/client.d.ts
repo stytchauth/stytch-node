@@ -1,4 +1,5 @@
 import { BaseClient, ClientConfig } from "../shared/client";
+import { ConnectedApp } from "../b2c/connected_apps";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
 import { Impersonation } from "./impersonation";
@@ -19,6 +20,7 @@ import { TOTPs } from "./totps";
 import { IDP } from "./idp";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
+    connectedApp: ConnectedApp;
     discovery: Discovery;
     fraud: Fraud;
     impersonation: Impersonation;
