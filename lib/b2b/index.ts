@@ -166,6 +166,8 @@ export type {
   AuthorizationVerdict,
   MemberSession,
   PrimaryRequired,
+  B2BSessionsAttestRequest,
+  B2BSessionsAttestResponse,
   B2BSessionsAuthenticateRequest,
   B2BSessionsAuthenticateResponse,
   B2BSessionsExchangeAccessTokenRequest,

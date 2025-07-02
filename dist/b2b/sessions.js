@@ -14,6 +14,10 @@ var _rbac_local = require("./rbac_local");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `sessions.attest`.
+
+// Response type for `sessions.attest`.
+
 // Request type for `sessions.authenticate`.
 
 // Response type for `sessions.authenticate`.
@@ -224,10 +228,33 @@ class Sessions {
   }
 
   /**
-   * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
-   * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
-   * and then perform a lookup using the `session_token`. If the response contains a valid email address,
-   * Stytch will attempt to match that email address with an existing in your and create a Stytch Session.
+   * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
+   * register a Trusted Auth Token profile in the Stytch dashboard
+   * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens).  If a session token or session JWT is
+   * provided, it will add the trusted auth token as an authentication factor to the existing session.
+   * @param data {@link B2BSessionsAttestRequest}
+   * @returns {@link B2BSessionsAttestResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  attest(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/sessions/attest`,
+      headers,
+      data
+    });
+  }
+
+  /**
+   * Migrate a session from an external OIDC compliant endpoint.
+   * Stytch will call the external UserInfo endpoint defined in your Stytch Project settings in the
+   * [Dashboard](https://stytch.com/docs/dashboard), and then perform a lookup using the `session_token`.
+   * <!-- FIXME more specific dashboard link-->
+   * If the response contains a valid email address, Stytch will attempt to match that email address with an
+   * existing in your and create a Stytch Session.
    * You will need to create the member before using this endpoint.
    * @param data {@link B2BSessionsMigrateRequest}
    * @returns {@link B2BSessionsMigrateResponse}
