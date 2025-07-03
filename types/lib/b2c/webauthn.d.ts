@@ -201,6 +201,7 @@ export interface WebAuthnRegisterStartRequest {
     override_id?: string;
     override_name?: string;
     override_display_name?: string;
+    use_base64_url_encoding?: boolean;
 }
 export interface WebAuthnRegisterStartResponse {
     /**

@@ -137,8 +137,8 @@ export class ExistingPassword {
    * if the strength score is >= 3. If you're using
    * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are
    * considered valid if they meet the requirements that you've set with Stytch.
-   * You may update your password strength configuration in the
-   * [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
+   * You may update your password strength configuration on the
+   * [Passwords Policy page](https://stytch.com/dashboard/password-strength-config) in the Stytch Dashboard.
    *
    * If the Member is required to complete MFA to log in to the Organization, the returned value of
    * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
