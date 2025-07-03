@@ -181,9 +181,9 @@ export class RBAC {
    * requested and the RBAC policy was last updated more than 5 minutes ago.
    *
    * Resources and Roles can be created and managed within the
-   * [Dashboard](https://stytch.com/docs/dashboard/rbac). Additionally,
-   * [Role assignment](https://stytch.com/docs/b2b/guides/rbac/role-assignment) can be programmatically
-   * managed through certain Stytch API endpoints.
+   * [RBAC page](https://stytch.com/docs/dashboard/rbac) in the Dashboard.
+   * Additionally, [Role assignment](https://stytch.com/docs/b2b/guides/rbac/role-assignment) can be
+   * programmatically managed through certain Stytch API endpoints.
    *
    * Check out the [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview) to learn more about
    * Stytch's RBAC permissioning model.
