@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.Client = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
+var _connected_apps = require("./connected_apps");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
 var _impersonation = require("./impersonation");
@@ -32,6 +33,7 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
+    this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);

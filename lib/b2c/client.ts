@@ -1,5 +1,6 @@
 import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
+import { ConnectedApp } from "./connected_apps";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
@@ -18,6 +19,7 @@ import { IDP } from "./idp";
 
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
+  connectedApp: ConnectedApp;
   cryptoWallets: CryptoWallets;
   fraud: Fraud;
   impersonation: Impersonation;
@@ -52,6 +54,7 @@ export class Client extends BaseClient {
       ],
     };
 
+    this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
     this.impersonation = new Impersonation(this.fetchConfig);

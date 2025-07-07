@@ -133,6 +133,35 @@ export type {
 } from "./sessions";
 
 export type {
+  ConnectedApp,
+  ConnectedAppWithClientSecret,
+  ConnectedAppWithNextClientSecret,
+  ConnectedAppsResultsMetadata,
+} from "./connected_apps";
+
+export type {
+  ConnectedAppsClientsCreateRequest,
+  ConnectedAppsClientsCreateResponse,
+  ConnectedAppsClientsDeleteRequest,
+  ConnectedAppsClientsDeleteResponse,
+  ConnectedAppsClientsGetRequest,
+  ConnectedAppsClientsGetResponse,
+  ConnectedAppsClientsSearchRequest,
+  ConnectedAppsClientsSearchResponse,
+  ConnectedAppsClientsUpdateRequest,
+  ConnectedAppsClientsUpdateResponse,
+} from "./connected_apps_clients";
+
+export type {
+  ConnectedAppsClientsSecretsRotateCancelRequest,
+  ConnectedAppsClientsSecretsRotateCancelResponse,
+  ConnectedAppsClientsSecretsRotateRequest,
+  ConnectedAppsClientsSecretsRotateResponse,
+  ConnectedAppsClientsSecretsRotateStartRequest,
+  ConnectedAppsClientsSecretsRotateStartResponse,
+} from "./connected_apps_clients_secrets";
+
+export type {
   SIWEParams,
   CryptoWalletsAuthenticateRequest,
   CryptoWalletsAuthenticateResponse,

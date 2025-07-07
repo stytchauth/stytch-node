@@ -1,5 +1,6 @@
 import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
+import { ConnectedApp } from "../b2c/connected_apps";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
 import { Impersonation } from "./impersonation";
@@ -22,6 +23,7 @@ import { IDP } from "./idp";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
+  connectedApp: ConnectedApp;
   discovery: Discovery;
   fraud: Fraud;
   impersonation: Impersonation;
@@ -61,6 +63,7 @@ export class B2BClient extends BaseClient {
 
     const policyCache = new PolicyCache(new RBAC(this.fetchConfig));
 
+    this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.discovery = new Discovery(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
     this.impersonation = new Impersonation(this.fetchConfig);
