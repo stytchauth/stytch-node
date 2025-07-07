@@ -116,6 +116,8 @@ export type {
   TwitterOAuthFactor,
   WebAuthnFactor,
   YahooOAuthFactor,
+  SessionsAttestRequest,
+  SessionsAttestResponse,
   SessionsAuthenticateRequest,
   SessionsAuthenticateResponse,
   SessionsExchangeAccessTokenRequest,

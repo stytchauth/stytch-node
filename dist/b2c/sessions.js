@@ -13,6 +13,10 @@ var _sessions = require("../shared/sessions");
 // or your changes may be overwritten later!
 // !!!
 
+// Request type for `sessions.attest`.
+
+// Response type for `sessions.attest`.
+
 // Request type for `sessions.authenticate`.
 
 // Response type for `sessions.authenticate`.
@@ -204,6 +208,27 @@ class Sessions {
       url: `/v1/sessions/jwks/${params.project_id}`,
       headers,
       params: {}
+    });
+  }
+
+  /**
+   * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
+   * register a Trusted Auth Token profile in the Stytch dashboard
+   * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens). If a session token or session JWT is
+   * provided, it will add the trusted auth token as an authentication factor to the existing session.
+   * @param data {@link SessionsAttestRequest}
+   * @returns {@link SessionsAttestResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  attest(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/sessions/attest`,
+      headers,
+      data
     });
   }
 

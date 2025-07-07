@@ -310,15 +310,16 @@ export declare class Passwords {
      * This API allows you to check whether the user’s provided password is valid, and to provide feedback to
      * the user on how to increase the strength of their password.
      *
-     * This endpoint adapts to your Project's password strength configuration. If you're using
-     * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your passwords are
-     * considered valid if the strength score is >= 3. If you're using
-     * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are considered valid if
-     * they meet the requirements that you've set with Stytch. You may update your password strength
-     * configuration in the [stytch dashboard](https://stytch.com/dashboard/password-strength-config).
+     * This endpoint adapts to your Project's password strength configuration.
+     * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your
+     * passwords are considered valid if the strength score is >= 3.
+     * If you're using [LUDS](https://stytch.com/docs/guides/passwords/strength-policy), your passwords are
+     * considered valid if they meet the requirements that you've set with Stytch.
+     * You may update your password strength configuration on the
+     * [Passwords Policy page](https://stytch.com/dashboard/password-strength-config) in the Stytch Dashboard.
      *
      * ## Password feedback
-     * The zxcvbn_feedback and luds_feedback objects contains relevant fields for you to relay feedback to
+     * The `zxcvbn_feedback` and `luds_feedback` objects contains relevant fields for you to relay feedback to
      * users that failed to create a strong enough password.
      *
      * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the feedback object
