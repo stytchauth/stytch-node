@@ -1,4 +1,5 @@
 import { BaseClient, ClientConfig } from "../shared/client";
+import { ConnectedApp } from "./connected_apps";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
@@ -16,6 +17,7 @@ import { WebAuthn } from "./webauthn";
 import { IDP } from "./idp";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
+    connectedApp: ConnectedApp;
     cryptoWallets: CryptoWallets;
     fraud: Fraud;
     impersonation: Impersonation;

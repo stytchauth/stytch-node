@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.B2BClient = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
+var _connected_apps = require("../b2c/connected_apps");
 var _discovery = require("./discovery");
 var _fraud = require("../b2c/fraud");
 var _impersonation = require("./impersonation");
@@ -37,6 +38,7 @@ class B2BClient extends _client.BaseClient {
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
     const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
+    this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.discovery = new _discovery.Discovery(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
