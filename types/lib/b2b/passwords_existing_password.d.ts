@@ -42,7 +42,7 @@ export interface B2BPasswordsExistingPasswordResetRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
@@ -99,7 +99,7 @@ export declare class ExistingPassword {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Reset the’s password using their existing password.
+     * Reset the member’s password using their existing password.
      *
      * This endpoint adapts to your Project's password strength configuration.
      * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your

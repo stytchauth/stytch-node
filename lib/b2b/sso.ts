@@ -204,7 +204,7 @@ export interface B2BSSOAuthenticateRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
    * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
    * used to determine which language to use when sending the passcode.
    *
@@ -429,8 +429,8 @@ export class SSO {
    * To link this authentication event to an existing Stytch session, include either the `session_token` or
    * `session_jwt` param.
    *
-   * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
-   * be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
    * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),

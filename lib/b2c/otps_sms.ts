@@ -164,8 +164,10 @@ export class Sms {
    * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    *
    * __Note:__ SMS to phone numbers outside of the US and Canada is disabled by default for customers who did
-   * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
-   * to [support@stytch.com](mailto:support@stytch.com?subject=Enable%20international%20SMS).
+   * not use SMS prior to October 2023. If you're interested in sending international SMS, please add those
+   * countries to your Project's allowlist via
+   * [the API](https://stytch.com/docs/workspace-management/pwa/country-code-allowlist-object), and
+   * [add credit card details](https://stytch.com/docs/dashboard/settings/billing) to your account.
    *
    * Even when international SMS is enabled, we do not support sending SMS to countries on our
    * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).
@@ -210,8 +212,10 @@ export class Sms {
    * app against [toll fraud](https://stytch.com/docs/guides/passcodes/toll-fraud/overview).
    *
    * __Note:__ SMS to phone numbers outside of the US and Canada is disabled by default for customers who did
-   * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
-   * to [support@stytch.com](mailto:support@stytch.com?subject=Enable%20international%20SMS).
+   * not use SMS prior to October 2023. If you're interested in sending international SMS, please add those
+   * countries to your Project's allowlist via
+   * [the API](https://stytch.com/docs/workspace-management/pwa/country-code-allowlist-object), and
+   * [add credit card details](https://stytch.com/docs/dashboard/settings/billing) to your account.
    *
    * Even when international SMS is enabled, we do not support sending SMS to countries on our
    * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).

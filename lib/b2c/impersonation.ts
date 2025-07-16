@@ -12,7 +12,7 @@ import { User } from "./users";
 
 // Request type for `impersonation.authenticate`.
 export interface ImpersonationAuthenticateRequest {
-  // The User Impersonation token to authenticate.
+  // The User Impersonation token to authenticate. Expires in 5 minutes by default.
   impersonation_token: string;
 }
 

@@ -359,7 +359,7 @@ export interface B2BSessionsExchangeRequest {
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+   * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
    * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
    * used to determine which language to use when sending the passcode.
    *
@@ -682,8 +682,8 @@ export class Sessions {
    * for more information.
    *
    * If an `authorization_check` object is passed in, this method will also check if the Member is authorized
-   * to perform the given action on the given Resource in the specified. A is authorized if their Member
-   * Session contains a Role, assigned
+   * to perform the given action on the given Resource in the specified Organization. A Member is authorized
+   * if their Member Session contains a Role, assigned
    * [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
    * permissions.
    * In addition, the `organization_id` passed in the authorization check must match the Member's
@@ -738,10 +738,10 @@ export class Sessions {
   }
 
   /**
-   * Use this endpoint to exchange a's existing session for another session in a different. This can be used
-   * to accept an invite, but not to create a new member via domain matching.
+   * Use this endpoint to exchange a Member's existing session for another session in a different
+   * Organization. This can be used to accept an invite, but not to create a new member via domain matching.
    *
-   * To create a new member via email domain, use the
+   * To create a new member via email domain JIT Provisioning, use the
    * [Exchange Intermediate Session](https://stytch.com/docs/b2b/api/exchange-intermediate-session) flow
    * instead.
    *
@@ -847,7 +847,7 @@ export class Sessions {
    * [Dashboard](https://stytch.com/docs/dashboard), and then perform a lookup using the `session_token`.
    * <!-- FIXME more specific dashboard link-->
    * If the response contains a valid email address, Stytch will attempt to match that email address with an
-   * existing in your and create a Stytch Session.
+   * existing Member in your Organization and create a Stytch Session.
    * You will need to create the member before using this endpoint.
    * @param data {@link B2BSessionsMigrateRequest}
    * @returns {@link B2BSessionsMigrateResponse}

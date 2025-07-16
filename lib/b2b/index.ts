@@ -129,6 +129,8 @@ export type {
   B2BOrganizationsMembersReactivateResponse,
   B2BOrganizationsMembersSearchRequest,
   B2BOrganizationsMembersSearchResponse,
+  B2BOrganizationsMembersStartEmailUpdateRequest,
+  B2BOrganizationsMembersStartEmailUpdateResponse,
   B2BOrganizationsMembersUnlinkRetiredEmailRequest,
   B2BOrganizationsMembersUnlinkRetiredEmailResponse,
   B2BOrganizationsMembersUpdateRequest,
@@ -141,6 +143,7 @@ export type {
   B2BOrganizationsMembersSearchRequestOptions,
   B2BOrganizationsMembersDeletePasswordRequestOptions,
   B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions,
+  B2BOrganizationsMembersStartEmailUpdateRequestOptions,
   B2BOrganizationsMembersGetConnectedAppsRequestOptions,
   B2BOrganizationsMembersCreateRequestOptions,
 } from "./organizations_members";

@@ -82,7 +82,7 @@ export declare class Discovery {
     private fetchConfig;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Authenticates the Discovery token and exchanges it for an Intermediate
+     * Authenticates the Discovery OAuth token and exchanges it for an Intermediate
      * Session Token. Intermediate Session Tokens can be used for various Discovery login flows and are valid
      * for 10 minutes.
      * @param data {@link B2BOAuthDiscoveryAuthenticateRequest}

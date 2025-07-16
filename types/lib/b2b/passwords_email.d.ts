@@ -88,7 +88,7 @@ export interface B2BPasswordsEmailResetRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
@@ -257,8 +257,8 @@ export declare class Email {
      */
     resetStart(data: B2BPasswordsEmailResetStartRequest): Promise<B2BPasswordsEmailResetStartResponse>;
     /**
-     * Reset the's password and authenticate them. This endpoint checks that the password reset token is valid,
-     * hasn’t expired, or already been used.
+     * Reset the Member's password and authenticate them. This endpoint checks that the password reset token is
+     * valid, hasn’t expired, or already been used.
      *
      * The provided password needs to meet our password strength requirements, which can be checked in advance
      * with the password strength endpoint. If the token and password are accepted, the password is securely
@@ -285,6 +285,9 @@ export declare class Email {
     /**
      * Require a password be reset by the associated email address. This endpoint is only functional for
      * cross-org password use cases.
+     *
+     * If there are is only one active Member using the associated email address in the Project, the password
+     * will be deleted.
      * @param data {@link B2BPasswordsEmailRequireResetRequest}
      * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
      * @returns {@link B2BPasswordsEmailRequireResetResponse}
