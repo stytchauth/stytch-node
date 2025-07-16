@@ -26,14 +26,14 @@ class MagicLinks {
   }
 
   /**
-   * Authenticate a with a Magic Link. This endpoint requires a Magic Link token that is not expired or
-   * previously used. If the Member’s status is `pending` or `invited`, they will be updated to `active`.
+   * Authenticate a Member with a Magic Link. This endpoint requires a Magic Link token that is not expired
+   * or previously used. If the Member’s status is `pending` or `invited`, they will be updated to `active`.
    * Provide the `session_duration_minutes` parameter to set the lifetime of the session. If the
    * `session_duration_minutes` parameter is not specified, a Stytch session will be created with a 60 minute
    * duration.
    *
-   * If the Member is required to complete MFA to log in to the, the returned value of `member_authenticated`
-   * will be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
    * [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),

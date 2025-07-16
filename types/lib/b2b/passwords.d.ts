@@ -83,7 +83,7 @@ export interface B2BPasswordsAuthenticateRequest {
      */
     session_custom_claims?: Record<string, any>;
     /**
-     * If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+     * If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint will
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
@@ -366,8 +366,8 @@ export declare class Passwords {
      * this case to ensure that the member is the legitimate owner of the email address and not a malicious
      * actor abusing the compromised credentials.
      *
-     * If the is required to complete MFA to log in to the, the returned value of `member_authenticated` will
-     * be `false`, and an `intermediate_session_token` will be returned.
+     * If the Member is required to complete MFA to log in to the Organization, the returned value of
+     * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
      * The `intermediate_session_token` can be passed into the
      * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
      * MFA step and acquire a full member session.

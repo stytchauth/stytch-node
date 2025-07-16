@@ -201,7 +201,7 @@ export class Sms {
   }
 
   /**
-   * Send a One-Time Passcode (OTP) to a's phone number.
+   * Send a One-Time Passcode (OTP) to a Member's phone number.
    *
    * If the Member already has a phone number, the `mfa_phone_number` field is not needed; the endpoint will
    * send an OTP to the number associated with the Member.
@@ -233,8 +233,10 @@ export class Sms {
    * [Unsupported countries list](https://stytch.com/docs/guides/passcodes/unsupported-countries).
    *
    * __Note:__ SMS to phone numbers outside of the US and Canada is disabled by default for customers who did
-   * not use SMS prior to October 2023. If you're interested in sending international SMS, please reach out
-   * to [support@stytch.com](mailto:support@stytch.com?subject=Enable%20international%20SMS).
+   * not use SMS prior to October 2023. If you're interested in sending international SMS, please add those
+   * countries to your Project's allowlist via
+   * [the API](https://stytch.com/docs/workspace-management/pwa/country-code-allowlist-object), and
+   * [add credit card details](https://stytch.com/docs/dashboard/settings/billing) to your account.
    * @param data {@link B2BOTPSmsSendRequest}
    * @returns {@link B2BOTPSmsSendResponse}
    * @async
@@ -271,8 +273,8 @@ export class Sms {
    * or upon successful calls to discovery authenticate methods, such as
    * [email magic link discovery authenticate](https://stytch.com/docs/b2b/api/authenticate-discovery-magic-link).
    *
-   * If the's MFA policy is `REQUIRED_FOR_ALL`, a successful OTP authentication will change the's
-   * `mfa_enrolled` status to `true` if it is not already `true`.
+   * If the Organization's MFA policy is `REQUIRED_FOR_ALL`, a successful OTP authentication will change the
+   * Member's `mfa_enrolled` status to `true` if it is not already `true`.
    * If the Organization's MFA policy is `OPTIONAL`, the Member's MFA enrollment can be toggled by passing in
    * a value for the `set_mfa_enrollment` field.
    * The Member's MFA enrollment can also be toggled through the

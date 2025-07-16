@@ -24,13 +24,13 @@ class OAuth {
   }
 
   /**
-   * Authenticate a given a `token`. This endpoint verifies that the member completed the flow by verifying
-   * that the token is valid and hasn't expired.  Provide the `session_duration_minutes` parameter to set the
-   * lifetime of the session. If the `session_duration_minutes` parameter is not specified, a Stytch session
-   * will be created with a 60 minute duration.
+   * Authenticate a Member given a `token`. This endpoint verifies that the member completed the OAuth flow
+   * by verifying that the token is valid and hasn't expired.  Provide the `session_duration_minutes`
+   * parameter to set the lifetime of the session. If the `session_duration_minutes` parameter is not
+   * specified, a Stytch session will be created with a 60 minute duration.
    *
-   * If the Member is required to complete MFA to log in to the, the returned value of `member_authenticated`
-   * will be `false`, and an `intermediate_session_token` will be returned.
+   * If the Member is required to complete MFA to log in to the Organization, the returned value of
+   * `member_authenticated` will be `false`, and an `intermediate_session_token` will be returned.
    * The `intermediate_session_token` can be passed into the
    * [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
    * MFA step and acquire a full member session.

@@ -56,6 +56,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.search`.
 
+// Request type for `organizations.members.startEmailUpdate`.
+
+// Response type for `organizations.members.startEmailUpdate`.
+
 // Request type for `organizations.members.unlinkRetiredEmail`.
 
 // Response type for `organizations.members.unlinkRetiredEmail`.
@@ -72,7 +76,7 @@ class Members {
   }
 
   /**
-   * Updates a specified by `organization_id` and `member_id`.
+   * Updates a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersUpdateRequest}
    * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -107,7 +111,7 @@ class Members {
   }
 
   /**
-   * Deletes a specified by `organization_id` and `member_id`.
+   * Deletes a Member specified by `organization_id` and `member_id`.
    * @param data {@link B2BOrganizationsMembersDeleteRequest}
    * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -129,9 +133,9 @@ class Members {
   }
 
   /**
-   * Reactivates a deleted's status and its associated email status (if applicable) to active, specified by
-   * `organization_id` and `member_id`. This endpoint will only work for Members with at least one verified
-   * email where their `email_address_verified` is `true`.
+   * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+   * specified by `organization_id` and `member_id`. This endpoint will only work for Members with at least
+   * one verified email where their `email_address_verified` is `true`.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -153,7 +157,7 @@ class Members {
   }
 
   /**
-   * Delete a's MFA phone number.
+   * Delete a Member's MFA phone number.
    *
    * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
    *
@@ -237,7 +241,11 @@ class Members {
   }
 
   /**
-   * Delete a's password.
+   * Delete a Member's password.
+   *
+   * This endpoint only works for Organization-scoped passwords. For cross-org password Projects, use
+   * [Require Password Reset By Email](https://stytch.com/docs/b2b/api/passwords-require-reset-by-email)
+   * instead.
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
    * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -306,8 +314,8 @@ class Members {
   }
 
   /**
-   * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
-   * address
+   * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+   * email address
    * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
    * both. If using
    * both identifiers they must refer to the same email.
@@ -324,7 +332,6 @@ class Members {
    * addresses allows them to be subsequently re-used by other Organization Members. Retired email addresses
    * can be viewed
    * on the [Member object](https://stytch.com/docs/b2b/api/member-object).
-   *  %}
    * @param data {@link B2BOrganizationsMembersUnlinkRetiredEmailRequest}
    * @param options {@link B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions}
    * @returns {@link B2BOrganizationsMembersUnlinkRetiredEmailResponse}
@@ -344,6 +351,45 @@ class Members {
       data: {
         email_id: data.email_id,
         email_address: data.email_address
+      }
+    });
+  }
+
+  /**
+   * Starts a self-serve email update for a Member specified by their `organization_id` and `member_id`.
+   * To perform a self-serve update, members must be active and have an active, verified email address.
+   *
+   * The new email address must meet the following requirements:
+   *
+   * - Must not be in use by another member (retired emails count as used until they are
+   * [unlinked](https://stytch.com/docs/b2b/api/unlink-retired-member-email))
+   * - Must not be updating for another member (i.e. two members cannot attempt to update to the same email
+   * at once)
+   *
+   * The member will receive an Email Magic Link that expires in 5 minutes. If they do not verify their new
+   * email address in that timeframe, the email
+   * will be freed up for other members to use.
+   * @param data {@link B2BOrganizationsMembersStartEmailUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersStartEmailUpdateRequestOptions}
+   * @returns {@link B2BOrganizationsMembersStartEmailUpdateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  startEmailUpdate(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/start_email_update`,
+      headers,
+      data: {
+        email_address: data.email_address,
+        login_redirect_url: data.login_redirect_url,
+        locale: data.locale,
+        login_template_id: data.login_template_id
       }
     });
   }
@@ -378,7 +424,7 @@ class Members {
   }
 
   /**
-   * Creates a. An `organization_id` and `email_address` are required.
+   * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
    * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
    * @returns {@link B2BOrganizationsMembersCreateResponse}

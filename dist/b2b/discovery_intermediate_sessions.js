@@ -26,8 +26,8 @@ class IntermediateSessions {
    * [Member Session](https://stytch.com/docs/b2b/api/session-object) for the
    * [Organization](https://stytch.com/docs/b2b/api/organization-object) that the user wishes to log into.
    *
-   * This endpoint can be used to accept invites and into a new Organization on the basis of the user's email
-   * domain or OAuth tenant.
+   * This endpoint can be used to accept invites and JIT Provision into a new Organization on the basis of
+   * the user's email domain or OAuth tenant.
    *
    * If the user **has** already satisfied the authentication requirements of the Organization they are
    * trying to exchange into and logged in with a method that verifies their email address, this API will

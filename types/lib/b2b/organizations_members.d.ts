@@ -67,6 +67,14 @@ export interface B2BOrganizationsMembersSearchRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsMembersStartEmailUpdateRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions {
     /**
      * Optional authorization object.
@@ -434,6 +442,63 @@ export interface B2BOrganizationsMembersSearchResponse {
      */
     status_code: number;
 }
+export interface B2BOrganizationsMembersStartEmailUpdateRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug here as a convenience.
+     */
+    organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+     * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+     * for the member.
+     */
+    member_id: string;
+    email_address: string;
+    /**
+     * The URL that the Member clicks from the login Email Magic Link. This URL should be an endpoint in the
+     * backend server that
+     *   verifies the request by querying Stytch's authenticate endpoint and finishes the login. If this value
+     * is not passed, the default login
+     *   redirect URL that you set in your Dashboard is used. If you have not set a default login redirect URL,
+     * an error is returned.
+     */
+    login_redirect_url?: string;
+    /**
+     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+     *
+     * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+     * Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
+     *
+     * Request support for additional languages
+     * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
+     *
+     */
+    locale?: "en" | "es" | "pt-br" | "fr" | string;
+    /**
+     * Use a custom template for login emails. By default, it will use your default email template. The
+     * template must be from Stytch's
+     * built-in customizations or a custom HTML email for Magic Links - Login.
+     */
+    login_template_id?: string;
+}
+export interface B2BOrganizationsMembersStartEmailUpdateResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    member_id: string;
+    member: Member;
+    organization: Organization;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
+}
 export interface B2BOrganizationsMembersUnlinkRetiredEmailRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
@@ -630,7 +695,7 @@ export declare class Members {
     connectedApps: ConnectedApps;
     constructor(fetchConfig: fetchConfig);
     /**
-     * Updates a specified by `organization_id` and `member_id`.
+     * Updates a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersUpdateRequest}
      * @param options {@link B2BOrganizationsMembersUpdateRequestOptions}
      * @returns {@link B2BOrganizationsMembersUpdateResponse}
@@ -640,7 +705,7 @@ export declare class Members {
      */
     update(data: B2BOrganizationsMembersUpdateRequest, options?: B2BOrganizationsMembersUpdateRequestOptions): Promise<B2BOrganizationsMembersUpdateResponse>;
     /**
-     * Deletes a specified by `organization_id` and `member_id`.
+     * Deletes a Member specified by `organization_id` and `member_id`.
      * @param data {@link B2BOrganizationsMembersDeleteRequest}
      * @param options {@link B2BOrganizationsMembersDeleteRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeleteResponse}
@@ -650,9 +715,9 @@ export declare class Members {
      */
     delete(data: B2BOrganizationsMembersDeleteRequest, options?: B2BOrganizationsMembersDeleteRequestOptions): Promise<B2BOrganizationsMembersDeleteResponse>;
     /**
-     * Reactivates a deleted's status and its associated email status (if applicable) to active, specified by
-     * `organization_id` and `member_id`. This endpoint will only work for Members with at least one verified
-     * email where their `email_address_verified` is `true`.
+     * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
+     * specified by `organization_id` and `member_id`. This endpoint will only work for Members with at least
+     * one verified email where their `email_address_verified` is `true`.
      * @param data {@link B2BOrganizationsMembersReactivateRequest}
      * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
      * @returns {@link B2BOrganizationsMembersReactivateResponse}
@@ -662,7 +727,7 @@ export declare class Members {
      */
     reactivate(data: B2BOrganizationsMembersReactivateRequest, options?: B2BOrganizationsMembersReactivateRequestOptions): Promise<B2BOrganizationsMembersReactivateResponse>;
     /**
-     * Delete a's MFA phone number.
+     * Delete a Member's MFA phone number.
      *
      * To change a Member's phone number, you must first call this endpoint to delete the existing phone number.
      *
@@ -710,7 +775,11 @@ export declare class Members {
      */
     search(data: B2BOrganizationsMembersSearchRequest, options?: B2BOrganizationsMembersSearchRequestOptions): Promise<B2BOrganizationsMembersSearchResponse>;
     /**
-     * Delete a's password.
+     * Delete a Member's password.
+     *
+     * This endpoint only works for Organization-scoped passwords. For cross-org password Projects, use
+     * [Require Password Reset By Email](https://stytch.com/docs/b2b/api/passwords-require-reset-by-email)
+     * instead.
      * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
      * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
      * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -745,8 +814,8 @@ export declare class Members {
      */
     oidcProviders(params: B2BOrganizationsMembersOIDCProviderInformationRequest): Promise<B2BOrganizationsMembersOIDCProvidersResponse>;
     /**
-     * Unlinks a retired email address from a specified by their `organization_id` and `member_id`. The email
-     * address
+     * Unlinks a retired email address from a Member specified by their `organization_id` and `member_id`. The
+     * email address
      * to be retired can be identified in the request body by either its `email_id`, its `email_address`, or
      * both. If using
      * both identifiers they must refer to the same email.
@@ -763,7 +832,6 @@ export declare class Members {
      * addresses allows them to be subsequently re-used by other Organization Members. Retired email addresses
      * can be viewed
      * on the [Member object](https://stytch.com/docs/b2b/api/member-object).
-     *  %}
      * @param data {@link B2BOrganizationsMembersUnlinkRetiredEmailRequest}
      * @param options {@link B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions}
      * @returns {@link B2BOrganizationsMembersUnlinkRetiredEmailResponse}
@@ -772,6 +840,28 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     unlinkRetiredEmail(data: B2BOrganizationsMembersUnlinkRetiredEmailRequest, options?: B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions): Promise<B2BOrganizationsMembersUnlinkRetiredEmailResponse>;
+    /**
+     * Starts a self-serve email update for a Member specified by their `organization_id` and `member_id`.
+     * To perform a self-serve update, members must be active and have an active, verified email address.
+     *
+     * The new email address must meet the following requirements:
+     *
+     * - Must not be in use by another member (retired emails count as used until they are
+     * [unlinked](https://stytch.com/docs/b2b/api/unlink-retired-member-email))
+     * - Must not be updating for another member (i.e. two members cannot attempt to update to the same email
+     * at once)
+     *
+     * The member will receive an Email Magic Link that expires in 5 minutes. If they do not verify their new
+     * email address in that timeframe, the email
+     * will be freed up for other members to use.
+     * @param data {@link B2BOrganizationsMembersStartEmailUpdateRequest}
+     * @param options {@link B2BOrganizationsMembersStartEmailUpdateRequestOptions}
+     * @returns {@link B2BOrganizationsMembersStartEmailUpdateResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    startEmailUpdate(data: B2BOrganizationsMembersStartEmailUpdateRequest, options?: B2BOrganizationsMembersStartEmailUpdateRequestOptions): Promise<B2BOrganizationsMembersStartEmailUpdateResponse>;
     /**
      * Member Get Connected Apps retrieves a list of Connected Apps with which the Member has successfully
      * completed an
@@ -790,7 +880,7 @@ export declare class Members {
      */
     getConnectedApps(params: B2BOrganizationsMembersGetConnectedAppsRequest, options?: B2BOrganizationsMembersGetConnectedAppsRequestOptions): Promise<B2BOrganizationsMembersGetConnectedAppsResponse>;
     /**
-     * Creates a. An `organization_id` and `email_address` are required.
+     * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}
      * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
      * @returns {@link B2BOrganizationsMembersCreateResponse}

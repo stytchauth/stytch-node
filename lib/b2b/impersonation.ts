@@ -13,7 +13,7 @@ import { request } from "../shared";
 
 // Request type for `impersonation.authenticate`.
 export interface B2BImpersonationAuthenticateRequest {
-  // The User Impersonation token to authenticate.
+  // The Member Impersonation token to authenticate. Expires in 5 minutes by default.
   impersonation_token: string;
 }
 
@@ -65,8 +65,8 @@ export class Impersonation {
   }
 
   /**
-   * Authenticate an impersonation token to impersonate a. This endpoint requires an impersonation token that
-   * is not expired or previously used.
+   * Authenticate an impersonation token to impersonate a Member. This endpoint requires an impersonation
+   * token that is not expired or previously used.
    * A Stytch session will be created for the impersonated member with a 60 minute duration. Impersonated
    * sessions cannot be extended.
    *
