@@ -354,6 +354,9 @@ export class Email {
   /**
    * Require a password be reset by the associated email address. This endpoint is only functional for
    * cross-org password use cases.
+   *
+   * If there are is only one active Member using the associated email address in the Project, the password
+   * will be deleted.
    * @param data {@link B2BPasswordsEmailRequireResetRequest}
    * @param options {@link B2BPasswordsEmailRequireResetRequestOptions}
    * @returns {@link B2BPasswordsEmailRequireResetResponse}

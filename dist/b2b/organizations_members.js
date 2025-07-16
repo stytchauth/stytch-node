@@ -56,6 +56,10 @@ var _shared = require("../shared");
 
 // Response type for `organizations.members.search`.
 
+// Request type for `organizations.members.startEmailUpdate`.
+
+// Response type for `organizations.members.startEmailUpdate`.
+
 // Request type for `organizations.members.unlinkRetiredEmail`.
 
 // Response type for `organizations.members.unlinkRetiredEmail`.
@@ -238,6 +242,10 @@ class Members {
 
   /**
    * Delete a's password.
+   *
+   * This endpoint only works for Organization-scoped passwords. For cross-org password Projects, use
+   * [Require Password Reset By Email](https://stytch.com/docs/b2b/api/passwords-require-reset-by-email)
+   * instead.
    * @param data {@link B2BOrganizationsMembersDeletePasswordRequest}
    * @param options {@link B2BOrganizationsMembersDeletePasswordRequestOptions}
    * @returns {@link B2BOrganizationsMembersDeletePasswordResponse}
@@ -344,6 +352,46 @@ class Members {
       data: {
         email_id: data.email_id,
         email_address: data.email_address
+      }
+    });
+  }
+
+  /**
+   * Starts a self-serve email update for a specified by their `organization_id` and `member_id`.
+   * To perform a self-serve update, members must be active and have an active, verified email address.
+   *
+   * The new email address must meet the following requirements:
+   *
+   * - Must not be in use by another member (retired emails count as used until they are
+   * [unlinked](https://stytch.com/docs/b2b/api/unlink-retired-email))
+   * - Must not be updating for another member (i.e. two members cannot attempt to update to the same email
+   * at once)
+   *
+   * The member will receive an Email Magic Link that expires in 5 minutes. If they do not verify their new
+   * email address in that timeframe, the email
+   * will be freed up for other members to use.
+   *  %}
+   * @param data {@link B2BOrganizationsMembersStartEmailUpdateRequest}
+   * @param options {@link B2BOrganizationsMembersStartEmailUpdateRequestOptions}
+   * @returns {@link B2BOrganizationsMembersStartEmailUpdateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  startEmailUpdate(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/start_email_update`,
+      headers,
+      data: {
+        email_address: data.email_address,
+        login_redirect_url: data.login_redirect_url,
+        locale: data.locale,
+        login_template_id: data.login_template_id
       }
     });
   }

@@ -13,7 +13,7 @@ import { request } from "../shared";
 
 // Request type for `impersonation.authenticate`.
 export interface B2BImpersonationAuthenticateRequest {
-  // The User Impersonation token to authenticate.
+  // The Member Impersonation token to authenticate. Expires in 5 minutes by default.
   impersonation_token: string;
 }
 
