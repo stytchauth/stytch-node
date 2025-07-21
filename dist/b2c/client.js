@@ -45,7 +45,7 @@ class Client extends _client.BaseClient {
     this.otps = new _otps.OTPs(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.project = new _project.Project(this.fetchConfig);
-    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig);
+    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);

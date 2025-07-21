@@ -1,5 +1,6 @@
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
+import { PolicyCache } from "./rbac_local";
 import { User } from "./users";
 import { JwtConfig } from "../shared/sessions";
 export interface AmazonOAuthFactor {
@@ -614,7 +615,8 @@ export declare class Sessions {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
-    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
+    private policyCache;
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     /**
      * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
      * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.

@@ -50,7 +50,7 @@ var _sessions = require("../shared/sessions");
 // ENDMANUAL(authenticateJwt)
 
 class Sessions {
-  constructor(fetchConfig, jwtConfig) {
+  constructor(fetchConfig, jwtConfig, policyCache) {
     this.fetchConfig = fetchConfig;
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
@@ -58,6 +58,7 @@ class Sessions {
       issuer: jwtConfig.issuers,
       typ: "JWT"
     };
+    this.policyCache = policyCache;
   }
 
   /**

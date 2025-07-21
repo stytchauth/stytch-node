@@ -57,7 +57,11 @@ export class IDP {
   private jwksClient: jose.JWTVerifyGetKey;
   private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
     this.jwtConfig = jwtConfig;
     this.jwksClient = jwtConfig.jwks;

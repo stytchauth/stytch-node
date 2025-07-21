@@ -13,7 +13,6 @@ import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
 import { PolicyCache } from "./rbac_local";
 import { Project } from "./project";
-import { RBAC } from "./consumer_rbac_rbac";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -58,8 +57,6 @@ export class Client extends BaseClient {
       ],
     };
 
-    const policyCache = new PolicyCache(new RBAC(this.fetchConfig));
-
     this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.consumerRBAC = new ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
@@ -71,7 +68,7 @@ export class Client extends BaseClient {
     this.otps = new OTPs(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
     this.project = new Project(this.fetchConfig);
-    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig);
+    this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
     this.users = new Users(this.fetchConfig);
     this.webauthn = new WebAuthn(this.fetchConfig);

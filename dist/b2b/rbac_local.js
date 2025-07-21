@@ -7,6 +7,8 @@ exports.PolicyCache = void 0;
 exports.performAuthorizationCheck = performAuthorizationCheck;
 exports.performScopeAuthorizationCheck = performScopeAuthorizationCheck;
 var _errors = require("../shared/errors");
+// This file is manually generated!
+
 // We want to refresh if the policy is more than 5 minutes old
 const MAX_AGE_MS = 1000 * 60 * 5;
 
