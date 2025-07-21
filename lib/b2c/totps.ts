@@ -4,20 +4,19 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {  } from "../shared/method_options";
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
-import { Session } from "./sessions"
-import { User } from "./users"
-
+import { Session } from "./sessions";
+import { User } from "./users";
 
 export interface TOTPWithRecoveryCodes {
   // The unique ID for a TOTP instance.
   totp_id: string;
   /**
-* The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
-* has been successfully authenticated by the User.
-*/
+   * The verified boolean denotes whether or not this send method, e.g. phone number, email address, etc.,
+   * has been successfully authenticated by the User.
+   */
   verified: boolean;
   // The recovery codes used to authenticate the user without an authenticator app.
   recovery_codes: string[];
@@ -26,49 +25,49 @@ export interface TOTPWithRecoveryCodes {
 // Request type for `totps.authenticate`.
 export interface TOTPsAuthenticateRequest {
   /**
-* The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
-* here if one is set for the user.
-*/
+   * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+   * here if one is set for the user.
+   */
   user_id: string;
   // The TOTP code to authenticate. The TOTP code should consist of 6 digits.
   totp_code: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;
   /**
-* Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
-* already exist,
-*   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
-* `session_jwt` will have a fixed lifetime of
-*   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-* 
-*   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-* 
-*   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
-* extend the session this many minutes.
-* 
-*   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
-*/
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+   */
   session_duration_minutes?: number;
   // The `session_jwt` associated with a User's existing Session.
   session_jwt?: string;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `totps.authenticate`.
 export interface TOTPsAuthenticateResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID of the affected User.
   user_id: string;
@@ -79,45 +78,45 @@ export interface TOTPsAuthenticateResponse {
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session?: Session;
 }
 
 // Request type for `totps.create`.
 export interface TOTPsCreateRequest {
   /**
-* The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
-* here if one is set for the user.
-*/
+   * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+   * here if one is set for the user.
+   */
   user_id: string;
   /**
-* The expiration for the TOTP instance. If the newly created TOTP is not authenticated within this time
-* frame the TOTP will be unusable. Defaults to 1440 (1 day) with a minimum of 5 and a maximum of 1440.
-*/
+   * The expiration for the TOTP instance. If the newly created TOTP is not authenticated within this time
+   * frame the TOTP will be unusable. Defaults to 1440 (1 day) with a minimum of 5 and a maximum of 1440.
+   */
   expiration_minutes?: number;
 }
 
 // Response type for `totps.create`.
 export interface TOTPsCreateResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID for a TOTP instance.
   totp_id: string;
@@ -128,65 +127,65 @@ export interface TOTPsCreateResponse {
   // The recovery codes used to authenticate the user without an authenticator app.
   recovery_codes: string[];
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   // The unique ID of the affected User.
   user_id: string;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
 // Request type for `totps.recover`.
 export interface TOTPsRecoverRequest {
   /**
-* The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
-* here if one is set for the user.
-*/
+   * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+   * here if one is set for the user.
+   */
   user_id: string;
   // The recovery code to authenticate.
   recovery_code: string;
   // The `session_token` associated with a User's existing Session.
   session_token?: string;
   /**
-* Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
-* already exist,
-*   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
-* `session_jwt` will have a fixed lifetime of
-*   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-* 
-*   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-* 
-*   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
-* extend the session this many minutes.
-* 
-*   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
-*/
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+   */
   session_duration_minutes?: number;
   // The `session_jwt` associated with a User's existing Session.
   session_jwt?: string;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `totps.recover`.
 export interface TOTPsRecoverResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID for a TOTP instance.
   totp_id: string;
@@ -197,78 +196,72 @@ export interface TOTPsRecoverResponse {
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session?: Session;
 }
 
 // Request type for `totps.recoveryCodes`.
 export interface TOTPsRecoveryCodesRequest {
   /**
-* The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
-* here if one is set for the user.
-*/
+   * The `user_id` of an active user the TOTP registration should be tied to. You may use an `external_id`
+   * here if one is set for the user.
+   */
   user_id: string;
 }
 
 // Response type for `totps.recoveryCodes`.
 export interface TOTPsRecoveryCodesResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID of the affected User.
   user_id: string;
   /**
-* An array containing a list of all TOTP instances (along with their recovery codes) for a given User in
-* the Stytch API.
-*/
+   * An array containing a list of all TOTP instances (along with their recovery codes) for a given User in
+   * the Stytch API.
+   */
   totps: TOTPWithRecoveryCodes[];
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
-
-
-
 
 export class TOTPs {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
-
   }
 
   /**
-  * Create a new TOTP instance for a user. The user can use the authenticator application of their choice to
-  * scan the QR code or enter the secret.
-  * @param data {@link TOTPsCreateRequest}
-  * @returns {@link TOTPsCreateResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  create(
-    data: TOTPsCreateRequest,
-  ): Promise<TOTPsCreateResponse> {
+   * Create a new TOTP instance for a user. The user can use the authenticator application of their choice to
+   * scan the QR code or enter the secret.
+   * @param data {@link TOTPsCreateRequest}
+   * @returns {@link TOTPsCreateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  create(data: TOTPsCreateRequest): Promise<TOTPsCreateResponse> {
     const headers: Record<string, string> = {};
     return request<TOTPsCreateResponse>(this.fetchConfig, {
       method: "POST",
@@ -279,15 +272,15 @@ export class TOTPs {
   }
 
   /**
-  * Authenticate a TOTP code entered by a user.
-  * @param data {@link TOTPsAuthenticateRequest}
-  * @returns {@link TOTPsAuthenticateResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
+   * Authenticate a TOTP code entered by a user.
+   * @param data {@link TOTPsAuthenticateRequest}
+   * @returns {@link TOTPsAuthenticateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
   authenticate(
-    data: TOTPsAuthenticateRequest,
+    data: TOTPsAuthenticateRequest
   ): Promise<TOTPsAuthenticateResponse> {
     const headers: Record<string, string> = {};
     return request<TOTPsAuthenticateResponse>(this.fetchConfig, {
@@ -299,15 +292,15 @@ export class TOTPs {
   }
 
   /**
-  * Retrieve the recovery codes for a TOTP instance tied to a User.
-  * @param data {@link TOTPsRecoveryCodesRequest}
-  * @returns {@link TOTPsRecoveryCodesResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
+   * Retrieve the recovery codes for a TOTP instance tied to a User.
+   * @param data {@link TOTPsRecoveryCodesRequest}
+   * @returns {@link TOTPsRecoveryCodesResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
   recoveryCodes(
-    data: TOTPsRecoveryCodesRequest,
+    data: TOTPsRecoveryCodesRequest
   ): Promise<TOTPsRecoveryCodesResponse> {
     const headers: Record<string, string> = {};
     return request<TOTPsRecoveryCodesResponse>(this.fetchConfig, {
@@ -319,16 +312,14 @@ export class TOTPs {
   }
 
   /**
-  * Authenticate a recovery code for a TOTP instance.
-  * @param data {@link TOTPsRecoverRequest}
-  * @returns {@link TOTPsRecoverResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  recover(
-    data: TOTPsRecoverRequest,
-  ): Promise<TOTPsRecoverResponse> {
+   * Authenticate a recovery code for a TOTP instance.
+   * @param data {@link TOTPsRecoverRequest}
+   * @returns {@link TOTPsRecoverResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  recover(data: TOTPsRecoverRequest): Promise<TOTPsRecoverResponse> {
     const headers: Record<string, string> = {};
     return request<TOTPsRecoverResponse>(this.fetchConfig, {
       method: "POST",
@@ -337,7 +328,4 @@ export class TOTPs {
       data,
     });
   }
-
-
 }
-

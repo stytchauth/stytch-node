@@ -4,59 +4,58 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {  } from "../shared/method_options";
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
-import { Rule } from "./fraud"
-
+import { Rule } from "./fraud";
 
 // Request type for `fraud.rules.list`.
 export interface FraudRulesListRequest {
   /**
-* The `cursor` field allows you to paginate through your results. Each result array is limited to 100
-* results. If your query returns more than 100 results, you will need to paginate the responses using the
-* `cursor`. If you receive a response that includes a non-null `next_cursor`, repeat the request with the
-* `next_cursor` value set to the `cursor` field to retrieve the next page of results. Continue to make
-* requests until the `next_cursor` in the response is null.
-*/
+   * The `cursor` field allows you to paginate through your results. Each result array is limited to 100
+   * results. If your query returns more than 100 results, you will need to paginate the responses using the
+   * `cursor`. If you receive a response that includes a non-null `next_cursor`, repeat the request with the
+   * `next_cursor` value set to the `cursor` field to retrieve the next page of results. Continue to make
+   * requests until the `next_cursor` in the response is null.
+   */
   cursor?: string;
   /**
-* The number of results to return per page. The default limit is 10. A maximum of 100 results can be
-* returned by a single get request. If the total size of your result set is greater than one page size,
-* you must paginate the response. See the `cursor` field.
-*/
+   * The number of results to return per page. The default limit is 10. A maximum of 100 results can be
+   * returned by a single get request. If the total size of your result set is greater than one page size,
+   * you must paginate the response. See the `cursor` field.
+   */
   limit?: number;
 }
 
 // Response type for `fraud.rules.list`.
 export interface FraudRulesListResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   /**
-* The `next_cursor` string is returned when your result contains more than one page of results. This value
-* is passed into your next request in the `cursor` field.
-*/
+   * The `next_cursor` string is returned when your result contains more than one page of results. This value
+   * is passed into your next request in the `cursor` field.
+   */
   next_cursor: string;
   // A list of rules for the project
   rules: Rule[];
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
 // Request type for `fraud.rules.set`.
 export interface FraudRulesSetRequest {
   /**
-* The action that should be returned by a fingerprint lookup for that identifier with a `RULE_MATCH`
-* reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. For country codes,
-* `ALLOW` actions are not allowed. If a `NONE` action is specified, it will clear the stored rule.
-*/
-  action: "ALLOW"|"CHALLENGE"|"BLOCK"|"NONE"| string;
+   * The action that should be returned by a fingerprint lookup for that identifier with a `RULE_MATCH`
+   * reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. For country codes,
+   * `ALLOW` actions are not allowed. If a `NONE` action is specified, it will clear the stored rule.
+   */
+  action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
   // The visitor ID we want to set a rule for. Only one identifier can be specified in the request.
   visitor_id?: string;
   // The browser ID we want to set a rule for. Only one identifier can be specified in the request.
@@ -70,43 +69,43 @@ export interface FraudRulesSetRequest {
   // The network fingerprint we want to set a rule for. Only one identifier can be specified in the request.
   network_fingerprint?: string;
   /**
-* The number of minutes until this rule expires. If no `expires_in_minutes` is specified, then the rule is
-* kept permanently.
-*/
+   * The number of minutes until this rule expires. If no `expires_in_minutes` is specified, then the rule is
+   * kept permanently.
+   */
   expires_in_minutes?: number;
   // An optional description for the rule.
   description?: string;
   /**
-* The CIDR block we want to set a rule for. You may pass either an IP address or a CIDR block. The CIDR
-* block prefix must be between 16 and 32, inclusive. If an end user's IP address is within this CIDR
-* block, this rule will be applied. Only one identifier can be specified in the request.
-*/
+   * The CIDR block we want to set a rule for. You may pass either an IP address or a CIDR block. The CIDR
+   * block prefix must be between 16 and 32, inclusive. If an end user's IP address is within this CIDR
+   * block, this rule will be applied. Only one identifier can be specified in the request.
+   */
   cidr_block?: string;
   /**
-* The country code we want to set a rule for. The country code must be a valid ISO 3166-1 alpha-2 code.
-* You may not set `ALLOW` rules for country codes. Only one identifier can be specified in the request.
-*/
+   * The country code we want to set a rule for. The country code must be a valid ISO 3166-1 alpha-2 code.
+   * You may not set `ALLOW` rules for country codes. Only one identifier can be specified in the request.
+   */
   country_code?: string;
   /**
-* The ASN we want to set a rule for. The ASN must be the string representation of an integer between 0 and
-* 4294967295, inclusive. Only one identifier can be specified in the request.
-*/
+   * The ASN we want to set a rule for. The ASN must be the string representation of an integer between 0 and
+   * 4294967295, inclusive. Only one identifier can be specified in the request.
+   */
   asn?: string;
 }
 
 // Response type for `fraud.rules.set`.
 export interface FraudRulesSetResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The action that will be returned for the specified identifier.
-  action: "ALLOW"|"CHALLENGE"|"BLOCK"|"NONE"| string;
+  action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   // The visitor ID that a rule was set for.
   visitor_id?: string;
@@ -121,14 +120,14 @@ export interface FraudRulesSetResponse {
   // The network fingerprint that a rule was set for.
   network_fingerprint?: string;
   /**
-* The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
-* e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
+   * e.g. `2021-12-29T12:33:09Z`.
+   */
   expires_at?: string;
   /**
-* The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
-* will be applied.
-*/
+   * The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
+   * will be applied.
+   */
   cidr_block?: string;
   // The country code that a rule was set for.
   country_code?: string;
@@ -136,47 +135,41 @@ export interface FraudRulesSetResponse {
   asn?: string;
 }
 
-
-
-
 export class Rules {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
-
   }
 
   /**
-  * Set a rule for a particular `visitor_id`, `browser_id`, `visitor_fingerprint`, `browser_fingerprint`,
-  * `hardware_fingerprint`, `network_fingerprint`, `cidr_block`, `asn`, or `country_code`. This is helpful
-  * in cases where you want to allow or block a specific user or fingerprint. You should be careful when
-  * setting rules for `browser_fingerprint`, `hardware_fingerprint`, or `network_fingerprint` as they can be
-  * shared across multiple users, and you could affect more users than intended.
-  * 
-  * You may not set an `ALLOW` rule for a `country_code`.
-  * 
-  * Rules are applied in the order specified above. For example, if an end user has an `ALLOW` rule set for
-  * their `visitor_id` but a `BLOCK` rule set for their `hardware_fingerprint`, they will receive an `ALLOW`
-  * verdict because the `visitor_id` rule takes precedence.
-  * 
-  * If there are conflicts between multiple `cidr_block` rules (for example, if the `ip_address` of the end
-  * user overlaps with multiple CIDR blocks that have rules set), the conflicts are resolved as follows:
-  * - The smallest block size takes precedence. For example, if an `ip_address` overlaps with a `cidr_block`
-  * rule of `ALLOW` for a block with a prefix of `/32` and a `cidr_block` rule of `BLOCK` with a prefix of
-  * `/24`, the rule match verdict will be `ALLOW`.
-  * - Among equivalent size blocks, `BLOCK` takes precedence over `CHALLENGE`, which takes precedence over
-  * `ALLOW`. For example, if an `ip_address` overlaps with two `cidr_block` rules with blocks of the same
-  * size that return `CHALLENGE` and `ALLOW`, the rule match verdict will be `CHALLENGE`.
-  * @param data {@link FraudRulesSetRequest}
-  * @returns {@link FraudRulesSetResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  set(
-    data: FraudRulesSetRequest,
-  ): Promise<FraudRulesSetResponse> {
+   * Set a rule for a particular `visitor_id`, `browser_id`, `visitor_fingerprint`, `browser_fingerprint`,
+   * `hardware_fingerprint`, `network_fingerprint`, `cidr_block`, `asn`, or `country_code`. This is helpful
+   * in cases where you want to allow or block a specific user or fingerprint. You should be careful when
+   * setting rules for `browser_fingerprint`, `hardware_fingerprint`, or `network_fingerprint` as they can be
+   * shared across multiple users, and you could affect more users than intended.
+   *
+   * You may not set an `ALLOW` rule for a `country_code`.
+   *
+   * Rules are applied in the order specified above. For example, if an end user has an `ALLOW` rule set for
+   * their `visitor_id` but a `BLOCK` rule set for their `hardware_fingerprint`, they will receive an `ALLOW`
+   * verdict because the `visitor_id` rule takes precedence.
+   *
+   * If there are conflicts between multiple `cidr_block` rules (for example, if the `ip_address` of the end
+   * user overlaps with multiple CIDR blocks that have rules set), the conflicts are resolved as follows:
+   * - The smallest block size takes precedence. For example, if an `ip_address` overlaps with a `cidr_block`
+   * rule of `ALLOW` for a block with a prefix of `/32` and a `cidr_block` rule of `BLOCK` with a prefix of
+   * `/24`, the rule match verdict will be `ALLOW`.
+   * - Among equivalent size blocks, `BLOCK` takes precedence over `CHALLENGE`, which takes precedence over
+   * `ALLOW`. For example, if an `ip_address` overlaps with two `cidr_block` rules with blocks of the same
+   * size that return `CHALLENGE` and `ALLOW`, the rule match verdict will be `CHALLENGE`.
+   * @param data {@link FraudRulesSetRequest}
+   * @returns {@link FraudRulesSetResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  set(data: FraudRulesSetRequest): Promise<FraudRulesSetResponse> {
     const headers: Record<string, string> = {};
     return request<FraudRulesSetResponse>(this.fetchConfig, {
       method: "POST",
@@ -188,16 +181,14 @@ export class Rules {
   }
 
   /**
-  * Get all rules that have been set for your project.
-  * @param data {@link FraudRulesListRequest}
-  * @returns {@link FraudRulesListResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  list(
-    data: FraudRulesListRequest,
-  ): Promise<FraudRulesListResponse> {
+   * Get all rules that have been set for your project.
+   * @param data {@link FraudRulesListRequest}
+   * @returns {@link FraudRulesListResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  list(data: FraudRulesListRequest): Promise<FraudRulesListResponse> {
     const headers: Record<string, string> = {};
     return request<FraudRulesListResponse>(this.fetchConfig, {
       method: "POST",
@@ -207,7 +198,4 @@ export class Rules {
       data,
     });
   }
-
-
 }
-

@@ -4,13 +4,18 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {  } from "../shared/method_options";
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
-
 export interface ProjectMetric {
-  metric_type: "UNKNOWN"|"USER_COUNT"|"ORGANIZATION_COUNT"|"MEMBER_COUNT"|"M2M_CLIENT_COUNT"| string;
+  metric_type:
+    | "UNKNOWN"
+    | "USER_COUNT"
+    | "ORGANIZATION_COUNT"
+    | "MEMBER_COUNT"
+    | "M2M_CLIENT_COUNT"
+    | string;
   count: number;
 }
 
@@ -21,26 +26,21 @@ export interface ProjectMetricsResponse {
   status_code: number;
 }
 
-
-
-
 export class Project {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
-
   }
 
   /**
-  * @param params {@link ProjectMetricsRequest}
-  * @returns {@link ProjectMetricsResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  metrics(
-  ): Promise<ProjectMetricsResponse> {
+   * @param params {@link ProjectMetricsRequest}
+   * @returns {@link ProjectMetricsResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  metrics(): Promise<ProjectMetricsResponse> {
     const headers: Record<string, string> = {};
     return request<ProjectMetricsResponse>(this.fetchConfig, {
       method: "GET",
@@ -48,7 +48,4 @@ export class Project {
       headers,
     });
   }
-
-
 }
-

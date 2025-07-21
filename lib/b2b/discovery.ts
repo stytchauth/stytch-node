@@ -4,21 +4,20 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {  } from "../shared/method_options";
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { IntermediateSessions } from "./discovery_intermediate_sessions"
-import { Member, Organization } from "./organizations"
-import { MfaRequired } from "./mfa"
-import { Organizations } from "./discovery_organizations"
-import { PrimaryRequired } from "./sessions"
-
+import { IntermediateSessions } from "./discovery_intermediate_sessions";
+import { Member, Organization } from "./organizations";
+import { MfaRequired } from "./mfa";
+import { Organizations } from "./discovery_organizations";
+import { PrimaryRequired } from "./sessions";
 
 export interface DiscoveredOrganization {
   /**
-* Indicates whether the Member has all of the factors needed to fully authenticate to this Organization.
-* If false, the Member may need to complete an MFA step or complete a different primary authentication
-* flow. See the `primary_required` and `mfa_required` fields for more details on each.
-*/
+   * Indicates whether the Member has all of the factors needed to fully authenticate to this Organization.
+   * If false, the Member may need to complete an MFA step or complete a different primary authentication
+   * flow. See the `primary_required` and `mfa_required` fields for more details on each.
+   */
   member_authenticated: boolean;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization?: Organization;
@@ -32,34 +31,27 @@ export interface DiscoveredOrganization {
 
 export interface Membership {
   /**
-* Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`, or
-* `eligible_to_join_by_oauth_tenant`
-*/
+   * Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`, or
+   * `eligible_to_join_by_oauth_tenant`
+   */
   type: string;
   // An object containing additional metadata about the membership, if available.
   details?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-* The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
-* does not.
-*/
+   * The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or null if one
+   * does not.
+   */
   member?: Member;
 }
 
-
-
-
 export class Discovery {
   private fetchConfig: fetchConfig;
-  intermediateSessions: IntermediateSessions
-  organizations: Organizations
+  intermediateSessions: IntermediateSessions;
+  organizations: Organizations;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.intermediateSessions = new IntermediateSessions(this.fetchConfig);
     this.organizations = new Organizations(this.fetchConfig);
-
   }
-
-
 }
-

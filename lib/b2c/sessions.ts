@@ -5,12 +5,12 @@
 // !!!
 
 import * as jose from "jose";
-import {  } from "../shared/method_options";
-import { Attributes } from "./attribute"
+import {} from "../shared/method_options";
+import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
 import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
-import { User } from "./users"
+import { User } from "./users";
 
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
 import { performAuthorizationCheck } from "./rbac_local";
@@ -29,25 +29,85 @@ export interface AppleOAuthFactor {
 
 export interface AuthenticationFactor {
   /**
-* The type of authentication factor. The possible values are: `magic_link`, `otp`,
-*        `oauth`, `password`, `email_otp`, or `sso` .
-*/
-  type: "magic_link"|"otp"|"oauth"|"webauthn"|"totp"|"crypto"|"password"|"signature_challenge"|"sso"|"imported"|"recovery_codes"|"email_otp"|"impersonated"|"trusted_auth_token"| string;
+   * The type of authentication factor. The possible values are: `magic_link`, `otp`,
+   *        `oauth`, `password`, `email_otp`, or `sso` .
+   */
+  type:
+    | "magic_link"
+    | "otp"
+    | "oauth"
+    | "webauthn"
+    | "totp"
+    | "crypto"
+    | "password"
+    | "signature_challenge"
+    | "sso"
+    | "imported"
+    | "recovery_codes"
+    | "email_otp"
+    | "impersonated"
+    | "trusted_auth_token"
+    | string;
   /**
-* The method that was used to deliver the authentication factor. The possible values depend on the `type`:
-*      
-*       `magic_link` – Only `email`.
-*      
-*       `otp` –  Either `sms` or `email` .
-*      
-*       `oauth` – Either `oauth_google` or `oauth_microsoft`.
-*      
-*       `password` – Only `knowledge`.
-*      
-*       `sso` – Either `sso_saml` or `sso_oidc`.
-*       
-*/
-  delivery_method: "email"|"sms"|"whatsapp"|"embedded"|"oauth_google"|"oauth_microsoft"|"oauth_apple"|"webauthn_registration"|"authenticator_app"|"oauth_github"|"recovery_code"|"oauth_facebook"|"crypto_wallet"|"oauth_amazon"|"oauth_bitbucket"|"oauth_coinbase"|"oauth_discord"|"oauth_figma"|"oauth_gitlab"|"oauth_instagram"|"oauth_linkedin"|"oauth_shopify"|"oauth_slack"|"oauth_snapchat"|"oauth_spotify"|"oauth_steam"|"oauth_tiktok"|"oauth_twitch"|"oauth_twitter"|"knowledge"|"biometric"|"sso_saml"|"sso_oidc"|"oauth_salesforce"|"oauth_yahoo"|"oauth_hubspot"|"imported_auth0"|"oauth_exchange_slack"|"oauth_exchange_hubspot"|"oauth_exchange_github"|"oauth_exchange_google"|"impersonation"|"oauth_access_token_exchange"|"trusted_token_exchange"| string;
+   * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
+   *
+   *       `magic_link` – Only `email`.
+   *
+   *       `otp` –  Either `sms` or `email` .
+   *
+   *       `oauth` – Either `oauth_google` or `oauth_microsoft`.
+   *
+   *       `password` – Only `knowledge`.
+   *
+   *       `sso` – Either `sso_saml` or `sso_oidc`.
+   *
+   */
+  delivery_method:
+    | "email"
+    | "sms"
+    | "whatsapp"
+    | "embedded"
+    | "oauth_google"
+    | "oauth_microsoft"
+    | "oauth_apple"
+    | "webauthn_registration"
+    | "authenticator_app"
+    | "oauth_github"
+    | "recovery_code"
+    | "oauth_facebook"
+    | "crypto_wallet"
+    | "oauth_amazon"
+    | "oauth_bitbucket"
+    | "oauth_coinbase"
+    | "oauth_discord"
+    | "oauth_figma"
+    | "oauth_gitlab"
+    | "oauth_instagram"
+    | "oauth_linkedin"
+    | "oauth_shopify"
+    | "oauth_slack"
+    | "oauth_snapchat"
+    | "oauth_spotify"
+    | "oauth_steam"
+    | "oauth_tiktok"
+    | "oauth_twitch"
+    | "oauth_twitter"
+    | "knowledge"
+    | "biometric"
+    | "sso_saml"
+    | "sso_oidc"
+    | "oauth_salesforce"
+    | "oauth_yahoo"
+    | "oauth_hubspot"
+    | "imported_auth0"
+    | "oauth_exchange_slack"
+    | "oauth_exchange_hubspot"
+    | "oauth_exchange_github"
+    | "oauth_exchange_google"
+    | "impersonation"
+    | "oauth_access_token_exchange"
+    | "trusted_token_exchange"
+    | string;
   // The timestamp when the factor was last authenticated.
   last_authenticated_at?: string;
   // The timestamp when the factor was initially authenticated.
@@ -185,9 +245,9 @@ export interface GoogleOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
   /**
-* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-* "Subject field" in OAuth protocols.
-*/
+   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+   * "Subject field" in OAuth protocols.
+   */
   provider_subject: string;
   // The globally unique UUID of the Member's email.
   email_id?: string;
@@ -205,9 +265,9 @@ export interface HubspotOAuthFactor {
 
 export interface ImpersonatedFactor {
   /**
-* For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id` will be the
-* impersonator's Stytch Dashboard `member_id`.
-*/
+   * For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id` will be the
+   * impersonator's Stytch Dashboard `member_id`.
+   */
   impersonator_id: string;
   // The email address of the impersonator.
   impersonator_email_address: string;
@@ -241,9 +301,9 @@ export interface MicrosoftOAuthFactor {
   // The unique ID of an OAuth registration.
   id: string;
   /**
-* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-* "Subject field" in OAuth protocols.
-*/
+   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+   * "Subject field" in OAuth protocols.
+   */
   provider_subject: string;
   // The globally unique UUID of the Member's email.
   email_id?: string;
@@ -296,26 +356,26 @@ export interface Session {
   // An array of different authentication factors that comprise a Session.
   authentication_factors: AuthenticationFactor[];
   /**
-* The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in
-* UTC, e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in
+   * UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   started_at?: string;
   /**
-* The timestamp when the Session was last accessed. Values conform to the RFC 3339 standard and are
-* expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The timestamp when the Session was last accessed. Values conform to the RFC 3339 standard and are
+   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   last_accessed_at?: string;
   /**
-* The timestamp when the Session expires. Values conform to the RFC 3339 standard and are expressed in
-* UTC, e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The timestamp when the Session expires. Values conform to the RFC 3339 standard and are expressed in
+   * UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   expires_at?: string;
   // Provided attributes help with fraud detection.
   attributes?: Attributes;
   /**
-* The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
-* call.
-*/
+   * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
+   * call.
+   */
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -404,29 +464,29 @@ export interface SessionsAttestRequest {
   // The trusted auth token to authenticate.
   token: string;
   /**
-* Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
-* already exist,
-*   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
-* `session_jwt` will have a fixed lifetime of
-*   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-* 
-*   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-* 
-*   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
-* extend the session this many minutes.
-* 
-*   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
-*/
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+   */
   session_duration_minutes?: number;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // The `session_token` for the session that you wish to add the trusted auth token authentication factor to.
   session_token?: string;
@@ -437,9 +497,9 @@ export interface SessionsAttestRequest {
 // Response type for `sessions.attest`.
 export interface SessionsAttestResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID of the affected User.
   user_id: string;
@@ -448,22 +508,22 @@ export interface SessionsAttestResponse {
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session?: Session;
 }
 
@@ -472,25 +532,25 @@ export interface SessionsAuthenticateRequest {
   // The session token to authenticate.
   session_token?: string;
   /**
-* Set the session lifetime to be this many minutes from now; minimum of 5 and a maximum of 527040 minutes
-* (366 days). Note that a successful authentication will continue to extend the session this many minutes.
-*/
+   * Set the session lifetime to be this many minutes from now; minimum of 5 and a maximum of 527040 minutes
+   * (366 days). Note that a successful authentication will continue to extend the session this many minutes.
+   */
   session_duration_minutes?: number;
   /**
-* The JWT to authenticate. You may provide a JWT that has expired according to its `exp` claim and needs
-* to be refreshed. If the signature is valid and the underlying session is still active then Stytch will
-* return a new JWT.
-*/
+   * The JWT to authenticate. You may provide a JWT that has expired according to its `exp` claim and needs
+   * to be refreshed. If the signature is valid and the underlying session is still active then Stytch will
+   * return a new JWT.
+   */
   session_jwt?: string;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   authorization_check?: SessionsAuthorizationCheck;
 }
@@ -498,31 +558,31 @@ export interface SessionsAuthenticateRequest {
 // Response type for `sessions.authenticate`.
 export interface SessionsAuthenticateResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session: Session;
   // A secret token for a given Stytch Session.
   session_token: string;
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   verdict?: SessionsAuthorizationVerdict;
 }
@@ -532,38 +592,38 @@ export interface SessionsExchangeAccessTokenRequest {
   // The access token to exchange for a Stytch Session. Must be granted the `full_access` scope.
   access_token: string;
   /**
-* Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
-* already exist,
-*   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
-* `session_jwt` will have a fixed lifetime of
-*   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-* 
-*   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-* 
-*   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
-* extend the session this many minutes.
-* 
-*   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
-*/
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+   */
   session_duration_minutes?: number;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `sessions.exchangeAccessToken`.
 export interface SessionsExchangeAccessTokenResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID of the affected User.
   user_id: string;
@@ -572,22 +632,22 @@ export interface SessionsExchangeAccessTokenResponse {
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session?: Session;
 }
 
@@ -602,14 +662,14 @@ export interface SessionsGetJWKSResponse {
   // The list of JWKs associated with the project.
   keys: JWK[];
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -622,16 +682,16 @@ export interface SessionsGetRequest {
 // Response type for `sessions.get`.
 export interface SessionsGetResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // An array of [Session objects](https://stytch.com/docs/api/session-object).
   sessions: Session[];
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
 
@@ -640,38 +700,38 @@ export interface SessionsMigrateRequest {
   // The authorization token Stytch will pass in to the external userinfo endpoint.
   session_token: string;
   /**
-* Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
-* already exist,
-*   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
-* `session_jwt` will have a fixed lifetime of
-*   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-* 
-*   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-* 
-*   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
-* extend the session this many minutes.
-* 
-*   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
-*/
+   * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
+   * already exist,
+   *   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+   * `session_jwt` will have a fixed lifetime of
+   *   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+   *
+   *   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+   *
+   *   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+   * extend the session this many minutes.
+   *
+   *   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+   */
   session_duration_minutes?: number;
   /**
-* Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
-* initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
-* object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
-* supply a null value.
-* 
-*   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
-* ignored. Total custom claims size cannot exceed four kilobytes.
-*/
+   * Add a custom claims map to the Session being authenticated. Claims are only created if a Session is
+   * initialized by providing a value in `session_duration_minutes`. Claims will be included on the Session
+   * object and in the JWT. To update a key in an existing Session, supply a new value. To delete a key,
+   * supply a null value.
+   *
+   *   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+   * ignored. Total custom claims size cannot exceed four kilobytes.
+   */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Response type for `sessions.migrate`.
 export interface SessionsMigrateResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   // The unique ID of the affected User.
   user_id: string;
@@ -680,18 +740,18 @@ export interface SessionsMigrateResponse {
   // The JSON Web Token (JWT) for a given Stytch Session.
   session_jwt: string;
   /**
-* The `user` object affected by this API call. See the
-* [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
-*/
+   * The `user` object affected by this API call. See the
+   * [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+   */
   user: User;
   status_code: number;
   /**
-* If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
-* receive a full Session object in the response.
-* 
-*   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-*   
-*/
+   * If you initiate a Session, by including `session_duration_minutes` in your authenticate call, you'll
+   * receive a full Session object in the response.
+   *
+   *   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+   *
+   */
   session?: Session;
 }
 
@@ -708,17 +768,16 @@ export interface SessionsRevokeRequest {
 // Response type for `sessions.revoke`.
 export interface SessionsRevokeResponse {
   /**
-* Globally unique UUID that is returned with every API call. This value is important to log for debugging
-* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-*/
+   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+   */
   request_id: string;
   /**
-* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-*/
+   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+   */
   status_code: number;
 }
-
 
 // MANUAL(authenticateJwt)(TYPES)
 
@@ -768,16 +827,17 @@ export interface SessionsAuthenticateJwtLocalRequest {
 
 // ENDMANUAL(authenticateJwt)
 
-
-
-
 export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
   private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
 
     this.jwksClient = jwtConfig.jwks;
@@ -790,17 +850,15 @@ export class Sessions {
   }
 
   /**
-  * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
-  * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-  * @param params {@link SessionsGetRequest}
-  * @returns {@link SessionsGetResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  get(
-    params: SessionsGetRequest,
-  ): Promise<SessionsGetResponse> {
+   * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
+   * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   * @param params {@link SessionsGetRequest}
+   * @returns {@link SessionsGetResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  get(params: SessionsGetRequest): Promise<SessionsGetResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsGetResponse>(this.fetchConfig, {
       method: "GET",
@@ -811,24 +869,24 @@ export class Sessions {
   }
 
   /**
-  * Authenticate a session token or session JWT and retrieve associated session data. If
-  * `session_duration_minutes` is included, update the lifetime of the session to be that many minutes from
-  * now. All timestamps are formatted according to the RFC 3339 standard and are expressed in UTC, e.g.
-  * `2021-12-29T12:33:09Z`. This endpoint requires exactly one `session_jwt` or `session_token` as part of
-  * the request. If both are included, you will receive a `too_many_session_arguments` error.
-  * 
-  * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
-  * will be returned if both the signature and the underlying Session are still valid. See our
-  * [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for more
-  * information.
-  * @param data {@link SessionsAuthenticateRequest}
-  * @returns {@link SessionsAuthenticateResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
+   * Authenticate a session token or session JWT and retrieve associated session data. If
+   * `session_duration_minutes` is included, update the lifetime of the session to be that many minutes from
+   * now. All timestamps are formatted according to the RFC 3339 standard and are expressed in UTC, e.g.
+   * `2021-12-29T12:33:09Z`. This endpoint requires exactly one `session_jwt` or `session_token` as part of
+   * the request. If both are included, you will receive a `too_many_session_arguments` error.
+   *
+   * You may provide a JWT that needs to be refreshed and is expired according to its `exp` claim. A new JWT
+   * will be returned if both the signature and the underlying Session are still valid. See our
+   * [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for more
+   * information.
+   * @param data {@link SessionsAuthenticateRequest}
+   * @returns {@link SessionsAuthenticateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
   authenticate(
-    data: SessionsAuthenticateRequest,
+    data: SessionsAuthenticateRequest
   ): Promise<SessionsAuthenticateResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsAuthenticateResponse>(this.fetchConfig, {
@@ -840,18 +898,16 @@ export class Sessions {
   }
 
   /**
-  * Revoke a Session, immediately invalidating all of its session tokens. You can revoke a session in three
-  * ways: using its ID, or using one of its session tokens, or one of its JWTs. This endpoint requires
-  * exactly one of those to be included in the request. It will return an error if multiple are present.
-  * @param data {@link SessionsRevokeRequest}
-  * @returns {@link SessionsRevokeResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  revoke(
-    data: SessionsRevokeRequest,
-  ): Promise<SessionsRevokeResponse> {
+   * Revoke a Session, immediately invalidating all of its session tokens. You can revoke a session in three
+   * ways: using its ID, or using one of its session tokens, or one of its JWTs. This endpoint requires
+   * exactly one of those to be included in the request. It will return an error if multiple are present.
+   * @param data {@link SessionsRevokeRequest}
+   * @returns {@link SessionsRevokeResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  revoke(data: SessionsRevokeRequest): Promise<SessionsRevokeResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsRevokeResponse>(this.fetchConfig, {
       method: "POST",
@@ -862,20 +918,18 @@ export class Sessions {
   }
 
   /**
-  * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
-  * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
-  * and then perform a lookup using the `session_token`. If the response contains a valid email address,
-  * Stytch will attempt to match that email address with an existing User and create a Stytch Session. You
-  * will need to create the user before using this endpoint.
-  * @param data {@link SessionsMigrateRequest}
-  * @returns {@link SessionsMigrateResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  migrate(
-    data: SessionsMigrateRequest,
-  ): Promise<SessionsMigrateResponse> {
+   * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
+   * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
+   * and then perform a lookup using the `session_token`. If the response contains a valid email address,
+   * Stytch will attempt to match that email address with an existing User and create a Stytch Session. You
+   * will need to create the user before using this endpoint.
+   * @param data {@link SessionsMigrateRequest}
+   * @returns {@link SessionsMigrateResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  migrate(data: SessionsMigrateRequest): Promise<SessionsMigrateResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsMigrateResponse>(this.fetchConfig, {
       method: "POST",
@@ -886,23 +940,23 @@ export class Sessions {
   }
 
   /**
-  * Use this endpoint to exchange a Connected Apps Access Token back into a Stytch Session for the
-  * underlying User. 
-  * This session can be used with the Stytch SDKs and APIs.
-  * 
-  * The Session returned will be the same Session that was active in your application (the authorizing
-  * party) during the initial authorization flow.
-  * 
-  * The Access Token must contain the `full_access` scope (only available to First Party clients) and must
-  * not be more than 5 minutes old. Access Tokens may only be exchanged a single time.
-  * @param data {@link SessionsExchangeAccessTokenRequest}
-  * @returns {@link SessionsExchangeAccessTokenResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
+   * Use this endpoint to exchange a Connected Apps Access Token back into a Stytch Session for the
+   * underlying User.
+   * This session can be used with the Stytch SDKs and APIs.
+   *
+   * The Session returned will be the same Session that was active in your application (the authorizing
+   * party) during the initial authorization flow.
+   *
+   * The Access Token must contain the `full_access` scope (only available to First Party clients) and must
+   * not be more than 5 minutes old. Access Tokens may only be exchanged a single time.
+   * @param data {@link SessionsExchangeAccessTokenRequest}
+   * @returns {@link SessionsExchangeAccessTokenResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
   exchangeAccessToken(
-    data: SessionsExchangeAccessTokenRequest,
+    data: SessionsExchangeAccessTokenRequest
   ): Promise<SessionsExchangeAccessTokenResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsExchangeAccessTokenResponse>(this.fetchConfig, {
@@ -914,33 +968,31 @@ export class Sessions {
   }
 
   /**
-  * Get the JSON Web Key Set (JWKS) for a project.
-  * 
-  * Within the JWKS, the JSON Web Keys are rotated every ~6 months. Upon rotation, new JWTs will be signed
-  * using the new key, and both keys will be returned by this endpoint for a period of 1 month.
-  * 
-  * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
-  * by the old keys, and some JWTs will be signed by the new keys. The correct key to use for validation is
-  * determined by matching the `kid` value of the JWT and key.
-  * 
-  * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JSON Web Key (JWK)
-  * rotation will be handled for you.
-  * 
-  * If you're using your own JWT validation library, many have built-in support for JWK rotation, and you'll
-  * just need to supply this API endpoint. If not, your application should decide which JWK to use for
-  * validation by inspecting the `kid` value.
-  * 
-  * See our [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for
-  * more information.
-  * @param params {@link SessionsGetJWKSRequest}
-  * @returns {@link SessionsGetJWKSResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  getJWKS(
-    params: SessionsGetJWKSRequest,
-  ): Promise<SessionsGetJWKSResponse> {
+   * Get the JSON Web Key Set (JWKS) for a project.
+   *
+   * Within the JWKS, the JSON Web Keys are rotated every ~6 months. Upon rotation, new JWTs will be signed
+   * using the new key, and both keys will be returned by this endpoint for a period of 1 month.
+   *
+   * JWTs have a set lifetime of 5 minutes, so there will be a 5 minute period where some JWTs will be signed
+   * by the old keys, and some JWTs will be signed by the new keys. The correct key to use for validation is
+   * determined by matching the `kid` value of the JWT and key.
+   *
+   * If you're using one of our [backend SDKs](https://stytch.com/docs/b2b/sdks), the JSON Web Key (JWK)
+   * rotation will be handled for you.
+   *
+   * If you're using your own JWT validation library, many have built-in support for JWK rotation, and you'll
+   * just need to supply this API endpoint. If not, your application should decide which JWK to use for
+   * validation by inspecting the `kid` value.
+   *
+   * See our [How to use Stytch Session JWTs](https://stytch.com/docs/guides/sessions/using-jwts) guide for
+   * more information.
+   * @param params {@link SessionsGetJWKSRequest}
+   * @returns {@link SessionsGetJWKSResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  getJWKS(params: SessionsGetJWKSRequest): Promise<SessionsGetJWKSResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
@@ -951,19 +1003,17 @@ export class Sessions {
   }
 
   /**
-  * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
-  * register a Trusted Auth Token profile in the Stytch dashboard
-  * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens). If a session token or session JWT is
-  * provided, it will add the trusted auth token as an authentication factor to the existing session.
-  * @param data {@link SessionsAttestRequest}
-  * @returns {@link SessionsAttestResponse}
-  * @async
-  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-  * @throws A {@link RequestError} when the Stytch API cannot be reached
-  */
-  attest(
-    data: SessionsAttestRequest,
-  ): Promise<SessionsAttestResponse> {
+   * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
+   * register a Trusted Auth Token profile in the Stytch dashboard
+   * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens). If a session token or session JWT is
+   * provided, it will add the trusted auth token as an authentication factor to the existing session.
+   * @param data {@link SessionsAttestRequest}
+   * @returns {@link SessionsAttestResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  attest(data: SessionsAttestRequest): Promise<SessionsAttestResponse> {
     const headers: Record<string, string> = {};
     return request<SessionsAttestResponse>(this.fetchConfig, {
       method: "POST",
@@ -972,7 +1022,6 @@ export class Sessions {
       data,
     });
   }
-
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
@@ -1050,7 +1099,4 @@ export class Sessions {
     };
   }
   // ENDMANUAL(authenticateJwt)
-
-
 }
-

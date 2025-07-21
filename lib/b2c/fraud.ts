@@ -4,12 +4,11 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {  } from "../shared/method_options";
+import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { Fingerprint } from "./fraud_fingerprint"
-import { Rules } from "./fraud_rules"
-import { VerdictReasons } from "./fraud_verdict_reasons"
-
+import { Fingerprint } from "./fraud_fingerprint";
+import { Rules } from "./fraud_rules";
+import { VerdictReasons } from "./fraud_verdict_reasons";
 
 export interface ASNProperties {
   // The Autonomous System Number of the user's network.
@@ -26,7 +25,7 @@ export interface BrowserProperties {
 }
 
 export interface Fingerprints {
-  // Combination of signals associated with a specific network commonly known as TLS fingerprinting. 
+  // Combination of signals associated with a specific network commonly known as TLS fingerprinting.
   network_fingerprint: string;
   // Combinations of signals to identify an operating system and architecture.
   hardware_fingerprint: string;
@@ -78,17 +77,27 @@ export interface Properties {
 
 export interface Rule {
   /**
-* The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
-* `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
-* `COUNTRY_CODE`.
-*/
-  rule_type: "VISITOR_ID"|"BROWSER_ID"|"VISITOR_FINGERPRINT"|"BROWSER_FINGERPRINT"|"HARDWARE_FINGERPRINT"|"NETWORK_FINGERPRINT"|"CIDR_BLOCK"|"ASN"|"COUNTRY_CODE"| string;
+   * The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
+   * `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
+   * `COUNTRY_CODE`.
+   */
+  rule_type:
+    | "VISITOR_ID"
+    | "BROWSER_ID"
+    | "VISITOR_FINGERPRINT"
+    | "BROWSER_FINGERPRINT"
+    | "HARDWARE_FINGERPRINT"
+    | "NETWORK_FINGERPRINT"
+    | "CIDR_BLOCK"
+    | "ASN"
+    | "COUNTRY_CODE"
+    | string;
   // The action (`ALLOW`, `BLOCK`, or `CHALLENGE`) that will be returned for this rule.
-  action: "ALLOW"|"CHALLENGE"|"BLOCK"|"NONE"| string;
+  action: "ALLOW" | "CHALLENGE" | "BLOCK" | "NONE" | string;
   /**
-* The time when the rule was created. Values conform to the RFC 3339 standard and are expressed in UTC,
-* e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The time when the rule was created. Values conform to the RFC 3339 standard and are expressed in UTC,
+   * e.g. `2021-12-29T12:33:09Z`.
+   */
   created_at: string;
   // The visitor ID that a rule was set for.
   visitor_id?: string;
@@ -103,9 +112,9 @@ export interface Rule {
   // The network fingerprint that a rule was set for.
   network_fingerprint?: string;
   /**
-* The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
-* will be applied.
-*/
+   * The CIDR block that a rule was set for. If an end user's IP address is within this CIDR block, this rule
+   * will be applied.
+   */
   cidr_block?: string;
   // The country code that a rule was set for.
   country_code?: string;
@@ -114,55 +123,65 @@ export interface Rule {
   // A description for the rule.
   description?: string;
   /**
-* The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
-* e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The timestamp when the rule expires. Values conform to the RFC 3339 standard and are expressed in UTC,
+   * e.g. `2021-12-29T12:33:09Z`.
+   */
   expires_at?: string;
   /**
-* The time when the rule was last updated. Will be null if the rule has never been updated. Values conform
-* to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The time when the rule was last updated. Will be null if the rule has never been updated. Values conform
+   * to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   last_updated_at?: string;
 }
 
 export interface Verdict {
   /**
-* The suggested action based on the fingerprint review. The available actions are:
-*   * `ALLOW` - This is a known valid device grouping or device profile that is part of the default ALLOW
-* listed set of known devices by Stytch. This grouping is made up of verified device profiles that match
-* the characteristics of known/authentic traffic origins
-*   * `BLOCK` - This is a known bad or malicious device profile that is undesirable and should be blocked
-* from completing the privileged action in question
-*   * `CHALLENGE` - This is an unknown or potentially malicious device that should be put through
-* increased friction such as 2FA or other forms of extended user verification before allowing the
-* privileged action to proceed
-*   
-*/
-  action: "ALLOW"|"CHALLENGE"|"BLOCK"| string;
+   * The suggested action based on the fingerprint review. The available actions are:
+   *   * `ALLOW` - This is a known valid device grouping or device profile that is part of the default ALLOW
+   * listed set of known devices by Stytch. This grouping is made up of verified device profiles that match
+   * the characteristics of known/authentic traffic origins
+   *   * `BLOCK` - This is a known bad or malicious device profile that is undesirable and should be blocked
+   * from completing the privileged action in question
+   *   * `CHALLENGE` - This is an unknown or potentially malicious device that should be put through
+   * increased friction such as 2FA or other forms of extended user verification before allowing the
+   * privileged action to proceed
+   *
+   */
+  action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
   /**
-* A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a list of
-* possible Reasons, see
-* [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
-*/
+   * A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a list of
+   * possible Reasons, see
+   * [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
+   */
   reasons: string[];
   // The operating system and architecture that took the fingerprint.
   detected_device_type: string;
   /**
-* The assessment of whether this is an authentic device. It will be false if hardware or browser deception
-* is detected.
-*/
+   * The assessment of whether this is an authentic device. It will be false if hardware or browser deception
+   * is detected.
+   */
   is_authentic_device: boolean;
   // A list of verdict reason overrides that were applied, if any.
   verdict_reason_overrides: VerdictReasonOverride[];
   /**
-* The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will only be present if
-* there is a `RULE_MATCH` reason in the list of verdict reasons.
-*/
-  rule_match_type?: "VISITOR_ID"|"BROWSER_ID"|"VISITOR_FINGERPRINT"|"BROWSER_FINGERPRINT"|"HARDWARE_FINGERPRINT"|"NETWORK_FINGERPRINT"|"CIDR_BLOCK"|"ASN"|"COUNTRY_CODE"| string;
+   * The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will only be present if
+   * there is a `RULE_MATCH` reason in the list of verdict reasons.
+   */
+  rule_match_type?:
+    | "VISITOR_ID"
+    | "BROWSER_ID"
+    | "VISITOR_FINGERPRINT"
+    | "BROWSER_FINGERPRINT"
+    | "HARDWARE_FINGERPRINT"
+    | "NETWORK_FINGERPRINT"
+    | "CIDR_BLOCK"
+    | "ASN"
+    | "COUNTRY_CODE"
+    | string;
   /**
-* The rule that was applied (e.g. a specific visitor ID value), if any. This field will only be present if
-* there is a `RULE_MATCH` reason in the list of verdict reasons.
-*/
+   * The rule that was applied (e.g. a specific visitor ID value), if any. This field will only be present if
+   * there is a `RULE_MATCH` reason in the list of verdict reasons.
+   */
   rule_match_identifier?: string;
 }
 
@@ -170,19 +189,19 @@ export interface VerdictReasonAction {
   // The verdict reason.
   verdict_reason: string;
   /**
-* The default action returned for the specified verdict reason in a fingerprint lookup when no overrides
-* are specified.
-*/
-  default_action: "ALLOW"|"CHALLENGE"|"BLOCK"| string;
+   * The default action returned for the specified verdict reason in a fingerprint lookup when no overrides
+   * are specified.
+   */
+  default_action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
   /**
-* If not null, this action will be returned for the specified verdict reason in a fingerprint lookup, in
-* place of the default action.
-*/
-  override_action?: "ALLOW"|"CHALLENGE"|"BLOCK"| string;
+   * If not null, this action will be returned for the specified verdict reason in a fingerprint lookup, in
+   * place of the default action.
+   */
+  override_action?: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
   /**
-* The time when the override was created, if one exists. Values conform to the RFC 3339 standard and are
-* expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-*/
+   * The time when the override was created, if one exists. Values conform to the RFC 3339 standard and are
+   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   override_created_at?: string;
   // A description of the override, if one exists.
   override_description?: string;
@@ -192,26 +211,19 @@ export interface VerdictReasonOverride {
   // The verdict reason that was overridden.
   verdict_reason: string;
   // The action that was applied for the given verdict reason.
-  override_action: "ALLOW"|"CHALLENGE"|"BLOCK"| string;
+  override_action: "ALLOW" | "CHALLENGE" | "BLOCK" | string;
 }
-
-
-
 
 export class Fraud {
   private fetchConfig: fetchConfig;
-  fingerprint: Fingerprint
-  rules: Rules
-  verdictReasons: VerdictReasons
+  fingerprint: Fingerprint;
+  rules: Rules;
+  verdictReasons: VerdictReasons;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.fingerprint = new Fingerprint(this.fetchConfig);
     this.rules = new Rules(this.fetchConfig);
     this.verdictReasons = new VerdictReasons(this.fetchConfig);
-
   }
-
-
 }
-
