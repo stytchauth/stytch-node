@@ -165,7 +165,7 @@ export type {
 } from "./organizations_members_connected_apps";
 
 export type {
-  B2BSessionsAuthorizationCheck,
+  AuthorizationCheck,
   B2BSessionsAuthorizationVerdict,
   MemberSession,
   PrimaryRequired,
@@ -194,12 +194,12 @@ export type {
 } from "./impersonation";
 
 export type {
-  RBACPolicy,
-  RBACPolicyResource,
-  RBACPolicyRole,
-  RBACPolicyRolePermission,
-  RBACPolicyScope,
-  RBACPolicyScopePermission,
+  Policy,
+  PolicyResource,
+  PolicyRole,
+  PolicyRolePermission,
+  PolicyScope,
+  PolicyScopePermission,
   B2BRBACPolicyResponse,
 } from "./rbac";
 

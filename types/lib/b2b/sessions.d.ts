@@ -5,7 +5,7 @@ import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
 import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
-export interface B2BSessionsAuthorizationCheck {
+export interface AuthorizationCheck {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
@@ -186,7 +186,7 @@ export interface B2BSessionsAuthenticateRequest {
      *   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
      *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
      */
-    authorization_check?: B2BSessionsAuthorizationCheck;
+    authorization_check?: AuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
     /**
