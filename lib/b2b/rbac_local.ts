@@ -1,6 +1,6 @@
 // This file is manually generated!
 
-import { B2BRBACPolicy, RBAC } from "./rbac";
+import { RBACPolicy, RBAC } from "./rbac";
 import { B2BSessionsAuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
@@ -15,7 +15,7 @@ const MAX_AGE_MS = 1000 * 60 * 5;
 // - No work is done if RBAC is not used and the policy is not required
 export class PolicyCache {
   private rbac: RBAC;
-  private _policy?: B2BRBACPolicy;
+  private _policy?: RBACPolicy;
   private _timestamp?: number;
 
   constructor(rbac: RBAC) {
@@ -32,11 +32,11 @@ export class PolicyCache {
     this._timestamp = Date.now();
   }
 
-  async getPolicy(): Promise<B2BRBACPolicy> {
+  async getPolicy(): Promise<RBACPolicy> {
     if (!this._policy || !this.fresh()) {
       await this.reload();
     }
-    return this._policy as B2BRBACPolicy;
+    return this._policy as RBACPolicy;
   }
 }
 
@@ -46,7 +46,7 @@ export function performAuthorizationCheck({
   subjectOrgID,
   authorizationCheck,
 }: {
-  policy: B2BRBACPolicy;
+  policy: RBACPolicy;
   subjectRoles: string[];
   subjectOrgID: string;
   authorizationCheck: B2BSessionsAuthorizationCheck;
@@ -83,7 +83,7 @@ export function performScopeAuthorizationCheck({
   subjectOrgID,
   authorizationCheck,
 }: {
-  policy: B2BRBACPolicy;
+  policy: RBACPolicy;
   tokenScopes: string[];
   subjectOrgID: string;
   authorizationCheck: B2BSessionsAuthorizationCheck;

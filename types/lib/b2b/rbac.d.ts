@@ -1,10 +1,10 @@
 import { fetchConfig } from "../shared";
-export interface B2BRBACPolicy {
-    roles: B2BRBACPolicyRole[];
-    resources: B2BRBACPolicyResource[];
-    scopes: B2BRBACPolicyScope[];
+export interface RBACPolicy {
+    roles: RBACPolicyRole[];
+    resources: RBACPolicyResource[];
+    scopes: RBACPolicyScope[];
 }
-export interface B2BRBACPolicyResource {
+export interface RBACPolicyResource {
     /**
      * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
      *
@@ -70,7 +70,7 @@ export interface B2BRBACPolicyResource {
      */
     actions: string[];
 }
-export interface B2BRBACPolicyRole {
+export interface RBACPolicyRole {
     /**
      * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
      *
@@ -90,9 +90,9 @@ export interface B2BRBACPolicyRole {
      * A list of permissions that link a [Resource](https://stytch.com/docs/b2b/api/rbac-resource-object) to a
      * list of actions.
      */
-    permissions: B2BRBACPolicyRolePermission[];
+    permissions: RBACPolicyRolePermission[];
 }
-export interface B2BRBACPolicyRolePermission {
+export interface RBACPolicyRolePermission {
     /**
      * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
      *
@@ -117,12 +117,12 @@ export interface B2BRBACPolicyRolePermission {
      */
     actions: string[];
 }
-export interface B2BRBACPolicyScope {
+export interface RBACPolicyScope {
     scope: string;
     description: string;
-    permissions: B2BRBACPolicyScopePermission[];
+    permissions: RBACPolicyScopePermission[];
 }
-export interface B2BRBACPolicyScopePermission {
+export interface RBACPolicyScopePermission {
     resource_id: string;
     actions: string[];
 }
@@ -142,7 +142,7 @@ export interface B2BRBACPolicyResponse {
      * [Dashboard](https://stytch.com/docs/dashboard/rbac). Read more about these entities and how they work in
      * our [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
      */
-    policy?: B2BRBACPolicy;
+    policy?: RBACPolicy;
 }
 export declare class RBAC {
     private fetchConfig;

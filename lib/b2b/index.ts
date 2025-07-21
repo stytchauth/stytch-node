@@ -194,12 +194,12 @@ export type {
 } from "./impersonation";
 
 export type {
-  B2BRBACPolicy,
-  B2BRBACPolicyResource,
-  B2BRBACPolicyRole,
-  B2BRBACPolicyRolePermission,
-  B2BRBACPolicyScope,
-  B2BRBACPolicyScopePermission,
+  RBACPolicy,
+  RBACPolicyResource,
+  RBACPolicyRole,
+  RBACPolicyRolePermission,
+  RBACPolicyScope,
+  RBACPolicyScopePermission,
   B2BRBACPolicyResponse,
 } from "./rbac";
 
