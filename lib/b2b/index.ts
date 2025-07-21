@@ -166,7 +166,7 @@ export type {
 
 export type {
   AuthorizationCheck,
-  B2BSessionsAuthorizationVerdict,
+  AuthorizationVerdict,
   MemberSession,
   PrimaryRequired,
   B2BSessionsAttestRequest,

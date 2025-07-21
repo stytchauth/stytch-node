@@ -48,7 +48,7 @@ export interface AuthorizationCheck {
   action: string;
 }
 
-export interface B2BSessionsAuthorizationVerdict {
+export interface AuthorizationVerdict {
   authorized: boolean;
   granting_roles: string[];
 }
@@ -257,7 +257,7 @@ export interface B2BSessionsAuthenticateResponse {
    *   the complete list of Roles that gave the Member permission to perform the specified action on the
    * specified Resource.
    */
-  verdict?: B2BSessionsAuthorizationVerdict;
+  verdict?: AuthorizationVerdict;
 }
 
 // Request type for `sessions.exchangeAccessToken`.

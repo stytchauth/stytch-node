@@ -32,7 +32,7 @@ export interface AuthorizationCheck {
     resource_id: string;
     action: string;
 }
-export interface B2BSessionsAuthorizationVerdict {
+export interface AuthorizationVerdict {
     authorized: boolean;
     granting_roles: string[];
 }
@@ -209,7 +209,7 @@ export interface B2BSessionsAuthenticateResponse {
      *   the complete list of Roles that gave the Member permission to perform the specified action on the
      * specified Resource.
      */
-    verdict?: B2BSessionsAuthorizationVerdict;
+    verdict?: AuthorizationVerdict;
 }
 export interface B2BSessionsExchangeAccessTokenRequest {
     access_token: string;
