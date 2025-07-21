@@ -5,7 +5,7 @@ import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
 import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
-export interface AuthorizationCheck {
+export interface B2BSessionsAuthorizationCheck {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
@@ -32,7 +32,7 @@ export interface AuthorizationCheck {
     resource_id: string;
     action: string;
 }
-export interface AuthorizationVerdict {
+export interface B2BSessionsAuthorizationVerdict {
     authorized: boolean;
     granting_roles: string[];
 }
@@ -186,7 +186,7 @@ export interface B2BSessionsAuthenticateRequest {
      *   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
      *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
      */
-    authorization_check?: AuthorizationCheck;
+    authorization_check?: B2BSessionsAuthorizationCheck;
 }
 export interface B2BSessionsAuthenticateResponse {
     /**
@@ -209,7 +209,7 @@ export interface B2BSessionsAuthenticateResponse {
      *   the complete list of Roles that gave the Member permission to perform the specified action on the
      * specified Resource.
      */
-    verdict?: AuthorizationVerdict;
+    verdict?: B2BSessionsAuthorizationVerdict;
 }
 export interface B2BSessionsExchangeAccessTokenRequest {
     access_token: string;
@@ -478,7 +478,7 @@ export interface B2BSessionsAuthenticateJwtRequest {
      * return a new JWT.
      */
     session_jwt: string;
-    authorization_check?: AuthorizationCheck;
+    authorization_check?: B2BSessionsAuthorizationCheck;
     /**
      * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
@@ -490,7 +490,7 @@ export interface B2BSessionsAuthenticateJwtLocalRequest {
      * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
      */
     session_jwt: string;
-    authorization_check?: AuthorizationCheck;
+    authorization_check?: B2BSessionsAuthorizationCheck;
     /**
      * The maximum allowable difference when comparing timestamps.
      * It defaults to zero.

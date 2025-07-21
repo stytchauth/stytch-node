@@ -8,15 +8,15 @@ import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
-export interface Policy {
+export interface B2BRBACPolicy {
   // An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
-  roles: PolicyRole[];
+  roles: B2BRBACPolicyRole[];
   // An array of [Resource objects](https://stytch.com/docs/b2b/api/rbac-resource-object).
-  resources: PolicyResource[];
-  scopes: PolicyScope[];
+  resources: B2BRBACPolicyResource[];
+  scopes: B2BRBACPolicyScope[];
 }
 
-export interface PolicyResource {
+export interface B2BRBACPolicyResource {
   /**
    * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
    *
@@ -84,7 +84,7 @@ export interface PolicyResource {
   actions: string[];
 }
 
-export interface PolicyRole {
+export interface B2BRBACPolicyRole {
   /**
    * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
    *
@@ -105,10 +105,10 @@ export interface PolicyRole {
    * A list of permissions that link a [Resource](https://stytch.com/docs/b2b/api/rbac-resource-object) to a
    * list of actions.
    */
-  permissions: PolicyRolePermission[];
+  permissions: B2BRBACPolicyRolePermission[];
 }
 
-export interface PolicyRolePermission {
+export interface B2BRBACPolicyRolePermission {
   /**
    * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
    *
@@ -134,13 +134,13 @@ export interface PolicyRolePermission {
   actions: string[];
 }
 
-export interface PolicyScope {
+export interface B2BRBACPolicyScope {
   scope: string;
   description: string;
-  permissions: PolicyScopePermission[];
+  permissions: B2BRBACPolicyScopePermission[];
 }
 
-export interface PolicyScopePermission {
+export interface B2BRBACPolicyScopePermission {
   resource_id: string;
   actions: string[];
 }
@@ -162,7 +162,7 @@ export interface B2BRBACPolicyResponse {
    * [Dashboard](https://stytch.com/docs/dashboard/rbac). Read more about these entities and how they work in
    * our [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
    */
-  policy?: Policy;
+  policy?: B2BRBACPolicy;
 }
 
 export class RBAC {

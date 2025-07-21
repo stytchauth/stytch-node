@@ -1,6 +1,6 @@
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig } from "../shared";
-import { AuthorizationCheck } from "./sessions";
+import { B2BSessionsAuthorizationCheck } from "./sessions";
 import { PolicyCache } from "./rbac_local";
 interface OrganizationClaim {
     organization_id: string;
@@ -31,12 +31,12 @@ export declare class IDP {
     private policyCache;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
-        authorization_check?: AuthorizationCheck;
+        authorization_check?: B2BSessionsAuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
     introspectTokenLocal(tokenJWT: string, options?: {
         clock_tolerance_seconds?: number;
         current_date?: Date;
-        authorization_check?: AuthorizationCheck;
+        authorization_check?: B2BSessionsAuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
 }
 export {};

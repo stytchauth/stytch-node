@@ -1,6 +1,7 @@
 import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "./connected_apps";
+import { ConsumerRBAC } from "./consumer_rbac";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
@@ -10,7 +11,9 @@ import { MagicLinks } from "./magic_links";
 import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
+import { PolicyCache } from "./rbac_local";
 import { Project } from "./project";
+import { RBAC } from "./consumer_rbac_rbac";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -20,6 +23,7 @@ import { IDP } from "./idp";
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
   connectedApp: ConnectedApp;
+  consumerRBAC: ConsumerRBAC;
   cryptoWallets: CryptoWallets;
   fraud: Fraud;
   impersonation: Impersonation;
@@ -54,7 +58,10 @@ export class Client extends BaseClient {
       ],
     };
 
+    const policyCache = new PolicyCache(new RBAC(this.fetchConfig));
+
     this.connectedApp = new ConnectedApp(this.fetchConfig);
+    this.consumerRBAC = new ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
     this.impersonation = new Impersonation(this.fetchConfig);
@@ -68,6 +75,6 @@ export class Client extends BaseClient {
     this.totps = new TOTPs(this.fetchConfig);
     this.users = new Users(this.fetchConfig);
     this.webauthn = new WebAuthn(this.fetchConfig);
-    this.idp = new IDP(this.fetchConfig, this.jwtConfig);
+    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }

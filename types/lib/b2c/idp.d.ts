@@ -21,6 +21,7 @@ export declare class IDP {
     private fetchConfig;
     private jwtConfig;
     private jwksClient;
+    private policyCache;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
     introspectTokenNetwork(data: IntrospectTokenRequest): Promise<IntrospectTokenClaims>;
     introspectTokenLocal(tokenJWT: string, options?: {

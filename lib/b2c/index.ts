@@ -76,6 +76,8 @@ export type {
   AppleOAuthFactor,
   AuthenticationFactor,
   AuthenticatorAppFactor,
+  SessionsAuthorizationCheck,
+  SessionsAuthorizationVerdict,
   BiometricFactor,
   BitbucketOAuthFactor,
   CoinbaseOAuthFactor,
@@ -160,6 +162,17 @@ export type {
   ConnectedAppsClientsSecretsRotateStartRequest,
   ConnectedAppsClientsSecretsRotateStartResponse,
 } from "./connected_apps_clients_secrets";
+
+export type {
+  ConsumerRBACPolicy,
+  ConsumerRBACPolicyResource,
+  ConsumerRBACPolicyRole,
+  ConsumerRBACPolicyRolePermission,
+  ConsumerRBACPolicyScope,
+  ConsumerRBACPolicyScopePermission,
+} from "./consumer_rbac";
+
+export type { ConsumerRBACRBACPolicyResponse } from "./consumer_rbac_rbac";
 
 export type {
   SIWEParams,

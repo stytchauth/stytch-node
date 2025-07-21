@@ -377,6 +377,16 @@ export interface Session {
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
+export interface SessionsAuthorizationCheck {
+  resource_id: string;
+  action: string;
+}
+
+export interface SessionsAuthorizationVerdict {
+  authorized: boolean;
+  granting_roles: string[];
+}
+
 export interface ShopifyOAuthFactor {
   id: string;
   provider_subject: string;
@@ -540,6 +550,7 @@ export interface SessionsAuthenticateRequest {
    * ignored. Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  authorization_check?: SessionsAuthorizationCheck;
 }
 
 // Response type for `sessions.authenticate`.
@@ -571,6 +582,7 @@ export interface SessionsAuthenticateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  verdict?: SessionsAuthorizationVerdict;
 }
 
 // Request type for `sessions.exchangeAccessToken`.

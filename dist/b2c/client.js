@@ -7,6 +7,7 @@ exports.Client = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _connected_apps = require("./connected_apps");
+var _consumer_rbac = require("./consumer_rbac");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
 var _impersonation = require("./impersonation");
@@ -34,6 +35,7 @@ class Client extends _client.BaseClient {
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
+    this.consumerRBAC = new _consumer_rbac.ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
@@ -47,7 +49,7 @@ class Client extends _client.BaseClient {
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
-    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig);
+    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }
 exports.Client = Client;
