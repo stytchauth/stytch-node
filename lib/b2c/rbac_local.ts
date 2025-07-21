@@ -28,7 +28,7 @@ export class PolicyCache {
   }
 
   private async reload() {
-    const policyResponse = await this.rbac.rbac.policy();
+    const policyResponse = await this.rbac.policy();
     this._policy = policyResponse.policy;
     this._timestamp = Date.now();
   }

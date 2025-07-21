@@ -1,5 +1,4 @@
 import { fetchConfig } from "../shared";
-import { RBAC } from "./consumer_rbac_rbac";
 export interface ConsumerRBACPolicy {
     roles: ConsumerRBACPolicyRole[];
     resources: ConsumerRBACPolicyResource[];
@@ -28,8 +27,20 @@ export interface ConsumerRBACPolicyScopePermission {
     resource_id: string;
     actions: string[];
 }
+export interface ConsumerRBACPolicyResponse {
+    request_id: string;
+    status_code: number;
+    policy?: ConsumerRBACPolicy;
+}
 export declare class ConsumerRBAC {
     private fetchConfig;
-    rbac: RBAC;
     constructor(fetchConfig: fetchConfig);
+    /**
+     * @param params {@link ConsumerRBACPolicyRequest}
+     * @returns {@link ConsumerRBACPolicyResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    policy(): Promise<ConsumerRBACPolicyResponse>;
 }

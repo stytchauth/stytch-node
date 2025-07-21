@@ -170,9 +170,8 @@ export type {
   ConsumerRBACPolicyRolePermission,
   ConsumerRBACPolicyScope,
   ConsumerRBACPolicyScopePermission,
+  ConsumerRBACPolicyResponse,
 } from "./consumer_rbac";
-
-export type { ConsumerRBACRBACPolicyResponse } from "./consumer_rbac_rbac";
 
 export type {
   SIWEParams,

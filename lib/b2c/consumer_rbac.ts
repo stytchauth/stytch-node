@@ -6,7 +6,7 @@
 
 import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { RBAC } from "./consumer_rbac_rbac";
+import { request } from "../shared";
 
 export interface ConsumerRBACPolicy {
   roles: ConsumerRBACPolicyRole[];
@@ -42,12 +42,32 @@ export interface ConsumerRBACPolicyScopePermission {
   actions: string[];
 }
 
+export interface ConsumerRBACPolicyResponse {
+  request_id: string;
+  status_code: number;
+  policy?: ConsumerRBACPolicy;
+}
+
 export class ConsumerRBAC {
   private fetchConfig: fetchConfig;
-  rbac: RBAC;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
-    this.rbac = new RBAC(this.fetchConfig);
+  }
+
+  /**
+   * @param params {@link ConsumerRBACPolicyRequest}
+   * @returns {@link ConsumerRBACPolicyResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  policy(): Promise<ConsumerRBACPolicyResponse> {
+    const headers: Record<string, string> = {};
+    return request<ConsumerRBACPolicyResponse>(this.fetchConfig, {
+      method: "GET",
+      url: `/v1/rbac/policy`,
+      headers,
+    });
   }
 }
