@@ -17,6 +17,7 @@ var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
 var _otps = require("./otps");
 var _passwords = require("./passwords");
+var _rbac_local = require("./rbac_local");
 var _project = require("./project");
 var _sessions2 = require("./sessions");
 var _totps = require("./totps");
@@ -34,6 +35,7 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
+    const policyCache = new _rbac_local.PolicyCache(new _consumer_rbac.ConsumerRBAC(this.fetchConfig));
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.consumerRBAC = new _consumer_rbac.ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);

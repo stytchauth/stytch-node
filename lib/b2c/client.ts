@@ -57,6 +57,8 @@ export class Client extends BaseClient {
       ],
     };
 
+    const policyCache = new PolicyCache(new ConsumerRBAC(this.fetchConfig));
+
     this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.consumerRBAC = new ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
