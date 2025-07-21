@@ -4,9 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
+import {  } from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { RBAC } from "./consumer_rbac_rbac";
+import { RBAC } from "./consumer_rbac_rbac"
+
 
 export interface ConsumerRBACPolicy {
   roles: ConsumerRBACPolicyRole[];
@@ -42,12 +43,19 @@ export interface ConsumerRBACPolicyScopePermission {
   actions: string[];
 }
 
+
+
+
 export class ConsumerRBAC {
   private fetchConfig: fetchConfig;
-  rbac: RBAC;
+  rbac: RBAC
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.rbac = new RBAC(this.fetchConfig);
+
   }
+
+
 }
+

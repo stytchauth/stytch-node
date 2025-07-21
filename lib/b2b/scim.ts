@@ -4,9 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
-import { Connection } from "./scim_connection";
+import {  } from "../shared/method_options";
+import { Connection } from "./scim_connection"
 import { fetchConfig } from "../shared";
+
 
 export interface Address {
   formatted: string;
@@ -158,17 +159,17 @@ export interface SCIMConnectionWithToken {
 
 export interface SCIMGroup {
   /**
-   * Stytch-issued, globally unique UUID that identifies a specific SCIM Group. The entity `id` in the SCIM
-   * specification is issued by the Service Provider (SP) and returned to the Identity Provider (IdP) to
-   * store and use for uniquely identify and updating the Group moving forward.
-   */
+* Stytch-issued, globally unique UUID that identifies a specific SCIM Group. The entity `id` in the SCIM
+* specification is issued by the Service Provider (SP) and returned to the Identity Provider (IdP) to
+* store and use for uniquely identify and updating the Group moving forward.
+*/
   group_id: string;
   // The displayName of the SCIM group, sent from the Identity Provider (IdP).
   group_name: string;
   /**
-   * Globally unique UUID that identifies a specific Organization. The organization_id is critical to perform
-   * operations on an Organization, so be sure to preserve this value.
-   */
+* Globally unique UUID that identifies a specific Organization. The organization_id is critical to perform
+* operations on an Organization, so be sure to preserve this value.
+*/
   organization_id: string;
   // The ID of the SCIM connection.
   connection_id: string;
@@ -182,12 +183,19 @@ export interface SCIMGroupImplicitRoleAssignments {
   group_name: string;
 }
 
+
+
+
 export class SCIM {
   private fetchConfig: fetchConfig;
-  connection: Connection;
+  connection: Connection
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.connection = new Connection(this.fetchConfig);
+
   }
+
+
 }
+

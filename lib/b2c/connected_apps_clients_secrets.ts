@@ -4,13 +4,11 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
-import {
-  ConnectedApp,
-  ConnectedAppWithNextClientSecret,
-} from "./connected_apps";
+import {  } from "../shared/method_options";
+import { ConnectedApp, ConnectedAppWithNextClientSecret } from "./connected_apps"
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
+
 
 // Request type for `connectedApp.clients.secrets.rotateCancel`.
 export interface ConnectedAppsClientsSecretsRotateCancelRequest {
@@ -21,16 +19,16 @@ export interface ConnectedAppsClientsSecretsRotateCancelRequest {
 // Response type for `connectedApp.clients.secrets.rotateCancel`.
 export interface ConnectedAppsClientsSecretsRotateCancelResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The Connected App affected by this operation.
   connected_app: ConnectedApp;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
@@ -43,16 +41,16 @@ export interface ConnectedAppsClientsSecretsRotateRequest {
 // Response type for `connectedApp.clients.secrets.rotate`.
 export interface ConnectedAppsClientsSecretsRotateResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The Connected App affected by this operation.
   connected_app: ConnectedApp;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
@@ -65,105 +63,103 @@ export interface ConnectedAppsClientsSecretsRotateStartRequest {
 // Response type for `connectedApp.clients.secrets.rotateStart`.
 export interface ConnectedAppsClientsSecretsRotateStartResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The Connected App affected by this operation.
   connected_app: ConnectedAppWithNextClientSecret;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
+
+
+
 
 export class Secrets {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
+
   }
 
   /**
-   * Initiate the rotation of a Connected App client secret. After this endpoint is called, both the client's
-   * `client_secret` and `next_client_secret` will be valid. To complete the secret rotation flow, update all
-   * usages of `client_secret` to `next_client_secret` and call the Rotate Secret Endpoint to complete the
-   * flow.
-   * Secret rotation can be cancelled using the Cancel Secret Rotation endpoint.
-   *
-   * **Important:** This is the only time you will be able to view the generated `next_client_secret` in the
-   * API response. Stytch stores a hash of the `next_client_secret` and cannot recover the value if lost. Be
-   * sure to persist the `next_client_secret` in a secure location. If the `next_client_secret` is lost, you
-   * will need to trigger a secret rotation flow to receive another one.
-   * @param data {@link ConnectedAppsClientsSecretsRotateStartRequest}
-   * @returns {@link ConnectedAppsClientsSecretsRotateStartResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Initiate the rotation of a Connected App client secret. After this endpoint is called, both the client's
+  * `client_secret` and `next_client_secret` will be valid. To complete the secret rotation flow, update all
+  * usages of `client_secret` to `next_client_secret` and call the Rotate Secret Endpoint to complete the
+  * flow.
+  * Secret rotation can be cancelled using the Cancel Secret Rotation endpoint.
+  * 
+  * **Important:** This is the only time you will be able to view the generated `next_client_secret` in the
+  * API response. Stytch stores a hash of the `next_client_secret` and cannot recover the value if lost. Be
+  * sure to persist the `next_client_secret` in a secure location. If the `next_client_secret` is lost, you
+  * will need to trigger a secret rotation flow to receive another one.
+  * @param data {@link ConnectedAppsClientsSecretsRotateStartRequest}
+  * @returns {@link ConnectedAppsClientsSecretsRotateStartResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   rotateStart(
-    data: ConnectedAppsClientsSecretsRotateStartRequest
+    data: ConnectedAppsClientsSecretsRotateStartRequest,
   ): Promise<ConnectedAppsClientsSecretsRotateStartResponse> {
     const headers: Record<string, string> = {};
-    return request<ConnectedAppsClientsSecretsRotateStartResponse>(
-      this.fetchConfig,
-      {
-        method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/start`,
-        headers,
-        data: {},
-      }
-    );
+    return request<ConnectedAppsClientsSecretsRotateStartResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/start`,
+      headers,
+      data: {},
+    });
   }
 
   /**
-   * Cancel the rotation of a Connected App client secret started with the Start Secret Rotation Endpoint.
-   * After this endpoint is called, the client's `next_client_secret` is discarded and only the original
-   * `client_secret` will be valid.
-   * @param data {@link ConnectedAppsClientsSecretsRotateCancelRequest}
-   * @returns {@link ConnectedAppsClientsSecretsRotateCancelResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Cancel the rotation of a Connected App client secret started with the Start Secret Rotation Endpoint.
+  * After this endpoint is called, the client's `next_client_secret` is discarded and only the original
+  * `client_secret` will be valid.
+  * @param data {@link ConnectedAppsClientsSecretsRotateCancelRequest}
+  * @returns {@link ConnectedAppsClientsSecretsRotateCancelResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   rotateCancel(
-    data: ConnectedAppsClientsSecretsRotateCancelRequest
+    data: ConnectedAppsClientsSecretsRotateCancelRequest,
   ): Promise<ConnectedAppsClientsSecretsRotateCancelResponse> {
     const headers: Record<string, string> = {};
-    return request<ConnectedAppsClientsSecretsRotateCancelResponse>(
-      this.fetchConfig,
-      {
-        method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/cancel`,
-        headers,
-        data: {},
-      }
-    );
+    return request<ConnectedAppsClientsSecretsRotateCancelResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/cancel`,
+      headers,
+      data: {},
+    });
   }
 
   /**
-   * Complete the rotation of a Connected App client secret started with the Rotate Secret Start Endpoint.
-   * After this endpoint is called, the client's `next_client_secret` becomes its `client_secret` and the
-   * previous `client_secret` will no longer be valid.
-   * @param data {@link ConnectedAppsClientsSecretsRotateRequest}
-   * @returns {@link ConnectedAppsClientsSecretsRotateResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Complete the rotation of a Connected App client secret started with the Rotate Secret Start Endpoint.
+  * After this endpoint is called, the client's `next_client_secret` becomes its `client_secret` and the
+  * previous `client_secret` will no longer be valid.
+  * @param data {@link ConnectedAppsClientsSecretsRotateRequest}
+  * @returns {@link ConnectedAppsClientsSecretsRotateResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   rotate(
-    data: ConnectedAppsClientsSecretsRotateRequest
+    data: ConnectedAppsClientsSecretsRotateRequest,
   ): Promise<ConnectedAppsClientsSecretsRotateResponse> {
     const headers: Record<string, string> = {};
-    return request<ConnectedAppsClientsSecretsRotateResponse>(
-      this.fetchConfig,
-      {
-        method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate`,
-        headers,
-        data: {},
-      }
-    );
+    return request<ConnectedAppsClientsSecretsRotateResponse>(this.fetchConfig, {
+      method: "POST",
+      url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate`,
+      headers,
+      data: {},
+    });
   }
+
+
 }
+

@@ -4,14 +4,12 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {
-  Authorization,
-  addAuthorizationHeaders,
-} from "../shared/method_options";
+import { Authorization, addAuthorizationHeaders } from "../shared/method_options";
 import { fetchConfig } from "../shared";
-import { Members } from "./organizations_members";
+import { Members } from "./organizations_members"
 import { request } from "../shared";
-import { SCIMAttributes } from "./scim";
+import { SCIMAttributes } from "./scim"
+
 
 export interface ActiveSCIMConnection {
   // The ID of the SCIM connection.
@@ -32,50 +30,50 @@ export interface ActiveSSOConnection {
 
 export interface B2BOrganizationsConnectedAppsRequestOptions {
   /**
-   * Optional authorization object.
-   * Pass in an active Stytch Member session token or session JWT and the request
-   * will be run using that member's permissions.
-   */
+* Optional authorization object.
+* Pass in an active Stytch Member session token or session JWT and the request
+* will be run using that member's permissions.
+*/
   authorization?: Authorization;
 }
 
 export interface B2BOrganizationsDeleteRequestOptions {
   /**
-   * Optional authorization object.
-   * Pass in an active Stytch Member session token or session JWT and the request
-   * will be run using that member's permissions.
-   */
+* Optional authorization object.
+* Pass in an active Stytch Member session token or session JWT and the request
+* will be run using that member's permissions.
+*/
   authorization?: Authorization;
 }
 
 export interface B2BOrganizationsGetConnectedAppRequestOptions {
   /**
-   * Optional authorization object.
-   * Pass in an active Stytch Member session token or session JWT and the request
-   * will be run using that member's permissions.
-   */
+* Optional authorization object.
+* Pass in an active Stytch Member session token or session JWT and the request
+* will be run using that member's permissions.
+*/
   authorization?: Authorization;
 }
 
 export interface B2BOrganizationsResultsMetadata {
   /**
-   * The total number of results returned by your search query. If totals have been disabled for your Stytch
-   * Workspace to improve search performance, the value will always be -1.
-   */
+* The total number of results returned by your search query. If totals have been disabled for your Stytch
+* Workspace to improve search performance, the value will always be -1.
+*/
   total: number;
   /**
-   * The `next_cursor` string is returned when your search result contains more than one page of results.
-   * This value is passed into your next search call in the `cursor` field.
-   */
+* The `next_cursor` string is returned when your search result contains more than one page of results.
+* This value is passed into your next search call in the `cursor` field.
+*/
   next_cursor?: string;
 }
 
 export interface B2BOrganizationsUpdateRequestOptions {
   /**
-   * Optional authorization object.
-   * Pass in an active Stytch Member session token or session JWT and the request
-   * will be run using that member's permissions.
-   */
+* Optional authorization object.
+* Pass in an active Stytch Member session token or session JWT and the request
+* will be run using that member's permissions.
+*/
   authorization?: Authorization;
 }
 
@@ -83,88 +81,88 @@ export interface EmailImplicitRoleAssignment {
   // Email domain that grants the specified Role.
   domain: string;
   /**
-   * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-   *
-   *   Reserved `role_id`s that are predefined by Stytch include:
-   *
-   *   * `stytch_member`
-   *   * `stytch_admin`
-   *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-   * for a more detailed explanation.
-   *
-   *
-   */
+* The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+* 
+*   Reserved `role_id`s that are predefined by Stytch include:
+* 
+*   * `stytch_member`
+*   * `stytch_admin`
+* 
+*   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+* for a more detailed explanation.
+* 
+*   
+*/
   role_id: string;
 }
 
 export interface GithubProviderInfo {
   /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
+* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+* "Subject field" in OAuth protocols.
+*/
   provider_subject: string;
   /**
-   * All tenant IDs returned by the OAuth provider. These is typically used to identify organizations or
-   * groups within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
-   * Workspace ID, and in GitHub this is an organization ID. Some OAuth providers do not return tenant IDs,
-   * some providers are guaranteed to return one, and some may return multiple. This field will always be
-   * populated if at least one tenant ID was returned from the OAuth provider and developers should prefer
-   * this field over `provider_tenant_id`.
-   */
+* All tenant IDs returned by the OAuth provider. These is typically used to identify organizations or
+* groups within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+* Workspace ID, and in GitHub this is an organization ID. Some OAuth providers do not return tenant IDs,
+* some providers are guaranteed to return one, and some may return multiple. This field will always be
+* populated if at least one tenant ID was returned from the OAuth provider and developers should prefer
+* this field over `provider_tenant_id`.
+*/
   provider_tenant_ids: string[];
   // The `access_token` that you may use to access the User's data in the provider's API.
   access_token: string;
   /**
-   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
-   * are included by default and how to add custom scopes.
-   */
+* The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+* are included by default and how to add custom scopes.
+*/
   scopes: string[];
 }
 
 export interface HubspotProviderInfo {
   /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
+* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+* "Subject field" in OAuth protocols.
+*/
   provider_subject: string;
   /**
-   * The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
-   * group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
-   * Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
-   * tenant ID is returned from a successful OAuth authentication and developers should prefer
-   * `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
-   * multiple tenant IDs.
-   */
+* The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
+* group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+* Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
+* tenant ID is returned from a successful OAuth authentication and developers should prefer
+* `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+* multiple tenant IDs.
+*/
   provider_tenant_id: string;
   // The `access_token` that you may use to access the User's data in the provider's API.
   access_token: string;
   // The number of seconds until the access token expires.
   access_token_expires_in: number;
   /**
-   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
-   * are included by default and how to add custom scopes.
-   */
+* The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+* are included by default and how to add custom scopes.
+*/
   scopes: string[];
   /**
-   * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
-   * API.
-   */
+* The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+* API.
+*/
   refresh_token?: string;
 }
 
 export interface Member {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
   /**
-   * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
-   * for the member.
-   */
+* Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
+* operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
+* for the member.
+*/
   member_id: string;
   // The email address of the Member.
   email_address: string;
@@ -173,17 +171,17 @@ export interface Member {
   // The name of the Member.
   name: string;
   /**
-   * An array of registered [SAML Connection](saml-connection-object) or
-   * [OIDC Connection](oidc-connection-object) objects the Member has authenticated with.
-   */
+* An array of registered [SAML Connection](saml-connection-object) or
+* [OIDC Connection](oidc-connection-object) objects the Member has authenticated with.
+*/
   sso_registrations: SSORegistration[];
   /**
-   * Identifies the Member as a break glass user - someone who has permissions to authenticate into an
-   * Organization by bypassing the Organization's settings. A break glass account is typically used for
-   * emergency purposes to gain access outside of normal authentication procedures. Refer to the
-   * [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-   * more details.
-   */
+* Identifies the Member as a break glass user - someone who has permissions to authenticate into an
+* Organization by bypassing the Organization's settings. A break glass account is typically used for
+* emergency purposes to gain access outside of normal authentication procedures. Refer to the
+* [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
+* more details.
+*/
   is_breakglass: boolean;
   // Globally unique UUID that identifies a Member's password.
   member_password_id: string;
@@ -194,72 +192,72 @@ export interface Member {
   // Whether or not the Member's phone number is verified.
   mfa_phone_number_verified: boolean;
   /**
-   * Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted to Members
-   *   who create an Organization through the
-   * [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
-   *   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
-   */
+* Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted to Members
+*   who create an Organization through the
+* [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
+*   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
+*/
   is_admin: boolean;
   totp_registration_id: string;
   /**
-   *
-   *   A list of retired email addresses for this member.
-   *   A previously active email address can be marked as retired in one of two ways:
-   *   - It's replaced with a new primary email address during an explicit Member update.
-   *   - A new email address is surfaced by an OAuth, SAML or OIDC provider. In this case the new email
-   * address becomes the
-   *   Member's primary email address and the old primary email address is retired.
-   *
-   *   A retired email address cannot be used by other Members in the same Organization. However, unlinking
-   * retired email
-   *   addresses allows them to be subsequently re-used by other Organization Members. Retired email
-   * addresses can be unlinked
-   *   using the [Unlink Retired Email endpoint](https://stytch.com/docs/b2b/api/unlink-retired-member-email).
-   *
-   */
+* 
+*   A list of retired email addresses for this member.
+*   A previously active email address can be marked as retired in one of two ways:
+*   - It's replaced with a new primary email address during an explicit Member update.
+*   - A new email address is surfaced by an OAuth, SAML or OIDC provider. In this case the new email
+* address becomes the
+*   Member's primary email address and the old primary email address is retired.
+*  
+*   A retired email address cannot be used by other Members in the same Organization. However, unlinking
+* retired email
+*   addresses allows them to be subsequently re-used by other Organization Members. Retired email
+* addresses can be unlinked
+*   using the [Unlink Retired Email endpoint](https://stytch.com/docs/b2b/api/unlink-retired-member-email).
+*   
+*/
   retired_email_addresses: RetiredEmail[];
   is_locked: boolean;
   /**
-   * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
-   * wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
-   * Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
-   */
+* Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
+* wish to log in to their Organization. If false, the Member only needs to complete an MFA step if the
+* Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+*/
   mfa_enrolled: boolean;
   /**
-   * The Member's phone number. A Member may only have one phone number. The phone number should be in E.164
-   * format (i.e. +1XXXXXXXXXX).
-   */
+* The Member's phone number. A Member may only have one phone number. The phone number should be in E.164
+* format (i.e. +1XXXXXXXXXX).
+*/
   mfa_phone_number: string;
   default_mfa_method: string;
   /**
-   * Explicit or implicit Roles assigned to this Member, along with details about the role assignment source.
-   *    See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information
-   * about role assignment.
-   */
+* Explicit or implicit Roles assigned to this Member, along with details about the role assignment source.
+*    See the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information
+* about role assignment.
+*/
   roles: MemberRole[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * An arbitrary JSON object of application-specific data. These fields can be edited directly by the
-   *   frontend SDK, and should not be used to store critical information. See the
-   * [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
-   *   for complete field behavior details.
-   */
+* An arbitrary JSON object of application-specific data. These fields can be edited directly by the
+*   frontend SDK, and should not be used to store critical information. See the
+* [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
+*   for complete field behavior details.
+*/
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are expressed in
-   * UTC, e.g. `2021-12-29T12:33:09Z`.
-   */
+* The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are expressed in
+* UTC, e.g. `2021-12-29T12:33:09Z`.
+*/
   created_at?: string;
   /**
-   * The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard and are
-   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-   */
+* The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard and are
+* expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+*/
   updated_at?: string;
   /**
-   * A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
-   * the Member creation.
-   */
+* A scim member registration, referencing a [SCIM Connection](scim-connection-object) object in use for
+* the Member creation.
+*/
   scim_registration?: SCIMRegistration;
   // The ID of the member given by the identity provider.
   external_id?: string;
@@ -275,9 +273,9 @@ export interface MemberConnectedApp {
   // A description of the Connected App.
   description: string;
   /**
-   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
-   * `third_party_public`.
-   */
+* The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+* `third_party_public`.
+*/
   client_type: string;
   // The scopes granted to the Connected App at the completion of the last authorization flow.
   scopes_granted: string;
@@ -287,355 +285,355 @@ export interface MemberConnectedApp {
 
 export interface MemberRole {
   /**
-   * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-   *
-   *   Reserved `role_id`s that are predefined by Stytch include:
-   *
-   *   * `stytch_member`
-   *   * `stytch_admin`
-   *
-   *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-   * for a more detailed explanation.
-   *
-   *
-   */
+* The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+* 
+*   Reserved `role_id`s that are predefined by Stytch include:
+* 
+*   * `stytch_member`
+*   * `stytch_admin`
+* 
+*   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+* for a more detailed explanation.
+* 
+*   
+*/
   role_id: string;
   /**
-   * A list of sources for this role assignment. A role assignment can come from multiple sources - for
-   * example, the Role could be both explicitly assigned and implicitly granted from the Member's email
-   * domain.
-   */
+* A list of sources for this role assignment. A role assignment can come from multiple sources - for
+* example, the Role could be both explicitly assigned and implicitly granted from the Member's email
+* domain.
+*/
   sources: MemberRoleSource[];
 }
 
 export interface MemberRoleSource {
   /**
-   * The type of role assignment. The possible values are:
-   *
-   *   `direct_assignment` – an explicitly assigned Role.
-   *
-   *   Directly assigned roles can be updated by passing in the `roles` argument to the
-   *   [Update Member](https://stytch.com/docs/b2b/api/update-member) endpoint.
-   *
-   *   `email_assignment` – an implicit Role granted by the Member's email domain, regardless of their login
-   * method.
-   *
-   *   Email implicit role assignments can be updated by passing in the
-   * `rbac_email_implicit_role_assignments` argument to
-   *   the [Update Organization](https://stytch.com/docs/b2b/api/update-organization) endpoint.
-   *
-   *   `sso_connection` – an implicit Role granted by the Member's SSO connection. This is currently only
-   * available
-   *   for SAML connections and not for OIDC. If the Member has a SAML Member registration with the given
-   * connection, this
-   *   role assignment will appear in the list. However, for authorization check purposes (in
-   *   [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint that
-   * enforces RBAC with session
-   *   headers), the Member will only be granted the Role if their session contains an authentication factor
-   * with the
-   *   specified SAML connection.
-   *
-   *   SAML connection implicit role assignments can be updated by passing in the
-   *   `saml_connection_implicit_role_assignments` argument to the
-   *   [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection) endpoint.
-   *
-   *   `sso_connection_group` – an implicit Role granted by the Member's SSO connection and group. This is
-   * currently only
-   *   available for SAML connections and not for OIDC. If the Member has a SAML Member registration with the
-   * given
-   *   connection, and belongs to a specific group within the IdP, this role assignment will appear in the
-   * list. However,
-   *   for authorization check purposes (in
-   * [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint
-   *   that enforces RBAC with session headers), the Member will only be granted the role if their session
-   * contains an
-   *   authentication factor with the specified SAML connection.
-   *
-   *   SAML group implicit role assignments can be updated by passing in the
-   * `saml_group_implicit_role_assignments`
-   *   argument to the [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection)
-   * endpoint.
-   *
-   *     `scim_connection_group` – an implicit Role granted by the Member's SCIM connection and group. If the
-   * Member has
-   *   a SCIM Member registration with the given connection, and belongs to a specific group within the IdP,
-   * this role assignment will appear in the list.
-   *
-   *   SCIM group implicit role assignments can be updated by passing in the
-   * `scim_group_implicit_role_assignments`
-   *   argument to the [Update SCIM connection](https://stytch.com/docs/b2b/api/update-scim-connection)
-   * endpoint.
-   *
-   */
+* The type of role assignment. The possible values are:
+*  
+*   `direct_assignment` – an explicitly assigned Role.
+* 
+*   Directly assigned roles can be updated by passing in the `roles` argument to the
+*   [Update Member](https://stytch.com/docs/b2b/api/update-member) endpoint.
+*  
+*   `email_assignment` – an implicit Role granted by the Member's email domain, regardless of their login
+* method.
+* 
+*   Email implicit role assignments can be updated by passing in the
+* `rbac_email_implicit_role_assignments` argument to
+*   the [Update Organization](https://stytch.com/docs/b2b/api/update-organization) endpoint.
+*  
+*   `sso_connection` – an implicit Role granted by the Member's SSO connection. This is currently only
+* available
+*   for SAML connections and not for OIDC. If the Member has a SAML Member registration with the given
+* connection, this
+*   role assignment will appear in the list. However, for authorization check purposes (in
+*   [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint that
+* enforces RBAC with session
+*   headers), the Member will only be granted the Role if their session contains an authentication factor
+* with the
+*   specified SAML connection.
+* 
+*   SAML connection implicit role assignments can be updated by passing in the
+*   `saml_connection_implicit_role_assignments` argument to the
+*   [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection) endpoint.
+*  
+*   `sso_connection_group` – an implicit Role granted by the Member's SSO connection and group. This is
+* currently only
+*   available for SAML connections and not for OIDC. If the Member has a SAML Member registration with the
+* given
+*   connection, and belongs to a specific group within the IdP, this role assignment will appear in the
+* list. However,
+*   for authorization check purposes (in
+* [sessions authenticate](https://stytch.com/docs/b2b/api/authenticate-session) or in any endpoint
+*   that enforces RBAC with session headers), the Member will only be granted the role if their session
+* contains an
+*   authentication factor with the specified SAML connection.
+* 
+*   SAML group implicit role assignments can be updated by passing in the
+* `saml_group_implicit_role_assignments`
+*   argument to the [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection)
+* endpoint.
+* 
+*     `scim_connection_group` – an implicit Role granted by the Member's SCIM connection and group. If the
+* Member has
+*   a SCIM Member registration with the given connection, and belongs to a specific group within the IdP,
+* this role assignment will appear in the list.
+* 
+*   SCIM group implicit role assignments can be updated by passing in the
+* `scim_group_implicit_role_assignments`
+*   argument to the [Update SCIM connection](https://stytch.com/docs/b2b/api/update-scim-connection)
+* endpoint.
+*   
+*/
   type: string;
   /**
-   * An object containing additional metadata about the source assignment. The fields will vary depending
-   *   on the role assignment type as follows:
-   *
-   *   `direct_assignment` – no additional details.
-   *
-   *   `email_assignment` – will contain the email domain that granted the assignment.
-   *
-   *   `sso_connection` – will contain the `connection_id` of the SAML connection that granted the assignment.
-   *
-   *   `sso_connection_group` – will contain the `connection_id` of the SAML connection and the name of the
-   * `group`
-   *   that granted the assignment.
-   *
-   *   `scim_connection_group` – will contain the `connection_id` of the SAML connection and the `group_id`
-   *   that granted the assignment.
-   *
-   */
+* An object containing additional metadata about the source assignment. The fields will vary depending
+*   on the role assignment type as follows:
+*  
+*   `direct_assignment` – no additional details.
+*  
+*   `email_assignment` – will contain the email domain that granted the assignment.
+*   
+*   `sso_connection` – will contain the `connection_id` of the SAML connection that granted the assignment.
+*  
+*   `sso_connection_group` – will contain the `connection_id` of the SAML connection and the name of the
+* `group`
+*   that granted the assignment.
+*  
+*   `scim_connection_group` – will contain the `connection_id` of the SAML connection and the `group_id`
+*   that granted the assignment.
+*   
+*/
   details?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface OAuthRegistration {
   /**
-   * Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
-   * etc.
-   */
+* Denotes the OAuth identity provider that the user has authenticated with, e.g. Google, Microsoft, GitHub
+* etc.
+*/
   provider_type: string;
   /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
+* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+* "Subject field" in OAuth protocols.
+*/
   provider_subject: string;
   // The unique ID of an OAuth registration.
   member_oauth_registration_id: string;
   /**
-   * If available, the `profile_picture_url` is a URL of the User's profile picture set in OAuth identity the
-   * provider that the User has authenticated with, e.g. Google profile picture.
-   */
+* If available, the `profile_picture_url` is a URL of the User's profile picture set in OAuth identity the
+* provider that the User has authenticated with, e.g. Google profile picture.
+*/
   profile_picture_url?: string;
   /**
-   * If available, the `locale` is the Member's locale set in the OAuth identity provider that the user has
-   * authenticated with.
-   */
+* If available, the `locale` is the Member's locale set in the OAuth identity provider that the user has
+* authenticated with.
+*/
   locale?: string;
 }
 
 export interface OIDCProviderInfo {
   /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
+* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+* "Subject field" in OAuth protocols.
+*/
   provider_subject: string;
   /**
-   * The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured information
-   * about a user. The exact content of each ID Token varies from provider to provider. ID Tokens are
-   * returned from OAuth providers that conform to the [OpenID Connect](https://openid.net/foundation/)
-   * specification, which is based on OAuth.
-   */
+* The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured information
+* about a user. The exact content of each ID Token varies from provider to provider. ID Tokens are
+* returned from OAuth providers that conform to the [OpenID Connect](https://openid.net/foundation/)
+* specification, which is based on OAuth.
+*/
   id_token: string;
   // The `access_token` that you may use to access the User's data in the provider's API.
   access_token: string;
   // The number of seconds until the access token expires.
   access_token_expires_in: number;
   /**
-   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
-   * are included by default and how to add custom scopes.
-   */
+* The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+* are included by default and how to add custom scopes.
+*/
   scopes: string[];
   // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
   connection_id: string;
   /**
-   * The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
-   * API.
-   */
+* The `refresh_token` that you may use to obtain a new `access_token` for the User within the provider's
+* API.
+*/
   refresh_token?: string;
 }
 
 export interface Organization {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
   // The name of the Organization. Must be between 1 and 128 characters in length.
   organization_name: string;
   // The image URL of the Organization logo.
   organization_logo_url: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
-   * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
-   * convenience.
-   */
+* The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+* reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+* organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+* convenience.
+*/
   organization_slug: string;
   /**
-   * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-   * of the Organization's `sso_active_connections`.
-   *
-   *   `RESTRICTED` – only new Members with SSO logins that comply with
-   * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-   *
-   */
+* The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
+* of the Organization's `sso_active_connections`.
+*  
+*   `RESTRICTED` – only new Members with SSO logins that comply with
+* `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via SSO.
+*   
+*/
   sso_jit_provisioning: string;
   /**
-   * An array of `connection_id`s that reference
-   * [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
-   *   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
-   * set to `RESTRICTED`.
-   */
+* An array of `connection_id`s that reference
+* [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
+*   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
+* set to `RESTRICTED`.
+*/
   sso_jit_provisioning_allowed_connections: string[];
   /**
-   * An array of active [SAML Connection references](https://stytch.com/docs/b2b/api/saml-connection-object)
-   * or [OIDC Connection references](https://stytch.com/docs/b2b/api/oidc-connection-object).
-   */
+* An array of active [SAML Connection references](https://stytch.com/docs/b2b/api/saml-connection-object)
+* or [OIDC Connection references](https://stytch.com/docs/b2b/api/oidc-connection-object).
+*/
   sso_active_connections: ActiveSSOConnection[];
   /**
-   * An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
-   * when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-   *
-   *
-   *     Common domains such as `gmail.com` are not allowed. See the
-   * [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
-   */
+* An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
+* when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
+*    
+*    
+*     Common domains such as `gmail.com` are not allowed. See the
+* [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
+*/
   email_allowed_domains: string[];
   /**
-   * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-   * Magic Link or OAuth. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * provisioned upon authentication via Email Magic Link or OAuth.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-   *
-   */
+* The authentication setting that controls how a new Member can be provisioned by authenticating via Email
+* Magic Link or OAuth. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* provisioned upon authentication via Email Magic Link or OAuth.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+*   
+*/
   email_jit_provisioning: string;
   /**
-   * The authentication setting that controls how a new Member can be invited to an organization by email.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – any new Member can be invited to join via email.
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * invited via email.
-   *
-   *   `NOT_ALLOWED` – disable email invites.
-   *
-   */
+* The authentication setting that controls how a new Member can be invited to an organization by email.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – any new Member can be invited to join via email.
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* invited via email.
+*  
+*   `NOT_ALLOWED` – disable email invites.
+*   
+*/
   email_invites: string;
   /**
-   * The setting that controls which authentication methods can be used by Members of an Organization. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   */
+* The setting that controls which authentication methods can be used by Members of an Organization. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+*/
   auth_methods: string;
   /**
-   * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
-   * `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
-   *
-   */
+* An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
+* `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
+*   
+*/
   allowed_auth_methods: string[];
   mfa_policy: string;
   /**
-   * Implicit role assignments based off of email domains.
-   *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
-   * granted the
-   *   associated Role, regardless of their login method. See the
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
-   *   for more information about role assignment.
-   */
+* Implicit role assignments based off of email domains.
+*   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+* granted the
+*   associated Role, regardless of their login method. See the
+* [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+*   for more information about role assignment.
+*/
   rbac_email_implicit_role_assignments: EmailImplicitRoleAssignment[];
   /**
-   * The setting that controls which MFA methods can be used by Members of an Organization. The accepted
-   * values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   */
+* The setting that controls which MFA methods can be used by Members of an Organization. The accepted
+* values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+*/
   mfa_methods: string;
   /**
-   * An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sms_otp` and `totp`.
-   *
-   */
+* An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sms_otp` and `totp`.
+*   
+*/
   allowed_mfa_methods: string[];
   /**
-   * The authentication setting that controls how a new Member can JIT provision into an organization by
-   * tenant. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
-   *
-   */
+* The authentication setting that controls how a new Member can JIT provision into an organization by
+* tenant. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+*   
+*/
   oauth_tenant_jit_provisioning: string;
   claimed_email_domains: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no first party Connected Apps are permitted.
-   *
-   */
+* The authentication setting that sets the Organization's policy towards first party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+*   
+*/
   first_party_connected_apps_allowed_type: string;
   /**
-   * An array of first party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of first party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_first_party_connected_apps: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no third party Connected Apps are permitted.
-   *
-   */
+* The authentication setting that sets the Organization's policy towards third party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+*   
+*/
   third_party_connected_apps_allowed_type: string;
   /**
-   * An array of third party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of third party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_third_party_connected_apps: string[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
-   * in UTC, e.g. `2021-12-29T12:33:09Z`.
-   */
+* The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
+* in UTC, e.g. `2021-12-29T12:33:09Z`.
+*/
   created_at?: string;
   /**
-   * The timestamp of when the Organization was last updated. Values conform to the RFC 3339 standard and are
-   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
-   */
+* The timestamp of when the Organization was last updated. Values conform to the RFC 3339 standard and are
+* expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+*/
   updated_at?: string;
   // The default connection used for SSO when there are multiple active connections.
   sso_default_connection_id?: string;
   // An active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
   scim_active_connection?: ActiveSCIMConnection;
   /**
-   * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
-   * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
-   */
+* A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+* provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
+*/
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -685,43 +683,43 @@ export interface SSORegistration {
 
 export interface SearchQuery {
   /**
-   * The action to perform on the operands. The accepted value are:
-   *
-   *   `AND` – all the operand values provided must match.
-   *
-   *   `OR` – the operator will return any matches to at least one of the operand values you supply.
-   */
-  operator: "OR" | "AND" | string;
+* The action to perform on the operands. The accepted value are:
+* 
+*   `AND` – all the operand values provided must match.
+* 
+*   `OR` – the operator will return any matches to at least one of the operand values you supply.
+*/
+  operator: "OR"|"AND"| string;
   // An array of operand objects that contains all of the filters and values to apply to your search query.
   operands: SearchQueryOperand[];
 }
 
 export interface SlackProviderInfo {
   /**
-   * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
-   * "Subject field" in OAuth protocols.
-   */
+* The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+* "Subject field" in OAuth protocols.
+*/
   provider_subject: string;
   /**
-   * The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
-   * group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
-   * Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
-   * tenant ID is returned from a successful OAuth authentication and developers should prefer
-   * `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
-   * multiple tenant IDs.
-   */
+* The tenant ID returned by the OAuth provider. This is typically used to identify an organization or
+* group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack this is the
+* Workspace ID, and in GitHub this is an organization ID. This field will only be populated if exactly one
+* tenant ID is returned from a successful OAuth authentication and developers should prefer
+* `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+* multiple tenant IDs.
+*/
   provider_tenant_id: string;
   // The `access_token` that you may use to access the User's data in the provider's API.
   access_token: string;
   /**
-   * The OAuth scopes included for a given provider. See each provider's section above to see which scopes
-   * are included by default and how to add custom scopes.
-   */
+* The OAuth scopes included for a given provider. See each provider's section above to see which scopes
+* are included by default and how to add custom scopes.
+*/
   scopes: string[];
   /**
-   * The `access_token` that you may use to access data as a bot application in Slack. Use in conjunction
-   * with `bot_scopes`.
-   */
+* The `access_token` that you may use to access data as a bot application in Slack. Use in conjunction
+* with `bot_scopes`.
+*/
   bot_access_token: string;
   // The scopes that the bot application has access to in Slack.
   bot_scopes: string[];
@@ -730,19 +728,19 @@ export interface SlackProviderInfo {
 // Request type for `organizations.connectedApps`.
 export interface B2BOrganizationsConnectedAppsRequest {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
 }
 
 // Response type for `organizations.connectedApps`.
 export interface B2BOrganizationsConnectedAppsResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   connected_apps: OrganizationConnectedApp[];
   status_code: number;
@@ -753,236 +751,228 @@ export interface B2BOrganizationsCreateRequest {
   // The name of the Organization. Must be between 1 and 128 characters in length.
   organization_name: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
-   * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
-   * convenience.
-   */
+* The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+* reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+* organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+* convenience.
+*/
   organization_slug?: string;
   // The image URL of the Organization logo.
   organization_logo_url?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-   * of the Organization's `sso_active_connections`.
-   *
-   *   `RESTRICTED` – only new Members with SSO logins that comply with
-   * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-   *
-   */
+* The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
+* of the Organization's `sso_active_connections`.
+*  
+*   `RESTRICTED` – only new Members with SSO logins that comply with
+* `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via SSO.
+*   
+*/
   sso_jit_provisioning?: string;
   /**
-   * An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
-   * when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-   *
-   *
-   *     Common domains such as `gmail.com` are not allowed. See the
-   * [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
-   */
+* An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
+* when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
+*    
+*    
+*     Common domains such as `gmail.com` are not allowed. See the
+* [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
+*/
   email_allowed_domains?: string[];
   /**
-   * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-   * Magic Link or OAuth. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * provisioned upon authentication via Email Magic Link or OAuth.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-   *
-   */
+* The authentication setting that controls how a new Member can be provisioned by authenticating via Email
+* Magic Link or OAuth. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* provisioned upon authentication via Email Magic Link or OAuth.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+*   
+*/
   email_jit_provisioning?: string;
   /**
-   * The authentication setting that controls how a new Member can be invited to an organization by email.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – any new Member can be invited to join via email.
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * invited via email.
-   *
-   *   `NOT_ALLOWED` – disable email invites.
-   *
-   */
+* The authentication setting that controls how a new Member can be invited to an organization by email.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – any new Member can be invited to join via email.
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* invited via email.
+*  
+*   `NOT_ALLOWED` – disable email invites.
+*   
+*/
   email_invites?: string;
   /**
-   * The setting that controls which authentication methods can be used by Members of an Organization. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   */
+* The setting that controls which authentication methods can be used by Members of an Organization. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+*/
   auth_methods?: string;
   /**
-   * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
-   * `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
-   *
-   */
+* An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
+* `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
+*   
+*/
   allowed_auth_methods?: string[];
   /**
-   * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
-   *
-   *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-   * they wish to log in. However, any active Session that existed prior to this setting change will remain
-   * valid.
-   *
-   *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
-   * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-   *
-   */
+* The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
+*  
+*   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+* they wish to log in. However, any active Session that existed prior to this setting change will remain
+* valid.
+*  
+*   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+* Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+*   
+*/
   mfa_policy?: string;
   /**
-   * Implicit role assignments based off of email domains.
-   *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
-   * granted the
-   *   associated Role, regardless of their login method. See the
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
-   *   for more information about role assignment.
-   */
+* Implicit role assignments based off of email domains.
+*   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+* granted the
+*   associated Role, regardless of their login method. See the
+* [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+*   for more information about role assignment.
+*/
   rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
   /**
-   * The setting that controls which MFA methods can be used by Members of an Organization. The accepted
-   * values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   */
+* The setting that controls which MFA methods can be used by Members of an Organization. The accepted
+* values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+*/
   mfa_methods?: string;
   /**
-   * An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sms_otp` and `totp`.
-   *
-   */
+* An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sms_otp` and `totp`.
+*   
+*/
   allowed_mfa_methods?: string[];
   /**
-   * The authentication setting that controls how a new Member can JIT provision into an organization by
-   * tenant. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
-   *
-   */
+* The authentication setting that controls how a new Member can JIT provision into an organization by
+* tenant. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+*   
+*/
   oauth_tenant_jit_provisioning?: string;
   /**
-   * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
-   * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
-   */
+* A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+* provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
+*/
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no first party Connected Apps are permitted.
-   *
-   */
-  first_party_connected_apps_allowed_type?:
-    | "ALL_ALLOWED"
-    | "RESTRICTED"
-    | "NOT_ALLOWED"
-    | string;
+* The authentication setting that sets the Organization's policy towards first party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+*   
+*/
+  first_party_connected_apps_allowed_type?: "ALL_ALLOWED"|"RESTRICTED"|"NOT_ALLOWED"| string;
   /**
-   * An array of first party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of first party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_first_party_connected_apps?: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no third party Connected Apps are permitted.
-   *
-   */
-  third_party_connected_apps_allowed_type?:
-    | "ALL_ALLOWED"
-    | "RESTRICTED"
-    | "NOT_ALLOWED"
-    | string;
+* The authentication setting that sets the Organization's policy towards third party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+*   
+*/
+  third_party_connected_apps_allowed_type?: "ALL_ALLOWED"|"RESTRICTED"|"NOT_ALLOWED"| string;
   /**
-   * An array of third party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of third party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_third_party_connected_apps?: string[];
 }
 
 // Response type for `organizations.create`.
 export interface B2BOrganizationsCreateResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
 // Request type for `organizations.delete`.
 export interface B2BOrganizationsDeleteRequest {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
 }
 
 // Response type for `organizations.delete`.
 export interface B2BOrganizationsDeleteResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value.
+*/
   organization_id: string;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
 // Request type for `organizations.getConnectedApp`.
 export interface B2BOrganizationsGetConnectedAppRequest {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
   // The ID of the Connected App.
   connected_app_id: string;
@@ -997,9 +987,9 @@ export interface B2BOrganizationsGetConnectedAppResponse {
   // A description of the Connected App.
   description: string;
   /**
-   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
-   * `third_party_public`.
-   */
+* The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+* `third_party_public`.
+*/
   client_type: string;
   // Details about Members who has installed a Connected App.
   active_members: OrganizationConnectedAppActiveMember[];
@@ -1010,26 +1000,26 @@ export interface B2BOrganizationsGetConnectedAppResponse {
 // Request type for `organizations.get`.
 export interface B2BOrganizationsGetRequest {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
 }
 
 // Response type for `organizations.get`.
 export interface B2BOrganizationsGetResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
@@ -1046,333 +1036,326 @@ export interface B2BOrganizationsMetricsResponse {
 // Request type for `organizations.search`.
 export interface B2BOrganizationsSearchRequest {
   /**
-   * The `cursor` field allows you to paginate through your results. Each result array is limited to 1000
-   * results. If your query returns more than 1000 results, you will need to paginate the responses using the
-   * `cursor`. If you receive a response that includes a non-null `next_cursor` in the `results_metadata`
-   * object, repeat the search call with the `next_cursor` value set to the `cursor` field to retrieve the
-   * next page of results. Continue to make search calls until the `next_cursor` in the response is null.
-   */
+* The `cursor` field allows you to paginate through your results. Each result array is limited to 1000
+* results. If your query returns more than 1000 results, you will need to paginate the responses using the
+* `cursor`. If you receive a response that includes a non-null `next_cursor` in the `results_metadata`
+* object, repeat the search call with the `next_cursor` value set to the `cursor` field to retrieve the
+* next page of results. Continue to make search calls until the `next_cursor` in the response is null.
+*/
   cursor?: string;
   /**
-   * The number of search results to return per page. The default limit is 100. A maximum of 1000 results can
-   * be returned by a single search request. If the total size of your result set is greater than one page
-   * size, you must paginate the response. See the `cursor` field.
-   */
+* The number of search results to return per page. The default limit is 100. A maximum of 1000 results can
+* be returned by a single search request. If the total size of your result set is greater than one page
+* size, you must paginate the response. See the `cursor` field.
+*/
   limit?: number;
   /**
-   * The optional query object contains the operator, i.e. `AND` or `OR`, and the operands that will filter
-   * your results. Only an operator is required. If you include no operands, no filtering will be applied. If
-   * you include no query object, it will return all Organizations with no filtering applied.
-   */
+* The optional query object contains the operator, i.e. `AND` or `OR`, and the operands that will filter
+* your results. Only an operator is required. If you include no operands, no filtering will be applied. If
+* you include no query object, it will return all Organizations with no filtering applied.
+*/
   query?: SearchQuery;
 }
 
 // Response type for `organizations.search`.
 export interface B2BOrganizationsSearchResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // An array of [Organization objects](https://stytch.com/docs/b2b/api/organization-object).
   organizations: Organization[];
   /**
-   * The search `results_metadata` object contains metadata relevant to your specific query like `total` and
-   * `next_cursor`.
-   */
+* The search `results_metadata` object contains metadata relevant to your specific query like `total` and
+* `next_cursor`.
+*/
   results_metadata: B2BOrganizationsResultsMetadata;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
 
 // Request type for `organizations.update`.
 export interface B2BOrganizationsUpdateRequest {
   /**
-   * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-   * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
-   */
+* Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+* perform operations on an Organization, so be sure to preserve this value. You may also use the
+* organization_slug here as a convenience.
+*/
   organization_id: string;
   /**
-   * The name of the Organization. Must be between 1 and 128 characters in length.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.info.name` action on the `stytch.organization` Resource.
-   */
+* The name of the Organization. Must be between 1 and 128 characters in length.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.info.name` action on the `stytch.organization` Resource.
+*/
   organization_name?: string;
   /**
-   * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
-   * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
-   * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
-   * convenience.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.info.slug` action on the `stytch.organization` Resource.
-   */
+* The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+* reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+* organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+* convenience.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.info.slug` action on the `stytch.organization` Resource.
+*/
   organization_slug?: string;
   /**
-   * The image URL of the Organization logo.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.info.logo-url` action on the `stytch.organization` Resource.
-   */
+* The image URL of the Organization logo.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.info.logo-url` action on the `stytch.organization` Resource.
+*/
   organization_logo_url?: string;
   /**
-   * An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
-   *           If a session header is passed into the request, this field may **not** be passed into the
-   * request. You cannot
-   *           update trusted metadata when acting as a Member.
-   */
+* An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
+*           If a session header is passed into the request, this field may **not** be passed into the
+* request. You cannot
+*           update trusted metadata when acting as a Member.
+*/
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
-   * The default connection used for SSO when there are multiple active connections.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.default-sso-connection` action on the `stytch.organization`
-   * Resource.
-   */
+* The default connection used for SSO when there are multiple active connections.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.default-sso-connection` action on the `stytch.organization`
+* Resource.
+*/
   sso_default_connection_id?: string;
   /**
-   * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-   * of the Organization's `sso_active_connections`.
-   *
-   *   `RESTRICTED` – only new Members with SSO logins that comply with
-   * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
-   * Resource.
-   */
+* The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
+* of the Organization's `sso_active_connections`.
+*  
+*   `RESTRICTED` – only new Members with SSO logins that comply with
+* `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via SSO.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
+* Resource.
+*/
   sso_jit_provisioning?: string;
   /**
-   * An array of `connection_id`s that reference
-   * [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
-   *   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
-   * set to `RESTRICTED`.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
-   * Resource.
-   */
+* An array of `connection_id`s that reference
+* [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
+*   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
+* set to `RESTRICTED`.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
+* Resource.
+*/
   sso_jit_provisioning_allowed_connections?: string[];
   /**
-   * An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
-   * when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-   *
-   *
-   *     Common domains such as `gmail.com` are not allowed. See the
-   * [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-domains` action on the `stytch.organization` Resource.
-   */
+* An array of email domains that allow invites or JIT provisioning for new Members. This list is enforced
+* when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
+*    
+*    
+*     Common domains such as `gmail.com` are not allowed. See the
+* [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-domains` action on the `stytch.organization` Resource.
+*/
   email_allowed_domains?: string[];
   /**
-   * The authentication setting that controls how a new Member can be provisioned by authenticating via Email
-   * Magic Link or OAuth. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * provisioned upon authentication via Email Magic Link or OAuth.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.email-jit-provisioning` action on the `stytch.organization`
-   * Resource.
-   */
+* The authentication setting that controls how a new Member can be provisioned by authenticating via Email
+* Magic Link or OAuth. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* provisioned upon authentication via Email Magic Link or OAuth.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.email-jit-provisioning` action on the `stytch.organization`
+* Resource.
+*/
   email_jit_provisioning?: string;
   /**
-   * The authentication setting that controls how a new Member can be invited to an organization by email.
-   * The accepted values are:
-   *
-   *   `ALL_ALLOWED` – any new Member can be invited to join via email.
-   *
-   *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-   * invited via email.
-   *
-   *   `NOT_ALLOWED` – disable email invites.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.email-invites` action on the `stytch.organization` Resource.
-   */
+* The authentication setting that controls how a new Member can be invited to an organization by email.
+* The accepted values are:
+*  
+*   `ALL_ALLOWED` – any new Member can be invited to join via email.
+*  
+*   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
+* invited via email.
+*  
+*   `NOT_ALLOWED` – disable email invites.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.email-invites` action on the `stytch.organization` Resource.
+*/
   email_invites?: string;
   /**
-   * The setting that controls which authentication methods can be used by Members of an Organization. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
-   * Resource.
-   */
+* The setting that controls which authentication methods can be used by Members of an Organization. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
+* Resource.
+*/
   auth_methods?: string;
   /**
-   * An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
-   * `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
-   * Resource.
-   */
+* An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sso`, `magic_link`, `email_otp`, `password`, `google_oauth`,
+* `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
+* Resource.
+*/
   allowed_auth_methods?: string[];
   /**
-   * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
-   *
-   *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-   * they wish to log in. However, any active Session that existed prior to this setting change will remain
-   * valid.
-   *
-   *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
-   * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.mfa-policy` action on the `stytch.organization` Resource.
-   */
+* The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
+*  
+*   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+* they wish to log in. However, any active Session that existed prior to this setting change will remain
+* valid.
+*  
+*   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+* Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.mfa-policy` action on the `stytch.organization` Resource.
+*/
   mfa_policy?: string;
   /**
-   * Implicit role assignments based off of email domains.
-   *   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
-   * granted the
-   *   associated Role, regardless of their login method. See the
-   * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
-   *   for more information about role assignment.
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
-   */
+* Implicit role assignments based off of email domains.
+*   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+* granted the
+*   associated Role, regardless of their login method. See the
+* [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+*   for more information about role assignment.
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
+*/
   rbac_email_implicit_role_assignments?: EmailImplicitRoleAssignment[];
   /**
-   * The setting that controls which MFA methods can be used by Members of an Organization. The accepted
-   * values are:
-   *
-   *   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-   *
-   *   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
-   * This setting does not apply to Members with `is_breakglass` set to `true`.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
-   * Resource.
-   */
+* The setting that controls which MFA methods can be used by Members of an Organization. The accepted
+* values are:
+*  
+*   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+*  
+*   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
+* This setting does not apply to Members with `is_breakglass` set to `true`.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
+* Resource.
+*/
   mfa_methods?: string;
   /**
-   * An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
-   * `RESTRICTED`.
-   *   The list's accepted values are: `sms_otp` and `totp`.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
-   * Resource.
-   */
+* An array of allowed MFA authentication methods. This list is enforced when `mfa_methods` is set to
+* `RESTRICTED`.
+*   The list's accepted values are: `sms_otp` and `totp`.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
+* Resource.
+*/
   allowed_mfa_methods?: string[];
   /**
-   * The authentication setting that controls how a new Member can JIT provision into an organization by
-   * tenant. The accepted values are:
-   *
-   *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
-   *
-   *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
-   *
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.oauth-tenant-jit-provisioning` action on the
-   * `stytch.organization` Resource.
-   */
+* The authentication setting that controls how a new Member can JIT provision into an organization by
+* tenant. The accepted values are:
+*  
+*   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+*  
+*   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+*   
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.oauth-tenant-jit-provisioning` action on the
+* `stytch.organization` Resource.
+*/
   oauth_tenant_jit_provisioning?: string;
   /**
-   * A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
-   * provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
-   *
-   * If this field is provided and a session header is passed into the request, the Member Session must have
-   * permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
-   * Resource.
-   */
+* A map of allowed OAuth tenants. If this field is not passed in, the Organization will not allow JIT
+* provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
+* 
+* If this field is provided and a session header is passed into the request, the Member Session must have
+* permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
+* Resource.
+*/
   allowed_oauth_tenants?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   // A list of email domains that are claimed by the Organization.
   claimed_email_domains?: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no first party Connected Apps are permitted.
-   *
-   */
-  first_party_connected_apps_allowed_type?:
-    | "ALL_ALLOWED"
-    | "RESTRICTED"
-    | "NOT_ALLOWED"
-    | string;
+* The authentication setting that sets the Organization's policy towards first party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+*   
+*/
+  first_party_connected_apps_allowed_type?: "ALL_ALLOWED"|"RESTRICTED"|"NOT_ALLOWED"| string;
   /**
-   * An array of first party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of first party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `first_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_first_party_connected_apps?: string[];
   /**
-   * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
-   * accepted values are:
-   *
-   *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
-   *
-   *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
-   * used by Members.
-   *
-   *   `NOT_ALLOWED` – no third party Connected Apps are permitted.
-   *
-   */
-  third_party_connected_apps_allowed_type?:
-    | "ALL_ALLOWED"
-    | "RESTRICTED"
-    | "NOT_ALLOWED"
-    | string;
+* The authentication setting that sets the Organization's policy towards third party Connected Apps. The
+* accepted values are:
+*  
+*   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+*  
+*   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+* used by Members.
+*  
+*   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+*   
+*/
+  third_party_connected_apps_allowed_type?: "ALL_ALLOWED"|"RESTRICTED"|"NOT_ALLOWED"| string;
   /**
-   * An array of third party Connected App IDs that are allowed for the Organization. Only used when the
-   * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
-   */
+* An array of third party Connected App IDs that are allowed for the Organization. Only used when the
+* Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
+*/
   allowed_third_party_connected_apps?: string[];
 }
 
 // Response type for `organizations.update`.
 export interface B2BOrganizationsUpdateResponse {
   /**
-   * Globally unique UUID that is returned with every API call. This value is important to log for debugging
-   * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
-   */
+* Globally unique UUID that is returned with every API call. This value is important to log for debugging
+* purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+*/
   request_id: string;
   // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
   organization: Organization;
   /**
-   * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
-   * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
-   */
+* The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+* 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+*/
   status_code: number;
 }
+
 
 // MANUAL(SearchQueryOperand)(TYPES)
 export type OrganizationSearchOperand =
@@ -1452,33 +1435,37 @@ export type SearchQueryOperand =
     };
 // ENDMANUAL(SearchQueryOperand)
 
+
+
+
 export class Organizations {
   private fetchConfig: fetchConfig;
-  members: Members;
+  members: Members
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.members = new Members(this.fetchConfig);
+
   }
 
   /**
-   * Creates an Organization. An `organization_name` and a unique `organization_slug` are required.
-   *
-   * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED`, and `mfa_policy`
-   * will be set to `OPTIONAL` if no Organization authentication settings are explicitly defined in the
-   * request.
-   *
-   * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
-   * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
-   * `sso_jit_provisioning`, etc., and their behaviors.
-   * @param data {@link B2BOrganizationsCreateRequest}
-   * @returns {@link B2BOrganizationsCreateResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Creates an Organization. An `organization_name` and a unique `organization_slug` are required.
+  * 
+  * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED`, and `mfa_policy`
+  * will be set to `OPTIONAL` if no Organization authentication settings are explicitly defined in the
+  * request.
+  * 
+  * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
+  * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
+  * `sso_jit_provisioning`, etc., and their behaviors.
+  * @param data {@link B2BOrganizationsCreateRequest}
+  * @returns {@link B2BOrganizationsCreateResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   create(
-    data: B2BOrganizationsCreateRequest
+    data: B2BOrganizationsCreateRequest,
   ): Promise<B2BOrganizationsCreateResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsCreateResponse>(this.fetchConfig, {
@@ -1490,15 +1477,15 @@ export class Organizations {
   }
 
   /**
-   * Returns an Organization specified by `organization_id`.
-   * @param params {@link B2BOrganizationsGetRequest}
-   * @returns {@link B2BOrganizationsGetResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Returns an Organization specified by `organization_id`.
+  * @param params {@link B2BOrganizationsGetRequest}
+  * @returns {@link B2BOrganizationsGetResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   get(
-    params: B2BOrganizationsGetRequest
+    params: B2BOrganizationsGetRequest,
   ): Promise<B2BOrganizationsGetResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsGetResponse>(this.fetchConfig, {
@@ -1510,82 +1497,75 @@ export class Organizations {
   }
 
   /**
-   * Updates an Organization specified by `organization_id`. An Organization must always have at least one
-   * auth setting set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members.
-   *
-   * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
-   * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
-   * `sso_jit_provisioning`, etc., and their behaviors.
-   * @param data {@link B2BOrganizationsUpdateRequest}
-   * @param options {@link B2BOrganizationsUpdateRequestOptions}
-   * @returns {@link B2BOrganizationsUpdateResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Updates an Organization specified by `organization_id`. An Organization must always have at least one
+  * auth setting set to either `RESTRICTED` or `ALL_ALLOWED` in order to provision new Members.
+  * 
+  * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
+  * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,
+  * `sso_jit_provisioning`, etc., and their behaviors.
+  * @param data {@link B2BOrganizationsUpdateRequest}
+  * @param options {@link B2BOrganizationsUpdateRequestOptions}
+  * @returns {@link B2BOrganizationsUpdateResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   update(
     data: B2BOrganizationsUpdateRequest,
-    options?: B2BOrganizationsUpdateRequestOptions
+    options?: B2BOrganizationsUpdateRequestOptions,
   ): Promise<B2BOrganizationsUpdateResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
-      addAuthorizationHeaders(headers, options.authorization);
+      addAuthorizationHeaders(headers, options.authorization)
     }
     return request<B2BOrganizationsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
       url: `/v1/b2b/organizations/${data.organization_id}`,
       headers,
       data: {
-        organization_name: data.organization_name,
-        organization_slug: data.organization_slug,
-        organization_logo_url: data.organization_logo_url,
-        trusted_metadata: data.trusted_metadata,
-        sso_default_connection_id: data.sso_default_connection_id,
-        sso_jit_provisioning: data.sso_jit_provisioning,
-        sso_jit_provisioning_allowed_connections:
-          data.sso_jit_provisioning_allowed_connections,
-        email_allowed_domains: data.email_allowed_domains,
-        email_jit_provisioning: data.email_jit_provisioning,
-        email_invites: data.email_invites,
-        auth_methods: data.auth_methods,
-        allowed_auth_methods: data.allowed_auth_methods,
-        mfa_policy: data.mfa_policy,
-        rbac_email_implicit_role_assignments:
-          data.rbac_email_implicit_role_assignments,
-        mfa_methods: data.mfa_methods,
-        allowed_mfa_methods: data.allowed_mfa_methods,
-        oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
-        allowed_oauth_tenants: data.allowed_oauth_tenants,
-        claimed_email_domains: data.claimed_email_domains,
-        first_party_connected_apps_allowed_type:
-          data.first_party_connected_apps_allowed_type,
-        allowed_first_party_connected_apps:
-          data.allowed_first_party_connected_apps,
-        third_party_connected_apps_allowed_type:
-          data.third_party_connected_apps_allowed_type,
-        allowed_third_party_connected_apps:
-          data.allowed_third_party_connected_apps,
-      },
+  organization_name: data.organization_name,
+  organization_slug: data.organization_slug,
+  organization_logo_url: data.organization_logo_url,
+  trusted_metadata: data.trusted_metadata,
+  sso_default_connection_id: data.sso_default_connection_id,
+  sso_jit_provisioning: data.sso_jit_provisioning,
+  sso_jit_provisioning_allowed_connections: data.sso_jit_provisioning_allowed_connections,
+  email_allowed_domains: data.email_allowed_domains,
+  email_jit_provisioning: data.email_jit_provisioning,
+  email_invites: data.email_invites,
+  auth_methods: data.auth_methods,
+  allowed_auth_methods: data.allowed_auth_methods,
+  mfa_policy: data.mfa_policy,
+  rbac_email_implicit_role_assignments: data.rbac_email_implicit_role_assignments,
+  mfa_methods: data.mfa_methods,
+  allowed_mfa_methods: data.allowed_mfa_methods,
+  oauth_tenant_jit_provisioning: data.oauth_tenant_jit_provisioning,
+  allowed_oauth_tenants: data.allowed_oauth_tenants,
+  claimed_email_domains: data.claimed_email_domains,
+  first_party_connected_apps_allowed_type: data.first_party_connected_apps_allowed_type,
+  allowed_first_party_connected_apps: data.allowed_first_party_connected_apps,
+  third_party_connected_apps_allowed_type: data.third_party_connected_apps_allowed_type,
+  allowed_third_party_connected_apps: data.allowed_third_party_connected_apps,},
     });
   }
 
   /**
-   * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
-   * deleted.
-   * @param data {@link B2BOrganizationsDeleteRequest}
-   * @param options {@link B2BOrganizationsDeleteRequestOptions}
-   * @returns {@link B2BOrganizationsDeleteResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Deletes an Organization specified by `organization_id`. All Members of the Organization will also be
+  * deleted.
+  * @param data {@link B2BOrganizationsDeleteRequest}
+  * @param options {@link B2BOrganizationsDeleteRequestOptions}
+  * @returns {@link B2BOrganizationsDeleteResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   delete(
     data: B2BOrganizationsDeleteRequest,
-    options?: B2BOrganizationsDeleteRequestOptions
+    options?: B2BOrganizationsDeleteRequestOptions,
   ): Promise<B2BOrganizationsDeleteResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
-      addAuthorizationHeaders(headers, options.authorization);
+      addAuthorizationHeaders(headers, options.authorization)
     }
     return request<B2BOrganizationsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
@@ -1596,17 +1576,17 @@ export class Organizations {
   }
 
   /**
-   * Search for Organizations. If you send a request with no body params, no filtering will be applied and
-   * the endpoint will return all Organizations. All fuzzy search filters require a minimum of three
-   * characters.
-   * @param data {@link B2BOrganizationsSearchRequest}
-   * @returns {@link B2BOrganizationsSearchResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Search for Organizations. If you send a request with no body params, no filtering will be applied and
+  * the endpoint will return all Organizations. All fuzzy search filters require a minimum of three
+  * characters.
+  * @param data {@link B2BOrganizationsSearchRequest}
+  * @returns {@link B2BOrganizationsSearchResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   search(
-    data: B2BOrganizationsSearchRequest
+    data: B2BOrganizationsSearchRequest,
   ): Promise<B2BOrganizationsSearchResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsSearchResponse>(this.fetchConfig, {
@@ -1618,14 +1598,14 @@ export class Organizations {
   }
 
   /**
-   * @param params {@link B2BOrganizationsMetricsRequest}
-   * @returns {@link B2BOrganizationsMetricsResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * @param params {@link B2BOrganizationsMetricsRequest}
+  * @returns {@link B2BOrganizationsMetricsResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   metrics(
-    params: B2BOrganizationsMetricsRequest
+    params: B2BOrganizationsMetricsRequest,
   ): Promise<B2BOrganizationsMetricsResponse> {
     const headers: Record<string, string> = {};
     return request<B2BOrganizationsMetricsResponse>(this.fetchConfig, {
@@ -1637,27 +1617,27 @@ export class Organizations {
   }
 
   /**
-   * Retrieves a list of Connected Apps for the Organization that have been installed by Members.
-   * Installation comprises
-   * successful completion of an authorization flow with a Connected App that has not been revoked.
-   *
-   * Connected Apps may be uninstalled if an Organization changes its
-   * `first_party_connected_apps_allowed_type`
-   * or `third_party_connected_apps_allowed_type` policies.
-   * @param params {@link B2BOrganizationsConnectedAppsRequest}
-   * @param options {@link B2BOrganizationsConnectedAppsRequestOptions}
-   * @returns {@link B2BOrganizationsConnectedAppsResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Retrieves a list of Connected Apps for the Organization that have been installed by Members.
+  * Installation comprises
+  * successful completion of an authorization flow with a Connected App that has not been revoked.
+  * 
+  * Connected Apps may be uninstalled if an Organization changes its
+  * `first_party_connected_apps_allowed_type`
+  * or `third_party_connected_apps_allowed_type` policies.
+  * @param params {@link B2BOrganizationsConnectedAppsRequest}
+  * @param options {@link B2BOrganizationsConnectedAppsRequestOptions}
+  * @returns {@link B2BOrganizationsConnectedAppsResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   connectedApps(
     params: B2BOrganizationsConnectedAppsRequest,
-    options?: B2BOrganizationsConnectedAppsRequestOptions
+    options?: B2BOrganizationsConnectedAppsRequestOptions,
   ): Promise<B2BOrganizationsConnectedAppsResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
-      addAuthorizationHeaders(headers, options.authorization);
+      addAuthorizationHeaders(headers, options.authorization)
     }
     return request<B2BOrganizationsConnectedAppsResponse>(this.fetchConfig, {
       method: "GET",
@@ -1668,25 +1648,25 @@ export class Organizations {
   }
 
   /**
-   * Get Connected App for Organization retrieves information about the specified Connected App as well as a
-   * list of the
-   * Organization's Members who have the App installed along with the scopes they requested at completion of
-   * their last
-   * authorization with the App.
-   * @param params {@link B2BOrganizationsGetConnectedAppRequest}
-   * @param options {@link B2BOrganizationsGetConnectedAppRequestOptions}
-   * @returns {@link B2BOrganizationsGetConnectedAppResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
+  * Get Connected App for Organization retrieves information about the specified Connected App as well as a
+  * list of the
+  * Organization's Members who have the App installed along with the scopes they requested at completion of
+  * their last
+  * authorization with the App.
+  * @param params {@link B2BOrganizationsGetConnectedAppRequest}
+  * @param options {@link B2BOrganizationsGetConnectedAppRequestOptions}
+  * @returns {@link B2BOrganizationsGetConnectedAppResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
   getConnectedApp(
     params: B2BOrganizationsGetConnectedAppRequest,
-    options?: B2BOrganizationsGetConnectedAppRequestOptions
+    options?: B2BOrganizationsGetConnectedAppRequestOptions,
   ): Promise<B2BOrganizationsGetConnectedAppResponse> {
     const headers: Record<string, string> = {};
     if (options?.authorization) {
-      addAuthorizationHeaders(headers, options.authorization);
+      addAuthorizationHeaders(headers, options.authorization)
     }
     return request<B2BOrganizationsGetConnectedAppResponse>(this.fetchConfig, {
       method: "GET",
@@ -1695,4 +1675,7 @@ export class Organizations {
       params: {},
     });
   }
+
+
 }
+

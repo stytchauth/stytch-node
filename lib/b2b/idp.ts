@@ -3,7 +3,7 @@
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig, request } from "../shared";
-import { B2BSessionsAuthorizationCheck } from "./sessions";
+import { AuthorizationCheck } from "./sessions";
 import { performScopeAuthorizationCheck } from "./rbac_local";
 import { ClientError } from "../shared/errors";
 import { PolicyCache } from "./rbac_local";
@@ -79,7 +79,7 @@ export class IDP {
   async introspectTokenNetwork(
     data: IntrospectTokenRequest,
     options?: {
-      authorization_check?: B2BSessionsAuthorizationCheck;
+      authorization_check?: AuthorizationCheck;
     }
   ): Promise<IntrospectTokenClaims> {
     const fetchConfig: fetchConfig = {
@@ -173,7 +173,7 @@ export class IDP {
     options?: {
       clock_tolerance_seconds?: number;
       current_date?: Date;
-      authorization_check?: B2BSessionsAuthorizationCheck;
+      authorization_check?: AuthorizationCheck;
     }
   ): Promise<IntrospectTokenClaims> {
     const jwtOptions = {

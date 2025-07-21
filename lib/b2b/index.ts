@@ -14,7 +14,12 @@ export type {
 export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
 // ENDMANUAL(exports)
 
-export type { MemberOptions, MfaRequired } from "./mfa";
+
+
+export type {
+  MemberOptions,
+  MfaRequired,
+} from "./mfa";
 
 export type {
   Address,
@@ -221,7 +226,10 @@ export type {
   B2BTOTPsMigrateResponse,
 } from "./totps";
 
-export type { DiscoveredOrganization, Membership } from "./discovery";
+export type {
+  DiscoveredOrganization,
+  Membership,
+} from "./discovery";
 
 export type {
   B2BDiscoveryIntermediateSessionsExchangeRequest,
@@ -384,3 +392,4 @@ export type {
   B2BSSOExternalCreateConnectionRequestOptions,
   B2BSSOExternalUpdateConnectionRequestOptions,
 } from "./sso_external";
+

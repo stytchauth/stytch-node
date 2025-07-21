@@ -1,5 +1,5 @@
-import { RBACPolicy, RBAC } from "./rbac";
-import { B2BSessionsAuthorizationCheck } from "./sessions";
+import { Policy, RBAC } from "./rbac";
+import { AuthorizationCheck } from "./sessions";
 export declare class PolicyCache {
     private rbac;
     private _policy?;
@@ -7,17 +7,17 @@ export declare class PolicyCache {
     constructor(rbac: RBAC);
     private fresh;
     private reload;
-    getPolicy(): Promise<RBACPolicy>;
+    getPolicy(): Promise<Policy>;
 }
 export declare function performAuthorizationCheck({ policy, subjectRoles, subjectOrgID, authorizationCheck, }: {
-    policy: RBACPolicy;
+    policy: Policy;
     subjectRoles: string[];
     subjectOrgID: string;
-    authorizationCheck: B2BSessionsAuthorizationCheck;
+    authorizationCheck: AuthorizationCheck;
 }): void;
 export declare function performScopeAuthorizationCheck({ policy, tokenScopes, subjectOrgID, authorizationCheck, }: {
-    policy: RBACPolicy;
+    policy: Policy;
     tokenScopes: string[];
     subjectOrgID: string;
-    authorizationCheck: B2BSessionsAuthorizationCheck;
+    authorizationCheck: AuthorizationCheck;
 }): void;

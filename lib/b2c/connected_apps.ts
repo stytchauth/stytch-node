@@ -4,9 +4,10 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
-import { Clients } from "./connected_apps_clients";
+import {  } from "../shared/method_options";
+import { Clients } from "./connected_apps_clients"
 import { fetchConfig } from "../shared";
+
 
 export interface ConnectedApp {
   // The ID of the Connected App client.
@@ -17,14 +18,14 @@ export interface ConnectedApp {
   client_description: string;
   status: string;
   /**
-   * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
-   * exchanged for a full Stytch session.
-   */
+* Valid for first party clients only. If `true`, an authorization token granted to this Client can be
+* exchanged for a full Stytch session.
+*/
   full_access_allowed: boolean;
   /**
-   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
-   * `third_party_public`.
-   */
+* The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+* `third_party_public`.
+*/
   client_type: string;
   // Array of redirect URI values for use in OAuth Authorization flows.
   redirect_urls: string[];
@@ -33,9 +34,9 @@ export interface ConnectedApp {
   // Array of redirect URI values for use in OIDC Logout flows.
   post_logout_redirect_urls: string[];
   /**
-   * Valid for first party clients only. If true, the client does not need to request explicit user consent
-   * for the `offline_access` scope.
-   */
+* Valid for first party clients only. If true, the client does not need to request explicit user consent
+* for the `offline_access` scope.
+*/
   bypass_consent_for_offline_access: boolean;
   // The last four characters of the client secret.
   client_secret_last_four?: string;
@@ -55,14 +56,14 @@ export interface ConnectedAppWithClientSecret {
   client_description: string;
   status: string;
   /**
-   * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
-   * exchanged for a full Stytch session.
-   */
+* Valid for first party clients only. If `true`, an authorization token granted to this Client can be
+* exchanged for a full Stytch session.
+*/
   full_access_allowed: boolean;
   /**
-   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
-   * `third_party_public`.
-   */
+* The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+* `third_party_public`.
+*/
   client_type: string;
   // Array of redirect URI values for use in OAuth Authorization flows.
   redirect_urls: string[];
@@ -71,9 +72,9 @@ export interface ConnectedAppWithClientSecret {
   // Array of redirect URI values for use in OIDC Logout flows.
   post_logout_redirect_urls: string[];
   /**
-   * Valid for first party clients only. If true, the client does not need to request explicit user consent
-   * for the `offline_access` scope.
-   */
+* Valid for first party clients only. If true, the client does not need to request explicit user consent
+* for the `offline_access` scope.
+*/
   bypass_consent_for_offline_access: boolean;
   // The last four characters of the client secret.
   client_secret_last_four?: string;
@@ -97,14 +98,14 @@ export interface ConnectedAppWithNextClientSecret {
   // The last four characters of the client secret.
   client_secret_last_four: string;
   /**
-   * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
-   * exchanged for a full Stytch session.
-   */
+* Valid for first party clients only. If `true`, an authorization token granted to this Client can be
+* exchanged for a full Stytch session.
+*/
   full_access_allowed: boolean;
   /**
-   * The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
-   * `third_party_public`.
-   */
+* The type of Connected App. Supported values are `first_party`, `first_party_public`, `third_party`, and
+* `third_party_public`.
+*/
   client_type: string;
   // Array of redirect URI values for use in OAuth Authorization flows.
   redirect_urls: string[];
@@ -114,9 +115,9 @@ export interface ConnectedAppWithNextClientSecret {
   // Array of redirect URI values for use in OIDC Logout flows.
   post_logout_redirect_urls: string[];
   /**
-   * Valid for first party clients only. If true, the client does not need to request explicit user consent
-   * for the `offline_access` scope.
-   */
+* Valid for first party clients only. If true, the client does not need to request explicit user consent
+* for the `offline_access` scope.
+*/
   bypass_consent_for_offline_access: boolean;
   // The last four characters of the `next_client_secret`. Null if no `next_client_secret` exists.
   next_client_secret_last_four?: string;
@@ -127,23 +128,30 @@ export interface ConnectedAppWithNextClientSecret {
 
 export interface ConnectedAppsResultsMetadata {
   /**
-   * The total number of results returned by your search query. If totals have been disabled for your Stytch
-   * Workspace to improve search performance, the value will always be -1.
-   */
+* The total number of results returned by your search query. If totals have been disabled for your Stytch
+* Workspace to improve search performance, the value will always be -1.
+*/
   total: number;
   /**
-   * The `next_cursor` string is returned when your search result contains more than one page of results.
-   * This value is passed into your next search call in the `cursor` field.
-   */
+* The `next_cursor` string is returned when your search result contains more than one page of results.
+* This value is passed into your next search call in the `cursor` field.
+*/
   next_cursor?: string;
 }
 
+
+
+
 export class ConnectedApp {
   private fetchConfig: fetchConfig;
-  clients: Clients;
+  clients: Clients
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.clients = new Clients(this.fetchConfig);
+
   }
+
+
 }
+

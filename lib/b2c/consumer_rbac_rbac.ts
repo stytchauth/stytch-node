@@ -4,10 +4,11 @@
 // or your changes may be overwritten later!
 // !!!
 
-import {} from "../shared/method_options";
-import { ConsumerRBACPolicy } from "./consumer_rbac";
+import {  } from "../shared/method_options";
+import { ConsumerRBACPolicy } from "./consumer_rbac"
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
+
 
 export interface ConsumerRBACRBACPolicyResponse {
   request_id: string;
@@ -15,21 +16,26 @@ export interface ConsumerRBACRBACPolicyResponse {
   policy?: ConsumerRBACPolicy;
 }
 
+
+
+
 export class RBAC {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
+
   }
 
   /**
-   * @param params {@link ConsumerRBACRBACPolicyRequest}
-   * @returns {@link ConsumerRBACRBACPolicyResponse}
-   * @async
-   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
-   * @throws A {@link RequestError} when the Stytch API cannot be reached
-   */
-  policy(): Promise<ConsumerRBACRBACPolicyResponse> {
+  * @param params {@link ConsumerRBACRBACPolicyRequest}
+  * @returns {@link ConsumerRBACRBACPolicyResponse}
+  * @async
+  * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+  * @throws A {@link RequestError} when the Stytch API cannot be reached
+  */
+  policy(
+  ): Promise<ConsumerRBACRBACPolicyResponse> {
     const headers: Record<string, string> = {};
     return request<ConsumerRBACRBACPolicyResponse>(this.fetchConfig, {
       method: "GET",
@@ -37,4 +43,7 @@ export class RBAC {
       headers,
     });
   }
+
+
 }
+

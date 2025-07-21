@@ -1,7 +1,7 @@
 // This file is manually generated!
 
-import { RBACPolicy, RBAC } from "./rbac";
-import { B2BSessionsAuthorizationCheck } from "./sessions";
+import { Policy, RBAC } from "./rbac";
+import { AuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
 // We want to refresh if the policy is more than 5 minutes old
@@ -15,7 +15,7 @@ const MAX_AGE_MS = 1000 * 60 * 5;
 // - No work is done if RBAC is not used and the policy is not required
 export class PolicyCache {
   private rbac: RBAC;
-  private _policy?: RBACPolicy;
+  private _policy?: Policy;
   private _timestamp?: number;
 
   constructor(rbac: RBAC) {
@@ -32,11 +32,11 @@ export class PolicyCache {
     this._timestamp = Date.now();
   }
 
-  async getPolicy(): Promise<RBACPolicy> {
+  async getPolicy(): Promise<Policy> {
     if (!this._policy || !this.fresh()) {
       await this.reload();
     }
-    return this._policy as RBACPolicy;
+    return this._policy as Policy;
   }
 }
 
@@ -46,10 +46,10 @@ export function performAuthorizationCheck({
   subjectOrgID,
   authorizationCheck,
 }: {
-  policy: RBACPolicy;
+  policy: Policy;
   subjectRoles: string[];
   subjectOrgID: string;
-  authorizationCheck: B2BSessionsAuthorizationCheck;
+  authorizationCheck: AuthorizationCheck;
 }): void {
   if (subjectOrgID !== authorizationCheck.organization_id) {
     throw new ClientError(
@@ -83,10 +83,10 @@ export function performScopeAuthorizationCheck({
   subjectOrgID,
   authorizationCheck,
 }: {
-  policy: RBACPolicy;
+  policy: Policy;
   tokenScopes: string[];
   subjectOrgID: string;
-  authorizationCheck: B2BSessionsAuthorizationCheck;
+  authorizationCheck: AuthorizationCheck;
 }): void {
   if (subjectOrgID !== authorizationCheck.organization_id) {
     throw new ClientError(

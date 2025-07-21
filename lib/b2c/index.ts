@@ -21,7 +21,11 @@ export type {
 } from "./m2m";
 // ENDMANUAL(exports)
 
-export type { Attributes } from "./attribute";
+
+
+export type {
+  Attributes,
+} from "./attribute";
 
 export type {
   BiometricRegistration,
@@ -172,7 +176,9 @@ export type {
   ConsumerRBACPolicyScopePermission,
 } from "./consumer_rbac";
 
-export type { ConsumerRBACRBACPolicyResponse } from "./consumer_rbac_rbac";
+export type {
+  ConsumerRBACRBACPolicyResponse,
+} from "./consumer_rbac_rbac";
 
 export type {
   SIWEParams,
@@ -313,7 +319,10 @@ export type {
   OAuthAuthenticateResponse,
 } from "./oauth";
 
-export type { OTPsAuthenticateRequest, OTPsAuthenticateResponse } from "./otps";
+export type {
+  OTPsAuthenticateRequest,
+  OTPsAuthenticateResponse,
+} from "./otps";
 
 export type {
   OTPsSmsLoginOrCreateRequest,
@@ -336,7 +345,10 @@ export type {
   OTPsEmailSendResponse,
 } from "./otps_email";
 
-export type { ProjectMetric, ProjectMetricsResponse } from "./project";
+export type {
+  ProjectMetric,
+  ProjectMetricsResponse,
+} from "./project";
 
 export type {
   TOTPWithRecoveryCodes,
@@ -365,3 +377,4 @@ export type {
   WebAuthnUpdateRequest,
   WebAuthnUpdateResponse,
 } from "./webauthn";
+
