@@ -1,6 +1,5 @@
 import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "./connected_apps";
-import { ConsumerRBAC } from "./consumer_rbac";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
@@ -11,6 +10,7 @@ import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
 import { Project } from "./project";
+import { RBAC } from "./rbac";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -19,7 +19,6 @@ import { IDP } from "./idp";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
     connectedApp: ConnectedApp;
-    consumerRBAC: ConsumerRBAC;
     cryptoWallets: CryptoWallets;
     fraud: Fraud;
     impersonation: Impersonation;
@@ -29,6 +28,7 @@ export declare class Client extends BaseClient {
     otps: OTPs;
     passwords: Passwords;
     project: Project;
+    rbac: RBAC;
     sessions: Sessions;
     totps: TOTPs;
     users: Users;

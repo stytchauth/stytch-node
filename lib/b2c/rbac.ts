@@ -8,47 +8,47 @@ import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
-export interface ConsumerRBACPolicy {
-  roles: ConsumerRBACPolicyRole[];
-  resources: ConsumerRBACPolicyResource[];
-  scopes: ConsumerRBACPolicyScope[];
+export interface RBACPolicy {
+  roles: RBACPolicyRole[];
+  resources: RBACPolicyResource[];
+  scopes: RBACPolicyScope[];
 }
 
-export interface ConsumerRBACPolicyResource {
+export interface RBACPolicyResource {
   resource_id: string;
   description: string;
   actions: string[];
 }
 
-export interface ConsumerRBACPolicyRole {
+export interface RBACPolicyRole {
   role_id: string;
   description: string;
-  permissions: ConsumerRBACPolicyRolePermission[];
+  permissions: RBACPolicyRolePermission[];
 }
 
-export interface ConsumerRBACPolicyRolePermission {
+export interface RBACPolicyRolePermission {
   resource_id: string;
   actions: string[];
 }
 
-export interface ConsumerRBACPolicyScope {
+export interface RBACPolicyScope {
   scope: string;
   description: string;
-  permissions: ConsumerRBACPolicyScopePermission[];
+  permissions: RBACPolicyScopePermission[];
 }
 
-export interface ConsumerRBACPolicyScopePermission {
+export interface RBACPolicyScopePermission {
   resource_id: string;
   actions: string[];
 }
 
-export interface ConsumerRBACPolicyResponse {
+export interface RBACPolicyResponse {
   request_id: string;
   status_code: number;
-  policy?: ConsumerRBACPolicy;
+  policy?: RBACPolicy;
 }
 
-export class ConsumerRBAC {
+export class RBAC {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
@@ -56,15 +56,15 @@ export class ConsumerRBAC {
   }
 
   /**
-   * @param params {@link ConsumerRBACPolicyRequest}
-   * @returns {@link ConsumerRBACPolicyResponse}
+   * @param params {@link RBACPolicyRequest}
+   * @returns {@link RBACPolicyResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  policy(): Promise<ConsumerRBACPolicyResponse> {
+  policy(): Promise<RBACPolicyResponse> {
     const headers: Record<string, string> = {};
-    return request<ConsumerRBACPolicyResponse>(this.fetchConfig, {
+    return request<RBACPolicyResponse>(this.fetchConfig, {
       method: "GET",
       url: `/v1/rbac/policy`,
       headers,

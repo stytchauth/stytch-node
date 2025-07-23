@@ -7,7 +7,6 @@ exports.Client = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _connected_apps = require("./connected_apps");
-var _consumer_rbac = require("./consumer_rbac");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
 var _impersonation = require("./impersonation");
@@ -19,6 +18,7 @@ var _otps = require("./otps");
 var _passwords = require("./passwords");
 var _rbac_local = require("./rbac_local");
 var _project = require("./project");
+var _rbac = require("./rbac");
 var _sessions2 = require("./sessions");
 var _totps = require("./totps");
 var _users = require("./users");
@@ -35,9 +35,8 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
-    const policyCache = new _rbac_local.PolicyCache(new _consumer_rbac.ConsumerRBAC(this.fetchConfig));
+    const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
-    this.consumerRBAC = new _consumer_rbac.ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
@@ -47,6 +46,7 @@ class Client extends _client.BaseClient {
     this.otps = new _otps.OTPs(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.project = new _project.Project(this.fetchConfig);
+    this.rbac = new _rbac.RBAC(this.fetchConfig);
     this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);

@@ -1,7 +1,6 @@
 import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "./connected_apps";
-import { ConsumerRBAC } from "./consumer_rbac";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
 import { Impersonation } from "./impersonation";
@@ -13,6 +12,7 @@ import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
 import { PolicyCache } from "./rbac_local";
 import { Project } from "./project";
+import { RBAC } from "./rbac";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -22,7 +22,6 @@ import { IDP } from "./idp";
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
   connectedApp: ConnectedApp;
-  consumerRBAC: ConsumerRBAC;
   cryptoWallets: CryptoWallets;
   fraud: Fraud;
   impersonation: Impersonation;
@@ -32,6 +31,7 @@ export class Client extends BaseClient {
   otps: OTPs;
   passwords: Passwords;
   project: Project;
+  rbac: RBAC;
   sessions: Sessions;
   totps: TOTPs;
   users: Users;
@@ -57,10 +57,9 @@ export class Client extends BaseClient {
       ],
     };
 
-    const policyCache = new PolicyCache(new ConsumerRBAC(this.fetchConfig));
+    const policyCache = new PolicyCache(new RBAC(this.fetchConfig));
 
     this.connectedApp = new ConnectedApp(this.fetchConfig);
-    this.consumerRBAC = new ConsumerRBAC(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
     this.impersonation = new Impersonation(this.fetchConfig);
@@ -70,6 +69,7 @@ export class Client extends BaseClient {
     this.otps = new OTPs(this.fetchConfig);
     this.passwords = new Passwords(this.fetchConfig);
     this.project = new Project(this.fetchConfig);
+    this.rbac = new RBAC(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
     this.users = new Users(this.fetchConfig);

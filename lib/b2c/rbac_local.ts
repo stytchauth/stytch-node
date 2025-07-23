@@ -1,7 +1,7 @@
 // This file is manually generated!
 
-import { ConsumerRBACPolicy } from "./consumer_rbac";
-import { ConsumerRBAC } from "./consumer_rbac";
+import { RBACPolicy } from "./rbac";
+import { RBAC } from "./rbac";
 import { SessionsAuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
@@ -15,11 +15,11 @@ const MAX_AGE_MS = 1000 * 60 * 5;
 // - It works very well in Jest environments, since there's no boilerplate required to tear down the setInterval
 // - No work is done if RBAC is not used and the policy is not required
 export class PolicyCache {
-  private rbac: ConsumerRBAC;
-  private _policy?: ConsumerRBACPolicy;
+  private rbac: RBAC;
+  private _policy?: RBACPolicy;
   private _timestamp?: number;
 
-  constructor(rbac: ConsumerRBAC) {
+  constructor(rbac: RBAC) {
     this.rbac = rbac;
   }
 
@@ -33,11 +33,11 @@ export class PolicyCache {
     this._timestamp = Date.now();
   }
 
-  async getPolicy(): Promise<ConsumerRBACPolicy> {
+  async getPolicy(): Promise<RBACPolicy> {
     if (!this._policy || !this.fresh()) {
       await this.reload();
     }
-    return this._policy as ConsumerRBACPolicy;
+    return this._policy as RBACPolicy;
   }
 }
 
@@ -46,7 +46,7 @@ export function performAuthorizationCheck({
   subjectRoles,
   authorizationCheck,
 }: {
-  policy: ConsumerRBACPolicy;
+  policy: RBACPolicy;
   subjectRoles: string[];
   authorizationCheck: SessionsAuthorizationCheck;
 }): void {
@@ -75,7 +75,7 @@ export function performScopeAuthorizationCheck({
   tokenScopes,
   authorizationCheck,
 }: {
-  policy: ConsumerRBACPolicy;
+  policy: RBACPolicy;
   tokenScopes: string[];
   authorizationCheck: SessionsAuthorizationCheck;
 }): void {

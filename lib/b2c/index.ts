@@ -164,14 +164,14 @@ export type {
 } from "./connected_apps_clients_secrets";
 
 export type {
-  ConsumerRBACPolicy,
-  ConsumerRBACPolicyResource,
-  ConsumerRBACPolicyRole,
-  ConsumerRBACPolicyRolePermission,
-  ConsumerRBACPolicyScope,
-  ConsumerRBACPolicyScopePermission,
-  ConsumerRBACPolicyResponse,
-} from "./consumer_rbac";
+  RBACPolicy,
+  RBACPolicyResource,
+  RBACPolicyRole,
+  RBACPolicyRolePermission,
+  RBACPolicyScope,
+  RBACPolicyScopePermission,
+  RBACPolicyResponse,
+} from "./rbac";
 
 export type {
   SIWEParams,
