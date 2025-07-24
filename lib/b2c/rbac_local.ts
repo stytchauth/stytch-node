@@ -1,7 +1,6 @@
 // This file is manually generated!
 
-import { RBACPolicy } from "./rbac";
-import { RBAC } from "./rbac";
+import { RBACPolicy, RBAC } from "./rbac";
 import { SessionsAuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
