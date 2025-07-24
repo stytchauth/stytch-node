@@ -1,5 +1,4 @@
-import { RBACPolicy } from "./rbac";
-import { RBAC } from "./rbac";
+import { RBACPolicy, RBAC } from "./rbac";
 import { SessionsAuthorizationCheck } from "./sessions";
 export declare class PolicyCache {
     private rbac;
