@@ -1,5 +1,6 @@
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
+import { PolicyCache } from "./rbac_local";
 import { User } from "./users";
 import { JwtConfig } from "../shared/sessions";
 export interface AmazonOAuthFactor {
@@ -243,6 +244,14 @@ export interface Session {
      */
     custom_claims?: Record<string, any>;
 }
+export interface SessionsAuthorizationCheck {
+    resource_id: string;
+    action: string;
+}
+export interface SessionsAuthorizationVerdict {
+    authorized: boolean;
+    granting_roles: string[];
+}
 export interface ShopifyOAuthFactor {
     id: string;
     provider_subject: string;
@@ -381,6 +390,7 @@ export interface SessionsAuthenticateRequest {
      * ignored. Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    authorization_check?: SessionsAuthorizationCheck;
 }
 export interface SessionsAuthenticateResponse {
     /**
@@ -408,6 +418,7 @@ export interface SessionsAuthenticateResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    verdict?: SessionsAuthorizationVerdict;
 }
 export interface SessionsExchangeAccessTokenRequest {
     access_token: string;
@@ -573,6 +584,7 @@ export interface SessionsAuthenticateJwtRequest {
      * return a new JWT.
      */
     session_jwt: string;
+    authorization_check?: SessionsAuthorizationCheck;
     /**
      * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
@@ -584,6 +596,7 @@ export interface SessionsAuthenticateJwtLocalRequest {
      * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
      */
     session_jwt: string;
+    authorization_check?: SessionsAuthorizationCheck;
     /**
      * The maximum allowable difference when comparing timestamps.
      * It defaults to zero.
@@ -604,7 +617,8 @@ export declare class Sessions {
     private fetchConfig;
     private jwksClient;
     private jwtOptions;
-    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig);
+    private policyCache;
+    constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     /**
      * List all active Sessions for a given `user_id`. All timestamps are formatted according to the RFC 3339
      * standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.

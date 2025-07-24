@@ -1,7 +1,7 @@
 // This file is manually generated!
 
-import { Policy, RBAC } from "./rbac";
-import { AuthorizationCheck } from "./sessions";
+import { RBACPolicy, RBAC } from "./rbac";
+import { SessionsAuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 
 // We want to refresh if the policy is more than 5 minutes old
@@ -15,7 +15,7 @@ const MAX_AGE_MS = 1000 * 60 * 5;
 // - No work is done if RBAC is not used and the policy is not required
 export class PolicyCache {
   private rbac: RBAC;
-  private _policy?: Policy;
+  private _policy?: RBACPolicy;
   private _timestamp?: number;
 
   constructor(rbac: RBAC) {
@@ -32,31 +32,23 @@ export class PolicyCache {
     this._timestamp = Date.now();
   }
 
-  async getPolicy(): Promise<Policy> {
+  async getPolicy(): Promise<RBACPolicy> {
     if (!this._policy || !this.fresh()) {
       await this.reload();
     }
-    return this._policy as Policy;
+    return this._policy as RBACPolicy;
   }
 }
 
 export function performAuthorizationCheck({
   policy,
   subjectRoles,
-  subjectOrgID,
   authorizationCheck,
 }: {
-  policy: Policy;
+  policy: RBACPolicy;
   subjectRoles: string[];
-  subjectOrgID: string;
-  authorizationCheck: AuthorizationCheck;
+  authorizationCheck: SessionsAuthorizationCheck;
 }): void {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new ClientError(
-      "tenancy_mismatch",
-      "Member belongs to different organization"
-    );
-  }
   const hasPermission = policy.roles
     .filter((role) => subjectRoles.includes(role.role_id))
     .flatMap((role) => role.permissions)
@@ -72,7 +64,7 @@ export function performAuthorizationCheck({
   if (!hasPermission) {
     throw new ClientError(
       "invalid_permissions",
-      "Member does not have permission to perform the requested action"
+      "User does not have permission to perform the requested action"
     );
   }
 }
@@ -80,20 +72,12 @@ export function performAuthorizationCheck({
 export function performScopeAuthorizationCheck({
   policy,
   tokenScopes,
-  subjectOrgID,
   authorizationCheck,
 }: {
-  policy: Policy;
+  policy: RBACPolicy;
   tokenScopes: string[];
-  subjectOrgID: string;
-  authorizationCheck: AuthorizationCheck;
+  authorizationCheck: SessionsAuthorizationCheck;
 }): void {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new ClientError(
-      "tenancy_mismatch",
-      "Member belongs to different organization"
-    );
-  }
   const hasPermission = policy.scopes
     .filter((scope) => tokenScopes.includes(scope.scope))
     .flatMap((scope) => scope.permissions)
@@ -109,7 +93,7 @@ export function performScopeAuthorizationCheck({
   if (!hasPermission) {
     throw new ClientError(
       "invalid_permissions",
-      "Member does not have permission to perform the requested action"
+      "User does not have permission to perform the requested action"
     );
   }
 }

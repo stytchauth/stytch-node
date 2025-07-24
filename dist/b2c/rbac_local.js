@@ -41,36 +41,28 @@ exports.PolicyCache = PolicyCache;
 function performAuthorizationCheck({
   policy,
   subjectRoles,
-  subjectOrgID,
   authorizationCheck
 }) {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
-  }
   const hasPermission = policy.roles.filter(role => subjectRoles.includes(role.role_id)).flatMap(role => role.permissions).some(permission => {
     const hasMatchingAction = permission.actions.includes(authorizationCheck.action) || permission.actions.includes("*");
     const hasMatchingResource = authorizationCheck.resource_id === permission.resource_id;
     return hasMatchingAction && hasMatchingResource;
   });
   if (!hasPermission) {
-    throw new _errors.ClientError("invalid_permissions", "Member does not have permission to perform the requested action");
+    throw new _errors.ClientError("invalid_permissions", "User does not have permission to perform the requested action");
   }
 }
 function performScopeAuthorizationCheck({
   policy,
   tokenScopes,
-  subjectOrgID,
   authorizationCheck
 }) {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
-  }
   const hasPermission = policy.scopes.filter(scope => tokenScopes.includes(scope.scope)).flatMap(scope => scope.permissions).some(permission => {
     const hasMatchingAction = permission.actions.includes(authorizationCheck.action) || permission.actions.includes("*");
     const hasMatchingResource = authorizationCheck.resource_id === permission.resource_id;
     return hasMatchingAction && hasMatchingResource;
   });
   if (!hasPermission) {
-    throw new _errors.ClientError("invalid_permissions", "Member does not have permission to perform the requested action");
+    throw new _errors.ClientError("invalid_permissions", "User does not have permission to perform the requested action");
   }
 }

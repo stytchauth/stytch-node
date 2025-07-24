@@ -1,7 +1,11 @@
+// This file is manually generated!
+
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig, request } from "../shared";
 import { ClientError } from "../shared/errors";
+import { PolicyCache, performScopeAuthorizationCheck } from "./rbac_local";
+import { SessionsAuthorizationCheck } from "./sessions";
 
 export interface IntrospectTokenRequest {
   token: string;
@@ -51,15 +55,24 @@ export class IDP {
   private fetchConfig: fetchConfig;
   private jwtConfig: JwtConfig;
   private jwksClient: jose.JWTVerifyGetKey;
+  private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
     this.jwtConfig = jwtConfig;
     this.jwksClient = jwtConfig.jwks;
+    this.policyCache = policyCache;
   }
 
   async introspectTokenNetwork(
-    data: IntrospectTokenRequest
+    data: IntrospectTokenRequest,
+    options?: {
+      authorization_check?: SessionsAuthorizationCheck;
+    }
   ): Promise<IntrospectTokenClaims> {
     const fetchConfig: fetchConfig = {
       ...this.fetchConfig,
@@ -113,6 +126,15 @@ export class IDP {
       ...customClaims
     } = response;
 
+    if (options?.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      performScopeAuthorizationCheck({
+        policy,
+        tokenScopes: (_scope as string).trim().split(" "),
+        authorizationCheck: options.authorization_check,
+      });
+    }
+
     return {
       subject: _sub as string,
       scope: _scope as string,
@@ -131,6 +153,7 @@ export class IDP {
     options?: {
       clock_tolerance_seconds?: number;
       current_date?: Date;
+      authorization_check?: SessionsAuthorizationCheck;
     }
   ): Promise<IntrospectTokenClaims> {
     const jwtOptions = {
@@ -167,6 +190,16 @@ export class IDP {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
+
+    if (options?.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      performScopeAuthorizationCheck({
+        policy,
+        tokenScopes: (_scope as string).trim().split(" "),
+        authorizationCheck: options.authorization_check,
+      });
+    }
+
     return {
       subject: _sub as string,
       expires_at: _exp as number,
