@@ -8,10 +8,12 @@ import * as jose from "jose";
 import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
 import { fetchConfig } from "../shared";
+import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
 import { User } from "./users";
 
 import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+import { performAuthorizationCheck } from "./rbac_local";
 
 export interface AmazonOAuthFactor {
   id: string;
@@ -377,6 +379,16 @@ export interface Session {
   custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
+export interface SessionsAuthorizationCheck {
+  resource_id: string;
+  action: string;
+}
+
+export interface SessionsAuthorizationVerdict {
+  authorized: boolean;
+  granting_roles: string[];
+}
+
 export interface ShopifyOAuthFactor {
   id: string;
   provider_subject: string;
@@ -540,6 +552,7 @@ export interface SessionsAuthenticateRequest {
    * ignored. Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  authorization_check?: SessionsAuthorizationCheck;
 }
 
 // Response type for `sessions.authenticate`.
@@ -571,6 +584,7 @@ export interface SessionsAuthenticateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  verdict?: SessionsAuthorizationVerdict;
 }
 
 // Request type for `sessions.exchangeAccessToken`.
@@ -775,6 +789,7 @@ export interface SessionsAuthenticateJwtRequest {
    * return a new JWT.
    */
   session_jwt: string;
+  authorization_check?: SessionsAuthorizationCheck;
 
   /**
    * If set, remote verification will be forced if the JWT was issued at (based on the "iat" claim) more than that many seconds ago.
@@ -789,6 +804,7 @@ export interface SessionsAuthenticateJwtLocalRequest {
    * The JWT to authenticate. The JWT must not be expired in order for this request to succeed.
    */
   session_jwt: string;
+  authorization_check?: SessionsAuthorizationCheck;
 
   /**
    * The maximum allowable difference when comparing timestamps.
@@ -815,8 +831,13 @@ export class Sessions {
   private fetchConfig: fetchConfig;
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
+  private policyCache: PolicyCache;
 
-  constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig) {
+  constructor(
+    fetchConfig: fetchConfig,
+    jwtConfig: JwtConfig,
+    policyCache: PolicyCache
+  ) {
     this.fetchConfig = fetchConfig;
 
     this.jwksClient = jwtConfig.jwks;
@@ -825,6 +846,7 @@ export class Sessions {
       issuer: jwtConfig.issuers,
       typ: "JWT",
     };
+    this.policyCache = policyCache;
   }
 
   /**
@@ -1003,6 +1025,7 @@ export class Sessions {
 
   // MANUAL(authenticateJwt)(SERVICE_METHOD)
   // ADDIMPORT: import { JwtConfig, authenticateSessionJwtLocal } from "../shared/sessions";
+  // ADDIMPORT: import { performAuthorizationCheck } from "./rbac_local";
   /** Parse a JWT and verify the signature, preferring local verification over remote.
    *
    * If max_token_age_seconds is set, remote verification will be forced if the JWT was issued at
@@ -1053,6 +1076,15 @@ export class Sessions {
         current_date: params.current_date,
       }
     );
+
+    if (params.authorization_check) {
+      const policy = await this.policyCache.getPolicy();
+      await performAuthorizationCheck({
+        policy,
+        subjectRoles: sess.roles,
+        authorizationCheck: params.authorization_check,
+      });
+    }
 
     return {
       session_id: sess.session_id,

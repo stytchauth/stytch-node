@@ -10,6 +10,7 @@ import { OAuth } from "./oauth";
 import { OTPs } from "./otps";
 import { Passwords } from "./passwords";
 import { Project } from "./project";
+import { RBAC } from "./rbac";
 import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
@@ -27,6 +28,7 @@ export declare class Client extends BaseClient {
     otps: OTPs;
     passwords: Passwords;
     project: Project;
+    rbac: RBAC;
     sessions: Sessions;
     totps: TOTPs;
     users: Users;

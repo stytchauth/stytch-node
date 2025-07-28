@@ -1,3 +1,5 @@
+// This file is manually generated!
+
 import * as jose from "jose";
 import { JwtConfig } from "../shared/sessions";
 import { fetchConfig, request } from "../shared";

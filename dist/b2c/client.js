@@ -16,7 +16,9 @@ var _magic_links = require("./magic_links");
 var _oauth = require("./oauth");
 var _otps = require("./otps");
 var _passwords = require("./passwords");
+var _rbac_local = require("./rbac_local");
 var _project = require("./project");
+var _rbac = require("./rbac");
 var _sessions2 = require("./sessions");
 var _totps = require("./totps");
 var _users = require("./users");
@@ -33,6 +35,7 @@ class Client extends _client.BaseClient {
       jwks: jose.createRemoteJWKSet(new URL(`/v1/sessions/jwks/${config.project_id}`, this.fetchConfig.baseURL)),
       issuers: [`stytch.com/${config.project_id}`, (0, _sessions.trimTrailingSlash)(this.fetchConfig.baseURL)]
     };
+    const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
@@ -43,11 +46,12 @@ class Client extends _client.BaseClient {
     this.otps = new _otps.OTPs(this.fetchConfig);
     this.passwords = new _passwords.Passwords(this.fetchConfig);
     this.project = new _project.Project(this.fetchConfig);
-    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig);
+    this.rbac = new _rbac.RBAC(this.fetchConfig);
+    this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
-    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig);
+    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }
 exports.Client = Client;

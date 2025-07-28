@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.PolicyCache = void 0;
 exports.performAuthorizationCheck = performAuthorizationCheck;
 exports.performScopeAuthorizationCheck = performScopeAuthorizationCheck;
-var _errors = require("../shared/errors");
 var _rbac_local = require("../shared/rbac_local");
 // This file is manually generated!
 
@@ -21,32 +20,24 @@ exports.PolicyCache = PolicyCache;
 function performAuthorizationCheck({
   policy,
   subjectRoles,
-  subjectOrgID,
   authorizationCheck
 }) {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
-  }
   (0, _rbac_local.performBaseRoleAuthorizationCheck)({
     policy,
     subjectRoles,
     authorizationCheck,
-    callerType: "Member"
+    callerType: "User"
   });
 }
 function performScopeAuthorizationCheck({
   policy,
   tokenScopes,
-  subjectOrgID,
   authorizationCheck
 }) {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new _errors.ClientError("tenancy_mismatch", "Member belongs to different organization");
-  }
   return (0, _rbac_local.performBaseScopeAuthorizationCheck)({
     policy,
     tokenScopes,
     authorizationCheck,
-    callerType: "Member"
+    callerType: "User"
   });
 }

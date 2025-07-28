@@ -1,14 +1,12 @@
 // This file is manually generated!
 
-import { Policy } from "./rbac";
-import { AuthorizationCheck } from "./sessions";
-import { ClientError } from "../shared/errors";
+import { RBACPolicy } from "./rbac";
 import {
-  baseScopeAuthorizationCheckArgs,
   performBaseRoleAuthorizationCheck,
   performBaseScopeAuthorizationCheck,
   BasePolicyCache,
   baseRoleAuthorizationCheckArgs,
+  baseScopeAuthorizationCheckArgs,
 } from "../shared/rbac_local";
 
 // PolicyCache handles local caching of RBAC policy information
@@ -17,50 +15,30 @@ import {
 // and tracks the timestamp internally. this has a few _very nice_ properties:
 // - It works very well in Jest environments, since there's no boilerplate required to tear down the setInterval
 // - No work is done if RBAC is not used and the policy is not required
-export class PolicyCache extends BasePolicyCache<Policy> {}
+export class PolicyCache extends BasePolicyCache<RBACPolicy> {}
 
 export function performAuthorizationCheck({
   policy,
   subjectRoles,
-  subjectOrgID,
   authorizationCheck,
-}: Omit<baseRoleAuthorizationCheckArgs, "callerType"> & {
-  subjectOrgID: string;
-  authorizationCheck: AuthorizationCheck;
-}): void {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new ClientError(
-      "tenancy_mismatch",
-      "Member belongs to different organization"
-    );
-  }
+}: Omit<baseRoleAuthorizationCheckArgs, "callerType">): void {
   performBaseRoleAuthorizationCheck({
     policy,
     subjectRoles,
     authorizationCheck,
-    callerType: "Member",
+    callerType: "User",
   });
 }
 
 export function performScopeAuthorizationCheck({
   policy,
   tokenScopes,
-  subjectOrgID,
   authorizationCheck,
-}: Omit<baseScopeAuthorizationCheckArgs, "callerType"> & {
-  subjectOrgID: string;
-  authorizationCheck: AuthorizationCheck;
-}): void {
-  if (subjectOrgID !== authorizationCheck.organization_id) {
-    throw new ClientError(
-      "tenancy_mismatch",
-      "Member belongs to different organization"
-    );
-  }
+}: Omit<baseScopeAuthorizationCheckArgs, "callerType">): void {
   return performBaseScopeAuthorizationCheck({
     policy,
     tokenScopes,
     authorizationCheck,
-    callerType: "Member",
+    callerType: "User",
   });
 }
