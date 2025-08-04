@@ -1,12 +1,10 @@
 import type { Dispatcher } from "undici";
-import { version } from "../../package.json";
+import { BaseClient } from "../shared/client";
 import { fetchConfig } from "../shared";
 import { RequestError, StytchError, StytchErrorJSON } from "../shared/errors";
 import {} from "../shared/method_options";
 
-const DEFAULT_TIMEOUT = 10 * 60 * 1000; // Ten minutes
-
-export interface ClientConfig {
+export interface SamlShieldClientConfig {
   public_key: string;
   timeout?: number;
   dispatcher?: Dispatcher;
@@ -98,12 +96,10 @@ export class SamlShield {
   }
 }
 
-export class SamlShieldClient {
+export class SamlShieldClient extends BaseClient {
   saml: SamlShield;
-  protected fetchConfig: fetchConfig;
-  protected baseURL: string;
 
-  constructor(config: ClientConfig) {
+  constructor(config: SamlShieldClientConfig) {
     if (typeof config != "object") {
       throw new Error(
         "Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library."
@@ -114,34 +110,23 @@ export class SamlShieldClient {
       throw new Error('Missing "public_key" in config');
     }
 
-    // Validate custom_base_url is using HTTPS
-    if (
-      config.custom_base_url &&
-      !config.custom_base_url.startsWith("https://")
-    ) {
-      throw new Error("custom_base_url must use HTTPS scheme");
-    }
+    // Convert SAML Shield config to BaseClient config format
+    const baseClientConfig = {
+      project_id: config.public_key, // Use public_key as project_id for SAML Shield
+      secret: "saml-shield-placeholder", // SAML Shield doesn't use secret, but BaseClient requires it
+      timeout: config.timeout,
+      dispatcher: config.dispatcher,
+      custom_base_url: config.custom_base_url || "https://api.samlshield.com",
+    };
 
-    const headers = {
+    super(baseClientConfig);
+
+    // Override the headers and auth for SAML Shield specific requirements
+    this.fetchConfig.headers = {
       "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": `Stytch Node v${version}`,
+      "User-Agent": this.fetchConfig.headers["User-Agent"], // Keep the User-Agent from BaseClient
       Authorization: "Bearer " + config.public_key,
     };
-
-    const baseURL = config.custom_base_url || "https://api.samlshield.com";
-    this.fetchConfig = {
-      baseURL: baseURL,
-      fraudBaseURL: "",
-      headers,
-      timeout: config.timeout || DEFAULT_TIMEOUT,
-      dispatcher: config.dispatcher,
-    };
-
-    // Get a baseURL that ends with a slash to make building route URLs easier.
-    this.baseURL = baseURL;
-    if (!this.baseURL.endsWith("/")) {
-      this.baseURL += "/";
-    }
 
     this.saml = new SamlShield(this.fetchConfig);
   }

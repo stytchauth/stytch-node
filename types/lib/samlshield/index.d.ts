@@ -1,6 +1,7 @@
 import type { Dispatcher } from "undici";
+import { BaseClient } from "../shared/client";
 import { fetchConfig } from "../shared";
-export interface ClientConfig {
+export interface SamlShieldClientConfig {
     public_key: string;
     timeout?: number;
     dispatcher?: Dispatcher;
@@ -31,9 +32,7 @@ export declare class SamlShield {
     constructor(fetchConfig: fetchConfig);
     validate(data: SamlShieldValidateRequest): Promise<SamlShieldValidateResponse>;
 }
-export declare class SamlShieldClient {
+export declare class SamlShieldClient extends BaseClient {
     saml: SamlShield;
-    protected fetchConfig: fetchConfig;
-    protected baseURL: string;
-    constructor(config: ClientConfig);
+    constructor(config: SamlShieldClientConfig);
 }
