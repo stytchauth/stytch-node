@@ -2,7 +2,7 @@ import type { Dispatcher } from "undici";
 import { BaseClient } from "../shared/client";
 import { fetchConfig } from "../shared";
 export interface SamlShieldClientConfig {
-    public_key: string;
+    public_token: string;
     timeout?: number;
     dispatcher?: Dispatcher;
     custom_base_url?: string;
