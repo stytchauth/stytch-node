@@ -64,14 +64,14 @@ class SamlShieldClient extends _client.BaseClient {
     if (typeof config != "object") {
       throw new Error("Unexpected config type. Refer to https://github.com/stytchauth/stytch-node for how to use the Node client library.");
     }
-    if (!config.public_key) {
-      throw new Error('Missing "public_key" in config');
+    if (!config.public_token) {
+      throw new Error('Missing "public_token" in config');
     }
 
     // Convert SAML Shield config to BaseClient config format
     const baseClientConfig = {
-      project_id: config.public_key,
-      // Use public_key as project_id for SAML Shield
+      project_id: config.public_token,
+      // Use public_token as project_id for SAML Shield
       secret: "saml-shield-placeholder",
       // SAML Shield doesn't use secret, but BaseClient requires it
       timeout: config.timeout,
@@ -85,7 +85,7 @@ class SamlShieldClient extends _client.BaseClient {
       "Content-Type": "application/x-www-form-urlencoded",
       "User-Agent": this.fetchConfig.headers["User-Agent"],
       // Keep the User-Agent from BaseClient
-      Authorization: "Bearer " + config.public_key
+      Authorization: "Bearer " + config.public_token
     };
     this.saml = new SamlShield(this.fetchConfig);
   }
