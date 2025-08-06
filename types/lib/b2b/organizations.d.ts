@@ -412,8 +412,8 @@ export interface Organization {
      * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
      * The accepted values are:
      *
-     *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-     * of the Organization's `sso_active_connections`.
+     *   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+     * authentication via any of the Organization's `sso_active_connections`.
      *
      *   `RESTRICTED` – only new Members with SSO logins that comply with
      * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -450,7 +450,7 @@ export interface Organization {
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
      * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
      *
      */
     email_jit_provisioning: string;
@@ -520,7 +520,7 @@ export interface Organization {
      *
      *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
      *
      */
     oauth_tenant_jit_provisioning: string;
@@ -529,7 +529,8 @@ export interface Organization {
      * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -547,7 +548,8 @@ export interface Organization {
      * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -678,8 +680,8 @@ export interface B2BOrganizationsCreateRequest {
      * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
      * The accepted values are:
      *
-     *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-     * of the Organization's `sso_active_connections`.
+     *   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+     * authentication via any of the Organization's `sso_active_connections`.
      *
      *   `RESTRICTED` – only new Members with SSO logins that comply with
      * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -704,7 +706,7 @@ export interface B2BOrganizationsCreateRequest {
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
      * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
      *
      */
     email_jit_provisioning?: string;
@@ -785,7 +787,7 @@ export interface B2BOrganizationsCreateRequest {
      *
      *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
      *
      */
     oauth_tenant_jit_provisioning?: string;
@@ -799,7 +801,8 @@ export interface B2BOrganizationsCreateRequest {
      * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -817,7 +820,8 @@ export interface B2BOrganizationsCreateRequest {
      * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -1011,8 +1015,8 @@ export interface B2BOrganizationsUpdateRequest {
      * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
      * The accepted values are:
      *
-     *   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-     * of the Organization's `sso_active_connections`.
+     *   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+     * authentication via any of the Organization's `sso_active_connections`.
      *
      *   `RESTRICTED` – only new Members with SSO logins that comply with
      * `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -1055,7 +1059,7 @@ export interface B2BOrganizationsUpdateRequest {
      *   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
      * provisioned upon authentication via Email Magic Link or OAuth.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
      *
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
@@ -1165,7 +1169,7 @@ export interface B2BOrganizationsUpdateRequest {
      *
      *   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
      *
-     *   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+     *   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
      *
      *
      * If this field is provided and a session header is passed into the request, the Member Session must have
@@ -1187,7 +1191,8 @@ export interface B2BOrganizationsUpdateRequest {
      * The authentication setting that sets the Organization's policy towards first party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -1205,7 +1210,8 @@ export interface B2BOrganizationsUpdateRequest {
      * The authentication setting that sets the Organization's policy towards third party Connected Apps. The
      * accepted values are:
      *
-     *   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+     *   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+     * by Members.
      *
      *   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
      * used by Members.
@@ -1294,9 +1300,9 @@ export declare class Organizations {
     /**
      * Creates an Organization. An `organization_name` and a unique `organization_slug` are required.
      *
-     * By default, `email_invites` and `sso_jit_provisioning` will be set to `ALL_ALLOWED`, and `mfa_policy`
-     * will be set to `OPTIONAL` if no Organization authentication settings are explicitly defined in the
-     * request.
+     * If no Organization authentication setting parameters are passed in, `email_invites` will default to
+     * `ALL_ALLOWED` so that the Organization has a way to add Members. Otherwise, `email_invites` will default
+     * to `NOT_ALLOWED`.
      *
      * *See the [Organization authentication settings](https://stytch.com/docs/b2b/api/org-auth-settings)
      * resource to learn more about fields like `email_jit_provisioning`, `email_invites`,

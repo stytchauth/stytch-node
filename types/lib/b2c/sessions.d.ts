@@ -15,22 +15,48 @@ export interface AppleOAuthFactor {
 }
 export interface AuthenticationFactor {
     /**
-     * The type of authentication factor. The possible values are: `magic_link`, `otp`,
-     *        `oauth`, `password`, `email_otp`, or `sso` .
+     * The type of authentication factor. The possible values are: `email_otp`, `impersonated`, `imported`,
+     *        `magic_link`, `oauth`, `otp`, `password`, `recovery_codes`, `sso`, `trusted_auth_token`, or
+     * `totp`.
      */
     type: "magic_link" | "otp" | "oauth" | "webauthn" | "totp" | "crypto" | "password" | "signature_challenge" | "sso" | "imported" | "recovery_codes" | "email_otp" | "impersonated" | "trusted_auth_token" | string;
     /**
      * The method that was used to deliver the authentication factor. The possible values depend on the `type`:
      *
+     *       `email_otp` – Only `email`.
+     *
+     *       `impersonated` – Only `impersonation`.
+     *
+     *       `imported` – Only `imported_auth0`.
+     *
      *       `magic_link` – Only `email`.
      *
-     *       `otp` –  Either `sms` or `email` .
+     *       `oauth` – The delivery method is determined by the specific OAuth provider used. The possible
+     * values are `oauth_google`, `oauth_microsoft`, `oauth_hubspot`, `oauth_slack`, or `oauth_github`.
      *
-     *       `oauth` – Either `oauth_google` or `oauth_microsoft`.
+     *         In addition, you may see an 'exchange' delivery method when a non-email-verifying OAuth factor
+     * originally authenticated in one organization is exchanged for a factor in another organization.
+     *         This can happen during authentication flows such as
+     * [session exchange](https://stytch.com/docs/b2b/api/exchange-session).
+     *         The non-email-verifying OAuth providers are Hubspot, Slack, and Github.
+     *         Google is also considered non-email-verifying when the HD claim is empty.
+     *         The possible exchange values are `oauth_exchange_google`, `oauth_exchange_hubspot`,
+     * `oauth_exchange_slack`, or `oauth_exchange_github`.
+     *
+     *         The final possible value is `oauth_access_token_exchange`, if this factor came from an
+     * [access token exchange flow](https://stytch.com/docs/b2b/api/connected-app-access-token-exchange).
+     *
+     *       `otp` –  Only `sms`.
      *
      *       `password` – Only `knowledge`.
      *
+     *       `recovery_codes` – Only `recovery_code`.
+     *
      *       `sso` – Either `sso_saml` or `sso_oidc`.
+     *
+     *       `trusted_auth_token` – Only `trusted_token_exchange`.
+     *
+     *       `totp` – Only `authenticator_app`.
      *
      */
     delivery_method: "email" | "sms" | "whatsapp" | "embedded" | "oauth_google" | "oauth_microsoft" | "oauth_apple" | "webauthn_registration" | "authenticator_app" | "oauth_github" | "recovery_code" | "oauth_facebook" | "crypto_wallet" | "oauth_amazon" | "oauth_bitbucket" | "oauth_coinbase" | "oauth_discord" | "oauth_figma" | "oauth_gitlab" | "oauth_instagram" | "oauth_linkedin" | "oauth_shopify" | "oauth_slack" | "oauth_snapchat" | "oauth_spotify" | "oauth_steam" | "oauth_tiktok" | "oauth_twitch" | "oauth_twitter" | "knowledge" | "biometric" | "sso_saml" | "sso_oidc" | "oauth_salesforce" | "oauth_yahoo" | "oauth_hubspot" | "imported_auth0" | "oauth_exchange_slack" | "oauth_exchange_hubspot" | "oauth_exchange_github" | "oauth_exchange_google" | "impersonation" | "oauth_access_token_exchange" | "trusted_token_exchange" | string;
@@ -132,6 +158,10 @@ export interface GithubOAuthExchangeFactor {
 }
 export interface GithubOAuthFactor {
     id: string;
+    /**
+     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+     * "Subject field" in OAuth protocols.
+     */
     provider_subject: string;
     email_id?: string;
 }
@@ -152,6 +182,10 @@ export interface HubspotOAuthExchangeFactor {
 }
 export interface HubspotOAuthFactor {
     id: string;
+    /**
+     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+     * "Subject field" in OAuth protocols.
+     */
     provider_subject: string;
     email_id?: string;
 }
@@ -245,11 +279,26 @@ export interface Session {
     custom_claims?: Record<string, any>;
 }
 export interface SessionsAuthorizationCheck {
+    /**
+     * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
+     *
+     *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+     * default Resources with reserved `resource_id`s.
+     *
+     */
     resource_id: string;
     action: string;
 }
 export interface SessionsAuthorizationVerdict {
+    /**
+     * Whether the User was authorized to perform the specified action on the specified Resource. Always true
+     * if the request succeeds.
+     */
     authorized: boolean;
+    /**
+     * The complete list of Roles that gave the User permission to perform the specified action on the
+     * specified Resource.
+     */
     granting_roles: string[];
 }
 export interface ShopifyOAuthFactor {
@@ -262,6 +311,10 @@ export interface SlackOAuthExchangeFactor {
 }
 export interface SlackOAuthFactor {
     id: string;
+    /**
+     * The unique identifier for the User within a given OAuth provider. Also commonly called the `sub` or
+     * "Subject field" in OAuth protocols.
+     */
     provider_subject: string;
     email_id?: string;
 }
@@ -390,6 +443,15 @@ export interface SessionsAuthenticateRequest {
      * ignored. Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * If an `authorization_check` object is passed in, this endpoint will also check if the User is
+     *   authorized to perform the given action on the given Resource. A User is authorized if they are
+     * assigned a Role with adequate permissions.
+     *
+     *   If the User is not authorized to perform the specified action on the specified Resource, a 403 error
+     * will be thrown.
+     *   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
+     */
     authorization_check?: SessionsAuthorizationCheck;
 }
 export interface SessionsAuthenticateResponse {
@@ -418,6 +480,10 @@ export interface SessionsAuthenticateResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * If an `authorization_check` is provided in the request and the check succeeds, this field will return
+     *   information about why the User was granted permission.
+     */
     verdict?: SessionsAuthorizationVerdict;
 }
 export interface SessionsExchangeAccessTokenRequest {
@@ -660,10 +726,10 @@ export declare class Sessions {
     revoke(data: SessionsRevokeRequest): Promise<SessionsRevokeResponse>;
     /**
      * Migrate a session from an external OIDC compliant endpoint. Stytch will call the external UserInfo
-     * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/docs/dashboard),
-     * and then perform a lookup using the `session_token`. If the response contains a valid email address,
-     * Stytch will attempt to match that email address with an existing User and create a Stytch Session. You
-     * will need to create the user before using this endpoint.
+     * endpoint defined in your Stytch Project settings in the [Dashboard](https://stytch.com/dashboard), and
+     * then perform a lookup using the `session_token`. If the response contains a valid email address, Stytch
+     * will attempt to match that email address with an existing User and create a Stytch Session. You will
+     * need to create the user before using this endpoint.
      * @param data {@link SessionsMigrateRequest}
      * @returns {@link SessionsMigrateResponse}
      * @async
@@ -717,8 +783,8 @@ export declare class Sessions {
     /**
      * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
      * register a Trusted Auth Token profile in the Stytch dashboard
-     * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens). If a session token or session JWT is
-     * provided, it will add the trusted auth token as an authentication factor to the existing session.
+     * [here](https://stytch.com/dashboard/trusted-auth-tokens). If a session token or session JWT is provided,
+     * it will add the trusted auth token as an authentication factor to the existing session.
      * @param data {@link SessionsAttestRequest}
      * @returns {@link SessionsAttestResponse}
      * @async
