@@ -369,6 +369,11 @@ class Members {
    * The member will receive an Email Magic Link that expires in 5 minutes. If they do not verify their new
    * email address in that timeframe, the email
    * will be freed up for other members to use.
+   *
+   * The Magic Link will redirect to your `login_redirect_url` (or the configured default if one isn't
+   * provided), and you should invoke the
+   * [Authenticate Magic Link](https://stytch.com/docs/b2b/api/authenticate-magic-link) endpoint as normal to
+   * complete the flow.
    * @param data {@link B2BOrganizationsMembersStartEmailUpdateRequest}
    * @param options {@link B2BOrganizationsMembersStartEmailUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersStartEmailUpdateResponse}

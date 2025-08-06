@@ -28,6 +28,11 @@ export interface B2BPasswordsEmailRequireResetRequest {
 }
 export interface B2BPasswordsEmailRequireResetResponse {
     /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */

@@ -195,8 +195,11 @@ export declare class TOTPs {
      * Create a new TOTP instance for a Member. The Member can use the authenticator application of their
      * choice to scan the QR code or enter the secret.
      *
-     * Passing an intermediate session token, session token, or session JWT is not required, but if passed must
-     * match the Member ID passed.
+     * If the Member already has an active MFA factor, then passing an intermediate session token, session
+     * token, or session JWT with the existing MFA factor on it is required to prevent bypassing MFA.
+     *
+     * Otherwise, passing an intermediate session token, session token, or session JWT is not required, but if
+     * passed must match the `member_id` passed.
      * @param data {@link B2BTOTPsCreateRequest}
      * @returns {@link B2BTOTPsCreateResponse}
      * @async

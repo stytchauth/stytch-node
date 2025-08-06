@@ -21,7 +21,7 @@ export interface PolicyResource {
    * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
    *
    *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
-   * default Resources with reserved  `resource_id`s. These include:
+   * default Resources with reserved `resource_id`s. These include:
    *
    *   * `stytch.organization`
    *   * `stytch.member`
@@ -113,7 +113,7 @@ export interface PolicyRolePermission {
    * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
    *
    *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
-   * default Resources with reserved  `resource_id`s. These include:
+   * default Resources with reserved `resource_id`s. These include:
    *
    *   * `stytch.organization`
    *   * `stytch.member`
@@ -121,8 +121,8 @@ export interface PolicyRolePermission {
    *   * `stytch.self`
    *
    *   Check out the
-   * [guide on Stytch default Resources](https://stytch.com/docs/docs/b2b/guides/rbac/stytch-default) for a
-   * more detailed explanation.
+   * [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for a more
+   * detailed explanation.
    *
    *
    */
@@ -159,8 +159,8 @@ export interface B2BRBACPolicyResponse {
   status_code: number;
   /**
    * The RBAC Policy document that contains all defined Roles and Resources – which are managed in the
-   * [Dashboard](https://stytch.com/docs/dashboard/rbac). Read more about these entities and how they work in
-   * our [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
+   * [Dashboard](https://stytch.com/dashboard/rbac). Read more about these entities and how they work in our
+   * [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
    */
   policy?: Policy;
 }
@@ -180,8 +180,8 @@ export class RBAC {
    * the need for an extra request to Stytch. The policy will be refreshed if an authorization check is
    * requested and the RBAC policy was last updated more than 5 minutes ago.
    *
-   * Resources and Roles can be created and managed within the
-   * [RBAC page](https://stytch.com/docs/dashboard/rbac) in the Dashboard.
+   * Resources and Roles can be created and managed within the [RBAC page](https://stytch.com/dashboard/rbac)
+   * in the Dashboard.
    * Additionally, [Role assignment](https://stytch.com/docs/b2b/guides/rbac/role-assignment) can be
    * programmatically managed through certain Stytch API endpoints.
    *
