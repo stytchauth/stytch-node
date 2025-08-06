@@ -7,16 +7,15 @@ import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
 export interface AuthorizationCheck {
     /**
-     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
-     * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * Globally unique UUID that identifies a specific Organization. The Organization's ID must match the
+     * Member's Organization
      */
     organization_id: string;
     /**
      * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
      *
      *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
-     * default Resources with reserved  `resource_id`s. These include:
+     * default Resources with reserved `resource_id`s. These include:
      *
      *   * `stytch.organization`
      *   * `stytch.member`
@@ -33,7 +32,15 @@ export interface AuthorizationCheck {
     action: string;
 }
 export interface AuthorizationVerdict {
+    /**
+     * Whether the Member was authorized to perform the specified action on the specified Resource. Always true
+     * if the request succeeds.
+     */
     authorized: boolean;
+    /**
+     * The complete list of Roles that gave the Member permission to perform the specified action on the
+     * specified Resource.
+     */
     granting_roles: string[];
 }
 export interface B2BSessionsRevokeRequestOptions {
@@ -69,6 +76,13 @@ export interface MemberSession {
      */
     organization_id: string;
     roles: string[];
+    /**
+     * The unique URL slug of the Organization. The slug only accepts alphanumeric characters and the following
+     * reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters in length. Wherever an
+     * organization_id is expected in a path or request parameter, you may also use the organization_slug as a
+     * convenience.
+     */
+    organization_slug: string;
     /**
      * The custom claims map for a Session. Claims can be added to a session during a Sessions authenticate
      * call.
@@ -206,8 +220,7 @@ export interface B2BSessionsAuthenticateResponse {
     status_code: number;
     /**
      * If an `authorization_check` is provided in the request and the check succeeds, this field will return
-     *   the complete list of Roles that gave the Member permission to perform the specified action on the
-     * specified Resource.
+     *   information about why the Member was granted permission.
      */
     verdict?: AuthorizationVerdict;
 }
@@ -627,7 +640,7 @@ export declare class Sessions {
     /**
      * Exchange an auth token issued by a trusted identity provider for a Stytch session. You must first
      * register a Trusted Auth Token profile in the Stytch dashboard
-     * [here](https://stytch.com/docs/dashboard/trusted-auth-tokens).  If a session token or session JWT is
+     * [here](https://stytch.com/dashboard/trusted-auth-tokens).  If a session token or session JWT is
      * provided, it will add the trusted auth token as an authentication factor to the existing session.
      * @param data {@link B2BSessionsAttestRequest}
      * @returns {@link B2BSessionsAttestResponse}
@@ -639,8 +652,8 @@ export declare class Sessions {
     /**
      * Migrate a session from an external OIDC compliant endpoint.
      * Stytch will call the external UserInfo endpoint defined in your Stytch Project settings in the
-     * [Dashboard](https://stytch.com/docs/dashboard), and then perform a lookup using the `session_token`.
-     * <!-- FIXME more specific dashboard link-->
+     * [Dashboard](https://stytch.com/dashboard/migrations), and then perform a lookup using the
+     * `session_token`.
      * If the response contains a valid email address, Stytch will attempt to match that email address with an
      * existing Member in your Organization and create a Stytch Session.
      * You will need to create the member before using this endpoint.
