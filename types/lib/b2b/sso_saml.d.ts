@@ -37,7 +37,7 @@ export interface B2BSSOSAMLCreateConnectionRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     display_name?: string;
@@ -70,8 +70,8 @@ export interface B2BSSOSAMLCreateConnectionResponse {
 }
 export interface B2BSSOSAMLDeleteVerificationCertificateRequest {
     /**
-     * The organization ID that the SAML connection belongs to. You may also use the organization_slug here as
-     * a convenience.
+     * The organization ID that the SAML connection belongs to. You may also use the organization_slug or
+     * organization_external_id here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -94,7 +94,7 @@ export interface B2BSSOSAMLUpdateByURLRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     connection_id: string;
@@ -122,7 +122,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     connection_id: string;

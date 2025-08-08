@@ -157,7 +157,7 @@ export interface Member {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   /**
@@ -449,7 +449,7 @@ export interface Organization {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The name of the Organization. Must be between 1 and 128 characters in length.
@@ -630,6 +630,8 @@ export interface Organization {
    * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
    */
   updated_at?: string;
+  // A unique identifier for the organization.
+  organization_external_id?: string;
   // The default connection used for SSO when there are multiple active connections.
   sso_default_connection_id?: string;
   // An active [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
@@ -734,7 +736,7 @@ export interface B2BOrganizationsConnectedAppsRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
 }
@@ -765,6 +767,13 @@ export interface B2BOrganizationsCreateRequest {
   organization_logo_url?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * An identifier that can be used in API calls wherever a organization_id is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
+   * External IDs must be unique within a project, but may be reused across different projects in the same
+   * workspace.
+   */
+  organization_external_id?: string;
   /**
    * The authentication setting that controls the JIT provisioning of Members when authenticating via SSO.
    * The accepted values are:
@@ -956,7 +965,7 @@ export interface B2BOrganizationsDeleteRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
 }
@@ -985,7 +994,7 @@ export interface B2BOrganizationsGetConnectedAppRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the Connected App.
@@ -1016,7 +1025,7 @@ export interface B2BOrganizationsGetRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
 }
@@ -1097,7 +1106,7 @@ export interface B2BOrganizationsUpdateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   /**
@@ -1131,6 +1140,13 @@ export interface B2BOrganizationsUpdateRequest {
    *           update trusted metadata when acting as a Member.
    */
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * An identifier that can be used in API calls wherever a organization_id is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
+   * External IDs must be unique within a project, but may be reused across different projects in the same
+   * workspace.
+   */
+  organization_external_id?: string;
   /**
    * The default connection used for SSO when there are multiple active connections.
    *
@@ -1546,6 +1562,7 @@ export class Organizations {
         organization_slug: data.organization_slug,
         organization_logo_url: data.organization_logo_url,
         trusted_metadata: data.trusted_metadata,
+        organization_external_id: data.organization_external_id,
         sso_default_connection_id: data.sso_default_connection_id,
         sso_jit_provisioning: data.sso_jit_provisioning,
         sso_jit_provisioning_allowed_connections:

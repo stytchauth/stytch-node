@@ -293,8 +293,8 @@ export interface B2BSSOAuthenticateResponse {
 // Request type for `sso.deleteConnection`.
 export interface B2BSSODeleteConnectionRequest {
   /**
-   * The organization ID that the SSO connection belongs to. You may also use the organization_slug here as a
-   * convenience.
+   * The organization ID that the SSO connection belongs to. You may also use the organization_slug or
+   * organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SSO connection. SAML, OIDC, and External connection IDs can be provided.
@@ -322,7 +322,7 @@ export interface B2BSSOGetConnectionsRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
 }

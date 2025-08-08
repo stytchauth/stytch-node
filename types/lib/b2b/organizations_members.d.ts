@@ -95,7 +95,7 @@ export interface B2BOrganizationsMembersCreateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     email_address: string;
@@ -175,7 +175,7 @@ export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -204,7 +204,7 @@ export interface B2BOrganizationsMembersDeletePasswordRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     member_password_id: string;
@@ -228,7 +228,7 @@ export interface B2BOrganizationsMembersDeleteRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -255,7 +255,7 @@ export interface B2BOrganizationsMembersDeleteTOTPRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -284,7 +284,7 @@ export interface B2BOrganizationsMembersGetConnectedAppsRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -307,7 +307,7 @@ export interface B2BOrganizationsMembersGetRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -337,7 +337,7 @@ export interface B2BOrganizationsMembersOIDCProviderInformationRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -370,7 +370,7 @@ export interface B2BOrganizationsMembersReactivateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -446,7 +446,7 @@ export interface B2BOrganizationsMembersStartEmailUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -503,7 +503,7 @@ export interface B2BOrganizationsMembersUnlinkRetiredEmailRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**
@@ -539,7 +539,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
-     * organization_slug here as a convenience.
+     * organization_slug or organization_external_id here as a convenience.
      */
     organization_id: string;
     /**

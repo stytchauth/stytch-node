@@ -57,7 +57,7 @@ export interface B2BSSOSAMLCreateConnectionRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // A human-readable display name for the connection.
@@ -111,8 +111,8 @@ export interface B2BSSOSAMLCreateConnectionResponse {
 // Request type for `sso.saml.deleteVerificationCertificate`.
 export interface B2BSSOSAMLDeleteVerificationCertificateRequest {
   /**
-   * The organization ID that the SAML connection belongs to. You may also use the organization_slug here as
-   * a convenience.
+   * The organization ID that the SAML connection belongs to. You may also use the organization_slug or
+   * organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SAML connection.
@@ -142,7 +142,7 @@ export interface B2BSSOSAMLUpdateByURLRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
@@ -176,7 +176,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
