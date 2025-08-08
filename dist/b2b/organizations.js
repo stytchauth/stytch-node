@@ -123,6 +123,7 @@ class Organizations {
         organization_slug: data.organization_slug,
         organization_logo_url: data.organization_logo_url,
         trusted_metadata: data.trusted_metadata,
+        organization_external_id: data.organization_external_id,
         sso_default_connection_id: data.sso_default_connection_id,
         sso_jit_provisioning: data.sso_jit_provisioning,
         sso_jit_provisioning_allowed_connections: data.sso_jit_provisioning_allowed_connections,

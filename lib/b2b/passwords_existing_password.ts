@@ -22,7 +22,7 @@ export interface B2BPasswordsExistingPasswordResetRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // A secret token for a given Stytch Session.
@@ -129,7 +129,7 @@ export class ExistingPassword {
   }
 
   /**
-   * Reset the member’s password using their existing password.
+   * Reset the member's password using their existing password.
    *
    * This endpoint adapts to your Project's password strength configuration.
    * If you're using [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy), the default, your

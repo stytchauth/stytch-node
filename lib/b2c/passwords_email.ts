@@ -207,8 +207,8 @@ export class Email {
   }
 
   /**
-   * Reset the user’s password and authenticate them. This endpoint checks that the magic link `token` is
-   * valid, hasn’t expired, or already been used – and can optionally require additional security settings,
+   * Reset the user's password and authenticate them. This endpoint checks that the magic link `token` is
+   * valid, hasn't expired, or already been used – and can optionally require additional security settings,
    * such as the IP address and user agent matching the initial reset request.
    *
    * The provided password needs to meet our password strength requirements, which can be checked in advance

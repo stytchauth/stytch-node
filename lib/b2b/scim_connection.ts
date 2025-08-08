@@ -95,7 +95,7 @@ export interface B2BSCIMConnectionCreateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // A human-readable display name for the connection.
@@ -137,7 +137,7 @@ export interface B2BSCIMConnectionDeleteRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.
@@ -165,7 +165,7 @@ export interface B2BSCIMConnectionGetGroupsRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.
@@ -203,7 +203,7 @@ export interface B2BSCIMConnectionGetRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
 }
@@ -232,7 +232,7 @@ export interface B2BSCIMConnectionRotateCancelRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.
@@ -264,7 +264,7 @@ export interface B2BSCIMConnectionRotateCompleteRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.
@@ -296,7 +296,7 @@ export interface B2BSCIMConnectionRotateStartRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.
@@ -328,7 +328,7 @@ export interface B2BSCIMConnectionUpdateRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   // The ID of the SCIM connection.

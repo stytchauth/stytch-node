@@ -49,7 +49,7 @@ class OAuth {
    * [complete a step-up authentication](https://stytch.com/docs/b2b/guides/oauth/auth-flows) into the
    * organization. The `intermediate_session_token` must be passed into that authentication flow.
    *
-   * We’re actively accepting requests for new OAuth providers! Please [email us](mailto:support@stytch.com)
+   * We're actively accepting requests for new OAuth providers! Please [email us](mailto:support@stytch.com)
    * or [post in our community](https://stytch.com/docs/b2b/resources) if you are looking for an OAuth
    * provider that is not currently supported.
    * @param data {@link B2BOAuthAuthenticateRequest}

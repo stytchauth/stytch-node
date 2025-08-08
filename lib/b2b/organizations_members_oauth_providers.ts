@@ -154,7 +154,7 @@ export interface B2BOrganizationsMembersOAuthProvidersProviderInformationRequest
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   /**
@@ -176,7 +176,7 @@ export interface B2BOrganizationsMembersOAuthProvidersSlackRequest {
   /**
    * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
    * perform operations on an Organization, so be sure to preserve this value. You may also use the
-   * organization_slug here as a convenience.
+   * organization_slug or organization_external_id here as a convenience.
    */
   organization_id: string;
   /**
