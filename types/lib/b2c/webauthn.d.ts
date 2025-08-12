@@ -1,3 +1,4 @@
+import { DeviceInfo } from "./device_history";
 import { fetchConfig } from "../shared";
 import { Session } from "./sessions";
 import { User, WebAuthnRegistration } from "./users";
@@ -40,6 +41,13 @@ export interface WebAuthnAuthenticateRequest {
      * ignored. Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+     * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+     * Fingerprinting to use this feature.
+     */
+    telemetry_id?: string;
 }
 export interface WebAuthnAuthenticateResponse {
     /**
@@ -69,6 +77,12 @@ export interface WebAuthnAuthenticateResponse {
      *
      */
     session?: Session;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `user_device` response field will contain information about the user's device attributes.
+     */
+    user_device?: DeviceInfo;
 }
 export interface WebAuthnAuthenticateStartRequest {
     domain: string;
@@ -153,6 +167,13 @@ export interface WebAuthnRegisterRequest {
      * ignored. Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+     * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+     * Fingerprinting to use this feature.
+     */
+    telemetry_id?: string;
 }
 export interface WebAuthnRegisterResponse {
     /**
@@ -178,6 +199,12 @@ export interface WebAuthnRegisterResponse {
      *
      */
     session?: Session;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `user_device` response field will contain information about the user's device attributes.
+     */
+    user_device?: DeviceInfo;
 }
 export interface WebAuthnRegisterStartRequest {
     /**

@@ -7,6 +7,7 @@
 import * as jose from "jose";
 import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
+import { DeviceInfo } from "./device_history";
 import { fetchConfig } from "../shared";
 import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
@@ -567,6 +568,13 @@ export interface SessionsAttestRequest {
   session_token?: string;
   // The `session_jwt` for the session that you wish to add the trusted auth token authentication factor to.
   session_jwt?: string;
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.attest`.
@@ -600,6 +608,12 @@ export interface SessionsAttestResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.authenticate`.
@@ -704,6 +718,13 @@ export interface SessionsExchangeAccessTokenRequest {
    * ignored. Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.exchangeAccessToken`.
@@ -737,6 +758,12 @@ export interface SessionsExchangeAccessTokenResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.getJWKS`.
@@ -812,6 +839,13 @@ export interface SessionsMigrateRequest {
    * ignored. Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.migrate`.
@@ -841,6 +875,12 @@ export interface SessionsMigrateResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.revoke`.

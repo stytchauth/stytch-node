@@ -5,6 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { Discovery } from "./magic_links_discovery";
 import { Email } from "./magic_links_email";
 import { fetchConfig } from "../shared";
@@ -85,6 +86,13 @@ export interface B2BMagicLinksAuthenticateRequest {
    * intermediate session token will be returned.
    */
   intermediate_session_token?: string;
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `magicLinks.authenticate`.
@@ -143,6 +151,12 @@ export interface B2BMagicLinksAuthenticateResponse {
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
   primary_required?: PrimaryRequired;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 export class MagicLinks {

@@ -1,4 +1,5 @@
 import { Attributes } from "./attribute";
+import { DeviceInfo } from "./device_history";
 import { Email } from "./otps_email";
 import { fetchConfig } from "../shared";
 import { Options } from "./magic_links";
@@ -42,6 +43,13 @@ export interface OTPsAuthenticateRequest {
      * ignored. Total custom claims size cannot exceed four kilobytes.
      */
     session_custom_claims?: Record<string, any>;
+    /**
+     * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+     * fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+     * Fingerprinting to use this feature.
+     */
+    telemetry_id?: string;
 }
 export interface OTPsAuthenticateResponse {
     /**
@@ -77,6 +85,12 @@ export interface OTPsAuthenticateResponse {
      *
      */
     session?: Session;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `user_device` response field will contain information about the user's device attributes.
+     */
+    user_device?: DeviceInfo;
 }
 export declare class OTPs {
     private fetchConfig;

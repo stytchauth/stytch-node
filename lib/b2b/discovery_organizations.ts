@@ -5,6 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { DiscoveredOrganization } from "./discovery";
 import {
   EmailImplicitRoleAssignment,
@@ -245,6 +246,13 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
    */
   allowed_third_party_connected_apps?: string[];
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `discovery.organizations.create`.
@@ -295,6 +303,12 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `discovery.organizations.list`.
