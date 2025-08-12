@@ -23,6 +23,8 @@ export type {
 
 export type { Attributes } from "./attribute";
 
+export type { DeviceAttributeDetails, DeviceInfo } from "./device_history";
+
 export type {
   BiometricRegistration,
   CryptoWallet,

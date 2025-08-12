@@ -10,6 +10,7 @@ import {
   Authorization,
   addAuthorizationHeaders,
 } from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -160,6 +161,13 @@ export interface B2BSessionsAttestRequest {
   session_token?: string;
   // The `session_jwt` for the session that you wish to add the trusted auth token authentication factor to.
   session_jwt?: string;
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.attest`.
@@ -186,6 +194,12 @@ export interface B2BSessionsAttestResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.authenticate`.
@@ -304,6 +318,13 @@ export interface B2BSessionsExchangeAccessTokenRequest {
    *   Total custom claims size cannot exceed four kilobytes.
    */
   session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.exchangeAccessToken`.
@@ -330,6 +351,12 @@ export interface B2BSessionsExchangeAccessTokenResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.exchange`.
@@ -396,6 +423,13 @@ export interface B2BSessionsExchangeRequest {
     | "zh-Hans"
     | "ca-ES"
     | string;
+  /**
+   * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+   * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+   * Fingerprinting to use this feature.
+   */
+  telemetry_id?: string;
 }
 
 // Response type for `sessions.exchange`.
@@ -446,6 +480,12 @@ export interface B2BSessionsExchangeResponse {
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.getJWKS`.

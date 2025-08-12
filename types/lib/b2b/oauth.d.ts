@@ -1,3 +1,4 @@
+import { DeviceInfo } from "../b2c/device_history";
 import { Discovery } from "./oauth_discovery";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
@@ -79,6 +80,13 @@ export interface B2BOAuthAuthenticateRequest {
      * intermediate session token will be returned.
      */
     intermediate_session_token?: string;
+    /**
+     * If the `telemetry_id` is passed, as part of this request, Stytch will call the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+     * fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+     * Fingerprinting to use this feature.
+     */
+    telemetry_id?: string;
 }
 export interface B2BOAuthAuthenticateResponse {
     /**
@@ -144,6 +152,12 @@ export interface B2BOAuthAuthenticateResponse {
     provider_values?: B2BOAuthProviderValues;
     mfa_required?: MfaRequired;
     primary_required?: PrimaryRequired;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `member_device` response field will contain information about the member's device attributes.
+     */
+    member_device?: DeviceInfo;
 }
 export declare class OAuth {
     private fetchConfig;
