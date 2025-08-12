@@ -10,6 +10,7 @@ import {
   Authorization,
   addAuthorizationHeaders,
 } from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -186,6 +187,12 @@ export interface B2BSessionsAttestResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.authenticate`.
@@ -330,6 +337,12 @@ export interface B2BSessionsExchangeAccessTokenResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.exchange`.
@@ -446,6 +459,12 @@ export interface B2BSessionsExchangeResponse {
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `sessions.getJWKS`.

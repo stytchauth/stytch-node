@@ -12,6 +12,7 @@ import {
   SHA1Config,
   ScryptConfig,
 } from "../b2c/passwords";
+import { DeviceInfo } from "../b2c/device_history";
 import { Discovery } from "./passwords_discovery";
 import { Email } from "./passwords_email";
 import { ExistingPassword } from "./passwords_existing_password";
@@ -181,6 +182,12 @@ export interface B2BPasswordsAuthenticateResponse {
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
   primary_required?: PrimaryRequired;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `passwords.migrate`.

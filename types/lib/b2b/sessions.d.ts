@@ -1,5 +1,6 @@
 import { AuthenticationFactor, JWK } from "../b2c/sessions";
 import { Authorization } from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MfaRequired } from "./mfa";
@@ -149,6 +150,12 @@ export interface B2BSessionsAttestResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `member_device` response field will contain information about the member's device attributes.
+     */
+    member_device?: DeviceInfo;
 }
 export interface B2BSessionsAuthenticateRequest {
     session_token?: string;
@@ -271,6 +278,12 @@ export interface B2BSessionsExchangeAccessTokenResponse {
      */
     status_code: number;
     member_session?: MemberSession;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `member_device` response field will contain information about the member's device attributes.
+     */
+    member_device?: DeviceInfo;
 }
 export interface B2BSessionsExchangeRequest {
     /**
@@ -364,6 +377,12 @@ export interface B2BSessionsExchangeResponse {
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
     primary_required?: PrimaryRequired;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `member_device` response field will contain information about the member's device attributes.
+     */
+    member_device?: DeviceInfo;
 }
 export interface B2BSessionsGetJWKSRequest {
     project_id: string;

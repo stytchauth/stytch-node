@@ -1,4 +1,5 @@
 import { Authorization } from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession, PrimaryRequired } from "./sessions";
@@ -158,6 +159,12 @@ export interface B2BPasswordsEmailResetResponse {
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
     primary_required?: PrimaryRequired;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `member_device` response field will contain information about the member's device attributes.
+     */
+    member_device?: DeviceInfo;
 }
 export interface B2BPasswordsEmailResetStartRequest {
     /**

@@ -1,3 +1,4 @@
+import { DeviceInfo } from "./device_history";
 import { fetchConfig } from "../shared";
 import { Session } from "./sessions";
 import { User } from "./users";
@@ -154,6 +155,12 @@ export interface OAuthAuthenticateResponse {
      *
      */
     user_session?: Session;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `user_device` response field will contain information about the user's device attributes.
+     */
+    user_device?: DeviceInfo;
 }
 export declare class OAuth {
     private fetchConfig;

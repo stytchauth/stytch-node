@@ -7,6 +7,7 @@
 import * as jose from "jose";
 import {} from "../shared/method_options";
 import { Attributes } from "./attribute";
+import { DeviceInfo } from "./device_history";
 import { fetchConfig } from "../shared";
 import { PolicyCache } from "./rbac_local";
 import { request } from "../shared";
@@ -600,6 +601,12 @@ export interface SessionsAttestResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.authenticate`.
@@ -737,6 +744,12 @@ export interface SessionsExchangeAccessTokenResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.getJWKS`.
@@ -841,6 +854,12 @@ export interface SessionsMigrateResponse {
    *
    */
   session?: Session;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `sessions.revoke`.

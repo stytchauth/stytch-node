@@ -5,6 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
+import { DeviceInfo } from "./device_history";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
 import { Session } from "./sessions";
@@ -131,6 +132,12 @@ export interface CryptoWalletsAuthenticateResponse {
   session?: Session;
   // The parameters of the Sign In With Ethereum (SIWE) message that was signed.
   siwe_params?: CryptoWalletsSIWEParamsResponse;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `user_device` response field will contain information about the user's device attributes.
+   */
+  user_device?: DeviceInfo;
 }
 
 // Request type for `cryptoWallets.authenticateStart`.

@@ -1,4 +1,5 @@
 import { Attributes } from "./attribute";
+import { DeviceInfo } from "./device_history";
 import { Email } from "./otps_email";
 import { fetchConfig } from "../shared";
 import { Options } from "./magic_links";
@@ -77,6 +78,12 @@ export interface OTPsAuthenticateResponse {
      *
      */
     session?: Session;
+    /**
+     * If a valid `telemetry_id` was passed in the request and the
+     * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+     * `user_device` response field will contain information about the user's device attributes.
+     */
+    user_device?: DeviceInfo;
 }
 export declare class OTPs {
     private fetchConfig;

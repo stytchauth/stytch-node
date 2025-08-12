@@ -5,6 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
+import { DeviceInfo } from "../b2c/device_history";
 import { fetchConfig } from "../shared";
 import { Member, Organization } from "./organizations";
 import { MemberSession } from "./sessions";
@@ -111,6 +112,12 @@ export interface B2BOTPSmsAuthenticateResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
+  /**
+   * If a valid `telemetry_id` was passed in the request and the
+   * [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+   * `member_device` response field will contain information about the member's device attributes.
+   */
+  member_device?: DeviceInfo;
 }
 
 // Request type for `otps.sms.send`.
