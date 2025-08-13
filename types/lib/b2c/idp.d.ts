@@ -1,6 +1,6 @@
-import { JwtConfig } from "../shared/sessions";
 import { fetchConfig } from "../shared";
 import { PolicyCache } from "./rbac_local";
+import { JwtConfig } from "../shared/sessions";
 import { SessionsAuthorizationCheck } from "./sessions";
 export interface IntrospectTokenRequest {
     token: string;
@@ -21,8 +21,8 @@ export interface IntrospectTokenClaims {
 }
 export declare class IDP {
     private fetchConfig;
-    private jwtConfig;
     private jwksClient;
+    private jwtOptions;
     private policyCache;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
