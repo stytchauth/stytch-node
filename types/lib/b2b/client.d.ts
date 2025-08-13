@@ -17,7 +17,6 @@ import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
-import { IDP } from "./idp";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     connectedApp: ConnectedApp;
@@ -37,6 +36,5 @@ export declare class B2BClient extends BaseClient {
     sso: SSO;
     sessions: Sessions;
     totps: TOTPs;
-    idp: IDP;
     constructor(config: ClientConfig);
 }

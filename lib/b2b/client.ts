@@ -19,7 +19,6 @@ import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
-import { IDP } from "./idp";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -40,7 +39,6 @@ export class B2BClient extends BaseClient {
   sso: SSO;
   sessions: Sessions;
   totps: TOTPs;
-  idp: IDP;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -80,6 +78,5 @@ export class B2BClient extends BaseClient {
     this.sso = new SSO(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
-    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }

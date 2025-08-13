@@ -26,25 +26,25 @@ export interface ConnectedAppsClientsCreateRequest {
     | "third_party"
     | "third_party_public"
     | string;
-  // Array of redirect URI values for use in OAuth Authorization flows.
-  redirect_urls: string[];
-  /**
-   * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
-   * exchanged for a full Stytch session.
-   */
-  full_access_allowed: boolean;
-  // Array of redirect URI values for use in OIDC Logout flows.
-  post_logout_redirect_urls: string[];
   // A human-readable name for the client.
   client_name?: string;
   // A human-readable description for the client.
   client_description?: string;
+  // Array of redirect URI values for use in OAuth Authorization flows.
+  redirect_urls?: string[];
+  /**
+   * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
+   * exchanged for a full Stytch session.
+   */
+  full_access_allowed?: boolean;
   // The number of minutes before the access token expires. The default is 60 minutes.
   access_token_expiry_minutes?: number;
   // The custom audience for the access token.
   access_token_custom_audience?: string;
   // The content of the access token custom claims template. The template must be a valid JSON object.
   access_token_template_content?: string;
+  // Array of redirect URI values for use in OIDC Logout flows.
+  post_logout_redirect_urls?: string[];
   // The logo URL of the Connected App, if any.
   logo_url?: string;
   /**

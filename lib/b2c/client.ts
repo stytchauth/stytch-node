@@ -17,7 +17,6 @@ import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
 import { WebAuthn } from "./webauthn";
-import { IDP } from "./idp";
 
 export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
@@ -36,7 +35,6 @@ export class Client extends BaseClient {
   totps: TOTPs;
   users: Users;
   webauthn: WebAuthn;
-  idp: IDP;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -74,6 +72,5 @@ export class Client extends BaseClient {
     this.totps = new TOTPs(this.fetchConfig);
     this.users = new Users(this.fetchConfig);
     this.webauthn = new WebAuthn(this.fetchConfig);
-    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }

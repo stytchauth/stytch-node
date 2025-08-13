@@ -25,7 +25,6 @@ var _scim = require("./scim");
 var _sessions2 = require("./sessions");
 var _sso = require("./sso");
 var _totps = require("./totps");
-var _idp = require("./idp");
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 class B2BClient extends _client.BaseClient {
   constructor(config) {
@@ -55,7 +54,6 @@ class B2BClient extends _client.BaseClient {
     this.sso = new _sso.SSO(this.fetchConfig);
     this.sessions = new _sessions2.Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new _totps.TOTPs(this.fetchConfig);
-    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }
 exports.B2BClient = B2BClient;
