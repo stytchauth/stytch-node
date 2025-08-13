@@ -14,8 +14,6 @@ export type {
 export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
 // ENDMANUAL(exports)
 
-export type { MemberOptions, MfaRequired } from "./mfa";
-
 export type {
   Address,
   B2BSCIMEmail,
@@ -163,6 +161,17 @@ export type {
   B2BOrganizationsMembersConnectedAppsRevokeResponse,
   B2BOrganizationsMembersConnectedAppsRevokeRequestOptions,
 } from "./organizations_members_connected_apps";
+
+export type { B2BIDPScopeResult } from "./idp";
+
+export type {
+  B2BIDPOAuthAuthorizeRequest,
+  B2BIDPOAuthAuthorizeResponse,
+  B2BIDPOAuthAuthorizeStartRequest,
+  B2BIDPOAuthAuthorizeStartResponse,
+} from "./idp_oauth";
+
+export type { MemberOptions, MfaRequired } from "./mfa";
 
 export type {
   AuthorizationCheck,

@@ -124,12 +124,12 @@ export interface PrimaryRequired {
 
 // Request type for `sessions.attest`.
 export interface B2BSessionsAttestRequest {
-  // The organization ID that the session should be authenticated in.
-  organization_id: string;
   // The ID of the trusted auth token profile to use for attestation.
   profile_id: string;
   // The trusted auth token to authenticate.
   token: string;
+  // The organization ID that the session should be authenticated in.
+  organization_id?: string;
   /**
    * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
    * already exist,

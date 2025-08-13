@@ -2,6 +2,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "./connected_apps";
 import { CryptoWallets } from "./crypto_wallets";
 import { Fraud } from "./fraud";
+import { IDP } from "./idp";
 import { Impersonation } from "./impersonation";
 import { JwtConfig } from "../shared/sessions";
 import { M2M } from "./m2m";
@@ -15,12 +16,12 @@ import { Sessions } from "./sessions";
 import { TOTPs } from "./totps";
 import { Users } from "./users";
 import { WebAuthn } from "./webauthn";
-import { IDP } from "./idp";
 export declare class Client extends BaseClient {
     protected jwtConfig: JwtConfig;
     connectedApp: ConnectedApp;
     cryptoWallets: CryptoWallets;
     fraud: Fraud;
+    idp: IDP;
     impersonation: Impersonation;
     m2m: M2M;
     magicLinks: MagicLinks;
@@ -33,6 +34,5 @@ export declare class Client extends BaseClient {
     totps: TOTPs;
     users: Users;
     webauthn: WebAuthn;
-    idp: IDP;
     constructor(config: ClientConfig);
 }

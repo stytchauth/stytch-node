@@ -100,9 +100,9 @@ export interface PrimaryRequired {
     allowed_auth_methods: string[];
 }
 export interface B2BSessionsAttestRequest {
-    organization_id: string;
     profile_id: string;
     token: string;
+    organization_id?: string;
     /**
      * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't
      * already exist,

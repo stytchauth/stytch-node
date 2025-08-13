@@ -7,6 +7,7 @@
 import * as jose from "jose";
 import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
+import { OAuth } from "./idp_oauth";
 import { PolicyCache } from "./rbac_local";
 
 import { ClientError } from "../shared/errors";
@@ -14,6 +15,18 @@ import { JwtConfig } from "../shared/sessions";
 import { performScopeAuthorizationCheck } from "./rbac_local";
 import { request } from "../shared";
 import { SessionsAuthorizationCheck } from "./sessions";
+
+export interface IDPScopeResult {
+  // The name of the scope.
+  scope: string;
+  // A human-readable description of the scope, taken from the RBAC Policy.
+  description: string;
+  /**
+   * Indicates whether the scope can be granted. Users can only grant scopes if they have the required
+   * permissions.
+   */
+  is_grantable: boolean;
+}
 
 // MANUAL(IntrospectToken)(TYPES)
 
@@ -68,6 +81,7 @@ export class IDP {
   private jwksClient: jose.JWTVerifyGetKey;
   private jwtOptions: jose.JWTVerifyOptions;
   private policyCache: PolicyCache;
+  oauth: OAuth;
 
   constructor(
     fetchConfig: fetchConfig,
@@ -75,6 +89,7 @@ export class IDP {
     policyCache: PolicyCache
   ) {
     this.fetchConfig = fetchConfig;
+    this.oauth = new OAuth(this.fetchConfig);
 
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
