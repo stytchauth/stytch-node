@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.IDP = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 require("../shared/method_options");
+var _idp_oauth = require("./idp_oauth");
 var _errors = require("../shared/errors");
 var _rbac_local = require("./rbac_local");
 var _shared = require("../shared");
@@ -23,6 +24,7 @@ function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r
 class IDP {
   constructor(fetchConfig, jwtConfig, policyCache) {
     this.fetchConfig = fetchConfig;
+    this.oauth = new _idp_oauth.OAuth(this.fetchConfig);
     this.jwksClient = jwtConfig.jwks;
     this.jwtOptions = {
       audience: jwtConfig.projectID,

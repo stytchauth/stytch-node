@@ -9,6 +9,7 @@ var _client = require("../shared/client");
 var _connected_apps = require("./connected_apps");
 var _crypto_wallets = require("./crypto_wallets");
 var _fraud = require("./fraud");
+var _idp = require("./idp");
 var _impersonation = require("./impersonation");
 var _sessions = require("../shared/sessions");
 var _m2m = require("./m2m");
@@ -23,7 +24,6 @@ var _sessions2 = require("./sessions");
 var _totps = require("./totps");
 var _users = require("./users");
 var _webauthn = require("./webauthn");
-var _idp = require("./idp");
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 class Client extends _client.BaseClient {
   constructor(config) {
@@ -39,6 +39,7 @@ class Client extends _client.BaseClient {
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
+    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
     this.m2m = new _m2m.M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new _magic_links.MagicLinks(this.fetchConfig);
@@ -51,7 +52,6 @@ class Client extends _client.BaseClient {
     this.totps = new _totps.TOTPs(this.fetchConfig);
     this.users = new _users.Users(this.fetchConfig);
     this.webauthn = new _webauthn.WebAuthn(this.fetchConfig);
-    this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }
 exports.Client = Client;

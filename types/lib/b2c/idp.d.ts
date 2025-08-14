@@ -1,7 +1,17 @@
 import { fetchConfig } from "../shared";
+import { OAuth } from "./idp_oauth";
 import { PolicyCache } from "./rbac_local";
 import { JwtConfig } from "../shared/sessions";
 import { SessionsAuthorizationCheck } from "./sessions";
+export interface IDPScopeResult {
+    scope: string;
+    description: string;
+    /**
+     * Indicates whether the scope can be granted. Users can only grant scopes if they have the required
+     * permissions.
+     */
+    is_grantable: boolean;
+}
 export interface IntrospectTokenRequest {
     token: string;
     client_id: string;
@@ -24,6 +34,7 @@ export declare class IDP {
     private jwksClient;
     private jwtOptions;
     private policyCache;
+    oauth: OAuth;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
         authorization_check?: SessionsAuthorizationCheck;

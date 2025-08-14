@@ -3,6 +3,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "../b2c/connected_apps";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
+import { IDP } from "./idp";
 import { Impersonation } from "./impersonation";
 import { JwtConfig, trimTrailingSlash } from "../shared/sessions";
 import { M2M } from "../b2c/m2m";
@@ -19,13 +20,13 @@ import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
-import { IDP } from "./idp";
 
 export class B2BClient extends BaseClient {
   protected jwtConfig: JwtConfig;
   connectedApp: ConnectedApp;
   discovery: Discovery;
   fraud: Fraud;
+  idp: IDP;
   impersonation: Impersonation;
   m2m: M2M;
   magicLinks: MagicLinks;
@@ -40,7 +41,6 @@ export class B2BClient extends BaseClient {
   sso: SSO;
   sessions: Sessions;
   totps: TOTPs;
-  idp: IDP;
 
   constructor(config: ClientConfig) {
     super(config);
@@ -66,6 +66,7 @@ export class B2BClient extends BaseClient {
     this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.discovery = new Discovery(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
+    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
     this.impersonation = new Impersonation(this.fetchConfig);
     this.m2m = new M2M(this.fetchConfig, this.jwtConfig);
     this.magicLinks = new MagicLinks(this.fetchConfig);
@@ -80,6 +81,5 @@ export class B2BClient extends BaseClient {
     this.sso = new SSO(this.fetchConfig);
     this.sessions = new Sessions(this.fetchConfig, this.jwtConfig, policyCache);
     this.totps = new TOTPs(this.fetchConfig);
-    this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
   }
 }

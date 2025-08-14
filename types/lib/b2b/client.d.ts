@@ -2,6 +2,7 @@ import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "../b2c/connected_apps";
 import { Discovery } from "./discovery";
 import { Fraud } from "../b2c/fraud";
+import { IDP } from "./idp";
 import { Impersonation } from "./impersonation";
 import { JwtConfig } from "../shared/sessions";
 import { M2M } from "../b2c/m2m";
@@ -17,12 +18,12 @@ import { SCIM } from "./scim";
 import { Sessions } from "./sessions";
 import { SSO } from "./sso";
 import { TOTPs } from "./totps";
-import { IDP } from "./idp";
 export declare class B2BClient extends BaseClient {
     protected jwtConfig: JwtConfig;
     connectedApp: ConnectedApp;
     discovery: Discovery;
     fraud: Fraud;
+    idp: IDP;
     impersonation: Impersonation;
     m2m: M2M;
     magicLinks: MagicLinks;
@@ -37,6 +38,5 @@ export declare class B2BClient extends BaseClient {
     sso: SSO;
     sessions: Sessions;
     totps: TOTPs;
-    idp: IDP;
     constructor(config: ClientConfig);
 }

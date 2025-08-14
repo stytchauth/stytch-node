@@ -1,7 +1,17 @@
 import { fetchConfig } from "../shared";
+import { OAuth } from "./idp_oauth";
 import { PolicyCache } from "./rbac_local";
 import { AuthorizationCheck } from "./sessions";
 import { JwtConfig } from "../shared/sessions";
+export interface B2BIDPScopeResult {
+    scope: string;
+    description: string;
+    /**
+     * Indicates whether the scope can be granted. Users can only grant scopes if they have the required
+     * permissions.
+     */
+    is_grantable: boolean;
+}
 interface OrganizationClaim {
     organization_id: string;
     slug: string;
@@ -29,6 +39,7 @@ export declare class IDP {
     private jwksClient;
     private jwtOptions;
     private policyCache;
+    oauth: OAuth;
     constructor(fetchConfig: fetchConfig, jwtConfig: JwtConfig, policyCache: PolicyCache);
     introspectTokenNetwork(data: IntrospectTokenRequest, options?: {
         authorization_check?: AuthorizationCheck;

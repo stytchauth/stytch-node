@@ -46,6 +46,14 @@ export interface ConnectedApp {
   logo_url?: string;
 }
 
+export interface ConnectedAppPublic {
+  client_id: string;
+  client_name: string;
+  client_description: string;
+  client_type: string;
+  logo_url?: string;
+}
+
 export interface ConnectedAppWithClientSecret {
   // The ID of the Connected App client.
   client_id: string;
