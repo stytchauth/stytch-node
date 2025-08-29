@@ -16,6 +16,10 @@ var _shared = require("../shared");
 
 // Response type for `sso.saml.createConnection`.
 
+// Request type for `sso.saml.deleteEncryptionPrivateKey`.
+
+// Response type for `sso.saml.deleteEncryptionPrivateKey`.
+
 // Request type for `sso.saml.deleteVerificationCertificate`.
 
 // Response type for `sso.saml.deleteVerificationCertificate`.
@@ -95,7 +99,8 @@ class SAML {
         signing_private_key: data.signing_private_key,
         nameid_format: data.nameid_format,
         alternative_acs_url: data.alternative_acs_url,
-        idp_initiated_auth_disabled: data.idp_initiated_auth_disabled
+        idp_initiated_auth_disabled: data.idp_initiated_auth_disabled,
+        saml_encryption_private_key: data.saml_encryption_private_key
       }
     });
   }
@@ -150,6 +155,28 @@ class SAML {
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
       url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/verification_certificates/${data.certificate_id}`,
+      headers,
+      data: {}
+    });
+  }
+
+  /**
+   * Delete a SAML encryption private key.
+   * @param data {@link B2BSSOSAMLDeleteEncryptionPrivateKeyRequest}
+   * @param options {@link B2BSSOSAMLDeleteEncryptionPrivateKeyRequestOptions}
+   * @returns {@link B2BSSOSAMLDeleteEncryptionPrivateKeyResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteEncryptionPrivateKey(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/encryption_private_keys/${data.private_key_id}`,
       headers,
       data: {}
     });

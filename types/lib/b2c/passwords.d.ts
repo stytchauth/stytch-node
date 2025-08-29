@@ -339,9 +339,9 @@ export interface PasswordsStrengthCheckResponse {
     request_id: string;
     /**
      * Returns `true` if the password passes our password validation. We offer two validation options,
-     * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) is the default option which offers a
+     * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) is the default option which offers a
      * high level of sophistication. We also offer
-     * [LUDS](https://stytch.com/docs/passwords#strength-requirements). If an email address is included in the
+     * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy). If an email address is included in the
      * call we also require that the password hasn't been compromised using built-in breach detection powered
      * by [HaveIBeenPwned](https://haveibeenpwned.com/).
      */
