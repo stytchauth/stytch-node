@@ -345,6 +345,7 @@ export type {
 export type {
   Connection,
   ConnectionImplicitRoleAssignment,
+  EncryptionPrivateKey,
   GroupImplicitRoleAssignment,
   OIDCConnection,
   SAMLConnection,
@@ -373,6 +374,8 @@ export type {
 export type {
   B2BSSOSAMLCreateConnectionRequest,
   B2BSSOSAMLCreateConnectionResponse,
+  B2BSSOSAMLDeleteEncryptionPrivateKeyRequest,
+  B2BSSOSAMLDeleteEncryptionPrivateKeyResponse,
   B2BSSOSAMLDeleteVerificationCertificateRequest,
   B2BSSOSAMLDeleteVerificationCertificateResponse,
   B2BSSOSAMLUpdateByURLRequest,
@@ -383,6 +386,7 @@ export type {
   B2BSSOSAMLUpdateConnectionRequestOptions,
   B2BSSOSAMLUpdateByURLRequestOptions,
   B2BSSOSAMLDeleteVerificationCertificateRequestOptions,
+  B2BSSOSAMLDeleteEncryptionPrivateKeyRequestOptions,
 } from "./sso_saml";
 
 export type {

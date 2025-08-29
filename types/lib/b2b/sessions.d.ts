@@ -101,7 +101,15 @@ export interface PrimaryRequired {
 }
 export interface B2BSessionsAttestRequest {
     profile_id: string;
+    /**
+     * The trusted auth token to authenticate. The token must have an organization ID claim if JIT provisioning
+     * is enabled.
+     */
     token: string;
+    /**
+     * The organization ID that the session should be authenticated in. Must be provided if the trusted auth
+     * token does not have an organization ID claim.
+     */
     organization_id?: string;
     /**
      * Set the session lifetime to be this many minutes from now. This will start a new session if one doesn't

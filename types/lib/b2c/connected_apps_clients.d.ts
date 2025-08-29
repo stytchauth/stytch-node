@@ -7,18 +7,18 @@ export interface ConnectedAppsClientsCreateRequest {
      * `third_party_public`.
      */
     client_type: "first_party" | "first_party_public" | "third_party" | "third_party_public" | string;
-    redirect_urls: string[];
+    client_name?: string;
+    client_description?: string;
+    redirect_urls?: string[];
     /**
      * Valid for first party clients only. If `true`, an authorization token granted to this Client can be
      * exchanged for a full Stytch session.
      */
-    full_access_allowed: boolean;
-    post_logout_redirect_urls: string[];
-    client_name?: string;
-    client_description?: string;
+    full_access_allowed?: boolean;
     access_token_expiry_minutes?: number;
     access_token_custom_audience?: string;
     access_token_template_content?: string;
+    post_logout_redirect_urls?: string[];
     logo_url?: string;
     /**
      * Valid for first party clients only. If true, the client does not need to request explicit user consent

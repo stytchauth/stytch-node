@@ -152,8 +152,8 @@ export interface B2BOrganizationsMembersCreateRequest {
    * Identifies the Member as a break glass user - someone who has permissions to authenticate into an
    * Organization by bypassing the Organization's settings. A break glass account is typically used for
    * emergency purposes to gain access outside of normal authentication procedures. Refer to the
-   * [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-   * more details.
+   * [Organization object](https://stytch.com/docs/b2b/api/organization-object) and its `auth_methods` and
+   * `allowed_auth_methods` fields for more details.
    */
   is_breakglass?: boolean;
   /**
@@ -174,7 +174,7 @@ export interface B2BOrganizationsMembersCreateRequest {
    */
   roles?: string[];
   /**
-   * An identifier that can be used in API calls wherever a member_id is expected. This is a string
+   * An identifier that can be used in most API calls where a `member_id` is expected. This is a string
    * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    * External IDs must be unique within an organization, but may be reused across different organizations in
    * the same project.
@@ -463,8 +463,7 @@ export interface B2BOrganizationsMembersReactivateRequest {
   organization_id: string;
   /**
    * Globally unique UUID that identifies a specific Member. The `member_id` is critical to perform
-   * operations on a Member, so be sure to preserve this value. You may use an external_id here if one is set
-   * for the member.
+   * operations on a Member, so be sure to preserve this value.
    */
   member_id: string;
 }
@@ -522,7 +521,7 @@ export interface B2BOrganizationsMembersSearchResponse {
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
    */
   request_id: string;
-  // An array of [Member objects](member-object).
+  // An array of [Member objects](https://stytch.com/docs/b2b/api/member-object).
   members: Member[];
   /**
    * The search `results_metadata` object contains metadata relevant to your specific query like `total` and
@@ -700,8 +699,8 @@ export interface B2BOrganizationsMembersUpdateRequest {
    * Identifies the Member as a break glass user - someone who has permissions to authenticate into an
    * Organization by bypassing the Organization's settings. A break glass account is typically used for
    * emergency purposes to gain access outside of normal authentication procedures. Refer to the
-   * [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-   * more details.
+   * [Organization object](https://stytch.com/docs/b2b/api/organization-object) and its `auth_methods` and
+   * `allowed_auth_methods` fields for more details.
    *
    * If this field is provided and a session header is passed into the request, the Member Session must have
    * permission to perform the `update.settings.is-breakglass` action on the `stytch.member` Resource.
@@ -781,7 +780,7 @@ export interface B2BOrganizationsMembersUpdateRequest {
    */
   email_address?: string;
   /**
-   * An identifier that can be used in API calls wherever a member_id is expected. This is a string
+   * An identifier that can be used in most API calls where a `member_id` is expected. This is a string
    * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    * External IDs must be unique within an organization, but may be reused across different organizations in
    * the same project.
@@ -892,6 +891,8 @@ export class Members {
    * Reactivates a deleted Member's status and its associated email status (if applicable) to active,
    * specified by `organization_id` and `member_id`. This endpoint will only work for Members with at least
    * one verified email where their `email_address_verified` is `true`.
+   *
+   * Note that this endpoint does not accept an `external_id`. The Stytch `member_id` must be provided.
    * @param data {@link B2BOrganizationsMembersReactivateRequest}
    * @param options {@link B2BOrganizationsMembersReactivateRequestOptions}
    * @returns {@link B2BOrganizationsMembersReactivateResponse}

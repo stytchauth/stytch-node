@@ -227,8 +227,8 @@ export interface B2BPasswordsMigrateRequest {
      */
     set_phone_number_verified?: boolean;
     /**
-     * If a new member is created, this will set an identifier that can be used in API calls wherever a
-     * member_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters
+     * If a new member is created, this will set an identifier that can be used in most API calls where a
+     * `member_id` is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters
      * with a maximum length of 128 characters. External IDs must be unique within an organization, but may be
      * reused across different organizations in the same project. Note that if a member already exists, this
      * field will be ignored.
@@ -271,10 +271,10 @@ export interface B2BPasswordsStrengthCheckResponse {
     request_id: string;
     /**
      * Returns `true` if the password passes our password validation. We offer two validation options,
-     *   [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) is the default option which offers a
-     * high level of sophistication.
-     *   We also offer [LUDS](https://stytch.com/docs/passwords#strength-requirements). If an email address is
-     * included in the call we also
+     *   [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) is the default option which offers
+     * a high level of sophistication.
+     *   We also offer [LUDS](https://stytch.com/docs/b2b/guides/passwords/strength-policy). If an email
+     * address is included in the call we also
      *   require that the password hasn't been compromised using built-in breach detection powered by
      * [HaveIBeenPwned](https://haveibeenpwned.com/)
      */
@@ -304,12 +304,12 @@ export interface B2BPasswordsStrengthCheckResponse {
     status_code: number;
     /**
      * Feedback for how to improve the password's strength using
-     * [luds](https://stytch.com/docs/passwords#strength-requirements).
+     * [luds](https://stytch.com/docs/guides/passwords/strength-policy).
      */
     luds_feedback?: LudsFeedback;
     /**
      * Feedback for how to improve the password's strength using
-     * [zxcvbn](https://stytch.com/docs/passwords#strength-requirements).
+     * [zxcvbn](https://stytch.com/docs/b2b/guides/passwords/strength-policy).
      */
     zxcvbn_feedback?: ZxcvbnFeedback;
 }
@@ -352,6 +352,10 @@ export declare class Passwords {
      */
     strengthCheck(data: B2BPasswordsStrengthCheckRequest): Promise<B2BPasswordsStrengthCheckResponse>;
     /**
+     *
+     * **Warning:** This endpoint marks the Member's email address as verified. Do **not** use this endpoint
+     * unless the user has already verified their email address in your application.
+     *
      * Adds an existing password to a Member's email that doesn't have a password yet.
      *
      * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2.
@@ -374,7 +378,7 @@ export declare class Passwords {
      * a password currently set, and that the entered password is correct.
      *
      * If you have breach detection during authentication enabled in your
-     * [password strength policy](https://stytch.com/docs/b2b/guides/passwords/strength-policies) and the
+     * [password strength policy](https://stytch.com/docs/b2b/guides/passwords/strength-policy) and the
      * member's credentials have appeared in the HaveIBeenPwned dataset, this endpoint will return a
      * `member_reset_password` error even if the member enters a correct password. We force a password reset in
      * this case to ensure that the member is the legitimate owner of the email address and not a malicious

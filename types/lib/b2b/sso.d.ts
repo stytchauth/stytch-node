@@ -49,6 +49,11 @@ export interface ConnectionImplicitRoleAssignment {
      */
     role_id: string;
 }
+export interface EncryptionPrivateKey {
+    private_key_id: string;
+    private_key: string;
+    created_at?: string;
+}
 export interface GroupImplicitRoleAssignment {
     /**
      * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
@@ -94,6 +99,7 @@ export interface SAMLConnection {
     audience_uri: string;
     signing_certificates: X509Certificate[];
     verification_certificates: X509Certificate[];
+    encryption_private_keys: EncryptionPrivateKey[];
     saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
     saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
     alternative_audience_uri: string;

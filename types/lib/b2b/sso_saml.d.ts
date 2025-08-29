@@ -9,6 +9,14 @@ export interface B2BSSOSAMLCreateConnectionRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BSSOSAMLDeleteEncryptionPrivateKeyRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BSSOSAMLDeleteVerificationCertificateRequestOptions {
     /**
      * Optional authorization object.
@@ -67,6 +75,29 @@ export interface B2BSSOSAMLCreateConnectionResponse {
      * field details.
      */
     connection?: SAMLConnection;
+}
+export interface B2BSSOSAMLDeleteEncryptionPrivateKeyRequest {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug or organization_external_id here as a convenience.
+     */
+    organization_id: string;
+    connection_id: string;
+    private_key_id: string;
+}
+export interface B2BSSOSAMLDeleteEncryptionPrivateKeyResponse {
+    /**
+     * Globally unique UUID that is returned with every API call. This value is important to log for debugging
+     * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
+     */
+    request_id: string;
+    private_key_id: string;
+    /**
+     * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
+     * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
+     */
+    status_code: number;
 }
 export interface B2BSSOSAMLDeleteVerificationCertificateRequest {
     /**
@@ -199,6 +230,11 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * Initiated Auth is enabled).
      */
     idp_initiated_auth_disabled?: boolean;
+    /**
+     * A PKCS1 format RSA private key used to decrypt encrypted SAML assertions. Only PKCS1 format (starting
+     * with "-----BEGIN RSA PRIVATE KEY-----") is supported.
+     */
+    saml_encryption_private_key?: string;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {
     /**
@@ -276,4 +312,14 @@ export declare class SAML {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     deleteVerificationCertificate(data: B2BSSOSAMLDeleteVerificationCertificateRequest, options?: B2BSSOSAMLDeleteVerificationCertificateRequestOptions): Promise<B2BSSOSAMLDeleteVerificationCertificateResponse>;
+    /**
+     * Delete a SAML encryption private key.
+     * @param data {@link B2BSSOSAMLDeleteEncryptionPrivateKeyRequest}
+     * @param options {@link B2BSSOSAMLDeleteEncryptionPrivateKeyRequestOptions}
+     * @returns {@link B2BSSOSAMLDeleteEncryptionPrivateKeyResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    deleteEncryptionPrivateKey(data: B2BSSOSAMLDeleteEncryptionPrivateKeyRequest, options?: B2BSSOSAMLDeleteEncryptionPrivateKeyRequestOptions): Promise<B2BSSOSAMLDeleteEncryptionPrivateKeyResponse>;
 }
