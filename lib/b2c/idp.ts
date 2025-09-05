@@ -58,7 +58,7 @@ interface IntrospectTokenActiveResponse {
   token_type?: string;
 }
 
-type IntrospectTokenResponse =
+export type IntrospectTokenResponse =
   | IntrospectTokenActiveResponse
   | IntrospectTokenInactiveResponse;
 

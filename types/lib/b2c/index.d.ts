@@ -1,6 +1,7 @@
 export type { SearchUsersQueryOperand } from "./users";
 export type { SessionsAuthenticateJwtRequest, SessionsAuthenticateJwtLocalRequest, } from "./sessions";
 export type { AuthenticateTokenRequest, AuthenticateTokenResponse, TokenRequest, TokenResponse, M2MSearchQueryOperand, } from "./m2m";
+export type { IntrospectTokenClaims, IntrospectTokenRequest, IntrospectTokenResponse, } from "./idp";
 export type { Attributes } from "./attribute";
 export type { ConnectedApp, ConnectedAppPublic, ConnectedAppWithClientSecret, ConnectedAppWithNextClientSecret, ConnectedAppsResultsMetadata, } from "./connected_apps";
 export type { ConnectedAppsClientsCreateRequest, ConnectedAppsClientsCreateResponse, ConnectedAppsClientsDeleteRequest, ConnectedAppsClientsDeleteResponse, ConnectedAppsClientsGetRequest, ConnectedAppsClientsGetResponse, ConnectedAppsClientsSearchRequest, ConnectedAppsClientsSearchResponse, ConnectedAppsClientsUpdateRequest, ConnectedAppsClientsUpdateResponse, } from "./connected_apps_clients";

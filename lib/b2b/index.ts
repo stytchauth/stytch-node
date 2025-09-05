@@ -12,6 +12,11 @@ export type {
   B2BSessionsAuthenticateJwtLocalRequest,
 } from "./sessions";
 export type { PolicyCache, performAuthorizationCheck } from "./rbac_local";
+export type {
+  B2BIntrospectTokenRequest,
+  B2BIntrospectTokenResponse,
+  B2BIntrospectTokenClaims,
+} from "./idp";
 // ENDMANUAL(exports)
 
 export type {
