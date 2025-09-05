@@ -35,7 +35,7 @@ interface OrganizationClaim {
   slug: string;
 }
 
-export interface IntrospectTokenRequest {
+export interface B2BIntrospectTokenRequest {
   token: string;
   client_id: string;
   client_secret?: string;
@@ -64,11 +64,11 @@ interface IntrospectTokenActiveResponse {
   "https://stytch.com/organization"?: Record<string, string>;
 }
 
-type IntrospectTokenResponse =
+export type B2BIntrospectTokenResponse =
   | IntrospectTokenActiveResponse
   | IntrospectTokenInactiveResponse;
 
-export interface IntrospectTokenClaims {
+export interface B2BIntrospectTokenClaims {
   subject: string;
   scope: string;
   custom_claims: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -114,11 +114,11 @@ export class IDP {
   // ADDIMPORT: import { ClientError } from "../shared/errors";
   // ADDIMPORT: import { performScopeAuthorizationCheck } from "./rbac_local";
   async introspectTokenNetwork(
-    data: IntrospectTokenRequest,
+    data: B2BIntrospectTokenRequest,
     options?: {
       authorization_check?: AuthorizationCheck;
     }
-  ): Promise<IntrospectTokenClaims> {
+  ): Promise<B2BIntrospectTokenClaims> {
     const fetchConfig: fetchConfig = {
       ...this.fetchConfig,
       headers: {
@@ -142,7 +142,7 @@ export class IDP {
 
     let response;
     try {
-      response = await request<IntrospectTokenResponse>(fetchConfig, {
+      response = await request<B2BIntrospectTokenResponse>(fetchConfig, {
         method: "POST",
         url: `/v1/public/${this.jwtOptions.audience}/oauth2/introspect`,
         dataRaw: new URLSearchParams(params),
@@ -212,7 +212,7 @@ export class IDP {
       current_date?: Date;
       authorization_check?: AuthorizationCheck;
     }
-  ): Promise<IntrospectTokenClaims> {
+  ): Promise<B2BIntrospectTokenClaims> {
     const now = options?.current_date || new Date();
     let payload;
     try {

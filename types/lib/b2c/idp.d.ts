@@ -18,6 +18,26 @@ export interface IntrospectTokenRequest {
     client_secret?: string;
     token_type_hint?: string;
 }
+interface IntrospectTokenInactiveResponse {
+    active: false;
+    request_id: string;
+    status_code: number;
+}
+interface IntrospectTokenActiveResponse {
+    active: true;
+    request_id: string;
+    status_code: number;
+    sub?: string;
+    scope?: string;
+    aud?: string[];
+    exp?: number;
+    iat?: number;
+    iss?: string;
+    nbf?: number;
+    client_id?: string;
+    token_type?: string;
+}
+export type IntrospectTokenResponse = IntrospectTokenActiveResponse | IntrospectTokenInactiveResponse;
 export interface IntrospectTokenClaims {
     subject: string;
     scope: string;
@@ -45,3 +65,4 @@ export declare class IDP {
         authorization_check?: SessionsAuthorizationCheck;
     }): Promise<IntrospectTokenClaims>;
 }
+export {};

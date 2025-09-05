@@ -19,6 +19,12 @@ export type {
   TokenResponse,
   M2MSearchQueryOperand,
 } from "./m2m";
+
+export type {
+  IntrospectTokenClaims,
+  IntrospectTokenRequest,
+  IntrospectTokenResponse,
+} from "./idp";
 // ENDMANUAL(exports)
 
 export type { Attributes } from "./attribute";
