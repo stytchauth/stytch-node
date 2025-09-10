@@ -185,7 +185,8 @@ class Users {
         attributes: data.attributes,
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
-        external_id: data.external_id
+        external_id: data.external_id,
+        roles: data.roles
       }
     });
   }

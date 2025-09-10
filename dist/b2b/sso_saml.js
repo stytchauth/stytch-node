@@ -100,7 +100,8 @@ class SAML {
         nameid_format: data.nameid_format,
         alternative_acs_url: data.alternative_acs_url,
         idp_initiated_auth_disabled: data.idp_initiated_auth_disabled,
-        saml_encryption_private_key: data.saml_encryption_private_key
+        saml_encryption_private_key: data.saml_encryption_private_key,
+        allow_gateway_callback: data.allow_gateway_callback
       }
     });
   }

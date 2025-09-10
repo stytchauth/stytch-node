@@ -235,6 +235,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
      * with "-----BEGIN RSA PRIVATE KEY-----") is supported.
      */
     saml_encryption_private_key?: string;
+    allow_gateway_callback?: boolean;
 }
 export interface B2BSSOSAMLUpdateConnectionResponse {
     /**
