@@ -317,6 +317,7 @@ export interface B2BSSOSAMLUpdateConnectionRequest {
    * with "-----BEGIN RSA PRIVATE KEY-----") is supported.
    */
   saml_encryption_private_key?: string;
+  allow_gateway_callback?: boolean;
 }
 
 // Response type for `sso.saml.updateConnection`.
@@ -418,6 +419,7 @@ export class SAML {
         alternative_acs_url: data.alternative_acs_url,
         idp_initiated_auth_disabled: data.idp_initiated_auth_disabled,
         saml_encryption_private_key: data.saml_encryption_private_key,
+        allow_gateway_callback: data.allow_gateway_callback,
       },
     });
   }

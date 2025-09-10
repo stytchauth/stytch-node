@@ -107,6 +107,7 @@ export interface SAMLConnection {
     nameid_format: string;
     alternative_acs_url: string;
     idp_initiated_auth_disabled: boolean;
+    allow_gateway_callback: boolean;
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnectionImplicitRoleAssignment {

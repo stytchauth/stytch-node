@@ -85,6 +85,12 @@ export interface User {
     crypto_wallets: CryptoWallet[];
     biometric_registrations: BiometricRegistration[];
     is_locked: boolean;
+    /**
+     * Roles assigned to this User.
+     *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+     * role assignment.
+     */
+    roles: string[];
     name?: UsersName;
     /**
      * The timestamp of the User's creation. Values conform to the RFC 3339 standard and are expressed in UTC,
@@ -185,6 +191,12 @@ export interface UsersConnectedAppsResponse {
     status_code: number;
 }
 export interface UsersCreateRequest {
+    /**
+     * Roles to explicitly assign to this User.
+     *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+     * role assignment.
+     */
+    roles: string[];
     email?: string;
     name?: UsersName;
     attributes?: Attributes;
@@ -473,6 +485,12 @@ export interface UsersGetResponse {
     biometric_registrations: BiometricRegistration[];
     is_locked: boolean;
     /**
+     * Roles assigned to this User.
+     *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+     * role assignment.
+     */
+    roles: string[];
+    /**
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
@@ -577,6 +595,12 @@ export interface UsersUpdateRequest {
      * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
      */
     external_id?: string;
+    /**
+     * Roles to explicitly assign to this User.
+     *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+     * role assignment.
+     */
+    roles?: string[];
 }
 export interface UsersUpdateResponse {
     /**

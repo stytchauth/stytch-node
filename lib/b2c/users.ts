@@ -116,6 +116,12 @@ export interface User {
   // An array that contains a list of all biometric registrations for a given User in the Stytch API.
   biometric_registrations: BiometricRegistration[];
   is_locked: boolean;
+  /**
+   * Roles assigned to this User.
+   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+   * role assignment.
+   */
+  roles: string[];
   // The name of the User. Each field in the `name` object is optional.
   name?: UsersName;
   /**
@@ -248,6 +254,12 @@ export interface UsersConnectedAppsResponse {
 
 // Request type for `users.create`.
 export interface UsersCreateRequest {
+  /**
+   * Roles to explicitly assign to this User.
+   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+   * role assignment.
+   */
+  roles: string[];
   // The email address of the end user.
   email?: string;
   // The name of the user. Each field in the name object is optional.
@@ -619,6 +631,12 @@ export interface UsersGetResponse {
   biometric_registrations: BiometricRegistration[];
   is_locked: boolean;
   /**
+   * Roles assigned to this User.
+   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+   * role assignment.
+   */
+  roles: string[];
+  /**
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
@@ -740,6 +758,12 @@ export interface UsersUpdateRequest {
    * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    */
   external_id?: string;
+  /**
+   * Roles to explicitly assign to this User.
+   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+   * role assignment.
+   */
+  roles?: string[];
 }
 
 // Response type for `users.update`.
@@ -1022,6 +1046,7 @@ export class Users {
         trusted_metadata: data.trusted_metadata,
         untrusted_metadata: data.untrusted_metadata,
         external_id: data.external_id,
+        roles: data.roles,
       },
     });
   }
