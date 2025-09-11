@@ -958,7 +958,7 @@ export class Sessions {
     const headers: Record<string, string> = {};
     return request<B2BSessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      url: `/v1/b2b/sessions/jwks/${encodeURIComponent(params.project_id)}`,
       headers,
       params: {},
     });

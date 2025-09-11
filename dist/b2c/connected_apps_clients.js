@@ -51,7 +51,7 @@ class Clients {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/connected_apps/clients/${params.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(params.client_id)}`,
       headers,
       params: {}
     });
@@ -69,7 +69,7 @@ class Clients {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/connected_apps/clients/${data.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {
         client_name: data.client_name,
@@ -98,7 +98,7 @@ class Clients {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/connected_apps/clients/${data.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {}
     });

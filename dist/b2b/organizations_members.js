@@ -91,7 +91,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}`,
       headers,
       data: {
         name: data.name,
@@ -126,7 +126,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}`,
       headers,
       data: {}
     });
@@ -152,7 +152,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/reactivate`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/reactivate`,
       headers,
       data: {}
     });
@@ -183,7 +183,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/mfa_phone_numbers/${data.member_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/mfa_phone_numbers/${encodeURIComponent(data.member_id)}`,
       headers,
       data: {}
     });
@@ -211,7 +211,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/totp`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/totp`,
       headers,
       data: {}
     });
@@ -267,7 +267,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/passwords/${data.member_password_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/passwords/${encodeURIComponent(data.member_password_id)}`,
       headers,
       data: {}
     });
@@ -288,7 +288,7 @@ class Members {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/members/dangerously_get/${params.member_id}`,
+      url: `/v1/b2b/organizations/members/dangerously_get/${encodeURIComponent(params.member_id)}`,
       headers,
       params: {
         include_deleted: params.include_deleted
@@ -312,7 +312,7 @@ class Members {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oidc_providers`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oidc_providers`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token
@@ -353,7 +353,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/unlink_retired_email`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/unlink_retired_email`,
       headers,
       data: {
         email_id: data.email_id,
@@ -395,7 +395,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/start_email_update`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/start_email_update`,
       headers,
       data: {
         email_address: data.email_address,
@@ -429,7 +429,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/connected_apps`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/connected_apps`,
       headers,
       params: {}
     });
@@ -451,7 +451,7 @@ class Members {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/organizations/${data.organization_id}/members`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members`,
       headers,
       data: {
         email_address: data.email_address,
@@ -480,10 +480,11 @@ class Members {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/member`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/member`,
       headers,
       params: {
-        ...params
+        member_id: params.member_id,
+        email_address: params.email_address
       }
     });
   }

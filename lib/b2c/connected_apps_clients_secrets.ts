@@ -110,7 +110,9 @@ export class Secrets {
       this.fetchConfig,
       {
         method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/start`,
+        url: `/v1/connected_apps/clients/${encodeURIComponent(
+          data.client_id
+        )}/secrets/rotate/start`,
         headers,
         data: {},
       }
@@ -135,7 +137,9 @@ export class Secrets {
       this.fetchConfig,
       {
         method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate/cancel`,
+        url: `/v1/connected_apps/clients/${encodeURIComponent(
+          data.client_id
+        )}/secrets/rotate/cancel`,
         headers,
         data: {},
       }
@@ -160,7 +164,9 @@ export class Secrets {
       this.fetchConfig,
       {
         method: "POST",
-        url: `/v1/connected_apps/clients/${data.client_id}/secrets/rotate`,
+        url: `/v1/connected_apps/clients/${encodeURIComponent(
+          data.client_id
+        )}/secrets/rotate`,
         headers,
         data: {},
       }

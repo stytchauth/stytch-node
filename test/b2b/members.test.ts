@@ -52,7 +52,6 @@ describe("members.get", () => {
         method: "GET",
         path: "/v1/b2b/organizations/organization-id-1234/member",
         params: {
-          organization_id: "organization-id-1234",
           email_address: "test@stytch.com",
         },
       });

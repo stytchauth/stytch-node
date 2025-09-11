@@ -366,7 +366,7 @@ export class SAML {
     }
     return request<B2BSSOSAMLCreateConnectionResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/sso/saml/${data.organization_id}`,
+      url: `/v1/b2b/sso/saml/${encodeURIComponent(data.organization_id)}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -400,7 +400,9 @@ export class SAML {
     }
     return request<B2BSSOSAMLUpdateConnectionResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/sso/saml/${encodeURIComponent(
+        data.organization_id
+      )}/connections/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {
         idp_entity_id: data.idp_entity_id,
@@ -449,7 +451,9 @@ export class SAML {
     }
     return request<B2BSSOSAMLUpdateByURLResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/url`,
+      url: `/v1/b2b/sso/saml/${encodeURIComponent(
+        data.organization_id
+      )}/connections/${encodeURIComponent(data.connection_id)}/url`,
       headers,
       data: {
         metadata_url: data.metadata_url,
@@ -481,7 +485,13 @@ export class SAML {
       this.fetchConfig,
       {
         method: "DELETE",
-        url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/verification_certificates/${data.certificate_id}`,
+        url: `/v1/b2b/sso/saml/${encodeURIComponent(
+          data.organization_id
+        )}/connections/${encodeURIComponent(
+          data.connection_id
+        )}/verification_certificates/${encodeURIComponent(
+          data.certificate_id
+        )}`,
         headers,
         data: {},
       }
@@ -509,7 +519,11 @@ export class SAML {
       this.fetchConfig,
       {
         method: "DELETE",
-        url: `/v1/b2b/sso/saml/${data.organization_id}/connections/${data.connection_id}/encryption_private_keys/${data.private_key_id}`,
+        url: `/v1/b2b/sso/saml/${encodeURIComponent(
+          data.organization_id
+        )}/connections/${encodeURIComponent(
+          data.connection_id
+        )}/encryption_private_keys/${encodeURIComponent(data.private_key_id)}`,
         headers,
         data: {},
       }

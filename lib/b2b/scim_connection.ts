@@ -398,7 +398,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionUpdateResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -428,7 +430,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {},
     });
@@ -453,7 +457,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionRotateStartResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/start`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection/${encodeURIComponent(data.connection_id)}/rotate/start`,
       headers,
       data: {},
     });
@@ -480,7 +486,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionRotateCompleteResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/complete`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection/${encodeURIComponent(data.connection_id)}/rotate/complete`,
       headers,
       data: {},
     });
@@ -506,7 +514,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionRotateCancelResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection/${encodeURIComponent(data.connection_id)}/rotate/cancel`,
       headers,
       data: {},
     });
@@ -531,7 +541,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionGetGroupsResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connection/${params.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        params.organization_id
+      )}/connection/${encodeURIComponent(params.connection_id)}`,
       headers,
       params: {
         cursor: params.cursor,
@@ -559,7 +571,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionCreateResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        data.organization_id
+      )}/connection`,
       headers,
       data: {
         display_name: data.display_name,
@@ -587,7 +601,9 @@ export class Connection {
     }
     return request<B2BSCIMConnectionGetResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connection`,
+      url: `/v1/b2b/scim/${encodeURIComponent(
+        params.organization_id
+      )}/connection`,
       headers,
       params: {},
     });

@@ -169,7 +169,7 @@ class WebAuthn {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/webauthn/${data.webauthn_registration_id}`,
+      url: `/v1/webauthn/${encodeURIComponent(data.webauthn_registration_id)}`,
       headers,
       data: {
         name: data.name
@@ -189,7 +189,7 @@ class WebAuthn {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/webauthn/credentials/${params.user_id}/${params.domain}`,
+      url: `/v1/webauthn/credentials/${encodeURIComponent(params.user_id)}/${encodeURIComponent(params.domain)}`,
       headers,
       params: {}
     });

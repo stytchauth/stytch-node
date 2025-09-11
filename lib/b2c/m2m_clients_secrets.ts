@@ -104,7 +104,9 @@ export class Secrets {
     const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateStartResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/start`,
+      url: `/v1/m2m/clients/${encodeURIComponent(
+        data.client_id
+      )}/secrets/rotate/start`,
       headers,
       data: {},
     });
@@ -128,7 +130,9 @@ export class Secrets {
     const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateCancelResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/cancel`,
+      url: `/v1/m2m/clients/${encodeURIComponent(
+        data.client_id
+      )}/secrets/rotate/cancel`,
       headers,
       data: {},
     });
@@ -152,7 +156,9 @@ export class Secrets {
     const headers: Record<string, string> = {};
     return request<M2MClientsSecretsRotateResponse>(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate`,
+      url: `/v1/m2m/clients/${encodeURIComponent(
+        data.client_id
+      )}/secrets/rotate`,
       headers,
       data: {},
     });

@@ -1124,7 +1124,7 @@ export class Sessions {
     const headers: Record<string, string> = {};
     return request<SessionsGetJWKSResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/sessions/jwks/${params.project_id}`,
+      url: `/v1/sessions/jwks/${encodeURIComponent(params.project_id)}`,
       headers,
       params: {},
     });
