@@ -2,6 +2,7 @@ import * as jose from "jose";
 import { BaseClient, ClientConfig } from "../shared/client";
 import { ConnectedApp } from "./connected_apps";
 import { CryptoWallets } from "./crypto_wallets";
+import { Debug } from "./debug";
 import { Fraud } from "./fraud";
 import { IDP } from "./idp";
 import { Impersonation } from "./impersonation";
@@ -23,6 +24,7 @@ export class Client extends BaseClient {
   protected jwtConfig: JwtConfig;
   connectedApp: ConnectedApp;
   cryptoWallets: CryptoWallets;
+  debug: Debug;
   fraud: Fraud;
   idp: IDP;
   impersonation: Impersonation;
@@ -61,6 +63,7 @@ export class Client extends BaseClient {
 
     this.connectedApp = new ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new CryptoWallets(this.fetchConfig);
+    this.debug = new Debug(this.fetchConfig);
     this.fraud = new Fraud(this.fetchConfig);
     this.idp = new IDP(this.fetchConfig, this.jwtConfig, policyCache);
     this.impersonation = new Impersonation(this.fetchConfig);

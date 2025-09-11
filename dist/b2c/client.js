@@ -8,6 +8,7 @@ var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _connected_apps = require("./connected_apps");
 var _crypto_wallets = require("./crypto_wallets");
+var _debug = require("./debug");
 var _fraud = require("./fraud");
 var _idp = require("./idp");
 var _impersonation = require("./impersonation");
@@ -38,6 +39,7 @@ class Client extends _client.BaseClient {
     const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
     this.cryptoWallets = new _crypto_wallets.CryptoWallets(this.fetchConfig);
+    this.debug = new _debug.Debug(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
     this.impersonation = new _impersonation.Impersonation(this.fetchConfig);
