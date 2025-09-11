@@ -302,7 +302,7 @@ class Sessions {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/sessions/jwks/${params.project_id}`,
+      url: `/v1/b2b/sessions/jwks/${encodeURIComponent(params.project_id)}`,
       headers,
       params: {}
     });

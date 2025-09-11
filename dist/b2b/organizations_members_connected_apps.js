@@ -41,7 +41,7 @@ class ConnectedApps {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/organizations/${data.organization_id}/members/${data.member_id}/connected_apps/${data.connected_app_id}/revoke`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/connected_apps/${encodeURIComponent(data.connected_app_id)}/revoke`,
       headers,
       data: {}
     });

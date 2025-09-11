@@ -49,7 +49,7 @@ class Secrets {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/start`,
+      url: `/v1/m2m/clients/${encodeURIComponent(data.client_id)}/secrets/rotate/start`,
       headers,
       data: {}
     });
@@ -71,7 +71,7 @@ class Secrets {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate/cancel`,
+      url: `/v1/m2m/clients/${encodeURIComponent(data.client_id)}/secrets/rotate/cancel`,
       headers,
       data: {}
     });
@@ -93,7 +93,7 @@ class Secrets {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/m2m/clients/${data.client_id}/secrets/rotate`,
+      url: `/v1/m2m/clients/${encodeURIComponent(data.client_id)}/secrets/rotate`,
       headers,
       data: {}
     });

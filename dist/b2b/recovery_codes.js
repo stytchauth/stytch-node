@@ -60,7 +60,7 @@ class RecoveryCodes {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/recovery_codes/${params.organization_id}/${params.member_id}`,
+      url: `/v1/b2b/recovery_codes/${encodeURIComponent(params.organization_id)}/${encodeURIComponent(params.member_id)}`,
       headers,
       params: {}
     });

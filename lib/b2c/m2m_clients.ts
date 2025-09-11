@@ -202,7 +202,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<M2MClientsGetResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/m2m/clients/${params.client_id}`,
+      url: `/v1/m2m/clients/${encodeURIComponent(params.client_id)}`,
       headers,
       params: {},
     });
@@ -251,7 +251,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<M2MClientsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/m2m/clients/${data.client_id}`,
+      url: `/v1/m2m/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {
         client_name: data.client_name,
@@ -280,7 +280,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<M2MClientsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/m2m/clients/${data.client_id}`,
+      url: `/v1/m2m/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {},
     });

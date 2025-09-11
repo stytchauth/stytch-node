@@ -51,7 +51,7 @@ class SSO {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/sso/${params.organization_id}`,
+      url: `/v1/b2b/sso/${encodeURIComponent(params.organization_id)}`,
       headers,
       params: {}
     });
@@ -73,7 +73,7 @@ class SSO {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/sso/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/sso/${encodeURIComponent(data.organization_id)}/connections/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {}
     });

@@ -41,7 +41,7 @@ class External {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/sso/external/${data.organization_id}`,
+      url: `/v1/b2b/sso/external/${encodeURIComponent(data.organization_id)}`,
       headers,
       data: {
         external_organization_id: data.external_organization_id,
@@ -69,7 +69,7 @@ class External {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/sso/external/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/sso/external/${encodeURIComponent(data.organization_id)}/connections/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {
         display_name: data.display_name,

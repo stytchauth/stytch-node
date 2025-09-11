@@ -118,7 +118,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/users/${params.user_id}`,
+      url: `/v1/users/${encodeURIComponent(params.user_id)}`,
       headers,
       params: {}
     });
@@ -178,7 +178,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/users/${data.user_id}`,
+      url: `/v1/users/${encodeURIComponent(data.user_id)}`,
       headers,
       data: {
         name: data.name,
@@ -210,7 +210,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/users/${data.user_id}/exchange_primary_factor`,
+      url: `/v1/users/${encodeURIComponent(data.user_id)}/exchange_primary_factor`,
       headers,
       data: {
         email_address: data.email_address,
@@ -231,7 +231,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/${data.user_id}`,
+      url: `/v1/users/${encodeURIComponent(data.user_id)}`,
       headers,
       data: {}
     });
@@ -249,7 +249,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/emails/${data.email_id}`,
+      url: `/v1/users/emails/${encodeURIComponent(data.email_id)}`,
       headers,
       data: {}
     });
@@ -267,7 +267,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/phone_numbers/${data.phone_id}`,
+      url: `/v1/users/phone_numbers/${encodeURIComponent(data.phone_id)}`,
       headers,
       data: {}
     });
@@ -285,7 +285,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/webauthn_registrations/${data.webauthn_registration_id}`,
+      url: `/v1/users/webauthn_registrations/${encodeURIComponent(data.webauthn_registration_id)}`,
       headers,
       data: {}
     });
@@ -303,7 +303,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/biometric_registrations/${data.biometric_registration_id}`,
+      url: `/v1/users/biometric_registrations/${encodeURIComponent(data.biometric_registration_id)}`,
       headers,
       data: {}
     });
@@ -321,7 +321,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/totps/${data.totp_id}`,
+      url: `/v1/users/totps/${encodeURIComponent(data.totp_id)}`,
       headers,
       data: {}
     });
@@ -339,7 +339,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/crypto_wallets/${data.crypto_wallet_id}`,
+      url: `/v1/users/crypto_wallets/${encodeURIComponent(data.crypto_wallet_id)}`,
       headers,
       data: {}
     });
@@ -357,7 +357,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/passwords/${data.password_id}`,
+      url: `/v1/users/passwords/${encodeURIComponent(data.password_id)}`,
       headers,
       data: {}
     });
@@ -375,7 +375,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/users/oauth/${data.oauth_user_registration_id}`,
+      url: `/v1/users/oauth/${encodeURIComponent(data.oauth_user_registration_id)}`,
       headers,
       data: {}
     });
@@ -398,7 +398,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/users/${params.user_id}/connected_apps`,
+      url: `/v1/users/${encodeURIComponent(params.user_id)}/connected_apps`,
       headers,
       params: {}
     });
@@ -420,7 +420,7 @@ class Users {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/users/${data.user_id}/connected_apps/${data.connected_app_id}/revoke`,
+      url: `/v1/users/${encodeURIComponent(data.user_id)}/connected_apps/${encodeURIComponent(data.connected_app_id)}/revoke`,
       headers,
       data: {}
     });

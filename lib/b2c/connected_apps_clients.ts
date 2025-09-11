@@ -215,7 +215,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<ConnectedAppsClientsGetResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/connected_apps/clients/${params.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(params.client_id)}`,
       headers,
       params: {},
     });
@@ -235,7 +235,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<ConnectedAppsClientsUpdateResponse>(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/connected_apps/clients/${data.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {
         client_name: data.client_name,
@@ -267,7 +267,7 @@ export class Clients {
     const headers: Record<string, string> = {};
     return request<ConnectedAppsClientsDeleteResponse>(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/connected_apps/clients/${data.client_id}`,
+      url: `/v1/connected_apps/clients/${encodeURIComponent(data.client_id)}`,
       headers,
       data: {},
     });

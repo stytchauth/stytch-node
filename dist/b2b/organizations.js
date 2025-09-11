@@ -89,7 +89,7 @@ class Organizations {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}`,
       headers,
       params: {}
     });
@@ -116,7 +116,7 @@ class Organizations {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/organizations/${data.organization_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}`,
       headers,
       data: {
         organization_name: data.organization_name,
@@ -164,7 +164,7 @@ class Organizations {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/organizations/${data.organization_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}`,
       headers,
       data: {}
     });
@@ -204,7 +204,7 @@ class Organizations {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/metrics`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/metrics`,
       headers,
       params: {}
     });
@@ -232,7 +232,7 @@ class Organizations {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/connected_apps`,
       headers,
       params: {}
     });
@@ -258,7 +258,7 @@ class Organizations {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/connected_apps/${params.connected_app_id}`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/connected_apps/${encodeURIComponent(params.connected_app_id)}`,
       headers,
       params: {}
     });

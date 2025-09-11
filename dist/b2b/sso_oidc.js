@@ -41,7 +41,7 @@ class OIDC {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/sso/oidc/${data.organization_id}`,
+      url: `/v1/b2b/sso/oidc/${encodeURIComponent(data.organization_id)}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -91,7 +91,7 @@ class OIDC {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/sso/oidc/${data.organization_id}/connections/${data.connection_id}`,
+      url: `/v1/b2b/sso/oidc/${encodeURIComponent(data.organization_id)}/connections/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {
         display_name: data.display_name,

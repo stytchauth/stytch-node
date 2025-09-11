@@ -65,7 +65,7 @@ class OAuthProviders {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/google`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oauth_providers/google`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token
@@ -89,7 +89,7 @@ class OAuthProviders {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/microsoft`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oauth_providers/microsoft`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token
@@ -111,7 +111,7 @@ class OAuthProviders {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/slack`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oauth_providers/slack`,
       headers,
       params: {}
     });
@@ -133,7 +133,7 @@ class OAuthProviders {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/hubspot`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oauth_providers/hubspot`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token
@@ -157,7 +157,7 @@ class OAuthProviders {
     const headers = {};
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/organizations/${params.organization_id}/members/${params.member_id}/oauth_providers/github`,
+      url: `/v1/b2b/organizations/${encodeURIComponent(params.organization_id)}/members/${encodeURIComponent(params.member_id)}/oauth_providers/github`,
       headers,
       params: {
         include_refresh_token: params.include_refresh_token

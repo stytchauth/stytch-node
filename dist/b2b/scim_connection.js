@@ -65,7 +65,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "PUT",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {
         display_name: data.display_name,
@@ -91,7 +91,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "DELETE",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection/${encodeURIComponent(data.connection_id)}`,
       headers,
       data: {}
     });
@@ -113,7 +113,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/start`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection/${encodeURIComponent(data.connection_id)}/rotate/start`,
       headers,
       data: {}
     });
@@ -137,7 +137,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/complete`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection/${encodeURIComponent(data.connection_id)}/rotate/complete`,
       headers,
       data: {}
     });
@@ -160,7 +160,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection/${data.connection_id}/rotate/cancel`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection/${encodeURIComponent(data.connection_id)}/rotate/cancel`,
       headers,
       data: {}
     });
@@ -182,7 +182,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connection/${params.connection_id}`,
+      url: `/v1/b2b/scim/${encodeURIComponent(params.organization_id)}/connection/${encodeURIComponent(params.connection_id)}`,
       headers,
       params: {
         cursor: params.cursor,
@@ -207,7 +207,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "POST",
-      url: `/v1/b2b/scim/${data.organization_id}/connection`,
+      url: `/v1/b2b/scim/${encodeURIComponent(data.organization_id)}/connection`,
       headers,
       data: {
         display_name: data.display_name,
@@ -232,7 +232,7 @@ class Connection {
     }
     return (0, _shared.request)(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/scim/${params.organization_id}/connection`,
+      url: `/v1/b2b/scim/${encodeURIComponent(params.organization_id)}/connection`,
       headers,
       params: {}
     });

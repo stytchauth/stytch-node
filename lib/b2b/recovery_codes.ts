@@ -236,7 +236,9 @@ export class RecoveryCodes {
     const headers: Record<string, string> = {};
     return request<B2BRecoveryCodesGetResponse>(this.fetchConfig, {
       method: "GET",
-      url: `/v1/b2b/recovery_codes/${params.organization_id}/${params.member_id}`,
+      url: `/v1/b2b/recovery_codes/${encodeURIComponent(
+        params.organization_id
+      )}/${encodeURIComponent(params.member_id)}`,
       headers,
       params: {},
     });
