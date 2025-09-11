@@ -191,6 +191,8 @@ export type {
   CryptoWalletsSIWEParamsResponse,
 } from "./crypto_wallets";
 
+export type { DebugWhoamiResponse } from "./debug";
+
 export type {
   ASNProperties,
   BrowserProperties,

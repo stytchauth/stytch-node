@@ -7,6 +7,7 @@ exports.B2BClient = void 0;
 var jose = _interopRequireWildcard(require("jose"));
 var _client = require("../shared/client");
 var _connected_apps = require("../b2c/connected_apps");
+var _debug = require("../b2c/debug");
 var _discovery = require("./discovery");
 var _fraud = require("../b2c/fraud");
 var _idp = require("./idp");
@@ -39,6 +40,7 @@ class B2BClient extends _client.BaseClient {
     };
     const policyCache = new _rbac_local.PolicyCache(new _rbac.RBAC(this.fetchConfig));
     this.connectedApp = new _connected_apps.ConnectedApp(this.fetchConfig);
+    this.debug = new _debug.Debug(this.fetchConfig);
     this.discovery = new _discovery.Discovery(this.fetchConfig);
     this.fraud = new _fraud.Fraud(this.fetchConfig);
     this.idp = new _idp.IDP(this.fetchConfig, this.jwtConfig, policyCache);
