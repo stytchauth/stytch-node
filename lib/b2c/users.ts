@@ -254,12 +254,6 @@ export interface UsersConnectedAppsResponse {
 
 // Request type for `users.create`.
 export interface UsersCreateRequest {
-  /**
-   * Roles to explicitly assign to this User.
-   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
-   * role assignment.
-   */
-  roles: string[];
   // The email address of the end user.
   email?: string;
   // The name of the user. Each field in the name object is optional.
@@ -297,6 +291,12 @@ export interface UsersCreateRequest {
    * of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
    */
   external_id?: string;
+  /**
+   * Roles to explicitly assign to this User.
+   *    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+   * role assignment.
+   */
+  roles?: string[];
 }
 
 // Response type for `users.create`.

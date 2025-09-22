@@ -201,14 +201,15 @@ export interface B2BPasswordsEmailResetStartRequest {
      */
     code_challenge?: string;
     /**
-     * The URL that the member clicks from the reset without password link. This URL should be an endpoint in
-     * the backend server
-     *       that verifies the request by querying Stytch's authenticate endpoint and finishes the magic link
-     * flow. If this value is not passed, the
-     *       default `login_redirect_url` that you set in your Dashboard is used. This value is only used if
-     * magic links are enabled for the member. If
-     *       you have not set a default `login_redirect_url` and magic links are not enabled for the member, an
-     * error is returned.
+     * The URL that Members are redirected to upon clicking the "Log in without password" button in password
+     * reset emails.
+     *
+     *       After Members are redirected to the login redirect URL, your application should retrieve the
+     * `token` value from the URL parameters and call the
+     * [Magic Link Authenticate endpoint](https://stytch.com/docs/api/authenticate-magic-link) to log the
+     * Member in without requiring a password reset. If this value is not provided, your project's default
+     * login redirect URL will be used. If you have not set a default login redirect URL, an error will be
+     * returned.
      */
     login_redirect_url?: string;
     /**
