@@ -28,6 +28,7 @@ export interface ConnectedApp {
     next_client_secret_last_four?: string;
     access_token_custom_audience?: string;
     logo_url?: string;
+    client_id_metadata_url?: string;
 }
 export interface ConnectedAppPublic {
     client_id: string;
@@ -65,6 +66,7 @@ export interface ConnectedAppWithClientSecret {
     client_secret?: string;
     access_token_custom_audience?: string;
     logo_url?: string;
+    client_id_metadata_url?: string;
 }
 export interface ConnectedAppWithNextClientSecret {
     client_id: string;
@@ -95,6 +97,7 @@ export interface ConnectedAppWithNextClientSecret {
     next_client_secret_last_four?: string;
     access_token_custom_audience?: string;
     logo_url?: string;
+    client_id_metadata_url?: string;
 }
 export interface ConnectedAppsResultsMetadata {
     /**

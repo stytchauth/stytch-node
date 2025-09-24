@@ -44,6 +44,7 @@ export interface ConnectedApp {
   access_token_custom_audience?: string;
   // The logo URL of the Connected App, if any.
   logo_url?: string;
+  client_id_metadata_url?: string;
 }
 
 export interface ConnectedAppPublic {
@@ -92,6 +93,7 @@ export interface ConnectedAppWithClientSecret {
   access_token_custom_audience?: string;
   // The logo URL of the Connected App, if any.
   logo_url?: string;
+  client_id_metadata_url?: string;
 }
 
 export interface ConnectedAppWithNextClientSecret {
@@ -131,6 +133,7 @@ export interface ConnectedAppWithNextClientSecret {
   access_token_custom_audience?: string;
   // The logo URL of the Connected App, if any.
   logo_url?: string;
+  client_id_metadata_url?: string;
 }
 
 export interface ConnectedAppsResultsMetadata {
