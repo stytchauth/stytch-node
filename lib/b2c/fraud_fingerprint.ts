@@ -59,6 +59,13 @@ export interface FraudFingerprintLookupResponse {
   status_code: number;
   // Additional information about the user's browser and network.
   properties?: Properties;
+  /**
+   * The raw device attributes, such as screen size, that were collected by the Device Fingerprinting product
+   * to generate the fingerprints and verdict. You must be specifically enabled for the raw signals feature
+   * to see this field. You can find documentation for the specific fields in the
+   * [guides](https://stytch.com/docs/fraud/guides/device-fingerprinting/reference/raw-signals).
+   */
+  raw_signals?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export class Fingerprint {
