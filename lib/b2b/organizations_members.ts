@@ -584,6 +584,12 @@ export interface B2BOrganizationsMembersStartEmailUpdateRequest {
    * built-in customizations or a custom HTML email for Magic Links - Login.
    */
   login_template_id?: string;
+  /**
+   * The method that should be used to verify a member's new email address. The options are
+   * `EMAIL_MAGIC_LINK` or `EMAIL_OTP`. This field is optional, if no value is provided, `EMAIL_MAGIC_LINK`
+   * will be used.
+   */
+  delivery_method?: "EMAIL_MAGIC_LINK" | "EMAIL_OTP" | string;
 }
 
 // Response type for `organizations.members.startEmailUpdate`.
@@ -1186,14 +1192,19 @@ export class Members {
    * - Must not be updating for another member (i.e. two members cannot attempt to update to the same email
    * at once)
    *
-   * The member will receive an Email Magic Link that expires in 5 minutes. If they do not verify their new
-   * email address in that timeframe, the email
+   * The member will receive an Email Magic Link (or Email OTP Code, if `EMAIL_OTP` is specified as the
+   * delivery method) that expires in 5 minutes. If they do not verify their new email address in that
+   * timeframe, the email
    * will be freed up for other members to use.
    *
-   * The Magic Link will redirect to your `login_redirect_url` (or the configured default if one isn't
-   * provided), and you should invoke the
+   * If using Email Magic Links, the magic link will redirect to your `login_redirect_url` (or the configured
+   * default if one isn't provided), and you should invoke the
    * [Authenticate Magic Link](https://stytch.com/docs/b2b/api/authenticate-magic-link) endpoint as normal to
    * complete the flow.
+   *
+   * If using Email OTP Codes, you should invoke the
+   * [Authenticate Email OTP Code](https://stytch.com/docs/b2b/api/authenticate-email-otp) endpoint as normal
+   * to complete the flow. Make sure to pass the new email address to the endpoint.
    * @param data {@link B2BOrganizationsMembersStartEmailUpdateRequest}
    * @param options {@link B2BOrganizationsMembersStartEmailUpdateRequestOptions}
    * @returns {@link B2BOrganizationsMembersStartEmailUpdateResponse}
@@ -1222,6 +1233,7 @@ export class Members {
           login_redirect_url: data.login_redirect_url,
           locale: data.locale,
           login_template_id: data.login_template_id,
+          delivery_method: data.delivery_method,
         },
       }
     );
