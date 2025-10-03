@@ -407,6 +407,7 @@ export interface Session {
   user_id: string;
   // An array of different authentication factors that comprise a Session.
   authentication_factors: AuthenticationFactor[];
+  roles: string[];
   /**
    * The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in
    * UTC, e.g. `2021-12-29T12:33:09Z`.
@@ -1224,6 +1225,7 @@ export class Sessions {
       last_accessed_at: sess.last_accessed_at,
       expires_at: sess.expires_at,
       custom_claims: sess.custom_claims,
+      roles: sess.roles,
     };
   }
   // ENDMANUAL(authenticateJwt)
