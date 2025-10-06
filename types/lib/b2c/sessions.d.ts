@@ -257,6 +257,7 @@ export interface Session {
     session_id: string;
     user_id: string;
     authentication_factors: AuthenticationFactor[];
+    roles: string[];
     /**
      * The timestamp when the Session was created. Values conform to the RFC 3339 standard and are expressed in
      * UTC, e.g. `2021-12-29T12:33:09Z`.
