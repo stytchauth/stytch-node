@@ -76,6 +76,13 @@ export interface B2BDiscoveryOrganizationsCreateRequest {
    * slug will be generated based on the email domain.
    */
   organization_slug?: string;
+  /**
+   * An identifier that can be used in API calls wherever a organization_id is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
+   * External IDs must be unique within a project, but may be reused across different projects in the same
+   * workspace.
+   */
+  organization_external_id?: string;
   // The image URL of the Organization logo.
   organization_logo_url?: string;
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
