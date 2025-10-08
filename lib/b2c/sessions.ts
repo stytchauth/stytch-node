@@ -1174,7 +1174,10 @@ export class Sessions {
       };
     } catch (err) {
       // JWT could not be verified locally. Check with the Stytch API.
-      return this.authenticate({ session_jwt: params.session_jwt });
+      return this.authenticate({
+        session_jwt: params.session_jwt,
+        authorization_check: params.authorization_check,
+      });
     }
   }
 
