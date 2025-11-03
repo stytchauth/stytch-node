@@ -68,6 +68,10 @@ export interface SHA1Config {
     prepend_salt: string;
     append_salt: string;
 }
+export interface SHA512Config {
+    prepend_salt: string;
+    append_salt: string;
+}
 export interface ScryptConfig {
     salt: string;
     /**
@@ -249,13 +253,14 @@ export interface PasswordsMigrateRequest {
     email: string;
     hash: string;
     /**
-     * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`, and
-     * `pbkdf_2` are supported.
+     * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`,
+     * `sha_512`, and `pbkdf_2` are supported.
      */
-    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2" | string;
+    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "sha_512" | "scrypt" | "phpass" | "pbkdf_2" | string;
     md_5_config?: MD5Config;
     argon_2_config?: Argon2Config;
     sha_1_config?: SHA1Config;
+    sha_512_config?: SHA512Config;
     /**
      * Required parameters if the scrypt is not provided in a
      * [PHC encoded form](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md#phc-string-format).
@@ -461,8 +466,8 @@ export declare class Passwords {
     strengthCheck(data: PasswordsStrengthCheckRequest): Promise<PasswordsStrengthCheckResponse>;
     /**
      * Adds an existing password to a User's email that doesn't have a password yet. We support migrating users
-     * from passwords stored with `bcrypt`, `scrypt`, `argon2`, `MD-5`, `SHA-1`, or `PBKDF2`. This endpoint has
-     * a rate limit of 100 requests per second.
+     * from passwords stored with `bcrypt`, `scrypt`, `argon2`, `MD-5`, `SHA-1`, `SHA-512`, or `PBKDF2`. This
+     * endpoint has a rate limit of 100 requests per second.
      * @param data {@link PasswordsMigrateRequest}
      * @returns {@link PasswordsMigrateResponse}
      * @async

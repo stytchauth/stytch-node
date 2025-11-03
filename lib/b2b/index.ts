@@ -243,10 +243,10 @@ export type {
 } from "./discovery_intermediate_sessions";
 
 export type {
-  B2BDiscoveryOrganizationsCreateRequest,
-  B2BDiscoveryOrganizationsCreateResponse,
   B2BDiscoveryOrganizationsListRequest,
   B2BDiscoveryOrganizationsListResponse,
+  B2BDiscoveryOrganizationsCreateRequest,
+  B2BDiscoveryOrganizationsCreateResponse,
 } from "./discovery_organizations";
 
 export type {

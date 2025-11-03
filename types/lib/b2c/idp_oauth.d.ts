@@ -23,6 +23,7 @@ export interface IDPOAuthAuthorizeRequest {
     state?: string;
     nonce?: string;
     code_challenge?: string;
+    resources?: string[];
 }
 export interface IDPOAuthAuthorizeResponse {
     /**

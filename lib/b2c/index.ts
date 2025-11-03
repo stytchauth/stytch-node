@@ -296,6 +296,7 @@ export type {
   MD5Config,
   PBKDF2Config,
   SHA1Config,
+  SHA512Config,
   ScryptConfig,
   PasswordsAuthenticateRequest,
   PasswordsAuthenticateResponse,

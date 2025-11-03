@@ -10,6 +10,7 @@ import {
   MD5Config,
   PBKDF2Config,
   SHA1Config,
+  SHA512Config,
   ScryptConfig,
 } from "../b2c/passwords";
 import { DeviceInfo } from "../b2c/device_history";
@@ -204,8 +205,8 @@ export interface B2BPasswordsMigrateRequest {
   // The password hash. For a Scrypt or PBKDF2 hash, the hash needs to be a base64 encoded string.
   hash: string;
   /**
-   * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`, and
-   * `pbkdf_2` are supported.
+   * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`,
+   * `sha_512`, and `pbkdf_2` are supported.
    */
   hash_type:
     | "bcrypt"
@@ -213,6 +214,7 @@ export interface B2BPasswordsMigrateRequest {
     | "argon_2i"
     | "argon_2id"
     | "sha_1"
+    | "sha_512"
     | "scrypt"
     | "phpass"
     | "pbkdf_2"
@@ -229,6 +231,8 @@ export interface B2BPasswordsMigrateRequest {
   argon_2_config?: Argon2Config;
   // Optional parameters for SHA-1 hash types.
   sha_1_config?: SHA1Config;
+  // Optional parameters for SHA-512 hash types.
+  sha_512_config?: SHA512Config;
   // Required parameters if the scrypt is not provided in a **PHC encoded form**.
   scrypt_config?: ScryptConfig;
   /**
@@ -442,8 +446,8 @@ export class Passwords {
    *
    * Adds an existing password to a Member's email that doesn't have a password yet.
    *
-   * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2.
-   * This endpoint has a rate limit of 100 requests per second.
+   * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, SHA-512,
+   * and PBKDF2. This endpoint has a rate limit of 100 requests per second.
    *
    * The Member's email will be marked as verified when you use this endpoint.
    *

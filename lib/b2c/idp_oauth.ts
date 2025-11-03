@@ -43,6 +43,7 @@ export interface IDPOAuthAuthorizeRequest {
   nonce?: string;
   // A base64url encoded challenge derived from the code verifier for PKCE flows.
   code_challenge?: string;
+  resources?: string[];
 }
 
 // Response type for `idp.oauth.authorize`.

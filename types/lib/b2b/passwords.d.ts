@@ -1,4 +1,4 @@
-import { Argon2Config, MD5Config, PBKDF2Config, SHA1Config, ScryptConfig } from "../b2c/passwords";
+import { Argon2Config, MD5Config, PBKDF2Config, SHA1Config, SHA512Config, ScryptConfig } from "../b2c/passwords";
 import { DeviceInfo } from "../b2c/device_history";
 import { Discovery } from "./passwords_discovery";
 import { Email } from "./passwords_email";
@@ -166,10 +166,10 @@ export interface B2BPasswordsMigrateRequest {
     email_address: string;
     hash: string;
     /**
-     * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`, and
-     * `pbkdf_2` are supported.
+     * The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`, `sha_1`,
+     * `sha_512`, and `pbkdf_2` are supported.
      */
-    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "scrypt" | "phpass" | "pbkdf_2" | string;
+    hash_type: "bcrypt" | "md_5" | "argon_2i" | "argon_2id" | "sha_1" | "sha_512" | "scrypt" | "phpass" | "pbkdf_2" | string;
     /**
      * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
      * perform operations on an Organization, so be sure to preserve this value. You may also use the
@@ -179,6 +179,7 @@ export interface B2BPasswordsMigrateRequest {
     md_5_config?: MD5Config;
     argon_2_config?: Argon2Config;
     sha_1_config?: SHA1Config;
+    sha_512_config?: SHA512Config;
     scrypt_config?: ScryptConfig;
     /**
      * Required additional parameters for PBKDF2 hash keys. Note that we use the SHA-256 by default, please
@@ -358,8 +359,8 @@ export declare class Passwords {
      *
      * Adds an existing password to a Member's email that doesn't have a password yet.
      *
-     * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, and PBKDF2.
-     * This endpoint has a rate limit of 100 requests per second.
+     * We support migrating members from passwords stored with bcrypt, scrypt, argon2, MD-5, SHA-1, SHA-512,
+     * and PBKDF2. This endpoint has a rate limit of 100 requests per second.
      *
      * The Member's email will be marked as verified when you use this endpoint.
      *
