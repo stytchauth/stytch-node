@@ -12,13 +12,13 @@ var _shared = require("../shared");
 // or your changes may be overwritten later!
 // !!!
 
-// Request type for `discovery.organizations.create`.
-
-// Response type for `discovery.organizations.create`.
-
 // Request type for `discovery.organizations.list`.
 
 // Response type for `discovery.organizations.list`.
+
+// Request type for `discovery.organizations.create`.
+
+// Response type for `discovery.organizations.create`.
 
 class Organizations {
   constructor(fetchConfig) {

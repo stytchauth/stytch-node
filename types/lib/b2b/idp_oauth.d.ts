@@ -34,6 +34,7 @@ export interface B2BIDPOAuthAuthorizeRequest {
     state?: string;
     nonce?: string;
     code_challenge?: string;
+    resources?: string[];
 }
 export interface B2BIDPOAuthAuthorizeResponse {
     /**

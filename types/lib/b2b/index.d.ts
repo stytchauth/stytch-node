@@ -19,7 +19,7 @@ export type { B2BRecoveryCodesGetRequest, B2BRecoveryCodesGetResponse, B2BRecove
 export type { B2BTOTPsAuthenticateRequest, B2BTOTPsAuthenticateResponse, B2BTOTPsCreateRequest, B2BTOTPsCreateResponse, B2BTOTPsMigrateRequest, B2BTOTPsMigrateResponse, } from "./totps";
 export type { DiscoveredOrganization, Membership } from "./discovery";
 export type { B2BDiscoveryIntermediateSessionsExchangeRequest, B2BDiscoveryIntermediateSessionsExchangeResponse, } from "./discovery_intermediate_sessions";
-export type { B2BDiscoveryOrganizationsCreateRequest, B2BDiscoveryOrganizationsCreateResponse, B2BDiscoveryOrganizationsListRequest, B2BDiscoveryOrganizationsListResponse, } from "./discovery_organizations";
+export type { B2BDiscoveryOrganizationsListRequest, B2BDiscoveryOrganizationsListResponse, B2BDiscoveryOrganizationsCreateRequest, B2BDiscoveryOrganizationsCreateResponse, } from "./discovery_organizations";
 export type { B2BMagicLinksAuthenticateRequest, B2BMagicLinksAuthenticateResponse, } from "./magic_links";
 export type { B2BMagicLinksEmailInviteRequest, B2BMagicLinksEmailInviteResponse, B2BMagicLinksEmailLoginOrSignupRequest, B2BMagicLinksEmailLoginOrSignupResponse, B2BMagicLinksEmailInviteRequestOptions, } from "./magic_links_email";
 export type { B2BMagicLinksEmailDiscoverySendRequest, B2BMagicLinksEmailDiscoverySendResponse, } from "./magic_links_email_discovery";

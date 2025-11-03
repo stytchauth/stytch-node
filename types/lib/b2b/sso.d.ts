@@ -34,19 +34,6 @@ export interface Connection {
     external_group_implicit_role_assignments: GroupImplicitRoleAssignment[];
 }
 export interface ConnectionImplicitRoleAssignment {
-    /**
-     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-     *
-     *   Reserved `role_id`s that are predefined by Stytch include:
-     *
-     *   * `stytch_member`
-     *   * `stytch_admin`
-     *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-     * for a more detailed explanation.
-     *
-     *
-     */
     role_id: string;
 }
 export interface EncryptionPrivateKey {
@@ -55,19 +42,6 @@ export interface EncryptionPrivateKey {
     created_at?: string;
 }
 export interface GroupImplicitRoleAssignment {
-    /**
-     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-     *
-     *   Reserved `role_id`s that are predefined by Stytch include:
-     *
-     *   * `stytch_member`
-     *   * `stytch_admin`
-     *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-     * for a more detailed explanation.
-     *
-     *
-     */
     role_id: string;
     group: string;
 }
@@ -111,35 +85,9 @@ export interface SAMLConnection {
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnectionImplicitRoleAssignment {
-    /**
-     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-     *
-     *   Reserved `role_id`s that are predefined by Stytch include:
-     *
-     *   * `stytch_member`
-     *   * `stytch_admin`
-     *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-     * for a more detailed explanation.
-     *
-     *
-     */
     role_id: string;
 }
 export interface SAMLGroupImplicitRoleAssignment {
-    /**
-     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
-     *
-     *   Reserved `role_id`s that are predefined by Stytch include:
-     *
-     *   * `stytch_member`
-     *   * `stytch_admin`
-     *
-     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-     * for a more detailed explanation.
-     *
-     *
-     */
     role_id: string;
     group: string;
 }
