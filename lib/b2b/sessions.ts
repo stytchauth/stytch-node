@@ -1027,12 +1027,12 @@ export class Sessions {
 
     const orgClaim = orgClaimUntyped as {
       organization_id: string;
-      organization_slug: string;
+      slug: string;
     };
 
     if (params.authorization_check) {
       const policy = await this.policyCache.getPolicy();
-      await performAuthorizationCheck({
+      performAuthorizationCheck({
         policy,
         subjectRoles: sess.roles,
         subjectOrgID: orgClaim.organization_id,
@@ -1051,7 +1051,7 @@ export class Sessions {
       expires_at: sess.expires_at,
       custom_claims: claims,
       roles: sess.roles,
-      organization_slug: orgClaim.organization_slug,
+      organization_slug: orgClaim.slug,
     };
   }
 
