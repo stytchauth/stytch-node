@@ -363,7 +363,7 @@ class Sessions {
     const orgClaim = orgClaimUntyped;
     if (params.authorization_check) {
       const policy = await this.policyCache.getPolicy();
-      await (0, _rbac_local.performAuthorizationCheck)({
+      (0, _rbac_local.performAuthorizationCheck)({
         policy,
         subjectRoles: sess.roles,
         subjectOrgID: orgClaim.organization_id,
@@ -380,7 +380,7 @@ class Sessions {
       expires_at: sess.expires_at,
       custom_claims: claims,
       roles: sess.roles,
-      organization_slug: orgClaim.organization_slug
+      organization_slug: orgClaim.slug
     };
   }
 
