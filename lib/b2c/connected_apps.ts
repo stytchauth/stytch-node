@@ -45,6 +45,7 @@ export interface ConnectedApp {
   // The logo URL of the Connected App, if any.
   logo_url?: string;
   client_id_metadata_url?: string;
+  creation_method?: string;
 }
 
 export interface ConnectedAppPublic {
@@ -147,6 +148,29 @@ export interface ConnectedAppsResultsMetadata {
    * This value is passed into your next search call in the `cursor` field.
    */
   next_cursor?: string;
+}
+
+export interface SearchConnectedAppsQuery {
+  operands: SearchConnectedAppsQueryOperand[];
+}
+
+export interface SearchConnectedAppsQueryOperand {
+  client_ids: string[];
+  client_types:
+    | "first_party"
+    | "first_party_public"
+    | "third_party"
+    | "third_party_public"
+    | string[];
+  creation_methods: "dcr" | "cimd" | "manual" | string[];
+  filter?:
+    | "UNKNOWN_OPERAND"
+    | "client_ids"
+    | "client_name_prefix"
+    | "client_types"
+    | "creation_methods"
+    | string;
+  client_name_prefix?: string;
 }
 
 export class ConnectedApp {

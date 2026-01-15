@@ -1,4 +1,4 @@
-import { ConnectedApp, ConnectedAppWithClientSecret, ConnectedAppsResultsMetadata } from "./connected_apps";
+import { ConnectedApp, ConnectedAppWithClientSecret, ConnectedAppsResultsMetadata, SearchConnectedAppsQuery } from "./connected_apps";
 import { fetchConfig } from "../shared";
 import { Secrets } from "./connected_apps_clients_secrets";
 export interface ConnectedAppsClientsCreateRequest {
@@ -78,6 +78,7 @@ export interface ConnectedAppsClientsSearchRequest {
      * size, you must paginate the response. See the `cursor` field.
      */
     limit?: number;
+    query?: SearchConnectedAppsQuery;
 }
 export interface ConnectedAppsClientsSearchResponse {
     /**

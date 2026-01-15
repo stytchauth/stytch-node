@@ -35,6 +35,8 @@ export type {
   ConnectedAppWithClientSecret,
   ConnectedAppWithNextClientSecret,
   ConnectedAppsResultsMetadata,
+  SearchConnectedAppsQueryOperand,
+  SearchConnectedAppsQuery,
 } from "./connected_apps";
 
 export type {
@@ -85,6 +87,8 @@ export type {
   UsersDeleteCryptoWalletResponse,
   UsersDeleteEmailRequest,
   UsersDeleteEmailResponse,
+  UsersDeleteExternalIdRequest,
+  UsersDeleteExternalIdResponse,
   UsersDeleteOAuthRegistrationRequest,
   UsersDeleteOAuthRegistrationResponse,
   UsersDeletePasswordRequest,
@@ -343,10 +347,10 @@ export type {
 } from "./otps_sms";
 
 export type {
-  OTPsWhatsappLoginOrCreateRequest,
-  OTPsWhatsappLoginOrCreateResponse,
-  OTPsWhatsappSendRequest,
-  OTPsWhatsappSendResponse,
+  OTPsWhatsAppLoginOrCreateRequest,
+  OTPsWhatsAppLoginOrCreateResponse,
+  OTPsWhatsAppSendRequest,
+  OTPsWhatsAppSendResponse,
 } from "./otps_whatsapp";
 
 export type {

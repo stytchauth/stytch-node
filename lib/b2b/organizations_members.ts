@@ -30,6 +30,15 @@ export interface B2BOrganizationsMembersCreateRequestOptions {
   authorization?: Authorization;
 }
 
+export interface B2BOrganizationsMembersDeleteExternalIdRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions {
   /**
    * Optional authorization object.
@@ -211,6 +220,19 @@ export interface B2BOrganizationsMembersDangerouslyGetRequest {
   member_id: string;
   // Whether to include deleted Members in the response. Defaults to false.
   include_deleted?: boolean;
+}
+
+export interface B2BOrganizationsMembersDeleteExternalIdRequest {
+  organization_id: string;
+  member_id: string;
+}
+
+export interface B2BOrganizationsMembersDeleteExternalIdResponse {
+  request_id: string;
+  member_id: string;
+  member: Member;
+  organization: Organization;
+  status_code: number;
 }
 
 // Request type for `organizations.members.deleteMFAPhoneNumber`.
@@ -1096,7 +1118,7 @@ export class Members {
       headers,
       params: {
         include_deleted: params.include_deleted,
-      },
+      } as Record<string, string | number | boolean | undefined>,
     });
   }
 
@@ -1126,7 +1148,7 @@ export class Members {
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,
-        },
+        } as Record<string, string | number | boolean | undefined>,
       }
     );
   }
@@ -1277,6 +1299,35 @@ export class Members {
   }
 
   /**
+   * @param data {@link B2BOrganizationsMembersDeleteExternalIdRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteExternalIdRequestOptions}
+   * @returns {@link B2BOrganizationsMembersDeleteExternalIdResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteExternalId(
+    data: B2BOrganizationsMembersDeleteExternalIdRequest,
+    options?: B2BOrganizationsMembersDeleteExternalIdRequestOptions
+  ): Promise<B2BOrganizationsMembersDeleteExternalIdResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BOrganizationsMembersDeleteExternalIdResponse>(
+      this.fetchConfig,
+      {
+        method: "DELETE",
+        url: `/v1/b2b/organizations/${encodeURIComponent(
+          data.organization_id
+        )}/members/${encodeURIComponent(data.member_id)}/external_id`,
+        headers,
+        data: {},
+      }
+    );
+  }
+
+  /**
    * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
    * @param options {@link B2BOrganizationsMembersCreateRequestOptions}
@@ -1335,7 +1386,7 @@ export class Members {
       params: {
         member_id: params.member_id,
         email_address: params.email_address,
-      },
+      } as Record<string, string | number | boolean | undefined>,
     });
   }
 }

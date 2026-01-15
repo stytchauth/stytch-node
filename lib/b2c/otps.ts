@@ -14,7 +14,7 @@ import { request } from "../shared";
 import { Session } from "./sessions";
 import { Sms } from "./otps_sms";
 import { User } from "./users";
-import { Whatsapp } from "./otps_whatsapp";
+import { WhatsApp } from "./otps_whatsapp";
 
 // Request type for `otps.authenticate`.
 export interface OTPsAuthenticateRequest {
@@ -117,13 +117,13 @@ export interface OTPsAuthenticateResponse {
 export class OTPs {
   private fetchConfig: fetchConfig;
   sms: Sms;
-  whatsapp: Whatsapp;
+  whatsapp: WhatsApp;
   email: Email;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.sms = new Sms(this.fetchConfig);
-    this.whatsapp = new Whatsapp(this.fetchConfig);
+    this.whatsapp = new WhatsApp(this.fetchConfig);
     this.email = new Email(this.fetchConfig);
   }
 

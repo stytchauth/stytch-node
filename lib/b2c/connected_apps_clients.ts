@@ -9,6 +9,7 @@ import {
   ConnectedApp,
   ConnectedAppWithClientSecret,
   ConnectedAppsResultsMetadata,
+  SearchConnectedAppsQuery,
 } from "./connected_apps";
 import { fetchConfig } from "../shared";
 import { request } from "../shared";
@@ -122,6 +123,7 @@ export interface ConnectedAppsClientsSearchRequest {
    * size, you must paginate the response. See the `cursor` field.
    */
   limit?: number;
+  query?: SearchConnectedAppsQuery;
 }
 
 // Response type for `connectedApp.clients.search`.

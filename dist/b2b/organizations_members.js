@@ -442,6 +442,27 @@ class Members {
   }
 
   /**
+   * @param data {@link B2BOrganizationsMembersDeleteExternalIdRequest}
+   * @param options {@link B2BOrganizationsMembersDeleteExternalIdRequestOptions}
+   * @returns {@link B2BOrganizationsMembersDeleteExternalIdResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteExternalId(data, options) {
+    const headers = {};
+    if (options?.authorization) {
+      (0, _method_options.addAuthorizationHeaders)(headers, options.authorization);
+    }
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/b2b/organizations/${encodeURIComponent(data.organization_id)}/members/${encodeURIComponent(data.member_id)}/external_id`,
+      headers,
+      data: {}
+    });
+  }
+
+  /**
    * Creates a Member. An `organization_id` and `email_address` are required.
    * @param data {@link B2BOrganizationsMembersCreateRequest}
    * @param options {@link B2BOrganizationsMembersCreateRequestOptions}

@@ -11,6 +11,14 @@ export interface B2BOrganizationsMembersCreateRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsMembersDeleteExternalIdRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequestOptions {
     /**
      * Optional authorization object.
@@ -170,6 +178,17 @@ export interface B2BOrganizationsMembersDangerouslyGetRequest {
      */
     member_id: string;
     include_deleted?: boolean;
+}
+export interface B2BOrganizationsMembersDeleteExternalIdRequest {
+    organization_id: string;
+    member_id: string;
+}
+export interface B2BOrganizationsMembersDeleteExternalIdResponse {
+    request_id: string;
+    member_id: string;
+    member: Member;
+    organization: Organization;
+    status_code: number;
 }
 export interface B2BOrganizationsMembersDeleteMFAPhoneNumberRequest {
     /**
@@ -902,6 +921,15 @@ export declare class Members {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     getConnectedApps(params: B2BOrganizationsMembersGetConnectedAppsRequest, options?: B2BOrganizationsMembersGetConnectedAppsRequestOptions): Promise<B2BOrganizationsMembersGetConnectedAppsResponse>;
+    /**
+     * @param data {@link B2BOrganizationsMembersDeleteExternalIdRequest}
+     * @param options {@link B2BOrganizationsMembersDeleteExternalIdRequestOptions}
+     * @returns {@link B2BOrganizationsMembersDeleteExternalIdResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    deleteExternalId(data: B2BOrganizationsMembersDeleteExternalIdRequest, options?: B2BOrganizationsMembersDeleteExternalIdRequestOptions): Promise<B2BOrganizationsMembersDeleteExternalIdResponse>;
     /**
      * Creates a Member. An `organization_id` and `email_address` are required.
      * @param data {@link B2BOrganizationsMembersCreateRequest}
