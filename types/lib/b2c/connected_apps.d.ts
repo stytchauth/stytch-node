@@ -29,6 +29,7 @@ export interface ConnectedApp {
     access_token_custom_audience?: string;
     logo_url?: string;
     client_id_metadata_url?: string;
+    creation_method?: string;
 }
 export interface ConnectedAppPublic {
     client_id: string;

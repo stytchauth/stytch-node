@@ -317,6 +317,15 @@ export interface UsersDeleteEmailResponse {
      */
     status_code: number;
 }
+export interface UsersDeleteExternalIdRequest {
+    user_id: string;
+}
+export interface UsersDeleteExternalIdResponse {
+    request_id: string;
+    user_id: string;
+    user: User;
+    status_code: number;
+}
 export interface UsersDeleteOAuthRegistrationRequest {
     oauth_user_registration_id: string;
 }
@@ -869,6 +878,14 @@ export declare class Users {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     deleteOAuthRegistration(data: UsersDeleteOAuthRegistrationRequest): Promise<UsersDeleteOAuthRegistrationResponse>;
+    /**
+     * @param data {@link UsersDeleteExternalIdRequest}
+     * @returns {@link UsersDeleteExternalIdResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    deleteExternalId(data: UsersDeleteExternalIdRequest): Promise<UsersDeleteExternalIdResponse>;
     /**
      * User Get Connected Apps retrieves a list of Connected Apps with which the User has successfully
      * completed an

@@ -1,4 +1,8 @@
 import { fetchConfig } from "../shared";
+import { Organizations } from "./rbac_organizations";
+export interface OrgPolicy {
+    roles: PolicyRole[];
+}
 export interface Policy {
     roles: PolicyRole[];
     resources: PolicyResource[];
@@ -146,6 +150,7 @@ export interface B2BRBACPolicyResponse {
 }
 export declare class RBAC {
     private fetchConfig;
+    organizations: Organizations;
     constructor(fetchConfig: fetchConfig);
     /**
      * Get the active RBAC Policy for your current Stytch Project. An RBAC Policy is the canonical document

@@ -45,6 +45,7 @@ export interface ConnectedApp {
   // The logo URL of the Connected App, if any.
   logo_url?: string;
   client_id_metadata_url?: string;
+  creation_method?: string;
 }
 
 export interface ConnectedAppPublic {

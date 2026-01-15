@@ -382,6 +382,23 @@ class Users {
   }
 
   /**
+   * @param data {@link UsersDeleteExternalIdRequest}
+   * @returns {@link UsersDeleteExternalIdResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteExternalId(data) {
+    const headers = {};
+    return (0, _shared.request)(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/users/${encodeURIComponent(data.user_id)}/external_id`,
+      headers,
+      data: {}
+    });
+  }
+
+  /**
    * User Get Connected Apps retrieves a list of Connected Apps with which the User has successfully
    * completed an
    * authorization flow.

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Whatsapp = void 0;
+exports.WhatsApp = void 0;
 require("../shared/method_options");
 var _shared = require("../shared");
 // !!!
@@ -20,7 +20,7 @@ var _shared = require("../shared");
 
 // Response type for `otps.whatsapp.send`.
 
-class Whatsapp {
+class WhatsApp {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
   }
@@ -51,8 +51,8 @@ class Whatsapp {
    * Collect the OTP which was delivered to the user. Call
    * [Authenticate OTP](https://stytch.com/docs/api/authenticate-otp) using the OTP `code` along with the
    * `phone_id` found in the response as the `method_id`.
-   * @param data {@link OTPsWhatsappSendRequest}
-   * @returns {@link OTPsWhatsappSendResponse}
+   * @param data {@link OTPsWhatsAppSendRequest}
+   * @returns {@link OTPsWhatsAppSendResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -81,8 +81,8 @@ class Whatsapp {
    * Collect the OTP which was delivered to the User. Call
    * [Authenticate OTP](https://stytch.com/docs/api/authenticate-otp) using the OTP `code` along with the
    * `phone_id` found in the response as the `method_id`.
-   * @param data {@link OTPsWhatsappLoginOrCreateRequest}
-   * @returns {@link OTPsWhatsappLoginOrCreateResponse}
+   * @param data {@link OTPsWhatsAppLoginOrCreateRequest}
+   * @returns {@link OTPsWhatsAppLoginOrCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
@@ -97,4 +97,4 @@ class Whatsapp {
     });
   }
 }
-exports.Whatsapp = Whatsapp;
+exports.WhatsApp = WhatsApp;
