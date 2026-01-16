@@ -123,6 +123,7 @@ export interface WebAuthnAuthenticateStartRequest {
    *
    */
   return_passkey_credential_options?: boolean;
+  use_base64_url_encoding?: boolean;
 }
 
 // Response type for `webauthn.authenticateStart`.

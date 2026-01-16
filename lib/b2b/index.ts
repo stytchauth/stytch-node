@@ -70,6 +70,8 @@ export type {
 export type {
   ActiveSCIMConnection,
   ActiveSSOConnection,
+  CustomRole,
+  CustomRolePermission,
   EmailImplicitRoleAssignment,
   GithubProviderInfo,
   HubspotProviderInfo,
@@ -92,6 +94,8 @@ export type {
   B2BOrganizationsConnectedAppsResponse,
   B2BOrganizationsCreateRequest,
   B2BOrganizationsCreateResponse,
+  B2BOrganizationsDeleteExternalIdRequest,
+  B2BOrganizationsDeleteExternalIdResponse,
   B2BOrganizationsDeleteRequest,
   B2BOrganizationsDeleteResponse,
   B2BOrganizationsGetConnectedAppRequest,
@@ -108,12 +112,15 @@ export type {
   B2BOrganizationsDeleteRequestOptions,
   B2BOrganizationsConnectedAppsRequestOptions,
   B2BOrganizationsGetConnectedAppRequestOptions,
+  B2BOrganizationsDeleteExternalIdRequestOptions,
 } from "./organizations";
 
 export type {
   B2BOrganizationsMembersCreateRequest,
   B2BOrganizationsMembersCreateResponse,
   B2BOrganizationsMembersDangerouslyGetRequest,
+  B2BOrganizationsMembersDeleteExternalIdRequest,
+  B2BOrganizationsMembersDeleteExternalIdResponse,
   B2BOrganizationsMembersDeleteMFAPhoneNumberRequest,
   B2BOrganizationsMembersDeleteMFAPhoneNumberResponse,
   B2BOrganizationsMembersDeletePasswordRequest,
@@ -148,6 +155,7 @@ export type {
   B2BOrganizationsMembersUnlinkRetiredEmailRequestOptions,
   B2BOrganizationsMembersStartEmailUpdateRequestOptions,
   B2BOrganizationsMembersGetConnectedAppsRequestOptions,
+  B2BOrganizationsMembersDeleteExternalIdRequestOptions,
   B2BOrganizationsMembersCreateRequestOptions,
 } from "./organizations_members";
 
@@ -208,6 +216,7 @@ export type {
 } from "./impersonation";
 
 export type {
+  OrgPolicy,
   Policy,
   PolicyResource,
   PolicyRole,
@@ -216,6 +225,13 @@ export type {
   PolicyScopePermission,
   B2BRBACPolicyResponse,
 } from "./rbac";
+
+export type {
+  B2BRBACOrganizationsGetOrgPolicyRequest,
+  B2BRBACOrganizationsGetOrgPolicyResponse,
+  B2BRBACOrganizationsSetOrgPolicyRequest,
+  B2BRBACOrganizationsSetOrgPolicyResponse,
+} from "./rbac_organizations";
 
 export type {
   B2BRecoveryCodesGetRequest,

@@ -37,6 +37,7 @@ export interface ConnectedApp {
    * for the `offline_access` scope.
    */
   bypass_consent_for_offline_access: boolean;
+  creation_method: string;
   // The last four characters of the client secret.
   client_secret_last_four?: string;
   // The last four characters of the `next_client_secret`. Null if no `next_client_secret` exists.

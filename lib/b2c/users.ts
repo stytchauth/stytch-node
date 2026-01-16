@@ -407,6 +407,17 @@ export interface UsersDeleteEmailResponse {
   status_code: number;
 }
 
+export interface UsersDeleteExternalIdRequest {
+  user_id: string;
+}
+
+export interface UsersDeleteExternalIdResponse {
+  request_id: string;
+  user_id: string;
+  user: User;
+  status_code: number;
+}
+
 // Request type for `users.deleteOAuthRegistration`.
 export interface UsersDeleteOAuthRegistrationRequest {
   // The `oauth_user_registration_id` to be deleted.
@@ -1262,6 +1273,25 @@ export class Users {
       url: `/v1/users/oauth/${encodeURIComponent(
         data.oauth_user_registration_id
       )}`,
+      headers,
+      data: {},
+    });
+  }
+
+  /**
+   * @param data {@link UsersDeleteExternalIdRequest}
+   * @returns {@link UsersDeleteExternalIdResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteExternalId(
+    data: UsersDeleteExternalIdRequest
+  ): Promise<UsersDeleteExternalIdResponse> {
+    const headers: Record<string, string> = {};
+    return request<UsersDeleteExternalIdResponse>(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/users/${encodeURIComponent(data.user_id)}/external_id`,
       headers,
       data: {},
     });

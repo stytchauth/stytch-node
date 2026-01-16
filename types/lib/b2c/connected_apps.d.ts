@@ -24,6 +24,7 @@ export interface ConnectedApp {
      * for the `offline_access` scope.
      */
     bypass_consent_for_offline_access: boolean;
+    creation_method: string;
     client_secret_last_four?: string;
     next_client_secret_last_four?: string;
     access_token_custom_audience?: string;

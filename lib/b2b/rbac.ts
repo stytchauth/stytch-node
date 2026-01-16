@@ -6,7 +6,13 @@
 
 import {} from "../shared/method_options";
 import { fetchConfig } from "../shared";
+import { Organizations } from "./rbac_organizations";
 import { request } from "../shared";
+
+export interface OrgPolicy {
+  // An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
+  roles: PolicyRole[];
+}
 
 export interface Policy {
   // An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
@@ -167,9 +173,11 @@ export interface B2BRBACPolicyResponse {
 
 export class RBAC {
   private fetchConfig: fetchConfig;
+  organizations: Organizations;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
+    this.organizations = new Organizations(this.fetchConfig);
   }
 
   /**

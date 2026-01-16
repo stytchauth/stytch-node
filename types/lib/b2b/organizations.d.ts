@@ -21,6 +21,14 @@ export interface B2BOrganizationsConnectedAppsRequestOptions {
      */
     authorization?: Authorization;
 }
+export interface B2BOrganizationsDeleteExternalIdRequestOptions {
+    /**
+     * Optional authorization object.
+     * Pass in an active Stytch Member session token or session JWT and the request
+     * will be run using that member's permissions.
+     */
+    authorization?: Authorization;
+}
 export interface B2BOrganizationsDeleteRequestOptions {
     /**
      * Optional authorization object.
@@ -56,6 +64,15 @@ export interface B2BOrganizationsUpdateRequestOptions {
      * will be run using that member's permissions.
      */
     authorization?: Authorization;
+}
+export interface CustomRole {
+    role_id: string;
+    description: string;
+    permissions: CustomRolePermission[];
+}
+export interface CustomRolePermission {
+    resource_id: string;
+    actions: string[];
 }
 export interface EmailImplicitRoleAssignment {
     domain: string;
@@ -565,6 +582,7 @@ export interface Organization {
      * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
      */
     allowed_third_party_connected_apps: string[];
+    custom_roles: CustomRole[];
     trusted_metadata?: Record<string, any>;
     /**
      * The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and are expressed
@@ -859,6 +877,14 @@ export interface B2BOrganizationsCreateResponse {
      * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
+    status_code: number;
+}
+export interface B2BOrganizationsDeleteExternalIdRequest {
+    organization_id: string;
+}
+export interface B2BOrganizationsDeleteExternalIdResponse {
+    request_id: string;
+    organization: Organization;
     status_code: number;
 }
 export interface B2BOrganizationsDeleteRequest {
@@ -1426,4 +1452,13 @@ export declare class Organizations {
      * @throws A {@link RequestError} when the Stytch API cannot be reached
      */
     getConnectedApp(params: B2BOrganizationsGetConnectedAppRequest, options?: B2BOrganizationsGetConnectedAppRequestOptions): Promise<B2BOrganizationsGetConnectedAppResponse>;
+    /**
+     * @param data {@link B2BOrganizationsDeleteExternalIdRequest}
+     * @param options {@link B2BOrganizationsDeleteExternalIdRequestOptions}
+     * @returns {@link B2BOrganizationsDeleteExternalIdResponse}
+     * @async
+     * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+     * @throws A {@link RequestError} when the Stytch API cannot be reached
+     */
+    deleteExternalId(data: B2BOrganizationsDeleteExternalIdRequest, options?: B2BOrganizationsDeleteExternalIdRequestOptions): Promise<B2BOrganizationsDeleteExternalIdResponse>;
 }
