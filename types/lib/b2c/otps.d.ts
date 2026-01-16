@@ -6,7 +6,7 @@ import { Options } from "./magic_links";
 import { Session } from "./sessions";
 import { Sms } from "./otps_sms";
 import { User } from "./users";
-import { Whatsapp } from "./otps_whatsapp";
+import { WhatsApp } from "./otps_whatsapp";
 export interface OTPsAuthenticateRequest {
     method_id: string;
     code: string;
@@ -95,7 +95,7 @@ export interface OTPsAuthenticateResponse {
 export declare class OTPs {
     private fetchConfig;
     sms: Sms;
-    whatsapp: Whatsapp;
+    whatsapp: WhatsApp;
     email: Email;
     constructor(fetchConfig: fetchConfig);
     /**

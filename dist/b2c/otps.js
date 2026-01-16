@@ -23,7 +23,7 @@ class OTPs {
   constructor(fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.sms = new _otps_sms.Sms(this.fetchConfig);
-    this.whatsapp = new _otps_whatsapp.Whatsapp(this.fetchConfig);
+    this.whatsapp = new _otps_whatsapp.WhatsApp(this.fetchConfig);
     this.email = new _otps_email.Email(this.fetchConfig);
   }
 

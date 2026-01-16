@@ -548,7 +548,7 @@ export class Connection {
       params: {
         cursor: params.cursor,
         limit: params.limit,
-      },
+      } as Record<string, string | number | boolean | undefined>,
     });
   }
 

@@ -39,6 +39,15 @@ export interface B2BOrganizationsConnectedAppsRequestOptions {
   authorization?: Authorization;
 }
 
+export interface B2BOrganizationsDeleteExternalIdRequestOptions {
+  /**
+   * Optional authorization object.
+   * Pass in an active Stytch Member session token or session JWT and the request
+   * will be run using that member's permissions.
+   */
+  authorization?: Authorization;
+}
+
 export interface B2BOrganizationsDeleteRequestOptions {
   /**
    * Optional authorization object.
@@ -77,6 +86,17 @@ export interface B2BOrganizationsUpdateRequestOptions {
    * will be run using that member's permissions.
    */
   authorization?: Authorization;
+}
+
+export interface CustomRole {
+  role_id: string;
+  description: string;
+  permissions: CustomRolePermission[];
+}
+
+export interface CustomRolePermission {
+  resource_id: string;
+  actions: string[];
 }
 
 export interface EmailImplicitRoleAssignment {
@@ -620,6 +640,7 @@ export interface Organization {
    * Organization's `third_party_connected_apps_allowed_type` is `RESTRICTED`.
    */
   allowed_third_party_connected_apps: string[];
+  custom_roles: CustomRole[];
   // An arbitrary JSON object for storing application-specific data or identity-provider-specific data.
   trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   /**
@@ -961,6 +982,16 @@ export interface B2BOrganizationsCreateResponse {
    * The HTTP status code of the response. Stytch follows standard HTTP response status code patterns, e.g.
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
+  status_code: number;
+}
+
+export interface B2BOrganizationsDeleteExternalIdRequest {
+  organization_id: string;
+}
+
+export interface B2BOrganizationsDeleteExternalIdResponse {
+  request_id: string;
+  organization: Organization;
   status_code: number;
 }
 
@@ -1739,6 +1770,32 @@ export class Organizations {
       )}/connected_apps/${encodeURIComponent(params.connected_app_id)}`,
       headers,
       params: {},
+    });
+  }
+
+  /**
+   * @param data {@link B2BOrganizationsDeleteExternalIdRequest}
+   * @param options {@link B2BOrganizationsDeleteExternalIdRequestOptions}
+   * @returns {@link B2BOrganizationsDeleteExternalIdResponse}
+   * @async
+   * @throws A {@link StytchError} on a non-2xx response from the Stytch API
+   * @throws A {@link RequestError} when the Stytch API cannot be reached
+   */
+  deleteExternalId(
+    data: B2BOrganizationsDeleteExternalIdRequest,
+    options?: B2BOrganizationsDeleteExternalIdRequestOptions
+  ): Promise<B2BOrganizationsDeleteExternalIdResponse> {
+    const headers: Record<string, string> = {};
+    if (options?.authorization) {
+      addAuthorizationHeaders(headers, options.authorization);
+    }
+    return request<B2BOrganizationsDeleteExternalIdResponse>(this.fetchConfig, {
+      method: "DELETE",
+      url: `/v1/b2b/organizations/${encodeURIComponent(
+        data.organization_id
+      )}/external_id`,
+      headers,
+      data: {},
     });
   }
 }

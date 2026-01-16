@@ -10,7 +10,7 @@ import { fetchConfig } from "../shared";
 import { request } from "../shared";
 
 // Request type for `otps.whatsapp.loginOrCreate`.
-export interface OTPsWhatsappLoginOrCreateRequest {
+export interface OTPsWhatsAppLoginOrCreateRequest {
   /**
    * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
    * +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
@@ -60,7 +60,7 @@ export interface OTPsWhatsappLoginOrCreateRequest {
 }
 
 // Response type for `otps.whatsapp.loginOrCreate`.
-export interface OTPsWhatsappLoginOrCreateResponse {
+export interface OTPsWhatsAppLoginOrCreateResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -80,7 +80,7 @@ export interface OTPsWhatsappLoginOrCreateResponse {
 }
 
 // Request type for `otps.whatsapp.send`.
-export interface OTPsWhatsappSendRequest {
+export interface OTPsWhatsAppSendRequest {
   /**
    * The phone number to use for one-time passcodes. The phone number should be in E.164 format (i.e.
    * +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
@@ -127,7 +127,7 @@ export interface OTPsWhatsappSendRequest {
 }
 
 // Response type for `otps.whatsapp.send`.
-export interface OTPsWhatsappSendResponse {
+export interface OTPsWhatsAppSendResponse {
   /**
    * Globally unique UUID that is returned with every API call. This value is important to log for debugging
    * purposes; we may ask for this value to help identify a specific API call when helping you debug an issue.
@@ -144,7 +144,7 @@ export interface OTPsWhatsappSendResponse {
   status_code: number;
 }
 
-export class Whatsapp {
+export class WhatsApp {
   private fetchConfig: fetchConfig;
 
   constructor(fetchConfig: fetchConfig) {
@@ -177,15 +177,15 @@ export class Whatsapp {
    * Collect the OTP which was delivered to the user. Call
    * [Authenticate OTP](https://stytch.com/docs/api/authenticate-otp) using the OTP `code` along with the
    * `phone_id` found in the response as the `method_id`.
-   * @param data {@link OTPsWhatsappSendRequest}
-   * @returns {@link OTPsWhatsappSendResponse}
+   * @param data {@link OTPsWhatsAppSendRequest}
+   * @returns {@link OTPsWhatsAppSendResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
-  send(data: OTPsWhatsappSendRequest): Promise<OTPsWhatsappSendResponse> {
+  send(data: OTPsWhatsAppSendRequest): Promise<OTPsWhatsAppSendResponse> {
     const headers: Record<string, string> = {};
-    return request<OTPsWhatsappSendResponse>(this.fetchConfig, {
+    return request<OTPsWhatsAppSendResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/send`,
       headers,
@@ -207,17 +207,17 @@ export class Whatsapp {
    * Collect the OTP which was delivered to the User. Call
    * [Authenticate OTP](https://stytch.com/docs/api/authenticate-otp) using the OTP `code` along with the
    * `phone_id` found in the response as the `method_id`.
-   * @param data {@link OTPsWhatsappLoginOrCreateRequest}
-   * @returns {@link OTPsWhatsappLoginOrCreateResponse}
+   * @param data {@link OTPsWhatsAppLoginOrCreateRequest}
+   * @returns {@link OTPsWhatsAppLoginOrCreateResponse}
    * @async
    * @throws A {@link StytchError} on a non-2xx response from the Stytch API
    * @throws A {@link RequestError} when the Stytch API cannot be reached
    */
   loginOrCreate(
-    data: OTPsWhatsappLoginOrCreateRequest
-  ): Promise<OTPsWhatsappLoginOrCreateResponse> {
+    data: OTPsWhatsAppLoginOrCreateRequest
+  ): Promise<OTPsWhatsAppLoginOrCreateResponse> {
     const headers: Record<string, string> = {};
-    return request<OTPsWhatsappLoginOrCreateResponse>(this.fetchConfig, {
+    return request<OTPsWhatsAppLoginOrCreateResponse>(this.fetchConfig, {
       method: "POST",
       url: `/v1/otps/whatsapp/login_or_create`,
       headers,

@@ -258,7 +258,7 @@ export class OAuthProviders {
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,
-        },
+        } as Record<string, string | number | boolean | undefined>,
       }
     );
   }
@@ -291,7 +291,7 @@ export class OAuthProviders {
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,
-        },
+        } as Record<string, string | number | boolean | undefined>,
       }
     );
   }
@@ -353,7 +353,7 @@ export class OAuthProviders {
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,
-        },
+        } as Record<string, string | number | boolean | undefined>,
       }
     );
   }
@@ -386,7 +386,7 @@ export class OAuthProviders {
         headers,
         params: {
           include_refresh_token: params.include_refresh_token,
-        },
+        } as Record<string, string | number | boolean | undefined>,
       }
     );
   }
