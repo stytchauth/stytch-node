@@ -42,9 +42,7 @@ jobs:
           echo "diff=$FOUND" >> $GITHUB_OUTPUT
 
       - name: Publish to NPM
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: steps.diff.outputs.diff != 0 && env.NODE_AUTH_TOKEN != ''
+        if: steps.diff.outputs.diff != 0
         run: npm publish
 
       - name: Create release
