@@ -5,6 +5,7 @@
 // !!!
 
 import {} from "../shared/method_options";
+import { Email } from "./fraud_email";
 import { fetchConfig } from "../shared";
 import { Fingerprint } from "./fraud_fingerprint";
 import { Rules } from "./fraud_rules";
@@ -19,9 +20,32 @@ export interface ASNProperties {
   network: string;
 }
 
+export interface AddressInformation {
+  // Whether email sent to this address is known to have bounced previously.
+  has_known_bounces: boolean;
+  // Whether this email address is valid.
+  has_valid_syntax: boolean;
+  // Whether the local part of the email appears to be a role or group, rather than an individual end user.
+  is_suspected_role_address: boolean;
+  // The normalized email address after removing '.' characters and any characters after a '+'.
+  normalized_email: string;
+  /**
+   * The number of '.' and '+' characters in the email address. A higher tumbling count indicates a higher
+   * potential for fraud.
+   */
+  tumbling_character_count: number;
+}
+
 export interface BrowserProperties {
   // The user agent of the user's browser.
   user_agent: string;
+}
+
+export interface DomainInformation {
+  // Whether the email has appropriate DNS records to deliver a message.
+  has_mx_or_a_record: boolean;
+  // Whether the email domain is known to be disposable.
+  is_disposable_domain: boolean;
 }
 
 export interface Fingerprints {
@@ -219,11 +243,13 @@ export class Fraud {
   fingerprint: Fingerprint;
   rules: Rules;
   verdictReasons: VerdictReasons;
+  email: Email;
 
   constructor(fetchConfig: fetchConfig) {
     this.fetchConfig = fetchConfig;
     this.fingerprint = new Fingerprint(this.fetchConfig);
     this.rules = new Rules(this.fetchConfig);
     this.verdictReasons = new VerdictReasons(this.fetchConfig);
+    this.email = new Email(this.fetchConfig);
   }
 }

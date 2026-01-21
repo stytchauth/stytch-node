@@ -1,3 +1,4 @@
+import { Email } from "./fraud_email";
 import { fetchConfig } from "../shared";
 import { Fingerprint } from "./fraud_fingerprint";
 import { Rules } from "./fraud_rules";
@@ -7,8 +8,23 @@ export interface ASNProperties {
     name: string;
     network: string;
 }
+export interface AddressInformation {
+    has_known_bounces: boolean;
+    has_valid_syntax: boolean;
+    is_suspected_role_address: boolean;
+    normalized_email: string;
+    /**
+     * The number of '.' and '+' characters in the email address. A higher tumbling count indicates a higher
+     * potential for fraud.
+     */
+    tumbling_character_count: number;
+}
 export interface BrowserProperties {
     user_agent: string;
+}
+export interface DomainInformation {
+    has_mx_or_a_record: boolean;
+    is_disposable_domain: boolean;
 }
 export interface Fingerprints {
     network_fingerprint: string;
@@ -143,5 +159,6 @@ export declare class Fraud {
     fingerprint: Fingerprint;
     rules: Rules;
     verdictReasons: VerdictReasons;
+    email: Email;
     constructor(fetchConfig: fetchConfig);
 }

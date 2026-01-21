@@ -12,10 +12,11 @@ export type { AmazonOAuthFactor, AppleOAuthFactor, AuthenticationFactor, Authent
 export type { RBACPolicy, RBACPolicyResource, RBACPolicyRole, RBACPolicyRolePermission, RBACPolicyScope, RBACPolicyScopePermission, RBACPolicyResponse, } from "./rbac";
 export type { SIWEParams, CryptoWalletsAuthenticateRequest, CryptoWalletsAuthenticateResponse, CryptoWalletsAuthenticateStartRequest, CryptoWalletsAuthenticateStartResponse, CryptoWalletsSIWEParamsResponse, } from "./crypto_wallets";
 export type { DebugWhoamiResponse } from "./debug";
-export type { ASNProperties, BrowserProperties, Fingerprints, IPGeoProperties, Metadata, NetworkProperties, Properties, Rule, Verdict, VerdictReasonAction, VerdictReasonOverride, } from "./fraud";
+export type { ASNProperties, AddressInformation, BrowserProperties, DomainInformation, Fingerprints, IPGeoProperties, Metadata, NetworkProperties, Properties, Rule, Verdict, VerdictReasonAction, VerdictReasonOverride, } from "./fraud";
 export type { FraudFingerprintLookupRequest, FraudFingerprintLookupResponse, } from "./fraud_fingerprint";
 export type { FraudRulesListRequest, FraudRulesListResponse, FraudRulesSetRequest, FraudRulesSetResponse, } from "./fraud_rules";
 export type { FraudVerdictReasonsListRequest, FraudVerdictReasonsListResponse, FraudVerdictReasonsOverrideRequest, FraudVerdictReasonsOverrideResponse, } from "./fraud_verdict_reasons";
+export type { FraudEmailRiskRequest, FraudEmailRiskResponse, } from "./fraud_email";
 export type { IDPScopeResult } from "./idp";
 export type { IDPOAuthAuthorizeRequest, IDPOAuthAuthorizeResponse, IDPOAuthAuthorizeStartRequest, IDPOAuthAuthorizeStartResponse, } from "./idp_oauth";
 export type { ImpersonationAuthenticateRequest, ImpersonationAuthenticateResponse, } from "./impersonation";
