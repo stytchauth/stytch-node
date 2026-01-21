@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Fraud = void 0;
 require("../shared/method_options");
+var _fraud_email = require("./fraud_email");
 var _fraud_fingerprint = require("./fraud_fingerprint");
 var _fraud_rules = require("./fraud_rules");
 var _fraud_verdict_reasons = require("./fraud_verdict_reasons");
@@ -20,6 +21,7 @@ class Fraud {
     this.fingerprint = new _fraud_fingerprint.Fingerprint(this.fetchConfig);
     this.rules = new _fraud_rules.Rules(this.fetchConfig);
     this.verdictReasons = new _fraud_verdict_reasons.VerdictReasons(this.fetchConfig);
+    this.email = new _fraud_email.Email(this.fetchConfig);
   }
 }
 exports.Fraud = Fraud;

@@ -197,7 +197,9 @@ export type { DebugWhoamiResponse } from "./debug";
 
 export type {
   ASNProperties,
+  AddressInformation,
   BrowserProperties,
+  DomainInformation,
   Fingerprints,
   IPGeoProperties,
   Metadata,
@@ -227,6 +229,11 @@ export type {
   FraudVerdictReasonsOverrideRequest,
   FraudVerdictReasonsOverrideResponse,
 } from "./fraud_verdict_reasons";
+
+export type {
+  FraudEmailRiskRequest,
+  FraudEmailRiskResponse,
+} from "./fraud_email";
 
 export type { IDPScopeResult } from "./idp";
 
