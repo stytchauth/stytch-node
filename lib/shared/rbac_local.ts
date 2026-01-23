@@ -1,28 +1,32 @@
 import { ClientError } from "./errors";
 
+type Role = {
+  role_id: string;
+  description: string;
+  permissions: {
+    resource_id: string;
+    actions: string[];
+  }[];
+};
+
 type Policy = {
-  roles: Array<{
-    role_id: string;
-    description: string;
-    permissions: Array<{
-      resource_id: string;
-      actions: string[];
-    }>;
-  }>;
-  resources: Array<{
+  roles: Role[];
+  resources: {
     resource_id: string;
     description: string;
     actions: string[];
-  }>;
-  scopes: Array<{
+  }[];
+  scopes: {
     scope: string;
     description: string;
-    permissions: Array<{
+    permissions: {
       resource_id: string;
       actions: string[];
-    }>;
-  }>;
+    }[];
+  }[];
 };
+
+type OrgPolicy = Pick<Policy, "roles">;
 
 type AuthorizationCheck = {
   resource_id: string;
@@ -63,19 +67,19 @@ export function performBaseScopeAuthorizationCheck({
 }
 
 export type baseRoleAuthorizationCheckArgs = {
-  policy: Policy;
+  policyRoles: Role[];
   subjectRoles: string[];
   authorizationCheck: AuthorizationCheck;
   callerType: string;
 };
 
 export function performBaseRoleAuthorizationCheck({
-  policy,
+  policyRoles,
   subjectRoles,
   authorizationCheck,
   callerType,
 }: baseRoleAuthorizationCheckArgs): void {
-  const hasPermission = policy.roles
+  const hasPermission = policyRoles
     .filter((role) => subjectRoles.includes(role.role_id))
     .flatMap((role) => role.permissions)
     .some((permission) => {
@@ -95,40 +99,92 @@ export function performBaseRoleAuthorizationCheck({
   }
 }
 
-// We want to refresh if the policy is more than 5 minutes old
-const MAX_AGE_MS = 1000 * 60 * 5;
+interface PolicyGetter<T> {
+  policy: () => Promise<{ policy?: T }>;
+}
 
-type PolicyGetter<T> = { policy: () => Promise<{ policy?: T }> };
-// BasePolicyCache handles local caching of RBAC policy information
-// It is based on https://github.com/panva/jose/blob/main/src/jwks/remote.ts
-// Instead of using a background worker/setInterval strategy, it refreshes on usage
-// and tracks the timestamp internally. this has a few _very nice_ properties:
-// - It works very well in Jest environments, since there's no boilerplate required to tear down the setInterval
-// - No work is done if RBAC is not used and the policy is not required
-export class BasePolicyCache<T extends Policy> {
+interface OrgPolicyGetter<T, U> extends PolicyGetter<T> {
+  organizations: {
+    getOrgPolicy: (params: {
+      organization_id: string;
+    }) => Promise<{ org_policy?: U }>;
+  };
+}
+
+export class PolicyCache<T extends Policy> {
+  /**
+   * The maximum TTL, in milliseconds, before a cached policy should be refreshed.
+   * Resolves to 5 minutes.
+   */
+  static readonly CacheTTL: number = 1000 * 60 * 5;
+
   private rbac: PolicyGetter<T>;
-  private _policy?: T;
-  private _timestamp?: number;
+  private projectPolicy?: T;
+  private lastRefreshedAt?: number;
 
   constructor(rbac: PolicyGetter<T>) {
     this.rbac = rbac;
   }
 
   private fresh(): boolean {
-    return !!this._timestamp && Date.now() < this._timestamp + MAX_AGE_MS;
+    return (
+      !!this.lastRefreshedAt &&
+      Date.now() < this.lastRefreshedAt + PolicyCache.CacheTTL
+    );
   }
 
-  private async reload() {
+  private async refresh(): Promise<void> {
     const policyResponse = await this.rbac.policy();
-    this._policy = policyResponse.policy;
-    this._timestamp = Date.now();
-    return this._policy as T;
+    this.projectPolicy = policyResponse.policy as T;
+    this.lastRefreshedAt = Date.now();
   }
 
   async getPolicy(): Promise<T> {
-    if (!this._policy || !this.fresh()) {
-      return this.reload();
+    if (!this.projectPolicy || !this.fresh()) {
+      await this.refresh();
     }
-    return this._policy;
+    return this.projectPolicy as T;
+  }
+}
+
+type CachedOrgPolicy = {
+  policy: OrgPolicy;
+  lastRefreshedAt: number;
+};
+
+export class B2BPolicyCache<
+  T extends Policy,
+  U extends OrgPolicy
+> extends PolicyCache<T> {
+  private b2bRBAC: OrgPolicyGetter<T, U>;
+  private orgPolicyCache: Record<string, CachedOrgPolicy> = {};
+
+  constructor(rbac: OrgPolicyGetter<T, U>) {
+    super(rbac);
+    this.b2bRBAC = rbac;
+  }
+
+  private orgPolicyFresh(organizationID: string): boolean {
+    const cached = this.orgPolicyCache[organizationID];
+    return (
+      !!cached && Date.now() < cached.lastRefreshedAt + PolicyCache.CacheTTL
+    );
+  }
+
+  private async refreshOrgPolicy(organizationID: string): Promise<void> {
+    const resp = await this.b2bRBAC.organizations.getOrgPolicy({
+      organization_id: organizationID,
+    });
+    this.orgPolicyCache[organizationID] = {
+      policy: resp.org_policy as U,
+      lastRefreshedAt: Date.now(),
+    };
+  }
+
+  async getOrgPolicy(organizationID: string): Promise<U> {
+    if (!this.orgPolicyFresh(organizationID)) {
+      await this.refreshOrgPolicy(organizationID);
+    }
+    return this.orgPolicyCache[organizationID].policy as U;
   }
 }

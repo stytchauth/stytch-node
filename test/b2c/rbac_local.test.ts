@@ -121,7 +121,7 @@ describe("performAuthorizationCheck", () => {
     it(tc.name, () => {
       const fn = () =>
         performAuthorizationCheck({
-          policy: MOCK_RBAC_POLICY,
+          policyRoles: MOCK_RBAC_POLICY.roles,
           authorizationCheck: tc.authorizationCheck,
           subjectRoles: tc.subjectRoles,
         });

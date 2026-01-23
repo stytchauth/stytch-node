@@ -7,46 +7,91 @@ import { AuthorizationCheck, ClientError } from "../../lib";
 import { MOCK_RBAC_POLICY } from "./rbac_policy";
 
 describe("PolicyCache", () => {
+  const organizationID = "org-123";
   const FAKE_POLICY = { FAKE: "POLICY" };
   const FAKE_POLICY_2 = { FAKE: "POLICY", TWO: "YES" };
+  const FAKE_ORG_POLICY = { FAKE: "ORG_POLICY" };
+  const FAKE_ORG_POLICY_2 = { FAKE: "ORG_POLICY", TWO: "YES" };
 
   let policyCache: PolicyCache;
-  let policySpy: jest.Mock;
+  let policySpy: {
+    policy: jest.Mock;
+    organizations: { getOrgPolicy: jest.Mock };
+  };
   beforeEach(() => {
-    policySpy = jest.fn();
+    policySpy = {
+      policy: jest.fn(),
+      organizations: {
+        getOrgPolicy: jest.fn(),
+      },
+    };
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    policyCache = new PolicyCache({ policy: policySpy });
+    policyCache = new PolicyCache(policySpy);
     jest.useFakeTimers().setSystemTime(new Date("2023-10-05T00:00:00.000Z"));
   });
 
   it("Retrieves a policy and caches it locally", async () => {
-    policySpy.mockResolvedValue({ policy: FAKE_POLICY });
+    policySpy.policy.mockResolvedValue({ policy: FAKE_POLICY });
     const policy = await policyCache.getPolicy();
     expect(policy).toBe(FAKE_POLICY);
-    expect(policySpy).toHaveBeenCalledTimes(1);
+    expect(policySpy.policy).toHaveBeenCalledTimes(1);
 
     // 2 minutes later, we shouldn't refresh yet
     jest.setSystemTime(new Date("2023-10-05T00:02:00.000Z"));
 
     const policy2 = await policyCache.getPolicy();
     expect(policy2).toBe(FAKE_POLICY);
-    expect(policySpy).toHaveBeenCalledTimes(1);
+    expect(policySpy.policy).toHaveBeenCalledTimes(1);
   });
 
-  it("Updates the cache after MAX_AGE_MS time elapses", async () => {
-    policySpy
+  it("Retrieves an org policy and caches it locally", async () => {
+    policySpy.organizations.getOrgPolicy.mockResolvedValue({
+      org_policy: FAKE_ORG_POLICY,
+    });
+    const orgPolicy = await policyCache.getOrgPolicy(organizationID);
+    expect(orgPolicy).toBe(FAKE_ORG_POLICY);
+    expect(policySpy.policy).toHaveBeenCalledTimes(0);
+    expect(policySpy.organizations.getOrgPolicy).toHaveBeenCalledTimes(1);
+
+    // 2 minutes later, we shouldn't refresh yet
+    jest.setSystemTime(new Date("2023-10-05T00:02:00.000Z"));
+
+    const orgPolicy2 = await policyCache.getOrgPolicy(organizationID);
+    expect(orgPolicy2).toBe(FAKE_ORG_POLICY);
+    expect(policySpy.policy).toHaveBeenCalledTimes(0);
+    expect(policySpy.organizations.getOrgPolicy).toHaveBeenCalledTimes(1);
+  });
+
+  it("Updates the project policy cache after MAX_AGE_MS time elapses", async () => {
+    policySpy.policy
       .mockResolvedValueOnce({ policy: FAKE_POLICY })
       .mockResolvedValueOnce({ policy: FAKE_POLICY_2 });
     const policy = await policyCache.getPolicy();
     expect(policy).toBe(FAKE_POLICY);
-    expect(policySpy).toHaveBeenCalledTimes(1);
+    expect(policySpy.policy).toHaveBeenCalledTimes(1);
 
     jest.setSystemTime(new Date("2023-10-05T00:10:01.000Z"));
 
     const policy2 = await policyCache.getPolicy();
     expect(policy2).toBe(FAKE_POLICY_2);
-    expect(policySpy).toHaveBeenCalledTimes(2);
+    expect(policySpy.policy).toHaveBeenCalledTimes(2);
+  });
+
+  it("Updates the org policy cache after MAX_AGE_MS time elapses", async () => {
+    policySpy.organizations.getOrgPolicy
+      .mockResolvedValueOnce({ org_policy: FAKE_ORG_POLICY })
+      .mockResolvedValueOnce({ org_policy: FAKE_ORG_POLICY_2 });
+    const policy = await policyCache.getOrgPolicy(organizationID);
+    expect(policy).toBe(FAKE_ORG_POLICY);
+    expect(policySpy.organizations.getOrgPolicy).toHaveBeenCalledTimes(1);
+
+    jest.setSystemTime(new Date("2023-10-05T00:10:01.000Z"));
+
+    const policy2 = await policyCache.getOrgPolicy(organizationID);
+    expect(policy2).toBe(FAKE_ORG_POLICY_2);
+    expect(policySpy.organizations.getOrgPolicy).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -148,7 +193,7 @@ describe("performAuthorizationCheck", () => {
     it(tc.name, () => {
       const fn = () =>
         performAuthorizationCheck({
-          policy: MOCK_RBAC_POLICY,
+          policyRoles: MOCK_RBAC_POLICY.roles,
           authorizationCheck: tc.authorizationCheck,
           subjectOrgID: tc.subjectOrgID,
           subjectRoles: tc.subjectRoles,

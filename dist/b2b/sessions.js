@@ -362,9 +362,10 @@ class Sessions {
     } = sess.custom_claims;
     const orgClaim = orgClaimUntyped;
     if (params.authorization_check) {
-      const policy = await this.policyCache.getPolicy();
+      const [projectPolicy, orgPolicy] = await Promise.all([this.policyCache.getPolicy(), this.policyCache.getOrgPolicy(orgClaim.organization_id)]);
+      const policyRoles = Array.isArray(orgPolicy?.roles) ? projectPolicy.roles.concat(orgPolicy.roles) : projectPolicy.roles;
       (0, _rbac_local.performAuthorizationCheck)({
-        policy,
+        policyRoles,
         subjectRoles: sess.roles,
         subjectOrgID: orgClaim.organization_id,
         authorizationCheck: params.authorization_check

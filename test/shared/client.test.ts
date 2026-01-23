@@ -1,7 +1,7 @@
 import * as stytch from "../../lib";
 import { BaseClient } from "../../lib/shared/client";
-import { Client as B2CClient } from "../../lib/b2c/client";
-import { B2BClient } from "../../lib/b2b/client";
+// import { Client as B2CClient } from "../../lib/b2c/client";
+// import { B2BClient } from "../../lib/b2b/client";
 
 describe("config errors", () => {
   test("config is not an object", () => {

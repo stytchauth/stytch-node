@@ -15,15 +15,15 @@ var _rbac_local = require("../shared/rbac_local");
 // and tracks the timestamp internally. this has a few _very nice_ properties:
 // - It works very well in Jest environments, since there's no boilerplate required to tear down the setInterval
 // - No work is done if RBAC is not used and the policy is not required
-class PolicyCache extends _rbac_local.BasePolicyCache {}
+class PolicyCache extends _rbac_local.PolicyCache {}
 exports.PolicyCache = PolicyCache;
 function performAuthorizationCheck({
-  policy,
+  policyRoles,
   subjectRoles,
   authorizationCheck
 }) {
   (0, _rbac_local.performBaseRoleAuthorizationCheck)({
-    policy,
+    policyRoles,
     subjectRoles,
     authorizationCheck,
     callerType: "User"
