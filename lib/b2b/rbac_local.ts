@@ -1,13 +1,13 @@
 // This file is manually generated!
 
-import { Policy } from "./rbac";
+import { OrgPolicy, Policy } from "./rbac";
 import { AuthorizationCheck } from "./sessions";
 import { ClientError } from "../shared/errors";
 import {
   baseScopeAuthorizationCheckArgs,
   performBaseRoleAuthorizationCheck,
   performBaseScopeAuthorizationCheck,
-  BasePolicyCache,
+  B2BPolicyCache,
   baseRoleAuthorizationCheckArgs,
 } from "../shared/rbac_local";
 
@@ -17,10 +17,10 @@ import {
 // and tracks the timestamp internally. this has a few _very nice_ properties:
 // - It works very well in Jest environments, since there's no boilerplate required to tear down the setInterval
 // - No work is done if RBAC is not used and the policy is not required
-export class PolicyCache extends BasePolicyCache<Policy> {}
+export class PolicyCache extends B2BPolicyCache<Policy, OrgPolicy> {}
 
 export function performAuthorizationCheck({
-  policy,
+  policyRoles,
   subjectRoles,
   subjectOrgID,
   authorizationCheck,
@@ -35,7 +35,7 @@ export function performAuthorizationCheck({
     );
   }
   performBaseRoleAuthorizationCheck({
-    policy,
+    policyRoles,
     subjectRoles,
     authorizationCheck,
     callerType: "Member",

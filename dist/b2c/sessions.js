@@ -283,8 +283,8 @@ class Sessions {
     });
     if (params.authorization_check) {
       const policy = await this.policyCache.getPolicy();
-      await (0, _rbac_local.performAuthorizationCheck)({
-        policy,
+      (0, _rbac_local.performAuthorizationCheck)({
+        policyRoles: policy.roles,
         subjectRoles: sess.roles,
         authorizationCheck: params.authorization_check
       });

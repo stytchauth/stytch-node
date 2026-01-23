@@ -4,7 +4,7 @@ import { RBACPolicy } from "./rbac";
 import {
   performBaseRoleAuthorizationCheck,
   performBaseScopeAuthorizationCheck,
-  BasePolicyCache,
+  PolicyCache as BasePolicyCache,
   baseRoleAuthorizationCheckArgs,
   baseScopeAuthorizationCheckArgs,
 } from "../shared/rbac_local";
@@ -18,12 +18,12 @@ import {
 export class PolicyCache extends BasePolicyCache<RBACPolicy> {}
 
 export function performAuthorizationCheck({
-  policy,
+  policyRoles,
   subjectRoles,
   authorizationCheck,
 }: Omit<baseRoleAuthorizationCheckArgs, "callerType">): void {
   performBaseRoleAuthorizationCheck({
-    policy,
+    policyRoles,
     subjectRoles,
     authorizationCheck,
     callerType: "User",
