@@ -12,6 +12,6 @@
 		"wrangler": "^3.0.0"
 	},
 	"dependencies": {
-		"stytch": "^9.0.0-rc.1"
+		"stytch": "^11.2.0"
 	}
 }
