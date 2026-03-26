@@ -4,25 +4,27 @@ on:
   push:
     branches: [main]
 
-permissions:
-  id-token: write # Required for OIDC
-  contents: read
-
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     name: Build and publish stytch package to NPM
+    permissions:
+      id-token: write # Required for OIDC
+      contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           registry-url: "https://registry.npmjs.org"
           node-version: "22"
 
+      - name: Upgrade npm (required for trusted publishing)
+        run: npm install -g npm@latest
+
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: Get version
         id: version
