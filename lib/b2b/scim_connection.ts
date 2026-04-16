@@ -124,11 +124,7 @@ export interface B2BSCIMConnectionCreateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnectionWithToken;
 }
 
@@ -220,10 +216,7 @@ export interface B2BSCIMConnectionGetResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * A [SCIM Connection](https://stytch.com/docs/b2b/api/scim-connection-object) connection belonging to the
-   * organization (currently limited to one).
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnection;
 }
 
@@ -251,11 +244,7 @@ export interface B2BSCIMConnectionRotateCancelResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnection;
 }
 
@@ -283,11 +272,7 @@ export interface B2BSCIMConnectionRotateCompleteResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnection;
 }
 
@@ -315,11 +300,7 @@ export interface B2BSCIMConnectionRotateStartResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * The `SCIM Connection` object affected by this API call. See the
-   * [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-   * field details.
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnectionWithNextToken;
 }
 
@@ -364,11 +345,7 @@ export interface B2BSCIMConnectionUpdateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
-  /**
-   * The `SAML Connection` object affected by this API call. See the
-   * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-   * field details.
-   */
+  // The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
   connection?: SCIMConnection;
 }
 

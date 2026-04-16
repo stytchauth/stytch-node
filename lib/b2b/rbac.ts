@@ -19,6 +19,7 @@ export interface Policy {
   roles: PolicyRole[];
   // An array of [Resource objects](https://stytch.com/docs/b2b/api/rbac-resource-object).
   resources: PolicyResource[];
+  // An array of [Scope objects](https://stytch.com/docs/b2b/api/rbac-scope-object).
   scopes: PolicyScope[];
 }
 
@@ -141,13 +142,40 @@ export interface PolicyRolePermission {
 }
 
 export interface PolicyScope {
+  // The unique identifier of the RBAC Scope, provided by the developer and intended to be human-readable.
   scope: string;
+  // The description of the RBAC Scope.
   description: string;
+  /**
+   * A list of permissions that link a [Resource](https://stytch.com/docs/b2b/api/rbac-resource-object) to a
+   * list of actions.
+   */
   permissions: PolicyScopePermission[];
 }
 
 export interface PolicyScopePermission {
+  /**
+   * A unique identifier of the RBAC Resource, provided by the developer and intended to be human-readable.
+   *
+   *   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+   * default Resources with reserved `resource_id`s. These include:
+   *
+   *   * `stytch.organization`
+   *   * `stytch.member`
+   *   * `stytch.sso`
+   *   * `stytch.self`
+   *
+   *   Check out the
+   * [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for a more
+   * detailed explanation.
+   *
+   *
+   */
   resource_id: string;
+  /**
+   * A list of permitted actions the Scope is required to take with the provided Resource. You can use `*` as
+   * a wildcard to require a Scope permission to use all possible actions related to the Resource.
+   */
   actions: string[];
 }
 

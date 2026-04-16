@@ -200,6 +200,10 @@ export interface Member {
      *
      */
     retired_email_addresses: RetiredEmail[];
+    /**
+     * Whether the Member is temporarily locked due to too many failed authentication attempts. See the
+     * [User Locking Guide](https://stytch.com/docs/resources/platform/user-locks) for more information.
+     */
     is_locked: boolean;
     /**
      * Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step whenever they
@@ -212,6 +216,11 @@ export interface Member {
      * format (i.e. +1XXXXXXXXXX).
      */
     mfa_phone_number: string;
+    /**
+     * The Member's default MFA method. This value is used to determine which secondary MFA method to use in
+     * the case of multiple methods registered for a Member. The current possible values are `sms_otp` and
+     * `totp`.
+     */
     default_mfa_method: string;
     /**
      * Explicit or implicit Roles assigned to this Member, along with details about the role assignment source.
@@ -244,7 +253,15 @@ export interface Member {
      */
     scim_registration?: SCIMRegistration;
     external_id?: string;
+    /**
+     * When the member lock was created, if there is one. Values conform to the RFC 3339 standard and are
+     * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
     lock_created_at?: string;
+    /**
+     * When the member lock expires, if there is one. Values conform to the RFC 3339 standard and are expressed
+     * in UTC, e.g. `2021-12-29T12:33:09Z`.
+     */
     lock_expires_at?: string;
 }
 export interface MemberConnectedApp {
@@ -505,6 +522,17 @@ export interface Organization {
      *
      */
     allowed_auth_methods: string[];
+    /**
+     * The setting that controls the MFA policy for all Members in the Organization. The accepted values are:
+     *
+     *   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+     * they wish to log in. However, any active Session that existed prior to this setting change will remain
+     * valid.
+     *
+     *   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+     * Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+     *
+     */
     mfa_policy: string;
     /**
      * Implicit role assignments based off of email domains.

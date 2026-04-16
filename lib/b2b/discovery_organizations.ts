@@ -341,6 +341,8 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   session_jwt: string;
   // The [Member object](https://stytch.com/docs/b2b/api/member-object)
   member: Member;
+  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+  organization: Organization;
   /**
    * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
    * to log in to the Organization.
@@ -368,8 +370,6 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
   status_code: number;
   // The [Session object](https://stytch.com/docs/b2b/api/session-object).
   member_session?: MemberSession;
-  // The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
-  organization?: Organization;
   // Information about the MFA requirements of the Organization and the Member's options for fulfilling MFA.
   mfa_required?: MfaRequired;
   // Information about the primary authentication requirements of the Organization.
