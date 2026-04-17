@@ -4,9 +4,9 @@ import { UsersName } from "./users";
 export interface MagicLinksEmailInviteRequest {
     email: string;
     /**
-     * Use a custom template for invite emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Invite.
+     * Use a custom template for invite emails. By default, it will use your default email template. Templates
+     * can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in
+     * customization options or custom HTML templates with type “Magic links - Invite”.
      */
     invite_template_id?: string;
     /**
@@ -28,7 +28,7 @@ export interface MagicLinksEmailInviteRequest {
      */
     invite_expiration_minutes?: number;
     /**
-     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * Used to determine which language to use when sending the user this delivery method. Parameter is an
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
@@ -93,15 +93,15 @@ export interface MagicLinksEmailLoginOrCreateRequest {
      */
     signup_expiration_minutes?: number;
     /**
-     * Use a custom template for login emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Login.
+     * Use a custom template for login emails. By default, it will use your default email template. Templates
+     * can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in
+     * customization options or custom HTML templates with type “Magic links - Login”.
      */
     login_template_id?: string;
     /**
-     * Use a custom template for sign-up emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Sign-up.
+     * Use a custom template for sign-up emails. By default, it will use your default email template. Templates
+     * can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in
+     * customization options or custom HTML templates with type “Magic links - Sign-up”.
      */
     signup_template_id?: string;
     /**
@@ -124,7 +124,7 @@ export interface MagicLinksEmailLoginOrCreateRequest {
      */
     code_challenge?: string;
     /**
-     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * Used to determine which language to use when sending the user this delivery method. Parameter is an
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
@@ -169,9 +169,9 @@ export interface MagicLinksEmailRevokeInviteResponse {
 export interface MagicLinksEmailSendRequest {
     email: string;
     /**
-     * Use a custom template for login emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Login.
+     * Use a custom template for login emails. By default, it will use your default email template. Templates
+     * can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in
+     * customization options or custom HTML templates with type “Magic links - Login”.
      */
     login_template_id?: string;
     /**
@@ -212,7 +212,7 @@ export interface MagicLinksEmailSendRequest {
     session_token?: string;
     session_jwt?: string;
     /**
-     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * Used to determine which language to use when sending the user this delivery method. Parameter is an
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
@@ -224,9 +224,9 @@ export interface MagicLinksEmailSendRequest {
      */
     locale?: "en" | "es" | "pt-br" | "fr" | string;
     /**
-     * Use a custom template for sign-up emails. By default, it will use your default email template. The
-     * template must be a template using our built-in customizations or a custom HTML email for Magic links -
-     * Sign-up.
+     * Use a custom template for sign-up emails. By default, it will use your default email template. Templates
+     * can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in
+     * customization options or custom HTML templates with type “Magic links - Sign-up”.
      */
     signup_template_id?: string;
 }

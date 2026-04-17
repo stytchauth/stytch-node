@@ -98,7 +98,7 @@ export interface B2BPasswordsEmailResetRequest {
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
-     * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+     * Parameter is an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
      * e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
@@ -182,11 +182,13 @@ export interface B2BPasswordsEmailResetStartRequest {
     organization_id: string;
     email_address: string;
     /**
-     * The URL that the Member clicks from the reset password link. This URL should be an endpoint in the
-     * backend server that verifies the request by querying
-     *   Stytch's authenticate endpoint and finishes the reset password flow. If this value is not passed, the
-     * default `reset_password_redirect_url` that you set in your Dashboard is used.
-     *   If you have not set a default `reset_password_redirect_url`, an error is returned.
+     * The URL that the Member is redirected to from the reset password magic link. This URL should display
+     * your application's reset password page.
+     *   Before rendering the reset page, extract the `token` from the query parameters. On the reset page,
+     * collect the new password and complete the flow by calling the corresponding Password Reset by Email
+     * endpoint.
+     *   If this parameter is not specified, the default Reset Password redirect URL configured in the
+     * Dashboard will be used. If you have not set a default Reset Password redirect URL, an error is returned.
      */
     reset_password_redirect_url?: string;
     /**
@@ -213,7 +215,7 @@ export interface B2BPasswordsEmailResetStartRequest {
      */
     login_redirect_url?: string;
     /**
-     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * Used to determine which language to use when sending the user this delivery method. Parameter is an
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
@@ -226,16 +228,17 @@ export interface B2BPasswordsEmailResetStartRequest {
     locale?: "en" | "es" | "pt-br" | "fr" | string;
     /**
      * Use a custom template for reset password emails. By default, it will use your default email template.
-     * The template must be a template using our built-in customizations or a custom HTML email for Passwords -
-     * Reset Password.
+     * Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our
+     * built-in customization options or custom HTML templates with type “Passwords - Reset Password”.
      */
     reset_password_template_id?: string;
     /**
      * Use a custom template for verification emails sent during password reset flows. When cross-organization
      * passwords are enabled for your Project, this template will be used the first time a user sets a password
      * via a
-     *   password reset flow. By default, it will use your default email template. The template must be a
-     * template using our built-in customizations or a custom HTML email for Passwords - Email Verification.
+     *   password reset flow. By default, it will use your default email template. Templates can be added in
+     * the [Stytch dashboard](https://stytch.com/dashboard/templates) using our built-in customization options
+     * or custom HTML templates with type “Passwords - Email Verification”.
      */
     verify_email_template_id?: string;
 }

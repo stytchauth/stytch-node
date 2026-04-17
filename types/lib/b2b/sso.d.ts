@@ -24,16 +24,52 @@ export interface B2BSSOGetConnectionsRequestOptions {
     authorization?: Authorization;
 }
 export interface Connection {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug or organization_external_id here as a convenience.
+     */
     organization_id: string;
     connection_id: string;
     external_organization_id: string;
+    /**
+     * Globally unique UUID that identifies a specific SSO connection configured for a different Organization
+     * in your Project.
+     */
     external_connection_id: string;
     display_name: string;
     status: string;
+    /**
+     * All Members who log in with this External connection will implicitly receive the specified Roles. See
+     * the [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about
+     * role assignment. Implicit role assignments are not supported for External connections if the underlying
+     * SSO connection is an OIDC connection.
+     */
     external_connection_implicit_role_assignments: ConnectionImplicitRoleAssignment[];
+    /**
+     * Defines the names of the groups
+     *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this external
+     * connection and
+     *  belongs to the specified group, they will be granted the associated Role. See the
+     *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     */
     external_group_implicit_role_assignments: GroupImplicitRoleAssignment[];
 }
 export interface ConnectionImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
 }
 export interface EncryptionPrivateKey {
@@ -46,45 +82,179 @@ export interface GroupImplicitRoleAssignment {
     group: string;
 }
 export interface OIDCConnection {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug or organization_external_id here as a convenience.
+     */
     organization_id: string;
     connection_id: string;
+    /**
+     * The status of the connection. The possible values are pending or active. See the
+     * [Update OIDC Connection endpoint](https://stytch.com/docs/b2b/api/update-oidc-connection) for more
+     * details.
+     */
     status: string;
     display_name: string;
+    /**
+     * The callback URL for this OIDC connection. This value will be passed to the IdP to redirect the Member
+     * back to Stytch after a sign-in attempt.
+     */
     redirect_url: string;
     client_id: string;
+    /**
+     * The secret belonging to the OAuth2.0 client used to authenticate login attempts. This will be provided
+     * by the IdP.
+     */
     client_secret: string;
     issuer: string;
     authorization_url: string;
+    /**
+     * The location of the URL that issues OAuth2.0 access tokens and OIDC ID tokens. This will be provided by
+     * the IdP.
+     */
     token_url: string;
+    /**
+     * The location of the IDP's
+     * [UserInfo Endpoint](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). This will be
+     * provided by the IdP.
+     */
     userinfo_url: string;
+    /**
+     * The location of the IdP's JSON Web Key Set, used to verify credentials issued by the IdP. This will be
+     * provided by the IdP.
+     */
     jwks_url: string;
+    /**
+     * Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`, `google-workspace`,
+     * `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`, `pingfederate`,
+     * `rippling`, `salesforce`, `shibboleth`, or `generic`.
+     *
+     * Specifying a known provider allows Stytch to handle any provider-specific logic.
+     */
     identity_provider: string;
+    /**
+     * A space-separated list of custom scopes that will be requested on every SSOStart call. If set, this
+     * value will replace the default set of OIDC scopes requested: `openid email profile`. Additional scopes
+     * can be requested using the `custom_scopes` query parameter on individual SSOStart calls.
+     */
     custom_scopes: string;
+    /**
+     * An object that represents the attributes used to identify a Member. This object will map the IdP-defined
+     * User attributes to Stytch-specific values, which will appear on the member's Trusted Metadata.
+     */
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnection {
+    /**
+     * Globally unique UUID that identifies a specific Organization. The `organization_id` is critical to
+     * perform operations on an Organization, so be sure to preserve this value. You may also use the
+     * organization_slug or organization_external_id here as a convenience.
+     */
     organization_id: string;
     connection_id: string;
+    /**
+     * The status of the connection. The possible values are pending or active. See the
+     * [Update SAML Connection endpoint](https://stytch.com/docs/b2b/api/update-saml-connection) for more
+     * details.
+     */
     status: string;
     idp_entity_id: string;
     display_name: string;
     idp_sso_url: string;
+    /**
+     * The URL of the Assertion Consumer Service. This value will be passed to the IdP to redirect the Member
+     * back to Stytch after a sign-in attempt. Read our
+     * [SAML Overview](https://stytch.com/docs/b2b/api/saml-overview) for more info.
+     */
     acs_url: string;
+    /**
+     * The URL of the Audience Restriction. This value will indicate that Stytch is the intended audience of an
+     * assertion. Read our [SAML Overview](https://stytch.com/docs/b2b/api/saml-overview) for more info.
+     */
     audience_uri: string;
+    /**
+     * A list of X.509 certificates Stytch will use to sign its assertion requests. Certificates should be
+     * uploaded to the IdP.
+     */
     signing_certificates: X509Certificate[];
+    /**
+     * A list of X.509 certificates Stytch will use to validate an assertion callback. Certificates should be
+     * populated from the IdP.
+     */
     verification_certificates: X509Certificate[];
     encryption_private_keys: EncryptionPrivateKey[];
+    /**
+     * All Members who log in with this SAML connection will implicitly receive the specified Roles. See the
+     * [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     */
     saml_connection_implicit_role_assignments: SAMLConnectionImplicitRoleAssignment[];
+    /**
+     * Defines the names of the SAML groups
+     *  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+     * connection and
+     *  belongs to the specified SAML group, they will be granted the associated Role. See the
+     *  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+     * assignment.
+     */
     saml_group_implicit_role_assignments: SAMLGroupImplicitRoleAssignment[];
+    /**
+     * An alternative URL to use for the Audience Restriction. This value can be used when you wish to migrate
+     * an existing SAML integration to Stytch with zero downtime. Read our
+     * [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+     * for more info.
+     */
     alternative_audience_uri: string;
+    /**
+     * Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`, `google-workspace`,
+     * `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`, `pingfederate`,
+     * `rippling`, `salesforce`, `shibboleth`, or `generic`.
+     *
+     * Specifying a known provider allows Stytch to handle any provider-specific logic.
+     */
     identity_provider: string;
+    /**
+     * The NameID format the SAML Connection expects to use. Defaults to
+     * `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`.
+     */
     nameid_format: string;
+    /**
+     * An alternative URL to use for the `AssertionConsumerServiceURL` in SP initiated SAML AuthNRequests. This
+     * value can be used when you wish to migrate an existing SAML integration to Stytch with zero downtime.
+     * Note that you will be responsible for proxying requests sent to the Alternative ACS URL to Stytch. Read
+     * our
+     * [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+     * for more info.
+     */
     alternative_acs_url: string;
+    /**
+     * Determines whether IDP initiated auth is allowed for a given SAML connection. Defaults to false (IDP
+     * Initiated Auth is enabled).
+     */
     idp_initiated_auth_disabled: boolean;
     allow_gateway_callback: boolean;
+    /**
+     * An object that represents the attributes used to identify a Member. This object will map the IdP-defined
+     * User attributes to Stytch-specific values. Required attributes: `email` and one of `full_name` or
+     * `first_name` and `last_name`.
+     */
     attribute_mapping?: Record<string, any>;
 }
 export interface SAMLConnectionImplicitRoleAssignment {
+    /**
+     * The unique identifier of the RBAC Role, provided by the developer and intended to be human-readable.
+     *
+     *   Reserved `role_id`s that are predefined by Stytch include:
+     *
+     *   * `stytch_member`
+     *   * `stytch_admin`
+     *
+     *   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+     * for a more detailed explanation.
+     *
+     *
+     */
     role_id: string;
 }
 export interface SAMLGroupImplicitRoleAssignment {
@@ -136,7 +306,7 @@ export interface B2BSSOAuthenticateRequest {
      * pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
      * used to determine which language to use when sending the passcode.
      *
-     * Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+     * Parameter is an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
      * e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese

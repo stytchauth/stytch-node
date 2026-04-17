@@ -124,7 +124,7 @@ export interface B2BOTPSmsSendRequest {
      */
     mfa_phone_number?: string;
     /**
-     * Used to determine which language to use when sending the user this delivery method. Parameter is a
+     * Used to determine which language to use when sending the user this delivery method. Parameter is an
      * [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
      *
      * Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian

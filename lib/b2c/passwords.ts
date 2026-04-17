@@ -434,9 +434,9 @@ export interface PasswordsStrengthCheckResponse {
    * Returns `true` if the password passes our password validation. We offer two validation options,
    * [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) is the default option which offers a
    * high level of sophistication. We also offer
-   * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy). If an email address is included in the
-   * call we also require that the password hasn't been compromised using built-in breach detection powered
-   * by [HaveIBeenPwned](https://haveibeenpwned.com/).
+   * [LUDS](https://stytch.com/docs/guides/passwords/strength-policy) which is less sophisticated but easier
+   * to understand. If an email address is included in the call we also require that the password hasn't been
+   * compromised using built-in breach detection powered by [HaveIBeenPwned](https://haveibeenpwned.com/).
    */
   valid_password: boolean;
   /**
@@ -453,9 +453,9 @@ export interface PasswordsStrengthCheckResponse {
   strength_policy: string;
   /**
    * Will return `true` if breach detection will be evaluated. By default this option is enabled. This option
-   * can be disabled by contacting
-   * [support@stytch.com](mailto:support@stytch.com?subject=Password%20strength%20configuration). If this
-   * value is `false` then `breached_password` will always be `false` as well.
+   * can be disabled in the
+   * [dashboard](https://stytch.com/dashboard/password-strength-config#breach-detection). If this value is
+   * `false` then `breached_password` will always be `false` as well.
    */
   breach_detection_on_create: boolean;
   /**

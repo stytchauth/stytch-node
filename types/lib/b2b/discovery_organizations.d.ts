@@ -304,6 +304,7 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
     session_token: string;
     session_jwt: string;
     member: Member;
+    organization: Organization;
     /**
      * Indicates whether the Member is fully authenticated. If false, the Member needs to complete an MFA step
      * to log in to the Organization.
@@ -330,7 +331,6 @@ export interface B2BDiscoveryOrganizationsCreateResponse {
      */
     status_code: number;
     member_session?: MemberSession;
-    organization?: Organization;
     mfa_required?: MfaRequired;
     primary_required?: PrimaryRequired;
     /**

@@ -115,6 +115,10 @@ export interface User {
   crypto_wallets: CryptoWallet[];
   // An array that contains a list of all biometric registrations for a given User in the Stytch API.
   biometric_registrations: BiometricRegistration[];
+  /**
+   * Whether the User is temporarily locked due to too many failed authentication attempts. See the
+   * [User Locking Guide](https://stytch.com/docs/resources/platform/user-locks) for more information.
+   */
   is_locked: boolean;
   /**
    * Roles assigned to this User.
@@ -143,8 +147,21 @@ export interface User {
    * behavior details.
    */
   untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * An identifier that can be used in most API calls where a `member_id` is expected. This is a string
+   * consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128 characters.
+   * External IDs must be unique within the project.
+   */
   external_id?: string;
+  /**
+   * When the user lock was created, if there is one. Values conform to the RFC 3339 standard and are
+   * expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   lock_created_at?: string;
+  /**
+   * When the user lock expires, if there is one. Values conform to the RFC 3339 standard and are expressed
+   * in UTC, e.g. `2021-12-29T12:33:09Z`.
+   */
   lock_expires_at?: string;
 }
 

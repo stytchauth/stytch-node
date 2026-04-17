@@ -82,11 +82,11 @@ class Clients {
   }
 
   /**
-   * Updates an existing M2M Client. You can use this endpoint to activate or deactivate a M2M Client by
+   * Updates an existing M2M Client. You can use this endpoint to activate or deactivate an M2M Client by
    * changing its `status`. A deactivated M2M Client will not be allowed to perform future token exchange
    * flows until it is reactivated.
    *
-   * **Important:** Deactivating a M2M Client will not invalidate any existing JWTs issued to the client,
+   * **Important:** Deactivating an M2M Client will not invalidate any existing JWTs issued to the client,
    * only prevent it from receiving new ones.
    * To protect more-sensitive routes, pass a lower `max_token_age` value
    * when[authenticating the token](https://stytch.com/docs/b2b/api/authenticate-m2m-token)[authenticating the token](https://stytch.com/docs/api/authenticate-m2m-token).
@@ -115,7 +115,7 @@ class Clients {
   /**
    * Deletes the M2M Client.
    *
-   * **Important:** Deleting a M2M Client will not invalidate any existing JWTs issued to the client, only
+   * **Important:** Deleting an M2M Client will not invalidate any existing JWTs issued to the client, only
    * prevent it from receiving new ones.
    * To protect more-sensitive routes, pass a lower `max_token_age` value
    * when[authenticating the token](https://stytch.com/docs/b2b/api/authenticate-m2m-token)[authenticating the token](https://stytch.com/docs/api/authenticate-m2m-token).

@@ -45,11 +45,6 @@ export interface B2BSSOExternalCreateConnectionResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    /**
-     * The `External Connection` object affected by this API call. See the
-     * [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object) for complete
-     * response field details.
-     */
     connection?: Connection;
 }
 export interface B2BSSOExternalUpdateConnectionRequest {
@@ -93,11 +88,6 @@ export interface B2BSSOExternalUpdateConnectionResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    /**
-     * The `External Connection` object affected by this API call. See the
-     * [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object) for complete
-     * response field details.
-     */
     connection?: Connection;
 }
 export declare class External {

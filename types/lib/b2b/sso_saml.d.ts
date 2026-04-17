@@ -69,11 +69,6 @@ export interface B2BSSOSAMLCreateConnectionResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    /**
-     * The `SAML Connection` object affected by this API call. See the
-     * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-     * field details.
-     */
     connection?: SAMLConnection;
 }
 export interface B2BSSOSAMLDeleteEncryptionPrivateKeyRequest {
@@ -142,11 +137,6 @@ export interface B2BSSOSAMLUpdateByURLResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    /**
-     * The `SAML Connection` object affected by this API call. See the
-     * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-     * field details.
-     */
     connection?: SAMLConnection;
 }
 export interface B2BSSOSAMLUpdateConnectionRequest {
@@ -248,11 +238,6 @@ export interface B2BSSOSAMLUpdateConnectionResponse {
      * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
      */
     status_code: number;
-    /**
-     * The `SAML Connection` object affected by this API call. See the
-     * [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-     * field details.
-     */
     connection?: SAMLConnection;
 }
 export declare class SAML {
