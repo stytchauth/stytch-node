@@ -241,8 +241,23 @@ class Sessions {
    *
    * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
    * authenticate method instead.
+   *
+   * The session_duration_minutes and session_custom_claims parameters are only applied when the
+   * session is authenticated remotely against the Stytch API. Local verification does not extend
+   * the session, so a JWT that verifies locally will ignore these values. To guarantee they are
+   * applied, set max_token_age_seconds to zero to force remote verification.
    */
   async authenticateJwt(params) {
+    // If max_token_age_seconds is explicitly zero, force remote verification so that
+    // session_duration_minutes and session_custom_claims are reliably applied.
+    if (params.max_token_age_seconds === 0) {
+      return this.authenticate({
+        session_jwt: params.session_jwt,
+        authorization_check: params.authorization_check,
+        session_duration_minutes: params.session_duration_minutes,
+        session_custom_claims: params.session_custom_claims
+      });
+    }
     try {
       const session = await this.authenticateJwtLocal(params);
       return {
@@ -253,7 +268,9 @@ class Sessions {
       // JWT could not be verified locally. Check with the Stytch API.
       return this.authenticate({
         session_jwt: params.session_jwt,
-        authorization_check: params.authorization_check
+        authorization_check: params.authorization_check,
+        session_duration_minutes: params.session_duration_minutes,
+        session_custom_claims: params.session_custom_claims
       });
     }
   }

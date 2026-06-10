@@ -261,6 +261,101 @@ describe("sessions.authenticateJwt", () => {
       },
     });
   });
+
+  test("forwards session_duration_minutes and session_custom_claims on remote fallback", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "POST",
+        path: "/v1/b2b/sessions/authenticate",
+        data: {
+          session_jwt: "stale_jwt",
+          session_duration_minutes: 60,
+          session_custom_claims: { key: "value" },
+        },
+      });
+
+      const data = {
+        request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
+        session_jwt: "fresh_jwt",
+        member_session: {
+          expires_at: "2021-08-30T18:16:53.370383Z",
+          last_accessed_at: "2021-08-30T17:16:53.370383Z",
+          member_session_id:
+            "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
+          started_at: "2021-08-28T00:41:58.935673870Z",
+          member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        },
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
+
+    return expect(
+      sessions.authenticateJwt({
+        session_jwt: "stale_jwt",
+        session_duration_minutes: 60,
+        session_custom_claims: { key: "value" },
+      })
+    ).resolves.toMatchObject({
+      session_jwt: "fresh_jwt",
+      member_session: {
+        member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+      },
+    });
+  });
+
+  test("max_token_age_seconds of zero forces remote verification", () => {
+    mockRequest((req) => {
+      expect(req).toEqual({
+        method: "POST",
+        path: "/v1/b2b/sessions/authenticate",
+        data: {
+          session_jwt: "valid_jwt",
+          session_duration_minutes: 60,
+          session_custom_claims: { key: "value" },
+        },
+      });
+
+      const data = {
+        request_id: "request-id-test-a8876db0-601a-4251-94bd-79dafe63f4dc",
+        session_jwt: "fresh_jwt",
+        member_session: {
+          expires_at: "2021-08-30T18:16:53.370383Z",
+          last_accessed_at: "2021-08-30T17:16:53.370383Z",
+          member_session_id:
+            "session-test-eb94233f-8800-4ebd-8645-51dc15f9d028",
+          started_at: "2021-08-28T00:41:58.935673870Z",
+          member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+        },
+        status_code: 200,
+      };
+      return { status: 200, data };
+    });
+    const sessions = new Sessions(
+      MOCK_FETCH_CONFIG,
+      jwtConfig(),
+      mockPolicyCache
+    );
+
+    return expect(
+      sessions.authenticateJwt({
+        session_jwt: "valid_jwt",
+        max_token_age_seconds: 0,
+        session_duration_minutes: 60,
+        session_custom_claims: { key: "value" },
+      })
+    ).resolves.toMatchObject({
+      session_jwt: "fresh_jwt",
+      member_session: {
+        member_id: "member-test-e3795c81-f849-4167-bfda-e4a6e9c280fd",
+      },
+    });
+  });
 });
 
 /** Format the UTC timestamp truncated to second precision. */
