@@ -697,6 +697,18 @@ export interface SessionsAuthenticateJwtRequest {
      * If explicitly set to zero, all tokens will be considered too old, even if they are otherwise valid.
      */
     max_token_age_seconds?: number;
+    /**
+     * Set the session lifetime to be this many minutes from now. This is only applied when the session is
+     * authenticated remotely against the Stytch API (i.e. when the JWT cannot be verified locally, or when
+     * remote verification is forced by setting `max_token_age_seconds` to zero). Local verification does not
+     * extend the session, so a JWT that verifies locally will ignore this value.
+     */
+    session_duration_minutes?: number;
+    /**
+     * Add a custom claims map to the Session being authenticated. As with `session_duration_minutes`, this is
+     * only applied when the session is authenticated remotely against the Stytch API.
+     */
+    session_custom_claims?: Record<string, any>;
 }
 export interface SessionsAuthenticateJwtLocalRequest {
     /**
@@ -837,6 +849,11 @@ export declare class Sessions {
      *
      * To force remote validation for all tokens, set max_token_age_seconds to zero or use the
      * authenticate method instead.
+     *
+     * The session_duration_minutes and session_custom_claims parameters are only applied when the
+     * session is authenticated remotely against the Stytch API. Local verification does not extend
+     * the session, so a JWT that verifies locally will ignore these values. To guarantee they are
+     * applied, set max_token_age_seconds to zero to force remote verification.
      */
     authenticateJwt(params: SessionsAuthenticateJwtRequest): Promise<{
         session: Session;
