@@ -25,6 +25,7 @@ export interface ConnectedAppsClientsCreateRequest {
      * for the `offline_access` scope.
      */
     bypass_consent_for_offline_access?: boolean;
+    id_token_template_content?: string;
 }
 export interface ConnectedAppsClientsCreateResponse {
     /**
@@ -117,6 +118,7 @@ export interface ConnectedAppsClientsUpdateRequest {
      * for the `offline_access` scope.
      */
     bypass_consent_for_offline_access?: boolean;
+    id_token_template_content?: string;
 }
 export interface ConnectedAppsClientsUpdateResponse {
     /**

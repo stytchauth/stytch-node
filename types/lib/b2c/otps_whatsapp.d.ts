@@ -37,7 +37,7 @@ export interface OTPsWhatsAppLoginOrCreateRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | "ja" | "ru" | "nl" | "pl" | "tr" | "fa" | "vi" | "cs" | string;
 }
 export interface OTPsWhatsAppLoginOrCreateResponse {
     /**
@@ -82,7 +82,7 @@ export interface OTPsWhatsAppSendRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | "ja" | "ru" | "nl" | "pl" | "tr" | "fa" | "vi" | "cs" | string;
     user_id?: string;
     session_token?: string;
     session_jwt?: string;

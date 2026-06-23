@@ -38,6 +38,7 @@ export interface ConnectedApp {
    */
   bypass_consent_for_offline_access: boolean;
   creation_method: string;
+  id_token_template_content: string;
   // The last four characters of the client secret.
   client_secret_last_four?: string;
   // The last four characters of the `next_client_secret`. Null if no `next_client_secret` exists.
@@ -85,6 +86,7 @@ export interface ConnectedAppWithClientSecret {
    * for the `offline_access` scope.
    */
   bypass_consent_for_offline_access: boolean;
+  id_token_template_content: string;
   // The last four characters of the client secret.
   client_secret_last_four?: string;
   // The last four characters of the `next_client_secret`. Null if no `next_client_secret` exists.
@@ -129,6 +131,7 @@ export interface ConnectedAppWithNextClientSecret {
    * for the `offline_access` scope.
    */
   bypass_consent_for_offline_access: boolean;
+  id_token_template_content: string;
   // The last four characters of the `next_client_secret`. Null if no `next_client_secret` exists.
   next_client_secret_last_four?: string;
   access_token_custom_audience?: string;

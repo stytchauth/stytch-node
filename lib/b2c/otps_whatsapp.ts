@@ -56,6 +56,14 @@ export interface OTPsWhatsAppLoginOrCreateRequest {
     | "de-DE"
     | "zh-Hans"
     | "ca-ES"
+    | "ja"
+    | "ru"
+    | "nl"
+    | "pl"
+    | "tr"
+    | "fa"
+    | "vi"
+    | "cs"
     | string;
 }
 
@@ -117,6 +125,14 @@ export interface OTPsWhatsAppSendRequest {
     | "de-DE"
     | "zh-Hans"
     | "ca-ES"
+    | "ja"
+    | "ru"
+    | "nl"
+    | "pl"
+    | "tr"
+    | "fa"
+    | "vi"
+    | "cs"
     | string;
   // The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
   user_id?: string;

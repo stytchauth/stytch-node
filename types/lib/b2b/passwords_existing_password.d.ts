@@ -108,6 +108,7 @@ export interface B2BPasswordsExistingPasswordResetResponse {
      * `member_device` response field will contain information about the member's device attributes.
      */
     member_device?: DeviceInfo;
+    intermediate_session_token_expires_at?: string;
 }
 export declare class ExistingPassword {
     private fetchConfig;

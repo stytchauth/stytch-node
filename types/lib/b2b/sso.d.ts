@@ -316,7 +316,7 @@ export interface B2BSSOAuthenticateRequest {
      * [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
      *
      */
-    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | string;
+    locale?: "en" | "es" | "pt-br" | "fr" | "it" | "de-DE" | "zh-Hans" | "ca-ES" | "ja" | "ru" | "nl" | "pl" | "tr" | "fa" | "vi" | "cs" | string;
     /**
      * Adds this primary authentication factor to the intermediate session token. If the resulting set of
      * factors satisfies the organization's primary authentication requirements and MFA requirements, the
@@ -380,6 +380,7 @@ export interface B2BSSOAuthenticateResponse {
      * `member_device` response field will contain information about the member's device attributes.
      */
     member_device?: DeviceInfo;
+    intermediate_session_token_expires_at?: string;
 }
 export interface B2BSSODeleteConnectionRequest {
     /**

@@ -371,6 +371,14 @@ export interface B2BSSOAuthenticateRequest {
     | "de-DE"
     | "zh-Hans"
     | "ca-ES"
+    | "ja"
+    | "ru"
+    | "nl"
+    | "pl"
+    | "tr"
+    | "fa"
+    | "vi"
+    | "cs"
     | string;
   /**
    * Adds this primary authentication factor to the intermediate session token. If the resulting set of
@@ -445,6 +453,7 @@ export interface B2BSSOAuthenticateResponse {
    * `member_device` response field will contain information about the member's device attributes.
    */
   member_device?: DeviceInfo;
+  intermediate_session_token_expires_at?: string;
 }
 
 // Request type for `sso.deleteConnection`.
