@@ -52,6 +52,7 @@ export interface ConnectedAppsClientsCreateRequest {
    * for the `offline_access` scope.
    */
   bypass_consent_for_offline_access?: boolean;
+  id_token_template_content?: string;
 }
 
 // Response type for `connectedApp.clients.create`.
@@ -174,6 +175,7 @@ export interface ConnectedAppsClientsUpdateRequest {
    * for the `offline_access` scope.
    */
   bypass_consent_for_offline_access?: boolean;
+  id_token_template_content?: string;
 }
 
 // Response type for `connectedApp.clients.update`.
@@ -249,6 +251,7 @@ export class Clients {
         logo_url: data.logo_url,
         bypass_consent_for_offline_access:
           data.bypass_consent_for_offline_access,
+        id_token_template_content: data.id_token_template_content,
       },
     });
   }

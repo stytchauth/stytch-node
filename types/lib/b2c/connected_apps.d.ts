@@ -25,6 +25,7 @@ export interface ConnectedApp {
      */
     bypass_consent_for_offline_access: boolean;
     creation_method: string;
+    id_token_template_content: string;
     client_secret_last_four?: string;
     next_client_secret_last_four?: string;
     access_token_custom_audience?: string;
@@ -62,6 +63,7 @@ export interface ConnectedAppWithClientSecret {
      * for the `offline_access` scope.
      */
     bypass_consent_for_offline_access: boolean;
+    id_token_template_content: string;
     client_secret_last_four?: string;
     next_client_secret_last_four?: string;
     client_secret?: string;
@@ -95,6 +97,7 @@ export interface ConnectedAppWithNextClientSecret {
      * for the `offline_access` scope.
      */
     bypass_consent_for_offline_access: boolean;
+    id_token_template_content: string;
     next_client_secret_last_four?: string;
     access_token_custom_audience?: string;
     logo_url?: string;

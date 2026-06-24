@@ -166,6 +166,14 @@ export interface B2BOTPSmsSendRequest {
     | "de-DE"
     | "zh-Hans"
     | "ca-ES"
+    | "ja"
+    | "ru"
+    | "nl"
+    | "pl"
+    | "tr"
+    | "fa"
+    | "vi"
+    | "cs"
     | string;
   /**
    * The Intermediate Session Token. This token does not necessarily belong to a specific instance of a

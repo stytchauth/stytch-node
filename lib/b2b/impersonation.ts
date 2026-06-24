@@ -55,6 +55,7 @@ export interface B2BImpersonationAuthenticateResponse {
   member_session?: MemberSession;
   // MFA will not be required when authenticating impersonation tokens.
   mfa_required?: MfaRequired;
+  intermediate_session_token_expires_at?: string;
 }
 
 export class Impersonation {

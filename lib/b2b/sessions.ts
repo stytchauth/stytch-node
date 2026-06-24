@@ -428,6 +428,14 @@ export interface B2BSessionsExchangeRequest {
     | "de-DE"
     | "zh-Hans"
     | "ca-ES"
+    | "ja"
+    | "ru"
+    | "nl"
+    | "pl"
+    | "tr"
+    | "fa"
+    | "vi"
+    | "cs"
     | string;
   /**
    * If the `telemetry_id` is passed, as part of this request, Stytch will call the
@@ -492,6 +500,7 @@ export interface B2BSessionsExchangeResponse {
    * `member_device` response field will contain information about the member's device attributes.
    */
   member_device?: DeviceInfo;
+  intermediate_session_token_expires_at?: string;
 }
 
 // Request type for `sessions.getJWKS`.

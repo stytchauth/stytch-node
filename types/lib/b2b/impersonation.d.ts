@@ -34,6 +34,7 @@ export interface B2BImpersonationAuthenticateResponse {
     status_code: number;
     member_session?: MemberSession;
     mfa_required?: MfaRequired;
+    intermediate_session_token_expires_at?: string;
 }
 export declare class Impersonation {
     private fetchConfig;

@@ -64,6 +64,7 @@ export interface B2BOTPEmailDiscoveryAuthenticateResponse {
    * 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX are server errors.
    */
   status_code: number;
+  intermediate_session_token_expires_at?: string;
 }
 
 // Request type for `otps.email.discovery.send`.

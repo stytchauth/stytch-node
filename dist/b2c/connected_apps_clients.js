@@ -81,7 +81,8 @@ class Clients {
         access_token_template_content: data.access_token_template_content,
         post_logout_redirect_urls: data.post_logout_redirect_urls,
         logo_url: data.logo_url,
-        bypass_consent_for_offline_access: data.bypass_consent_for_offline_access
+        bypass_consent_for_offline_access: data.bypass_consent_for_offline_access,
+        id_token_template_content: data.id_token_template_content
       }
     });
   }
