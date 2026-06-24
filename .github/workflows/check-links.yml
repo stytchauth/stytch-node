@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-links:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-public
     name: Check links in README.md
     steps:
       - uses: actions/checkout@v3
