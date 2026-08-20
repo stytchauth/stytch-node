@@ -48,6 +48,7 @@ export interface IntrospectTokenClaims {
     issuer: string;
     not_before: number;
     token_type: string;
+    client_id: string;
 }
 export declare class IDP {
     private fetchConfig;

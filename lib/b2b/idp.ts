@@ -79,6 +79,7 @@ export interface B2BIntrospectTokenClaims {
   not_before: number;
   token_type: string;
   organization: OrganizationClaim;
+  client_id: string;
 }
 
 // ENDMANUAL(IntrospectToken)
@@ -202,6 +203,7 @@ export class IDP {
       token_type: _token_type as string,
       organization,
       custom_claims: customClaims,
+      client_id: _client_id as string,
     };
   }
 
@@ -239,6 +241,7 @@ export class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
+      client_id: _client_id,
       "https://stytch.com/organization": _organization_claim,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
@@ -273,6 +276,7 @@ export class IDP {
       token_type: "access_token",
       organization,
       custom_claims,
+      client_id: _client_id as string,
     };
   }
   // ENDMANUAL(introspectTokenNetwork)

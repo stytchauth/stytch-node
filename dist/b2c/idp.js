@@ -105,7 +105,8 @@ class IDP {
       issuer: _iss,
       not_before: _nbf,
       custom_claims: customClaims,
-      token_type: _token_type
+      token_type: _token_type,
+      client_id: _client_id
     };
   }
   async introspectTokenLocal(tokenJWT, options) {
@@ -135,6 +136,7 @@ class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
+      client_id: _client_id,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -155,7 +157,8 @@ class IDP {
       not_before: _nbf,
       scope: _scope,
       token_type: "access_token",
-      custom_claims
+      custom_claims,
+      client_id: _client_id
     };
   }
   // ENDMANUAL(introspectTokenNetwork)
