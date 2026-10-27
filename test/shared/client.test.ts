@@ -51,7 +51,7 @@ describe("base client config warnings", () => {
     });
 
     expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining("Both 'env' and 'base_url' were provided")
+      expect.stringContaining("Both 'env' and 'custom_base_url' were provided")
     );
   });
 
@@ -84,6 +84,23 @@ describe("base client config warnings", () => {
       env: stytch.envs.test,
     });
 
+    expect(console.warn).not.toHaveBeenCalled();
+  });
+
+  it('treats env "test" and "live" as aliases without warning', () => {
+    const testClient = new BaseClient({
+      project_id: "project-test-101",
+      secret: "secret",
+      env: "test",
+    });
+    const liveClient = new BaseClient({
+      project_id: "project-live-101",
+      secret: "secret",
+      env: "live",
+    });
+
+    expect(testClient["fetchConfig"].baseURL).toBe(stytch.envs.test);
+    expect(liveClient["fetchConfig"].baseURL).toBe(stytch.envs.live);
     expect(console.warn).not.toHaveBeenCalled();
   });
 
