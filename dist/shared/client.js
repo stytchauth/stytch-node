@@ -22,7 +22,7 @@ class BaseClient {
       throw new Error('Missing "secret" in config');
     }
     if (config.env && config.custom_base_url) {
-      console.warn(`[Stytch] Warning: Both 'env' and 'base_url' were provided in the client config. 'env' will be ignored in favor of 'base_url'.`);
+      console.warn(`[Stytch] Warning: Both 'env' and 'custom_base_url' were provided in the client config. 'env' will be ignored in favor of 'custom_base_url'.`);
     }
 
     // Validate custom_base_url is using HTTPS
@@ -36,11 +36,16 @@ class BaseClient {
         config.env = envs.test;
       }
     }
+    if (config.env === "test") {
+      config.env = envs.test;
+    } else if (config.env === "live") {
+      config.env = envs.live;
+    }
     if (!config.fraud_env) {
       config.fraud_env = envs.fraud;
     }
     if (config.env != envs.test && config.env != envs.live) {
-      console.warn(`[Stytch] Warning: Using a custom 'env' value ("${config.env}") instead of 'envs.test' or 'envs.live". If you're attempting to use a custom baseURL consider the base_url parameter.`);
+      console.warn(`[Stytch] Warning: Using a custom 'env' value ("${config.env}") instead of 'envs.test' or 'envs.live'. If you're attempting to use a custom baseURL consider the custom_base_url parameter.`);
     }
     const headers = {
       "Content-Type": "application/json",
