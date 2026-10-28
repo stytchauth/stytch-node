@@ -54,6 +54,7 @@ export interface B2BIntrospectTokenClaims {
     not_before: number;
     token_type: string;
     organization: OrganizationClaim;
+    client_id: string;
 }
 export declare class IDP {
     private fetchConfig;

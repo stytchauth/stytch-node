@@ -72,6 +72,7 @@ export interface IntrospectTokenClaims {
   issuer: string;
   not_before: number;
   token_type: string;
+  client_id: string;
 }
 
 // ENDMANUAL(IntrospectToken)
@@ -183,6 +184,7 @@ export class IDP {
       not_before: _nbf as number,
       custom_claims: customClaims,
       token_type: _token_type as string,
+      client_id: _client_id as string,
     };
   }
 
@@ -220,6 +222,7 @@ export class IDP {
       nbf: _nbf,
       sub: _sub,
       scope: _scope,
+      client_id: _client_id,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...custom_claims
     } = payload;
@@ -243,6 +246,7 @@ export class IDP {
       scope: _scope as string,
       token_type: "access_token",
       custom_claims,
+      client_id: _client_id as string,
     };
   }
   // ENDMANUAL(introspectTokenNetwork)
